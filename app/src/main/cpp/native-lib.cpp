@@ -33,7 +33,7 @@ Java_com_swalab_squeakxrnative_MainActivity_stringFromJNI(
     dup2(fd[1], 1);
     dup2(fd[1], 2);
 
-    std::string hello = "Hello from C+++++++++";
+    std::string hello = "Hello from C++";
     if(pthread_create(&thr, 0, thread_func, 0) != 0) {
         __android_log_write(ANDROID_LOG_ERROR, ".squeakxrnative", "Failed to create thread");
     } else {
@@ -47,10 +47,14 @@ Java_com_swalab_squeakxrnative_MainActivity_stringFromJNI(
 
 extern "C" int run_squeak(int argc, char **argv, char **envp);
 
-extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_printSomething() {
+extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_launch(JNIEnv *env, jobject /* jobj */, jstring jImagePath) {
     __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "button c");
     printf("============ HELLOOOO WORLLDLDLDL ========");
-    char *argv[1] = {"squeak"};
+    char *imagePath = strdup(env->GetStringUTFChars(jImagePath, nullptr));
+# define NUM_ARGS 5
+    char *argv[NUM_ARGS] = {"squeak", imagePath, "-vm-display-null", "-doit", "2 + 2"};
     char *envp[1]= {nullptr};
-    run_squeak(1, argv, envp);
+    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", imagePath);
+    run_squeak(NUM_ARGS, argv, envp);
+    free(imagePath);
 }

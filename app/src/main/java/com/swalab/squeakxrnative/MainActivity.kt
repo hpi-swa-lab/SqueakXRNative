@@ -24,13 +24,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             println("Button pressed")
-            printSomething()
+            launch(getExternalFilesDir(null)!!.absolutePath + "/" + "Squeak6.0-22148-64bit.image")
         }
 
         updateImageInfo()
 
         binding.buttonResetImage.setOnClickListener {
-            for (filename in squeakImageFiles) {
+            for (filename in squeakImageFiles.values) {
                 val inStream = assets.open(filename, AssetManager.ACCESS_BUFFER)
                 val externalFile = File(getExternalFilesDir(null)!!, filename)
                 println("Copying $filename to ${externalFile.absolutePath}")
@@ -42,7 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    val squeakImageFiles = arrayOf("Squeak6.0-22148-64bit.changes", "Squeak6.0-22148-64bit.image", "SqueakV60.sources")
+    private val squeakImageFiles = mapOf(
+        "changes" to "Squeak6.0-22148-64bit.changes",
+        "image" to "Squeak6.0-22148-64bit.image",
+        "sources" to "SqueakV60.sources"
+    )
 
     private fun updateImageInfo() {
         var externalStorageDesc = "not readable or writable"
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         val externalFiles = externalFilesDir?.list() ?: emptyArray()
 
         val assetFiles: List<String> = assets.list("")?.map { file -> file.toString() } ?: emptyList<String>()
-        val fileStatus = squeakImageFiles.joinToString("\n" ) { file ->
+        val fileStatus = squeakImageFiles.values.joinToString("\n" ) { file ->
             val presentInAssetManager = "${if (file in assetFiles) "" else "not"} present in AssetManager"
             val presentInExternalStorage = "${if (file in externalFiles) "" else "not"} present in ExternalStorage"
             "\t$file\n\t\t$presentInAssetManager\n\t\t$presentInExternalStorage"
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity() {
      * which is packaged with this application.
      */
     external fun stringFromJNI(): String
-    external fun printSomething()
+    external fun launch(imagePath: String)
 
     companion object {
         // Used to load the 'squeakxrnative' library on application startup.
