@@ -49,12 +49,13 @@ extern "C" int run_squeak(int argc, char **argv, char **envp);
 
 extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_launch(JNIEnv *env, jobject /* jobj */, jstring jImagePath) {
     __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "button c");
-    printf("============ HELLOOOO WORLLDLDLDL ========");
+    printf("============ HELLOOOO WORLLDLDLDL ========\n\n");
     char *imagePath = strdup(env->GetStringUTFChars(jImagePath, nullptr));
 # define NUM_ARGS 5
-    char *argv[NUM_ARGS] = {"squeak", imagePath, "-vm-display-null", "-doit", "2 + 2"};
+    char *argv[NUM_ARGS] = {"squeak", imagePath, "-vm-display-null", "-doit", "'hello from ', 'squeak'"};
     char *envp[1]= {nullptr};
     __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", imagePath);
     run_squeak(NUM_ARGS, argv, envp);
     free(imagePath);
+    printf("\n\n============ HELLOOOO WORLLDLDLDL ========\n\n");
 }

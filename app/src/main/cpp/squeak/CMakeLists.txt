@@ -206,8 +206,9 @@ add_extra_includes(
   "platforms/Cross/vm"
   "platforms/Cross/plugins"
   "platforms/unix/vm"
-  "src/spur64.cog"
-  "processors/IA32/bochs/cpu"
+  "src/spur64.stack"
+#  "src/spur64.cog"
+#  "processors/IA32/bochs/cpu"
 )
 
 # VM sources
@@ -217,7 +218,7 @@ add_extra_sources(
   "platforms/Cross/vm/sqAssert.h"
   "platforms/Cross/vm/sqAtomicOps.h"
   "platforms/Cross/vm/sqCircularQueue.h"
-  "platforms/Cross/vm/sqCogStackAlignment.h"
+#  "platforms/Cross/vm/sqCogStackAlignment.h"
   "platforms/Cross/vm/sqExternalSemaphores.c"
   "platforms/Cross/vm/sqHeapMap.c"
   "platforms/Cross/vm/sqMemoryAccess.h"
@@ -244,8 +245,9 @@ add_extra_sources(
   "platforms/unix/vm/sqUnixVMProfile.c"
   "platforms/unix/vm/sqUnixDisplayHelpers.c"
   # Core
-  "src/spur64.cog/gcc3x-cointerp.c"
-  "src/spur64.cog/cogit.c"
+  "src/spur64.stack/gcc3x-interp.c"
+#  "src/spur64.cog/gcc3x-cointerp.c"
+#  "src/spur64.cog/cogit.c"
   # Generated
   "../include/version.c")
 
