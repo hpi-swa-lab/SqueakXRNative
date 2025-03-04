@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "SqueakXRNative"
 include(":app")
+
+//includeBuild(file("thirdParty/raymob/").toPath().toRealPath().toAbsolutePath().toString())

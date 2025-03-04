@@ -1,0 +1,6 @@
+[submodule "app/src/main/cpp/thirdparty/raylib"]
+	path = app/src/main/cpp/thirdparty/raylib
+	url = git@github.com:raysan5/raylib.git
+[submodule "thirdparty/raymob"]
+	path = thirdparty/raymob
+	url = git@github.com:Bigfoot71/raymob.git

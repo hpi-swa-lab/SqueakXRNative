@@ -21,6 +21,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".VrActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:clearTaskOnLaunch="true"
+            android:exported="true">
+            <intent-filter>
+<!--                <action android:name="android.intent.action.MAIN" />-->
+                <category android:name="android.intent.category.VR_HOME" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="squeakxrnative" />
+        </activity>
+
+<!--        <activity-->
+<!--            android:name=".NativeLoader"-->
+<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--            android:screenOrientation="${APP_ORIENTATION}" android:launchMode="singleTask"-->
+<!--            android:resizeableActivity="false"-->
+<!--            android:clearTaskOnLaunch="true"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.${APP_CATEGORY}" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.app.lib_name"-->
+<!--                android:value="${APP_LIB_NAME}" />-->
+<!--        </activity>-->
     </application>
 
 </manifest>
