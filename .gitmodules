@@ -4,3 +4,6 @@
 [submodule "thirdparty/raymob"]
 	path = thirdparty/raymob
 	url = git@github.com:Bigfoot71/raymob.git
+[submodule "app/src/main/cpp/thirdparty/rlOpenXR"]
+	path = app/src/main/cpp/thirdparty/rlOpenXR
+	url = git@github.com:leogeier/rlOpenXR.git
