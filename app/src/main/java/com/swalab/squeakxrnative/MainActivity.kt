@@ -1,10 +1,12 @@
 package com.swalab.squeakxrnative
 
+import android.content.Intent
 import android.content.res.AssetManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import com.swalab.squeakxrnative.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -23,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         binding.sampleText.text = stringFromJNI()
 
         binding.button.setOnClickListener {
-            println("Button pressed")
-            launch(getExternalFilesDir(null)!!.absolutePath + "/" + "Squeak6.0-22148-64bit.image")
+//            launch(getExternalFilesDir(null)!!.absolutePath + "/" + "Squeak6.0-22148-64bit.image")
+            startXr()
         }
 
         updateImageInfo()
@@ -40,6 +42,15 @@ class MainActivity : AppCompatActivity() {
                 outStream.close()
             }
         }
+
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("launch_into_xr", false)) {
+            startXr()
+        }
+    }
+
+    private fun startXr() {
+        val intent = Intent(this, VrActivity::class.java)
+        startActivity(intent);
     }
 
     private val squeakImageFiles = mapOf(
