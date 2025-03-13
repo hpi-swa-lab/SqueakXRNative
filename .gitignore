@@ -67,3 +67,7 @@ fabric.properties
 
 # *.iml
 # modules.xml
+
+app/src/main/cpp/thirdparty/raylib/
+app/src/main/cpp/thirdparty/rlOpenXR/
+dev.properties

@@ -1,7 +1,5 @@
 include(FetchContent)
 
-# ============================== raylib ==============================
-
 # Adapted from https://github.com/Bigfoot71/raymob/blob/5606e6593083fb0ebb1525d8088de4c0156be674/app/src/main/cpp/deps/raylib/CMakeLists.txt
 
 # Define a library for raylib
@@ -10,7 +8,7 @@ FetchContent_Declare(raylib
     GIT_REPOSITORY git@github.com:raysan5/raylib.git
     GIT_TAG f1385f3aec24a29ff50164e5c86337dbd005506a
     # Clone into directory outside of binary dir to prevent cloning this every. single. time. we change the build system
-    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/raylib"
+#    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/raylib"
 )
 
 FetchContent_Populate(raylib)
@@ -30,8 +28,10 @@ add_library(raylib OBJECT
         ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c
 )
 
+
 # Include headers directory for android_native_app_glue.c
 target_include_directories(raylib PRIVATE ${ANDROID_NDK}/sources/android/native_app_glue/)
+
 target_include_directories(raylib INTERFACE ${RAYLIB_SOURCE_DIR})
 
 # Add android_native_app_glue.c to the source files
@@ -71,13 +71,15 @@ endif()
 target_link_options(raylib PRIVATE "-u ANativeActivity_onCreate")
 
 
-# ============================== rlOpenXR ==============================
 
-#set(RLOPENXR_SOURCE_DIR rlOpenXR/src)
-#set(RLOPENXR_INCLUDE_DIR rlOpenXR/include)
-#
-#add_library(rlOpenXR OBJECT
-#    ${RLOPENXR_SOURCE_DIR}/rlOpenXR.cpp)
-#
-#target_include_directories(rlOpenXR PUBLIC ${RLOPENXR_INCLUDE_DIR})
-#target_include_directories(rlOpenXR PRIVATE ${RAYLIB_SOURCE_DIR})
+if(LOCAL_RLOPENXR_SOURCE)
+    set(FETCHCONTENT_SOURCE_DIR_RLOPENXR "${LOCAL_RLOPENXR_SOURCE}")
+endif()
+
+FetchContent_Declare(rlOpenXR
+        GIT_REPOSITORY git@github.com:leogeier/rlOpenXR.git# "${RLOPENXR_GIT_REPO}"
+        GIT_TAG squeakxr
+#        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rlOpenXR"
+)
+
+FetchContent_MakeAvailable(rlOpenXR)
