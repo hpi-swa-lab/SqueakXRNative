@@ -1,9 +1,3 @@
-[submodule "app/src/main/cpp/thirdparty/raylib"]
-	path = app/src/main/cpp/thirdparty/raylib
-	url = git@github.com:raysan5/raylib.git
-[submodule "thirdparty/raymob"]
-	path = thirdparty/raymob
-	url = git@github.com:Bigfoot71/raymob.git
-[submodule "app/src/main/cpp/thirdparty/rlOpenXR"]
-	path = app/src/main/cpp/thirdparty/rlOpenXR
-	url = git@github.com:leogeier/rlOpenXR.git
+[submodule "android/app/src/main/cpp/squeak/opensmalltalk-vm"]
+	path = android/app/src/main/cpp/squeak/opensmalltalk-vm
+	url = git@github.com:leogeier/opensmalltalk-vm.git
