@@ -1,0 +1,264 @@
+{
+  "defines": [
+    {
+      "name": "XR_USE_PLATFORM_ANDROID",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    },
+    {
+      "name": "XR_USE_GRAPHICS_API_OPENGL_ES",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    },
+    {
+      "name": "XR_USE_TIMESPEC",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    }
+  ],
+  "structs": [
+    {
+      "name": "RLOpenXRData",
+      "description": "",
+      "fields": [
+        {
+          "type": "XrInstance",
+          "name": "instance",
+          "description": "the instance handle can be thought of as the basic connection to the OpenXR runtime"
+        },
+        {
+          "type": "XrSystemId",
+          "name": "system_id",
+          "description": "the system represents an (opaque) set of XR devices in use, managed by the runtime"
+        },
+        {
+          "type": "XrSession",
+          "name": "session",
+          "description": "the session deals with the renderloop submitting frames to the runtime"
+        },
+        {
+          "type": "XrSessionState",
+          "name": "session_state",
+          "description": ""
+        },
+        {
+          "type": "XrSpace",
+          "name": "play_space",
+          "description": ""
+        },
+        {
+          "type": "XrSpace",
+          "name": "view_space",
+          "description": ""
+        },
+        {
+          "type": "XrViewConfigurationType",
+          "name": "view_type",
+          "description": "/*= XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO*/;"
+        },
+        {
+          "type": "XrFormFactor",
+          "name": "form_factor",
+          "description": "/*= XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY*/;"
+        },
+        {
+          "type": "XrReferenceSpaceType",
+          "name": "play_space_type",
+          "description": "/*= XR_REFERENCE_SPACE_TYPE_STAGE*/;"
+        }
+      ]
+    },
+    {
+      "name": "RLHand",
+      "description": "",
+      "fields": [
+        {
+          "type": "bool",
+          "name": "valid",
+          "description": ""
+        },
+        {
+          "type": "Vector3",
+          "name": "position",
+          "description": ""
+        },
+        {
+          "type": "Quaternion",
+          "name": "orientation",
+          "description": ""
+        },
+        {
+          "type": "RLOpenXRHandEnum",
+          "name": "handedness",
+          "description": ""
+        },
+        {
+          "type": "XrAction",
+          "name": "hand_pose_action",
+          "description": ""
+        },
+        {
+          "type": "XrPath",
+          "name": "hand_pose_subpath",
+          "description": ""
+        },
+        {
+          "type": "XrSpace",
+          "name": "hand_pose_space",
+          "description": ""
+        }
+      ]
+    }
+  ],
+  "aliases": [
+  ],
+  "enums": [
+    {
+      "name": "RLOpenXREyeEnum",
+      "description": "",
+      "values": [
+        {
+          "name": "RLOPENXR_EYE_LEFT",
+          "value": 0,
+          "description": ""
+        },
+        {
+          "name": "RLOPENXR_EYE_RIGHT",
+          "value": 1,
+          "description": ""
+        },
+        {
+          "name": "RLOPENXR_EYE_BOTH",
+          "value": 2,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "RLOpenXRHandEnum",
+      "description": "",
+      "values": [
+        {
+          "name": "RLOPENXR_HAND_LEFT",
+          "value": 1,
+          "description": ""
+        },
+        {
+          "name": "RLOPENXR_HAND_RIGHT",
+          "value": 2,
+          "description": ""
+        },
+        {
+          "name": "RLOPENXR_HAND_COUNT",
+          "value": 3,
+          "description": ""
+        }
+      ]
+    }
+  ],
+  "callbacks": [
+  ],
+  "functions": [
+    {
+      "name": "rlOpenXRSetup",
+      "description": "",
+      "returnType": "bool"
+    },
+    {
+      "name": "rlOpenXRShutdown",
+      "description": "",
+      "returnType": "void"
+    },
+    {
+      "name": "rlOpenXRUpdate",
+      "description": "",
+      "returnType": "void"
+    },
+    {
+      "name": "rlOpenXRUpdateCamera",
+      "description": "",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Camera3D *",
+          "name": "camera"
+        }
+      ]
+    },
+    {
+      "name": "rlOpenXRUpdateCameraTransform",
+      "description": "",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Transform *",
+          "name": "transform"
+        }
+      ]
+    },
+    {
+      "name": "rlOpenXRBegin",
+      "description": "",
+      "returnType": "bool"
+    },
+    {
+      "name": "rlOpenXRBeginMockHMD",
+      "description": "",
+      "returnType": "bool"
+    },
+    {
+      "name": "rlOpenXREnd",
+      "description": "",
+      "returnType": "void"
+    },
+    {
+      "name": "rlOpenXRBlitToWindow",
+      "description": "",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "RLOpenXREyeEnum",
+          "name": "eye"
+        },
+        {
+          "type": "bool",
+          "name": "keep_aspect_ratio"
+        }
+      ]
+    },
+    {
+      "name": "rlOpenXRData",
+      "description": "",
+      "returnType": "const RLOpenXRData *"
+    },
+    {
+      "name": "rlOpenXRUpdateHands",
+      "description": "",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "RLHand *",
+          "name": "left"
+        },
+        {
+          "type": "RLHand *",
+          "name": "right"
+        }
+      ]
+    },
+    {
+      "name": "rlOpenXRSyncSingleActionSet",
+      "description": "Utility function for xrSyncAction with a single action set.",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "XrActionSet",
+          "name": "action_set"
+        }
+      ]
+    }
+  ]
+}
