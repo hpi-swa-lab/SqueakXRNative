@@ -1,3 +1,4 @@
 OrderedDictionary {
-	'squeak/Raylib-Core' : #SquotTonelSerializer
+	'squeak/Raylib-Core' : #SquotTonelSerializer,
+	'SqueakXR' : #SquotTonelSerializer
 }
