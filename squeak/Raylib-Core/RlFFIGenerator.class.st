@@ -17,12 +17,6 @@ RlFFIGenerator class >> aliasCategory [
 ]
 
 { #category : #names }
-RlFFIGenerator class >> allCategoryMatchString [
-
-	^ self categoryName: '*'
-]
-
-{ #category : #names }
 RlFFIGenerator class >> categoryName: aString [
 
 	^ 'Raylib-', aString, '-Generated'
@@ -133,10 +127,16 @@ RlFFIGenerator class >> isExcludeName: aString [
 	^ self excludeNames anySatisfy: [:s | aString includesSubstring: s]
 ]
 
+{ #category : #names }
+RlFFIGenerator class >> matchAllCategory [
+
+	^ self categoryName: '*'
+]
+
 { #category : #cleanup }
 RlFFIGenerator class >> removeGeneratedCategories [
 
-	Smalltalk environment organization removeCategoriesMatching: self allCategoryMatchString
+	Smalltalk environment organization removeCategoriesMatching: self matchAllCategory
 ]
 
 { #category : #names }
@@ -232,20 +232,21 @@ RlFFIGenerator >> generate [
 		self error: 'Cannot generate without streams!'.
 		^ self].
 	
-	self class removeGeneratedCategories.
+	UIManager default informUser: 'Generating Raylib API' during: [
+		self class removeGeneratedCategories.
 	
-	self resetAliasTable.
+		self resetAliasTable.
 	
-	self streams do: [:stream |
-		self apiSpec: (Json readFrom: stream);
-			extendAliasTable;
-			generateEnums;
-			"generateAliases;"
-			generateStructs;
-			generateFunctions]
-		displayingProgress: [:stream | stream asString].
+		self streams do: [:stream |
+			self apiSpec: (Json readFrom: stream);
+				extendAliasTable;
+				generateEnums;
+				"generateAliases;"
+				generateStructs;
+				generateFunctions]
+			displayingProgress: [:stream | stream asString].
 	
-	Smalltalk at: #Raylib put: self functionClass new.
+		Smalltalk at: #Raylib put: self functionClass new].
 ]
 
 { #category : #generating }
