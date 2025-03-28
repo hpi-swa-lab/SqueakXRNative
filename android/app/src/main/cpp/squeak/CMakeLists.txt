@@ -8,6 +8,15 @@ if(NOT BUILD_AS_LIB)
   set(BUILD_AS_LIB 1)
 endif()
 
+if(NOT VM_KIND)
+  set(VM_KIND STACK)
+endif()
+
+set(VM_KIND_LIST STACK COG)
+if(NOT (VM_KIND IN_LIST VM_KIND_LIST))
+  message(FATAL_ERROR "VM_KIND must be one of ${VM_KIND_LIST}, but is set to '${VM_KIND}'")
+endif()
+
 if(BUILD_AS_LIB)
   message("Building squeak as shared library")
 else()
@@ -202,14 +211,20 @@ add_extra_includes(
   "platforms/Cross/plugins/B3DAcceleratorPlugin"
   "platforms/Cross/plugins/FilePlugin"
   ###
-  # "building/linux64x64/squeak.cog.spur/build"
+  "building/linux64x64/squeak.cog.spur/build" # ======= COG
   "platforms/Cross/vm"
   "platforms/Cross/plugins"
   "platforms/unix/vm"
-  "src/spur64.stack"
-#  "src/spur64.cog"
+#  "src/spur64.stack" # ======= STACK
+#  "src/spur64.cog" # ======= COG
 #  "processors/IA32/bochs/cpu"
 )
+
+if(VM_KIND STREQUAL STACK)
+  add_extra_includes("src/spur64.stack")
+elseif(VM_KIND STREQUAL COG)
+  add_extra_includes("src/spur64.cog")
+endif()
 
 # VM sources
 add_extra_sources(
@@ -218,7 +233,7 @@ add_extra_sources(
   "platforms/Cross/vm/sqAssert.h"
   "platforms/Cross/vm/sqAtomicOps.h"
   "platforms/Cross/vm/sqCircularQueue.h"
-#  "platforms/Cross/vm/sqCogStackAlignment.h"
+#  "platforms/Cross/vm/sqCogStackAlignment.h" # ======= COG
   "platforms/Cross/vm/sqExternalSemaphores.c"
   "platforms/Cross/vm/sqHeapMap.c"
   "platforms/Cross/vm/sqMemoryAccess.h"
@@ -245,11 +260,20 @@ add_extra_sources(
   "platforms/unix/vm/sqUnixVMProfile.c"
   "platforms/unix/vm/sqUnixDisplayHelpers.c"
   # Core
-  "src/spur64.stack/gcc3x-interp.c"
-#  "src/spur64.cog/gcc3x-cointerp.c"
-#  "src/spur64.cog/cogit.c"
+#  "src/spur64.stack/gcc3x-interp.c" # ======= STACK
+#  "src/spur64.cog/gcc3x-cointerp.c" # ======= COG
+#  "src/spur64.cog/cogit.c" # ======= COG
   # Generated
   "../include/version.c")
+
+if(VM_KIND STREQUAL STACK)
+  add_extra_sources("src/spur64.stack/gcc3x-interp.c")
+elseif(VM_KIND STREQUAL COG)
+  add_extra_sources(
+    "platforms/Cross/vm/sqCogStackAlignment.h"
+    "src/spur64.cog/gcc3x-cointerp.c"
+    "src/spur64.cog/cogit.c")
+endif()
 
 # file(COPY_FILE "${SQUEAK_UNIX_DIR}/config/config.h.in" "${SQUEAK_GENERATED_DIR}/config.h")
 
@@ -290,10 +314,10 @@ target_compile_definitions(${SQUEAK_TARGET} PRIVATE
 
 # # FIXME sqAssert.h's assert is making use of those -- should find better fix
 target_compile_options(${SQUEAK_TARGET} PRIVATE
-        -Wno-unused-value
-        -Wno-incompatible-function-pointer-types
-        -Wno-incompatible-pointer-types
-        -Wno-format-security
+  -Wno-unused-value
+  -Wno-incompatible-function-pointer-types
+  -Wno-incompatible-pointer-types
+  -Wno-format-security
 )
 
 #find_package(OpenGL)
