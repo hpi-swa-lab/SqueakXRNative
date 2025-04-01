@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.oculus.permission.HAND_TRACKING" />
     <uses-feature android:name="android.hardware.vr.headtracking" android:required="true" android:version="1" />
     <uses-feature android:name="oculus.software.handtracking" />
@@ -16,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SqueakXRNative"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <meta-data android:name="com.oculus.supportedDevices" android:value="quest2|quest3|quest3s" />

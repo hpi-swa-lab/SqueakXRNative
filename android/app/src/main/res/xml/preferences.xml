@@ -3,4 +3,30 @@
     <SwitchPreferenceCompat
         app:key="launch_into_xr"
         app:title="Launch into XR on app start"/>
+    <EditTextPreference
+        app:key="start_script"
+        app:title="Start script"
+        app:defaultValue="SRRenderer new simpleDrawLoop"
+        app:useSimpleSummaryProvider="true"/>
+    <SwitchPreferenceCompat
+        app:key="fetch_image_on_launch"
+        app:title="Fetch image from remote on launch"/>
+    <EditTextPreference
+        app:key="fetch_image_url"
+        app:title="Fetch image URL"
+        app:defaultValue="http://localhost:8080"
+        app:dependency="fetch_image_on_launch"
+        app:useSimpleSummaryProvider="true"/>
+    <EditTextPreference
+        app:key="fetch_image_name"
+        app:title="Fetch image name"
+        app:defaultValue="Squeak6.0-22148-64bit.image"
+        app:dependency="fetch_image_on_launch"
+        app:useSimpleSummaryProvider="true"/>
+    <EditTextPreference
+        app:key="fetch_changes_name"
+        app:title="Fetch changes name"
+        app:defaultValue="Squeak6.0-22148-64bit.changes"
+        app:dependency="fetch_image_on_launch"
+        app:useSimpleSummaryProvider="true"/>
 </PreferenceScreen>

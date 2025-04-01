@@ -1,7 +1,9 @@
 #define XR_USE_PLATFORM_ANDROID
 #include <jni.h>
 #include <string>
-#include <stdio.h>
+#include <sstream>
+#include <cstdio>
+#include <vector>
 #include <unistd.h>
 #include <android/log.h>
 #include <pthread.h>
@@ -54,6 +56,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_st
     squeakImagePath = strdup(env->GetStringUTFChars(jImagePath, nullptr));
 }
 
+char *startScript;
+extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_storeStartScript(JNIEnv *env, jobject /* jobj */, jstring jStartScript) {
+    startScript = strdup(env->GetStringUTFChars(jStartScript, nullptr));
+}
+
 extern "C" struct android_app *GetAndroidApp(void);
 
 extern "C" void initOpenxr() {
@@ -95,19 +102,65 @@ extern "C" void test3(int a, int b, const char* x) {
 
 extern "C" int run_squeak(int argc, char **argv, char **envp);
 
+struct SqueakFuncArgs {
+    std::vector<char*> argv;
+};
+
+static void *squeak_func(void* args) {
+    __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "button c");
+    if (args == nullptr) {
+        printf("Cannot start squeak without args");
+        return nullptr;
+    }
+
+    auto func_args = static_cast<SqueakFuncArgs*>(args);
+
+//    char *imagePath = strdup(env->GetStringUTFChars(jImagePath, nullptr));
+//# define NUM_ARGS 5
+//    char *argv[NUM_ARGS] = {"squeak", squeakImagePath, "-vm-display-null", "-doit", "ExternalAddress allBeNull. SRSyncServer start"};
+    char *envp[1]= {nullptr};
+    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
+    run_squeak(static_cast<int>(func_args->argv.size()), func_args->argv.data(), envp);
+
+    delete func_args;
+
+    return nullptr;
+}
+
 int main(int argc, char *argv[]) {
     initStdStreamRedirect();
     __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "================= MAIN CALLED =================");
     printf("====== test =====\n");
 
+    initOpenxr();
 
-# define NUM_ARGS 5
-    char *argv2[NUM_ARGS] = {"squeak", squeakImagePath, "-vm-display-null", "-doit", "ExternalAddress allBeNull. RaylibApiTest new drawXR"};
-    char *envp[1]= {nullptr};
-    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
-    run_squeak(NUM_ARGS, argv2, envp);
+    std::ostringstream startScriptStream;
+    startScriptStream << "Project current addDeferredUIMessage: [" << startScript << "]";
+    auto fullStartScript= strdup(startScriptStream.str().c_str());
+    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "DoIt: %s", fullStartScript);
+
+    //"-doit", "Project current addDeferredUIMessage: [Transcript showln: 'THIS SHOULD SHOW UP ON STDOUT'. SRSyncServer start. [Processor activeProcess name: 'RENDERER'. SRRenderer new simpleDrawLoop] fork]",
+//    std::vector<char*> argv2 = {"squeak", squeakImagePath, "-vm-display-null", "-doit", fullStartScript/*, "--", "-repl"*/};
+//    char *envp[1]= {nullptr};
+//    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
+
+    auto *squeak_func_args = new SqueakFuncArgs {
+        .argv = {"squeak", squeakImagePath, "-vm-display-null", "-doit", fullStartScript},
+//        .argc = argv2.size(),
+    };
+
+    squeak_func(squeak_func_args);
+//    pthread_t sqthr;
+//    if(pthread_create(&sqthr, nullptr, squeak_func, squeak_func_args) != 0) {
+//        __android_log_write(ANDROID_LOG_ERROR, ".squeakxrnative", "Failed to create squeak thread");
+//    } else {
+//        pthread_detach(sqthr);
+//        __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "Created squeak thread");
+//    }
+
+//    run_squeak(argv2.size(), argv2.data(), envp);
 //    free(imagePath);
-    printf("\n\n============ HELLOOOO WORLLDLDLDL ========\n\n");
+    free(fullStartScript);
 
     return 0;
 
@@ -215,27 +268,12 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_swalab_squeakxrnative_MainActivity_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */) {
-    initStdStreamRedirect();
-//    __android_log_write(ANDROID_LOG_VERBOSE, ".squeakxrnative", "========================================test");
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
-    printf("============ HELLOOOO WORLLDLDLDL ========");
-}
-
 extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_launch(JNIEnv *env, jobject /* jobj */, jstring jImagePath) {
-    __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "button c");
-    printf("============ HELLOOOO WORLLDLDLDL ========\n\n");
-
-    char *imagePath = strdup(env->GetStringUTFChars(jImagePath, nullptr));
-# define NUM_ARGS 5
-    char *argv[NUM_ARGS] = {"squeak", imagePath, "-vm-display-null", "-doit", "ExternalAddress allBeNull. RaylibApiTest new drawFrame"};
-    char *envp[1]= {nullptr};
-    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", imagePath);
-    run_squeak(NUM_ARGS, argv, envp);
-    free(imagePath);
-    printf("\n\n============ HELLOOOO WORLLDLDLDL ========\n\n");
+    pthread_t sqthr;
+    if(pthread_create(&sqthr, 0, squeak_func, 0) != 0) {
+        __android_log_write(ANDROID_LOG_ERROR, ".squeakxrnative", "Failed to create thread");
+    } else {
+        pthread_detach(sqthr);
+        __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "Created thread");
+    }
 }
