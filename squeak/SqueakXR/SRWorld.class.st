@@ -4,10 +4,35 @@ Class {
 	#instVars : [
 		'running',
 		'renderer',
-		'worldProcess'
+		'worldProcess',
+		'needsSetup'
 	],
 	#category : #'SqueakXR-Core'
 }
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> initialize [
+
+	" self initialize "
+	
+	Smalltalk
+		addToStartUpList: self;
+		addToShutDownList: self.
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> shutDown: quitting [
+
+	self allInstances do: [:world |
+		world shutDown: quitting]
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> startUp [
+
+	self allInstances do: [:world |
+		world resume]
+]
 
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
@@ -26,7 +51,7 @@ SRWorld >> initialize [
 	
 ]
 
-{ #category : #nil }
+{ #category : #accessing }
 SRWorld >> isRunning [
 
 	^ running
@@ -42,6 +67,23 @@ SRWorld >> renderer [
 SRWorld >> renderer: aSRRenderer [
 
 	renderer := aSRRenderer
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> resume [
+
+	(worldProcess notNil and: [self isRunning]) ifTrue: [
+		needsSetup ifTrue: [
+			needsSetup := false.
+			self renderer setup].
+		worldProcess resume].
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> shutDown: quitting [
+
+	needsSetup := quitting.
+	self suspend.
 ]
 
 { #category : #'as yet unclassified' }
@@ -64,6 +106,12 @@ SRWorld >> start [
 SRWorld >> stop [
 
 	running := false.
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> suspend [
+
+	worldProcess ifNotNil: [worldProcess suspend].
 ]
 
 { #category : #accessing }

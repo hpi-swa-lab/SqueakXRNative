@@ -37,7 +37,7 @@ Vector class >> selectorOnlyContainsComponents: aSelector [
 ]
 
 { #category : #'*SqueakXR-helpers' }
-Vector >> swizzle: aString [
+Vector class >> swizzle: aString [
 	
 	| vector |
 	vector := (self class vectorClassForComponentNumber: aString size) new.
@@ -47,7 +47,7 @@ Vector >> swizzle: aString [
 ]
 
 { #category : #'*SqueakXR-helpers' }
-Vector class >> swizzle: aString [
+Vector >> swizzle: aString [
 	
 	| vector |
 	vector := (self class vectorClassForComponentNumber: aString size) new.
