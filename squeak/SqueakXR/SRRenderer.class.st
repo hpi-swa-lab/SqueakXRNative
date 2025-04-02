@@ -1,15 +1,50 @@
 Class {
-	#name : #SXRenderer,
+	#name : #SRRenderer,
 	#superclass : #Object,
 	#category : #'SqueakXR-Core'
 }
 
 { #category : #'as yet unclassified' }
-SXRenderer >> simpleDrawLoop [
+SRRenderer class >> default [
 
-	"adapt https://github.com/FireFlyForLife/rlOpenXR/blob/main/examples/1_hello_vr.c"
+	^ SRRaylibRenderer
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer >> completeFrame [
+]
+
+{ #category : #experiments }
+SRRenderer >> pollAndroidEvents [
+
+	<cdecl: void 'pollAndroidEvents' () module: 'squeakxrnative'>
+	^ self externalCallFailed
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer >> prepareFrame [
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer >> setup [
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer >> shutdown [
+]
+
+{ #category : #experiments }
+SRRenderer >> simpleDrawLoop [
+
+	"adapted from https://github.com/FireFlyForLife/rlOpenXR/blob/main/examples/1_hello_vr.c"
 	
-	| cam blue red white |
+	| cam blue red white i |
 	Raylib initWindowWidth: 1200 height: 900 title: 'SqueakXR'.
 	
 	cam := RlCamera3D externalNew
@@ -19,7 +54,7 @@ SXRenderer >> simpleDrawLoop [
 		fovy: 45;
 		projection: RlCameraProjection cameraPerspective.
 	white := RlColor externalNew r: 255; g: 255; b: 255; a: 255.
-	blue := RlColor externalNew r: 100; g: 100; b: 255; a: 255.
+	blue := RlColor externalNew r: 100; g: 100; b: 0; a: 255.
 	red := RlColor externalNew r: 255; g: 0; b: 0; a: 128.
 	
 	[
@@ -33,7 +68,14 @@ SXRenderer >> simpleDrawLoop [
 			Transcript showln: 'Failed to initialise rlOpenXR!'.
 			^ self].
 	
+	i := 0.
 	[Raylib windowShouldClose] whileFalse: [
+		i := i + 1.
+		"i \\ 1 = 0 ifTrue: [Transcript showln: 'xxxxxxxxxxxxxxx Rendering ', i asString]."
+		"i = 10000 ifTrue: [^ self]."
+		
+		self pollAndroidEvents.
+		
 		"Update"
 		Raylib
 			rlOpenXRUpdate;
@@ -46,7 +88,7 @@ SXRenderer >> simpleDrawLoop [
 			Raylib
 				clearBackgroundColor: blue;
 				beginMode3DCamera: cam;
-				drawCubePosition: (RlVector3 new x: 3; y: 0; z: 0)
+				drawCubePosition: (RlVector3 new x: -3; y: 0; z: ((DateAndTime now asDuration asMilliSeconds * 0.01) sin))
 					width: 2
 					height: 2
 					length: 2
@@ -55,7 +97,8 @@ SXRenderer >> simpleDrawLoop [
 				endMode3D;
 				rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 					keep_aspect_ratio: true].
-		Raylib rlOpenXREnd].
+		Raylib rlOpenXREnd.
+		1 milliSecond wait].
 	
 	Transcript showln: 'Shutting down'.
 	Raylib rlOpenXRShutdown.]
@@ -67,4 +110,10 @@ SXRenderer >> simpleDrawLoop [
 		Raylib closeWindow.]
 	
 	
+]
+
+{ #category : #experiments }
+SRRenderer >> test [
+
+	^ 102934
 ]
