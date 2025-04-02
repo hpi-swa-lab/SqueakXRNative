@@ -107,7 +107,7 @@ RlFFIGenerator class >> isApiType: aString [
 
 	(Smalltalk classNamed: aString) ifNotNil: [:class |
 		^ (class inheritsFrom: ExternalObject) and:
-			[self structLookupCategories includes: class category]].
+			[self structLookupCategories anySatisfy: [:cat | cat match: class category]]].
 	
 	^ false
 ]
@@ -156,7 +156,7 @@ RlFFIGenerator class >> structCategory [
 { #category : #'as yet unclassified' }
 RlFFIGenerator class >> structLookupCategories [
 
-	^ {'Vulkan-Generated'}
+	^ {'OpenXR-*-Generated'}
 ]
 
 { #category : #accessing }
