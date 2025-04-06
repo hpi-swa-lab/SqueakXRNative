@@ -5,7 +5,8 @@ Class {
 		'running',
 		'renderer',
 		'worldProcess',
-		'needsSetup'
+		'needsSetup',
+		'lastFrameTime'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -37,9 +38,21 @@ SRWorld class >> startUp [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
+	| deltaTime startTime |
+	startTime := DateAndTime now.
+	deltaTime := startTime - lastFrameTime.
+	
+	"Two issues with this.
+	1) not resilient against errors
+	2) quite inefficient because allDescendants constructs the array from scratch
+	A morphic-like list approach would solve both."
+	self allDescendants do: [:obj | obj step: deltaTime].
+	
 	self renderer prepareFrame.
 	self renderSelfAndChildrenOn: self renderer.
 	self renderer completeFrame.
+	
+	lastFrameTime := startTime.
 ]
 
 { #category : #initializing }
@@ -92,6 +105,7 @@ SRWorld >> start [
 	self worldProcess: ([
 		self renderer setup.
 		running := true.
+		lastFrameTime := DateAndTime now.
 		[self isRunning] whileTrue: [
 			self doOneCycle. Processor yield].
 		self renderer shutdown

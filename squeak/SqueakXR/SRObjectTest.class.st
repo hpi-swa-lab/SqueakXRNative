@@ -14,7 +14,7 @@ SRObjectTest >> testAddChild [
 	parent addChild: child.
 	
 	self assert: parent childCount = 1.
-	self assert: (parent children sameElements: {child}).
+	self assert: (parent children includesAllOf: {child}).
 	self assert: (parent hasChild: child).
 	self assert: child hasParent.
 	self assert: child parent = parent.
@@ -50,6 +50,25 @@ SRObjectTest >> testAddChildren [
 	parent children do: [:child |
 		parent hasChild: child.
 		self assert: child parent = parent].
+]
+
+{ #category : #'tests - children' }
+SRObjectTest >> testAllDescendants [
+
+	| o1 o2 o3 o4 o5 |
+	o1 := SRObject new.
+	o2 := SRObject new.
+	o3 := SRObject new.
+	o4 := SRObject new.
+	o5 := SRObject new.
+	
+	o1 addChild: o2.
+	o1 addChild: o3.
+	o3 addChild: o4.
+	o3 addChild: o5.
+	
+	self assert: (o1 allDescendants includesAllOf: {o1. o2. o3. o4. o5}).
+	self assert: o1 allDescendants size = 5.
 ]
 
 { #category : #'tests - children' }

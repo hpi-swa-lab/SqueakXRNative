@@ -2,7 +2,8 @@ Class {
 	#name : #SRRaylibRenderer,
 	#superclass : #SRRenderer,
 	#instVars : [
-		'clearColor'
+		'clearColor',
+		'camera'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -58,9 +59,9 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	scale := aMatrix4x4 scale.
 	
 	Raylib drawCubePosition: aMatrix4x4 translation asRlVector
-		width: 1"scale x"
-		height: 1"scale y"
-		length: 1"scale z"
+		width: scale x
+		height: scale y
+		length: scale z
 		color: aColor asRlColor
 ]
 
@@ -84,7 +85,7 @@ SRRaylibRenderer >> setupFlat [
 	
 	Raylib
 		"disableCursor;"
-		setTargetFPS: 60.
+		setTargetFPS: -1.
 ]
 
 { #category : #'as yet unclassified' }

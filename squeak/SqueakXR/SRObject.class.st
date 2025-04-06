@@ -32,6 +32,13 @@ SRObject >> addChildren: aCollection [
 ]
 
 { #category : #children }
+SRObject >> allDescendants [
+
+	"TODO: define order"
+	^ {self. self children collect: [:child | child allDescendants]} flatten
+]
+
+{ #category : #children }
 SRObject >> childCount [
 
 	^ self children size
@@ -132,6 +139,10 @@ SRObject >> renderSelfAndChildrenOn: aSRRenderer [
 
 	self renderOn: aSRRenderer;
 		childrenDo: [:child | child renderSelfAndChildrenOn: aSRRenderer]
+]
+
+{ #category : #accessing }
+SRObject >> step: deltaTime [
 ]
 
 { #category : #accessing }
