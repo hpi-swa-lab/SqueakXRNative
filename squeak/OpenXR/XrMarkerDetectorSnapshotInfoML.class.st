@@ -1,0 +1,14 @@
+Class {
+	#name : #XrMarkerDetectorSnapshotInfoML,
+	#superclass : #ExternalStructure,
+	#category : #'OpenXR-Structs-5-Generated'
+}
+
+{ #category : #'as yet unclassified' }
+XrMarkerDetectorSnapshotInfoML class >> fields [
+
+	^ #(
+		(type 'XrStructureType')
+		(next 'void*')
+	)
+]

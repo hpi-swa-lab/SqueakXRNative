@@ -1,0 +1,11 @@
+Class {
+	#name : #XrPassthroughStateChangedFlagsFB,
+	#superclass : #ExternalTypeAlias,
+	#category : #'OpenXR-Typedefs-Generated'
+}
+
+{ #category : #'as yet unclassified' }
+XrPassthroughStateChangedFlagsFB class >> originalTypeName [
+
+    ^ 'long'
+]
