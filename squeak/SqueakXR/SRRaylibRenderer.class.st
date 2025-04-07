@@ -55,14 +55,25 @@ SRRaylibRenderer >> prepareFrameFlat [
 { #category : #'as yet unclassified' }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
-	| scale |
+	| scale rotation translate |
 	scale := aMatrix4x4 scale.
+	rotation := aMatrix4x4 rotation.
+	translate := aMatrix4x4 translation.
 	
-	Raylib drawCubePosition: aMatrix4x4 translation asRlVector
-		width: scale x
-		height: scale y
-		length: scale z
-		color: aColor asRlColor
+	Raylib rlPushMatrix;
+		rlTranslatefX: translate x y: translate y z: translate z;
+		rlScalefX: scale x y: scale y z: scale z;
+		rlRotatefAngle: rotation x x: 1 y: 0 z: 0;
+		rlRotatefAngle: rotation y x: 0 y: 1 z: 0;
+		rlRotatefAngle: rotation z x: 0 y: 0 z: 1.
+	
+	Raylib drawCubePosition: Vector3 zero asRlVector
+		width: 1
+		height: 1
+		length: 1
+		color: aColor asRlColor.
+		
+	Raylib rlPopMatrix.
 ]
 
 { #category : #'as yet unclassified' }
