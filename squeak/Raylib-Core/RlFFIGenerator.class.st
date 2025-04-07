@@ -43,7 +43,7 @@ RlFFIGenerator class >> enumCategory [
 { #category : #names }
 RlFFIGenerator class >> excludeNames [
 
-	^ #(audio Audio sound Sound music Music)
+	^ #(audio Audio sound Sound music Music rlglData)
 ]
 
 { #category : #names }
@@ -368,7 +368,9 @@ RlFFIGenerator >> generateStructs [
 { #category : #generating }
 RlFFIGenerator >> normalizedFields: aJsonSpecArray [
 
-	^ aJsonSpecArray collect: [:spec |
+	^ aJsonSpecArray
+		select: [:spec | (spec type beginsWith: '#') not]
+		thenCollect: [:spec |
 		{spec name. self normalizedType: spec type}]
 ]
 
