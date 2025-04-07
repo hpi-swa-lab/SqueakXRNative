@@ -49,11 +49,18 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 		rlRotatefAngle: rotation y x: 0 y: 1 z: 0;
 		rlRotatefAngle: rotation z x: 0 y: 0 z: 1.
 	
-	Raylib drawCubePosition: Vector3 zero asRlVector
-		width: 1
-		height: 1
-		length: 1
-		color: aColor asRlColor.
+	Raylib
+		drawCubePosition: Vector3 zero asRlVector
+			width: 1
+			height: 1
+			length: 1
+			color: aColor asRlColor;
+		drawCubeWiresPosition: Vector3 zero asRlVector
+			width: 1
+			height: 1
+			length: 1
+			color: aColor muchDarker asRlColor.
+		
 		
 	Raylib rlPopMatrix.
 ]
