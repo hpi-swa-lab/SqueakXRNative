@@ -14,19 +14,10 @@ SRRaylibRenderer >> clearColor: aColor [
 	clearColor := aColor asRlColor
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRaylibRenderer >> completeFrame [
 
-	self completeFrameFlat
-]
-
-{ #category : #'as yet unclassified' }
-SRRaylibRenderer >> completeFrameFlat [
-
-	Raylib
-		drawGridSlices: 10 spacing: 1;
-		endMode3D;
-		endDrawing.
+	self subclassResponsibility
 ]
 
 { #category : #initializing }
@@ -37,22 +28,13 @@ SRRaylibRenderer >> initialize [
 	self clearColor: Color white.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRaylibRenderer >> prepareFrame [
 
-	self prepareFrameFlat
+	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-SRRaylibRenderer >> prepareFrameFlat [
-
-	Raylib
-		beginDrawing;
-		clearBackgroundColor: clearColor;
-		beginMode3DCamera: camera.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	| scale rotation translate |
@@ -76,37 +58,14 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	Raylib rlPopMatrix.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 
-	self setupFlat
+	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-SRRaylibRenderer >> setupFlat [
-
-	Raylib initWindowWidth: 800 height: 450 title: 'Squeak 3D World'.
-	
-	camera := RlCamera3D new
-		position: (10 @ 10 @ 10) asRlVector;
-		target: Vector3 zero asRlVector;
-		up: Vector3 up asRlVector;
-		fovy: 45;
-		projection: RlCameraProjection cameraPerspective.
-	
-	Raylib
-		"disableCursor;"
-		setTargetFPS: -1.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRaylibRenderer >> shutdown [
 
-	self shutdownFlat
-]
-
-{ #category : #'as yet unclassified' }
-SRRaylibRenderer >> shutdownFlat [
-
-	Raylib closeWindow.
+	self subclassResponsibility 
 ]

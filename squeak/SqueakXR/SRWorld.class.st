@@ -60,7 +60,7 @@ SRWorld >> initialize [
 
 	super initialize.
 	
-	self renderer: SRRenderer default new.
+	self renderer: SRRenderer rendererClass new.
 	
 ]
 

@@ -1,6 +1,9 @@
 Class {
 	#name : #SRRenderer,
 	#superclass : #Object,
+	#classVars : [
+		'RendererClass'
+	],
 	#category : #'SqueakXR-Core'
 }
 
@@ -11,6 +14,21 @@ SRRenderer class >> default [
 ]
 
 { #category : #'as yet unclassified' }
+SRRenderer class >> rendererClass [
+	<preference: 'Renderer'
+		category: 'XR'
+		description: 'Select rendering class'
+		type: #Class>
+	^ RendererClass ifNil: [SRRaylibRendererFlat]
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer class >> selectRaylibXR [
+
+	RendererClass := SRRaylibRendererXR.
+]
+
+{ #category : #'render-loop' }
 SRRenderer >> completeFrame [
 ]
 
@@ -21,21 +39,21 @@ SRRenderer >> pollAndroidEvents [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRenderer >> prepareFrame [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRenderer >> setup [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'render-loop' }
 SRRenderer >> shutdown [
 ]
 
