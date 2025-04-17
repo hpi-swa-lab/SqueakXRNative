@@ -25,7 +25,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags += "-std=c++17"
-                arguments += "-DLOCAL_RLOPENXR_SOURCE="+devProperties["rlOpenXRRepo"]
+                arguments += "-DLOCAL_RLOPENXR_SOURCE=" + (devProperties["rlOpenXRRepo"] ?: "OFF")
             }
         }
     }
