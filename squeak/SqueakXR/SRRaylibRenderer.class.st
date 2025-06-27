@@ -25,7 +25,7 @@ SRRaylibRenderer >> initialize [
 
 	super initialize.
 	
-	self clearColor: Color white.
+	self clearColor: self class clearColor.
 ]
 
 { #category : #'render-loop' }

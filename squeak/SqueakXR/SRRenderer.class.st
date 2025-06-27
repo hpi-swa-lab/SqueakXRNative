@@ -2,10 +2,26 @@ Class {
 	#name : #SRRenderer,
 	#superclass : #Object,
 	#classVars : [
+		'ClearColor',
 		'RendererClass'
 	],
 	#category : #'SqueakXR-Core'
 }
+
+{ #category : #'as yet unclassified' }
+SRRenderer class >> clearColor [
+	<preference: 'Clear color'
+		category: 'SqueakXR'
+		description: 'Clear color for the renderer'
+		type: #Color>
+	^ ClearColor ifNil: [ClearColor := Color gray]
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer class >> clearColor: aColor [
+	
+	ClearColor := aColor
+]
 
 { #category : #'as yet unclassified' }
 SRRenderer class >> default [
@@ -16,10 +32,16 @@ SRRenderer class >> default [
 { #category : #'as yet unclassified' }
 SRRenderer class >> rendererClass [
 	<preference: 'Renderer'
-		category: 'XR'
+		category: 'SqueakXR'
 		description: 'Select rendering class'
 		type: #Class>
 	^ RendererClass ifNil: [SRRaylibRendererFlat]
+]
+
+{ #category : #'as yet unclassified' }
+SRRenderer class >> rendererClass: aClass [
+	
+	^ RendererClass := aClass
 ]
 
 { #category : #'as yet unclassified' }
