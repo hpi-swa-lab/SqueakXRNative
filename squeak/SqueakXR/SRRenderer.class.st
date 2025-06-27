@@ -8,7 +8,7 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #preferences }
 SRRenderer class >> clearColor [
 	<preference: 'Clear color'
 		category: 'SqueakXR'
@@ -17,7 +17,7 @@ SRRenderer class >> clearColor [
 	^ ClearColor ifNil: [ClearColor := Color gray]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preferences }
 SRRenderer class >> clearColor: aColor [
 	
 	ClearColor := aColor
@@ -29,7 +29,7 @@ SRRenderer class >> default [
 	^ SRRaylibRenderer
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preferences }
 SRRenderer class >> rendererClass [
 	<preference: 'Renderer'
 		category: 'SqueakXR'
@@ -38,7 +38,7 @@ SRRenderer class >> rendererClass [
 	^ RendererClass ifNil: [SRRaylibRendererFlat]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preferences }
 SRRenderer class >> rendererClass: aClass [
 	
 	^ RendererClass := aClass
@@ -48,6 +48,22 @@ SRRenderer class >> rendererClass: aClass [
 SRRenderer class >> selectRaylibXR [
 
 	RendererClass := SRRaylibRendererXR.
+]
+
+{ #category : #preferences }
+SRRenderer class >> startMonitor [
+	<preference: 'Start monitor'
+		category: 'SqueakXR'
+		description: 'The monitor on which the rendering window will be shown.
+		Only relevant for flat (i.e. non-xr) environments,'
+		type: #Number>
+	^ StartMonitor ifNil: [0]
+]
+
+{ #category : #preferences }
+SRRenderer class >> startMonitor: anInteger [
+	
+	StartMonitor := anInteger
 ]
 
 { #category : #'render-loop' }

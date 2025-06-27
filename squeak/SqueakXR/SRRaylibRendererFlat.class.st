@@ -29,7 +29,10 @@ SRRaylibRendererFlat >> prepareFrame [
 { #category : #'render-loop' }
 SRRaylibRendererFlat >> setup [
 
-	Raylib initWindowWidth: 800 height: 450 title: 'Squeak 3D World'.
+	Raylib initWindowWidth: 800 height: 450 title: 'Squeak 3D World';
+		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
+			ifTrue: [0]
+			ifFalse: [self class startMonitor]).
 	
 	camera := RlCamera3D new
 		position: (10 @ 10 @ 10) asRlVector;
