@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlCamera2D class >> fields [
 	<generated>
-	^ #(#('offset' 'RlVector2') #('target' 'RlVector2') #('rotation' 'float') #('zoom' 'float'))
+	^ #(#(#offset 'RlVector2') #(#target 'RlVector2') #(#rotation 'float') #(#zoom 'float'))
 ]

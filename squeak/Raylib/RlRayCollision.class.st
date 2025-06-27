@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRayCollision class >> fields [
 	<generated>
-	^ #(#('hit' 'bool') #('distance' 'float') #('point' 'RlVector3') #('normal' 'RlVector3'))
+	^ #(#(#hit 'bool') #(#distance 'float') #(#point 'RlVector3') #(#normal 'RlVector3'))
 ]

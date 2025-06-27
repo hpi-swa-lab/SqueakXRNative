@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlImage class >> fields [
 	<generated>
-	^ #(#('data' 'void*') #('width' 'int32_t') #('height' 'int32_t') #('mipmaps' 'int32_t') #('format' 'int32_t'))
+	^ #(#(#data 'void*') #(#width 'int32_t') #(#height 'int32_t') #(#mipmaps 'int32_t') #(#format 'int32_t'))
 ]

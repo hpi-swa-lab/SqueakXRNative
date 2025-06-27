@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlColor class >> fields [
 	<generated>
-	^ #(#('r' 'uchar8_t') #('g' 'uchar8_t') #('b' 'uchar8_t') #('a' 'uchar8_t'))
+	^ #(#(#r 'uchar8_t') #(#g 'uchar8_t') #(#b 'uchar8_t') #(#a 'uchar8_t'))
 ]

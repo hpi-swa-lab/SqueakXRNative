@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlTransform class >> fields [
 	<generated>
-	^ #(#('translation' 'RlVector3') #('rotation' 'RlVector4') #('scale' 'RlVector3'))
+	^ #(#(#translation 'RlVector3') #(#rotation 'RlVector4') #(#scale 'RlVector3'))
 ]

@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlAutomationEvent class >> fields [
 	<generated>
-	^ #(#('frame' 'uint32_t') #('type' 'uint32_t') #('params' 'int32_t[4]'))
+	^ #(#(#frame 'uint32_t') #(#type 'uint32_t') #(#params 'int32_t[4]'))
 ]

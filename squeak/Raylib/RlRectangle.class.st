@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRectangle class >> fields [
 	<generated>
-	^ #(#('x' 'float') #('y' 'float') #('width' 'float') #('height' 'float'))
+	^ #(#(#x 'float') #(#y 'float') #(#width 'float') #(#height 'float'))
 ]

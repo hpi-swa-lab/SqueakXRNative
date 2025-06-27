@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlCamera3D class >> fields [
 	<generated>
-	^ #(#('position' 'RlVector3') #('target' 'RlVector3') #('up' 'RlVector3') #('fovy' 'float') #('projection' 'int32_t'))
+	^ #(#(#position 'RlVector3') #(#target 'RlVector3') #(#up 'RlVector3') #(#fovy 'float') #(#projection 'int32_t'))
 ]

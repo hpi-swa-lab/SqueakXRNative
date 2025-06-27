@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlMaterialMap class >> fields [
 	<generated>
-	^ #(#('texture' 'RlTexture') #('color' 'RlColor') #('value' 'float'))
+	^ #(#(#texture 'RlTexture') #(#color 'RlColor') #(#value 'float'))
 ]

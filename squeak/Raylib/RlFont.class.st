@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlFont class >> fields [
 	<generated>
-	^ #(#('baseSize' 'int32_t') #('glyphCount' 'int32_t') #('glyphPadding' 'int32_t') #('texture' 'RlTexture') #('recs' 'RlRectangle*') #('glyphs' 'RlGlyphInfo*'))
+	^ #(#(#baseSize 'int32_t') #(#glyphCount 'int32_t') #(#glyphPadding 'int32_t') #(#texture 'RlTexture') #(#recs 'RlRectangle*') #(#glyphs 'RlGlyphInfo*'))
 ]

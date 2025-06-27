@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlFilePathList class >> fields [
 	<generated>
-	^ #(#('capacity' 'uint32_t') #('count' 'uint32_t') #('paths' 'void*'))
+	^ #(#(#capacity 'uint32_t') #(#count 'uint32_t') #(#paths 'void*'))
 ]

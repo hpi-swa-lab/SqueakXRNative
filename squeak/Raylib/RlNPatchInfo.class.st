@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlNPatchInfo class >> fields [
 	<generated>
-	^ #(#('source' 'RlRectangle') #('left' 'int32_t') #('top' 'int32_t') #('right' 'int32_t') #('bottom' 'int32_t') #('layout' 'int32_t'))
+	^ #(#(#source 'RlRectangle') #(#left 'int32_t') #(#top 'int32_t') #(#right 'int32_t') #(#bottom 'int32_t') #(#layout 'int32_t'))
 ]

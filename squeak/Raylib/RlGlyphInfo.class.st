@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlGlyphInfo class >> fields [
 	<generated>
-	^ #(#('value' 'int32_t') #('offsetX' 'int32_t') #('offsetY' 'int32_t') #('advanceX' 'int32_t') #('image' 'RlImage'))
+	^ #(#(#value 'int32_t') #(#offsetX 'int32_t') #(#offsetY 'int32_t') #(#advanceX 'int32_t') #(#image 'RlImage'))
 ]

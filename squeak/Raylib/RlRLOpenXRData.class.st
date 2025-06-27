@@ -10,5 +10,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRLOpenXRData class >> fields [
 	<generated>
-	^ #(#('instance' 'XrInstance') #('system_id' 'XrSystemId') #('session' 'XrSession') #('session_state' 'XrSessionState') #('play_space' 'XrSpace') #('view_space' 'XrSpace') #('view_type' 'XrViewConfigurationType') #('form_factor' 'XrFormFactor') #('play_space_type' 'XrReferenceSpaceType'))
+	^ #(#(#instance 'XrInstance') #(#'system_id' 'XrSystemId') #(#session 'XrSession') #(#'session_state' 'XrSessionState') #(#'play_space' 'XrSpace') #(#'view_space' 'XrSpace') #(#'view_type' 'XrViewConfigurationType') #(#'form_factor' 'XrFormFactor') #(#'play_space_type' 'XrReferenceSpaceType'))
 ]

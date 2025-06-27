@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlMaterial class >> fields [
 	<generated>
-	^ #(#('shader' 'RlShader') #('maps' 'RlMaterialMap*') #('params' 'float[4]'))
+	^ #(#(#shader 'RlShader') #(#maps 'RlMaterialMap*') #(#params 'float[4]'))
 ]

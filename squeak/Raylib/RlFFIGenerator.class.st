@@ -371,7 +371,7 @@ RlFFIGenerator >> normalizedFields: aJsonSpecArray [
 	^ aJsonSpecArray
 		select: [:spec | (spec type beginsWith: '#') not]
 		thenCollect: [:spec |
-		{spec name. self normalizedType: spec type}]
+		{spec name asSymbol. self normalizedType: spec type}]
 ]
 
 { #category : #generating }

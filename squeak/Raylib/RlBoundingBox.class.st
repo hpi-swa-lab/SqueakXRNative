@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlBoundingBox class >> fields [
 	<generated>
-	^ #(#('min' 'RlVector3') #('max' 'RlVector3'))
+	^ #(#(#min 'RlVector3') #(#max 'RlVector3'))
 ]

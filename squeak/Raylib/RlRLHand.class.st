@@ -10,5 +10,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRLHand class >> fields [
 	<generated>
-	^ #(#('valid' 'bool') #('position' 'RlVector3') #('orientation' 'RlVector4') #('handedness' 'int') #('hand_pose_action' 'XrAction') #('hand_pose_subpath' 'XrPath') #('hand_pose_space' 'XrSpace'))
+	^ #(#(#valid 'bool') #(#position 'RlVector3') #(#orientation 'RlVector4') #(#handedness 'int') #(#'hand_pose_action' 'XrAction') #(#'hand_pose_subpath' 'XrPath') #(#'hand_pose_space' 'XrSpace'))
 ]

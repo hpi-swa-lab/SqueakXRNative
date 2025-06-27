@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRl_float16 class >> fields [
 	<generated>
-	^ #(#('v' 'float[16]'))
+	^ #(#(#v 'float[16]'))
 ]

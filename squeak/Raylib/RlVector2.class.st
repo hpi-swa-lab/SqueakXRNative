@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlVector2 class >> fields [
 	<generated>
-	^ #(#('x' 'float') #('y' 'float'))
+	^ #(#(#x 'float') #(#y 'float'))
 ]

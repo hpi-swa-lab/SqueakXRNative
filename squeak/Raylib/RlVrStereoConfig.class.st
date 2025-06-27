@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlVrStereoConfig class >> fields [
 	<generated>
-	^ #(#('projection' 'RlMatrix[2]') #('viewOffset' 'RlMatrix[2]') #('leftLensCenter' 'float[2]') #('rightLensCenter' 'float[2]') #('leftScreenCenter' 'float[2]') #('rightScreenCenter' 'float[2]') #('scale' 'float[2]') #('scaleIn' 'float[2]'))
+	^ #(#(#projection 'RlMatrix[2]') #(#viewOffset 'RlMatrix[2]') #(#leftLensCenter 'float[2]') #(#rightLensCenter 'float[2]') #(#leftScreenCenter 'float[2]') #(#rightScreenCenter 'float[2]') #(#scale 'float[2]') #(#scaleIn 'float[2]'))
 ]

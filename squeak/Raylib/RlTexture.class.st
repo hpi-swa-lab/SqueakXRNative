@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlTexture class >> fields [
 	<generated>
-	^ #(#('id' 'uint32_t') #('width' 'int32_t') #('height' 'int32_t') #('mipmaps' 'int32_t') #('format' 'int32_t'))
+	^ #(#(#id 'uint32_t') #(#width 'int32_t') #(#height 'int32_t') #(#mipmaps 'int32_t') #(#format 'int32_t'))
 ]

@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlModel class >> fields [
 	<generated>
-	^ #(#('transform' 'RlMatrix') #('meshCount' 'int32_t') #('materialCount' 'int32_t') #('meshes' 'RlMesh*') #('materials' 'RlMaterial*') #('meshMaterial' 'int32_t*') #('boneCount' 'int32_t') #('bones' 'RlBoneInfo*') #('bindPose' 'RlTransform*'))
+	^ #(#(#transform 'RlMatrix') #(#meshCount 'int32_t') #(#materialCount 'int32_t') #(#meshes 'RlMesh*') #(#materials 'RlMaterial*') #(#meshMaterial 'int32_t*') #(#boneCount 'int32_t') #(#bones 'RlBoneInfo*') #(#bindPose 'RlTransform*'))
 ]

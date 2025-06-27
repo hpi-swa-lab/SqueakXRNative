@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlVector4 class >> fields [
 	<generated>
-	^ #(#('x' 'float') #('y' 'float') #('z' 'float') #('w' 'float'))
+	^ #(#(#x 'float') #(#y 'float') #(#z 'float') #(#w 'float'))
 ]

@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRay class >> fields [
 	<generated>
-	^ #(#('position' 'RlVector3') #('direction' 'RlVector3'))
+	^ #(#(#position 'RlVector3') #(#direction 'RlVector3'))
 ]

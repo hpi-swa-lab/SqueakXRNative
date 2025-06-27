@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlWave class >> fields [
 	<generated>
-	^ #(#('frameCount' 'uint32_t') #('sampleRate' 'uint32_t') #('sampleSize' 'uint32_t') #('channels' 'uint32_t') #('data' 'void*'))
+	^ #(#(#frameCount 'uint32_t') #(#sampleRate 'uint32_t') #(#sampleSize 'uint32_t') #(#channels 'uint32_t') #(#data 'void*'))
 ]

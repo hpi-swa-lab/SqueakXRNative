@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlVrDeviceInfo class >> fields [
 	<generated>
-	^ #(#('hResolution' 'int32_t') #('vResolution' 'int32_t') #('hScreenSize' 'float') #('vScreenSize' 'float') #('eyeToScreenDistance' 'float') #('lensSeparationDistance' 'float') #('interpupillaryDistance' 'float') #('lensDistortionValues' 'float[4]') #('chromaAbCorrection' 'float[4]'))
+	^ #(#(#hResolution 'int32_t') #(#vResolution 'int32_t') #(#hScreenSize 'float') #(#vScreenSize 'float') #(#eyeToScreenDistance 'float') #(#lensSeparationDistance 'float') #(#interpupillaryDistance 'float') #(#lensDistortionValues 'float[4]') #(#chromaAbCorrection 'float[4]'))
 ]
