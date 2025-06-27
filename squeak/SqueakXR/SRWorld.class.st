@@ -38,7 +38,7 @@ SRWorld class >> startUp [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime |
+	| deltaTime startTime framePrepard |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
 	
@@ -48,9 +48,10 @@ SRWorld >> doOneCycle [
 	A morphic-like list approach would solve both."
 	self allDescendants do: [:obj | obj step: deltaTime].
 	
-	self renderer prepareFrame.
-	self renderSelfAndChildrenOn: self renderer.
-	self renderer completeFrame.
+	framePrepard := self renderer prepareFrame.
+	framePrepard ifTrue: [
+		self renderSelfAndChildrenOn: self renderer.
+		self renderer completeFrame].
 	
 	lastFrameTime := startTime.
 ]

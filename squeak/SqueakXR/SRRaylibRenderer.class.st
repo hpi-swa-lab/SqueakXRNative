@@ -65,6 +65,15 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	Raylib rlPopMatrix.
 ]
 
+{ #category : #rendering }
+SRRaylibRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aSRMaterial [
+
+	Raylib
+		drawMesh: aMesh
+		material: aSRMaterial internalMaterial
+		transform: aMatrix4x4 asRlMatrix
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 

@@ -22,6 +22,8 @@ SRRaylibRendererFlat >> prepareFrame [
 		beginDrawing;
 		clearBackgroundColor: clearColor;
 		beginMode3DCamera: camera.
+	
+	^ true
 ]
 
 { #category : #'render-loop' }

@@ -49,6 +49,12 @@ SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	self subclassResponsibility
 ]
 
+{ #category : #rendering }
+SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
+
+	self subclassResponsibility
+]
+
 { #category : #'render-loop' }
 SRRenderer >> setup [
 ]

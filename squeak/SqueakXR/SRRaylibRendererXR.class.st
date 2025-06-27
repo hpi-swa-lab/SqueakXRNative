@@ -19,6 +19,7 @@ SRRaylibRendererXR >> completeFrame [
 { #category : #'render-loop' }
 SRRaylibRendererXR >> prepareFrame [
 
+	| beginSuccessful |
 	self pollAndroidEvents.
 		
 	Raylib
@@ -27,11 +28,16 @@ SRRaylibRendererXR >> prepareFrame [
 		rlOpenXRUpdateCamera: camera;
 		clearBackgroundColor: Color white asRlColor.
 		
-	Raylib rlOpenXRBegin ifTrue: [
-		Raylib
-			clearBackgroundColor: Color blue asRlColor;
-			beginMode3DCamera: camera;
-			drawGridSlices: 10 spacing: 1]
+	beginSuccessful := Raylib rlOpenXRBegin.
+	
+	beginSuccessful ifTrue: [
+			Raylib
+				clearBackgroundColor: Color blue asRlColor;
+				beginMode3DCamera: camera;
+				drawGridSlices: 10 spacing: 1].
+	
+	^ beginSuccessful
+		
 ]
 
 { #category : #'render-loop' }
