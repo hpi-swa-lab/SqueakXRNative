@@ -1,9 +1,13 @@
 Class {
 	#name : #SRRenderer,
 	#superclass : #Object,
+	#instVars : [
+		'cache'
+	],
 	#classVars : [
 		'ClearColor',
-		'RendererClass'
+		'RendererClass',
+		'StartMonitor'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -66,8 +70,32 @@ SRRenderer class >> startMonitor: anInteger [
 	StartMonitor := anInteger
 ]
 
+{ #category : #accessing }
+SRRenderer >> cache [
+
+	^ cache
+]
+
+{ #category : #cache }
+SRRenderer >> cacheAt: aSymbol ifAbsentPut: aBlock [
+
+	^ self cache at: aSymbol ifAbsentPut: aBlock
+]
+
+{ #category : #cache }
+SRRenderer >> clearCache [
+
+	self cache removeAll
+]
+
 { #category : #'render-loop' }
 SRRenderer >> completeFrame [
+]
+
+{ #category : #rendering }
+SRRenderer >> initialize [
+
+	cache := Dictionary new
 ]
 
 { #category : #experiments }

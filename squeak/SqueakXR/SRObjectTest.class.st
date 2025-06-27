@@ -72,6 +72,19 @@ SRObjectTest >> testAllDescendants [
 ]
 
 { #category : #'tests - children' }
+SRObjectTest >> testAllDo [
+
+	| count object |
+	object := SRObject new.
+	
+	object addChildren: {SRObject new. SRObject new. SRObject new}.
+	
+	count := 0.
+	object allDo: [:obj | obj notNil. count := count + 1].
+	self assert: count = 4.
+]
+
+{ #category : #'tests - children' }
 SRObjectTest >> testChildrenDo [
 
 	| count object |
@@ -80,7 +93,7 @@ SRObjectTest >> testChildrenDo [
 	object addChildren: {SRObject new. SRObject new. SRObject new}.
 	
 	count := 0.
-	object childrenDo: [:child | child notNil. count := count + 1].
+	object childrenDo: [:child | count := count + 1].
 	self assert: count = 3.
 ]
 

@@ -14,6 +14,11 @@ Class {
 { #category : #children }
 SRObject >> addChild: aSRObject [
 
+	"DISCUSS: Adding an object to a different world means that the world cache is no longer valid for the child,
+	and thus onCacheInvalidated must be called for it.
+	This could be done here with a simple check.
+	However, this also seems like a very unlikely use case, so I'm not going to do it for now."
+	
 	(self hasChild: aSRObject) ifTrue: [^ self].
 	(self hasAncestor: aSRObject) ifTrue: [
 		self error: 'Cannot add ancestor of SRObject as child'].
@@ -36,6 +41,19 @@ SRObject >> allDescendants [
 
 	"TODO: define order"
 	^ {self. self children collect: [:child | child allDescendants]} flatten
+]
+
+{ #category : #children }
+SRObject >> allDo: aBlock [
+
+	aBlock cull: self.
+	self childrenDo: aBlock.
+]
+
+{ #category : #'as yet unclassified' }
+SRObject >> cacheInvalidated [
+
+	self allDo: #onCacheInvalidated.
 ]
 
 { #category : #children }
@@ -107,6 +125,10 @@ SRObject >> localTransform [
 SRObject >> localTransform: aMatrix4x4 [
 
 	self transform: aMatrix4x4
+]
+
+{ #category : #'as yet unclassified' }
+SRObject >> onCacheInvalidated [
 ]
 
 { #category : #accessing }

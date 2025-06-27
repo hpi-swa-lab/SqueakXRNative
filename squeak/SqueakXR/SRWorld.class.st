@@ -36,6 +36,12 @@ SRWorld class >> startUp [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
+
+	^ self renderer cacheAt: aSymbol ifAbsentPut: aBlock
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime framePrepard |
@@ -63,6 +69,13 @@ SRWorld >> initialize [
 	
 	self renderer: SRRenderer rendererClass new.
 	
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> invalidateCache [
+
+	self renderer clearCache.
+	self cacheInvalidated.
 ]
 
 { #category : #accessing }
@@ -102,6 +115,7 @@ SRWorld >> resume [
 { #category : #'as yet unclassified' }
 SRWorld >> shutDown: quitting [
 
+	self invalidateCache.
 	needsSetup := quitting.
 	self suspend.
 ]
@@ -126,6 +140,7 @@ SRWorld >> start [
 { #category : #'as yet unclassified' }
 SRWorld >> stop [
 
+	self invalidateCache.
 	running := false.
 ]
 

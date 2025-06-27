@@ -33,8 +33,6 @@ SRPlane >> initialize [
 
 	super initialize.
 	
-	mesh := self class mesh.
-	
 	self material ifNil: [
 		self material: SRMaterial new]
 ]
@@ -51,11 +49,25 @@ SRPlane >> material: aSRMaterial [
 	material := aSRMaterial
 ]
 
+{ #category : #accessing }
+SRPlane >> mesh [
+
+	^ self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]
+	"^ mesh ifNil: [
+		mesh := self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]]"
+]
+
+{ #category : #'as yet unclassified' }
+SRPlane >> onCacheInvalidated [
+
+	mesh := nil
+]
+
 { #category : #rendering }
 SRPlane >> renderOn: aSRRenderer [
 
 	aSRRenderer
-		renderMesh: mesh
+		renderMesh: self mesh
 		transform: self globalTransform
 		material: self material
 ]
