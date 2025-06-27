@@ -1,6 +1,12 @@
 Extension { #name : #Vector }
 
 { #category : #'*SqueakXR-helpers' }
+Vector >> asRaylibObject [
+
+	^ self asRlVector
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector class >> componentSelectors [
 
 	^ #()
@@ -13,7 +19,7 @@ Vector >> componentSelectors [
 ]
 
 { #category : #'*SqueakXR-helpers' }
-Vector class >> doesNotUnderstand: aMessage [	
+Vector >> doesNotUnderstand: aMessage [	
 	
 	(self class selectorOnlyContainsComponents: aMessage selector)
 		ifFalse: [^ super doesNotUnderstand: aMessage].
@@ -22,7 +28,7 @@ Vector class >> doesNotUnderstand: aMessage [
 ]
 
 { #category : #'*SqueakXR-helpers' }
-Vector >> doesNotUnderstand: aMessage [	
+Vector class >> doesNotUnderstand: aMessage [	
 	
 	(self class selectorOnlyContainsComponents: aMessage selector)
 		ifFalse: [^ super doesNotUnderstand: aMessage].
