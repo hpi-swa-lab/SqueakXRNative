@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRenderTexture class >> fields [
 	<generated>
-	^ #(#('id' 'uintptr_t') #('texture' 'RlTexture') #('depth' 'RlTexture'))
+	^ #(#('id' 'uint32_t') #('texture' 'RlTexture') #('depth' 'RlTexture'))
 ]

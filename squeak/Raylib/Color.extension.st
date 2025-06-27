@@ -1,6 +1,12 @@
 Extension { #name : #Color }
 
 { #category : #'*Raylib-Core' }
+Color >> asRaylibObject [ 
+
+	^ self asRlColor
+]
+
+{ #category : #'*Raylib-Core' }
 Color >> asRlColor [
 
 	"TODO more efficient conversion. Caching?"

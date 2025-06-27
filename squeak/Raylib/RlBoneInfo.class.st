@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlBoneInfo class >> fields [
 	<generated>
-	^ #(#('name' 'char8_t[32]') #('parent' 'intptr_t'))
+	^ #(#('name' 'char8_t[32]') #('parent' 'int32_t'))
 ]

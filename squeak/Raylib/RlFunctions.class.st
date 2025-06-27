@@ -15,7 +15,7 @@ RlFunctions >> beginBlendMode: mode [
 	"Begin blending mode (alpha, additive, multiplied, subtract, custom)
 	mode - int"
 	<generated>
-	<cdecl: void 'BeginBlendMode' (intptr_t)>
+	<cdecl: void 'BeginBlendMode' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -54,7 +54,7 @@ RlFunctions >> beginScissorModeX: x y: y width: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'BeginScissorMode' (intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'BeginScissorMode' (int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -182,7 +182,7 @@ RlFunctions >> checkCollisionPointLinePoint: point p1: p1 p2: p2 threshold: thre
 	p2 - Vector2
 	threshold - int"
 	<generated>
-	<cdecl: bool 'CheckCollisionPointLine' (RlVector2, RlVector2, RlVector2, intptr_t)>
+	<cdecl: bool 'CheckCollisionPointLine' (RlVector2, RlVector2, RlVector2, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -193,7 +193,7 @@ RlFunctions >> checkCollisionPointPolyPoint: point points: points pointCount: po
 	points - const Vector2 *
 	pointCount - int"
 	<generated>
-	<cdecl: bool 'CheckCollisionPointPoly' (RlVector2, RlVector2*, intptr_t)>
+	<cdecl: bool 'CheckCollisionPointPoly' (RlVector2, RlVector2*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -255,7 +255,7 @@ RlFunctions >> clearWindowStateFlags: flags [
 	"Clear window configuration state flags
 	flags - unsigned int"
 	<generated>
-	<cdecl: void 'ClearWindowState' (uintptr_t)>
+	<cdecl: void 'ClearWindowState' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -274,7 +274,7 @@ RlFunctions >> codepointToUTF8Codepoint: codepoint utf8Size: utf8Size [
 	codepoint - int
 	utf8Size - int *"
 	<generated>
-	<cdecl: char8_t* 'CodepointToUTF8' (intptr_t, intptr_t*)>
+	<cdecl: char8_t* 'CodepointToUTF8' (int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -393,7 +393,7 @@ RlFunctions >> colorToIntColor: color [
 	"Get hexadecimal value for a Color (0xRRGGBBAA)
 	color - Color"
 	<generated>
-	<cdecl: intptr_t 'ColorToInt' (RlColor)>
+	<cdecl: int32_t 'ColorToInt' (RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -404,7 +404,7 @@ RlFunctions >> compressData: data dataSize: dataSize compDataSize: compDataSize 
 	dataSize - int
 	compDataSize - int *"
 	<generated>
-	<cdecl: uchar8_t* 'CompressData' (uchar8_t*, intptr_t, intptr_t*)>
+	<cdecl: uchar8_t* 'CompressData' (uchar8_t*, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -414,7 +414,7 @@ RlFunctions >> computeCRC32Data: data dataSize: dataSize [
 	data - unsigned char *
 	dataSize - int"
 	<generated>
-	<cdecl: uintptr_t 'ComputeCRC32' (uchar8_t*, intptr_t)>
+	<cdecl: uint32_t 'ComputeCRC32' (uchar8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -424,7 +424,7 @@ RlFunctions >> computeMD5Data: data dataSize: dataSize [
 	data - unsigned char *
 	dataSize - int"
 	<generated>
-	<cdecl: uintptr_t* 'ComputeMD5' (uchar8_t*, intptr_t)>
+	<cdecl: uint32_t* 'ComputeMD5' (uchar8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -434,7 +434,7 @@ RlFunctions >> computeSHA1Data: data dataSize: dataSize [
 	data - unsigned char *
 	dataSize - int"
 	<generated>
-	<cdecl: uintptr_t* 'ComputeSHA1' (uchar8_t*, intptr_t)>
+	<cdecl: uint32_t* 'ComputeSHA1' (uchar8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -444,7 +444,7 @@ RlFunctions >> decodeDataBase64Data: data outputSize: outputSize [
 	data - const unsigned char *
 	outputSize - int *"
 	<generated>
-	<cdecl: uchar8_t* 'DecodeDataBase64' (uchar8_t*, intptr_t*)>
+	<cdecl: uchar8_t* 'DecodeDataBase64' (uchar8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -455,7 +455,7 @@ RlFunctions >> decompressDataCompData: compData compDataSize: compDataSize dataS
 	compDataSize - int
 	dataSize - int *"
 	<generated>
-	<cdecl: uchar8_t* 'DecompressData' (uchar8_t*, intptr_t, intptr_t*)>
+	<cdecl: uchar8_t* 'DecompressData' (uchar8_t*, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -550,7 +550,7 @@ RlFunctions >> drawCapsuleStartPos: startPos endPos: endPos radius: radius slice
 	rings - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCapsule' (RlVector3, RlVector3, float, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawCapsule' (RlVector3, RlVector3, float, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -564,7 +564,7 @@ RlFunctions >> drawCapsuleWiresStartPos: startPos endPos: endPos radius: radius 
 	rings - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCapsuleWires' (RlVector3, RlVector3, float, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawCapsuleWires' (RlVector3, RlVector3, float, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -589,7 +589,7 @@ RlFunctions >> drawCircleCenterX: centerX centerY: centerY radius: radius color:
 	radius - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCircle' (intptr_t, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawCircle' (int32_t, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -602,7 +602,7 @@ RlFunctions >> drawCircleGradientCenterX: centerX centerY: centerY radius: radiu
 	inner - Color
 	outer - Color"
 	<generated>
-	<cdecl: void 'DrawCircleGradient' (intptr_t, intptr_t, float, RlColor, RlColor)>
+	<cdecl: void 'DrawCircleGradient' (int32_t, int32_t, float, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -614,7 +614,7 @@ RlFunctions >> drawCircleLinesCenterX: centerX centerY: centerY radius: radius c
 	radius - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCircleLines' (intptr_t, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawCircleLines' (int32_t, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -639,7 +639,7 @@ RlFunctions >> drawCircleSectorCenter: center radius: radius startAngle: startAn
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCircleSector' (RlVector2, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCircleSector' (RlVector2, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -653,7 +653,7 @@ RlFunctions >> drawCircleSectorLinesCenter: center radius: radius startAngle: st
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCircleSectorLines' (RlVector2, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCircleSectorLines' (RlVector2, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -726,7 +726,7 @@ RlFunctions >> drawCylinderExStartPos: startPos endPos: endPos startRadius: star
 	sides - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCylinderEx' (RlVector3, RlVector3, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCylinderEx' (RlVector3, RlVector3, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -740,7 +740,7 @@ RlFunctions >> drawCylinderPosition: position radiusTop: radiusTop radiusBottom:
 	slices - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCylinder' (RlVector3, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCylinder' (RlVector3, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -754,7 +754,7 @@ RlFunctions >> drawCylinderWiresExStartPos: startPos endPos: endPos startRadius:
 	sides - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCylinderWiresEx' (RlVector3, RlVector3, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCylinderWiresEx' (RlVector3, RlVector3, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -768,7 +768,7 @@ RlFunctions >> drawCylinderWiresPosition: position radiusTop: radiusTop radiusBo
 	slices - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawCylinderWires' (RlVector3, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawCylinderWires' (RlVector3, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -781,7 +781,7 @@ RlFunctions >> drawEllipseCenterX: centerX centerY: centerY radiusH: radiusH rad
 	radiusV - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawEllipse' (intptr_t, intptr_t, float, float, RlColor)>
+	<cdecl: void 'DrawEllipse' (int32_t, int32_t, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -794,7 +794,7 @@ RlFunctions >> drawEllipseLinesCenterX: centerX centerY: centerY radiusH: radius
 	radiusV - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawEllipseLines' (intptr_t, intptr_t, float, float, RlColor)>
+	<cdecl: void 'DrawEllipseLines' (int32_t, int32_t, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -804,7 +804,7 @@ RlFunctions >> drawFPSPosX: posX posY: posY [
 	posX - int
 	posY - int"
 	<generated>
-	<cdecl: void 'DrawFPS' (intptr_t, intptr_t)>
+	<cdecl: void 'DrawFPS' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -814,7 +814,7 @@ RlFunctions >> drawGridSlices: slices spacing: spacing [
 	slices - int
 	spacing - float"
 	<generated>
-	<cdecl: void 'DrawGrid' (intptr_t, float)>
+	<cdecl: void 'DrawGrid' (int32_t, float)>
 	^ self externalCallFailed
 ]
 
@@ -862,7 +862,7 @@ RlFunctions >> drawLineStartPosX: startPosX startPosY: startPosY endPosX: endPos
 	endPosY - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawLine' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawLine' (int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -873,7 +873,7 @@ RlFunctions >> drawLineStripPoints: points pointCount: pointCount color: color [
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawLineStrip' (RlVector2*, intptr_t, RlColor)>
+	<cdecl: void 'DrawLineStrip' (RlVector2*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -907,7 +907,7 @@ RlFunctions >> drawMeshInstancedMesh: mesh material: material transforms: transf
 	transforms - const Matrix *
 	instances - int"
 	<generated>
-	<cdecl: void 'DrawMeshInstanced' (RlMesh, RlMaterial, RlMatrix*, intptr_t)>
+	<cdecl: void 'DrawMeshInstanced' (RlMesh, RlMaterial, RlMatrix*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -996,7 +996,7 @@ RlFunctions >> drawPixelPosX: posX posY: posY color: color [
 	posY - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawPixel' (intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawPixel' (int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1040,7 +1040,7 @@ RlFunctions >> drawPolyCenter: center sides: sides radius: radius rotation: rota
 	rotation - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawPoly' (RlVector2, intptr_t, float, float, RlColor)>
+	<cdecl: void 'DrawPoly' (RlVector2, int32_t, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1053,7 +1053,7 @@ RlFunctions >> drawPolyLinesCenter: center sides: sides radius: radius rotation:
 	rotation - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawPolyLines' (RlVector2, intptr_t, float, float, RlColor)>
+	<cdecl: void 'DrawPolyLines' (RlVector2, int32_t, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1067,7 +1067,7 @@ RlFunctions >> drawPolyLinesExCenter: center sides: sides radius: radius rotatio
 	lineThick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawPolyLinesEx' (RlVector2, intptr_t, float, float, float, RlColor)>
+	<cdecl: void 'DrawPolyLinesEx' (RlVector2, int32_t, float, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1104,7 +1104,7 @@ RlFunctions >> drawRectangleGradientHPosX: posX posY: posY width: width height: 
 	left - Color
 	right - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleGradientH' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor, RlColor)>
+	<cdecl: void 'DrawRectangleGradientH' (int32_t, int32_t, int32_t, int32_t, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1118,7 +1118,7 @@ RlFunctions >> drawRectangleGradientVPosX: posX posY: posY width: width height: 
 	top - Color
 	bottom - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleGradientV' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor, RlColor)>
+	<cdecl: void 'DrawRectangleGradientV' (int32_t, int32_t, int32_t, int32_t, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1142,7 +1142,7 @@ RlFunctions >> drawRectangleLinesPosX: posX posY: posY width: width height: heig
 	height - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleLines' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawRectangleLines' (int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1155,7 +1155,7 @@ RlFunctions >> drawRectanglePosX: posX posY: posY width: width height: height co
 	height - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRectangle' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawRectangle' (int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1190,7 +1190,7 @@ RlFunctions >> drawRectangleRoundedLinesExRec: rec roundness: roundness segments
 	lineThick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleRoundedLinesEx' (RlRectangle, float, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawRectangleRoundedLinesEx' (RlRectangle, float, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1202,7 +1202,7 @@ RlFunctions >> drawRectangleRoundedLinesRec: rec roundness: roundness segments: 
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleRoundedLines' (RlRectangle, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawRectangleRoundedLines' (RlRectangle, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1214,7 +1214,7 @@ RlFunctions >> drawRectangleRoundedRec: rec roundness: roundness segments: segme
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRectangleRounded' (RlRectangle, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawRectangleRounded' (RlRectangle, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1240,7 +1240,7 @@ RlFunctions >> drawRingCenter: center innerRadius: innerRadius outerRadius: oute
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRing' (RlVector2, float, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawRing' (RlVector2, float, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1255,7 +1255,7 @@ RlFunctions >> drawRingLinesCenter: center innerRadius: innerRadius outerRadius:
 	segments - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawRingLines' (RlVector2, float, float, float, float, intptr_t, RlColor)>
+	<cdecl: void 'DrawRingLines' (RlVector2, float, float, float, float, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1279,7 +1279,7 @@ RlFunctions >> drawSphereExCenterPos: centerPos radius: radius rings: rings slic
 	slices - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSphereEx' (RlVector3, float, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawSphereEx' (RlVector3, float, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1292,7 +1292,7 @@ RlFunctions >> drawSphereWiresCenterPos: centerPos radius: radius rings: rings s
 	slices - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSphereWires' (RlVector3, float, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawSphereWires' (RlVector3, float, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1304,7 +1304,7 @@ RlFunctions >> drawSplineBasisPoints: points pointCount: pointCount thick: thick
 	thick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSplineBasis' (RlVector2*, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawSplineBasis' (RlVector2*, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1316,7 +1316,7 @@ RlFunctions >> drawSplineBezierCubicPoints: points pointCount: pointCount thick:
 	thick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSplineBezierCubic' (RlVector2*, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawSplineBezierCubic' (RlVector2*, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1328,7 +1328,7 @@ RlFunctions >> drawSplineBezierQuadraticPoints: points pointCount: pointCount th
 	thick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSplineBezierQuadratic' (RlVector2*, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawSplineBezierQuadratic' (RlVector2*, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1340,7 +1340,7 @@ RlFunctions >> drawSplineCatmullRomPoints: points pointCount: pointCount thick: 
 	thick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSplineCatmullRom' (RlVector2*, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawSplineCatmullRom' (RlVector2*, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1352,7 +1352,7 @@ RlFunctions >> drawSplineLinearPoints: points pointCount: pointCount thick: thic
 	thick - float
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawSplineLinear' (RlVector2*, intptr_t, float, RlColor)>
+	<cdecl: void 'DrawSplineLinear' (RlVector2*, int32_t, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1432,7 +1432,7 @@ RlFunctions >> drawText: text posX: posX posY: posY fontSize: fontSize color: co
 	fontSize - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawText' (char8_t*, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawText' (char8_t*, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1445,7 +1445,7 @@ RlFunctions >> drawTextCodepointFont: font codepoint: codepoint position: positi
 	fontSize - float
 	tint - Color"
 	<generated>
-	<cdecl: void 'DrawTextCodepoint' (RlFont, intptr_t, RlVector2, float, RlColor)>
+	<cdecl: void 'DrawTextCodepoint' (RlFont, int32_t, RlVector2, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1460,7 +1460,7 @@ RlFunctions >> drawTextCodepointsFont: font codepoints: codepoints codepointCoun
 	spacing - float
 	tint - Color"
 	<generated>
-	<cdecl: void 'DrawTextCodepoints' (RlFont, intptr_t*, intptr_t, RlVector2, float, float, RlColor)>
+	<cdecl: void 'DrawTextCodepoints' (RlFont, int32_t*, int32_t, RlVector2, float, float, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1502,7 +1502,7 @@ RlFunctions >> drawTexture: texture posX: posX posY: posY tint: tint [
 	posY - int
 	tint - Color"
 	<generated>
-	<cdecl: void 'DrawTexture' (RlTexture, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'DrawTexture' (RlTexture, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1589,7 +1589,7 @@ RlFunctions >> drawTriangleFanPoints: points pointCount: pointCount color: color
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawTriangleFan' (RlVector2*, intptr_t, RlColor)>
+	<cdecl: void 'DrawTriangleFan' (RlVector2*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1612,7 +1612,7 @@ RlFunctions >> drawTriangleStrip3DPoints: points pointCount: pointCount color: c
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawTriangleStrip3D' (RlVector3*, intptr_t, RlColor)>
+	<cdecl: void 'DrawTriangleStrip3D' (RlVector3*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1623,7 +1623,7 @@ RlFunctions >> drawTriangleStripPoints: points pointCount: pointCount color: col
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'DrawTriangleStrip' (RlVector2*, intptr_t, RlColor)>
+	<cdecl: void 'DrawTriangleStrip' (RlVector2*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1664,7 +1664,7 @@ RlFunctions >> encodeDataBase64Data: data dataSize: dataSize outputSize: outputS
 	dataSize - int
 	outputSize - int *"
 	<generated>
-	<cdecl: char8_t* 'EncodeDataBase64' (uchar8_t*, intptr_t, intptr_t*)>
+	<cdecl: char8_t* 'EncodeDataBase64' (uchar8_t*, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -1757,7 +1757,7 @@ RlFunctions >> exportDataAsCodeData: data dataSize: dataSize fileName: fileName 
 	dataSize - int
 	fileName - const char *"
 	<generated>
-	<cdecl: bool 'ExportDataAsCode' (uchar8_t*, intptr_t, char8_t*)>
+	<cdecl: bool 'ExportDataAsCode' (uchar8_t*, int32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -1798,7 +1798,7 @@ RlFunctions >> exportImageToMemoryImage: image fileType: fileType fileSize: file
 	fileType - const char *
 	fileSize - int *"
 	<generated>
-	<cdecl: uchar8_t* 'ExportImageToMemory' (RlImage, char8_t*, intptr_t*)>
+	<cdecl: uchar8_t* 'ExportImageToMemory' (RlImage, char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -1868,7 +1868,7 @@ RlFunctions >> genImageCellularWidth: width height: height tileSize: tileSize [
 	height - int
 	tileSize - int"
 	<generated>
-	<cdecl: RlImage 'GenImageCellular' (intptr_t, intptr_t, intptr_t)>
+	<cdecl: RlImage 'GenImageCellular' (int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -1882,7 +1882,7 @@ RlFunctions >> genImageCheckedWidth: width height: height checksX: checksX check
 	col1 - Color
 	col2 - Color"
 	<generated>
-	<cdecl: RlImage 'GenImageChecked' (intptr_t, intptr_t, intptr_t, intptr_t, RlColor, RlColor)>
+	<cdecl: RlImage 'GenImageChecked' (int32_t, int32_t, int32_t, int32_t, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1893,7 +1893,7 @@ RlFunctions >> genImageColorWidth: width height: height color: color [
 	height - int
 	color - Color"
 	<generated>
-	<cdecl: RlImage 'GenImageColor' (intptr_t, intptr_t, RlColor)>
+	<cdecl: RlImage 'GenImageColor' (int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1907,7 +1907,7 @@ RlFunctions >> genImageFontAtlasGlyphs: glyphs glyphRecs: glyphRecs glyphCount: 
 	padding - int
 	packMethod - int"
 	<generated>
-	<cdecl: RlImage 'GenImageFontAtlas' (RlGlyphInfo*, void*, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: RlImage 'GenImageFontAtlas' (RlGlyphInfo*, void*, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -1920,7 +1920,7 @@ RlFunctions >> genImageGradientLinearWidth: width height: height direction: dire
 	start - Color
 	end - Color"
 	<generated>
-	<cdecl: RlImage 'GenImageGradientLinear' (intptr_t, intptr_t, intptr_t, RlColor, RlColor)>
+	<cdecl: RlImage 'GenImageGradientLinear' (int32_t, int32_t, int32_t, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1933,7 +1933,7 @@ RlFunctions >> genImageGradientRadialWidth: width height: height density: densit
 	inner - Color
 	outer - Color"
 	<generated>
-	<cdecl: RlImage 'GenImageGradientRadial' (intptr_t, intptr_t, float, RlColor, RlColor)>
+	<cdecl: RlImage 'GenImageGradientRadial' (int32_t, int32_t, float, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1946,7 +1946,7 @@ RlFunctions >> genImageGradientSquareWidth: width height: height density: densit
 	inner - Color
 	outer - Color"
 	<generated>
-	<cdecl: RlImage 'GenImageGradientSquare' (intptr_t, intptr_t, float, RlColor, RlColor)>
+	<cdecl: RlImage 'GenImageGradientSquare' (int32_t, int32_t, float, RlColor, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -1959,7 +1959,7 @@ RlFunctions >> genImagePerlinNoiseWidth: width height: height offsetX: offsetX o
 	offsetY - int
 	scale - float"
 	<generated>
-	<cdecl: RlImage 'GenImagePerlinNoise' (intptr_t, intptr_t, intptr_t, intptr_t, float)>
+	<cdecl: RlImage 'GenImagePerlinNoise' (int32_t, int32_t, int32_t, int32_t, float)>
 	^ self externalCallFailed
 ]
 
@@ -1970,7 +1970,7 @@ RlFunctions >> genImageTextWidth: width height: height text: text [
 	height - int
 	text - const char *"
 	<generated>
-	<cdecl: RlImage 'GenImageText' (intptr_t, intptr_t, char8_t*)>
+	<cdecl: RlImage 'GenImageText' (int32_t, int32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -1981,7 +1981,7 @@ RlFunctions >> genImageWhiteNoiseWidth: width height: height factor: factor [
 	height - int
 	factor - float"
 	<generated>
-	<cdecl: RlImage 'GenImageWhiteNoise' (intptr_t, intptr_t, float)>
+	<cdecl: RlImage 'GenImageWhiteNoise' (int32_t, int32_t, float)>
 	^ self externalCallFailed
 ]
 
@@ -1992,7 +1992,7 @@ RlFunctions >> genMeshConeRadius: radius height: height slices: slices [
 	height - float
 	slices - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshCone' (float, float, intptr_t)>
+	<cdecl: RlMesh 'GenMeshCone' (float, float, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2024,7 +2024,7 @@ RlFunctions >> genMeshCylinderRadius: radius height: height slices: slices [
 	height - float
 	slices - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshCylinder' (float, float, intptr_t)>
+	<cdecl: RlMesh 'GenMeshCylinder' (float, float, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2045,7 +2045,7 @@ RlFunctions >> genMeshHemiSphereRadius: radius rings: rings slices: slices [
 	rings - int
 	slices - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshHemiSphere' (float, intptr_t, intptr_t)>
+	<cdecl: RlMesh 'GenMeshHemiSphere' (float, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2057,7 +2057,7 @@ RlFunctions >> genMeshKnotRadius: radius size: size radSeg: radSeg sides: sides 
 	radSeg - int
 	sides - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshKnot' (float, float, intptr_t, intptr_t)>
+	<cdecl: RlMesh 'GenMeshKnot' (float, float, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2069,7 +2069,7 @@ RlFunctions >> genMeshPlaneWidth: width length: length resX: resX resZ: resZ [
 	resX - int
 	resZ - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshPlane' (float, float, intptr_t, intptr_t)>
+	<cdecl: RlMesh 'GenMeshPlane' (float, float, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2079,7 +2079,7 @@ RlFunctions >> genMeshPolySides: sides radius: radius [
 	sides - int
 	radius - float"
 	<generated>
-	<cdecl: RlMesh 'GenMeshPoly' (intptr_t, float)>
+	<cdecl: RlMesh 'GenMeshPoly' (int32_t, float)>
 	^ self externalCallFailed
 ]
 
@@ -2090,7 +2090,7 @@ RlFunctions >> genMeshSphereRadius: radius rings: rings slices: slices [
 	rings - int
 	slices - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshSphere' (float, intptr_t, intptr_t)>
+	<cdecl: RlMesh 'GenMeshSphere' (float, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2111,7 +2111,7 @@ RlFunctions >> genMeshTorusRadius: radius size: size radSeg: radSeg sides: sides
 	radSeg - int
 	sides - int"
 	<generated>
-	<cdecl: RlMesh 'GenMeshTorus' (float, float, intptr_t, intptr_t)>
+	<cdecl: RlMesh 'GenMeshTorus' (float, float, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2156,7 +2156,7 @@ RlFunctions >> getCharPressed [
 	"Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
 "
 	<generated>
-	<cdecl: intptr_t 'GetCharPressed' ()>
+	<cdecl: int32_t 'GetCharPressed' ()>
 	^ self externalCallFailed
 ]
 
@@ -2183,7 +2183,7 @@ RlFunctions >> getCodepointCountText: text [
 	"Get total number of codepoints in a UTF-8 encoded string
 	text - const char *"
 	<generated>
-	<cdecl: intptr_t 'GetCodepointCount' (char8_t*)>
+	<cdecl: int32_t 'GetCodepointCount' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2193,7 +2193,7 @@ RlFunctions >> getCodepointNextText: text codepointSize: codepointSize [
 	text - const char *
 	codepointSize - int *"
 	<generated>
-	<cdecl: intptr_t 'GetCodepointNext' (char8_t*, intptr_t*)>
+	<cdecl: int32_t 'GetCodepointNext' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2203,7 +2203,7 @@ RlFunctions >> getCodepointPreviousText: text codepointSize: codepointSize [
 	text - const char *
 	codepointSize - int *"
 	<generated>
-	<cdecl: intptr_t 'GetCodepointPrevious' (char8_t*, intptr_t*)>
+	<cdecl: int32_t 'GetCodepointPrevious' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2213,7 +2213,7 @@ RlFunctions >> getCodepointText: text codepointSize: codepointSize [
 	text - const char *
 	codepointSize - int *"
 	<generated>
-	<cdecl: intptr_t 'GetCodepoint' (char8_t*, intptr_t*)>
+	<cdecl: int32_t 'GetCodepoint' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2232,7 +2232,7 @@ RlFunctions >> getColorHexValue: hexValue [
 	"Get Color structure from hexadecimal value
 	hexValue - unsigned int"
 	<generated>
-	<cdecl: RlColor 'GetColor' (uintptr_t)>
+	<cdecl: RlColor 'GetColor' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2241,7 +2241,7 @@ RlFunctions >> getCurrentMonitor [
 	"Get current monitor where window is placed
 "
 	<generated>
-	<cdecl: intptr_t 'GetCurrentMonitor' ()>
+	<cdecl: int32_t 'GetCurrentMonitor' ()>
 	^ self externalCallFailed
 ]
 
@@ -2259,7 +2259,7 @@ RlFunctions >> getFPS [
 	"Get current FPS
 "
 	<generated>
-	<cdecl: intptr_t 'GetFPS' ()>
+	<cdecl: int32_t 'GetFPS' ()>
 	^ self externalCallFailed
 ]
 
@@ -2277,7 +2277,7 @@ RlFunctions >> getFileLengthFileName: fileName [
 	"Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)
 	fileName - const char *"
 	<generated>
-	<cdecl: intptr_t 'GetFileLength' (char8_t*)>
+	<cdecl: int32_t 'GetFileLength' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2331,7 +2331,7 @@ RlFunctions >> getGamepadAxisCountGamepad: gamepad [
 	"Get gamepad axis count for a gamepad
 	gamepad - int"
 	<generated>
-	<cdecl: intptr_t 'GetGamepadAxisCount' (intptr_t)>
+	<cdecl: int32_t 'GetGamepadAxisCount' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2341,7 +2341,7 @@ RlFunctions >> getGamepadAxisMovementGamepad: gamepad axis: axis [
 	gamepad - int
 	axis - int"
 	<generated>
-	<cdecl: float 'GetGamepadAxisMovement' (intptr_t, intptr_t)>
+	<cdecl: float 'GetGamepadAxisMovement' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2350,7 +2350,7 @@ RlFunctions >> getGamepadButtonPressed [
 	"Get the last gamepad button pressed
 "
 	<generated>
-	<cdecl: intptr_t 'GetGamepadButtonPressed' ()>
+	<cdecl: int32_t 'GetGamepadButtonPressed' ()>
 	^ self externalCallFailed
 ]
 
@@ -2359,7 +2359,7 @@ RlFunctions >> getGamepadNameGamepad: gamepad [
 	"Get gamepad internal name id
 	gamepad - int"
 	<generated>
-	<cdecl: char8_t* 'GetGamepadName' (intptr_t)>
+	<cdecl: char8_t* 'GetGamepadName' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2368,7 +2368,7 @@ RlFunctions >> getGestureDetected [
 	"Get latest detected gesture
 "
 	<generated>
-	<cdecl: intptr_t 'GetGestureDetected' ()>
+	<cdecl: int32_t 'GetGestureDetected' ()>
 	^ self externalCallFailed
 ]
 
@@ -2423,7 +2423,7 @@ RlFunctions >> getGlyphAtlasRecFont: font codepoint: codepoint [
 	font - Font
 	codepoint - int"
 	<generated>
-	<cdecl: RlRectangle 'GetGlyphAtlasRec' (RlFont, intptr_t)>
+	<cdecl: RlRectangle 'GetGlyphAtlasRec' (RlFont, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2433,7 +2433,7 @@ RlFunctions >> getGlyphIndexFont: font codepoint: codepoint [
 	font - Font
 	codepoint - int"
 	<generated>
-	<cdecl: intptr_t 'GetGlyphIndex' (RlFont, intptr_t)>
+	<cdecl: int32_t 'GetGlyphIndex' (RlFont, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2443,7 +2443,7 @@ RlFunctions >> getGlyphInfoFont: font codepoint: codepoint [
 	font - Font
 	codepoint - int"
 	<generated>
-	<cdecl: RlGlyphInfo 'GetGlyphInfo' (RlFont, intptr_t)>
+	<cdecl: RlGlyphInfo 'GetGlyphInfo' (RlFont, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2464,7 +2464,7 @@ RlFunctions >> getImageColorImage: image x: x y: y [
 	x - int
 	y - int"
 	<generated>
-	<cdecl: RlColor 'GetImageColor' (RlImage, intptr_t, intptr_t)>
+	<cdecl: RlColor 'GetImageColor' (RlImage, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2473,7 +2473,7 @@ RlFunctions >> getKeyNameKey: key [
 	"Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)
 	key - int"
 	<generated>
-	<cdecl: char8_t* 'GetKeyName' (intptr_t)>
+	<cdecl: char8_t* 'GetKeyName' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2482,7 +2482,7 @@ RlFunctions >> getKeyPressed [
 	"Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
 "
 	<generated>
-	<cdecl: intptr_t 'GetKeyPressed' ()>
+	<cdecl: int32_t 'GetKeyPressed' ()>
 	^ self externalCallFailed
 ]
 
@@ -2518,7 +2518,7 @@ RlFunctions >> getMonitorCount [
 	"Get number of connected monitors
 "
 	<generated>
-	<cdecl: intptr_t 'GetMonitorCount' ()>
+	<cdecl: int32_t 'GetMonitorCount' ()>
 	^ self externalCallFailed
 ]
 
@@ -2527,7 +2527,7 @@ RlFunctions >> getMonitorHeightMonitor: monitor [
 	"Get specified monitor height (current video mode used by monitor)
 	monitor - int"
 	<generated>
-	<cdecl: intptr_t 'GetMonitorHeight' (intptr_t)>
+	<cdecl: int32_t 'GetMonitorHeight' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2536,7 +2536,7 @@ RlFunctions >> getMonitorNameMonitor: monitor [
 	"Get the human-readable, UTF-8 encoded name of the specified monitor
 	monitor - int"
 	<generated>
-	<cdecl: char8_t* 'GetMonitorName' (intptr_t)>
+	<cdecl: char8_t* 'GetMonitorName' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2545,7 +2545,7 @@ RlFunctions >> getMonitorPhysicalHeightMonitor: monitor [
 	"Get specified monitor physical height in millimetres
 	monitor - int"
 	<generated>
-	<cdecl: intptr_t 'GetMonitorPhysicalHeight' (intptr_t)>
+	<cdecl: int32_t 'GetMonitorPhysicalHeight' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2554,7 +2554,7 @@ RlFunctions >> getMonitorPhysicalWidthMonitor: monitor [
 	"Get specified monitor physical width in millimetres
 	monitor - int"
 	<generated>
-	<cdecl: intptr_t 'GetMonitorPhysicalWidth' (intptr_t)>
+	<cdecl: int32_t 'GetMonitorPhysicalWidth' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2563,7 +2563,7 @@ RlFunctions >> getMonitorPositionMonitor: monitor [
 	"Get specified monitor position
 	monitor - int"
 	<generated>
-	<cdecl: RlVector2 'GetMonitorPosition' (intptr_t)>
+	<cdecl: RlVector2 'GetMonitorPosition' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2572,7 +2572,7 @@ RlFunctions >> getMonitorRefreshRateMonitor: monitor [
 	"Get specified monitor refresh rate
 	monitor - int"
 	<generated>
-	<cdecl: intptr_t 'GetMonitorRefreshRate' (intptr_t)>
+	<cdecl: int32_t 'GetMonitorRefreshRate' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2581,7 +2581,7 @@ RlFunctions >> getMonitorWidthMonitor: monitor [
 	"Get specified monitor width (current video mode used by monitor)
 	monitor - int"
 	<generated>
-	<cdecl: intptr_t 'GetMonitorWidth' (intptr_t)>
+	<cdecl: int32_t 'GetMonitorWidth' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2626,7 +2626,7 @@ RlFunctions >> getMouseX [
 	"Get mouse position X
 "
 	<generated>
-	<cdecl: intptr_t 'GetMouseX' ()>
+	<cdecl: int32_t 'GetMouseX' ()>
 	^ self externalCallFailed
 ]
 
@@ -2635,7 +2635,7 @@ RlFunctions >> getMouseY [
 	"Get mouse position Y
 "
 	<generated>
-	<cdecl: intptr_t 'GetMouseY' ()>
+	<cdecl: int32_t 'GetMouseY' ()>
 	^ self externalCallFailed
 ]
 
@@ -2645,7 +2645,7 @@ RlFunctions >> getPixelColorSrcPtr: srcPtr format: format [
 	srcPtr - void *
 	format - int"
 	<generated>
-	<cdecl: RlColor 'GetPixelColor' (void*, intptr_t)>
+	<cdecl: RlColor 'GetPixelColor' (void*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2656,7 +2656,7 @@ RlFunctions >> getPixelDataSizeWidth: width height: height format: format [
 	height - int
 	format - int"
 	<generated>
-	<cdecl: intptr_t 'GetPixelDataSize' (intptr_t, intptr_t, intptr_t)>
+	<cdecl: int32_t 'GetPixelDataSize' (int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2675,7 +2675,7 @@ RlFunctions >> getRandomValueMin: min max: max [
 	min - int
 	max - int"
 	<generated>
-	<cdecl: intptr_t 'GetRandomValue' (intptr_t, intptr_t)>
+	<cdecl: int32_t 'GetRandomValue' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2741,7 +2741,7 @@ RlFunctions >> getRenderHeight [
 	"Get current render height (it considers HiDPI)
 "
 	<generated>
-	<cdecl: intptr_t 'GetRenderHeight' ()>
+	<cdecl: int32_t 'GetRenderHeight' ()>
 	^ self externalCallFailed
 ]
 
@@ -2750,7 +2750,7 @@ RlFunctions >> getRenderWidth [
 	"Get current render width (it considers HiDPI)
 "
 	<generated>
-	<cdecl: intptr_t 'GetRenderWidth' ()>
+	<cdecl: int32_t 'GetRenderWidth' ()>
 	^ self externalCallFailed
 ]
 
@@ -2759,7 +2759,7 @@ RlFunctions >> getScreenHeight [
 	"Get current screen height
 "
 	<generated>
-	<cdecl: intptr_t 'GetScreenHeight' ()>
+	<cdecl: int32_t 'GetScreenHeight' ()>
 	^ self externalCallFailed
 ]
 
@@ -2781,7 +2781,7 @@ RlFunctions >> getScreenToWorldRayExPosition: position camera: camera width: wid
 	width - int
 	height - int"
 	<generated>
-	<cdecl: RlRay 'GetScreenToWorldRayEx' (RlVector2, RlCamera3D, intptr_t, intptr_t)>
+	<cdecl: RlRay 'GetScreenToWorldRayEx' (RlVector2, RlCamera3D, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2800,7 +2800,7 @@ RlFunctions >> getScreenWidth [
 	"Get current screen width
 "
 	<generated>
-	<cdecl: intptr_t 'GetScreenWidth' ()>
+	<cdecl: int32_t 'GetScreenWidth' ()>
 	^ self externalCallFailed
 ]
 
@@ -2810,7 +2810,7 @@ RlFunctions >> getShaderLocationAttribShader: shader attribName: attribName [
 	shader - Shader
 	attribName - const char *"
 	<generated>
-	<cdecl: intptr_t 'GetShaderLocationAttrib' (RlShader, char8_t*)>
+	<cdecl: int32_t 'GetShaderLocationAttrib' (RlShader, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2820,7 +2820,7 @@ RlFunctions >> getShaderLocationShader: shader uniformName: uniformName [
 	shader - Shader
 	uniformName - const char *"
 	<generated>
-	<cdecl: intptr_t 'GetShaderLocation' (RlShader, char8_t*)>
+	<cdecl: int32_t 'GetShaderLocation' (RlShader, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -2918,7 +2918,7 @@ RlFunctions >> getTouchPointCount [
 	"Get number of touch points
 "
 	<generated>
-	<cdecl: intptr_t 'GetTouchPointCount' ()>
+	<cdecl: int32_t 'GetTouchPointCount' ()>
 	^ self externalCallFailed
 ]
 
@@ -2927,7 +2927,7 @@ RlFunctions >> getTouchPointIdIndex: index [
 	"Get touch point identifier for given index
 	index - int"
 	<generated>
-	<cdecl: intptr_t 'GetTouchPointId' (intptr_t)>
+	<cdecl: int32_t 'GetTouchPointId' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2936,7 +2936,7 @@ RlFunctions >> getTouchPositionIndex: index [
 	"Get touch position XY for a touch point index (relative to screen size)
 	index - int"
 	<generated>
-	<cdecl: RlVector2 'GetTouchPosition' (intptr_t)>
+	<cdecl: RlVector2 'GetTouchPosition' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -2945,7 +2945,7 @@ RlFunctions >> getTouchX [
 	"Get touch position X for touch point 0 (relative to screen size)
 "
 	<generated>
-	<cdecl: intptr_t 'GetTouchX' ()>
+	<cdecl: int32_t 'GetTouchX' ()>
 	^ self externalCallFailed
 ]
 
@@ -2954,7 +2954,7 @@ RlFunctions >> getTouchY [
 	"Get touch position Y for touch point 0 (relative to screen size)
 "
 	<generated>
-	<cdecl: intptr_t 'GetTouchY' ()>
+	<cdecl: int32_t 'GetTouchY' ()>
 	^ self externalCallFailed
 ]
 
@@ -3012,7 +3012,7 @@ RlFunctions >> getWorldToScreenExPosition: position camera: camera width: width 
 	width - int
 	height - int"
 	<generated>
-	<cdecl: RlVector2 'GetWorldToScreenEx' (RlVector3, RlCamera3D, intptr_t, intptr_t)>
+	<cdecl: RlVector2 'GetWorldToScreenEx' (RlVector3, RlCamera3D, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3081,7 +3081,7 @@ RlFunctions >> imageBlurGaussianImage: image blurSize: blurSize [
 	image - Image *
 	blurSize - int"
 	<generated>
-	<cdecl: void 'ImageBlurGaussian' (RlImage*, intptr_t)>
+	<cdecl: void 'ImageBlurGaussian' (RlImage*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3101,7 +3101,7 @@ RlFunctions >> imageColorBrightnessImage: image brightness: brightness [
 	image - Image *
 	brightness - int"
 	<generated>
-	<cdecl: void 'ImageColorBrightness' (RlImage*, intptr_t)>
+	<cdecl: void 'ImageColorBrightness' (RlImage*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3182,7 +3182,7 @@ RlFunctions >> imageDitherImage: image rBpp: rBpp gBpp: gBpp bBpp: bBpp aBpp: aB
 	bBpp - int
 	aBpp - int"
 	<generated>
-	<cdecl: void 'ImageDither' (RlImage*, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'ImageDither' (RlImage*, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3195,7 +3195,7 @@ RlFunctions >> imageDrawCircleDst: dst centerX: centerX centerY: centerY radius:
 	radius - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawCircle' (RlImage*, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawCircle' (RlImage*, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3208,7 +3208,7 @@ RlFunctions >> imageDrawCircleLinesDst: dst centerX: centerX centerY: centerY ra
 	radius - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawCircleLines' (RlImage*, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawCircleLines' (RlImage*, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3220,7 +3220,7 @@ RlFunctions >> imageDrawCircleLinesVDst: dst center: center radius: radius color
 	radius - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawCircleLinesV' (RlImage*, RlVector2, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawCircleLinesV' (RlImage*, RlVector2, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3232,7 +3232,7 @@ RlFunctions >> imageDrawCircleVDst: dst center: center radius: radius color: col
 	radius - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawCircleV' (RlImage*, RlVector2, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawCircleV' (RlImage*, RlVector2, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3259,7 +3259,7 @@ RlFunctions >> imageDrawLineDst: dst startPosX: startPosX startPosY: startPosY e
 	endPosY - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawLine' (RlImage*, intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawLine' (RlImage*, int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3272,7 +3272,7 @@ RlFunctions >> imageDrawLineExDst: dst start: start end: end thick: thick color:
 	thick - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawLineEx' (RlImage*, RlVector2, RlVector2, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawLineEx' (RlImage*, RlVector2, RlVector2, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3296,7 +3296,7 @@ RlFunctions >> imageDrawPixelDst: dst posX: posX posY: posY color: color [
 	posY - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawPixel' (RlImage*, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawPixel' (RlImage*, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3321,7 +3321,7 @@ RlFunctions >> imageDrawRectangleDst: dst posX: posX posY: posY width: width hei
 	height - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawRectangle' (RlImage*, intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawRectangle' (RlImage*, int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3333,7 +3333,7 @@ RlFunctions >> imageDrawRectangleLinesDst: dst rec: rec thick: thick color: colo
 	thick - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawRectangleLines' (RlImage*, RlRectangle, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawRectangleLines' (RlImage*, RlRectangle, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3370,7 +3370,7 @@ RlFunctions >> imageDrawTextDst: dst text: text posX: posX posY: posY fontSize: 
 	fontSize - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawText' (RlImage*, char8_t*, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawText' (RlImage*, char8_t*, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3425,7 +3425,7 @@ RlFunctions >> imageDrawTriangleFanDst: dst points: points pointCount: pointCoun
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawTriangleFan' (RlImage*, RlVector2*, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawTriangleFan' (RlImage*, RlVector2*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3450,7 +3450,7 @@ RlFunctions >> imageDrawTriangleStripDst: dst points: points pointCount: pointCo
 	pointCount - int
 	color - Color"
 	<generated>
-	<cdecl: void 'ImageDrawTriangleStrip' (RlImage*, RlVector2*, intptr_t, RlColor)>
+	<cdecl: void 'ImageDrawTriangleStrip' (RlImage*, RlVector2*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3478,7 +3478,7 @@ RlFunctions >> imageFormatImage: image newFormat: newFormat [
 	image - Image *
 	newFormat - int"
 	<generated>
-	<cdecl: void 'ImageFormat' (RlImage*, intptr_t)>
+	<cdecl: void 'ImageFormat' (RlImage*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3488,7 +3488,7 @@ RlFunctions >> imageFromChannelImage: image selectedChannel: selectedChannel [
 	image - Image
 	selectedChannel - int"
 	<generated>
-	<cdecl: RlImage 'ImageFromChannel' (RlImage, intptr_t)>
+	<cdecl: RlImage 'ImageFromChannel' (RlImage, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3509,7 +3509,7 @@ RlFunctions >> imageKernelConvolutionImage: image kernel: kernel kernelSize: ker
 	kernel - const float *
 	kernelSize - int"
 	<generated>
-	<cdecl: void 'ImageKernelConvolution' (RlImage*, float*, intptr_t)>
+	<cdecl: void 'ImageKernelConvolution' (RlImage*, float*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3532,7 +3532,7 @@ RlFunctions >> imageResizeCanvasImage: image newWidth: newWidth newHeight: newHe
 	offsetY - int
 	fill - Color"
 	<generated>
-	<cdecl: void 'ImageResizeCanvas' (RlImage*, intptr_t, intptr_t, intptr_t, intptr_t, RlColor)>
+	<cdecl: void 'ImageResizeCanvas' (RlImage*, int32_t, int32_t, int32_t, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3543,7 +3543,7 @@ RlFunctions >> imageResizeImage: image newWidth: newWidth newHeight: newHeight [
 	newWidth - int
 	newHeight - int"
 	<generated>
-	<cdecl: void 'ImageResize' (RlImage*, intptr_t, intptr_t)>
+	<cdecl: void 'ImageResize' (RlImage*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3554,7 +3554,7 @@ RlFunctions >> imageResizeNNImage: image newWidth: newWidth newHeight: newHeight
 	newWidth - int
 	newHeight - int"
 	<generated>
-	<cdecl: void 'ImageResizeNN' (RlImage*, intptr_t, intptr_t)>
+	<cdecl: void 'ImageResizeNN' (RlImage*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3582,7 +3582,7 @@ RlFunctions >> imageRotateImage: image degrees: degrees [
 	image - Image *
 	degrees - int"
 	<generated>
-	<cdecl: void 'ImageRotate' (RlImage*, intptr_t)>
+	<cdecl: void 'ImageRotate' (RlImage*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3593,7 +3593,7 @@ RlFunctions >> imageText: text fontSize: fontSize color: color [
 	fontSize - int
 	color - Color"
 	<generated>
-	<cdecl: RlImage 'ImageText' (char8_t*, intptr_t, RlColor)>
+	<cdecl: RlImage 'ImageText' (char8_t*, int32_t, RlColor)>
 	^ self externalCallFailed
 ]
 
@@ -3627,7 +3627,7 @@ RlFunctions >> initWindowWidth: width height: height title: title [
 	height - int
 	title - const char *"
 	<generated>
-	<cdecl: void 'InitWindow' (intptr_t, intptr_t, char8_t*)>
+	<cdecl: void 'InitWindow' (int32_t, int32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -3691,7 +3691,7 @@ RlFunctions >> isGamepadAvailableGamepad: gamepad [
 	"Check if a gamepad is available
 	gamepad - int"
 	<generated>
-	<cdecl: bool 'IsGamepadAvailable' (intptr_t)>
+	<cdecl: bool 'IsGamepadAvailable' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3701,7 +3701,7 @@ RlFunctions >> isGamepadButtonDownGamepad: gamepad button: button [
 	gamepad - int
 	button - int"
 	<generated>
-	<cdecl: bool 'IsGamepadButtonDown' (intptr_t, intptr_t)>
+	<cdecl: bool 'IsGamepadButtonDown' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3711,7 +3711,7 @@ RlFunctions >> isGamepadButtonPressedGamepad: gamepad button: button [
 	gamepad - int
 	button - int"
 	<generated>
-	<cdecl: bool 'IsGamepadButtonPressed' (intptr_t, intptr_t)>
+	<cdecl: bool 'IsGamepadButtonPressed' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3721,7 +3721,7 @@ RlFunctions >> isGamepadButtonReleasedGamepad: gamepad button: button [
 	gamepad - int
 	button - int"
 	<generated>
-	<cdecl: bool 'IsGamepadButtonReleased' (intptr_t, intptr_t)>
+	<cdecl: bool 'IsGamepadButtonReleased' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3731,7 +3731,7 @@ RlFunctions >> isGamepadButtonUpGamepad: gamepad button: button [
 	gamepad - int
 	button - int"
 	<generated>
-	<cdecl: bool 'IsGamepadButtonUp' (intptr_t, intptr_t)>
+	<cdecl: bool 'IsGamepadButtonUp' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3740,7 +3740,7 @@ RlFunctions >> isGestureDetectedGesture: gesture [
 	"Check if a gesture have been detected
 	gesture - unsigned int"
 	<generated>
-	<cdecl: bool 'IsGestureDetected' (uintptr_t)>
+	<cdecl: bool 'IsGestureDetected' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3758,7 +3758,7 @@ RlFunctions >> isKeyDownKey: key [
 	"Check if a key is being pressed
 	key - int"
 	<generated>
-	<cdecl: bool 'IsKeyDown' (intptr_t)>
+	<cdecl: bool 'IsKeyDown' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3767,7 +3767,7 @@ RlFunctions >> isKeyPressedKey: key [
 	"Check if a key has been pressed once
 	key - int"
 	<generated>
-	<cdecl: bool 'IsKeyPressed' (intptr_t)>
+	<cdecl: bool 'IsKeyPressed' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3776,7 +3776,7 @@ RlFunctions >> isKeyPressedRepeatKey: key [
 	"Check if a key has been pressed again
 	key - int"
 	<generated>
-	<cdecl: bool 'IsKeyPressedRepeat' (intptr_t)>
+	<cdecl: bool 'IsKeyPressedRepeat' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3785,7 +3785,7 @@ RlFunctions >> isKeyReleasedKey: key [
 	"Check if a key has been released once
 	key - int"
 	<generated>
-	<cdecl: bool 'IsKeyReleased' (intptr_t)>
+	<cdecl: bool 'IsKeyReleased' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3794,7 +3794,7 @@ RlFunctions >> isKeyUpKey: key [
 	"Check if a key is NOT being pressed
 	key - int"
 	<generated>
-	<cdecl: bool 'IsKeyUp' (intptr_t)>
+	<cdecl: bool 'IsKeyUp' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3831,7 +3831,7 @@ RlFunctions >> isMouseButtonDownButton: button [
 	"Check if a mouse button is being pressed
 	button - int"
 	<generated>
-	<cdecl: bool 'IsMouseButtonDown' (intptr_t)>
+	<cdecl: bool 'IsMouseButtonDown' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3840,7 +3840,7 @@ RlFunctions >> isMouseButtonPressedButton: button [
 	"Check if a mouse button has been pressed once
 	button - int"
 	<generated>
-	<cdecl: bool 'IsMouseButtonPressed' (intptr_t)>
+	<cdecl: bool 'IsMouseButtonPressed' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3849,7 +3849,7 @@ RlFunctions >> isMouseButtonReleasedButton: button [
 	"Check if a mouse button has been released once
 	button - int"
 	<generated>
-	<cdecl: bool 'IsMouseButtonReleased' (intptr_t)>
+	<cdecl: bool 'IsMouseButtonReleased' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3858,7 +3858,7 @@ RlFunctions >> isMouseButtonUpButton: button [
 	"Check if a mouse button is NOT being pressed
 	button - int"
 	<generated>
-	<cdecl: bool 'IsMouseButtonUp' (intptr_t)>
+	<cdecl: bool 'IsMouseButtonUp' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3975,7 +3975,7 @@ RlFunctions >> isWindowStateFlag: flag [
 	"Check if one specific window flag is enabled
 	flag - unsigned int"
 	<generated>
-	<cdecl: bool 'IsWindowState' (uintptr_t)>
+	<cdecl: bool 'IsWindowState' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -3994,7 +3994,7 @@ RlFunctions >> loadCodepointsText: text count: count [
 	text - const char *
 	count - int *"
 	<generated>
-	<cdecl: intptr_t* 'LoadCodepoints' (char8_t*, intptr_t*)>
+	<cdecl: int32_t* 'LoadCodepoints' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4033,7 +4033,7 @@ RlFunctions >> loadFileDataFileName: fileName dataSize: dataSize [
 	fileName - const char *
 	dataSize - int *"
 	<generated>
-	<cdecl: uchar8_t* 'LoadFileData' (char8_t*, intptr_t*)>
+	<cdecl: uchar8_t* 'LoadFileData' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4056,7 +4056,7 @@ RlFunctions >> loadFontDataFileData: fileData dataSize: dataSize fontSize: fontS
 	codepointCount - int
 	type - int"
 	<generated>
-	<cdecl: RlGlyphInfo* 'LoadFontData' (uchar8_t*, intptr_t, intptr_t, intptr_t*, intptr_t, intptr_t)>
+	<cdecl: RlGlyphInfo* 'LoadFontData' (uchar8_t*, int32_t, int32_t, int32_t*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4068,7 +4068,7 @@ RlFunctions >> loadFontExFileName: fileName fontSize: fontSize codepoints: codep
 	codepoints - int *
 	codepointCount - int"
 	<generated>
-	<cdecl: RlFont 'LoadFontEx' (char8_t*, intptr_t, intptr_t*, intptr_t)>
+	<cdecl: RlFont 'LoadFontEx' (char8_t*, int32_t, int32_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4088,7 +4088,7 @@ RlFunctions >> loadFontFromImage: image key: key firstChar: firstChar [
 	key - Color
 	firstChar - int"
 	<generated>
-	<cdecl: RlFont 'LoadFontFromImage' (RlImage, RlColor, intptr_t)>
+	<cdecl: RlFont 'LoadFontFromImage' (RlImage, RlColor, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4102,7 +4102,7 @@ RlFunctions >> loadFontFromMemoryFileType: fileType fileData: fileData dataSize:
 	codepoints - int *
 	codepointCount - int"
 	<generated>
-	<cdecl: RlFont 'LoadFontFromMemory' (char8_t*, uchar8_t*, intptr_t, intptr_t, intptr_t*, intptr_t)>
+	<cdecl: RlFont 'LoadFontFromMemory' (char8_t*, uchar8_t*, int32_t, int32_t, int32_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4112,7 +4112,7 @@ RlFunctions >> loadImageAnimFileName: fileName frames: frames [
 	fileName - const char *
 	frames - int *"
 	<generated>
-	<cdecl: RlImage 'LoadImageAnim' (char8_t*, intptr_t*)>
+	<cdecl: RlImage 'LoadImageAnim' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4124,7 +4124,7 @@ RlFunctions >> loadImageAnimFromMemoryFileType: fileType fileData: fileData data
 	dataSize - int
 	frames - int *"
 	<generated>
-	<cdecl: RlImage 'LoadImageAnimFromMemory' (char8_t*, uchar8_t*, intptr_t, intptr_t*)>
+	<cdecl: RlImage 'LoadImageAnimFromMemory' (char8_t*, uchar8_t*, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4153,7 +4153,7 @@ RlFunctions >> loadImageFromMemoryFileType: fileType fileData: fileData dataSize
 	fileData - const unsigned char *
 	dataSize - int"
 	<generated>
-	<cdecl: RlImage 'LoadImageFromMemory' (char8_t*, uchar8_t*, intptr_t)>
+	<cdecl: RlImage 'LoadImageFromMemory' (char8_t*, uchar8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4182,7 +4182,7 @@ RlFunctions >> loadImagePaletteImage: image maxPaletteSize: maxPaletteSize color
 	maxPaletteSize - int
 	colorCount - int *"
 	<generated>
-	<cdecl: RlColor* 'LoadImagePalette' (RlImage, intptr_t, intptr_t*)>
+	<cdecl: RlColor* 'LoadImagePalette' (RlImage, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4195,7 +4195,7 @@ RlFunctions >> loadImageRawFileName: fileName width: width height: height format
 	format - int
 	headerSize - int"
 	<generated>
-	<cdecl: RlImage 'LoadImageRaw' (char8_t*, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: RlImage 'LoadImageRaw' (char8_t*, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4214,7 +4214,7 @@ RlFunctions >> loadMaterialsFileName: fileName materialCount: materialCount [
 	fileName - const char *
 	materialCount - int *"
 	<generated>
-	<cdecl: RlMaterial* 'LoadMaterials' (char8_t*, intptr_t*)>
+	<cdecl: RlMaterial* 'LoadMaterials' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4224,7 +4224,7 @@ RlFunctions >> loadModelAnimationsFileName: fileName animCount: animCount [
 	fileName - const char *
 	animCount - int *"
 	<generated>
-	<cdecl: RlModelAnimation* 'LoadModelAnimations' (char8_t*, intptr_t*)>
+	<cdecl: RlModelAnimation* 'LoadModelAnimations' (char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4253,7 +4253,7 @@ RlFunctions >> loadRandomSequenceCount: count min: min max: max [
 	min - int
 	max - int"
 	<generated>
-	<cdecl: intptr_t* 'LoadRandomSequence' (uintptr_t, intptr_t, intptr_t)>
+	<cdecl: int32_t* 'LoadRandomSequence' (uint32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4263,7 +4263,7 @@ RlFunctions >> loadRenderTextureWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: RlRenderTexture 'LoadRenderTexture' (intptr_t, intptr_t)>
+	<cdecl: RlRenderTexture 'LoadRenderTexture' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4293,7 +4293,7 @@ RlFunctions >> loadTextureCubemapImage: image layout: layout [
 	image - Image
 	layout - int"
 	<generated>
-	<cdecl: RlTexture 'LoadTextureCubemap' (RlImage, intptr_t)>
+	<cdecl: RlTexture 'LoadTextureCubemap' (RlImage, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4321,7 +4321,7 @@ RlFunctions >> loadUTF8Codepoints: codepoints length: length [
 	codepoints - const int *
 	length - int"
 	<generated>
-	<cdecl: char8_t* 'LoadUTF8' (intptr_t*, intptr_t)>
+	<cdecl: char8_t* 'LoadUTF8' (int32_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4350,7 +4350,7 @@ RlFunctions >> loadWaveFromMemoryFileType: fileType fileData: fileData dataSize:
 	fileData - const unsigned char *
 	dataSize - int"
 	<generated>
-	<cdecl: RlWave 'LoadWaveFromMemory' (char8_t*, uchar8_t*, intptr_t)>
+	<cdecl: RlWave 'LoadWaveFromMemory' (char8_t*, uchar8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4368,7 +4368,7 @@ RlFunctions >> makeDirectoryDirPath: dirPath [
 	"Create directories (including full path requested), returns 0 on success
 	dirPath - const char *"
 	<generated>
-	<cdecl: intptr_t 'MakeDirectory' (char8_t*)>
+	<cdecl: int32_t 'MakeDirectory' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -4387,7 +4387,7 @@ RlFunctions >> measureText: text fontSize: fontSize [
 	text - const char *
 	fontSize - int"
 	<generated>
-	<cdecl: intptr_t 'MeasureText' (char8_t*, intptr_t)>
+	<cdecl: int32_t 'MeasureText' (char8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4408,7 +4408,7 @@ RlFunctions >> memAllocSize: size [
 	"Internal memory allocator
 	size - unsigned int"
 	<generated>
-	<cdecl: void* 'MemAlloc' (uintptr_t)>
+	<cdecl: void* 'MemAlloc' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4427,7 +4427,7 @@ RlFunctions >> memReallocPtr: ptr size: size [
 	ptr - void *
 	size - unsigned int"
 	<generated>
-	<cdecl: void* 'MemRealloc' (void*, uintptr_t)>
+	<cdecl: void* 'MemRealloc' (void*, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4481,7 +4481,7 @@ RlFunctions >> rlActiveDrawBuffersCount: count [
 	"Activate multiple draw color buffers
 	count - int"
 	<generated>
-	<cdecl: void 'rlActiveDrawBuffers' (intptr_t)>
+	<cdecl: void 'rlActiveDrawBuffers' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4490,7 +4490,7 @@ RlFunctions >> rlActiveTextureSlot: slot [
 	"Select and active a texture slot
 	slot - int"
 	<generated>
-	<cdecl: void 'rlActiveTextureSlot' (intptr_t)>
+	<cdecl: void 'rlActiveTextureSlot' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4499,7 +4499,7 @@ RlFunctions >> rlBeginMode: mode [
 	"Initialize drawing mode (how to organize vertex)
 	mode - int"
 	<generated>
-	<cdecl: void 'rlBegin' (intptr_t)>
+	<cdecl: void 'rlBegin' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4509,7 +4509,7 @@ RlFunctions >> rlBindFramebufferTarget: target framebuffer: framebuffer [
 	target - unsigned int
 	framebuffer - unsigned int"
 	<generated>
-	<cdecl: void 'rlBindFramebuffer' (uintptr_t, uintptr_t)>
+	<cdecl: void 'rlBindFramebuffer' (uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4521,7 +4521,7 @@ RlFunctions >> rlBindImageTextureId: id index: index format: format readonly: re
 	format - int
 	readonly - bool"
 	<generated>
-	<cdecl: void 'rlBindImageTexture' (uintptr_t, uintptr_t, intptr_t, bool)>
+	<cdecl: void 'rlBindImageTexture' (uint32_t, uint32_t, int32_t, bool)>
 	^ self externalCallFailed
 ]
 
@@ -4531,7 +4531,7 @@ RlFunctions >> rlBindShaderBufferId: id index: index [
 	id - unsigned int
 	index - unsigned int"
 	<generated>
-	<cdecl: void 'rlBindShaderBuffer' (uintptr_t, uintptr_t)>
+	<cdecl: void 'rlBindShaderBuffer' (uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4548,7 +4548,7 @@ RlFunctions >> rlBlitFramebufferSrcX: srcX srcY: srcY srcWidth: srcWidth srcHeig
 	dstHeight - int
 	bufferMask - int"
 	<generated>
-	<cdecl: void 'rlBlitFramebuffer' (intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlBlitFramebuffer' (int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4566,7 +4566,7 @@ RlFunctions >> rlCheckRenderBatchLimitVCount: vCount [
 	"Check internal buffer overflow for a given number of vertex
 	vCount - int"
 	<generated>
-	<cdecl: bool 'rlCheckRenderBatchLimit' (intptr_t)>
+	<cdecl: bool 'rlCheckRenderBatchLimit' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4644,7 +4644,7 @@ RlFunctions >> rlCompileShaderShaderCode: shaderCode type: type [
 	shaderCode - const char *
 	type - int"
 	<generated>
-	<cdecl: uintptr_t 'rlCompileShader' (char8_t*, intptr_t)>
+	<cdecl: uint32_t 'rlCompileShader' (char8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4655,7 +4655,7 @@ RlFunctions >> rlComputeShaderDispatchGroupX: groupX groupY: groupY groupZ: grou
 	groupY - unsigned int
 	groupZ - unsigned int"
 	<generated>
-	<cdecl: void 'rlComputeShaderDispatch' (uintptr_t, uintptr_t, uintptr_t)>
+	<cdecl: void 'rlComputeShaderDispatch' (uint32_t, uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4668,7 +4668,7 @@ RlFunctions >> rlCopyShaderBufferDestId: destId srcId: srcId destOffset: destOff
 	srcOffset - unsigned int
 	count - unsigned int"
 	<generated>
-	<cdecl: void 'rlCopyShaderBuffer' (uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t)>
+	<cdecl: void 'rlCopyShaderBuffer' (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4679,7 +4679,7 @@ RlFunctions >> rlCubemapParametersId: id param: param value: value [
 	param - int
 	value - int"
 	<generated>
-	<cdecl: void 'rlCubemapParameters' (uintptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlCubemapParameters' (uint32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4769,7 +4769,7 @@ RlFunctions >> rlDisableStatePointerVertexAttribType: vertexAttribType [
 	"Disable attribute state pointer
 	vertexAttribType - int"
 	<generated>
-	<cdecl: void 'rlDisableStatePointer' (intptr_t)>
+	<cdecl: void 'rlDisableStatePointer' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4814,7 +4814,7 @@ RlFunctions >> rlDisableVertexAttributeIndex: index [
 	"Disable vertex attribute index
 	index - unsigned int"
 	<generated>
-	<cdecl: void 'rlDisableVertexAttribute' (uintptr_t)>
+	<cdecl: void 'rlDisableVertexAttribute' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4871,7 +4871,7 @@ RlFunctions >> rlDrawVertexArrayElementsInstancedOffset: offset count: count buf
 	buffer - const void *
 	instances - int"
 	<generated>
-	<cdecl: void 'rlDrawVertexArrayElementsInstanced' (intptr_t, intptr_t, void*, intptr_t)>
+	<cdecl: void 'rlDrawVertexArrayElementsInstanced' (int32_t, int32_t, void*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4882,7 +4882,7 @@ RlFunctions >> rlDrawVertexArrayElementsOffset: offset count: count buffer: buff
 	count - int
 	buffer - const void *"
 	<generated>
-	<cdecl: void 'rlDrawVertexArrayElements' (intptr_t, intptr_t, void*)>
+	<cdecl: void 'rlDrawVertexArrayElements' (int32_t, int32_t, void*)>
 	^ self externalCallFailed
 ]
 
@@ -4893,7 +4893,7 @@ RlFunctions >> rlDrawVertexArrayInstancedOffset: offset count: count instances: 
 	count - int
 	instances - int"
 	<generated>
-	<cdecl: void 'rlDrawVertexArrayInstanced' (intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlDrawVertexArrayInstanced' (int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4903,7 +4903,7 @@ RlFunctions >> rlDrawVertexArrayOffset: offset count: count [
 	offset - int
 	count - int"
 	<generated>
-	<cdecl: void 'rlDrawVertexArray' (intptr_t, intptr_t)>
+	<cdecl: void 'rlDrawVertexArray' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4948,7 +4948,7 @@ RlFunctions >> rlEnableFramebufferId: id [
 	"Enable render texture (fbo)
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableFramebuffer' (uintptr_t)>
+	<cdecl: void 'rlEnableFramebuffer' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4975,7 +4975,7 @@ RlFunctions >> rlEnableShaderId: id [
 	"Enable shader program
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableShader' (uintptr_t)>
+	<cdecl: void 'rlEnableShader' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -4994,7 +4994,7 @@ RlFunctions >> rlEnableStatePointerVertexAttribType: vertexAttribType buffer: bu
 	vertexAttribType - int
 	buffer - void *"
 	<generated>
-	<cdecl: void 'rlEnableStatePointer' (intptr_t, void*)>
+	<cdecl: void 'rlEnableStatePointer' (int32_t, void*)>
 	^ self externalCallFailed
 ]
 
@@ -5012,7 +5012,7 @@ RlFunctions >> rlEnableTextureCubemapId: id [
 	"Enable texture cubemap
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableTextureCubemap' (uintptr_t)>
+	<cdecl: void 'rlEnableTextureCubemap' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5021,7 +5021,7 @@ RlFunctions >> rlEnableTextureId: id [
 	"Enable texture
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableTexture' (uintptr_t)>
+	<cdecl: void 'rlEnableTexture' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5030,7 +5030,7 @@ RlFunctions >> rlEnableVertexArrayVaoId: vaoId [
 	"Enable vertex array (VAO, if supported)
 	vaoId - unsigned int"
 	<generated>
-	<cdecl: bool 'rlEnableVertexArray' (uintptr_t)>
+	<cdecl: bool 'rlEnableVertexArray' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5039,7 +5039,7 @@ RlFunctions >> rlEnableVertexAttributeIndex: index [
 	"Enable vertex attribute index
 	index - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableVertexAttribute' (uintptr_t)>
+	<cdecl: void 'rlEnableVertexAttribute' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5048,7 +5048,7 @@ RlFunctions >> rlEnableVertexBufferElementId: id [
 	"Enable vertex buffer element (VBO element)
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableVertexBufferElement' (uintptr_t)>
+	<cdecl: void 'rlEnableVertexBufferElement' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5057,7 +5057,7 @@ RlFunctions >> rlEnableVertexBufferId: id [
 	"Enable vertex buffer (VBO)
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlEnableVertexBuffer' (uintptr_t)>
+	<cdecl: void 'rlEnableVertexBuffer' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5088,7 +5088,7 @@ RlFunctions >> rlFramebufferAttachFboId: fboId texId: texId attachType: attachTy
 	texType - int
 	mipLevel - int"
 	<generated>
-	<cdecl: void 'rlFramebufferAttach' (uintptr_t, uintptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlFramebufferAttach' (uint32_t, uint32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5097,7 +5097,7 @@ RlFunctions >> rlFramebufferCompleteId: id [
 	"Verify framebuffer is complete
 	id - unsigned int"
 	<generated>
-	<cdecl: bool 'rlFramebufferComplete' (uintptr_t)>
+	<cdecl: bool 'rlFramebufferComplete' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5124,7 +5124,7 @@ RlFunctions >> rlGenTextureMipmapsId: id width: width height: height format: for
 	format - int
 	mipmaps - int *"
 	<generated>
-	<cdecl: void 'rlGenTextureMipmaps' (uintptr_t, intptr_t, intptr_t, intptr_t, intptr_t*)>
+	<cdecl: void 'rlGenTextureMipmaps' (uint32_t, int32_t, int32_t, int32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5133,7 +5133,7 @@ RlFunctions >> rlGetActiveFramebuffer [
 	"Get the currently active render texture (fbo), 0 for default framebuffer
 "
 	<generated>
-	<cdecl: uintptr_t 'rlGetActiveFramebuffer' ()>
+	<cdecl: uint32_t 'rlGetActiveFramebuffer' ()>
 	^ self externalCallFailed
 ]
 
@@ -5160,7 +5160,7 @@ RlFunctions >> rlGetFramebufferHeight [
 	"Get default framebuffer height
 "
 	<generated>
-	<cdecl: intptr_t 'rlGetFramebufferHeight' ()>
+	<cdecl: int32_t 'rlGetFramebufferHeight' ()>
 	^ self externalCallFailed
 ]
 
@@ -5169,7 +5169,7 @@ RlFunctions >> rlGetFramebufferWidth [
 	"Get default framebuffer width
 "
 	<generated>
-	<cdecl: intptr_t 'rlGetFramebufferWidth' ()>
+	<cdecl: int32_t 'rlGetFramebufferWidth' ()>
 	^ self externalCallFailed
 ]
 
@@ -5181,7 +5181,7 @@ RlFunctions >> rlGetGlTextureFormatsFormat: format glInternalFormat: glInternalF
 	glFormat - unsigned int *
 	glType - unsigned int *"
 	<generated>
-	<cdecl: void 'rlGetGlTextureFormats' (intptr_t, uintptr_t*, uintptr_t*, uintptr_t*)>
+	<cdecl: void 'rlGetGlTextureFormats' (int32_t, uint32_t*, uint32_t*, uint32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5200,7 +5200,7 @@ RlFunctions >> rlGetLocationAttribShaderId: shaderId attribName: attribName [
 	shaderId - unsigned int
 	attribName - const char *"
 	<generated>
-	<cdecl: intptr_t 'rlGetLocationAttrib' (uintptr_t, char8_t*)>
+	<cdecl: int32_t 'rlGetLocationAttrib' (uint32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5210,7 +5210,7 @@ RlFunctions >> rlGetLocationUniformShaderId: shaderId uniformName: uniformName [
 	shaderId - unsigned int
 	uniformName - const char *"
 	<generated>
-	<cdecl: intptr_t 'rlGetLocationUniform' (uintptr_t, char8_t*)>
+	<cdecl: int32_t 'rlGetLocationUniform' (uint32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5237,7 +5237,7 @@ RlFunctions >> rlGetMatrixProjectionStereoEye: eye [
 	"Get internal projection matrix for stereo render (selected eye)
 	eye - int"
 	<generated>
-	<cdecl: RlMatrix 'rlGetMatrixProjectionStereo' (intptr_t)>
+	<cdecl: RlMatrix 'rlGetMatrixProjectionStereo' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5255,7 +5255,7 @@ RlFunctions >> rlGetMatrixViewOffsetStereoEye: eye [
 	"Get internal view offset matrix for stereo render (selected eye)
 	eye - int"
 	<generated>
-	<cdecl: RlMatrix 'rlGetMatrixViewOffsetStereo' (intptr_t)>
+	<cdecl: RlMatrix 'rlGetMatrixViewOffsetStereo' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5264,7 +5264,7 @@ RlFunctions >> rlGetPixelFormatNameFormat: format [
 	"Get name string for pixel format
 	format - unsigned int"
 	<generated>
-	<cdecl: char8_t* 'rlGetPixelFormatName' (uintptr_t)>
+	<cdecl: char8_t* 'rlGetPixelFormatName' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5273,7 +5273,7 @@ RlFunctions >> rlGetShaderBufferSizeId: id [
 	"Get SSBO buffer size
 	id - unsigned int"
 	<generated>
-	<cdecl: uintptr_t 'rlGetShaderBufferSize' (uintptr_t)>
+	<cdecl: uint32_t 'rlGetShaderBufferSize' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5282,7 +5282,7 @@ RlFunctions >> rlGetShaderIdDefault [
 	"Get default shader id
 "
 	<generated>
-	<cdecl: uintptr_t 'rlGetShaderIdDefault' ()>
+	<cdecl: uint32_t 'rlGetShaderIdDefault' ()>
 	^ self externalCallFailed
 ]
 
@@ -5291,7 +5291,7 @@ RlFunctions >> rlGetShaderLocsDefault [
 	"Get default shader locations
 "
 	<generated>
-	<cdecl: intptr_t* 'rlGetShaderLocsDefault' ()>
+	<cdecl: int32_t* 'rlGetShaderLocsDefault' ()>
 	^ self externalCallFailed
 ]
 
@@ -5300,7 +5300,7 @@ RlFunctions >> rlGetTextureIdDefault [
 	"Get default texture id
 "
 	<generated>
-	<cdecl: uintptr_t 'rlGetTextureIdDefault' ()>
+	<cdecl: uint32_t 'rlGetTextureIdDefault' ()>
 	^ self externalCallFailed
 ]
 
@@ -5309,7 +5309,7 @@ RlFunctions >> rlGetVersion [
 	"Get current OpenGL version
 "
 	<generated>
-	<cdecl: intptr_t 'rlGetVersion' ()>
+	<cdecl: int32_t 'rlGetVersion' ()>
 	^ self externalCallFailed
 ]
 
@@ -5327,7 +5327,7 @@ RlFunctions >> rlLoadComputeShaderProgramShaderId: shaderId [
 	"Load compute shader program
 	shaderId - unsigned int"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadComputeShaderProgram' (uintptr_t)>
+	<cdecl: uint32_t 'rlLoadComputeShaderProgram' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5363,7 +5363,7 @@ RlFunctions >> rlLoadFramebuffer [
 	"Load an empty framebuffer
 "
 	<generated>
-	<cdecl: uintptr_t 'rlLoadFramebuffer' ()>
+	<cdecl: uint32_t 'rlLoadFramebuffer' ()>
 	^ self externalCallFailed
 ]
 
@@ -5382,7 +5382,7 @@ RlFunctions >> rlLoadRenderBatchNumBuffers: numBuffers bufferElements: bufferEle
 	numBuffers - int
 	bufferElements - int"
 	<generated>
-	<cdecl: RlRlRenderBatch 'rlLoadRenderBatch' (intptr_t, intptr_t)>
+	<cdecl: RlRlRenderBatch 'rlLoadRenderBatch' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5393,7 +5393,7 @@ RlFunctions >> rlLoadShaderBufferSize: size data: data usageHint: usageHint [
 	data - const void *
 	usageHint - int"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadShaderBuffer' (uintptr_t, void*, intptr_t)>
+	<cdecl: uint32_t 'rlLoadShaderBuffer' (uint32_t, void*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5403,7 +5403,7 @@ RlFunctions >> rlLoadShaderCodeVsCode: vsCode fsCode: fsCode [
 	vsCode - const char *
 	fsCode - const char *"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadShaderCode' (char8_t*, char8_t*)>
+	<cdecl: uint32_t 'rlLoadShaderCode' (char8_t*, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5413,7 +5413,7 @@ RlFunctions >> rlLoadShaderProgramVShaderId: vShaderId fShaderId: fShaderId [
 	vShaderId - unsigned int
 	fShaderId - unsigned int"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadShaderProgram' (uintptr_t, uintptr_t)>
+	<cdecl: uint32_t 'rlLoadShaderProgram' (uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5425,7 +5425,7 @@ RlFunctions >> rlLoadTextureCubemapData: data size: size format: format mipmapCo
 	format - int
 	mipmapCount - int"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadTextureCubemap' (void*, intptr_t, intptr_t, intptr_t)>
+	<cdecl: uint32_t 'rlLoadTextureCubemap' (void*, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5438,7 +5438,7 @@ RlFunctions >> rlLoadTextureData: data width: width height: height format: forma
 	format - int
 	mipmapCount - int"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadTexture' (void*, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: uint32_t 'rlLoadTexture' (void*, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5449,7 +5449,7 @@ RlFunctions >> rlLoadTextureDepthWidth: width height: height useRenderBuffer: us
 	height - int
 	useRenderBuffer - bool"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadTextureDepth' (intptr_t, intptr_t, bool)>
+	<cdecl: uint32_t 'rlLoadTextureDepth' (int32_t, int32_t, bool)>
 	^ self externalCallFailed
 ]
 
@@ -5458,7 +5458,7 @@ RlFunctions >> rlLoadVertexArray [
 	"Load vertex array (vao) if supported
 "
 	<generated>
-	<cdecl: uintptr_t 'rlLoadVertexArray' ()>
+	<cdecl: uint32_t 'rlLoadVertexArray' ()>
 	^ self externalCallFailed
 ]
 
@@ -5469,7 +5469,7 @@ RlFunctions >> rlLoadVertexBuffer: buffer size: size dynamic: dynamic [
 	size - int
 	dynamic - bool"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadVertexBuffer' (void*, intptr_t, bool)>
+	<cdecl: uint32_t 'rlLoadVertexBuffer' (void*, int32_t, bool)>
 	^ self externalCallFailed
 ]
 
@@ -5480,7 +5480,7 @@ RlFunctions >> rlLoadVertexBufferElementBuffer: buffer size: size dynamic: dynam
 	size - int
 	dynamic - bool"
 	<generated>
-	<cdecl: uintptr_t 'rlLoadVertexBufferElement' (void*, intptr_t, bool)>
+	<cdecl: uint32_t 'rlLoadVertexBufferElement' (void*, int32_t, bool)>
 	^ self externalCallFailed
 ]
 
@@ -5489,7 +5489,7 @@ RlFunctions >> rlMatrixMode: mode [
 	"Choose the current matrix to be transformed
 	mode - int"
 	<generated>
-	<cdecl: void 'rlMatrixMode' (intptr_t)>
+	<cdecl: void 'rlMatrixMode' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5661,7 +5661,7 @@ RlFunctions >> rlReadScreenPixelsWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: uchar8_t* 'rlReadScreenPixels' (intptr_t, intptr_t)>
+	<cdecl: uchar8_t* 'rlReadScreenPixels' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5673,7 +5673,7 @@ RlFunctions >> rlReadShaderBufferId: id dest: dest count: count offset: offset [
 	count - unsigned int
 	offset - unsigned int"
 	<generated>
-	<cdecl: void 'rlReadShaderBuffer' (uintptr_t, void*, uintptr_t, uintptr_t)>
+	<cdecl: void 'rlReadShaderBuffer' (uint32_t, void*, uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5685,7 +5685,7 @@ RlFunctions >> rlReadTexturePixelsId: id width: width height: height format: for
 	height - int
 	format - int"
 	<generated>
-	<cdecl: void* 'rlReadTexturePixels' (uintptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void* 'rlReadTexturePixels' (uint32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5720,7 +5720,7 @@ RlFunctions >> rlScissorX: x y: y width: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'rlScissor' (intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlScissor' (int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5731,7 +5731,7 @@ RlFunctions >> rlSetBlendFactorsGlSrcFactor: glSrcFactor glDstFactor: glDstFacto
 	glDstFactor - int
 	glEquation - int"
 	<generated>
-	<cdecl: void 'rlSetBlendFactors' (intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlSetBlendFactors' (int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5745,7 +5745,7 @@ RlFunctions >> rlSetBlendFactorsSeparateGlSrcRGB: glSrcRGB glDstRGB: glDstRGB gl
 	glEqRGB - int
 	glEqAlpha - int"
 	<generated>
-	<cdecl: void 'rlSetBlendFactorsSeparate' (intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlSetBlendFactorsSeparate' (int32_t, int32_t, int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5754,7 +5754,7 @@ RlFunctions >> rlSetBlendMode: mode [
 	"Set blending mode
 	mode - int"
 	<generated>
-	<cdecl: void 'rlSetBlendMode' (intptr_t)>
+	<cdecl: void 'rlSetBlendMode' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5773,7 +5773,7 @@ RlFunctions >> rlSetCullFaceMode: mode [
 	"Set face culling mode
 	mode - int"
 	<generated>
-	<cdecl: void 'rlSetCullFace' (intptr_t)>
+	<cdecl: void 'rlSetCullFace' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5782,7 +5782,7 @@ RlFunctions >> rlSetFramebufferHeight: height [
 	"Set current framebuffer height
 	height - int"
 	<generated>
-	<cdecl: void 'rlSetFramebufferHeight' (intptr_t)>
+	<cdecl: void 'rlSetFramebufferHeight' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5791,7 +5791,7 @@ RlFunctions >> rlSetFramebufferWidth: width [
 	"Set current framebuffer width
 	width - int"
 	<generated>
-	<cdecl: void 'rlSetFramebufferWidth' (intptr_t)>
+	<cdecl: void 'rlSetFramebufferWidth' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5857,7 +5857,7 @@ RlFunctions >> rlSetShaderId: id locs: locs [
 	id - unsigned int
 	locs - int *"
 	<generated>
-	<cdecl: void 'rlSetShader' (uintptr_t, intptr_t*)>
+	<cdecl: void 'rlSetShader' (uint32_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -5866,7 +5866,7 @@ RlFunctions >> rlSetTextureId: id [
 	"Set current texture for render batch and check buffers limits
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlSetTexture' (uintptr_t)>
+	<cdecl: void 'rlSetTexture' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5878,7 +5878,7 @@ RlFunctions >> rlSetUniformLocIndex: locIndex value: value uniformType: uniformT
 	uniformType - int
 	count - int"
 	<generated>
-	<cdecl: void 'rlSetUniform' (intptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'rlSetUniform' (int32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5889,7 +5889,7 @@ RlFunctions >> rlSetUniformMatricesLocIndex: locIndex mat: mat count: count [
 	mat - const Matrix *
 	count - int"
 	<generated>
-	<cdecl: void 'rlSetUniformMatrices' (intptr_t, RlMatrix*, intptr_t)>
+	<cdecl: void 'rlSetUniformMatrices' (int32_t, RlMatrix*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5899,7 +5899,7 @@ RlFunctions >> rlSetUniformMatrixLocIndex: locIndex mat: mat [
 	locIndex - int
 	mat - Matrix"
 	<generated>
-	<cdecl: void 'rlSetUniformMatrix' (intptr_t, RlMatrix)>
+	<cdecl: void 'rlSetUniformMatrix' (int32_t, RlMatrix)>
 	^ self externalCallFailed
 ]
 
@@ -5909,7 +5909,7 @@ RlFunctions >> rlSetUniformSamplerLocIndex: locIndex textureId: textureId [
 	locIndex - int
 	textureId - unsigned int"
 	<generated>
-	<cdecl: void 'rlSetUniformSampler' (intptr_t, uintptr_t)>
+	<cdecl: void 'rlSetUniformSampler' (int32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5921,7 +5921,7 @@ RlFunctions >> rlSetVertexAttributeDefaultLocIndex: locIndex value: value attrib
 	attribType - int
 	count - int"
 	<generated>
-	<cdecl: void 'rlSetVertexAttributeDefault' (intptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'rlSetVertexAttributeDefault' (int32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5931,7 +5931,7 @@ RlFunctions >> rlSetVertexAttributeDivisorIndex: index divisor: divisor [
 	index - unsigned int
 	divisor - int"
 	<generated>
-	<cdecl: void 'rlSetVertexAttributeDivisor' (uintptr_t, intptr_t)>
+	<cdecl: void 'rlSetVertexAttributeDivisor' (uint32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5945,7 +5945,7 @@ RlFunctions >> rlSetVertexAttributeIndex: index compSize: compSize type: type no
 	stride - int
 	offset - int"
 	<generated>
-	<cdecl: void 'rlSetVertexAttribute' (uintptr_t, intptr_t, intptr_t, bool, intptr_t, intptr_t)>
+	<cdecl: void 'rlSetVertexAttribute' (uint32_t, int32_t, int32_t, bool, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5966,7 +5966,7 @@ RlFunctions >> rlTextureParametersId: id param: param value: value [
 	param - int
 	value - int"
 	<generated>
-	<cdecl: void 'rlTextureParameters' (uintptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlTextureParameters' (uint32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -5986,7 +5986,7 @@ RlFunctions >> rlUnloadFramebufferId: id [
 	"Delete framebuffer from GPU
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadFramebuffer' (uintptr_t)>
+	<cdecl: void 'rlUnloadFramebuffer' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6004,7 +6004,7 @@ RlFunctions >> rlUnloadShaderBufferSsboId: ssboId [
 	"Unload shader storage buffer object (SSBO)
 	ssboId - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadShaderBuffer' (uintptr_t)>
+	<cdecl: void 'rlUnloadShaderBuffer' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6013,7 +6013,7 @@ RlFunctions >> rlUnloadShaderProgramId: id [
 	"Unload shader program
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadShaderProgram' (uintptr_t)>
+	<cdecl: void 'rlUnloadShaderProgram' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6022,7 +6022,7 @@ RlFunctions >> rlUnloadTextureId: id [
 	"Unload texture from GPU memory
 	id - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadTexture' (uintptr_t)>
+	<cdecl: void 'rlUnloadTexture' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6031,7 +6031,7 @@ RlFunctions >> rlUnloadVertexArrayVaoId: vaoId [
 	"Unload vertex array (vao)
 	vaoId - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadVertexArray' (uintptr_t)>
+	<cdecl: void 'rlUnloadVertexArray' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6040,7 +6040,7 @@ RlFunctions >> rlUnloadVertexBufferVboId: vboId [
 	"Unload vertex buffer object
 	vboId - unsigned int"
 	<generated>
-	<cdecl: void 'rlUnloadVertexBuffer' (uintptr_t)>
+	<cdecl: void 'rlUnloadVertexBuffer' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6052,7 +6052,7 @@ RlFunctions >> rlUpdateShaderBufferId: id data: data dataSize: dataSize offset: 
 	dataSize - unsigned int
 	offset - unsigned int"
 	<generated>
-	<cdecl: void 'rlUpdateShaderBuffer' (uintptr_t, void*, uintptr_t, uintptr_t)>
+	<cdecl: void 'rlUpdateShaderBuffer' (uint32_t, void*, uint32_t, uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6067,7 +6067,7 @@ RlFunctions >> rlUpdateTextureId: id offsetX: offsetX offsetY: offsetY width: wi
 	format - int
 	data - const void *"
 	<generated>
-	<cdecl: void 'rlUpdateTexture' (uintptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, void*)>
+	<cdecl: void 'rlUpdateTexture' (uint32_t, int32_t, int32_t, int32_t, int32_t, int32_t, void*)>
 	^ self externalCallFailed
 ]
 
@@ -6079,7 +6079,7 @@ RlFunctions >> rlUpdateVertexBufferBufferId: bufferId data: data dataSize: dataS
 	dataSize - int
 	offset - int"
 	<generated>
-	<cdecl: void 'rlUpdateVertexBuffer' (uintptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'rlUpdateVertexBuffer' (uint32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6091,7 +6091,7 @@ RlFunctions >> rlUpdateVertexBufferElementsId: id data: data dataSize: dataSize 
 	dataSize - int
 	offset - int"
 	<generated>
-	<cdecl: void 'rlUpdateVertexBufferElements' (uintptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'rlUpdateVertexBufferElements' (uint32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6111,7 +6111,7 @@ RlFunctions >> rlVertex2iX: x y: y [
 	x - int
 	y - int"
 	<generated>
-	<cdecl: void 'rlVertex2i' (intptr_t, intptr_t)>
+	<cdecl: void 'rlVertex2i' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6134,7 +6134,7 @@ RlFunctions >> rlViewportX: x y: y width: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'rlViewport' (intptr_t, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'rlViewport' (int32_t, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6153,7 +6153,7 @@ RlFunctions >> rlglInitWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'rlglInit' (intptr_t, intptr_t)>
+	<cdecl: void 'rlglInit' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6164,7 +6164,7 @@ RlFunctions >> saveFileDataFileName: fileName data: data dataSize: dataSize [
 	data - void *
 	dataSize - int"
 	<generated>
-	<cdecl: bool 'SaveFileData' (char8_t*, void*, intptr_t)>
+	<cdecl: bool 'SaveFileData' (char8_t*, void*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6183,7 +6183,7 @@ RlFunctions >> setAutomationEventBaseFrame: frame [
 	"Set automation event internal base frame to start recording
 	frame - int"
 	<generated>
-	<cdecl: void 'SetAutomationEventBaseFrame' (intptr_t)>
+	<cdecl: void 'SetAutomationEventBaseFrame' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6210,7 +6210,7 @@ RlFunctions >> setConfigFlags: flags [
 	"Setup init configuration flags (view FLAGS)
 	flags - unsigned int"
 	<generated>
-	<cdecl: void 'SetConfigFlags' (uintptr_t)>
+	<cdecl: void 'SetConfigFlags' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6219,7 +6219,7 @@ RlFunctions >> setExitKey: key [
 	"Set a custom key to exit program (default is ESC)
 	key - int"
 	<generated>
-	<cdecl: void 'SetExitKey' (intptr_t)>
+	<cdecl: void 'SetExitKey' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6228,7 +6228,7 @@ RlFunctions >> setGamepadMappings: mappings [
 	"Set internal gamepad mappings (SDL_GameControllerDB)
 	mappings - const char *"
 	<generated>
-	<cdecl: intptr_t 'SetGamepadMappings' (char8_t*)>
+	<cdecl: int32_t 'SetGamepadMappings' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6240,7 +6240,7 @@ RlFunctions >> setGamepadVibrationGamepad: gamepad leftMotor: leftMotor rightMot
 	rightMotor - float
 	duration - float"
 	<generated>
-	<cdecl: void 'SetGamepadVibration' (intptr_t, float, float, float)>
+	<cdecl: void 'SetGamepadVibration' (int32_t, float, float, float)>
 	^ self externalCallFailed
 ]
 
@@ -6249,7 +6249,7 @@ RlFunctions >> setGesturesEnabledFlags: flags [
 	"Enable a set of gestures using flags
 	flags - unsigned int"
 	<generated>
-	<cdecl: void 'SetGesturesEnabled' (uintptr_t)>
+	<cdecl: void 'SetGesturesEnabled' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6287,7 +6287,7 @@ RlFunctions >> setMaterialTextureMaterial: material mapType: mapType texture: te
 	mapType - int
 	texture - Texture2D"
 	<generated>
-	<cdecl: void 'SetMaterialTexture' (RlMaterial*, intptr_t, RlTexture)>
+	<cdecl: void 'SetMaterialTexture' (RlMaterial*, int32_t, RlTexture)>
 	^ self externalCallFailed
 ]
 
@@ -6298,7 +6298,7 @@ RlFunctions >> setModelMeshMaterialModel: model meshId: meshId materialId: mater
 	meshId - int
 	materialId - int"
 	<generated>
-	<cdecl: void 'SetModelMeshMaterial' (RlModel*, intptr_t, intptr_t)>
+	<cdecl: void 'SetModelMeshMaterial' (RlModel*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6307,7 +6307,7 @@ RlFunctions >> setMouseCursor: cursor [
 	"Set mouse cursor
 	cursor - int"
 	<generated>
-	<cdecl: void 'SetMouseCursor' (intptr_t)>
+	<cdecl: void 'SetMouseCursor' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6317,7 +6317,7 @@ RlFunctions >> setMouseOffsetOffsetX: offsetX offsetY: offsetY [
 	offsetX - int
 	offsetY - int"
 	<generated>
-	<cdecl: void 'SetMouseOffset' (intptr_t, intptr_t)>
+	<cdecl: void 'SetMouseOffset' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6327,7 +6327,7 @@ RlFunctions >> setMousePositionX: x y: y [
 	x - int
 	y - int"
 	<generated>
-	<cdecl: void 'SetMousePosition' (intptr_t, intptr_t)>
+	<cdecl: void 'SetMousePosition' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6348,7 +6348,7 @@ RlFunctions >> setPixelColorDstPtr: dstPtr color: color format: format [
 	color - Color
 	format - int"
 	<generated>
-	<cdecl: void 'SetPixelColor' (void*, RlColor, intptr_t)>
+	<cdecl: void 'SetPixelColor' (void*, RlColor, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6357,7 +6357,7 @@ RlFunctions >> setRandomSeed: seed [
 	"Set the seed for the random number generator
 	seed - unsigned int"
 	<generated>
-	<cdecl: void 'SetRandomSeed' (uintptr_t)>
+	<cdecl: void 'SetRandomSeed' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6386,7 +6386,7 @@ RlFunctions >> setShaderValueMatrixShader: shader locIndex: locIndex mat: mat [
 	locIndex - int
 	mat - Matrix"
 	<generated>
-	<cdecl: void 'SetShaderValueMatrix' (RlShader, intptr_t, RlMatrix)>
+	<cdecl: void 'SetShaderValueMatrix' (RlShader, int32_t, RlMatrix)>
 	^ self externalCallFailed
 ]
 
@@ -6398,7 +6398,7 @@ RlFunctions >> setShaderValueShader: shader locIndex: locIndex value: value unif
 	value - const void *
 	uniformType - int"
 	<generated>
-	<cdecl: void 'SetShaderValue' (RlShader, intptr_t, void*, intptr_t)>
+	<cdecl: void 'SetShaderValue' (RlShader, int32_t, void*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6409,7 +6409,7 @@ RlFunctions >> setShaderValueTextureShader: shader locIndex: locIndex texture: t
 	locIndex - int
 	texture - Texture2D"
 	<generated>
-	<cdecl: void 'SetShaderValueTexture' (RlShader, intptr_t, RlTexture)>
+	<cdecl: void 'SetShaderValueTexture' (RlShader, int32_t, RlTexture)>
 	^ self externalCallFailed
 ]
 
@@ -6422,7 +6422,7 @@ RlFunctions >> setShaderValueVShader: shader locIndex: locIndex value: value uni
 	uniformType - int
 	count - int"
 	<generated>
-	<cdecl: void 'SetShaderValueV' (RlShader, intptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'SetShaderValueV' (RlShader, int32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6441,7 +6441,7 @@ RlFunctions >> setTargetFPS: fps [
 	"Set target FPS (maximum)
 	fps - int"
 	<generated>
-	<cdecl: void 'SetTargetFPS' (intptr_t)>
+	<cdecl: void 'SetTargetFPS' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6450,7 +6450,7 @@ RlFunctions >> setTextLineSpacing: spacing [
 	"Set vertical line spacing when drawing with line-breaks
 	spacing - int"
 	<generated>
-	<cdecl: void 'SetTextLineSpacing' (intptr_t)>
+	<cdecl: void 'SetTextLineSpacing' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6460,7 +6460,7 @@ RlFunctions >> setTextureFilterTexture: texture filter: filter [
 	texture - Texture2D
 	filter - int"
 	<generated>
-	<cdecl: void 'SetTextureFilter' (RlTexture, intptr_t)>
+	<cdecl: void 'SetTextureFilter' (RlTexture, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6470,7 +6470,7 @@ RlFunctions >> setTextureWrapTexture: texture wrap: wrap [
 	texture - Texture2D
 	wrap - int"
 	<generated>
-	<cdecl: void 'SetTextureWrap' (RlTexture, intptr_t)>
+	<cdecl: void 'SetTextureWrap' (RlTexture, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6488,7 +6488,7 @@ RlFunctions >> setTraceLogLevel: logLevel [
 	"Set the current threshold (minimum) log level
 	logLevel - int"
 	<generated>
-	<cdecl: void 'SetTraceLogLevel' (intptr_t)>
+	<cdecl: void 'SetTraceLogLevel' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6516,7 +6516,7 @@ RlFunctions >> setWindowIconsImages: images count: count [
 	images - Image *
 	count - int"
 	<generated>
-	<cdecl: void 'SetWindowIcons' (RlImage*, intptr_t)>
+	<cdecl: void 'SetWindowIcons' (RlImage*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6526,7 +6526,7 @@ RlFunctions >> setWindowMaxSizeWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'SetWindowMaxSize' (intptr_t, intptr_t)>
+	<cdecl: void 'SetWindowMaxSize' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6536,7 +6536,7 @@ RlFunctions >> setWindowMinSizeWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'SetWindowMinSize' (intptr_t, intptr_t)>
+	<cdecl: void 'SetWindowMinSize' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6545,7 +6545,7 @@ RlFunctions >> setWindowMonitor: monitor [
 	"Set monitor for the current window
 	monitor - int"
 	<generated>
-	<cdecl: void 'SetWindowMonitor' (intptr_t)>
+	<cdecl: void 'SetWindowMonitor' (int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6564,7 +6564,7 @@ RlFunctions >> setWindowPositionX: x y: y [
 	x - int
 	y - int"
 	<generated>
-	<cdecl: void 'SetWindowPosition' (intptr_t, intptr_t)>
+	<cdecl: void 'SetWindowPosition' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6574,7 +6574,7 @@ RlFunctions >> setWindowSizeWidth: width height: height [
 	width - int
 	height - int"
 	<generated>
-	<cdecl: void 'SetWindowSize' (intptr_t, intptr_t)>
+	<cdecl: void 'SetWindowSize' (int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6583,7 +6583,7 @@ RlFunctions >> setWindowStateFlags: flags [
 	"Set window configuration state using flags
 	flags - unsigned int"
 	<generated>
-	<cdecl: void 'SetWindowState' (uintptr_t)>
+	<cdecl: void 'SetWindowState' (uint32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6648,7 +6648,7 @@ RlFunctions >> textAppendText: text append: append position: position [
 	append - const char *
 	position - int *"
 	<generated>
-	<cdecl: void 'TextAppend' (char8_t*, char8_t*, intptr_t*)>
+	<cdecl: void 'TextAppend' (char8_t*, char8_t*, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6658,7 +6658,7 @@ RlFunctions >> textCopyDst: dst src: src [
 	dst - char *
 	src - const char *"
 	<generated>
-	<cdecl: intptr_t 'TextCopy' (char8_t*, char8_t*)>
+	<cdecl: int32_t 'TextCopy' (char8_t*, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6668,7 +6668,7 @@ RlFunctions >> textFindIndexText: text find: find [
 	text - const char *
 	find - const char *"
 	<generated>
-	<cdecl: intptr_t 'TextFindIndex' (char8_t*, char8_t*)>
+	<cdecl: int32_t 'TextFindIndex' (char8_t*, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6679,7 +6679,7 @@ RlFunctions >> textInsertText: text insert: insert position: position [
 	insert - const char *
 	position - int"
 	<generated>
-	<cdecl: char8_t* 'TextInsert' (char8_t*, char8_t*, intptr_t)>
+	<cdecl: char8_t* 'TextInsert' (char8_t*, char8_t*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6700,7 +6700,7 @@ RlFunctions >> textJoinTextList: textList count: count delimiter: delimiter [
 	count - int
 	delimiter - const char *"
 	<generated>
-	<cdecl: char8_t* 'TextJoin' (void*, intptr_t, char8_t*)>
+	<cdecl: char8_t* 'TextJoin' (void*, int32_t, char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6709,7 +6709,7 @@ RlFunctions >> textLengthText: text [
 	"Get text length, checks for '\0' ending
 	text - const char *"
 	<generated>
-	<cdecl: uintptr_t 'TextLength' (char8_t*)>
+	<cdecl: uint32_t 'TextLength' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6731,7 +6731,7 @@ RlFunctions >> textSplitText: text delimiter: delimiter count: count [
 	delimiter - char
 	count - int *"
 	<generated>
-	<cdecl: void* 'TextSplit' (char8_t*, char8_t, intptr_t*)>
+	<cdecl: void* 'TextSplit' (char8_t*, char8_t, int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6742,7 +6742,7 @@ RlFunctions >> textSubtext: text position: position length: length [
 	position - int
 	length - int"
 	<generated>
-	<cdecl: char8_t* 'TextSubtext' (char8_t*, intptr_t, intptr_t)>
+	<cdecl: char8_t* 'TextSubtext' (char8_t*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6769,7 +6769,7 @@ RlFunctions >> textToIntegerText: text [
 	"Get integer value from text
 	text - const char *"
 	<generated>
-	<cdecl: intptr_t 'TextToInteger' (char8_t*)>
+	<cdecl: int32_t 'TextToInteger' (char8_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6841,7 +6841,7 @@ RlFunctions >> unloadCodepoints: codepoints [
 	"Unload codepoints data from memory
 	codepoints - int *"
 	<generated>
-	<cdecl: void 'UnloadCodepoints' (intptr_t*)>
+	<cdecl: void 'UnloadCodepoints' (int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -6896,7 +6896,7 @@ RlFunctions >> unloadFontDataGlyphs: glyphs glyphCount: glyphCount [
 	glyphs - GlyphInfo *
 	glyphCount - int"
 	<generated>
-	<cdecl: void 'UnloadFontData' (RlGlyphInfo*, intptr_t)>
+	<cdecl: void 'UnloadFontData' (RlGlyphInfo*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6969,7 +6969,7 @@ RlFunctions >> unloadModelAnimations: animations animCount: animCount [
 	animations - ModelAnimation *
 	animCount - int"
 	<generated>
-	<cdecl: void 'UnloadModelAnimations' (RlModelAnimation*, intptr_t)>
+	<cdecl: void 'UnloadModelAnimations' (RlModelAnimation*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -6978,7 +6978,7 @@ RlFunctions >> unloadRandomSequence: sequence [
 	"Unload random values sequence
 	sequence - int *"
 	<generated>
-	<cdecl: void 'UnloadRandomSequence' (intptr_t*)>
+	<cdecl: void 'UnloadRandomSequence' (int32_t*)>
 	^ self externalCallFailed
 ]
 
@@ -7051,7 +7051,7 @@ RlFunctions >> updateCamera: camera mode: mode [
 	camera - Camera *
 	mode - int"
 	<generated>
-	<cdecl: void 'UpdateCamera' (RlCamera3D*, intptr_t)>
+	<cdecl: void 'UpdateCamera' (RlCamera3D*, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -7076,7 +7076,7 @@ RlFunctions >> updateMeshBufferMesh: mesh index: index data: data dataSize: data
 	dataSize - int
 	offset - int"
 	<generated>
-	<cdecl: void 'UpdateMeshBuffer' (RlMesh, intptr_t, void*, intptr_t, intptr_t)>
+	<cdecl: void 'UpdateMeshBuffer' (RlMesh, int32_t, void*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -7087,7 +7087,7 @@ RlFunctions >> updateModelAnimationBonesModel: model anim: anim frame: frame [
 	anim - ModelAnimation
 	frame - int"
 	<generated>
-	<cdecl: void 'UpdateModelAnimationBones' (RlModel, RlModelAnimation, intptr_t)>
+	<cdecl: void 'UpdateModelAnimationBones' (RlModel, RlModelAnimation, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -7098,7 +7098,7 @@ RlFunctions >> updateModelAnimationModel: model anim: anim frame: frame [
 	anim - ModelAnimation
 	frame - int"
 	<generated>
-	<cdecl: void 'UpdateModelAnimation' (RlModel, RlModelAnimation, intptr_t)>
+	<cdecl: void 'UpdateModelAnimation' (RlModel, RlModelAnimation, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -7158,7 +7158,7 @@ RlFunctions >> waveCropWave: wave initFrame: initFrame finalFrame: finalFrame [
 	initFrame - int
 	finalFrame - int"
 	<generated>
-	<cdecl: void 'WaveCrop' (RlWave*, intptr_t, intptr_t)>
+	<cdecl: void 'WaveCrop' (RlWave*, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 
@@ -7170,7 +7170,7 @@ RlFunctions >> waveFormatWave: wave sampleRate: sampleRate sampleSize: sampleSiz
 	sampleSize - int
 	channels - int"
 	<generated>
-	<cdecl: void 'WaveFormat' (RlWave*, intptr_t, intptr_t, intptr_t)>
+	<cdecl: void 'WaveFormat' (RlWave*, int32_t, int32_t, int32_t)>
 	^ self externalCallFailed
 ]
 

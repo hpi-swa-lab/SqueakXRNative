@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRlVertexBuffer class >> fields [
 	<generated>
-	^ #(#('elementCount' 'intptr_t') #('vertices' 'float*') #('texcoords' 'float*') #('normals' 'float*') #('colors' 'uchar8_t*') #('indices' 'uintptr_t*') #('indices' 'uint16_t*') #('vaoId' 'uintptr_t') #('vboId' 'uintptr_t[5]'))
+	^ #(#('elementCount' 'int32_t') #('vertices' 'float*') #('texcoords' 'float*') #('normals' 'float*') #('colors' 'uchar8_t*') #('indices' 'uint32_t*') #('indices' 'uint16_t*') #('vaoId' 'uint32_t') #('vboId' 'uint32_t[5]'))
 ]

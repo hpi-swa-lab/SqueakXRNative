@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRlRenderBatch class >> fields [
 	<generated>
-	^ #(#('bufferCount' 'intptr_t') #('currentBuffer' 'intptr_t') #('vertexBuffer' 'RlRlVertexBuffer*') #('draws' 'RlRlDrawCall*') #('drawCounter' 'intptr_t') #('currentDepth' 'float'))
+	^ #(#('bufferCount' 'int32_t') #('currentBuffer' 'int32_t') #('vertexBuffer' 'RlRlVertexBuffer*') #('draws' 'RlRlDrawCall*') #('drawCounter' 'int32_t') #('currentDepth' 'float'))
 ]

@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlShader class >> fields [
 	<generated>
-	^ #(#('id' 'uintptr_t') #('locs' 'intptr_t*'))
+	^ #(#('id' 'uint32_t') #('locs' 'int32_t*'))
 ]

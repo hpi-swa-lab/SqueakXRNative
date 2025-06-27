@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlAutomationEventList class >> fields [
 	<generated>
-	^ #(#('capacity' 'uintptr_t') #('count' 'uintptr_t') #('events' 'RlAutomationEvent*'))
+	^ #(#('capacity' 'uint32_t') #('count' 'uint32_t') #('events' 'RlAutomationEvent*'))
 ]

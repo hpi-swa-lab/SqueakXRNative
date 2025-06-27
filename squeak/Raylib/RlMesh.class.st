@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlMesh class >> fields [
 	<generated>
-	^ #(#('vertexCount' 'intptr_t') #('triangleCount' 'intptr_t') #('vertices' 'float*') #('texcoords' 'float*') #('texcoords2' 'float*') #('normals' 'float*') #('tangents' 'float*') #('colors' 'uchar8_t*') #('indices' 'uint16_t*') #('animVertices' 'float*') #('animNormals' 'float*') #('boneIds' 'uchar8_t*') #('boneWeights' 'float*') #('boneMatrices' 'RlMatrix*') #('boneCount' 'intptr_t') #('vaoId' 'uintptr_t') #('vboId' 'uintptr_t*'))
+	^ #(#('vertexCount' 'int32_t') #('triangleCount' 'int32_t') #('vertices' 'float*') #('texcoords' 'float*') #('texcoords2' 'float*') #('normals' 'float*') #('tangents' 'float*') #('colors' 'uchar8_t*') #('indices' 'uint16_t*') #('animVertices' 'float*') #('animNormals' 'float*') #('boneIds' 'uchar8_t*') #('boneWeights' 'float*') #('boneMatrices' 'RlMatrix*') #('boneCount' 'int32_t') #('vaoId' 'uint32_t') #('vboId' 'uint32_t*'))
 ]

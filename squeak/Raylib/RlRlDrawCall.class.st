@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlRlDrawCall class >> fields [
 	<generated>
-	^ #(#('mode' 'intptr_t') #('vertexCount' 'intptr_t') #('vertexAlignment' 'intptr_t') #('textureId' 'uintptr_t'))
+	^ #(#('mode' 'int32_t') #('vertexCount' 'int32_t') #('vertexAlignment' 'int32_t') #('textureId' 'uint32_t'))
 ]

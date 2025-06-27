@@ -12,5 +12,5 @@ Class {
 { #category : #'as yet unclassified' }
 RlModelAnimation class >> fields [
 	<generated>
-	^ #(#('boneCount' 'intptr_t') #('frameCount' 'intptr_t') #('bones' 'RlBoneInfo*') #('framePoses' 'void*') #('name' 'char8_t[32]'))
+	^ #(#('boneCount' 'int32_t') #('frameCount' 'int32_t') #('bones' 'RlBoneInfo*') #('framePoses' 'void*') #('name' 'char8_t[32]'))
 ]

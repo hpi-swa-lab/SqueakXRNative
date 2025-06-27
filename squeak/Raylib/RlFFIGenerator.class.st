@@ -411,7 +411,7 @@ RlFFIGenerator >> normalizedType: aTypeString [
 		[#bool] -> ['bool'].
 		[#char] -> ['char8_t'].
 		[#short] -> ['int16_t'].
-		[#int] -> ['intptr_t'].
+		[#int] -> ['int32_t'].
 		[#float] -> ['float'].
 		[#double] -> ['double']
 		} otherwise: [self resolveRaylibType: type].
