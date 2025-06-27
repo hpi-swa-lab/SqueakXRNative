@@ -71,6 +71,12 @@ SRWorld >> isRunning [
 	^ running
 ]
 
+{ #category : #'as yet unclassified' }
+SRWorld >> isWorldObject [
+
+	^ true
+]
+
 { #category : #accessing }
 SRWorld >> renderer [
 

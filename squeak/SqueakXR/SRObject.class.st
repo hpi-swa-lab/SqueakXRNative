@@ -165,3 +165,12 @@ SRObject >> updateGlobalTransform [
 		ifTrue: [self transform * self parent globalTransform]
 		ifFalse: [self transform]
 ]
+
+{ #category : #accessing }
+SRObject >> world [
+
+	self isWorldObject ifTrue: [^ self].
+	self parent
+		ifNil: [^ nil]
+		ifNotNil: [^ self parent world]
+]

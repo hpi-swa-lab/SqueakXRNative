@@ -182,3 +182,19 @@ SRObjectTest >> testRemoveNonChild [
 	self assert: trueParent childCount = 1.
 	self assert: child parent = trueParent.
 ]
+
+{ #category : #'tests - children' }
+SRObjectTest >> testWorld [
+
+	| o1 o2 o3 world |
+	world := SRWorld new.
+	o1 := SRObject new.
+	o2 := SRObject new.
+	o3 := SRObject new.
+	
+	world addChild: o1.
+	o1 addChild: o2.
+	o2 addChild: o3.
+	
+	self assert: o3 world = world
+]
