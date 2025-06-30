@@ -108,7 +108,8 @@ SRWorld >> resume [
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
-			self renderer setup].
+			self renderer setup.
+			self allDo: #onWorldStarted.].
 		worldProcess resume].
 ]
 
@@ -125,6 +126,7 @@ SRWorld >> start [
 
 	self worldProcess: ([
 		self renderer setup.
+		self allDo: #onWorldStarted.
 		running := true.
 		lastFrameTime := DateAndTime now.
 		[self isRunning] whileTrue: [

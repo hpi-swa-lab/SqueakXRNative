@@ -28,15 +28,6 @@ SRPlane class >> withMaterial: aSRMaterial [
 		initialize
 ]
 
-{ #category : #initializing }
-SRPlane >> initialize [
-
-	super initialize.
-	
-	self material ifNil: [
-		self material: SRMaterial new]
-]
-
 { #category : #accessing }
 SRPlane >> material [
 	
@@ -57,10 +48,20 @@ SRPlane >> mesh [
 		mesh := self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]]"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #lifecycle }
 SRPlane >> onCacheInvalidated [
 
+	super onCacheInvalidated.
+
 	mesh := nil
+]
+
+{ #category : #lifecycle }
+SRPlane >> onWorldStarted [
+
+	super onWorldStarted.
+	
+	self material: SRMaterial new.
 ]
 
 { #category : #rendering }

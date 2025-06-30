@@ -15,7 +15,7 @@ Class {
 SRObject >> addChild: aSRObject [
 
 	"DISCUSS: Adding an object to a different world means that the world cache is no longer valid for the child,
-	and thus onCacheInvalidated must be called for it.
+	and thus onCacheInvalidated and onWorldStarted must be called for it.
 	This could be done here with a simple check.
 	However, this also seems like a very unlikely use case, so I'm not going to do it for now."
 	
@@ -127,8 +127,12 @@ SRObject >> localTransform: aMatrix4x4 [
 	self transform: aMatrix4x4
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #lifecycle }
 SRObject >> onCacheInvalidated [
+]
+
+{ #category : #lifecycle }
+SRObject >> onWorldStarted [
 ]
 
 { #category : #accessing }
