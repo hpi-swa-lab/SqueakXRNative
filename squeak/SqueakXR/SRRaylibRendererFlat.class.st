@@ -7,7 +7,7 @@ Class {
 { #category : #'render-loop' }
 SRRaylibRendererFlat >> completeFrame [
 
-	"SRTestLib new drawCubeTest. "
+	Raylib updateCamera: camera mode: RlCameraMode cameraFree.
 
 	Raylib
 		drawGridSlices: 10 spacing: 1;
