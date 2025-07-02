@@ -9,7 +9,7 @@ if(NOT BUILD_AS_LIB)
 endif()
 
 if(NOT VM_KIND)
-  set(VM_KIND STACK)
+  set(VM_KIND COG)
 endif()
 
 set(VM_KIND_LIST STACK COG)
