@@ -127,12 +127,52 @@ static void *squeak_func(void* args) {
     return nullptr;
 }
 
+extern "C" void pollAndroidEvents() {
+    int pollResult = 0;
+    int pollEvents = 0;
+    struct android_poll_source *source;
+    auto app = GetAndroidApp();
+
+    int i = 0;
+    while ((pollResult = ALooper_pollOnce(0, NULL, &pollEvents, (void **)&source)) > ALOOPER_POLL_TIMEOUT)
+    {
+        ++i;
+        if (source != NULL) source->process(app, source);
+    }
+
+    if (i > 0) {
+        printf("=============>>>> I had to poll something  %i\n", i);
+    }
+}
+
+extern "C" void jit_test();
+
 int main(int argc, char *argv[]) {
+
     initStdStreamRedirect();
+
+//    jit_test();
+//    return 0;
+
     __android_log_write(ANDROID_LOG_DEBUG, ".squeakxrnative", "================= MAIN CALLED =================");
     printf("====== test =====\n");
 
     initOpenxr();
+
+    // prevent ANR
+    int pollResult = 0;
+    int pollEvents = 0;
+    struct android_poll_source *source;
+    auto app = GetAndroidApp();
+
+//    int i = 0;
+//    while ((pollResult = ALooper_pollOnce(100, NULL, &pollEvents, (void **)&source)) > ALOOPER_POLL_TIMEOUT)
+//    {
+//        ++i;
+//        if (source != NULL) {
+//            __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "GOT AN EVENT");
+//            source->process(app, source); }
+//    }
 
     std::ostringstream startScriptStream;
     startScriptStream << "Project current addDeferredUIMessage: [" << startScript << "]";
@@ -149,6 +189,7 @@ int main(int argc, char *argv[]) {
 //        .argc = argv2.size(),
     };
 
+//    pollAndroidEvents();
     squeak_func(squeak_func_args);
 //    pthread_t sqthr;
 //    if(pthread_create(&sqthr, nullptr, squeak_func, squeak_func_args) != 0) {

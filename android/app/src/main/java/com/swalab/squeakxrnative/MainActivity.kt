@@ -1,5 +1,6 @@
 package com.swalab.squeakxrnative
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.AssetManager
 import androidx.appcompat.app.AppCompatActivity
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 startXr()
             }
         }, 1000)
+        finish()
     }
 
     private suspend fun startXr() {
@@ -107,6 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchRemoteFile(urlString: String, filename: String): Boolean {
+        println("Fetching $urlString and saving to $filename")
         var success = false;
         val url = URL(urlString)
         val connection = url.openConnection() as HttpURLConnection
