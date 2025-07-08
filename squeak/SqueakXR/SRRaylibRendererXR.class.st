@@ -26,13 +26,13 @@ SRRaylibRendererXR >> prepareFrame [
 		rlOpenXRUpdate;
 		updateCamera: camera mode: RlCameraMode cameraFree;
 		rlOpenXRUpdateCamera: camera;
-		clearBackgroundColor: Color white asRlColor.
+		clearBackgroundColor: clearColor.
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
 	beginSuccessful ifTrue: [
 			Raylib
-				clearBackgroundColor: Color blue asRlColor;
+				clearBackgroundColor: clearColor;
 				beginMode3DCamera: camera;
 				drawGridSlices: 10 spacing: 1].
 	
