@@ -37,11 +37,6 @@ SRRaylibRenderer >> prepareFrame [
 { #category : #rendering }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
-	| scale rotation translate |
-	scale := aMatrix4x4 scale.
-	rotation := aMatrix4x4 rotation.
-	translate := aMatrix4x4 translation.
-	
 	Raylib
 		rlPushMatrix;
 		rlMultMatrixfMatf: aMatrix4x4 transposed;
