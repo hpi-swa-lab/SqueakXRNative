@@ -110,9 +110,11 @@ std::string fromXrPath(XrPath path) {
 struct SqueakXrInput {
     XrActionSet actionSet;
     XrAction gripPoseAction;
+    XrAction triggerAction;
     std::array<XrPath, 2> handPaths;
     std::array<XrSpace, 2> gripPoseSpaces;
     std::array<XrActionStatePose, 2> gripPoseState;
+    std::array<XrActionStateFloat, 2> triggerState;
 };
 
 SqueakXrInput xrInput;
@@ -142,7 +144,7 @@ extern "C" SqueakXrInput* initXrInput() {
         XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
         strncpy(actionCreateInfo.actionName, name, XR_MAX_ACTION_NAME_SIZE);
         strncpy(actionCreateInfo.localizedActionName, name, XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
-        actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
+        actionCreateInfo.actionType = actionType;
         if (useHandSubactionPaths) {
             actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
             actionCreateInfo.subactionPaths = xrInput.handPaths.data();
@@ -151,13 +153,15 @@ extern "C" SqueakXrInput* initXrInput() {
             actionCreateInfo.subactionPaths = nullptr;
         }
 
-        if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
+        if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrAction))) {
             createActionsSuccessful = false;
             std::cerr << "Failed to create Action" << name << '\n';
         }
     };
 
-    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true)
+    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true);
+    createAction(xrInput.triggerAction, "trigger", XR_ACTION_TYPE_FLOAT_INPUT, true);
+
     if (!createActionsSuccessful) {
         std::cerr << "Creating actions failed!\n";
         return nullptr;
@@ -166,9 +170,11 @@ extern "C" SqueakXrInput* initXrInput() {
     // Suggest bindings
     XrInteractionProfileSuggestedBinding interactionProfileSuggestedBinding {XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
     interactionProfileSuggestedBinding.interactionProfile = createXrPath("/interaction_profiles/oculus/touch_controller");
-    std::array<XrActionSuggestedBinding, 2> suggestedBindings = {{
+    std::array<XrActionSuggestedBinding, 4> suggestedBindings = {{
         {xrInput.gripPoseAction, createXrPath("/user/hand/right/input/aim/pose")},
-        {xrInput.gripPoseAction, createXrPath("/user/hand/left/input/aim/pose")}
+        {xrInput.gripPoseAction, createXrPath("/user/hand/left/input/aim/pose")},
+        {xrInput.triggerAction, createXrPath("/user/hand/right/input/trigger/value")},
+        {xrInput.triggerAction, createXrPath("/user/hand/left/input/trigger/value")}
     }};
     interactionProfileSuggestedBinding.countSuggestedBindings = suggestedBindings.size();
     interactionProfileSuggestedBinding.suggestedBindings = suggestedBindings.data();
@@ -215,6 +221,7 @@ extern "C" SqueakXrInput* initXrInput() {
 
 struct SqueakXrActionStates {
     XrPosef gripPoses[2];
+    float triggers[2];
 };
 
 SqueakXrActionStates actionStates;
@@ -234,9 +241,11 @@ extern "C" SqueakXrActionStates pollActions() {
     }
 
     XrActionStateGetInfo actionStateGetInfo {XR_TYPE_ACTION_STATE_GET_INFO};
-    actionStateGetInfo.action = xrInput.gripPoseAction;
     for (size_t i = 0; i < xrInput.handPaths.size(); ++i) {
         actionStateGetInfo.subactionPath = xrInput.handPaths[i];
+
+        // grip-pose
+        actionStateGetInfo.action = xrInput.gripPoseAction;
         if (XR_FAILED(xrGetActionStatePose(session, &actionStateGetInfo, &xrInput.gripPoseState[i]))) {
             std::cerr << "Failed to get grip action state pose for " << fromXrPath(xrInput.handPaths[i]) << "\n";
             continue;
@@ -250,8 +259,15 @@ extern "C" SqueakXrActionStates pollActions() {
                 }
             } else {
                 std::cerr << "Failed to locate grip space for "<< fromXrPath(xrInput.handPaths[i]) << "\n";
-                continue;
             }
+        }
+
+        // trigger
+        actionStateGetInfo.action = xrInput.triggerAction;
+        if (XR_SUCCEEDED(xrGetActionStateFloat(session, &actionStateGetInfo, &xrInput.triggerState[i]))) {
+            actionStates.triggers[i] = xrInput.triggerState[i].currentState;
+        } else {
+            std::cerr << "Failed to get action state of trigger\n";
         }
     }
 

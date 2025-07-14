@@ -10,5 +10,6 @@ SRXrActionStates class >> fields [
 	" self defineFields "
 	^ #(
 		(gripPoses 'XrPosef[2]')
+		(triggers 'float[2]')
 	)
 ]
