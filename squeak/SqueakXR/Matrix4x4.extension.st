@@ -22,6 +22,12 @@ Matrix4x4 >> asRlMatrix [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Matrix4x4 class >> fromQuaternion: aQuaternion [
+
+	^ self identity setFromQuaternion: aQuaternion
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Matrix4x4 >> scale [
 
 	"simple implementation, doesn't work for e.g. negative scaling.
@@ -31,4 +37,35 @@ Matrix4x4 >> scale [
 		x: self column1 length
 		y: self column2 length
 		z: self column3 length
+]
+
+{ #category : #'*SqueakXR-helpers' }
+Matrix4x4 >> setFromQuaternion: q [
+	"Adapted from set_quaternion in https://github.com/godotengine/godot/blob/c6d130abd9188f313e6701d01a0ddd6ea32166a0/core/math/basis.cpp"
+	| s wx wy wz xs xx xy xz ys yy yz zs zz |
+	s := 2 / q squaredLength.
+	xs := q b * s.
+	ys := q c * s.
+	zs := q d * s.
+	wx := q a * xs.
+	wy := q a * ys.
+	wz := q a * zs.
+	xx := q b * xs.
+	xy := q b * ys.
+	xz := q b * zs.
+	yy := q c * ys.
+	yz := q c * zs.
+	zz := q d * zs.
+	
+	self a11: 1 - (yy + zz);
+		a12: xy - wz;
+		a13: xz + wy;
+		
+		a21: xy + wz;
+		a22: 1 - (xx + zz);
+		a23: yz - wx;
+		
+		a31: xz - wy;
+		a32: yz + wx;
+		a33: 1 - (xx + yy)
 ]
