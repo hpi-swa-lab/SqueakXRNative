@@ -137,36 +137,29 @@ extern "C" SqueakXrInput* initXrInput() {
 
     // Create Actions
     xrInput.handPaths = {createXrPath("/user/hand/left"), createXrPath("/user/hand/right")};
-//    auto createAction = [](XrAction &xrAction, const char* name, XrActionType actionType, bool useHandSubactionPaths) -> void {
-//        XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
-//        strncpy(actionCreateInfo.actionName, name, XR_MAX_ACTION_NAME_SIZE);
-//        strncpy(actionCreateInfo.localizedActionName, name, XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
-//        actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
-//        if (useHandSubactionPaths) {
-//            actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
-//            actionCreateInfo.subactionPaths = xrInput.handPaths.data();
-//        } else {
-//            actionCreateInfo.countSubactionPaths = 0;
-//            actionCreateInfo.subactionPaths = nullptr;
-//        }
-//
-//        if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
-//            std::cerr << "Failed to create Action" << name << '\n';
-//            return nullptr;
-//        }
-//    };
+    bool createActionsSuccessful = true;
+    auto createAction = [&](XrAction &xrAction, const char* name, XrActionType actionType, bool useHandSubactionPaths) -> void {
+        XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
+        strncpy(actionCreateInfo.actionName, name, XR_MAX_ACTION_NAME_SIZE);
+        strncpy(actionCreateInfo.localizedActionName, name, XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
+        actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
+        if (useHandSubactionPaths) {
+            actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
+            actionCreateInfo.subactionPaths = xrInput.handPaths.data();
+        } else {
+            actionCreateInfo.countSubactionPaths = 0;
+            actionCreateInfo.subactionPaths = nullptr;
+        }
 
-//    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true);
+        if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
+            createActionsSuccessful = false;
+            std::cerr << "Failed to create Action" << name << '\n';
+        }
+    };
 
-    XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
-    strncpy(actionCreateInfo.actionName, "grip-pose", XR_MAX_ACTION_NAME_SIZE);
-    strncpy(actionCreateInfo.localizedActionName, "grip-pose", XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
-    actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
-    actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
-    actionCreateInfo.subactionPaths = xrInput.handPaths.data();
-
-    if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
-        std::cerr << "Failed to create Action grip-pose\n";
+    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true)
+    if (!createActionsSuccessful) {
+        std::cerr << "Creating actions failed!\n";
         return nullptr;
     }
 
@@ -254,11 +247,6 @@ extern "C" SqueakXrActionStates pollActions() {
                 if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT != 0)
                     && (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT != 0)) {
                     actionStates.gripPoses[i] = spaceLocation.pose;
-//                    std::cout << fromXrPath(xrInput.handPaths[i])
-//                        << " position: x = " << spaceLocation.pose.position.x
-//                        << ", y = " << spaceLocation.pose.position.y
-//                        << ", z = " << spaceLocation.pose.position.z
-//                        << '\n';
                 }
             } else {
                 std::cerr << "Failed to locate grip space for "<< fromXrPath(xrInput.handPaths[i]) << "\n";
