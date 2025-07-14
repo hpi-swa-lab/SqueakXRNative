@@ -6,7 +6,8 @@ Class {
 		'renderer',
 		'worldProcess',
 		'needsSetup',
-		'lastFrameTime'
+		'lastFrameTime',
+		'isXR'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -44,7 +45,7 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime framePrepard |
+	| deltaTime startTime framePrepard actionStates |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
 	
@@ -55,11 +56,25 @@ SRWorld >> doOneCycle [
 	self allDescendants do: [:obj | obj step: deltaTime].
 	
 	framePrepard := self renderer prepareFrame.
+	self isXR ifTrue: [actionStates := self pollActions].
 	framePrepard ifTrue: [
 		self renderSelfAndChildrenOn: self renderer.
+		actionStates gripPoses do: [:pose | | t q |
+			q := Quaternion a: pose orientation w b: pose orientation x c: pose orientation y d: pose orientation z.
+			t := (Matrix4x4 withOffset: (pose position x @ pose position y @ pose position z))
+				* (Matrix4x4 fromQuaternion: q)
+				* (Matrix4x4 withScale: 10cm @ 10cm @ 10cm).
+			self renderer renderCubeTransformed: t withColor: Color green].
 		self renderer completeFrame].
 	
 	lastFrameTime := startTime.
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> initXrInput [
+
+	<cdecl: SRXrInput* 'initXrInput' () module: 'squeakxrnative'>
+	^ self externalCallFailed
 ]
 
 { #category : #initializing }
@@ -67,7 +82,9 @@ SRWorld >> initialize [
 
 	super initialize.
 	
-	self renderer: SRRenderer rendererClass new.
+	self
+		isXR: false;
+		renderer: SRRenderer rendererClass new. "TODO: decide this based on XRness"
 	
 ]
 
@@ -88,6 +105,25 @@ SRWorld >> isRunning [
 SRWorld >> isWorldObject [
 
 	^ true
+]
+
+{ #category : #accessing }
+SRWorld >> isXR [
+	
+	^ isXR
+]
+
+{ #category : #accessing }
+SRWorld >> isXR: aBoolean [
+
+	isXR := aBoolean
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> pollActions [
+
+	<cdecl: SRXrActionStates 'pollActions' () module: 'squeakxrnative'>
+	^ self externalCallFailed
 ]
 
 { #category : #accessing }
@@ -126,11 +162,12 @@ SRWorld >> start [
 
 	self worldProcess: ([
 		self renderer setup.
+		self isXR ifTrue: [self initXrInput].
 		self allDo: #onWorldStarted.
 		running := true.
 		lastFrameTime := DateAndTime now.
 		[self isRunning] whileTrue: [
-			self doOneCycle. Processor yield].
+			self doOneCycle. Processor yield.].
 		self renderer shutdown
 		] newProcess
 			name: 'XR World Process';

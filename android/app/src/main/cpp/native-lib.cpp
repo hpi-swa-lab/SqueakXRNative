@@ -12,6 +12,8 @@
 #include <rlOpenXR.h>
 #include <android_native_app_glue.h>
 #include <dlfcn.h>
+#include <iostream>
+#include <array>
 
 static int fd[2];
 static pthread_t thr;
@@ -85,20 +87,200 @@ extern "C" void initOpenxr() {
     XR_SUCCEEDED(xrInitializeLoaderKHR((XrLoaderInitInfoBaseHeaderKHR *)&loaderInitializeInfoAndroid));
 }
 
-extern "C" int test1() {
-    return 42;
+XrPath createXrPath(const char *pathString) {
+    XrPath xrPath;
+    if (XR_FAILED(xrStringToPath(rlGetXRInstance(), pathString, &xrPath))) {
+        std::cerr << "Failed to get xrPath for " << pathString << "\n";
+    }
+    return xrPath;
 }
 
-extern "C" int test2(char* x) {
-    return strlen(x);
+std::string fromXrPath(XrPath path) {
+    uint32_t length;
+    char content[XR_MAX_PATH_LENGTH];
+    std::string str;
+    if (XR_SUCCEEDED(xrPathToString(rlGetXRInstance(), path, XR_MAX_PATH_LENGTH, &length, content))) {
+        str = content;
+    } else {
+        std::cerr << "Failed to retrieve string for XrPath";
+    }
+    return str;
 }
 
-extern "C" void test3(int a, int b, const char* x) {
-    void (*y)(int,int,const char*);
-    y = (void (*)(int,int,const char*)) dlsym(RTLD_DEFAULT, "InitWindow");
-    y(a, b, x);
-//    return a + b + strlen(x);
+struct SqueakXrInput {
+    XrActionSet actionSet;
+    XrAction gripPoseAction;
+    std::array<XrPath, 2> handPaths;
+    std::array<XrSpace, 2> gripPoseSpaces;
+    std::array<XrActionStatePose, 2> gripPoseState;
+};
+
+SqueakXrInput xrInput;
+
+// Adapted from https://openxr-tutorial.com/android/opengles/4-actions.html#interactions
+extern "C" SqueakXrInput* initXrInput() {
+    std::cout << "Initializing XR input\n";
+    auto xrInstance = rlGetXRInstance();
+    auto xrSession = rlGetXRSession();
+
+    // Create ActionSet
+
+    XrActionSetCreateInfo actionSetCreateInfo {XR_TYPE_ACTION_SET_CREATE_INFO};
+    strncpy(actionSetCreateInfo.actionSetName, "squeakxr-actionset", XR_MAX_ACTION_SET_NAME_SIZE);
+    strncpy(actionSetCreateInfo.localizedActionSetName, "SqueakXR ActionSet", XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE);
+    actionSetCreateInfo.priority = 0;
+
+    if (XR_FAILED(xrCreateActionSet(xrInstance, &actionSetCreateInfo, &xrInput.actionSet))) {
+        std::cerr << "Failed to create ActionSet\n";
+        return nullptr;
+    }
+
+    // Create Actions
+    xrInput.handPaths = {createXrPath("/user/hand/left"), createXrPath("/user/hand/right")};
+//    auto createAction = [](XrAction &xrAction, const char* name, XrActionType actionType, bool useHandSubactionPaths) -> void {
+//        XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
+//        strncpy(actionCreateInfo.actionName, name, XR_MAX_ACTION_NAME_SIZE);
+//        strncpy(actionCreateInfo.localizedActionName, name, XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
+//        actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
+//        if (useHandSubactionPaths) {
+//            actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
+//            actionCreateInfo.subactionPaths = xrInput.handPaths.data();
+//        } else {
+//            actionCreateInfo.countSubactionPaths = 0;
+//            actionCreateInfo.subactionPaths = nullptr;
+//        }
+//
+//        if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
+//            std::cerr << "Failed to create Action" << name << '\n';
+//            return nullptr;
+//        }
+//    };
+
+//    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true);
+
+    XrActionCreateInfo actionCreateInfo {XR_TYPE_ACTION_CREATE_INFO};
+    strncpy(actionCreateInfo.actionName, "grip-pose", XR_MAX_ACTION_NAME_SIZE);
+    strncpy(actionCreateInfo.localizedActionName, "grip-pose", XR_MAX_LOCALIZED_ACTION_NAME_SIZE);
+    actionCreateInfo.actionType = XR_ACTION_TYPE_POSE_INPUT;
+    actionCreateInfo.countSubactionPaths = xrInput.handPaths.size();
+    actionCreateInfo.subactionPaths = xrInput.handPaths.data();
+
+    if (XR_FAILED(xrCreateAction(xrInput.actionSet, &actionCreateInfo, &xrInput.gripPoseAction))) {
+        std::cerr << "Failed to create Action grip-pose\n";
+        return nullptr;
+    }
+
+    // Suggest bindings
+    XrInteractionProfileSuggestedBinding interactionProfileSuggestedBinding {XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
+    interactionProfileSuggestedBinding.interactionProfile = createXrPath("/interaction_profiles/oculus/touch_controller");
+    std::array<XrActionSuggestedBinding, 2> suggestedBindings = {{
+        {xrInput.gripPoseAction, createXrPath("/user/hand/right/input/aim/pose")},
+        {xrInput.gripPoseAction, createXrPath("/user/hand/left/input/aim/pose")}
+    }};
+    interactionProfileSuggestedBinding.countSuggestedBindings = suggestedBindings.size();
+    interactionProfileSuggestedBinding.suggestedBindings = suggestedBindings.data();
+
+    if (XR_FAILED(xrSuggestInteractionProfileBindings(xrInstance, &interactionProfileSuggestedBinding))) {
+        std::cerr << "Failed to suggest bindings for /interaction_profiles/oculus/touch_controller\n";
+        return nullptr;
+    }
+
+    // Create pose spaces
+    for (size_t i = 0; i < xrInput.handPaths.size(); ++i) {
+        XrActionSpaceCreateInfo actionSpaceCreateInfo {XR_TYPE_ACTION_SPACE_CREATE_INFO};
+        actionSpaceCreateInfo.action = xrInput.gripPoseAction;
+        actionSpaceCreateInfo.subactionPath = xrInput.handPaths[i];
+        actionSpaceCreateInfo.poseInActionSpace = {{0.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}};
+        if (XR_FAILED(xrCreateActionSpace(xrSession, &actionSpaceCreateInfo, &xrInput.gripPoseSpaces[i]))) {
+            std::cerr << "Failed to get create action space for " << fromXrPath(xrInput.handPaths[i]) << '\n';
+        };
+    }
+
+    // Attach ActionSet
+    XrSessionActionSetsAttachInfo sessionActionSetsAttachInfo {XR_TYPE_SESSION_ACTION_SETS_ATTACH_INFO};
+    sessionActionSetsAttachInfo.countActionSets = 1;
+    sessionActionSetsAttachInfo.actionSets = &xrInput.actionSet;
+    if (XR_FAILED(xrAttachSessionActionSets(xrSession, &sessionActionSetsAttachInfo))) {
+        std::cerr << "Failed to attach ActionSet to session\n";
+        return nullptr;
+    }
+
+    // Report bindings
+    XrInteractionProfileState interactionProfile = {XR_TYPE_INTERACTION_PROFILE_STATE, 0, 0};
+    for (const auto path : xrInput.handPaths) {
+        if (XR_FAILED(xrGetCurrentInteractionProfile(rlGetXRSession(), path, &interactionProfile))) {
+            std::cerr << "Failed to get interaction profile for " << fromXrPath(path) << '\n';
+            return nullptr;
+        }
+        if (interactionProfile.interactionProfile) {
+            std::cout << "Interaction profile for " << fromXrPath(path) << " is " << fromXrPath(interactionProfile.interactionProfile) << '\n';
+        }
+    }
+
+    return &xrInput;
 }
+
+struct SqueakXrActionStates {
+    XrPosef gripPoses[2];
+};
+
+SqueakXrActionStates actionStates;
+
+extern "C" SqueakXrActionStates pollActions() {
+    const auto time = rlOpenXRGetTime(); // alternatively rlGetPredictedDisplayTime()
+    const auto session = rlGetXRSession();
+
+    XrActiveActionSet activeActionSet {};
+    activeActionSet.actionSet = xrInput.actionSet;
+    activeActionSet.subactionPath = XR_NULL_PATH;
+    XrActionsSyncInfo actionsSyncInfo {XR_TYPE_ACTIONS_SYNC_INFO};
+    actionsSyncInfo.countActiveActionSets = 1;
+    actionsSyncInfo.activeActionSets = &activeActionSet;
+    if (XR_FAILED(xrSyncActions(session, &actionsSyncInfo))) {
+        std::cerr << "Failed to sync Actions\n";
+    }
+
+    XrActionStateGetInfo actionStateGetInfo {XR_TYPE_ACTION_STATE_GET_INFO};
+    actionStateGetInfo.action = xrInput.gripPoseAction;
+    for (size_t i = 0; i < xrInput.handPaths.size(); ++i) {
+        actionStateGetInfo.subactionPath = xrInput.handPaths[i];
+        if (XR_FAILED(xrGetActionStatePose(session, &actionStateGetInfo, &xrInput.gripPoseState[i]))) {
+            std::cerr << "Failed to get grip action state pose for " << fromXrPath(xrInput.handPaths[i]) << "\n";
+            continue;
+        }
+        if (xrInput.gripPoseState[i].isActive) {
+            XrSpaceLocation spaceLocation {XR_TYPE_SPACE_LOCATION};
+            if (XR_SUCCEEDED(xrLocateSpace(xrInput.gripPoseSpaces[i], rlGetPlaySpace(), time, &spaceLocation))) {
+                if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT != 0)
+                    && (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT != 0)) {
+                    actionStates.gripPoses[i] = spaceLocation.pose;
+//                    std::cout << fromXrPath(xrInput.handPaths[i])
+//                        << " position: x = " << spaceLocation.pose.position.x
+//                        << ", y = " << spaceLocation.pose.position.y
+//                        << ", z = " << spaceLocation.pose.position.z
+//                        << '\n';
+                }
+            } else {
+                std::cerr << "Failed to locate grip space for "<< fromXrPath(xrInput.handPaths[i]) << "\n";
+                continue;
+            }
+        }
+    }
+
+    return actionStates;
+}
+
+//extern "C" void reportBindings() {
+//    XrInteractionProfileState interactionProfile = {XR_TYPE_INTERACTION_PROFILE_STATE, 0, 0};
+//    for (const auto path : xrInput.handPaths) {
+//        if (XR_FAILED(xrGetCurrentInteractionProfile(rlGetXRSession(), path, &interactionProfile))) {
+//            std::cerr << "Failed to get interaction profile for " << fromXrPath(path) << '\n';
+//        }
+//        if (interactionProfile.interactionProfile) {
+//            std::cout << "Interaction profile for " << fromXrPath(path) << " is " << fromXrPath(interactionProfile.interactionProfile) << '\n';
+//        }
+//    }
+//}
 
 extern "C" int run_squeak(int argc, char **argv, char **envp);
 
