@@ -1,6 +1,12 @@
 Extension { #name : #Number }
 
 { #category : #'*SqueakXR-helpers' }
+Number >> asVector3 [
+
+	^ Vector3 value: self
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Number >> cm [
 
 	^ self * 0.01

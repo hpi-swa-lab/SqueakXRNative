@@ -11,13 +11,11 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> addChild: aSRObject [
-
-	"DISCUSS: Adding an object to a different world means that the world cache is no longer valid for the child,
-	and thus onCacheInvalidated and onWorldStarted must be called for it.
-	This could be done here with a simple check.
-	However, this also seems like a very unlikely use case, so I'm not going to do it for now."
+	
+	| childWorld |
+	childWorld := aSRObject world.
 	
 	(self hasChild: aSRObject) ifTrue: [^ self].
 	(self hasAncestor: aSRObject) ifTrue: [
@@ -28,35 +26,37 @@ SRObject >> addChild: aSRObject [
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
+	childWorld = self world ifFalse: [
+		aSRObject worldChanged: childWorld]
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> addChildren: aCollection [
 
 	aCollection do: [:obj | self addChild: obj]
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> allDescendants [
 
 	"TODO: define order"
 	^ {self. self children collect: [:child | child allDescendants]} flatten
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
 	self childrenDo: aBlock.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #events }
 SRObject >> cacheInvalidated [
 
 	self allDo: #onCacheInvalidated.
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> childCount [
 
 	^ self children size
@@ -68,13 +68,13 @@ SRObject >> children [
 	^ children
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> childrenDo: aBlock [
 
 	self children do: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #transforms }
 SRObject >> globalTransform [
 
 	self globalTransformNeedsUpdate ifTrue: [self updateGlobalTransform].
@@ -87,7 +87,7 @@ SRObject >> globalTransformNeedsUpdate [
 	^ transformDirty
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> hasAncestor: aSRObject [
 
 	self parent ifNil: [^ false].
@@ -95,13 +95,13 @@ SRObject >> hasAncestor: aSRObject [
 	^ self parent hasAncestor: aSRObject
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> hasChild: aSRObject [
 
 	^ self children includes: aSRObject
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> hasParent [
 
 	^ parent notNil
@@ -115,24 +115,29 @@ SRObject >> initialize [
 	transformDirty := true.
 ]
 
-{ #category : #accessing }
+{ #category : #transforms }
 SRObject >> localTransform [
 
 	^ transform
 ]
 
-{ #category : #accessing }
+{ #category : #transforms }
 SRObject >> localTransform: aMatrix4x4 [
 
 	self transform: aMatrix4x4
 ]
 
-{ #category : #lifecycle }
+{ #category : #events }
 SRObject >> onCacheInvalidated [
 ]
 
-{ #category : #lifecycle }
+{ #category : #events }
+SRObject >> onWorldChanged: oldWorld [
+]
+
+{ #category : #events }
 SRObject >> onWorldStarted [
+
 ]
 
 { #category : #accessing }
@@ -147,7 +152,7 @@ SRObject >> parent: aSRObject [
 	parent := aSRObject
 ]
 
-{ #category : #children }
+{ #category : #hierarchy }
 SRObject >> removeChild: aSRObject [
 
 	self children remove: aSRObject ifAbsent: [^ self].
@@ -167,28 +172,47 @@ SRObject >> renderSelfAndChildrenOn: aSRRenderer [
 		childrenDo: [:child | child renderSelfAndChildrenOn: aSRRenderer]
 ]
 
+{ #category : #transforms }
+SRObject >> scaleBy: aVector3 [
+
+	self transform: (self transform scaledBy: aVector3)
+]
+
 { #category : #accessing }
 SRObject >> step: deltaTime [
 ]
 
-{ #category : #accessing }
+{ #category : #transforms }
 SRObject >> transform [
 
 	^ transform
 ]
 
-{ #category : #accessing }
+{ #category : #transforms }
 SRObject >> transform: aMatrix4x4 [
 
 	transform := aMatrix4x4.
-	transformDirty := true.
+	self transformIsDirty.
+]
+
+{ #category : #transforms }
+SRObject >> transformIsDirty [
+
+	transformDirty := true
+]
+
+{ #category : #transforms }
+SRObject >> translation: aVector3 [
+
+	transform translation: aVector3.
+	self transformIsDirty.
 ]
 
 { #category : #transforms }
 SRObject >> updateGlobalTransform [
 
 	globalTransform := self hasParent
-		ifTrue: [self transform * self parent globalTransform]
+		ifTrue: [self parent globalTransform * self transform]
 		ifFalse: [self transform]
 ]
 
@@ -199,4 +223,11 @@ SRObject >> world [
 	self parent
 		ifNil: [^ nil]
 		ifNotNil: [^ self parent world]
+]
+
+{ #category : #events }
+SRObject >> worldChanged: oldWorld [
+
+	self cacheInvalidated.
+	self allDo: [:object | object onWorldChanged: oldWorld].
 ]

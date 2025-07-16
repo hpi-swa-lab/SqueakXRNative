@@ -109,11 +109,11 @@ std::string fromXrPath(XrPath path) {
 
 struct SqueakXrInput {
     XrActionSet actionSet;
-    XrAction gripPoseAction;
+    XrAction aimPoseAction;
     XrAction triggerAction;
     std::array<XrPath, 2> handPaths;
-    std::array<XrSpace, 2> gripPoseSpaces;
-    std::array<XrActionStatePose, 2> gripPoseState;
+    std::array<XrSpace, 2> aimPoseSpaces;
+    std::array<XrActionStatePose, 2> aimPoseState;
     std::array<XrActionStateFloat, 2> triggerState;
 };
 
@@ -159,7 +159,7 @@ extern "C" SqueakXrInput* initXrInput() {
         }
     };
 
-    createAction(xrInput.gripPoseAction, "grip-pose", XR_ACTION_TYPE_POSE_INPUT, true);
+    createAction(xrInput.aimPoseAction, "aim-pose", XR_ACTION_TYPE_POSE_INPUT, true);
     createAction(xrInput.triggerAction, "trigger", XR_ACTION_TYPE_FLOAT_INPUT, true);
 
     if (!createActionsSuccessful) {
@@ -171,8 +171,8 @@ extern "C" SqueakXrInput* initXrInput() {
     XrInteractionProfileSuggestedBinding interactionProfileSuggestedBinding {XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
     interactionProfileSuggestedBinding.interactionProfile = createXrPath("/interaction_profiles/oculus/touch_controller");
     std::array<XrActionSuggestedBinding, 4> suggestedBindings = {{
-        {xrInput.gripPoseAction, createXrPath("/user/hand/right/input/aim/pose")},
-        {xrInput.gripPoseAction, createXrPath("/user/hand/left/input/aim/pose")},
+        {xrInput.aimPoseAction, createXrPath("/user/hand/right/input/aim/pose")},
+        {xrInput.aimPoseAction, createXrPath("/user/hand/left/input/aim/pose")},
         {xrInput.triggerAction, createXrPath("/user/hand/right/input/trigger/value")},
         {xrInput.triggerAction, createXrPath("/user/hand/left/input/trigger/value")}
     }};
@@ -187,10 +187,10 @@ extern "C" SqueakXrInput* initXrInput() {
     // Create pose spaces
     for (size_t i = 0; i < xrInput.handPaths.size(); ++i) {
         XrActionSpaceCreateInfo actionSpaceCreateInfo {XR_TYPE_ACTION_SPACE_CREATE_INFO};
-        actionSpaceCreateInfo.action = xrInput.gripPoseAction;
+        actionSpaceCreateInfo.action = xrInput.aimPoseAction;
         actionSpaceCreateInfo.subactionPath = xrInput.handPaths[i];
         actionSpaceCreateInfo.poseInActionSpace = {{0.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}};
-        if (XR_FAILED(xrCreateActionSpace(xrSession, &actionSpaceCreateInfo, &xrInput.gripPoseSpaces[i]))) {
+        if (XR_FAILED(xrCreateActionSpace(xrSession, &actionSpaceCreateInfo, &xrInput.aimPoseSpaces[i]))) {
             std::cerr << "Failed to get create action space for " << fromXrPath(xrInput.handPaths[i]) << '\n';
         };
     }
@@ -220,7 +220,7 @@ extern "C" SqueakXrInput* initXrInput() {
 }
 
 struct SqueakXrActionStates {
-    XrPosef gripPoses[2];
+    XrPosef aimPoses[2];
     float triggers[2];
 };
 
@@ -244,21 +244,21 @@ extern "C" SqueakXrActionStates pollActions() {
     for (size_t i = 0; i < xrInput.handPaths.size(); ++i) {
         actionStateGetInfo.subactionPath = xrInput.handPaths[i];
 
-        // grip-pose
-        actionStateGetInfo.action = xrInput.gripPoseAction;
-        if (XR_FAILED(xrGetActionStatePose(session, &actionStateGetInfo, &xrInput.gripPoseState[i]))) {
-            std::cerr << "Failed to get grip action state pose for " << fromXrPath(xrInput.handPaths[i]) << "\n";
+        // aim-pose
+        actionStateGetInfo.action = xrInput.aimPoseAction;
+        if (XR_FAILED(xrGetActionStatePose(session, &actionStateGetInfo, &xrInput.aimPoseState[i]))) {
+            std::cerr << "Failed to get aim action state pose for " << fromXrPath(xrInput.handPaths[i]) << "\n";
             continue;
         }
-        if (xrInput.gripPoseState[i].isActive) {
+        if (xrInput.aimPoseState[i].isActive) {
             XrSpaceLocation spaceLocation {XR_TYPE_SPACE_LOCATION};
-            if (XR_SUCCEEDED(xrLocateSpace(xrInput.gripPoseSpaces[i], rlGetPlaySpace(), time, &spaceLocation))) {
+            if (XR_SUCCEEDED(xrLocateSpace(xrInput.aimPoseSpaces[i], rlGetPlaySpace(), time, &spaceLocation))) {
                 if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT != 0)
                     && (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT != 0)) {
-                    actionStates.gripPoses[i] = spaceLocation.pose;
+                    actionStates.aimPoses[i] = spaceLocation.pose;
                 }
             } else {
-                std::cerr << "Failed to locate grip space for "<< fromXrPath(xrInput.handPaths[i]) << "\n";
+                std::cerr << "Failed to locate aim space for "<< fromXrPath(xrInput.handPaths[i]) << "\n";
             }
         }
 

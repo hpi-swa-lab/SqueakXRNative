@@ -166,6 +166,31 @@ SRObjectTest >> testMoveChildBetweenParents [
 ]
 
 { #category : #'tests - children' }
+SRObjectTest >> testOnWorldChanged [
+
+	| o1 o2 mock world1 world2 |
+	world1 := SRWorld new.
+	world2 := SRWorld new.
+	o1 := SRObject new.
+	o2 := SRObject new.
+	mock := SRMockObject new.
+	
+	self assert: mock onWorldChangedCount = 0.
+	
+	world1 addChild: o1.
+	o1 addChild: mock.
+	
+	self assert: mock onWorldChangedCount = 1.
+	self assert: mock previousWorld isNil.
+	
+	world2 addChild: o2.
+	o2 addChild: mock.
+	
+	self assert: mock onWorldChangedCount = 2.
+	self assert: mock previousWorld = world1.
+]
+
+{ #category : #'tests - children' }
 SRObjectTest >> testRemoveChild [
 
 	| child parent |

@@ -45,7 +45,7 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime framePrepard actionStates |
+	| deltaTime startTime framePrepard |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
 	
@@ -56,17 +56,18 @@ SRWorld >> doOneCycle [
 	self allDescendants do: [:obj | obj step: deltaTime].
 	
 	framePrepard := self renderer prepareFrame.
-	self isXR ifTrue: [actionStates := self pollActions].
+	self isXR ifTrue: [
+		self changed: #actionsUpdated with: self pollActions].
 	framePrepard ifTrue: [
 		self renderSelfAndChildrenOn: self renderer.
-		1 to: 2 do: [:idx | | t q pose trigger |
-			pose := actionStates gripPoses at: idx.
+		"1 to: 2 do: [:idx | | t q pose trigger |
+			pose := actionStates aimPoses at: idx.
 			q := Quaternion a: pose orientation w b: pose orientation x c: pose orientation y d: pose orientation z.
 			t := (Matrix4x4 withOffset: (pose position x @ pose position y @ pose position z))
 				* (Matrix4x4 fromQuaternion: q)
 				* (Matrix4x4 withScale: 10cm @ 10cm @ 10cm).
 			trigger := actionStates triggers at: idx.
-			self renderer renderCubeTransformed: t withColor: (Color green mixed: trigger with: Color red)].
+			self renderer renderCubeTransformed: t withColor: (Color green mixed: trigger with: Color red)]."
 		self renderer completeFrame].
 	
 	lastFrameTime := startTime.
