@@ -26,6 +26,7 @@ android {
             cmake {
                 cppFlags += "-std=c++17"
                 arguments += "-DLOCAL_RLOPENXR_SOURCE=" + (devProperties["rlOpenXRRepo"] ?: "OFF")
+                arguments += "-DLOCAL_OPENSMALLTALKVM_SOURCE=" + (devProperties["opensmalltalkvmRepo"] ?: "OFF")
             }
         }
     }

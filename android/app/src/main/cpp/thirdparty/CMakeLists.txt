@@ -71,7 +71,18 @@ endif()
 # Add library-specific binding option
 target_link_options(raylib PRIVATE "-u ANativeActivity_onCreate")
 
+# opensmalltalk-vm
 
+if(LOCAL_OPENSMALLTALKVM_SOURCE)
+    set(FETCHCONTENT_SOURCE_DIR_OPENSMALLTALKVM "${LOCAL_OPENSMALLTALKVM_SOURCE}")
+endif()
+
+FetchContent_Declare(opensmalltalkvm
+  GIT_REPOSITORY git@github.com:leogeier/opensmalltalk-vm.git
+  GIT_TAG cmake-for-quest
+)
+
+# rlOpenXR
 
 if(LOCAL_RLOPENXR_SOURCE)
     set(FETCHCONTENT_SOURCE_DIR_RLOPENXR "${LOCAL_RLOPENXR_SOURCE}")
@@ -83,4 +94,4 @@ FetchContent_Declare(rlOpenXR
 #        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rlOpenXR"
 )
 
-FetchContent_MakeAvailable(rlOpenXR)
+FetchContent_MakeAvailable(opensmalltalkvm rlOpenXR)
