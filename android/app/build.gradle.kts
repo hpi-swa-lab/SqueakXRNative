@@ -59,6 +59,12 @@ android {
     ndkVersion = "27.1.12297006"
 }
 
+tasks.preBuild {
+    exec {
+        commandLine("../run-setup.sh")
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
