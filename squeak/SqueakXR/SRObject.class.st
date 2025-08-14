@@ -173,9 +173,23 @@ SRObject >> renderSelfAndChildrenOn: aSRRenderer [
 ]
 
 { #category : #transforms }
+SRObject >> rotation: aVector3 [
+
+	transform rotation: aVector3.
+	self transformIsDirty.
+]
+
+{ #category : #transforms }
 SRObject >> scaleBy: aVector3 [
 
 	self transform: (self transform scaledBy: aVector3)
+]
+
+{ #category : #transforms }
+SRObject >> setRotationFromQuaternion: aQuaternion [
+
+	transform setFromQuaternion: aQuaternion.
+	self transformIsDirty.
 ]
 
 { #category : #accessing }

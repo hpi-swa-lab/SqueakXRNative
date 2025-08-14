@@ -42,8 +42,11 @@ Matrix4x4 >> scale [
 { #category : #'*SqueakXR-helpers' }
 Matrix4x4 >> setFromQuaternion: q [
 	"Adapted from set_quaternion in https://github.com/godotengine/godot/blob/c6d130abd9188f313e6701d01a0ddd6ea32166a0/core/math/basis.cpp"
-	| s wx wy wz xs xx xy xz ys yy yz zs zz |
-	s := 2 / q squaredLength.
+	| s wx wy wz xs xx xy xz ys yy yz zs zz squaredLength |
+	squaredLength := q squaredLength.
+	squaredLength = 0 ifTrue: [^ self setFromQuaternion: Quaternion identity].
+	
+	s := 2 / squaredLength.
 	xs := q b * s.
 	ys := q c * s.
 	zs := q d * s.

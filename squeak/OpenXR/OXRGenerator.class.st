@@ -65,6 +65,16 @@ OXRGenerator >> commandDefinitionFor: aString [
 ]
 
 { #category : #'as yet unclassified' }
+OXRGenerator >> compileExtraMethods [
+
+	XrQuaternionf compile: 'a ^ self w'.
+	XrQuaternionf compile: 'b ^ self x'.
+	XrQuaternionf compile: 'c ^ self y'.
+	XrQuaternionf compile: 'd ^ self z'.
+	XrQuaternionf compile: 'squaredLength ^ self w squared + self x squared + self y squared + self z squared'
+]
+
+{ #category : #'as yet unclassified' }
 OXRGenerator >> createCommandAlias: commandTag [
 
 	^ self getAPIClass compile: (String streamContents: [:stream | | params |
@@ -385,6 +395,8 @@ OXRGenerator >> initializeWithXML: anXML [
 		#(collectDefines createEnums createExtensions createTypes createCommands)
 			do: [:selector | self perform: selector]
 			displayingProgress: [:selector | selector]] value.
+	
+	self compileExtraMethods
 ]
 
 { #category : #'as yet unclassified' }

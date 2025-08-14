@@ -49,8 +49,22 @@ SRHand >> onWorldChanged: oldWorld [
 ]
 
 { #category : #'as yet unclassified' }
+SRHand >> renderOn: aSRRenderer [
+
+	"aSRRenderer renderCubeTransformed: self globalTransform * (Matrix4x4 withScale: 10cm asVector3) withColor: Color green."
+]
+
+{ #category : #'as yet unclassified' }
 SRHand >> update: aSymbol with: anObject [
 
-	aSymbol = #actionsUpdated ifTrue: [
-		self translation: (anObject aimPoses at: self handIndex) position]
+	aSymbol = #actionsUpdated ifTrue: [self updateTransformFromActions: anObject]
+]
+
+{ #category : #'as yet unclassified' }
+SRHand >> updateTransformFromActions: aSRActionStates [
+	
+	| pose |
+	pose := (aSRActionStates aimPoses at: self handIndex).
+	self translation: pose position;
+		setRotationFromQuaternion: pose orientation
 ]
