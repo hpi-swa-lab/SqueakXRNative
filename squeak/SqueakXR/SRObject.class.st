@@ -182,13 +182,21 @@ SRObject >> rotation: aVector3 [
 { #category : #transforms }
 SRObject >> scaleBy: aVector3 [
 
-	self transform: (self transform scaledBy: aVector3)
+	self transform: (self transform scaledBy: aVector3).
+	self transformIsDirty.
 ]
 
 { #category : #transforms }
 SRObject >> setRotationFromQuaternion: aQuaternion [
 
 	transform setFromQuaternion: aQuaternion.
+	self transformIsDirty.
+]
+
+{ #category : #transforms }
+SRObject >> setScale: aVector3 [
+
+	self transform setScale: aVector3.
 	self transformIsDirty.
 ]
 

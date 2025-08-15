@@ -27,6 +27,18 @@ SRMaterial >> internalMaterial [
 	^ internalMaterial
 ]
 
+{ #category : #accessing }
+SRMaterial >> texture [
+
+	^ self internalMaterial maps texture
+]
+
+{ #category : #accessing }
+SRMaterial >> texture: aRlTexture [
+
+	internalMaterial maps texture: aRlTexture
+]
+
 { #category : #'as yet unclassified' }
 SRMaterial >> unloadInternalMaterial [
 

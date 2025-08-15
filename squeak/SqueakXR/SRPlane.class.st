@@ -28,6 +28,14 @@ SRPlane class >> withMaterial: aSRMaterial [
 		initialize
 ]
 
+{ #category : #lifecycle }
+SRPlane >> initialize [
+
+	super initialize.
+	
+	material := SRMaterial new.
+]
+
 { #category : #accessing }
 SRPlane >> material [
 	
