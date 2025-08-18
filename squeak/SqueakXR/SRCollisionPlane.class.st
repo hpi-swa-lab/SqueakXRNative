@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'normal',
 		'point',
-		'extent'
+		'extent',
+		'width',
+		'height',
+		'up'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -26,17 +29,42 @@ SRCollisionPlane class >> point: aVector3 normal: anotherVector3 extent: aPoint 
 		extent: aPoint
 ]
 
-{ #category : #accessing }
-SRCollisionPlane >> extent [
+{ #category : #'as yet unclassified' }
+SRCollisionPlane class >> point: point normal: normal up: up width: width height: height [
 
-	"centered on point"
-	^ extent
+	self assert: (normal dot: up) = 0
+		description: 'normal and up must be orthogonal'.
+
+	^ self new
+		point: point;
+		normal: normal;
+		up: up;
+		width: width;
+		height: height
 ]
 
 { #category : #accessing }
-SRCollisionPlane >> extent: aPoint [
+SRCollisionPlane >> extent [
 
-	extent := aPoint
+	^ width @ height
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> height [
+
+	^ height
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> height: aNumber [
+
+	height := aNumber
+]
+
+{ #category : #testing }
+SRCollisionPlane >> isBounded [
+
+	^ self up notNil
 ]
 
 { #category : #accessing }
@@ -68,14 +96,56 @@ SRCollisionPlane >> rayIntersection: aRay [
 	"adapted from
 	https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-plane-and-ray-disk-intersection.html"
 	
-	| denom delta t |
+	| denom delta t intersection centerToIntersection |
 	denom := self normal dot: aRay forward.
 	denom abs < 1e-6 ifTrue: [^ nil].
+	
 	delta := self point - aRay origin.
 	t := (delta dot: self normal / denom).
-	t >= 0
-		ifTrue: [
-			^ SRRayIntersectionResult new
-				point: (aRay project: t)]
+	t >= 0 ifFalse: [^ nil].
+	
+	intersection := aRay project: t.
+	
+	self isBounded ifFalse: [
+		^ SRRayIntersectionResult new
+			point: intersection].
+	
+	centerToIntersection := intersection - self point.
+	((centerToIntersection dot: self up) <= (self height / 2)
+		and: [(centerToIntersection dot: self side) <= (self width / 2)])
 		ifFalse: [^ nil]
+		ifTrue: [
+		^ SRRayIntersectionResult new
+			point: intersection]
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> side [
+
+	^ self normal cross: self up
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> up [
+
+	^ up
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> up: aVector [
+
+	"must be normalized"
+	up := aVector
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> width [
+
+	^ width
+]
+
+{ #category : #accessing }
+SRCollisionPlane >> width: aNumber [
+
+	width := aNumber
 ]

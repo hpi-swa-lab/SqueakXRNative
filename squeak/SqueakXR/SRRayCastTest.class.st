@@ -9,14 +9,26 @@ SRRayCastTest >> testBoundedPlaneIntersection [
 
 	| ray plane |
 	ray := SRRay
-		origin: 0 @ 0 @ 0
+		origin: 0 @ 1 @ 1
 		forward: 1 @ 0 @ 0.
 	plane := SRCollisionPlane
 		point: 2 @ 0 @ 0
-		normal: -1 @ 0 @ 0.
+		normal: -1 @ 0 @ 0
+		up: 0 @ 1 @ 0
+		width: 4
+		height: 3.
 	
 	self assert: (plane intersectsWithRay: ray).
-	self assert: (plane rayIntersection: ray) point = (2 @ 0 @ 0).
+	
+	ray origin: 0 @ 10 @ 0.
+	self assert: (plane intersectsWithRay: ray) not.
+]
+
+{ #category : #'as yet unclassified' }
+SRRayCastTest >> testPlaneCollisionGeometry [
+
+	| plane |
+	plane := SRPlane new.
 ]
 
 { #category : #'as yet unclassified' }
