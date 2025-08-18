@@ -111,8 +111,8 @@ SRCollisionPlane >> rayIntersection: aRay [
 			point: intersection].
 	
 	centerToIntersection := intersection - self point.
-	((centerToIntersection dot: self up) <= (self height / 2)
-		and: [(centerToIntersection dot: self side) <= (self width / 2)])
+	((centerToIntersection dot: self up) abs <= (self height / 2)
+		and: [(centerToIntersection dot: self side) abs <= (self width / 2)])
 		ifFalse: [^ nil]
 		ifTrue: [
 		^ SRRayIntersectionResult new

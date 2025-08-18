@@ -22,6 +22,9 @@ SRRayCastTest >> testBoundedPlaneIntersection [
 	
 	ray origin: 0 @ 10 @ 0.
 	self assert: (plane intersectsWithRay: ray) not.
+	
+	ray origin: 0 @ -10 @ 0.
+	self assert: (plane intersectsWithRay: ray) not.
 ]
 
 { #category : #'as yet unclassified' }
