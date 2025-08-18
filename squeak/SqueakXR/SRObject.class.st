@@ -53,7 +53,7 @@ SRObject >> allDescendants [
 SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
-	self childrenDo: aBlock.
+	self childrenDo: [:child | child allDo: aBlock].
 ]
 
 { #category : #events }

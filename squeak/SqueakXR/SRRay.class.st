@@ -16,6 +16,24 @@ SRRay class >> origin: aVector3 forward: anotherVector3 [
 		forward: anotherVector3
 ]
 
+{ #category : #raycast }
+SRRay >> cast: aSRWorld [
+
+	| intersections |
+	intersections := OrderedCollection new.
+	Transcript showln: self origin;
+		showln: self forward.
+	aSRWorld allDo: [:object |
+		Transcript showln: object.
+		object collisionGeometry ifNotNil: [:geometry |
+			Transcript showln: geometry normal;
+				showln: geometry up;
+				showln: geometry extent.
+			(geometry rayIntersection: self) ifNotNil: [:result |
+				intersections add: result]]].
+	^ intersections
+]
+
 { #category : #accessing }
 SRRay >> forward [
 
@@ -41,7 +59,7 @@ SRRay >> origin: aVector3 [
 	origin := aVector3
 ]
 
-{ #category : #geometry }
+{ #category : #raycast }
 SRRay >> project: aNumber [
 
 	^ self origin + (self forward * aNumber)

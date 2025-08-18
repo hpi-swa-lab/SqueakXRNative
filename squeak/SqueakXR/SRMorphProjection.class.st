@@ -15,7 +15,7 @@ Class {
 { #category : #'as yet unclassified' }
 SRMorphProjection class >> defaultPixelsPerMeter [
 
-	^ 100
+	^ 500
 ]
 
 { #category : #'as yet unclassified' }

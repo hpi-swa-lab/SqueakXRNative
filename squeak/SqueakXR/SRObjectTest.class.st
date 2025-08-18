@@ -78,10 +78,11 @@ SRObjectTest >> testAllDo [
 	object := SRObject new.
 	
 	object addChildren: {SRObject new. SRObject new. SRObject new}.
+	object children first addChild: SRObject new.
 	
 	count := 0.
 	object allDo: [:obj | obj notNil. count := count + 1].
-	self assert: count = 4.
+	self assert: count = 5.
 ]
 
 { #category : #'tests - children' }

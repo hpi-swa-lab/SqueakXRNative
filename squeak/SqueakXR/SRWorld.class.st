@@ -153,6 +153,20 @@ SRWorld >> resume [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld >> runStartScript [
+
+	self isXR ifFalse: [^ self].
+	
+	self "addChild: SRAvatar new;"
+		addChild: (SRMorphProjection new
+			morph: (SystemBrowser default open dependents first)
+			"morph: (RectangleMorph new
+				borderWidth: 5; borderColor: Color red; color: Color blue);"
+			"transform: ((Matrix4x4 withScale: 3 @ 1 @ 3)
+			translatedBy: 0 @ 1 @ 0)").
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld >> shutDown: quitting [
 
 	self invalidateCache.
@@ -164,9 +178,11 @@ SRWorld >> shutDown: quitting [
 SRWorld >> start [
 
 	self worldProcess: ([
+		self addChild: SRAvatar new.
 		self renderer setup.
 		self isXR ifTrue: [self initXrInput].
 		self allDo: #onWorldStarted.
+		self runStartScript.
 		running := true.
 		lastFrameTime := DateAndTime now.
 		[self isRunning] whileTrue: [
