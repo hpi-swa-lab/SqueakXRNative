@@ -11,6 +11,12 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
+{ #category : #'as yet unclassified' }
+SRObject class >> toolIcon [
+
+	^ #srobject
+]
+
 { #category : #hierarchy }
 SRObject >> addChild: aSRObject [
 	

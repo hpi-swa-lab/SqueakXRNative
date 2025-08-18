@@ -4,6 +4,12 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
+{ #category : #'as yet unclassified' }
+SRCollisionGeometry class >> toolIcon [
+
+	^ #srcollision
+]
+
 { #category : #collisions }
 SRCollisionGeometry >> intersectsWithRay: aRay [
 
