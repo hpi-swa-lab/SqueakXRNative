@@ -60,7 +60,10 @@ SRHand >> initialize [
 	
 	triggerPressed := false.
 	
-	self addChild: (SRCube new scaleBy: 10cm asVector3).
+	self addChild: (SRCube new scaleBy: 10cm asVector3);
+		addChild: (SRCube new
+			setScale: 1cm @ 1cm @ 10m;
+			translation: 0 @ 0 @ -5m).
 ]
 
 { #category : #events }
