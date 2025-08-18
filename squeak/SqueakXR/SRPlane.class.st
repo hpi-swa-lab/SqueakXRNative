@@ -28,6 +28,20 @@ SRPlane class >> withMaterial: aSRMaterial [
 		initialize
 ]
 
+{ #category : #'as yet unclassified' }
+SRPlane >> collisionGeometry [
+
+	| scale |
+	"TODO: could be cached"
+	scale := self scale.
+	^ SRCollisionPlane
+		point: self globalTranslation
+		normal: self normal
+		up: self up
+		width: scale x
+		height: scale z
+]
+
 { #category : #lifecycle }
 SRPlane >> initialize [
 
@@ -56,6 +70,12 @@ SRPlane >> mesh [
 		mesh := self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]]"
 ]
 
+{ #category : #'as yet unclassified' }
+SRPlane >> normal [
+
+	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
+]
+
 { #category : #lifecycle }
 SRPlane >> onCacheInvalidated [
 
@@ -79,4 +99,10 @@ SRPlane >> renderOn: aSRRenderer [
 		renderMesh: self mesh
 		transform: self globalTransform
 		material: self material
+]
+
+{ #category : #'as yet unclassified' }
+SRPlane >> up [
+
+	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
 ]

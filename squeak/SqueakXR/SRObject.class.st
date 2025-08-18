@@ -81,6 +81,18 @@ SRObject >> childrenDo: aBlock [
 ]
 
 { #category : #transforms }
+SRObject >> collisionGeometry [
+
+	^ nil
+]
+
+{ #category : #transforms }
+SRObject >> globalScale [
+
+	^ self globalTransform scale
+]
+
+{ #category : #transforms }
 SRObject >> globalTransform [
 
 	self globalTransformNeedsUpdate ifTrue: [self updateGlobalTransform].
@@ -91,6 +103,12 @@ SRObject >> globalTransform [
 SRObject >> globalTransformNeedsUpdate [
 
 	^ transformDirty
+]
+
+{ #category : #transforms }
+SRObject >> globalTranslation [
+
+	^ self globalTransform translation
 ]
 
 { #category : #hierarchy }
@@ -186,6 +204,12 @@ SRObject >> rotation: aVector3 [
 ]
 
 { #category : #transforms }
+SRObject >> scale [
+
+	^ self transform scale
+]
+
+{ #category : #transforms }
 SRObject >> scaleBy: aVector3 [
 
 	self transform: (self transform scaledBy: aVector3).
@@ -227,6 +251,12 @@ SRObject >> transform: aMatrix4x4 [
 SRObject >> transformIsDirty [
 
 	transformDirty := true
+]
+
+{ #category : #transforms }
+SRObject >> translation [
+
+	^ self transform translation
 ]
 
 { #category : #transforms }
