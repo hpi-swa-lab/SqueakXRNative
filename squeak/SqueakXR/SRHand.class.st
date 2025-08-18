@@ -83,15 +83,16 @@ SRHand >> rayCast [
 		origin: self globalTranslation
 		forward: (self globalTransform localDirToGlobal: (0 @ 0 @ -1)) normalize.
 	
-	results := ray cast: self world.
+	results := ray cast: self world."
 	Transcript showln: '=============================';
-		showln: results size.
+		showln: results size."
 	
-	results do: [:result | | cube |
-		cube := SRCube new
+	results do: [:result |
+		result object onRaycast: result.
+		"cube := SRCube new
 			setScale: 5cm asVector3;
 			translation: result point.
-		self world addChild: cube.]
+		self world addChild: cube."]
 ]
 
 { #category : #'as yet unclassified' }

@@ -1,6 +1,9 @@
 Class {
 	#name : #SRCollisionGeometry,
 	#superclass : #Object,
+	#instVars : [
+		'object'
+	],
 	#category : #'SqueakXR-Core'
 }
 
@@ -14,6 +17,18 @@ SRCollisionGeometry class >> toolIcon [
 SRCollisionGeometry >> intersectsWithRay: aRay [
 
 	^ (self rayIntersection: aRay) notNil
+]
+
+{ #category : #accessing }
+SRCollisionGeometry >> object [
+
+	^ object
+]
+
+{ #category : #accessing }
+SRCollisionGeometry >> object: aSRObject [
+
+	object := aSRObject
 ]
 
 { #category : #collisions }

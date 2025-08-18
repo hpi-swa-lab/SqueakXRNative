@@ -156,6 +156,12 @@ SRObject >> onCacheInvalidated [
 ]
 
 { #category : #events }
+SRObject >> onRaycast: aSRRayIntersectionResult [
+
+	self changed: #raycast with: aSRRayIntersectionResult
+]
+
+{ #category : #events }
 SRObject >> onWorldChanged: oldWorld [
 ]
 

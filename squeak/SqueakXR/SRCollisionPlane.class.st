@@ -108,7 +108,8 @@ SRCollisionPlane >> rayIntersection: aRay [
 	
 	self isBounded ifFalse: [
 		^ SRRayIntersectionResult new
-			point: intersection].
+			point: intersection;
+			object: self object].
 	
 	centerToIntersection := intersection - self point.
 	((centerToIntersection dot: self up) abs <= (self height / 2)
@@ -116,7 +117,8 @@ SRCollisionPlane >> rayIntersection: aRay [
 		ifFalse: [^ nil]
 		ifTrue: [
 		^ SRRayIntersectionResult new
-			point: intersection]
+			point: intersection;
+			object: self object]
 ]
 
 { #category : #accessing }

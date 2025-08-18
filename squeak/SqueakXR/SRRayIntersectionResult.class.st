@@ -2,10 +2,23 @@ Class {
 	#name : #SRRayIntersectionResult,
 	#superclass : #Object,
 	#instVars : [
-		'point'
+		'point',
+		'object'
 	],
 	#category : #'SqueakXR-Core'
 }
+
+{ #category : #'as yet unclassified' }
+SRRayIntersectionResult >> object [
+
+	^ object
+]
+
+{ #category : #'as yet unclassified' }
+SRRayIntersectionResult >> object: aSRObject [
+
+	object := aSRObject
+]
 
 { #category : #'as yet unclassified' }
 SRRayIntersectionResult >> point [

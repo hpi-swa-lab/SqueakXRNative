@@ -34,12 +34,19 @@ SRPlane >> collisionGeometry [
 	| scale |
 	"TODO: could be cached"
 	scale := self scale.
-	^ SRCollisionPlane
+	^ (SRCollisionPlane
 		point: self globalTranslation
 		normal: self normal
 		up: self up
 		width: scale x
-		height: scale z
+		height: scale z)
+		object: self
+]
+
+{ #category : #accessing }
+SRPlane >> height [
+
+	^ self scale z
 ]
 
 { #category : #lifecycle }
@@ -105,4 +112,10 @@ SRPlane >> renderOn: aSRRenderer [
 SRPlane >> up [
 
 	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
+]
+
+{ #category : #accessing }
+SRPlane >> width [
+
+	^ self scale x
 ]
