@@ -7,7 +7,10 @@ Class {
 		'worldProcess',
 		'needsSetup',
 		'lastFrameTime',
-		'isXR'
+		'isXR',
+		'c',
+		'lastKeypressTime',
+		'lastKey'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -45,7 +48,7 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime framePrepard |
+	| deltaTime startTime framePrepard keys |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
 	
@@ -58,19 +61,70 @@ SRWorld >> doOneCycle [
 	framePrepard := self renderer prepareFrame.
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
+	keys := OrderedCollection new.
+	[(c := Raylib getKeyPressed) = 0] whileFalse: [
+		c = lastKey ifFalse: [keys add: c. lastKey := c.].
+		]. 
+	(Raylib isKeyPressedKey: RlKeyboardKey keyBackspace) ifTrue: [
+		lastKey = 8 ifFalse: [keys add: 8. lastKey := 8]].
+	keys ifNotEmpty: [
+		keys do: [:k | self handleKeyPress: k].
+		self allDo: [:o | (o class canUnderstand: #updateTexture)
+			ifTrue: [o needsTextureUpdate]]].
 	framePrepard ifTrue: [
 		self renderSelfAndChildrenOn: self renderer.
-		"1 to: 2 do: [:idx | | t q pose trigger |
-			pose := actionStates aimPoses at: idx.
-			q := Quaternion a: pose orientation w b: pose orientation x c: pose orientation y d: pose orientation z.
-			t := (Matrix4x4 withOffset: (pose position x @ pose position y @ pose position z))
-				* (Matrix4x4 fromQuaternion: q)
-				* (Matrix4x4 withScale: 10cm @ 10cm @ 10cm).
-			trigger := actionStates triggers at: idx.
-			self renderer renderCubeTransformed: t withColor: (Color green mixed: trigger with: Color red)]."
 		self renderer completeFrame].
 	
 	lastFrameTime := startTime.
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> handleKeyPress: charCode [
+	| character event value keyCode keyValue buttons control |
+	"startTime := DateAndTime now.
+	deltaTime := - (lastKeypressTime ifNil: [DateAndTime yesterday]).
+	 asMilliSeconds < 500 ifTrue: [^ self]."
+	(charCode < 65 or: [charCode > 90]) ifTrue: [^ self].
+	"lastKeypressTime := startTime."
+	character := charCode asCharacter.
+	((Raylib isKeyPressedKey: RlKeyboardKey keyLeftShift)
+		or: [Raylib isKeyPressedKey: RlKeyboardKey keyRightShift])
+			ifFalse: [character := character asLowercase].
+	Transcript showln: Smalltalk windowSystemName.
+	"Transcript showln: character;
+		showln: character asUppercase;
+		showln:EventSensor virtualKeyTable ."
+	"value := 0."
+	EventSensor installVirtualKeyTable.
+	value := EventSensor virtualKeyTable keyAtValue: character asUppercase.
+	
+	control := (Raylib isKeyPressedKey: RlKeyboardKey keyLeftControl)
+		or: [Raylib isKeyPressedKey: RlKeyboardKey keyRightControl].
+	keyValue := control ifTrue: [115] ifFalse: [character asInteger].
+	keyCode := control ifTrue: [1] ifFalse: [value].
+	buttons := control ifTrue: [64] ifFalse: [0].
+	
+	"(Raylib isKeyPressedKey: RlKeyboardKey keyBackspace)"charCode = 8 ifTrue: [
+		keyValue := 51.
+		keyCode := 51].
+	
+	event := KeyboardEvent new
+		setType: #keystroke
+		buttons: buttons
+		position: self currentHand position
+		keyValue: keyValue
+		keyCode: keyCode
+		hand: self currentHand
+		stamp: Sensor eventTimeNow.
+	[self currentHand keyboardFocus keyStroke: event.]
+		on: Error
+		do: [:e | Transcript showln: 'error occurred during keystroke: ', e description asString].
+	Transcript
+		showln: 'keyboard input';
+		showln: event;
+		showln: self currentHand keyboardFocus.
+	"self allDo: [:obj | (obj class canUnderstand: #needsTextureUpdate) ifTrue: [
+			obj needsTextureUpdate]]"
 ]
 
 { #category : #'as yet unclassified' }
@@ -163,7 +217,10 @@ SRWorld >> runStartScript [
 			"morph: (RectangleMorph new
 				borderWidth: 5; borderColor: Color red; color: Color blue);"
 			"transform: ((Matrix4x4 withScale: 3 @ 1 @ 3)
-			translatedBy: 0 @ 1 @ 0)").
+			translatedBy: 0 @ 1 @ 0)")";
+		addChild: (SRTranscriptWindow new
+			rotation: -90 @ 0 @ 0;
+			translation: 0 @ 1 @ -2)."
 ]
 
 { #category : #'as yet unclassified' }
@@ -178,7 +235,8 @@ SRWorld >> shutDown: quitting [
 SRWorld >> start [
 
 	self worldProcess: ([
-		self addChild: SRAvatar new.
+		self isXR ifTrue: [
+			self addChild: SRAvatar new].
 		self renderer setup.
 		self isXR ifTrue: [self initXrInput].
 		self allDo: #onWorldStarted.

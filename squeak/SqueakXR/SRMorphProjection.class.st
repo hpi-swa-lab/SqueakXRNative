@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'morph',
 		'plane',
-		'texture'
+		'texture',
+		'needsTextureUpdate',
+		'lastTextureUpdate'
 	],
 	#classVars : [
 		'Mesh'
@@ -34,7 +36,7 @@ SRMorphProjection >> handleRaycast: intersectionResult [
 		nClicks: 1
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	self currentHand handleEvent: event.
+	self morph processEvent: event.
 	event := MouseButtonEvent new
 		setType: #mouseUp
 		position: clickPoint asPoint
@@ -43,7 +45,7 @@ SRMorphProjection >> handleRaycast: intersectionResult [
 		nClicks: 1
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	self currentHand handleEvent: event.]
+	self morph processEvent: event.]
 		on: ProvideAnswerNotification
 		do: [:n | Transcript showln: n. n resume: true].
 	
@@ -63,6 +65,8 @@ SRMorphProjection >> initialize [
 	
 	self addChild: plane.
 	
+	needsTextureUpdate := false.
+	lastTextureUpdate := Date yesterday.
 ]
 
 { #category : #accessing }
@@ -80,10 +84,32 @@ SRMorphProjection >> morph: aMorph [
 	self updateTexture.
 ]
 
+{ #category : #accessing }
+SRMorphProjection >> needsTextureUpdate [
+	
+	"both method and variable are temporary!"
+	needsTextureUpdate := true
+]
+
 { #category : #'as yet unclassified' }
 SRMorphProjection >> setSizeFromPixelsPerMeter: aNumber [
 
 	plane setScale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
+]
+
+{ #category : #'as yet unclassified' }
+SRMorphProjection >> step: deltaTime [
+
+	| dt startTime s |
+	startTime := DateAndTime now.
+	dt := startTime - lastTextureUpdate.
+	(needsTextureUpdate and: [dt asMilliSeconds > 5000]) ifTrue: [
+		lastTextureUpdate := startTime.
+		needsTextureUpdate := false.
+		s := DateAndTime now.
+		self updateTexture.
+		Transcript showln: 'update texture took ',
+			(DateAndTime now - s)]
 ]
 
 { #category : #'as yet unclassified' }
