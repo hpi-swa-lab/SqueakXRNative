@@ -35,8 +35,16 @@ SRWorld class >> shutDown: quitting [
 { #category : #'as yet unclassified' }
 SRWorld class >> startUp [
 
-	self allInstances do: [:world |
-		world resume]
+	| worlds |
+	worlds := self allInstances.
+	worlds do: [:world | world resume].
+	
+	(worlds noneSatisfy: [:world | world isRunning]) ifTrue: [
+		Smalltalk platformName = 'unix' "android (for now)" ifTrue: [
+			SRWorld new
+				isXR: true;
+				renderer: SRRaylibRendererXR new;
+				start]].
 ]
 
 { #category : #'as yet unclassified' }
