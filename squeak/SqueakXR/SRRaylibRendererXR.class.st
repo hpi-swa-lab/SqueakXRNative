@@ -9,6 +9,7 @@ SRRaylibRendererXR >> completeFrame [
 
 	Raylib
 		endMode3D;
+		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
 		rlOpenXREnd.
@@ -20,8 +21,6 @@ SRRaylibRendererXR >> completeFrame [
 SRRaylibRendererXR >> prepareFrame [
 
 	| beginSuccessful |
-	self pollAndroidEvents.
-		
 	Raylib
 		rlOpenXRUpdate;
 		updateCamera: camera mode: RlCameraMode cameraFree;
