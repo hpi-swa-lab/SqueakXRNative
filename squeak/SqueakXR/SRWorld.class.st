@@ -41,6 +41,7 @@ SRWorld class >> startUp [
 	
 	(worlds noneSatisfy: [:world | world isRunning]) ifTrue: [
 		Smalltalk platformName = 'unix' "android (for now)" ifTrue: [
+			TranscriptStream redirectToStdOut: true.
 			SRWorld new
 				isXR: true;
 				renderer: SRRaylibRendererXR new;
