@@ -2,16 +2,20 @@ include(FetchContent)
 
 # Adapted from https://github.com/Bigfoot71/raymob/blob/5606e6593083fb0ebb1525d8088de4c0156be674/app/src/main/cpp/deps/raylib/CMakeLists.txt
 
-# Define a library for raylib
+# ==== raylib ====
+
+if(LOCAL_RAYLIB_SOURCE)
+    set(FETCHCONTENT_SOURCE_DIR_RAYLIB "${LOCAL_RAYLIB_SOURCE}")
+endif()
 
 FetchContent_Declare(raylib
-    GIT_REPOSITORY git@github.com:raysan5/raylib.git
-    GIT_TAG f1385f3aec24a29ff50164e5c86337dbd005506a
-    # Clone into directory outside of binary dir to prevent cloning this every. single. time. we change the build system
-#    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/raylib"
+    GIT_REPOSITORY git@github.com:leogeier/raylib.git
+    GIT_TAG squeakxr
+    SOURCE_SUBDIR ignoreCmakeLists
 )
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-FetchContent_Populate(raylib)
+
+FetchContent_MakeAvailable(raylib)
 
 set(RAYLIB_SOURCE_DIR "${raylib_SOURCE_DIR}/src")
 
@@ -71,7 +75,7 @@ endif()
 # Add library-specific binding option
 target_link_options(raylib PRIVATE "-u ANativeActivity_onCreate")
 
-# opensmalltalk-vm
+# ==== opensmalltalk-vm ====
 
 if(LOCAL_OPENSMALLTALKVM_SOURCE)
     set(FETCHCONTENT_SOURCE_DIR_OPENSMALLTALKVM "${LOCAL_OPENSMALLTALKVM_SOURCE}")
@@ -82,7 +86,7 @@ FetchContent_Declare(opensmalltalkvm
   GIT_TAG cmake-for-quest
 )
 
-# rlOpenXR
+# ==== rlOpenXR ====
 
 if(LOCAL_RLOPENXR_SOURCE)
     set(FETCHCONTENT_SOURCE_DIR_RLOPENXR "${LOCAL_RLOPENXR_SOURCE}")
