@@ -7,10 +7,7 @@ Class {
 		'worldProcess',
 		'needsSetup',
 		'lastFrameTime',
-		'isXR',
-		'c',
-		'lastKeypressTime',
-		'lastKey'
+		'isXR'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -57,7 +54,7 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 { #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime framePrepard keys |
+	| deltaTime startTime framePrepard |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
 	
@@ -68,18 +65,12 @@ SRWorld >> doOneCycle [
 	self allDescendants do: [:obj | obj step: deltaTime].
 	
 	framePrepard := self renderer prepareFrame.
+	
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
-	keys := OrderedCollection new.
-	[(c := Raylib getKeyPressed) = 0] whileFalse: [
-		c = lastKey ifFalse: [keys add: c. lastKey := c.].
-		]. 
-	(Raylib isKeyPressedKey: RlKeyboardKey keyBackspace) ifTrue: [
-		lastKey = 8 ifFalse: [keys add: 8. lastKey := 8]].
-	keys ifNotEmpty: [
-		keys do: [:k | self handleKeyPress: k].
-		self allDo: [:o | (o class canUnderstand: #updateTexture)
-			ifTrue: [o needsTextureUpdate]]].
+	
+	self processKeyInput.
+	
 	framePrepard ifTrue: [
 		self renderSelfAndChildrenOn: self renderer.
 		self renderer completeFrame].
@@ -103,10 +94,11 @@ SRWorld >> handleKeyPress: charCode [
 	"Transcript showln: character;
 		showln: character asUppercase;
 		showln:EventSensor virtualKeyTable ."
-	"value := 0."
-	EventSensor installVirtualKeyTable.
-	value := EventSensor virtualKeyTable keyAtValue: character asUppercase.
+	value := 0.
+	"EventSensor installVirtualKeyTable.
+	value := EventSensor virtualKeyTable keyAtValue: character asUppercase."
 	
+	"should isKeyDown"
 	control := (Raylib isKeyPressedKey: RlKeyboardKey keyLeftControl)
 		or: [Raylib isKeyPressedKey: RlKeyboardKey keyRightControl].
 	keyValue := control ifTrue: [115] ifFalse: [character asInteger].
@@ -125,7 +117,7 @@ SRWorld >> handleKeyPress: charCode [
 		keyCode: keyCode
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	[self currentHand keyboardFocus keyStroke: event.]
+	["self currentHand keyboardFocus processEvent: event."self currentHand keyboardFocus keyStroke: event.]
 		on: Error
 		do: [:e | Transcript showln: 'error occurred during keystroke: ', e description asString].
 	Transcript
@@ -190,6 +182,22 @@ SRWorld >> pollActions [
 
 	<cdecl: SRXrActionStates 'pollActions' () module: 'squeakxrnative'>
 	^ self externalCallFailed
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> processKeyInput [
+
+	| keyValue keys |
+	keys := OrderedCollection new.
+	[(keyValue := Raylib getKeyPressed) = 0] whileFalse: [
+		keys add: keyValue].
+	
+	keys ifNotEmpty: [ | start |
+		start := DateAndTime now.
+		keys do: [:k | self handleKeyPress: k].
+		Transcript showln: 'all handleKeyPress: took ', (DateAndTime now - start) asMilliSeconds asString.
+		self allDo: [:o | (o class canUnderstand: #updateTexture)
+			ifTrue: [o needsTextureUpdate]]].
 ]
 
 { #category : #accessing }
