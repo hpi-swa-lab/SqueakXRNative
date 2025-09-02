@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             GlobalScope.launch {
                 startXr()
             }
-        }, 100)
+        }, 1000)
         finish()
     }
 
