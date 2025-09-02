@@ -23,6 +23,8 @@ SRMorphProjection class >> defaultPixelsPerMeter [
 SRMorphProjection >> handleRaycast: intersectionResult [
 
 	| normalizedPoint clickPoint event point |
+	self world keyboardFocus: self.
+	
 	point := plane globalTransform globalPointToLocal: intersectionResult point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
 	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft.
@@ -65,6 +67,12 @@ SRMorphProjection >> initialize [
 	self addChild: plane.
 	
 	needsTextureUpdate := false.
+]
+
+{ #category : #events }
+SRMorphProjection >> keyboardEvent: aKeyboardEvent [
+
+	self morph processEvent: aKeyboardEvent
 ]
 
 { #category : #accessing }
