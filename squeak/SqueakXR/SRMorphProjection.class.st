@@ -5,7 +5,8 @@ Class {
 		'morph',
 		'plane',
 		'texture',
-		'needsTextureUpdate'
+		'needsTextureUpdate',
+		'lastClickPosition'
 	],
 	#classVars : [
 		'Mesh'
@@ -50,7 +51,8 @@ SRMorphProjection >> handleRaycast: intersectionResult [
 		on: ProvideAnswerNotification
 		do: [:n | Transcript showln: n. n resume: true].
 	
-	self updateTexture
+	self needsTextureUpdate.
+	lastClickPosition := clickPoint asPoint.
 ]
 
 { #category : #initialization }
@@ -61,18 +63,47 @@ SRMorphProjection >> initialize [
 	plane := SRPlane new
 		addDependent: self;
 		yourself.
-	
 	texture := SRMorphTexture new.
+	needsTextureUpdate := false.
+	lastClickPosition := nil.
 	
 	self addChild: plane.
-	
-	needsTextureUpdate := false.
 ]
 
 { #category : #events }
-SRMorphProjection >> keyboardEvent: aKeyboardEvent [
+SRMorphProjection >> keyboardEvent: aCharacter [
 
-	self morph processEvent: aKeyboardEvent
+	| buttons event keyValue |
+	buttons := 0.
+	((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
+		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift])
+		ifTrue: [buttons := buttons bitOr: 2r0001].
+	((Raylib isKeyDownKey: RlKeyboardKey keyLeftControl)
+		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightControl])
+		ifTrue: [buttons := buttons bitOr: 2r0100].
+	((Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt)
+		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightAlt])
+		ifTrue: [buttons := buttons bitOr: 2r1000].
+	((Raylib isKeyDownKey: RlKeyboardKey keyLeftSuper)
+		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightSuper])
+		ifTrue: [buttons := buttons bitOr: 2r0010].
+	buttons := buttons bitShift: MouseEvent numButtons.
+	keyValue := aCharacter asInteger.
+	
+	event := KeyboardEvent new
+		setType: #keystroke
+		buttons: buttons
+		position: (lastClickPosition ifNil: [self morph center])
+		keyValue: keyValue
+		keyCode: keyValue
+		hand: self currentHand
+		stamp: Sensor eventTimeNow.
+	
+	[self morph processEvent: event]
+		on: Error
+		do: [:e | Transcript showln: 'Error occurred during keystroke: '; show: e description].
+
+	self needsTextureUpdate.
 ]
 
 { #category : #accessing }

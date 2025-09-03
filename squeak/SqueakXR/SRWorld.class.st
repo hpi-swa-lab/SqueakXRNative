@@ -322,42 +322,14 @@ SRWorld >> doOneCycle [
 
 { #category : #'as yet unclassified' }
 SRWorld >> handleKeyPress: charCode [
-	| event keyCode keyValue buttons isShiftDown |
+	| isShiftDown |
 	
 	self keyboardFocus ifNil: [^ self].
 	
 	isShiftDown := ((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
 		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift]).
-	keyValue := keyCode := (self class keyFor: charCode shift: isShiftDown)
-		ifNil: [^ self]
-		ifNotNil: [:char | char asInteger].
-	
-	buttons := 0.
-	isShiftDown
-		ifTrue: [buttons := buttons bitOr: 2r0001].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftControl)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightControl])
-		ifTrue: [buttons := buttons bitOr: 2r0100].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightAlt])
-		ifTrue: [buttons := buttons bitOr: 2r1000].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftSuper)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightSuper])
-		ifTrue: [buttons := buttons bitOr: 2r0010].
-	buttons := buttons bitShift: MouseEvent numButtons.
-	
-	event := KeyboardEvent new
-		setType: #keystroke
-		buttons: buttons
-		position: self keyboardFocus morph center "only works for morph projections"
-		keyValue: keyValue
-		keyCode: keyCode
-		hand: self currentHand
-		stamp: Sensor eventTimeNow.
-	
-	[self keyboardFocus keyboardEvent: event]
-		on: Error
-		do: [:e | Transcript showln: 'error occurred during keystroke: ', e description asString].
+	self keyboardFocus keyboardEvent: ((self class keyFor: charCode shift: isShiftDown)
+		ifNil: [^ self])
 ]
 
 { #category : #'as yet unclassified' }
@@ -371,6 +343,8 @@ SRWorld >> initXrInput [
 SRWorld >> initialize [
 
 	super initialize.
+	
+	running := false.
 	
 	self
 		isXR: false;
@@ -436,12 +410,8 @@ SRWorld >> processKeyInput [
 	[(keyValue := Raylib getKeyPressed) = 0] whileFalse: [
 		keys add: keyValue].
 	
-	keys ifNotEmpty: [ | start |
-		start := DateAndTime now.
-		keys do: [:k | self handleKeyPress: k].
-		Transcript showln: 'all handleKeyPress: took ', (DateAndTime now - start) asMilliSeconds asString.
-		self allDo: [:o | (o class canUnderstand: #updateTexture)
-			ifTrue: [o needsTextureUpdate]]].
+	keys ifNotEmpty: [ 
+		keys do: [:k | self handleKeyPress: k]].
 ]
 
 { #category : #accessing }
@@ -470,21 +440,23 @@ SRWorld >> resume [
 { #category : #'as yet unclassified' }
 SRWorld >> runStartScript [
 
-	self isXR ifFalse: [^ self].
+	"self isXR ifFalse: [^ self]."
 	
 	self "addChild: SRAvatar new;"
-		"addChild: (SRMorphProjection new
-			morph: (SystemBrowser default open dependents first);"
 		addChild: (SRMorphProjection new
-			morph: Workspace open dependents first;
+			morph: SystemBrowser default open dependents first;
 			rotation: -90 @ 0 @ 0;
 			translation: 0 @ 1 @ -2);
 		addChild: (SRMorphProjection new
-			morph: (KeyboardExerciser new openInWorld)"
+			morph: Workspace open dependents first;
+			rotation: -90 @ 0 @ 0;
+			translation: 1.5 @ 1 @ -2)
+		"addChild: (SRMorphProjection new
+			morph: (KeyboardExerciser new openInWorld)
 			morph: (RectangleMorph new
 				borderWidth: 5; borderColor: Color red; color: Color blue);"
 			"transform: ((Matrix4x4 withScale: 3 @ 1 @ 3)
-			translatedBy: 0 @ 1 @ 0)")";
+			translatedBy: 0 @ 1 @ 0));
 		addChild: (SRTranscriptWindow new
 			rotation: -90 @ 0 @ 0;
 			translation: 0 @ 1 @ -2)."

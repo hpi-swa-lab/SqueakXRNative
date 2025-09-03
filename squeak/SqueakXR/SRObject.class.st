@@ -139,6 +139,10 @@ SRObject >> initialize [
 	transformDirty := true.
 ]
 
+{ #category : #events }
+SRObject >> keyboardEvent: aCharacter [
+]
+
 { #category : #transforms }
 SRObject >> localTransform [
 
