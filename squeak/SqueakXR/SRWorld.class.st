@@ -448,6 +448,10 @@ SRWorld >> runStartScript [
 			rotation: -90 @ 0 @ 0;
 			translation: 0 @ 1 @ -2);
 		addChild: (SRMorphProjection new
+			morph: SystemBrowser default open dependents first;
+			rotation: -90 @ 0 @ 0;
+			translation: 0 @ 2 @ -2);
+		addChild: (SRMorphProjection new
 			morph: Workspace open dependents first;
 			rotation: -90 @ 0 @ 0;
 			translation: 1.5 @ 1 @ -2)

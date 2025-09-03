@@ -23,14 +23,14 @@ SRMorphProjection class >> defaultPixelsPerMeter [
 { #category : #events }
 SRMorphProjection >> handleRaycast: intersectionResult [
 
-	| normalizedPoint clickPoint event point |
+	| normalizedPoint clickPoint point downEvent upEvent |
 	self world keyboardFocus: self.
 	
 	point := plane globalTransform globalPointToLocal: intersectionResult point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
 	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft.
 	
-	[event := MouseButtonEvent new
+	downEvent := MouseButtonEvent new
 		setType: #mouseDown
 		position: clickPoint asPoint
 		which: MouseButtonEvent redButton
@@ -38,8 +38,7 @@ SRMorphProjection >> handleRaycast: intersectionResult [
 		nClicks: 1
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	self morph processEvent: event.
-	event := MouseButtonEvent new
+	upEvent := MouseButtonEvent new
 		setType: #mouseUp
 		position: clickPoint asPoint
 		which: MouseButtonEvent redButton
@@ -47,11 +46,15 @@ SRMorphProjection >> handleRaycast: intersectionResult [
 		nClicks: 1
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	self morph processEvent: event.]
-		on: ProvideAnswerNotification
-		do: [:n | Transcript showln: n. n resume: true].
 	
-	self needsTextureUpdate.
+	Project current addDeferredUIMessage: [[
+		self morph
+			processEvent: downEvent;
+			processEvent: upEvent]
+				on: ProvideAnswerNotification
+				do: [:n | Transcript showln: 'During raycast click: '; show: n. n resume: true].
+		self needsTextureUpdate].
+	
 	lastClickPosition := clickPoint asPoint.
 ]
 
@@ -99,11 +102,20 @@ SRMorphProjection >> keyboardEvent: aCharacter [
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
 	
-	[self morph processEvent: event]
-		on: Error
-		do: [:e | Transcript showln: 'Error occurred during keystroke: '; show: e description].
-
-	self needsTextureUpdate.
+	Project current addDeferredUIMessage: [[
+		self morph processEvent: event]
+			on: Error
+			do: [:error |
+				Transcript showln: 'Error occurred during keystroke: '; show: error. error pass]
+			on: ProvideAnswerNotification
+			do: [:notification |
+				notification messageText = 'Please type your initials:'
+					ifTrue: [notification resume: 'xr user']
+					ifFalse: [notification pass]]
+			on: Exception
+			do: [:exception |
+				Transcript showln: 'Exception during keystroke: '; show: exception. exception pass].
+			self needsTextureUpdate.].
 ]
 
 { #category : #accessing }
@@ -124,8 +136,9 @@ SRMorphProjection >> morph: aMorph [
 { #category : #accessing }
 SRMorphProjection >> needsTextureUpdate [
 	
-	"both method and variable are temporary!"
+	"calling this from e.g. the UI thread should be thread-safe"
 	needsTextureUpdate := true
+	
 ]
 
 { #category : #rendering }
