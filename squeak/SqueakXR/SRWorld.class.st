@@ -13,7 +13,7 @@ Class {
 	#classVars : [
 		'KeyDict'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #'as yet unclassified' }

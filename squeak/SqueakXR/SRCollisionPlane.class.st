@@ -9,7 +9,7 @@ Class {
 		'height',
 		'up'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Collisions'
 }
 
 { #category : #'as yet unclassified' }

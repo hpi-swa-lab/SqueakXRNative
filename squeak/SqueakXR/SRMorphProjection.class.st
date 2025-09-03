@@ -11,7 +11,7 @@ Class {
 	#classVars : [
 		'Mesh'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #'as yet unclassified' }

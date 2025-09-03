@@ -1,7 +1,7 @@
 Class {
 	#name : #SRAvatar,
 	#superclass : #SRObject,
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #'as yet unclassified' }

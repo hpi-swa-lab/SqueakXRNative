@@ -1,7 +1,7 @@
 Class {
 	#name : #SRPlaneTest,
 	#superclass : #TestCase,
-	#category : #'SqueakXR-Core-Tests'
+	#category : #'SqueakXR-Objects-Tests'
 }
 
 { #category : #'as yet unclassified' }

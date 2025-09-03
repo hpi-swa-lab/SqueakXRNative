@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'color'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #accessing }

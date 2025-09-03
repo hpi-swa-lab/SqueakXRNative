@@ -5,7 +5,7 @@ Class {
 		'handIndex',
 		'triggerPressed'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #'as yet unclassified' }

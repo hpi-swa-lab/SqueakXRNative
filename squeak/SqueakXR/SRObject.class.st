@@ -8,7 +8,7 @@ Class {
 		'parent',
 		'transform'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Objects'
 }
 
 { #category : #'as yet unclassified' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #SRObjectTest,
 	#superclass : #TestCase,
-	#category : #'SqueakXR-Core-Tests'
+	#category : #'SqueakXR-Objects-Tests'
 }
 
 { #category : #'tests - children' }

@@ -5,7 +5,7 @@ Class {
 		'point',
 		'object'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Collisions'
 }
 
 { #category : #'as yet unclassified' }
