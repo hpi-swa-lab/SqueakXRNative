@@ -45,7 +45,7 @@ SRRaylibRendererXR >> setup [
 	Raylib
 		initWindowWidth: 1200 height: 900 title: 'SqueakXR';
 		setTargetFPS: -1.
-		
+	
 	Raylib rlOpenXRSetup
 		ifTrue: [Transcript showln: 'rlOpenXRSetup succeeded']
 		ifFalse: [

@@ -265,18 +265,18 @@ SRWorld class >> shiftValueOffset [
 ]
 
 { #category : #'as yet unclassified' }
-SRWorld class >> shutDown: quitting [
+SRWorld class >> shutDown [
 
 	self allInstances do: [:world |
-		world shutDown: quitting]
+		world shutDown]
 ]
 
 { #category : #'as yet unclassified' }
-SRWorld class >> startUp [
+SRWorld class >> startUp: resuming [
 
 	| worlds |
 	worlds := self allInstances.
-	worlds do: [:world | world resume].
+	worlds do: [:world | world startUp: resuming].
 	
 	(worlds noneSatisfy: [:world | world isRunning]) ifTrue: [
 		Smalltalk platformName = 'unix' "android (for now)" ifTrue: [
@@ -454,7 +454,11 @@ SRWorld >> runStartScript [
 		addChild: (SRMorphProjection new
 			morph: Workspace open dependents first;
 			rotation: -90 @ 0 @ 0;
-			translation: 1.5 @ 1 @ -2)
+			translation: 1.5 @ 1 @ -2);
+		addChild: (SRMorphProjection new
+			morph: SRSaveMorph new openInWorld;
+			rotation: -90 @ 0 @ 0;
+			translation: -1.25 @ 1 @ -2)
 		"addChild: (SRMorphProjection new
 			morph: (KeyboardExerciser new openInWorld)
 			morph: (RectangleMorph new
@@ -467,11 +471,9 @@ SRWorld >> runStartScript [
 ]
 
 { #category : #'as yet unclassified' }
-SRWorld >> shutDown: quitting [
-
-	self invalidateCache.
-	needsSetup := quitting.
-	self suspend.
+SRWorld >> shutDown [
+	
+	self suspend
 ]
 
 { #category : #'as yet unclassified' }
@@ -495,6 +497,15 @@ SRWorld >> start [
 			priority: Processor userSchedulingPriority).
 	
 	self worldProcess resume.
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> startUp: resuming [
+
+	resuming ifTrue: [
+		self invalidateCache.
+		needsSetup := resuming].
+	self resume
 ]
 
 { #category : #'as yet unclassified' }
