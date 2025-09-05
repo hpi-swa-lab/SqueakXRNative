@@ -43,6 +43,10 @@ SRRaylibRendererXR >> prepareFrame [
 SRRaylibRendererXR >> setup [
 	
 	Raylib
+		"setConfigFlags: ({
+				RlConfigFlags flagMsaa4xHint.
+				RlConfigFlags flagWindowHighdpi}
+			inject: 0 into: [:allFlags :flag | allFlags bitOr: flag]);"
 		initWindowWidth: 1200 height: 900 title: 'SqueakXR';
 		setTargetFPS: -1.
 	

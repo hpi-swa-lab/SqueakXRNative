@@ -4,7 +4,8 @@ Extension { #name : #Form }
 Form >> createTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
-	^ RlTexture new
+	| tex |
+	tex := RlTexture new
 		id: (Raylib rlLoadTextureData: self getTextureData
 			width: self width
 			height: self height
@@ -13,7 +14,10 @@ Form >> createTexture [
 		width: self width;
 		height: self height;
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8;
-		mipmaps: 1
+		mipmaps: 4.
+	Raylib genTextureMipmapsTexture: tex;
+		setTextureFilterTexture: tex filter: RlTextureFilter textureFilterTrilinear.
+	^ tex
 ]
 
 { #category : #'*SqueakXR-core' }
@@ -28,19 +32,15 @@ Form >> getTextureData [
 ]
 
 { #category : #'*SqueakXR-core' }
-Form >> updateTexture: aTextureId [
+Form >> updateTexture: aTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
-	^ Raylib rlUpdateTextureId: aTextureId
-		"id: (Raylib rlLoadTextureData: self getTextureData
-			width: self width
-			height: self height
-			format: RlPixelFormat pixelformatUncompressedR8g8b8a8
-			mipmapCount: 1);"
+	Raylib rlUpdateTextureId: aTexture id
 		offsetX: 0
 		offsetY: 0
 		width: self width
 		height: self height
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8
-		data: self getTextureData
+		data: self getTextureData;
+		genTextureMipmapsTexture: aTexture
 ]

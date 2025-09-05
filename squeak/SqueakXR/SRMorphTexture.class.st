@@ -53,6 +53,6 @@ SRMorphTexture >> update [
 { #category : #'as yet unclassified' }
 SRMorphTexture >> updateTexture [
 
-	self morph imageForm updateTexture: texture id.
+	self morph imageForm updateTexture: texture.
 	^ texture
 ]
