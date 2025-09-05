@@ -14,7 +14,7 @@ Form >> createTexture [
 		width: self width;
 		height: self height;
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8;
-		mipmaps: 4.
+		mipmaps: 4 "self width log2 ceiling".
 	Raylib genTextureMipmapsTexture: tex;
 		setTextureFilterTexture: tex filter: RlTextureFilter textureFilterTrilinear.
 	^ tex
