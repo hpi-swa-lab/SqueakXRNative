@@ -71,6 +71,12 @@ SRObject >> childCount [
 { #category : #accessing }
 SRObject >> children [
 
+	^ children
+]
+
+{ #category : #accessing }
+SRObject >> childrenCopy [
+
 	^ children copy
 ]
 
