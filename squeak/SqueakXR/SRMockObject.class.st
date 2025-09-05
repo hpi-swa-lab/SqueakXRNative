@@ -5,7 +5,7 @@ Class {
 		'onWorldChangedCount',
 		'previousWorld'
 	],
-	#category : #'SqueakXR-Objects-Tests'
+	#category : #'SqueakXR-Tests-Objects'
 }
 
 { #category : #'as yet unclassified' }

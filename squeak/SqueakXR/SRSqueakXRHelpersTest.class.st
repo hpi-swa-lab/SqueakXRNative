@@ -1,7 +1,7 @@
 Class {
 	#name : #SRSqueakXRHelpersTest,
 	#superclass : #TestCase,
-	#category : #'SqueakXR-Core-Tests'
+	#category : #'SqueakXR-Tests-Core'
 }
 
 { #category : #'as yet unclassified' }

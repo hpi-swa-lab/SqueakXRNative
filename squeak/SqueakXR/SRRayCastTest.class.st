@@ -1,7 +1,7 @@
 Class {
 	#name : #SRRayCastTest,
 	#superclass : #TestCase,
-	#category : #'SqueakXR-Collisions-Tests'
+	#category : #'SqueakXR-Tests-Collisions'
 }
 
 { #category : #'as yet unclassified' }
