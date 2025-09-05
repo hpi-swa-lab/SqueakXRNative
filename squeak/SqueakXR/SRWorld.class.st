@@ -345,11 +345,21 @@ SRWorld >> initialize [
 	super initialize.
 	
 	running := false.
+	needsSetup := false.
 	
 	self
 		isXR: false;
 		renderer: SRRenderer rendererClass new. "TODO: decide this based on XRness"
 	
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> initializeWorldProcess [
+	
+	self renderer setup.
+	self isXR ifTrue: [self initXrInput].
+	Smalltalk at: #XRWorld put: self.
+	self allDo: #onWorldStarted.
 ]
 
 { #category : #'as yet unclassified' }
@@ -432,8 +442,7 @@ SRWorld >> resume [
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
-			self renderer setup.
-			self allDo: #onWorldStarted.].
+			self initializeWorldProcess].
 		worldProcess resume].
 ]
 
@@ -482,11 +491,8 @@ SRWorld >> start [
 	self worldProcess: ([
 		self isXR ifTrue: [
 			self addChild: SRAvatar new].
-		self renderer setup.
-		self isXR ifTrue: [self initXrInput].
-		Smalltalk at: #XRWorld put: self.
-		self allDo: #onWorldStarted.
-		self runStartScript.
+		self initializeWorldProcess;
+			runStartScript.
 		running := true.
 		lastFrameTime := DateAndTime now.
 		[self isRunning] whileTrue: [
