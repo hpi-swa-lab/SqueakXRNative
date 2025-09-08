@@ -8,7 +8,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.findFragment
 import androidx.preference.PreferenceManager
 import com.swalab.squeakxrnative.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -16,6 +17,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.BufferedInputStream
 import java.io.File
@@ -33,11 +35,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + squeakImageFiles["image"]!!)
+//        storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + squeakImageFiles["image"]!!)
 
         binding.button.setOnClickListener {
 //            launch(getExternalFilesDir(null)!!.absolutePath + "/" + "not needed, pls remove")
             launchXrCoroutine()
+        }
+
+        binding.manageImagesButton.setOnClickListener {
+            val intent = Intent(this, ManageImagesActivity::class.java)
+            startActivity(intent);
         }
 
         updateImageInfo()
@@ -61,26 +68,46 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun launchXrCoroutine() {
-        // The delay allows the Activity to handle the initial app focus event.
-        // If we don't do this and click the Launch button first thing, the app will be killed.
-        // A better way might be to do event polling inside of Squeak.
-        Handler(Looper.getMainLooper()).postDelayed({
-            GlobalScope.launch {
-                startXr()
-            }
-        }, 1000)
-        finish()
-    }
+        binding.button.isEnabled = false
+        binding.button.isClickable = false
 
-    private suspend fun startXr() {
+        var setupSuccessful = true
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        storeStartScript(preferences.getString("start_script", "")!!)
 
-        if (preferences.getBoolean("fetch_image_on_launch", false)) {
-            if (!fetchImageFromRemote()) {
-                throw RuntimeException("Fetching images failed!")
+        val selectedImage = preferences.getString("selected_image", "")!!
+        if (selectedImage.isEmpty()) {
+            System.err.println(getString(R.string.no_image_selected))
+            Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
+            setupSuccessful = false;
+        }
+
+        val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
+        GlobalScope.launch {
+            if (preferences.getBoolean("fetch_image_on_launch", false)) {
+                if (!fetchImageFromRemote()) {
+                    setupSuccessful = false
+                    System.err.println(getString(R.string.fetching_images_failed))
+                    fetchImagesFailedToast.show()
+                }
+            }
+
+            if (setupSuccessful) {
+                finish()
+                delay(1000)
+                startXr(selectedImage)
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    binding.button.isEnabled = true
+                    binding.button.isClickable = true
+                }
             }
         }
+    }
+
+    private suspend fun startXr(imageFileName: String) {
+        storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + imageFileName)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        storeStartScript(preferences.getString("start_script", "")!!)
 
         val intent = Intent(this, VrActivity::class.java)
         startActivity(intent);

@@ -17,6 +17,12 @@
             android:layout_height="wrap_content"
             android:text="Launch" />
 
+        <Button
+            android:id="@+id/manage_images_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Images" />
+
         <TextView
             android:id="@+id/textImageStatus"
             android:layout_width="match_parent"
@@ -30,7 +36,7 @@
             android:text="Reset image" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
+            android:id="@+id/preferenceContainerView"
             android:name="com.swalab.squeakxrnative.SettingsFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
