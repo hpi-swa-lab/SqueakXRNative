@@ -141,6 +141,15 @@ SRMorphProjection >> needsTextureUpdate [
 	
 ]
 
+{ #category : #events }
+SRMorphProjection >> onCacheInvalidated [
+
+	super onCacheInvalidated.
+
+	texture resetTexture.
+	self needsTextureUpdate.
+]
+
 { #category : #rendering }
 SRMorphProjection >> renderOn: aSRRenderer [
 

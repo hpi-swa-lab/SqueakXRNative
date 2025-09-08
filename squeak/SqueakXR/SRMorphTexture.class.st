@@ -43,6 +43,12 @@ SRMorphTexture >> morph: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+SRMorphTexture >> resetTexture [
+
+	texture := nil
+]
+
+{ #category : #'as yet unclassified' }
 SRMorphTexture >> update [
 
 	^ (texture isNil or: [self extent ~= self morph extent])
