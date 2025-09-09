@@ -8,10 +8,12 @@ Class {
 		'needsSetup',
 		'lastFrameTime',
 		'isXR',
-		'keyboardFocus'
+		'keyboardFocus',
+		'ranStartScript'
 	],
 	#classVars : [
-		'KeyDict'
+		'KeyDict',
+		'RunStartScriptInFlat'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -259,6 +261,21 @@ SRWorld class >> keyFor: charCode shift: isShiftPressed [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld class >> runStartScriptInFlat [
+	<preference: 'Run Start Script in Flat'
+		category: 'SqueakXR'
+		description: 'Whether to run the start script in a flat (non-XR) environment'
+		type: #Boolean>
+	^ RunStartScriptInFlat ifNil: [RunStartScriptInFlat := true]
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> runStartScriptInFlat: aBoolean [
+
+	RunStartScriptInFlat := aBoolean
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld class >> shiftValueOffset [
 
 	^ 1000
@@ -346,6 +363,7 @@ SRWorld >> initialize [
 	
 	running := false.
 	needsSetup := false.
+	ranStartScript := false.
 	
 	self
 		isXR: false;
@@ -449,25 +467,26 @@ SRWorld >> resume [
 { #category : #'as yet unclassified' }
 SRWorld >> runStartScript [
 
-	"self isXR ifFalse: [^ self]."
+	(self isXR not and: [self class runStartScriptInFlat]) ifFalse: [^ self].
+	ranStartScript := true.
 	
 	self "addChild: SRAvatar new;"
 		addChild: (SRMorphProjection new
 			morph: SystemBrowser default open dependents first;
 			rotation: -90 @ 0 @ 0;
-			translation: 0 @ 1 @ -2);
+			translation: 0 @ 1 @ -1.5);
 		addChild: (SRMorphProjection new
 			morph: SystemBrowser default open dependents first;
 			rotation: -90 @ 0 @ 0;
-			translation: 0 @ 2 @ -2);
+			translation: 0 @ 2 @ -1.5);
 		addChild: (SRMorphProjection new
 			morph: Workspace open dependents first;
 			rotation: -90 @ 0 @ 0;
-			translation: 1.5 @ 1 @ -2);
+			translation: 1.5 @ 1 @ -1.5);
 		addChild: (SRMorphProjection new
 			morph: SRSaveMorph new openInWorld;
 			rotation: -90 @ 0 @ 0;
-			translation: -1.25 @ 1 @ -2)
+			translation: -1.25 @ 1 @ -1.5)
 		"addChild: (SRMorphProjection new
 			morph: (KeyboardExerciser new openInWorld)
 			morph: (RectangleMorph new
