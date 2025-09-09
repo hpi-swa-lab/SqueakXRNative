@@ -22,16 +22,17 @@ SRSaveMorph >> initialize [
 
 { #category : #'as yet unclassified' }
 SRSaveMorph >> save [
+	"Also see SmalltalkImage>>saveAsNewVersion"
+	
+	| newName changesName |
+	newName := 'local.image'.
+	changesName := Smalltalk fullNameForChangesNamed: newName.
 
-	| directory newImageName newChangesName |
-	directory := FileDirectory forFileName: Smalltalk imageName.
-	newImageName := (directory  / 'local.image') fullName.
-	newChangesName := (directory / 'local.changes') fullName.
-	
-	directory
-		copyFile: (FileStream fileNamed: Smalltalk changesName)
-		toFile: (FileStream forceNewFileNamed: newChangesName).
-	
-	Smalltalk changeImageNameTo: newImageName.
-	Smalltalk snapshot: true andQuit: false
+	(SourceFiles at: 2) ifNotNil:
+		[Smalltalk closeSourceFiles; "so copying the changes file will always work"
+			saveChangesInFileNamed: (Smalltalk fullNameForChangesNamed: newName)].
+	Smalltalk saveImageInFileNamed: (Smalltalk fullNameForImageNamed: newName)
+
+
+
 ]
