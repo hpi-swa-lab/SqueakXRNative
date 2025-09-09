@@ -69,12 +69,12 @@ SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 		rlPushMatrix;
 		rlMultMatrixfMatf: aMatrix4x4 transposed;
 		drawSphereExCenterPos: Vector3 zero asRlVector
-			radius: 1
+			radius: 0.5
 			rings: 16
 			slices: 16
 			color: aColor asRlColor;
 		drawSphereWiresCenterPos: Vector3 zero asRlVector
-			radius: 1
+			radius: 0.5
 			rings: 16
 			slices: 16
 			color: aColor thriceDarker asRlColor;
