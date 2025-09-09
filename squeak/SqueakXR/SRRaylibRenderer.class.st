@@ -62,6 +62,25 @@ SRRaylibRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aSRMateria
 		transform: aMatrix4x4 asRlMatrix
 ]
 
+{ #category : #rendering }
+SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
+
+	Raylib
+		rlPushMatrix;
+		rlMultMatrixfMatf: aMatrix4x4 transposed;
+		drawSphereExCenterPos: Vector3 zero asRlVector
+			radius: 1
+			rings: 16
+			slices: 16
+			color: aColor asRlColor;
+		drawSphereWiresCenterPos: Vector3 zero asRlVector
+			radius: 1
+			rings: 16
+			slices: 16
+			color: aColor thriceDarker asRlColor;
+		rlPopMatrix.
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 
