@@ -4,7 +4,12 @@ Class {
 	#instVars : [
 		'handIndex',
 		'triggerPressed',
-		'aPressed'
+		'aPressed',
+		'squeezePressed',
+		'grabbedObject',
+		'grabbedTranslationOffset',
+		'grabbedDistance',
+		'grabbedDistanceToAvatar'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -36,7 +41,7 @@ SRHand class >> rightIndex [
 { #category : #'as yet unclassified' }
 SRHand >> actionsUpdated: aSRActionStates [
 
-	| aJustPressed prevAPressed |
+	| aJustPressed prevAPressed prevSqueezePressed squeezeJustPressed squeezeJustReleased threshold |
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
 	
@@ -45,7 +50,17 @@ SRHand >> actionsUpdated: aSRActionStates [
 	aPressed := aSRActionStates a.
 	aJustPressed := aPressed and: prevAPressed not.
 	(self isRight and: aJustPressed) ifTrue: [
-		self teleport]
+		self teleport].
+	
+	prevSqueezePressed := squeezePressed.
+	threshold := squeezePressed
+		ifTrue: [0.8]
+		ifFalse: [0.9].
+	squeezePressed := (aSRActionStates squeeze at: self handIndex) > threshold.
+	squeezeJustPressed := squeezePressed and: prevSqueezePressed not.
+	squeezeJustReleased := squeezePressed not and: prevSqueezePressed.
+	squeezeJustPressed ifTrue: [self startGrabbing].
+	squeezeJustReleased ifTrue: [self stopGrabbing]
 ]
 
 { #category : #accessing }
@@ -81,6 +96,7 @@ SRHand >> initialize [
 	
 	triggerPressed := false.
 	aPressed := false.
+	squeezePressed := false.
 	
 	self addChild: (SRCube new scaleBy: 10cm asVector3);
 		addChild: (SRCube new
@@ -115,7 +131,7 @@ SRHand >> rayCast [
 	| ray results |
 	ray := SRRay
 		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: (0 @ 0 @ -1)) normalize.
+		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
 	
 	results := ray cast: self world.
 	
@@ -127,6 +143,44 @@ SRHand >> rayCast [
 SRHand >> renderOn: aSRRenderer [
 
 	"aSRRenderer renderCubeTransformed: self globalTransform * (Matrix4x4 withScale: 10cm asVector3) withColor: Color green."
+]
+
+{ #category : #'as yet unclassified' }
+SRHand >> startGrabbing [
+
+	| ray |
+	ray := SRRay
+		origin: self globalTranslation
+		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	
+	(ray cast: self world) ifNotEmpty: [:results | | collision |
+		collision := results first.
+		"TODO: should be object by default, but give option to morph to redefine grabbed morph"
+		grabbedObject := collision object parent.
+		grabbedDistance := self globalTranslation distanceTo: collision point.
+		grabbedDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
+		grabbedTranslationOffset := grabbedObject globalTranslation - collision point]
+]
+
+{ #category : #'as yet unclassified' }
+SRHand >> step: deltaTime [
+
+	grabbedObject ifNotNil: [ | currentDistanceToAvatar avatarDistanceDelta |
+		"TODO!!!! MUST BE GLOBAL TRANSLATION ETC"
+		currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
+		avatarDistanceDelta := currentDistanceToAvatar - grabbedDistanceToAvatar.
+		grabbedObject translation:
+			self globalTranslation
+				+ ((self globalTransform localDirToGlobal: Vector3 backward  * (1 + (avatarDistanceDelta * 5))) * grabbedDistance)
+				+ grabbedTranslationOffset.
+		"grabbedObject translation: self globalTranslation."
+		"grabbedObject rotation: self globalTransform rotation"]
+]
+
+{ #category : #'as yet unclassified' }
+SRHand >> stopGrabbing [
+
+	grabbedObject := nil.
 ]
 
 { #category : #'as yet unclassified' }
@@ -152,7 +206,7 @@ SRHand >> update: aSymbol with: anObject [
 SRHand >> updateTransformFromActions: aSRActionStates [
 	
 	| pose |
-	pose := (aSRActionStates aimPoses at: self handIndex).
+	pose := aSRActionStates aimPoses at: self handIndex.
 	self translation: pose position;
 		setRotationFromQuaternion: pose orientation
 ]
