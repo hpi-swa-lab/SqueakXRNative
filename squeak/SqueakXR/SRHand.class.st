@@ -3,7 +3,8 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'handIndex',
-		'triggerPressed'
+		'triggerPressed',
+		'aPressed'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -11,20 +12,40 @@ Class {
 { #category : #'as yet unclassified' }
 SRHand class >> left [
 
-	^ self new handIndex: 1
+	^ self new handIndex: self leftIndex
+]
+
+{ #category : #'as yet unclassified' }
+SRHand class >> leftIndex [
+
+	^ 1
 ]
 
 { #category : #'as yet unclassified' }
 SRHand class >> right [
 
-	^ self new handIndex: 2
+	^ self new handIndex: self rightIndex
+]
+
+{ #category : #'as yet unclassified' }
+SRHand class >> rightIndex [
+
+	^ 2
 ]
 
 { #category : #'as yet unclassified' }
 SRHand >> actionsUpdated: aSRActionStates [
 
+	| aJustPressed prevAPressed |
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
+	
+	"TODO: move low handling of inputs to separate class"
+	prevAPressed := aPressed.
+	aPressed := aSRActionStates a.
+	aJustPressed := aPressed and: prevAPressed not.
+	(self isRight and: aJustPressed) ifTrue: [
+		self teleport]
 ]
 
 { #category : #accessing }
@@ -59,11 +80,24 @@ SRHand >> initialize [
 	super initialize.
 	
 	triggerPressed := false.
+	aPressed := false.
 	
 	self addChild: (SRCube new scaleBy: 10cm asVector3);
 		addChild: (SRCube new
 			setScale: 1cm @ 1cm @ 10m;
 			translation: 0 @ 0 @ -5m).
+]
+
+{ #category : #testing }
+SRHand >> isLeft [
+
+	^ self handIndex = self class leftIndex
+]
+
+{ #category : #testing }
+SRHand >> isRight [
+
+	^ self handIndex = self class rightIndex
 ]
 
 { #category : #events }
@@ -83,22 +117,29 @@ SRHand >> rayCast [
 		origin: self globalTranslation
 		forward: (self globalTransform localDirToGlobal: (0 @ 0 @ -1)) normalize.
 	
-	results := ray cast: self world."
-	Transcript showln: '=============================';
-		showln: results size."
+	results := ray cast: self world.
 	
 	results do: [:result |
-		result object onRaycast: result.
-		"cube := SRCube new
-			setScale: 5cm asVector3;
-			translation: result point.
-		self world addChild: cube."]
+		result object onRaycast: result.]
 ]
 
 { #category : #'as yet unclassified' }
 SRHand >> renderOn: aSRRenderer [
 
 	"aSRRenderer renderCubeTransformed: self globalTransform * (Matrix4x4 withScale: 10cm asVector3) withColor: Color green."
+]
+
+{ #category : #'as yet unclassified' }
+SRHand >> teleport [
+
+	| forward groundPoint t translation |
+	"hand points backward, so we need to start with Vector3 backward instead of forward"
+	forward := self globalTransform localDirToGlobal: Vector3 backward.
+	forward y > 0 ifTrue: [^ self]. "hand is not pointing at ground"
+	translation := self globalTranslation.
+	t := (translation y / forward y) negated.
+	groundPoint := forward * t + translation.
+	self world avatar translation: groundPoint.
 ]
 
 { #category : #'as yet unclassified' }

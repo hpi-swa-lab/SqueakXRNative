@@ -7,9 +7,21 @@ Vector3 >> asRlVector [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Vector3 class >> backward [
+
+	^ self x: 0 y: 0 z: -1
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector3 class >> componentSelectors [
 
 	^ #(x y z)
+]
+
+{ #category : #'*SqueakXR-helpers' }
+Vector3 class >> forward [
+
+	^ self x: 0 y: 0 z: 1
 ]
 
 { #category : #'*SqueakXR-helpers' }
