@@ -106,7 +106,7 @@ SRRenderer >> pollAndroidEvents [
 ]
 
 { #category : #'render-loop' }
-SRRenderer >> prepareFrame [
+SRRenderer >> prepareFrame: aCameraTransform [
 ]
 
 { #category : #rendering }

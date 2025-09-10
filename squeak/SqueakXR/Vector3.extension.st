@@ -13,6 +13,15 @@ Vector3 class >> componentSelectors [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Vector3 class >> fromRlVector3: aRlVector3 [
+
+	^ self
+		x: aRlVector3 x
+		y: aRlVector3 y
+		z: aRlVector3 z
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector3 class >> one [
 
 	^ 1 asVector3

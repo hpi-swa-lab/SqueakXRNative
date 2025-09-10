@@ -16,7 +16,7 @@ SRRaylibRendererFlat >> completeFrame [
 ]
 
 { #category : #'render-loop' }
-SRRaylibRendererFlat >> prepareFrame [
+SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
 	Raylib
 		beginDrawing;

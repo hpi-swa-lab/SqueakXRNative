@@ -9,7 +9,8 @@ Class {
 		'lastFrameTime',
 		'isXR',
 		'keyboardFocus',
-		'ranStartScript'
+		'ranStartScript',
+		'avatar'
 	],
 	#classVars : [
 		'KeyDict',
@@ -304,6 +305,12 @@ SRWorld class >> startUp: resuming [
 				start]].
 ]
 
+{ #category : #accessing }
+SRWorld >> avatar [
+
+	^ avatar
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
@@ -323,7 +330,7 @@ SRWorld >> doOneCycle [
 	A morphic-like list approach would solve both."
 	self allDescendants do: [:obj | obj step: deltaTime].
 	
-	framePrepard := self renderer prepareFrame.
+	framePrepard := self renderer prepareFrame: self avatar globalTransform.
 	
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
@@ -467,7 +474,7 @@ SRWorld >> resume [
 { #category : #'as yet unclassified' }
 SRWorld >> runStartScript [
 
-	(self isXR not and: [self class runStartScriptInFlat]) ifFalse: [^ self].
+	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
 	ranStartScript := true.
 	
 	self "addChild: SRAvatar new;"
@@ -508,8 +515,9 @@ SRWorld >> shutDown [
 SRWorld >> start [
 
 	self worldProcess: ([
-		self isXR ifTrue: [
-			self addChild: SRAvatar new].
+		self avatar ifNil: [
+			avatar := SRAvatar new.
+			self addChild: avatar].
 		self initializeWorldProcess;
 			runStartScript.
 		running := true.

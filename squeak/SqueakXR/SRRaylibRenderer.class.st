@@ -29,7 +29,7 @@ SRRaylibRenderer >> initialize [
 ]
 
 { #category : #'render-loop' }
-SRRaylibRenderer >> prepareFrame [
+SRRaylibRenderer >> prepareFrame: cameraTransform [
 
 	self subclassResponsibility
 ]

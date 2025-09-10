@@ -18,7 +18,7 @@ SRRaylibRendererXR >> completeFrame [
 ]
 
 { #category : #'render-loop' }
-SRRaylibRendererXR >> prepareFrame [
+SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 	| beginSuccessful |
 	Raylib
@@ -26,6 +26,10 @@ SRRaylibRendererXR >> prepareFrame [
 		updateCamera: camera mode: RlCameraMode cameraFree;
 		rlOpenXRUpdateCamera: camera;
 		clearBackgroundColor: clearColor.
+	
+	camera position: (cameraTransform translation + (Vector3 fromRlVector3: camera position)) asRlVector.
+	camera target: (cameraTransform translation + (Vector3 fromRlVector3: camera target)) asRlVector.
+	"TODO camera rotation"
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
