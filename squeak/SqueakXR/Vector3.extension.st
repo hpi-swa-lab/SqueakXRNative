@@ -40,6 +40,15 @@ Vector3 class >> one [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Vector3 class >> random [
+
+	^ self new
+		x: ThreadSafeRandom next * 2 - 1
+		y: ThreadSafeRandom next * 2 - 1
+		z: ThreadSafeRandom next * 2 - 1
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector3 class >> up [
 
 	^ self x: 0 y: 1 z: 0
