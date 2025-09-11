@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'normal',
 		'point',
-		'extent',
 		'width',
 		'height',
 		'up'
