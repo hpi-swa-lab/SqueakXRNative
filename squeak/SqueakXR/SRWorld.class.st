@@ -478,19 +478,19 @@ SRWorld >> runStartScript [
 	ranStartScript := true.
 	
 	self "addChild: SRAvatar new;"
-		addChild: (SRMorphProjection new
+		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
 			rotation: -90 @ 0 @ 0;
 			translation: 0 @ 1 @ -1.5);
-		addChild: (SRMorphProjection new
+		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
 			rotation: -90 @ 0 @ 0;
 			translation: 0 @ 2 @ -1.5);
-		addChild: (SRMorphProjection new
+		addChild: (SRMorphPanel new
 			morph: Workspace open dependents first;
 			rotation: -90 @ 0 @ 0;
 			translation: 1.5 @ 1 @ -1.5);
-		addChild: (SRMorphProjection new
+		addChild: (SRMorphPanel new
 			morph: SRSaveMorph new openInWorld;
 			rotation: -90 @ 0 @ 0;
 			translation: -1.25 @ 1 @ -1.5)
