@@ -17,7 +17,7 @@ SRPlanets >> initPlanets [
 	1 to: count do: [:idx | | planet |
 		planet := SRObject new
 			addChild: (SRSphere new
-				setScale: (ThreadSafeRandom next * 30cm + 10cm) asVector3;
+				scale: (ThreadSafeRandom next * 30cm + 10cm) asVector3;
 				translation: 0 @ (30cm * idx + 100cm) @ 0).
 		self addChild: planet.
 		planets add: planet]
@@ -38,8 +38,11 @@ SRPlanets >> step: deltaTime [
 
 	planets withIndexDo: [:planet :index | | rand |
 		rand := (index * 10000 * 12.9898 * 43758.5453123) sin fractionPart.
-		planet rotation:
-			((DateAndTime now asDuration asMilliSeconds * 0.01 * (planets size + 1 - index)) \\ 360 + (rand * 360))
-			@ 0
-			@ 0]
+		planet rotation: (
+			Quaternion
+				axis: Vector3 forward
+				angle: (
+					(DateAndTime now asDuration asMilliSeconds * 0.01
+						* (planets size + 1 - index)) \\ 360
+					+ (rand * 360)))]
 ]

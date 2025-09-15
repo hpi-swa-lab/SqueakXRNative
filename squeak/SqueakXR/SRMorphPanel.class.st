@@ -163,7 +163,7 @@ SRMorphPanel >> renderOn: aSRRenderer [
 { #category : #rendering }
 SRMorphPanel >> setSizeFromPixelsPerMeter: aNumber [
 
-	plane setScale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
+	plane scale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
 ]
 
 { #category : #rendering }

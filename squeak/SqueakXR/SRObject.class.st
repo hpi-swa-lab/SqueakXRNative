@@ -3,10 +3,13 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'children',
+		'localTransform',
 		'globalTransform',
-		'transformDirty',
+		'localTranslation',
+		'localRotation',
+		'localScale',
 		'parent',
-		'transform'
+		'transformDirtyFlag'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -86,34 +89,61 @@ SRObject >> childrenDo: aBlock [
 	self children do: aBlock
 ]
 
-{ #category : #transforms }
+{ #category : #collisions }
 SRObject >> collisionGeometry [
 
 	^ nil
 ]
 
 { #category : #transforms }
+SRObject >> ensureTransformClean [
+
+	self haltOnce.
+	self transformDirtyFlag ifNil: [^ self].
+	"Instead of syncing all of the components/transforms at the same time,
+	we could probably only sync the ones that are currently needed.
+	Would need more complex dirty flag handling, though."
+	self transformDirtyFlag caseOf: {
+		[#parentTransform] -> [self updateTransformsFromParentTransform].
+		[#localComponent] -> [self updateTransformsFromLocalComponent].
+		[#localTransform] -> [self updateTransformsFromLocalTransform].
+		[#globalTransform] -> [self updateTransformsFromGlobalTransform].
+	}.
+	self transformDirtyFlag: nil.
+]
+
+{ #category : #transforms }
 SRObject >> globalScale [
 
+	self ensureTransformClean.
 	^ self globalTransform scale
 ]
 
 { #category : #transforms }
 SRObject >> globalTransform [
 
-	self globalTransformNeedsUpdate ifTrue: [self updateGlobalTransform].
+	self ensureTransformClean.
 	^ globalTransform
 ]
 
 { #category : #transforms }
-SRObject >> globalTransformNeedsUpdate [
+SRObject >> globalTransform: aMatrix4x4 [
 
-	^ transformDirty
+	self globalTransformDirty.
+	globalTransform := aMatrix4x4.
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> globalTransformDirty [
+
+	self transformDirtyFlag: #globalTransform.
+	self notifyTransformChanged.
 ]
 
 { #category : #transforms }
 SRObject >> globalTranslation [
 
+	self ensureTransformClean.
 	^ self globalTransform translation
 ]
 
@@ -141,24 +171,105 @@ SRObject >> hasParent [
 SRObject >> initialize [
 
 	children := OrderedCollection new.
-	transform := Matrix4x4 identity.
-	transformDirty := true.
+	
+	localTransform := Matrix4x4 identity.
+	localTranslation := Vector3 zero.
+	localRotation := Quaternion identity.
+	localScale := Vector3 one.
+	
+	self transformDirtyFlag: #localTransform.
 ]
 
 { #category : #events }
 SRObject >> keyboardEvent: aCharacter [
 ]
 
+{ #category : #'transforms - internal' }
+SRObject >> localComponentDirty [
+
+	self transformDirtyFlag: #localComponent.
+	self notifyTransformChanged.
+]
+
+{ #category : #transforms }
+SRObject >> localPosition [
+
+	^ self translation
+]
+
+{ #category : #transforms }
+SRObject >> localPosition: aVector3 [
+
+	self translation: aVector3
+]
+
+{ #category : #transforms }
+SRObject >> localRotation [
+
+	self ensureTransformClean.
+	^ localRotation
+]
+
+{ #category : #transforms }
+SRObject >> localRotation: aQuaternion [
+
+	self localComponentDirty.
+	localRotation := aQuaternion.
+]
+
+{ #category : #transforms }
+SRObject >> localScale [
+
+	self ensureTransformClean.
+	^ localScale
+]
+
+{ #category : #transforms }
+SRObject >> localScale: aVector3 [
+
+	self localComponentDirty.
+	localScale := aVector3.
+]
+
 { #category : #transforms }
 SRObject >> localTransform [
 
-	^ transform
+	self ensureTransformClean.
+	^ localTransform
 ]
 
 { #category : #transforms }
 SRObject >> localTransform: aMatrix4x4 [
 
-	self transform: aMatrix4x4
+	self localTransformDirty.
+	localTransform := aMatrix4x4.
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> localTransformDirty [
+
+	self transformDirtyFlag: #localTransform.
+	self notifyTransformChanged.
+]
+
+{ #category : #transforms }
+SRObject >> localTranslation [
+
+	self ensureTransformClean.
+	^ localTranslation
+]
+
+{ #category : #transforms }
+SRObject >> localTranslation: aVector3 [
+
+	self localComponentDirty.
+	localTranslation := aVector3.
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> notifyTransformChanged [
+
+	self childrenDo: [:object | object parentTransformDirty].
 ]
 
 { #category : #events }
@@ -189,7 +300,36 @@ SRObject >> parent [
 { #category : #accessing }
 SRObject >> parent: aSRObject [
 
-	parent := aSRObject
+	self allDo: [:object | object parentTransformDirty].
+	parent := aSRObject.
+]
+
+{ #category : #transforms }
+SRObject >> parentGlobalTransform [
+
+	^ self hasParent
+		ifTrue: [self parent globalTransform]
+		ifFalse: [Matrix4x4 identity]
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> parentTransformDirty [
+
+	transformDirtyFlag = #parentTransform ifFalse: [self ensureTransformClean].
+	self transformDirtyFlag: #parentTransform.
+	self notifyTransformChanged.
+]
+
+{ #category : #transforms }
+SRObject >> position [
+
+	^ self translation
+]
+
+{ #category : #transforms }
+SRObject >> position: aVector3 [
+
+	self translation: aVector3
 ]
 
 { #category : #hierarchy }
@@ -213,37 +353,43 @@ SRObject >> renderSelfAndChildrenOn: aSRRenderer [
 ]
 
 { #category : #transforms }
-SRObject >> rotation: aVector3 [
+SRObject >> rotation [
 
-	transform rotation: aVector3.
-	self transformIsDirty.
+	^ self localRotation
+]
+
+{ #category : #transforms }
+SRObject >> rotation: aQuaternion [
+
+	self localRotation: aQuaternion
 ]
 
 { #category : #transforms }
 SRObject >> scale [
 
-	^ self transform scale
+	^ self localScale
 ]
 
 { #category : #transforms }
-SRObject >> scaleBy: aVector3 [
-
-	self transform: (self transform scaledBy: aVector3).
-	self transformIsDirty.
+SRObject >> scale: aVector3 [
+	
+	self localScale: aVector3
 ]
 
-{ #category : #transforms }
-SRObject >> setRotationFromQuaternion: aQuaternion [
+{ #category : #'transforms - internal' }
+SRObject >> setLocalComponentsFrom: aMatrix4x4 [
 
-	transform setFromQuaternion: aQuaternion.
-	self transformIsDirty.
+	localTranslation := aMatrix4x4 translation.
+	localRotation := aMatrix4x4 rotationQuaternion.
+	localScale := aMatrix4x4 scale.
 ]
 
-{ #category : #transforms }
-SRObject >> setScale: aVector3 [
+{ #category : #'transforms - internal' }
+SRObject >> setLocalTransformFromComponents [
 
-	self transform setScale: aVector3.
-	self transformIsDirty.
+	localTransform := (Matrix4x4 withOffset: localTranslation)
+		* (Matrix4x4 fromQuaternion: localRotation)
+		* (Matrix4x4 withScale: localScale)
 ]
 
 { #category : #accessing }
@@ -253,41 +399,81 @@ SRObject >> step: deltaTime [
 { #category : #transforms }
 SRObject >> transform [
 
-	^ transform
+	^ self localTransform
 ]
 
 { #category : #transforms }
 SRObject >> transform: aMatrix4x4 [
 
-	transform := aMatrix4x4.
-	self transformIsDirty.
+	self localTransform: aMatrix4x4
 ]
 
-{ #category : #transforms }
-SRObject >> transformIsDirty [
+{ #category : #'transforms - internal' }
+SRObject >> transformDirtyFlag [
 
-	transformDirty := true
+	^ transformDirtyFlag
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> transformDirtyFlag: flag [
+
+	"self haltOnce."
+	"one of #localComponent, #localTransform, #globalTransform, #parentTransform"
+	flag ~= #localComponent ifTrue: [self haltOnce].
+	"flag = #localComponent ifTrue: [self haltOnce]."
+	(flag ~= #localComponent and: [transformDirtyFlag = #localComponent]) ifTrue: [self haltOnce].
+	transformDirtyFlag := flag
 ]
 
 { #category : #transforms }
 SRObject >> translation [
 
-	^ self transform translation
+	^ self localTranslation
 ]
 
 { #category : #transforms }
 SRObject >> translation: aVector3 [
 
-	transform translation: aVector3.
-	self transformIsDirty.
+	self localTranslation: aVector3
 ]
 
-{ #category : #transforms }
+{ #category : #'transforms - internal' }
 SRObject >> updateGlobalTransform [
 
-	globalTransform := self hasParent
-		ifTrue: [self parent globalTransform * self transform]
-		ifFalse: [self transform]
+	globalTransform := self parentGlobalTransform * localTransform
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> updateTransformsFromGlobalTransform [
+
+	| transform |
+	self haltOnce.
+	transform := self parentGlobalTransform inverseTransformation * globalTransform.
+	localTransform := transform.
+	self setLocalComponentsFrom: transform
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> updateTransformsFromLocalComponent [
+
+	self haltOnce.
+	self setLocalTransformFromComponents;
+		updateGlobalTransform
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> updateTransformsFromLocalTransform [
+
+	self haltOnce.
+	self setLocalComponentsFrom: localTransform;
+		updateGlobalTransform.
+]
+
+{ #category : #'transforms - internal' }
+SRObject >> updateTransformsFromParentTransform [
+
+	self haltOnce.
+	self updateGlobalTransform
 ]
 
 { #category : #accessing }

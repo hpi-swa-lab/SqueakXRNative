@@ -44,7 +44,7 @@ SRTree >> initialize [
 
 	super initialize.
 	
-	self addChild: (SRSphere new setScale: 10cm asVector3).
+	self addChild: (SRSphere new scale: 10cm asVector3).
 ]
 
 { #category : #'as yet unclassified' }

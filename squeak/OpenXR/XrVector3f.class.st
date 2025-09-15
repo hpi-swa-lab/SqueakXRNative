@@ -13,3 +13,7 @@ XrVector3f class >> fields [
 		(z 'float')
 	)
 ]
+
+{ #category : #'as yet unclassified' }
+XrVector3f >> asVector3 [ ^ self
+]

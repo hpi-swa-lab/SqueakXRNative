@@ -28,6 +28,46 @@ Matrix4x4 class >> fromQuaternion: aQuaternion [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Matrix4x4 >> rotationQuaternion [
+	"adapted from
+	https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf "
+	
+	| q r11 r12 r13 r21 r22 r23 r31 r32 r33 scale t |
+	
+	scale := self scale.
+	r11 := self a11 / scale x.
+	r21 := self a12 / scale x.
+	r31 := self a13 / scale x.
+	r12 := self a21 / scale y.
+	r22 := self a22 / scale y.
+	r32 := self a23 / scale y.
+	r13 := self a31 / scale z.
+	r23 := self a32 / scale z.
+	r33 := self a33 / scale z.
+	
+	r33 < 0
+		ifTrue: [
+			r11 > r22
+				ifTrue: [
+					t := 1 + r11 - r22 - r33.
+					"We create the quaternion like this to avoid normalization in constructor"
+					q := {r23 - r32. t. r12 + r21. r31 + r13} as: Quaternion]
+				ifFalse: [
+					t := 1 - r11 + r22 - r33.
+					q := {r31 - r13. r12 + r21. t. r23 + r32} as: Quaternion]]
+		ifFalse: [
+			r11 < r22 negated
+				ifTrue: [
+					t := 1 - r11 - r22 + r33.
+					q := {r12 - r21. r31 + r13. r23 + r32. t} as: Quaternion]
+				ifFalse: [
+					t := 1 + r11 + r22 + r33.
+					q := {t. r23 - r32. r31 - r13. r12 - r21} as: Quaternion]].
+	
+	^ (q *= (0.5 / t sqrt)) normalize
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Matrix4x4 >> scale [
 
 	"simple implementation, doesn't work for e.g. negative scaling.

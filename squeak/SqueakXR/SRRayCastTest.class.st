@@ -31,7 +31,7 @@ SRRayCastTest >> testBoundedPlaneIntersection [
 SRRayCastTest >> testPlaneCollisionGeometry [
 
 	| plane collisionGeometry |
-	plane := SRPlane new setScale: 2 @ 1 @ 3.
+	plane := SRPlane new scale: 2 @ 1 @ 3.
 	collisionGeometry := plane collisionGeometry.
 	
 	self assert: (collisionGeometry normal = (0 @ 1 @ 0)).
@@ -39,7 +39,7 @@ SRRayCastTest >> testPlaneCollisionGeometry [
 	self assert: (collisionGeometry width = 2).
 	self assert: (collisionGeometry height = 3).
 	
-	plane rotation: -90 @ 0 @ 0.
+	plane rotation: self error "-90 @ 0 @ 0".
 	collisionGeometry := plane collisionGeometry.
 	
 	self assert: (collisionGeometry normal = (0 @ 0 @ 1)).

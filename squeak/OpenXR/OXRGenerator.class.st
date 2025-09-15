@@ -71,7 +71,9 @@ OXRGenerator >> compileExtraMethods [
 	XrQuaternionf compile: 'b ^ self x'.
 	XrQuaternionf compile: 'c ^ self y'.
 	XrQuaternionf compile: 'd ^ self z'.
-	XrQuaternionf compile: 'squaredLength ^ self w squared + self x squared + self y squared + self z squared'
+	XrQuaternionf compile: 'squaredLength ^ self w squared + self x squared + self y squared + self z squared'.
+	
+	XrVector3f compile: 'asVector3 ^ self'
 ]
 
 { #category : #'as yet unclassified' }
