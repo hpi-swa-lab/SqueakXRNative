@@ -55,7 +55,8 @@ SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 		getChildren: #childrenOf:;
 		roots: #roots;
 		label: #labelOf:;
-		autoDeselect: false.
+		autoDeselect: false;
+		keyPress: #key:from:event:.
 	
 	^ treeSpec
 ]
@@ -103,6 +104,17 @@ SRSceneTreeInspector >> currentSelection: aSRObject [
 	currentSelection := aSRObject.
 	self changed: #currentSelection;
 		changed: #propertiesOfCurrentSelection
+]
+
+{ #category : #'as yet unclassified' }
+SRSceneTreeInspector >> key: aChar from: view event: event [
+
+	event anyModifierKeyPressed ifFalse: [^ false].
+
+	aChar == $i ifTrue: [self currentSelection inspect. ^ true].
+	aChar == $I ifTrue: [self currentSelection explore. ^ true].
+	
+	^ false
 ]
 
 { #category : #'as yet unclassified' }
