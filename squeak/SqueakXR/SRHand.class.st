@@ -72,7 +72,10 @@ SRHand >> handIndex [
 { #category : #accessing }
 SRHand >> handIndex: anInteger [
 
-	handIndex := anInteger
+	handIndex := anInteger.
+	self name: (handIndex caseOf: {
+		[self class leftIndex] -> ['Left Hand'].
+		[self class rightIndex] -> ['Right Hand']})
 ]
 
 { #category : #'as yet unclassified' }

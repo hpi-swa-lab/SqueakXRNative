@@ -9,7 +9,8 @@ Class {
 		'localRotation',
 		'localScale',
 		'parent',
-		'transformDirtyFlag'
+		'transformDirtyFlag',
+		'name'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -266,6 +267,18 @@ SRObject >> localTranslation: aVector3 [
 	localTranslation := aVector3.
 ]
 
+{ #category : #accessing }
+SRObject >> name [
+
+	^ name ifNil: [self class asString]
+]
+
+{ #category : #accessing }
+SRObject >> name: aString [
+
+	name := aString
+]
+
 { #category : #'transforms - internal' }
 SRObject >> notifyTransformChanged [
 
@@ -330,6 +343,12 @@ SRObject >> position [
 SRObject >> position: aVector3 [
 
 	self translation: aVector3
+]
+
+{ #category : #hierarchy }
+SRObject >> remove [
+
+	self parent ifNotNil: [:parent | parent removeChild: self]
 ]
 
 { #category : #hierarchy }

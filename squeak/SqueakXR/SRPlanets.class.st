@@ -16,6 +16,7 @@ SRPlanets >> initPlanets [
 	
 	1 to: count do: [:idx | | planet |
 		planet := SRObject new
+			name: 'Planet ', idx asString;
 			addChild: (SRSphere new
 				scale: (ThreadSafeRandom next * 30cm + 10cm) asVector3;
 				translation: 0 @ (30cm * idx + 100cm) @ 0).
