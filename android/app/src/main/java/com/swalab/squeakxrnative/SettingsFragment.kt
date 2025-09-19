@@ -6,18 +6,26 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 
 class SettingsFragment: PreferenceFragmentCompat() {
-    lateinit var images: Array<String>
+    lateinit var outerContext: Context
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        val selectedImagePref = findPreference<ListPreference>("selected_image")!!
-        selectedImagePref.entries = images
-        selectedImagePref.entryValues = images
     }
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
+        outerContext = context
+        super.onAttach(outerContext)
+    }
 
-        images = Utils.getImageFiles(context).toTypedArray()
+    override fun onResume() {
+        super.onResume()
+
+        val images = Utils.getImageFiles(outerContext).sorted().toTypedArray()
+        val selectedImagePref = findPreference<ListPreference>("selected_image")!!
+        if (!images.contains(selectedImagePref.value)) {
+            selectedImagePref.value = null
+        }
+        selectedImagePref.entries = images
+        selectedImagePref.entryValues = images
     }
 }

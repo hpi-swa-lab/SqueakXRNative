@@ -1,6 +1,5 @@
 package com.swalab.squeakxrnative
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.AssetManager
 import androidx.appcompat.app.AppCompatActivity
@@ -9,21 +8,14 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.fragment.app.findFragment
 import androidx.preference.PreferenceManager
 import com.swalab.squeakxrnative.databinding.ActivityMainBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,10 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + squeakImageFiles["image"]!!)
-
         binding.button.setOnClickListener {
-//            launch(getExternalFilesDir(null)!!.absolutePath + "/" + "not needed, pls remove")
             launchXrCoroutine()
         }
 
@@ -71,26 +60,28 @@ class MainActivity : AppCompatActivity() {
         binding.button.isEnabled = false
         binding.button.isClickable = false
 
-        var setupSuccessful = true
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         val selectedImage = preferences.getString("selected_image", "")!!
         if (selectedImage.isEmpty()) {
             System.err.println(getString(R.string.no_image_selected))
             Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
-            setupSuccessful = false;
+            binding.button.isEnabled = true
+            binding.button.isClickable = true
+            return
         }
 
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
         GlobalScope.launch {
+            var setupSuccessful = true
             if (preferences.getBoolean("fetch_image_on_launch", false)) {
-                if (!fetchImageFromRemote()) {
+                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", "Squeak6.0-22148-64bit.image"/*preferences.getString("selected_image", "")!!*/, getExternalFilesDir(null)!!)
+                if (!fetchResult.first) {
                     setupSuccessful = false
                     System.err.println(getString(R.string.fetching_images_failed))
                     fetchImagesFailedToast.show()
                 }
             }
-
             if (setupSuccessful) {
                 finish()
                 delay(1000)
@@ -104,59 +95,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun startXr(imageFileName: String) {
+    private fun startXr(imageFileName: String) {
         storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + imageFileName)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         storeStartScript(preferences.getString("start_script", "")!!)
 
         val intent = Intent(this, VrActivity::class.java)
         startActivity(intent);
-    }
-
-    private suspend fun fetchImageFromRemote(): Boolean {
-        val urlString =
-            PreferenceManager.getDefaultSharedPreferences(this).getString("fetch_image_url", null)
-                ?: throw RuntimeException("URL base is null")
-        val imageName =
-            PreferenceManager.getDefaultSharedPreferences(this).getString("fetch_image_name", null)
-                ?: throw RuntimeException("URL base is null")
-        val changesName =
-            PreferenceManager.getDefaultSharedPreferences(this).getString("fetch_changes_name", null)
-                ?: throw RuntimeException("URL base is null")
-
-        val results = coroutineScope {
-            awaitAll(async {
-                fetchRemoteFile("$urlString/$imageName", squeakImageFiles["image"]!!)
-            }, async {
-                fetchRemoteFile("$urlString/$changesName", squeakImageFiles["changes"]!!)
-            })
-        }
-
-        return results.all {it}
-    }
-
-    private fun fetchRemoteFile(urlString: String, filename: String): Boolean {
-        println("Fetching $urlString and saving to $filename")
-        var success = false;
-        val url = URL(urlString)
-        val connection = url.openConnection() as HttpURLConnection
-        try {
-            val inStream = BufferedInputStream(connection.inputStream)
-            val externalFile = File(getExternalFilesDir(null)!!, filename)
-            val outStream = FileOutputStream(externalFile)
-            inStream.use {
-                outStream.use {
-                    inStream.copyTo(outStream)
-                }
-            }
-            success = true;
-        } catch(e: Exception) {
-            System.err.println("Fetching failed: $e")
-        } finally {
-            connection.disconnect()
-        }
-
-        return success;
     }
 
     private val squeakImageFiles = mapOf(
@@ -179,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         val externalFiles = externalFilesDir?.list() ?: emptyArray()
 
         val assetFiles: List<String> = assets.list("")?.map { file -> file.toString() } ?: emptyList<String>()
-        val fileStatus = squeakImageFiles.values.joinToString("\n" ) { file ->
+        val fileStatus = /*squeakImageFiles.values*/arrayOf(squeakImageFiles["sources"]).joinToString("\n" ) { file ->
             val presentInAssetManager = "${if (file in assetFiles) "" else "not"} present in AssetManager"
             val presentInExternalStorage = "${if (file in externalFiles) "" else "not"} present in ExternalStorage"
             "\t$file\n\t\t$presentInAssetManager\n\t\t$presentInExternalStorage"
