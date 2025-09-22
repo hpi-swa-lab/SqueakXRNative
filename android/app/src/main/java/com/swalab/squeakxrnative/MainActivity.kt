@@ -57,25 +57,33 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun launchXrCoroutine() {
-        binding.button.isEnabled = false
-        binding.button.isClickable = false
+        val setButtonEnabled = {enabled: Boolean ->
+            binding.button.isEnabled = enabled
+            binding.button.isClickable = enabled
+        }
+        setButtonEnabled(false)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val fetchImageOnLaunch = preferences.getBoolean("fetch_image_on_launch", false)
+        var selectedImage: String
 
-        val selectedImage = preferences.getString("selected_image", "")!!
-        if (selectedImage.isEmpty()) {
-            System.err.println(getString(R.string.no_image_selected))
-            Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
-            binding.button.isEnabled = true
-            binding.button.isClickable = true
-            return
+        if (fetchImageOnLaunch) {
+            selectedImage = "Squeak6.0-22148-64bit.image"
+        } else {
+            selectedImage = preferences.getString("selected_image", "")!!
+            if (selectedImage.isEmpty()) {
+                System.err.println(getString(R.string.no_image_selected))
+                Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
+                setButtonEnabled(true)
+                return
+            }
         }
 
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
         GlobalScope.launch {
             var setupSuccessful = true
-            if (preferences.getBoolean("fetch_image_on_launch", false)) {
-                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", "Squeak6.0-22148-64bit.image"/*preferences.getString("selected_image", "")!!*/, getExternalFilesDir(null)!!)
+            if (fetchImageOnLaunch) {
+                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", selectedImage/*preferences.getString("selected_image", "")!!*/, true, getExternalFilesDir(null)!!)
                 if (!fetchResult.first) {
                     setupSuccessful = false
                     System.err.println(getString(R.string.fetching_images_failed))
@@ -88,8 +96,7 @@ class MainActivity : AppCompatActivity() {
                 startXr(selectedImage)
             } else {
                 Handler(Looper.getMainLooper()).post {
-                    binding.button.isEnabled = true
-                    binding.button.isClickable = true
+                    setButtonEnabled(true)
                 }
             }
         }

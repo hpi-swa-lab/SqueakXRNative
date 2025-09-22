@@ -110,7 +110,7 @@ class ManageImagesActivity : AppCompatActivity() {
             fetchButton.isClickable = false
             val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
             GlobalScope.launch {
-                val (success, fetchedImageName) = Utils.fetchImageFromRemote(fetchUrl.text.toString(), fetchName.text.toString(), getExternalFilesDir(null)!!)
+                val (success, fetchedImageName) = Utils.fetchImageFromRemote(fetchUrl.text.toString(), fetchName.text.toString(), false, getExternalFilesDir(null)!!)
                 if (success) {
                     imageFiles.add(ImageInfo(fetchedImageName))
                 } else {

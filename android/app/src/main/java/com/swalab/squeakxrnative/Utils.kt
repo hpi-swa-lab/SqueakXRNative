@@ -18,8 +18,8 @@ class Utils {
             return externalFiles.filter { file -> file.endsWith(".image" )}
         }
 
-        suspend fun fetchImageFromRemote(fetchUrl: String, remoteImageName: String, externalFiles: File): Pair<Boolean, String> {
-            val localImageName = getNextFileName(remoteImageName, externalFiles)
+        suspend fun fetchImageFromRemote(fetchUrl: String, remoteImageName: String, forceOverwrite: Boolean, externalFiles: File): Pair<Boolean, String> {
+            val localImageName = if (forceOverwrite) remoteImageName else getNextFileName(remoteImageName, externalFiles)
             val remoteChangesName = remoteImageName.removeSuffix(".image") + ".changes"
             val localChangesName = localImageName.removeSuffix(".image") + ".changes"
 
