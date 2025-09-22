@@ -114,10 +114,31 @@ SRObject >> ensureTransformClean [
 ]
 
 { #category : #transforms }
+SRObject >> globalRotation [
+
+	self ensureTransformClean.
+	^ self globalTransform rotationQuaternion
+]
+
+{ #category : #transforms }
+SRObject >> globalRotation: aQuaternion [
+
+	self globalTransformDirty.
+	self globalTransform setFromQuaternion: aQuaternion.
+]
+
+{ #category : #transforms }
 SRObject >> globalScale [
 
 	self ensureTransformClean.
 	^ self globalTransform scale
+]
+
+{ #category : #transforms }
+SRObject >> globalScale: aVector3 [
+
+	self globalTransformDirty.
+	self globalTransform setScale: aVector3.
 ]
 
 { #category : #transforms }
@@ -146,6 +167,13 @@ SRObject >> globalTranslation [
 
 	self ensureTransformClean.
 	^ self globalTransform translation
+]
+
+{ #category : #transforms }
+SRObject >> globalTranslation: aVector3 [
+
+	self globalTransformDirty.
+	self globalTransform translation: aVector3.
 ]
 
 { #category : #hierarchy }
@@ -436,11 +464,6 @@ SRObject >> transformDirtyFlag [
 { #category : #'transforms - internal' }
 SRObject >> transformDirtyFlag: flag [
 
-	"self haltOnce."
-	"one of #localComponent, #localTransform, #globalTransform, #parentTransform"
-	flag ~= #localComponent ifTrue: [self haltOnce].
-	"flag = #localComponent ifTrue: [self haltOnce]."
-	(flag ~= #localComponent and: [transformDirtyFlag = #localComponent]) ifTrue: [self haltOnce].
 	transformDirtyFlag := flag
 ]
 
@@ -466,7 +489,6 @@ SRObject >> updateGlobalTransform [
 SRObject >> updateTransformsFromGlobalTransform [
 
 	| transform |
-	self haltOnce.
 	transform := self parentGlobalTransform inverseTransformation * globalTransform.
 	localTransform := transform.
 	self setLocalComponentsFrom: transform
@@ -475,7 +497,6 @@ SRObject >> updateTransformsFromGlobalTransform [
 { #category : #'transforms - internal' }
 SRObject >> updateTransformsFromLocalComponent [
 
-	self haltOnce.
 	self setLocalTransformFromComponents;
 		updateGlobalTransform
 ]
@@ -483,7 +504,6 @@ SRObject >> updateTransformsFromLocalComponent [
 { #category : #'transforms - internal' }
 SRObject >> updateTransformsFromLocalTransform [
 
-	self haltOnce.
 	self setLocalComponentsFrom: localTransform;
 		updateGlobalTransform.
 ]
@@ -491,7 +511,6 @@ SRObject >> updateTransformsFromLocalTransform [
 { #category : #'transforms - internal' }
 SRObject >> updateTransformsFromParentTransform [
 
-	self haltOnce.
 	self updateGlobalTransform
 ]
 
