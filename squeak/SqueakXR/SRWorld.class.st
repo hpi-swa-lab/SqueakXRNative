@@ -381,6 +381,7 @@ SRWorld >> initialize [
 { #category : #'as yet unclassified' }
 SRWorld >> initializeWorldProcess [
 	
+	self log.
 	self renderer setup.
 	self isXR ifTrue: [self initXrInput].
 	Smalltalk at: #XRWorld put: self.
@@ -431,6 +432,25 @@ SRWorld >> keyboardFocus: aSRObject [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld >> log [
+
+	self log: String empty
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> log: aString [
+
+	FileStream stdout
+		nextPut: Character cr;
+		nextPutAll: 'Log: ';
+		nextPutAll: thisContext sender sender asString.
+	aString ifNotEmpty: [
+		FileStream stdout nextPutAll: ' - ';
+		nextPutAll: aString].
+	FileStream stdout flush.
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld >> pollActions [
 
 	<cdecl: SRXrActionStates 'pollActions' () module: 'squeakxrnative'>
@@ -474,25 +494,27 @@ SRWorld >> resume [
 { #category : #'as yet unclassified' }
 SRWorld >> runStartScript [
 
+	self log.
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
 	ranStartScript := true.
 	
-	self "addChild: SRAvatar new;"
+	self log: 'proceeding';
+		"addChild: SRAvatar new;"
 		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
-			"rotation: -90 @ 0 @ 0;"
+			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 0 @ 1 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
-			"rotation: -90 @ 0 @ 0;"
+			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 0 @ 2 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: Workspace open dependents first;
-			"rotation: -90 @ 0 @ 0;"
+			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 1.5 @ 1 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: SRSaveMorph new openInWorld;
-			"rotation: -90 @ 0 @ 0;"
+			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: -1.25 @ 1 @ -1.5)
 		"addChild: (SRMorphProjection new
 			morph: (KeyboardExerciser new openInWorld)
@@ -514,14 +536,17 @@ SRWorld >> shutDown [
 { #category : #'as yet unclassified' }
 SRWorld >> start [
 
+	self log.
 	self worldProcess: ([
+		self log: 'add avatar'.
 		self avatar ifNil: [
-			avatar := SRAvatar new.
-			self addChild: avatar].
+				avatar := SRAvatar new.
+				self addChild: avatar].
 		self initializeWorldProcess;
 			runStartScript.
 		running := true.
 		lastFrameTime := DateAndTime now.
+		self log: 'starting process'.
 		[self isRunning] whileTrue: [
 			self doOneCycle. Processor yield.].
 		self renderer shutdown
@@ -535,6 +560,7 @@ SRWorld >> start [
 { #category : #'as yet unclassified' }
 SRWorld >> startUp: resuming [
 
+	self log.
 	resuming ifTrue: [
 		self invalidateCache.
 		needsSetup := resuming].
