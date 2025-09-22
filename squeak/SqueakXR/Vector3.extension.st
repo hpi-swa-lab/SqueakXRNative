@@ -19,6 +19,12 @@ Vector3 class >> componentSelectors [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Vector3 class >> down [
+
+	^ self x: 0 y: -1 z: 0
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector3 class >> forward [
 
 	^ self x: 0 y: 0 z: 1
@@ -34,6 +40,12 @@ Vector3 class >> fromRlVector3: aRlVector3 [
 ]
 
 { #category : #'*SqueakXR-helpers' }
+Vector3 class >> left [
+
+	^ self x: -1 y: 0 z: 0
+]
+
+{ #category : #'*SqueakXR-helpers' }
 Vector3 class >> one [
 
 	^ 1 asVector3
@@ -46,6 +58,12 @@ Vector3 class >> random [
 		x: ThreadSafeRandom next * 2 - 1
 		y: ThreadSafeRandom next * 2 - 1
 		z: ThreadSafeRandom next * 2 - 1
+]
+
+{ #category : #'*SqueakXR-helpers' }
+Vector3 class >> right [
+
+	^ self x: 1 y: 0 z: 0
 ]
 
 { #category : #'*SqueakXR-helpers' }
