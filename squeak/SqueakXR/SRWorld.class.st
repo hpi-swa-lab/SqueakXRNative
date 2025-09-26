@@ -10,14 +10,34 @@ Class {
 		'isXR',
 		'keyboardFocus',
 		'ranStartScript',
-		'avatar'
+		'avatar',
+		'isFramePrepared'
 	],
 	#classVars : [
 		'KeyDict',
+		'RenderFrame',
 		'RunStartScriptInFlat'
 	],
 	#category : #'SqueakXR-Objects'
 }
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> clearRenderFrame [
+
+	RenderFrame := nil
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
+
+	^ RenderFrame
+		ifNil: [
+			RenderFrame := SRFrame
+				world: world
+				deltaTime: deltaTime]
+		ifNotNil: [
+			RenderFrame isOld: true]
+]
 
 { #category : #'as yet unclassified' }
 SRWorld class >> initialize [
@@ -318,30 +338,23 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld >> completeFrame [
+
+	isFramePrepared ifTrue: [
+		self renderer completeFrame]
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime framePrepard |
+	| deltaTime startTime frame |
 	startTime := DateAndTime now.
 	deltaTime := startTime - lastFrameTime.
-	
-	"Two issues with this.
-	1) not resilient against errors
-	2) quite inefficient because allDescendants constructs the array from scratch
-	A morphic-like list approach would solve both."
-	self allDescendants do: [:obj | obj step: deltaTime].
-	
-	framePrepard := self renderer prepareFrame: self avatar globalTransform.
-	
-	self isXR ifTrue: [
-		self changed: #actionsUpdated with: self pollActions].
-	
-	self processKeyInput.
-	
-	framePrepard ifTrue: [
-		self renderSelfAndChildrenOn: self renderer.
-		self renderer completeFrame].
-	
 	lastFrameTime := startTime.
+	
+	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
+	frame process.
+	self class clearRenderFrame.
 ]
 
 { #category : #'as yet unclassified' }
@@ -371,6 +384,7 @@ SRWorld >> initialize [
 	running := false.
 	needsSetup := false.
 	ranStartScript := false.
+	isFramePrepared := false.
 	
 	self
 		isXR: false;
@@ -451,10 +465,23 @@ SRWorld >> log: aString [
 ]
 
 { #category : #'as yet unclassified' }
+SRWorld >> loop [
+
+	[self isRunning] whileTrue: [
+		self doOneCycle. Processor yield]
+]
+
+{ #category : #'as yet unclassified' }
 SRWorld >> pollActions [
 
 	<cdecl: SRXrActionStates 'pollActions' () module: 'squeakxrnative'>
 	^ self externalCallFailed
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> prepareFrame [
+
+	isFramePrepared := self renderer prepareFrame: self avatar globalTransform.
 ]
 
 { #category : #'as yet unclassified' }
@@ -467,6 +494,12 @@ SRWorld >> processKeyInput [
 	
 	keys ifNotEmpty: [ 
 		keys do: [:k | self handleKeyPress: k]].
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> render: aSRObject [
+
+	aSRObject renderOn: self renderer
 ]
 
 { #category : #accessing }
@@ -547,8 +580,7 @@ SRWorld >> start [
 		running := true.
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
-		[self isRunning] whileTrue: [
-			self doOneCycle. Processor yield.].
+		self loop.
 		self renderer shutdown
 		] newProcess
 			name: 'XR World Process';
@@ -578,6 +610,14 @@ SRWorld >> stop [
 SRWorld >> suspend [
 
 	worldProcess ifNotNil: [worldProcess suspend].
+]
+
+{ #category : #'as yet unclassified' }
+SRWorld >> updateActions [
+
+	self isXR ifTrue: [
+		self changed: #actionsUpdated with: self pollActions].
+	self processKeyInput.
 ]
 
 { #category : #accessing }

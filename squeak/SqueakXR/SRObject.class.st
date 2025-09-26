@@ -10,10 +10,18 @@ Class {
 		'localScale',
 		'parent',
 		'transformDirtyFlag',
-		'name'
+		'name',
+		'isStepping',
+		'isRendering'
 	],
 	#category : #'SqueakXR-Objects'
 }
+
+{ #category : #'as yet unclassified' }
+SRObject class >> selectorDefinedByBase: aSymbol [
+
+	^ (self lookupSelector: aSymbol) methodClass = SRObject
+]
 
 { #category : #'as yet unclassified' }
 SRObject class >> toolIcon [
@@ -51,6 +59,16 @@ SRObject >> allDescendants [
 
 	"TODO: define order"
 	^ {self. self children collect: [:child | child allDescendants]} flatten
+]
+
+{ #category : #hierarchy }
+SRObject >> allDescendantsSelect: aBlock [
+
+	| descendants |
+	descendants := OrderedCollection new.
+	self allDo: [:object |
+		(aBlock value: object) ifTrue: [descendants add: object]].
+	^ descendants
 ]
 
 { #category : #hierarchy }
@@ -99,7 +117,6 @@ SRObject >> collisionGeometry [
 { #category : #transforms }
 SRObject >> ensureTransformClean [
 
-	self haltOnce.
 	self transformDirtyFlag ifNil: [^ self].
 	"Instead of syncing all of the components/transforms at the same time,
 	we could probably only sync the ones that are currently needed.
@@ -201,12 +218,27 @@ SRObject >> initialize [
 
 	children := OrderedCollection new.
 	
+	isStepping := (self class selectorDefinedByBase: #step:) not.
+	isRendering := true.
+	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
 	localRotation := Quaternion identity.
 	localScale := Vector3 one.
 	
 	self transformDirtyFlag: #localTransform.
+]
+
+{ #category : #rendering }
+SRObject >> isRendering [
+
+	^ isRendering
+]
+
+{ #category : #stepping }
+SRObject >> isStepping [
+
+	^ isStepping
 ]
 
 { #category : #events }
@@ -439,7 +471,7 @@ SRObject >> setLocalTransformFromComponents [
 		* (Matrix4x4 withScale: localScale)
 ]
 
-{ #category : #accessing }
+{ #category : #stepping }
 SRObject >> step: deltaTime [
 ]
 

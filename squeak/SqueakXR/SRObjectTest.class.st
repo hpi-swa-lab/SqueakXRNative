@@ -95,6 +95,28 @@ SRObjectTest >> testAllDescendants [
 ]
 
 { #category : #'tests - children' }
+SRObjectTest >> testAllDescendantsSelect [
+
+	| o1 o2 o3 o4 o5 chosenObjects result |
+	o1 := SRObject new.
+	o2 := SRObject new.
+	o3 := SRObject new.
+	o4 := SRObject new.
+	o5 := SRObject new.
+	
+	chosenObjects := {o1. o3. o5}.
+	
+	o1 addChild: o2.
+	o1 addChild: o3.
+	o3 addChild: o4.
+	o3 addChild: o5.
+	
+	result := o1 allDescendantsSelect: [:object | chosenObjects includes: object].
+	self assert: (result includesAllOf: chosenObjects).
+	self assert: 3 equals: result size.
+]
+
+{ #category : #'tests - children' }
 SRObjectTest >> testAllDo [
 
 	| count object |

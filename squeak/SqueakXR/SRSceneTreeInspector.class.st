@@ -147,6 +147,8 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 		'    y: ', selection localScale y.
 		'    z: ', selection localScale z.
 		'Children: {1}' format: {selection childCount}.
+		'Is Stepping: ', selection isStepping.
+		'Is Rendering: ', selection isRendering.
 	}
 ]
 
