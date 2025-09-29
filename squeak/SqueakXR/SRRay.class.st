@@ -25,7 +25,10 @@ SRRay >> cast: aSRWorld [
 		object collisionGeometry ifNotNil: [:geometry |
 			(geometry rayIntersection: self) ifNotNil: [:result |
 				intersections add: result]]].
-	^ intersections
+	^ intersections sorted: [:intersectionA :intersectionB | | distA distB |
+		distA := self origin distanceTo: intersectionA point.
+		distB := self origin distanceTo: intersectionB point.
+		distA < distB]
 ]
 
 { #category : #accessing }

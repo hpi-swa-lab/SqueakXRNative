@@ -28,6 +28,12 @@ SRRayCastTest >> testBoundedPlaneIntersection [
 ]
 
 { #category : #'as yet unclassified' }
+SRRayCastTest >> testIntersectionsAreSortedByDistance [
+
+	self assert: false
+]
+
+{ #category : #'as yet unclassified' }
 SRRayCastTest >> testPlaneCollisionGeometry [
 
 	| plane collisionGeometry |
