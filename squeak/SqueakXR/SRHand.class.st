@@ -143,12 +143,6 @@ SRHand >> rayCast [
 ]
 
 { #category : #'as yet unclassified' }
-SRHand >> renderOn: aSRRenderer [
-
-	"aSRRenderer renderCubeTransformed: self globalTransform * (Matrix4x4 withScale: 10cm asVector3) withColor: Color green."
-]
-
-{ #category : #'as yet unclassified' }
 SRHand >> startGrabbing [
 
 	| ray |
@@ -168,16 +162,16 @@ SRHand >> startGrabbing [
 { #category : #'as yet unclassified' }
 SRHand >> step: deltaTime [
 
-	grabbedObject ifNotNil: [ | currentDistanceToAvatar avatarDistanceDelta |
-		"TODO!!!! MUST BE GLOBAL TRANSLATION ETC"
+	grabbedObject ifNotNil: [ | currentDistanceToAvatar avatarDistanceDelta rotation translation |
 		currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
 		avatarDistanceDelta := currentDistanceToAvatar - grabbedDistanceToAvatar.
-		grabbedObject translation:
-			self globalTranslation
-				+ ((self globalTransform localDirToGlobal: Vector3 backward  * (1 + (avatarDistanceDelta * 5))) * grabbedDistance)
-				+ grabbedTranslationOffset.
-		"grabbedObject translation: self globalTranslation."
-		"grabbedObject rotation: self globalTransform rotation"]
+		translation := self globalTranslation
+			+ ((self globalTransform localDirToGlobal: Vector3 backward  * (1 + (avatarDistanceDelta * 5))) * grabbedDistance)
+			+ grabbedTranslationOffset.
+		rotation := self globalRotation.
+		grabbedObject
+			globalTranslation: translation;
+			globalRotation: rotation]
 ]
 
 { #category : #'as yet unclassified' }
