@@ -90,9 +90,15 @@ SRFrame >> renderObjects [
 { #category : #'as yet unclassified' }
 SRFrame >> stepObjects [
 
-	[steppedObjects notEmpty] whileTrue: [ | currentObject |
+	
+	| currentObject |
+	[[steppedObjects notEmpty] whileTrue: [
 		currentObject := steppedObjects removeFirst.
-		currentObject step: deltaTime]
+		currentObject step: deltaTime]]
+		on: Error
+		do: [:error |
+				currentObject badStep: true.
+				error pass]
 ]
 
 { #category : #'as yet unclassified' }

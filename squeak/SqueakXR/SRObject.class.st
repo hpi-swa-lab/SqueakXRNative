@@ -12,7 +12,8 @@ Class {
 		'transformDirtyFlag',
 		'name',
 		'isStepping',
-		'isRendering'
+		'isRendering',
+		'badStep'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -76,6 +77,18 @@ SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
 	self childrenDo: [:child | child allDo: aBlock].
+]
+
+{ #category : #accessing }
+SRObject >> badStep [
+
+	^ badStep
+]
+
+{ #category : #accessing }
+SRObject >> badStep: aBoolean [
+
+	badStep := aBoolean
 ]
 
 { #category : #events }
@@ -219,7 +232,8 @@ SRObject >> initialize [
 	children := OrderedCollection new.
 	
 	isStepping := (self class selectorDefinedByBase: #step:) not.
-	isRendering := true.
+	badStep := false.
+	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
@@ -238,11 +252,17 @@ SRObject >> isRendering [
 { #category : #stepping }
 SRObject >> isStepping [
 
-	^ isStepping
+	^ isStepping and: [badStep not]
 ]
 
 { #category : #events }
 SRObject >> keyboardEvent: aCharacter [
+]
+
+{ #category : #transforms }
+SRObject >> localAxis: aVector3 angle: aNumber [
+
+	self localRotation: (Quaternion angle: aNumber axis: aVector3)
 ]
 
 { #category : #'transforms - internal' }

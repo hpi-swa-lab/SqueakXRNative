@@ -349,7 +349,7 @@ SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame |
 	startTime := DateAndTime now.
-	deltaTime := startTime - lastFrameTime.
+	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
 	
 	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
