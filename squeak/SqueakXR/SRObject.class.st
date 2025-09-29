@@ -127,6 +127,12 @@ SRObject >> collisionGeometry [
 	^ nil
 ]
 
+{ #category : #accessing }
+SRObject >> continueStepping [
+
+	self badStep: false
+]
+
 { #category : #transforms }
 SRObject >> ensureTransformClean [
 

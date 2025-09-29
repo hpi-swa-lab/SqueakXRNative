@@ -3,7 +3,8 @@ Class {
 	#superclass : #Model,
 	#instVars : [
 		'root',
-		'currentSelection'
+		'currentSelection',
+		'expression'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -26,6 +27,21 @@ SRSceneTreeInspector >> build [
 ]
 
 { #category : #toolbuilder }
+SRSceneTreeInspector >> buildCodePaneWith: aBuilder [
+
+	| treeSpec |
+	treeSpec := aBuilder pluggableCodePaneSpec new.
+	treeSpec
+		model: self;
+		getText: #expression;
+		editText: #expression:;
+		menu: #codePaneMenu:shifted:;
+		help: 'Evaluate expressions for the selected object...'.
+	
+	^ treeSpec
+]
+
+{ #category : #toolbuilder }
 SRSceneTreeInspector >> buildListSpecWith: aBuilder [
 
 	| listSpec |
@@ -33,11 +49,6 @@ SRSceneTreeInspector >> buildListSpecWith: aBuilder [
 	listSpec 
 		model: self;
 		list: #propertiesOfCurrentSelection. 
-		"getSelected: #currentClassName; 
-		setSelected: #currentClassName:; 
-		menu: #classListMenu:shifted:; 
-		keyPress: #classListKey:from:;
-		dragItem: #dragClass:."
 	^ listSpec
 ]
 
@@ -50,8 +61,6 @@ SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 		model: self;
 		getSelected: #currentSelection;
 		setSelected: #currentSelection:;
-		"getSelectedPath: #currentSelectedPath;
-		setSelectedPath: #currentSelectedPath:;"
 		getChildren: #childrenOf:;
 		roots: #roots;
 		label: #labelOf:;
@@ -66,13 +75,20 @@ SRSceneTreeInspector >> buildWith: aBuilder [
 
 	^ self buildWindowWith: aBuilder specs: {
 		(0.0 @ 0.0 corner: 0.5 @ 1.0) -> [self buildTreeSpecWith: aBuilder].
-		(0.5 @ 0.0 corner: 1.0 @ 1.0) -> [self buildListSpecWith: aBuilder]}
+		(0.5 @ 0.0 corner: 1.0 @ 0.8) -> [self buildListSpecWith: aBuilder].
+		(0.5 @ 0.8 corner: 1.0 @ 1.0) -> [self buildCodePaneWith: aBuilder]}
 ]
 
 { #category : #'as yet unclassified' }
 SRSceneTreeInspector >> childrenOf: aSRObject [
 
 	^ aSRObject children
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> codePaneMenu: aMenu shifted: shifted [
+	^ StringHolder codePaneMenu: aMenu shifted: shifted
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -104,6 +120,30 @@ SRSceneTreeInspector >> currentSelection: aSRObject [
 	currentSelection := aSRObject.
 	self changed: #currentSelection;
 		changed: #propertiesOfCurrentSelection
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> doItContext [
+
+	^nil
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> doItReceiver [
+
+	^ self currentSelection
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> expression [
+
+	^ expression
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> expression: aString [
+
+	expression := aString.
 ]
 
 { #category : #'as yet unclassified' }
