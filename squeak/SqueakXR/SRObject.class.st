@@ -13,7 +13,8 @@ Class {
 		'name',
 		'isStepping',
 		'isRendering',
-		'badStep'
+		'badStep',
+		'badRender'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -80,6 +81,18 @@ SRObject >> allDo: aBlock [
 ]
 
 { #category : #accessing }
+SRObject >> badRender [
+
+	^ badRender
+]
+
+{ #category : #accessing }
+SRObject >> badRender: aBoolean [
+
+	badRender := aBoolean
+]
+
+{ #category : #accessing }
 SRObject >> badStep [
 
 	^ badStep
@@ -125,6 +138,12 @@ SRObject >> childrenDo: aBlock [
 SRObject >> collisionGeometry [
 
 	^ nil
+]
+
+{ #category : #accessing }
+SRObject >> continueRendering [
+
+	self badRender: false
 ]
 
 { #category : #accessing }
@@ -240,6 +259,7 @@ SRObject >> initialize [
 	isStepping := (self class selectorDefinedByBase: #step:) not.
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
+	badRender := false.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
@@ -252,7 +272,7 @@ SRObject >> initialize [
 { #category : #rendering }
 SRObject >> isRendering [
 
-	^ isRendering
+	^ isRendering and: [badRender not]
 ]
 
 { #category : #stepping }

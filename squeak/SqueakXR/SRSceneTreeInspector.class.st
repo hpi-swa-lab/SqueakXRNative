@@ -27,6 +27,28 @@ SRSceneTreeInspector >> build [
 ]
 
 { #category : #toolbuilder }
+SRSceneTreeInspector >> buildButtonPanel: aBuilder [
+
+	| continueSteppingButton continueRenderingButton spacer |
+	continueSteppingButton := aBuilder pluggableButtonSpec new
+		model: self;
+		label: 'Continue Stepping';
+		action: #continueStepping.
+	
+	continueRenderingButton := aBuilder pluggableButtonSpec new
+		model: self;
+		label: 'Continue Rendering';
+		action: #continueRendering.
+	
+	spacer := aBuilder pluggableSpacerSpec new.
+	
+	^ aBuilder pluggablePanelSpec new
+		layout: #horizontal;
+		spacing: (-1 * RealEstateAgent scaleFactor) truncated;
+		children: {continueSteppingButton. spacer. continueRenderingButton}
+]
+
+{ #category : #toolbuilder }
 SRSceneTreeInspector >> buildCodePaneWith: aBuilder [
 
 	| treeSpec |
@@ -75,7 +97,8 @@ SRSceneTreeInspector >> buildWith: aBuilder [
 
 	^ self buildWindowWith: aBuilder specs: {
 		(0.0 @ 0.0 corner: 0.5 @ 1.0) -> [self buildTreeSpecWith: aBuilder].
-		(0.5 @ 0.0 corner: 1.0 @ 0.8) -> [self buildListSpecWith: aBuilder].
+		(0.5 @ 0.0 corner: 1.0 @ 0.75) -> [self buildListSpecWith: aBuilder].
+		(0.5 @ 0.75 corner: 1.0 @ 0.8) -> [self buildButtonPanel: aBuilder].
 		(0.5 @ 0.8 corner: 1.0 @ 1.0) -> [self buildCodePaneWith: aBuilder]}
 ]
 
@@ -89,6 +112,18 @@ SRSceneTreeInspector >> childrenOf: aSRObject [
 SRSceneTreeInspector >> codePaneMenu: aMenu shifted: shifted [
 	^ StringHolder codePaneMenu: aMenu shifted: shifted
 
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> continueRendering [
+
+	self currentSelection ifNotNil: [:object | object continueRendering]
+]
+
+{ #category : #toolbuilder }
+SRSceneTreeInspector >> continueStepping [
+
+	self currentSelection ifNotNil: [:object | object continueStepping]
 ]
 
 { #category : #'as yet unclassified' }

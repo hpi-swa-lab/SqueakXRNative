@@ -82,9 +82,15 @@ SRFrame >> process [
 { #category : #'as yet unclassified' }
 SRFrame >> renderObjects [
 
-	[renderedObjects notEmpty] whileTrue: [ | currentObject |
+	| currentObject |
+	[[renderedObjects notEmpty] whileTrue: [
 		currentObject := renderedObjects removeFirst.
-		self world render: currentObject]
+		self world render: currentObject]]
+		on: Error
+		do: [:error |
+			error printVerboseOn: Transcript.
+			currentObject badRender: true.
+			error retry.]
 ]
 
 { #category : #'as yet unclassified' }
@@ -97,8 +103,10 @@ SRFrame >> stepObjects [
 		currentObject step: deltaTime]]
 		on: Error
 		do: [:error |
+				"ToolSet default handleError: error."
+				error printVerboseOn: Transcript.
 				currentObject badStep: true.
-				error pass]
+				error retry.]
 ]
 
 { #category : #'as yet unclassified' }
