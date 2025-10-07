@@ -31,7 +31,7 @@ SRCollisionPlane class >> point: aVector3 normal: anotherVector3 extent: aPoint 
 { #category : #'as yet unclassified' }
 SRCollisionPlane class >> point: point normal: normal up: up width: width height: height [
 
-	self assert: (normal dot: up) = 0
+	self assert: ((normal dot: up) closeTo: 0)
 		description: 'normal and up must be orthogonal'.
 
 	^ self new

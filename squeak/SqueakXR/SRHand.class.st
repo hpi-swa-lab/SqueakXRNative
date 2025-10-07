@@ -150,8 +150,7 @@ SRHand >> startGrabbing [
 		origin: self globalTranslation
 		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
 	
-	(ray cast: self world) ifNotEmpty: [:results | | collision |
-		collision := results first.
+	(ray castNearest: self world) ifNotNil: [:collision |
 		"TODO: should be object by default, but give option to morph to redefine grabbed morph"
 		grabbedObject := collision object parent.
 		grabbedDistance := self globalTranslation distanceTo: collision point.
