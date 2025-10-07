@@ -467,8 +467,12 @@ SRWorld >> log: aString [
 { #category : #'as yet unclassified' }
 SRWorld >> loop [
 
-	[self isRunning] whileTrue: [
-		self doOneCycle. Processor yield]
+	[[self isRunning] whileTrue: [
+		self doOneCycle. Processor yield]]
+		on: Error
+		do: [:error |
+			error printVerboseOn: Transcript.
+			error pass]
 ]
 
 { #category : #'as yet unclassified' }
