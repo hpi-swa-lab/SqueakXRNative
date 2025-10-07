@@ -19,6 +19,12 @@ SRRay class >> origin: aVector3 forward: anotherVector3 [
 { #category : #raycast }
 SRRay >> cast: aSRWorld [
 
+	^ self castAll: aSRWorld
+]
+
+{ #category : #raycast }
+SRRay >> castAll: aSRWorld [
+
 	| intersections |
 	intersections := OrderedCollection new.
 	aSRWorld allDo: [:object |
@@ -29,6 +35,14 @@ SRRay >> cast: aSRWorld [
 		distA := self origin distanceTo: intersectionA point.
 		distB := self origin distanceTo: intersectionB point.
 		distA < distB]
+]
+
+{ #category : #raycast }
+SRRay >> castNearest: aSRWorld [
+
+	^ (self castAll: aSRWorld)
+		ifEmpty: [nil]
+		ifNotEmpty: [:results | results first]
 ]
 
 { #category : #accessing }
