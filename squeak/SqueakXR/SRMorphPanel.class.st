@@ -64,6 +64,7 @@ SRMorphPanel >> initialize [
 	super initialize.
 	
 	plane := SRPlane new
+		rotation: (Quaternion angle: 90 axis: Vector3 right);
 		addDependent: self;
 		yourself.
 	texture := SRMorphTexture new.

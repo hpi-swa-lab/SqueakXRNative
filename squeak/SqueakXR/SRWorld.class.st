@@ -536,32 +536,18 @@ SRWorld >> runStartScript [
 	ranStartScript := true.
 	
 	self log: 'proceeding';
-		"addChild: SRAvatar new;"
 		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
-			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 0 @ 1 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
-			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 0 @ 2 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: Workspace open dependents first;
-			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: 1.5 @ 1 @ -1.5);
 		addChild: (SRMorphPanel new
 			morph: SRSaveMorph new openInWorld;
-			rotation: (Quaternion angle: 90 axis: Vector3 right);
 			translation: -1.25 @ 1 @ -1.5)
-		"addChild: (SRMorphProjection new
-			morph: (KeyboardExerciser new openInWorld)
-			morph: (RectangleMorph new
-				borderWidth: 5; borderColor: Color red; color: Color blue);"
-			"transform: ((Matrix4x4 withScale: 3 @ 1 @ 3)
-			translatedBy: 0 @ 1 @ 0));
-		addChild: (SRTranscriptWindow new
-			rotation: -90 @ 0 @ 0;
-			translation: 0 @ 1 @ -2)."
 ]
 
 { #category : #'as yet unclassified' }
