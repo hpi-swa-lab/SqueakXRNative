@@ -208,6 +208,9 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 	selection := self currentSelection.
 	^ {
 		selection name.
+		'Children: {1}' format: {selection childCount}.
+		'Is Stepping: ', selection isStepping.
+		'Is Rendering: ', selection isRendering.
 		'Local translation'.
 		'    x: ', selection localTranslation x.
 		'    y: ', selection localTranslation y.
@@ -221,9 +224,19 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 		'    x: ', selection localScale x.
 		'    y: ', selection localScale y.
 		'    z: ', selection localScale z.
-		'Children: {1}' format: {selection childCount}.
-		'Is Stepping: ', selection isStepping.
-		'Is Rendering: ', selection isRendering.
+		'Global translation'.
+		'    x: ', selection globalTranslation x.
+		'    y: ', selection globalTranslation y.
+		'    z: ', selection globalTranslation z.
+		'Global rotation'.
+		'    axis x: ', selection globalRotation axis x.
+		'    axis y: ', selection globalRotation axis y.
+		'    axis z: ', selection globalRotation axis z.
+		'    angle: ', selection globalRotation angle.
+		'Global scale'.
+		'    x: ', selection globalScale x.
+		'    y: ', selection globalScale y.
+		'    z: ', selection globalScale z.
 	}
 ]
 
