@@ -178,8 +178,8 @@ SRObject >> globalRotation [
 { #category : #transforms }
 SRObject >> globalRotation: aQuaternion [
 
-	self globalTransformDirty.
 	self globalTransform setFromQuaternion: aQuaternion.
+	self globalTransformDirty.
 ]
 
 { #category : #transforms }
@@ -192,8 +192,8 @@ SRObject >> globalScale [
 { #category : #transforms }
 SRObject >> globalScale: aVector3 [
 
-	self globalTransformDirty.
 	self globalTransform setScale: aVector3.
+	self globalTransformDirty.
 ]
 
 { #category : #transforms }
@@ -206,8 +206,8 @@ SRObject >> globalTransform [
 { #category : #transforms }
 SRObject >> globalTransform: aMatrix4x4 [
 
-	self globalTransformDirty.
 	globalTransform := aMatrix4x4.
+	self globalTransformDirty.
 ]
 
 { #category : #'transforms - internal' }
@@ -227,8 +227,8 @@ SRObject >> globalTranslation [
 { #category : #transforms }
 SRObject >> globalTranslation: aVector3 [
 
-	self globalTransformDirty.
 	self globalTransform translation: aVector3.
+	self globalTransformDirty.
 ]
 
 { #category : #hierarchy }
@@ -320,8 +320,8 @@ SRObject >> localRotation [
 { #category : #transforms }
 SRObject >> localRotation: aQuaternion [
 
-	self localComponentDirty.
 	localRotation := aQuaternion.
+	self localComponentDirty.
 ]
 
 { #category : #transforms }
@@ -334,8 +334,8 @@ SRObject >> localScale [
 { #category : #transforms }
 SRObject >> localScale: aVector3 [
 
-	self localComponentDirty.
 	localScale := aVector3.
+	self localComponentDirty.
 ]
 
 { #category : #transforms }
@@ -348,8 +348,8 @@ SRObject >> localTransform [
 { #category : #transforms }
 SRObject >> localTransform: aMatrix4x4 [
 
-	self localTransformDirty.
 	localTransform := aMatrix4x4.
+	self localTransformDirty.
 ]
 
 { #category : #'transforms - internal' }
@@ -369,8 +369,8 @@ SRObject >> localTranslation [
 { #category : #transforms }
 SRObject >> localTranslation: aVector3 [
 
-	self localComponentDirty.
 	localTranslation := aVector3.
+	self localComponentDirty.
 ]
 
 { #category : #accessing }
