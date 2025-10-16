@@ -17,7 +17,10 @@ SRRaylibRendererXR >> completeFrame [
 	1 milliSecond wait.
 ]
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 10/8/2025 15:52'
+}
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 	| beginSuccessful |

@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlTexture class >> fields [
 	<generated>
 	^ #(#(#id 'uint32_t') #(#width 'int32_t') #(#height 'int32_t') #(#mipmaps 'int32_t') #(#format 'int32_t'))

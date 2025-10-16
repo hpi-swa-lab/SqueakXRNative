@@ -9,77 +9,110 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureDoubletap [
 	"Double tap gesture"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureDrag [
 	"Drag gesture"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureHold [
 	"Hold gesture"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureNone [
 	"No gesture"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gesturePinchIn [
 	"Pinch in gesture"
 	<generated>
 	^ 256
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gesturePinchOut [
 	"Pinch out gesture"
 	<generated>
 	^ 512
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureSwipeDown [
 	"Swipe down gesture"
 	<generated>
 	^ 128
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureSwipeLeft [
 	"Swipe left gesture"
 	<generated>
 	^ 32
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureSwipeRight [
 	"Swipe right gesture"
 	<generated>
 	^ 16
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureSwipeUp [
 	"Swipe up gesture"
 	<generated>
 	^ 64
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGesture class >> gestureTap [
 	"Tap gesture"
 	<generated>

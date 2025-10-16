@@ -9,35 +9,50 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCameraMode class >> cameraCustom [
 	"Camera custom, controlled by user (UpdateCamera() does nothing)"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCameraMode class >> cameraFirstPerson [
 	"Camera first person"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCameraMode class >> cameraFree [
 	"Camera free mode"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCameraMode class >> cameraOrbital [
 	"Camera orbital, around target, zoom supported"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCameraMode class >> cameraThirdPerson [
 	"Camera third person"
 	<generated>

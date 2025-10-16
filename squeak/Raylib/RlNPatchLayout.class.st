@@ -9,21 +9,30 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlNPatchLayout class >> npatchNinePatch [
 	"Npatch layout: 3x3 tiles"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlNPatchLayout class >> npatchThreePatchHorizontal [
 	"Npatch layout: 3x1 tiles"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlNPatchLayout class >> npatchThreePatchVertical [
 	"Npatch layout: 1x3 tiles"
 	<generated>

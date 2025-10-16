@@ -9,42 +9,60 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterAnisotropic16x [
 	"Anisotropic filtering 16x"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterAnisotropic4x [
 	"Anisotropic filtering 4x"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterAnisotropic8x [
 	"Anisotropic filtering 8x"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterBilinear [
 	"Linear filtering"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterPoint [
 	"No filter, just pixel approximation"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTextureFilter class >> rlTextureFilterTrilinear [
 	"Trilinear filtering (linear with mipmaps)"
 	<generated>

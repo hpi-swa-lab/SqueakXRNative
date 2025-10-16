@@ -9,126 +9,180 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftFaceDown [
 	"Gamepad left DPAD down button"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftFaceLeft [
 	"Gamepad left DPAD left button"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftFaceRight [
 	"Gamepad left DPAD right button"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftFaceUp [
 	"Gamepad left DPAD up button"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftThumb [
 	"Gamepad joystick pressed button left"
 	<generated>
 	^ 16
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftTrigger1 [
 	"Gamepad top/back trigger left (first), it could be a trailing button"
 	<generated>
 	^ 9
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonLeftTrigger2 [
 	"Gamepad top/back trigger left (second), it could be a trailing button"
 	<generated>
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonMiddle [
 	"Gamepad center buttons, middle one (i.e. PS3: PS, Xbox: XBOX)"
 	<generated>
 	^ 14
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonMiddleLeft [
 	"Gamepad center buttons, left one (i.e. PS3: Select)"
 	<generated>
 	^ 13
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonMiddleRight [
 	"Gamepad center buttons, right one (i.e. PS3: Start)"
 	<generated>
 	^ 15
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightFaceDown [
 	"Gamepad right button down (i.e. PS3: Cross, Xbox: A)"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightFaceLeft [
 	"Gamepad right button left (i.e. PS3: Square, Xbox: X)"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightFaceRight [
 	"Gamepad right button right (i.e. PS3: Circle, Xbox: B)"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightFaceUp [
 	"Gamepad right button up (i.e. PS3: Triangle, Xbox: Y)"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightThumb [
 	"Gamepad joystick pressed button right"
 	<generated>
 	^ 17
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightTrigger1 [
 	"Gamepad top/back trigger right (first), it could be a trailing button"
 	<generated>
 	^ 11
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonRightTrigger2 [
 	"Gamepad top/back trigger right (second), it could be a trailing button"
 	<generated>
 	^ 12
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGamepadButton class >> gamepadButtonUnknown [
 	"Unknown button, just for error checking"
 	<generated>

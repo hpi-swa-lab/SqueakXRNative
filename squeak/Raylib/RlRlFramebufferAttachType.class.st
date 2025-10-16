@@ -9,70 +9,100 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel0 [
 	"Framebuffer attachment type: color 0"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel1 [
 	"Framebuffer attachment type: color 1"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel2 [
 	"Framebuffer attachment type: color 2"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel3 [
 	"Framebuffer attachment type: color 3"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel4 [
 	"Framebuffer attachment type: color 4"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel5 [
 	"Framebuffer attachment type: color 5"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel6 [
 	"Framebuffer attachment type: color 6"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel7 [
 	"Framebuffer attachment type: color 7"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentDepth [
 	"Framebuffer attachment type: depth"
 	<generated>
 	^ 100
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachType class >> rlAttachmentStencil [
 	"Framebuffer attachment type: stencil"
 	<generated>

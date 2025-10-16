@@ -16,13 +16,19 @@ SRRay class >> origin: aVector3 forward: anotherVector3 [
 		forward: anotherVector3
 ]
 
-{ #category : #raycast }
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 10/6/2025 16:40'
+}
 SRRay >> cast: aSRWorld [
 
 	^ self castAll: aSRWorld
 ]
 
-{ #category : #raycast }
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 10/6/2025 16:40'
+}
 SRRay >> castAll: aSRWorld [
 
 	| intersections |
@@ -37,7 +43,10 @@ SRRay >> castAll: aSRWorld [
 		distA < distB]
 ]
 
-{ #category : #raycast }
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 10/7/2025 15:45'
+}
 SRRay >> castNearest: aSRWorld [
 
 	^ (self castAll: aSRWorld)

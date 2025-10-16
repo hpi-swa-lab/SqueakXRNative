@@ -9,56 +9,80 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendAddColors [
 	"Blend textures adding colors (alternative)"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendAdditive [
 	"Blend textures adding colors"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendAlpha [
 	"Blend textures considering alpha (default)"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendAlphaPremultiply [
 	"Blend premultiplied textures considering alpha"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendCustom [
 	"Blend textures using custom src/dst factors (use rlSetBlendFactors())"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendCustomSeparate [
 	"Blend textures using custom rgb/alpha separate src/dst factors (use rlSetBlendFactorsSeparate())"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendMultiplied [
 	"Blend textures multiplying colors"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBlendMode class >> blendSubtractColors [
 	"Blend textures subtracting colors (alternative)"
 	<generated>

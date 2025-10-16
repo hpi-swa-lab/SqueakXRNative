@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlBoneInfo class >> fields [
 	<generated>
 	^ #(#(#name 'char8_t[32]') #(#parent 'int32_t'))

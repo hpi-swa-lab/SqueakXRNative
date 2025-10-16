@@ -9,8 +9,18 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlVector3 class >> fields [
 	<generated>
 	^ #(#(#x 'float') #(#y 'float') #(#z 'float'))
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
+RlVector3 >> asVector3 [ ^ self
 ]

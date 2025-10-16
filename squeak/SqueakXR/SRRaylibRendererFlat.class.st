@@ -26,7 +26,10 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 	^ true
 ]
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 10/8/2025 13:36'
+}
 SRRaylibRendererFlat >> setup [
 
 	Raylib initWindowWidth: 800 height: 450 title: 'Squeak 3D World';

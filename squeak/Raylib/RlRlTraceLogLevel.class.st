@@ -9,56 +9,80 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogAll [
 	"Display all logs"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogDebug [
 	"Debug logging, used for internal debugging, it should be disabled on release builds"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogError [
 	"Error logging, used on unrecoverable failures"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogFatal [
 	"Fatal logging, used to abort program: exit(EXIT_FAILURE)"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogInfo [
 	"Info logging, used for program execution info"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogNone [
 	"Disable logging"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogTrace [
 	"Trace logging, intended for internal use only"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlTraceLogLevel class >> rlLogWarning [
 	"Warning logging, used on recoverable failures"
 	<generated>

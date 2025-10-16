@@ -4,13 +4,19 @@ Class {
 	#category : #'Raylib-Functions-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions class >> moduleName [
 
 	^ 'squeakxrnative'
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginBlendMode: mode [
 	"Begin blending mode (alpha, additive, multiplied, subtract, custom)
 	mode - int"
@@ -19,7 +25,10 @@ RlFunctions >> beginBlendMode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginDrawing [
 	"Setup canvas (framebuffer) to start drawing
 "
@@ -28,7 +37,10 @@ RlFunctions >> beginDrawing [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginMode2DCamera: camera [
 	"Begin 2D mode with custom camera (2D)
 	camera - Camera2D"
@@ -37,7 +49,10 @@ RlFunctions >> beginMode2DCamera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginMode3DCamera: camera [
 	"Begin 3D mode with custom camera (3D)
 	camera - Camera3D"
@@ -46,7 +61,10 @@ RlFunctions >> beginMode3DCamera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginScissorModeX: x y: y width: width height: height [
 	"Begin scissor mode (define screen area for following drawing)
 	x - int
@@ -58,7 +76,10 @@ RlFunctions >> beginScissorModeX: x y: y width: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginShaderModeShader: shader [
 	"Begin custom shader drawing
 	shader - Shader"
@@ -67,7 +88,10 @@ RlFunctions >> beginShaderModeShader: shader [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginTextureModeTarget: target [
 	"Begin drawing to render texture
 	target - RenderTexture2D"
@@ -76,7 +100,10 @@ RlFunctions >> beginTextureModeTarget: target [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> beginVrStereoModeConfig: config [
 	"Begin stereo rendering (requires VR simulator)
 	config - VrStereoConfig"
@@ -85,7 +112,10 @@ RlFunctions >> beginVrStereoModeConfig: config [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> changeDirectoryDir: dir [
 	"Change working directory, return true on success
 	dir - const char *"
@@ -94,7 +124,10 @@ RlFunctions >> changeDirectoryDir: dir [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionBoxSphereBox: box center: center radius: radius [
 	"Check collision between box and sphere
 	box - BoundingBox
@@ -105,7 +138,10 @@ RlFunctions >> checkCollisionBoxSphereBox: box center: center radius: radius [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionBoxesBox1: box1 box2: box2 [
 	"Check collision between two bounding boxes
 	box1 - BoundingBox
@@ -115,7 +151,10 @@ RlFunctions >> checkCollisionBoxesBox1: box1 box2: box2 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionCircleLineCenter: center radius: radius p1: p1 p2: p2 [
 	"Check if circle collides with a line created betweeen two points [p1] and [p2]
 	center - Vector2
@@ -127,7 +166,10 @@ RlFunctions >> checkCollisionCircleLineCenter: center radius: radius p1: p1 p2: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionCircleRecCenter: center radius: radius rec: rec [
 	"Check collision between circle and rectangle
 	center - Vector2
@@ -138,7 +180,10 @@ RlFunctions >> checkCollisionCircleRecCenter: center radius: radius rec: rec [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionCirclesCenter1: center1 radius1: radius1 center2: center2 radius2: radius2 [
 	"Check collision between two circles
 	center1 - Vector2
@@ -150,7 +195,10 @@ RlFunctions >> checkCollisionCirclesCenter1: center1 radius1: radius1 center2: c
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionLinesStartPos1: startPos1 endPos1: endPos1 startPos2: startPos2 endPos2: endPos2 collisionPoint: collisionPoint [
 	"Check the collision between two lines defined by two points each, returns collision point by reference
 	startPos1 - Vector2
@@ -163,7 +211,10 @@ RlFunctions >> checkCollisionLinesStartPos1: startPos1 endPos1: endPos1 startPos
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionPointCirclePoint: point center: center radius: radius [
 	"Check if point is inside circle
 	point - Vector2
@@ -174,7 +225,10 @@ RlFunctions >> checkCollisionPointCirclePoint: point center: center radius: radi
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionPointLinePoint: point p1: p1 p2: p2 threshold: threshold [
 	"Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
 	point - Vector2
@@ -186,7 +240,10 @@ RlFunctions >> checkCollisionPointLinePoint: point p1: p1 p2: p2 threshold: thre
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionPointPolyPoint: point points: points pointCount: pointCount [
 	"Check if point is within a polygon described by array of vertices
 	point - Vector2
@@ -197,7 +254,10 @@ RlFunctions >> checkCollisionPointPolyPoint: point points: points pointCount: po
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionPointRecPoint: point rec: rec [
 	"Check if point is inside rectangle
 	point - Vector2
@@ -207,7 +267,10 @@ RlFunctions >> checkCollisionPointRecPoint: point rec: rec [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionPointTrianglePoint: point p1: p1 p2: p2 p3: p3 [
 	"Check if point is inside a triangle
 	point - Vector2
@@ -219,7 +282,10 @@ RlFunctions >> checkCollisionPointTrianglePoint: point p1: p1 p2: p2 p3: p3 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionRecsRec1: rec1 rec2: rec2 [
 	"Check collision between two rectangles
 	rec1 - Rectangle
@@ -229,7 +295,10 @@ RlFunctions >> checkCollisionRecsRec1: rec1 rec2: rec2 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> checkCollisionSpheresCenter1: center1 radius1: radius1 center2: center2 radius2: radius2 [
 	"Check collision between two spheres
 	center1 - Vector3
@@ -241,7 +310,10 @@ RlFunctions >> checkCollisionSpheresCenter1: center1 radius1: radius1 center2: c
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> clearBackgroundColor: color [
 	"Set background color (framebuffer clear color)
 	color - Color"
@@ -250,7 +322,10 @@ RlFunctions >> clearBackgroundColor: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> clearWindowStateFlags: flags [
 	"Clear window configuration state flags
 	flags - unsigned int"
@@ -259,7 +334,10 @@ RlFunctions >> clearWindowStateFlags: flags [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> closeWindow [
 	"Close window and unload OpenGL context
 "
@@ -268,7 +346,10 @@ RlFunctions >> closeWindow [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> codepointToUTF8Codepoint: codepoint utf8Size: utf8Size [
 	"Encode one codepoint into UTF-8 byte array (array length returned as parameter)
 	codepoint - int
@@ -278,7 +359,10 @@ RlFunctions >> codepointToUTF8Codepoint: codepoint utf8Size: utf8Size [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorAlphaBlendDst: dst src: src tint: tint [
 	"Get src alpha-blended into dst color with tint
 	dst - Color
@@ -289,7 +373,10 @@ RlFunctions >> colorAlphaBlendDst: dst src: src tint: tint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorAlphaColor: color alpha: alpha [
 	"Get color with alpha applied, alpha goes from 0.0f to 1.0f
 	color - Color
@@ -299,7 +386,10 @@ RlFunctions >> colorAlphaColor: color alpha: alpha [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorBrightnessColor: color factor: factor [
 	"Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
 	color - Color
@@ -309,7 +399,10 @@ RlFunctions >> colorBrightnessColor: color factor: factor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorContrastColor: color contrast: contrast [
 	"Get color with contrast correction, contrast values between -1.0f and 1.0f
 	color - Color
@@ -319,7 +412,10 @@ RlFunctions >> colorContrastColor: color contrast: contrast [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorFromHSVHue: hue saturation: saturation value: value [
 	"Get a Color from HSV values, hue [0..360], saturation/value [0..1]
 	hue - float
@@ -330,7 +426,10 @@ RlFunctions >> colorFromHSVHue: hue saturation: saturation value: value [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorFromNormalized: normalized [
 	"Get Color from normalized values [0..1]
 	normalized - Vector4"
@@ -339,7 +438,10 @@ RlFunctions >> colorFromNormalized: normalized [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorIsEqualCol1: col1 col2: col2 [
 	"Check if two colors are equal
 	col1 - Color
@@ -349,7 +451,10 @@ RlFunctions >> colorIsEqualCol1: col1 col2: col2 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorLerpColor1: color1 color2: color2 factor: factor [
 	"Get color lerp interpolation between two colors, factor [0.0f..1.0f]
 	color1 - Color
@@ -360,7 +465,10 @@ RlFunctions >> colorLerpColor1: color1 color2: color2 factor: factor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorNormalizeColor: color [
 	"Get Color normalized as float [0..1]
 	color - Color"
@@ -369,7 +477,10 @@ RlFunctions >> colorNormalizeColor: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorTintColor: color tint: tint [
 	"Get color multiplied with another color
 	color - Color
@@ -379,7 +490,10 @@ RlFunctions >> colorTintColor: color tint: tint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorToHSVColor: color [
 	"Get HSV values for a Color, hue [0..360], saturation/value [0..1]
 	color - Color"
@@ -388,7 +502,10 @@ RlFunctions >> colorToHSVColor: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> colorToIntColor: color [
 	"Get hexadecimal value for a Color (0xRRGGBBAA)
 	color - Color"
@@ -397,7 +514,10 @@ RlFunctions >> colorToIntColor: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> compressData: data dataSize: dataSize compDataSize: compDataSize [
 	"Compress data (DEFLATE algorithm), memory must be MemFree()
 	data - const unsigned char *
@@ -408,7 +528,10 @@ RlFunctions >> compressData: data dataSize: dataSize compDataSize: compDataSize 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> computeCRC32Data: data dataSize: dataSize [
 	"Compute CRC32 hash code
 	data - unsigned char *
@@ -418,7 +541,10 @@ RlFunctions >> computeCRC32Data: data dataSize: dataSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> computeMD5Data: data dataSize: dataSize [
 	"Compute MD5 hash code, returns static int[4] (16 bytes)
 	data - unsigned char *
@@ -428,7 +554,10 @@ RlFunctions >> computeMD5Data: data dataSize: dataSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> computeSHA1Data: data dataSize: dataSize [
 	"Compute SHA1 hash code, returns static int[5] (20 bytes)
 	data - unsigned char *
@@ -438,7 +567,10 @@ RlFunctions >> computeSHA1Data: data dataSize: dataSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> decodeDataBase64Data: data outputSize: outputSize [
 	"Decode Base64 string data, memory must be MemFree()
 	data - const unsigned char *
@@ -448,7 +580,10 @@ RlFunctions >> decodeDataBase64Data: data outputSize: outputSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> decompressDataCompData: compData compDataSize: compDataSize dataSize: dataSize [
 	"Decompress data (DEFLATE algorithm), memory must be MemFree()
 	compData - const unsigned char *
@@ -459,7 +594,10 @@ RlFunctions >> decompressDataCompData: compData compDataSize: compDataSize dataS
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> directoryExistsDirPath: dirPath [
 	"Check if a directory path exists
 	dirPath - const char *"
@@ -468,7 +606,10 @@ RlFunctions >> directoryExistsDirPath: dirPath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> disableCursor [
 	"Disables cursor (lock cursor)
 "
@@ -477,7 +618,10 @@ RlFunctions >> disableCursor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> disableEventWaiting [
 	"Disable waiting for events on EndDrawing(), automatic events polling
 "
@@ -486,7 +630,10 @@ RlFunctions >> disableEventWaiting [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawBillboardCamera: camera texture: texture position: position scale: scale tint: tint [
 	"Draw a billboard texture
 	camera - Camera
@@ -499,7 +646,10 @@ RlFunctions >> drawBillboardCamera: camera texture: texture position: position s
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawBillboardProCamera: camera texture: texture source: source position: position up: up size: size origin: origin rotation: rotation tint: tint [
 	"Draw a billboard texture defined by source and rotation
 	camera - Camera
@@ -516,7 +666,10 @@ RlFunctions >> drawBillboardProCamera: camera texture: texture source: source po
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawBillboardRecCamera: camera texture: texture source: source position: position size: size tint: tint [
 	"Draw a billboard texture defined by source
 	camera - Camera
@@ -530,7 +683,10 @@ RlFunctions >> drawBillboardRecCamera: camera texture: texture source: source po
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawBoundingBox: box color: color [
 	"Draw bounding box (wires)
 	box - BoundingBox
@@ -540,7 +696,10 @@ RlFunctions >> drawBoundingBox: box color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCapsuleStartPos: startPos endPos: endPos radius: radius slices: slices rings: rings color: color [
 	"Draw a capsule with the center of its sphere caps at startPos and endPos
 	startPos - Vector3
@@ -554,7 +713,10 @@ RlFunctions >> drawCapsuleStartPos: startPos endPos: endPos radius: radius slice
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCapsuleWiresStartPos: startPos endPos: endPos radius: radius slices: slices rings: rings color: color [
 	"Draw capsule wireframe with the center of its sphere caps at startPos and endPos
 	startPos - Vector3
@@ -568,7 +730,10 @@ RlFunctions >> drawCapsuleWiresStartPos: startPos endPos: endPos radius: radius 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircle3DCenter: center radius: radius rotationAxis: rotationAxis rotationAngle: rotationAngle color: color [
 	"Draw a circle in 3D world space
 	center - Vector3
@@ -581,7 +746,10 @@ RlFunctions >> drawCircle3DCenter: center radius: radius rotationAxis: rotationA
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleCenterX: centerX centerY: centerY radius: radius color: color [
 	"Draw a color-filled circle
 	centerX - int
@@ -593,7 +761,10 @@ RlFunctions >> drawCircleCenterX: centerX centerY: centerY radius: radius color:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleGradientCenterX: centerX centerY: centerY radius: radius inner: inner outer: outer [
 	"Draw a gradient-filled circle
 	centerX - int
@@ -606,7 +777,10 @@ RlFunctions >> drawCircleGradientCenterX: centerX centerY: centerY radius: radiu
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleLinesCenterX: centerX centerY: centerY radius: radius color: color [
 	"Draw circle outline
 	centerX - int
@@ -618,7 +792,10 @@ RlFunctions >> drawCircleLinesCenterX: centerX centerY: centerY radius: radius c
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleLinesVCenter: center radius: radius color: color [
 	"Draw circle outline (Vector version)
 	center - Vector2
@@ -629,7 +806,10 @@ RlFunctions >> drawCircleLinesVCenter: center radius: radius color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleSectorCenter: center radius: radius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw a piece of a circle
 	center - Vector2
@@ -643,7 +823,10 @@ RlFunctions >> drawCircleSectorCenter: center radius: radius startAngle: startAn
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleSectorLinesCenter: center radius: radius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw circle sector outline
 	center - Vector2
@@ -657,7 +840,10 @@ RlFunctions >> drawCircleSectorLinesCenter: center radius: radius startAngle: st
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCircleVCenter: center radius: radius color: color [
 	"Draw a color-filled circle (Vector version)
 	center - Vector2
@@ -668,7 +854,10 @@ RlFunctions >> drawCircleVCenter: center radius: radius color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCubePosition: position width: width height: height length: length color: color [
 	"Draw cube
 	position - Vector3
@@ -681,7 +870,10 @@ RlFunctions >> drawCubePosition: position width: width height: height length: le
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCubeVPosition: position size: size color: color [
 	"Draw cube (Vector version)
 	position - Vector3
@@ -692,7 +884,10 @@ RlFunctions >> drawCubeVPosition: position size: size color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCubeWiresPosition: position width: width height: height length: length color: color [
 	"Draw cube wires
 	position - Vector3
@@ -705,7 +900,10 @@ RlFunctions >> drawCubeWiresPosition: position width: width height: height lengt
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCubeWiresVPosition: position size: size color: color [
 	"Draw cube wires (Vector version)
 	position - Vector3
@@ -716,7 +914,10 @@ RlFunctions >> drawCubeWiresVPosition: position size: size color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCylinderExStartPos: startPos endPos: endPos startRadius: startRadius endRadius: endRadius sides: sides color: color [
 	"Draw a cylinder with base at startPos and top at endPos
 	startPos - Vector3
@@ -730,7 +931,10 @@ RlFunctions >> drawCylinderExStartPos: startPos endPos: endPos startRadius: star
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCylinderPosition: position radiusTop: radiusTop radiusBottom: radiusBottom height: height slices: slices color: color [
 	"Draw a cylinder/cone
 	position - Vector3
@@ -744,7 +948,10 @@ RlFunctions >> drawCylinderPosition: position radiusTop: radiusTop radiusBottom:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCylinderWiresExStartPos: startPos endPos: endPos startRadius: startRadius endRadius: endRadius sides: sides color: color [
 	"Draw a cylinder wires with base at startPos and top at endPos
 	startPos - Vector3
@@ -758,7 +965,10 @@ RlFunctions >> drawCylinderWiresExStartPos: startPos endPos: endPos startRadius:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawCylinderWiresPosition: position radiusTop: radiusTop radiusBottom: radiusBottom height: height slices: slices color: color [
 	"Draw a cylinder/cone wires
 	position - Vector3
@@ -772,7 +982,10 @@ RlFunctions >> drawCylinderWiresPosition: position radiusTop: radiusTop radiusBo
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawEllipseCenterX: centerX centerY: centerY radiusH: radiusH radiusV: radiusV color: color [
 	"Draw ellipse
 	centerX - int
@@ -785,7 +998,10 @@ RlFunctions >> drawEllipseCenterX: centerX centerY: centerY radiusH: radiusH rad
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawEllipseLinesCenterX: centerX centerY: centerY radiusH: radiusH radiusV: radiusV color: color [
 	"Draw ellipse outline
 	centerX - int
@@ -798,7 +1014,10 @@ RlFunctions >> drawEllipseLinesCenterX: centerX centerY: centerY radiusH: radius
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawFPSPosX: posX posY: posY [
 	"Draw current FPS
 	posX - int
@@ -808,7 +1027,10 @@ RlFunctions >> drawFPSPosX: posX posY: posY [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawGridSlices: slices spacing: spacing [
 	"Draw a grid (centered at (0, 0, 0))
 	slices - int
@@ -818,7 +1040,10 @@ RlFunctions >> drawGridSlices: slices spacing: spacing [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLine3DStartPos: startPos endPos: endPos color: color [
 	"Draw a line in 3D world space
 	startPos - Vector3
@@ -829,7 +1054,10 @@ RlFunctions >> drawLine3DStartPos: startPos endPos: endPos color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLineBezierStartPos: startPos endPos: endPos thick: thick color: color [
 	"Draw line segment cubic-bezier in-out interpolation
 	startPos - Vector2
@@ -841,7 +1069,10 @@ RlFunctions >> drawLineBezierStartPos: startPos endPos: endPos thick: thick colo
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLineExStartPos: startPos endPos: endPos thick: thick color: color [
 	"Draw a line (using triangles/quads)
 	startPos - Vector2
@@ -853,7 +1084,10 @@ RlFunctions >> drawLineExStartPos: startPos endPos: endPos thick: thick color: c
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLineStartPosX: startPosX startPosY: startPosY endPosX: endPosX endPosY: endPosY color: color [
 	"Draw a line
 	startPosX - int
@@ -866,7 +1100,10 @@ RlFunctions >> drawLineStartPosX: startPosX startPosY: startPosY endPosX: endPos
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLineStripPoints: points pointCount: pointCount color: color [
 	"Draw lines sequence (using gl lines)
 	points - const Vector2 *
@@ -877,7 +1114,10 @@ RlFunctions >> drawLineStripPoints: points pointCount: pointCount color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawLineVStartPos: startPos endPos: endPos color: color [
 	"Draw a line (using gl lines)
 	startPos - Vector2
@@ -888,7 +1128,10 @@ RlFunctions >> drawLineVStartPos: startPos endPos: endPos color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawMesh: mesh material: material transform: transform [
 	"Draw a 3d mesh with material and transform
 	mesh - Mesh
@@ -899,7 +1142,10 @@ RlFunctions >> drawMesh: mesh material: material transform: transform [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawMeshInstancedMesh: mesh material: material transforms: transforms instances: instances [
 	"Draw multiple mesh instances with material and different transforms
 	mesh - Mesh
@@ -911,7 +1157,10 @@ RlFunctions >> drawMeshInstancedMesh: mesh material: material transforms: transf
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModel: model position: position scale: scale tint: tint [
 	"Draw a model (with texture if set)
 	model - Model
@@ -923,7 +1172,10 @@ RlFunctions >> drawModel: model position: position scale: scale tint: tint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModelExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model with extended parameters
 	model - Model
@@ -937,7 +1189,10 @@ RlFunctions >> drawModelExModel: model position: position rotationAxis: rotation
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModelPointsExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model as points with extended parameters
 	model - Model
@@ -951,7 +1206,10 @@ RlFunctions >> drawModelPointsExModel: model position: position rotationAxis: ro
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModelPointsModel: model position: position scale: scale tint: tint [
 	"Draw a model as points
 	model - Model
@@ -963,7 +1221,10 @@ RlFunctions >> drawModelPointsModel: model position: position scale: scale tint:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModelWiresExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model wires (with texture if set) with extended parameters
 	model - Model
@@ -977,7 +1238,10 @@ RlFunctions >> drawModelWiresExModel: model position: position rotationAxis: rot
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawModelWiresModel: model position: position scale: scale tint: tint [
 	"Draw a model wires (with texture if set)
 	model - Model
@@ -989,7 +1253,10 @@ RlFunctions >> drawModelWiresModel: model position: position scale: scale tint: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPixelPosX: posX posY: posY color: color [
 	"Draw a pixel using geometry [Can be slow, use with care]
 	posX - int
@@ -1000,7 +1267,10 @@ RlFunctions >> drawPixelPosX: posX posY: posY color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPixelVPosition: position color: color [
 	"Draw a pixel using geometry (Vector version) [Can be slow, use with care]
 	position - Vector2
@@ -1010,7 +1280,10 @@ RlFunctions >> drawPixelVPosition: position color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPlaneCenterPos: centerPos size: size color: color [
 	"Draw a plane XZ
 	centerPos - Vector3
@@ -1021,7 +1294,10 @@ RlFunctions >> drawPlaneCenterPos: centerPos size: size color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPoint3DPosition: position color: color [
 	"Draw a point in 3D space, actually a small line
 	position - Vector3
@@ -1031,7 +1307,10 @@ RlFunctions >> drawPoint3DPosition: position color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPolyCenter: center sides: sides radius: radius rotation: rotation color: color [
 	"Draw a regular polygon (Vector version)
 	center - Vector2
@@ -1044,7 +1323,10 @@ RlFunctions >> drawPolyCenter: center sides: sides radius: radius rotation: rota
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPolyLinesCenter: center sides: sides radius: radius rotation: rotation color: color [
 	"Draw a polygon outline of n sides
 	center - Vector2
@@ -1057,7 +1339,10 @@ RlFunctions >> drawPolyLinesCenter: center sides: sides radius: radius rotation:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawPolyLinesExCenter: center sides: sides radius: radius rotation: rotation lineThick: lineThick color: color [
 	"Draw a polygon outline of n sides with extended parameters
 	center - Vector2
@@ -1071,7 +1356,10 @@ RlFunctions >> drawPolyLinesExCenter: center sides: sides radius: radius rotatio
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRay: ray color: color [
 	"Draw a ray line
 	ray - Ray
@@ -1081,7 +1369,10 @@ RlFunctions >> drawRay: ray color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleGradientExRec: rec topLeft: topLeft bottomLeft: bottomLeft topRight: topRight bottomRight: bottomRight [
 	"Draw a gradient-filled rectangle with custom vertex colors
 	rec - Rectangle
@@ -1094,7 +1385,10 @@ RlFunctions >> drawRectangleGradientExRec: rec topLeft: topLeft bottomLeft: bott
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleGradientHPosX: posX posY: posY width: width height: height left: left right: right [
 	"Draw a horizontal-gradient-filled rectangle
 	posX - int
@@ -1108,7 +1402,10 @@ RlFunctions >> drawRectangleGradientHPosX: posX posY: posY width: width height: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleGradientVPosX: posX posY: posY width: width height: height top: top bottom: bottom [
 	"Draw a vertical-gradient-filled rectangle
 	posX - int
@@ -1122,7 +1419,10 @@ RlFunctions >> drawRectangleGradientVPosX: posX posY: posY width: width height: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleLinesExRec: rec lineThick: lineThick color: color [
 	"Draw rectangle outline with extended parameters
 	rec - Rectangle
@@ -1133,7 +1433,10 @@ RlFunctions >> drawRectangleLinesExRec: rec lineThick: lineThick color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleLinesPosX: posX posY: posY width: width height: height color: color [
 	"Draw rectangle outline
 	posX - int
@@ -1146,7 +1449,10 @@ RlFunctions >> drawRectangleLinesPosX: posX posY: posY width: width height: heig
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectanglePosX: posX posY: posY width: width height: height color: color [
 	"Draw a color-filled rectangle
 	posX - int
@@ -1159,7 +1465,10 @@ RlFunctions >> drawRectanglePosX: posX posY: posY width: width height: height co
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleProRec: rec origin: origin rotation: rotation color: color [
 	"Draw a color-filled rectangle with pro parameters
 	rec - Rectangle
@@ -1171,7 +1480,10 @@ RlFunctions >> drawRectangleProRec: rec origin: origin rotation: rotation color:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleRec: rec color: color [
 	"Draw a color-filled rectangle
 	rec - Rectangle
@@ -1181,7 +1493,10 @@ RlFunctions >> drawRectangleRec: rec color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleRoundedLinesExRec: rec roundness: roundness segments: segments lineThick: lineThick color: color [
 	"Draw rectangle with rounded edges outline
 	rec - Rectangle
@@ -1194,7 +1509,10 @@ RlFunctions >> drawRectangleRoundedLinesExRec: rec roundness: roundness segments
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleRoundedLinesRec: rec roundness: roundness segments: segments color: color [
 	"Draw rectangle lines with rounded edges
 	rec - Rectangle
@@ -1206,7 +1524,10 @@ RlFunctions >> drawRectangleRoundedLinesRec: rec roundness: roundness segments: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleRoundedRec: rec roundness: roundness segments: segments color: color [
 	"Draw rectangle with rounded edges
 	rec - Rectangle
@@ -1218,7 +1539,10 @@ RlFunctions >> drawRectangleRoundedRec: rec roundness: roundness segments: segme
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRectangleVPosition: position size: size color: color [
 	"Draw a color-filled rectangle (Vector version)
 	position - Vector2
@@ -1229,7 +1553,10 @@ RlFunctions >> drawRectangleVPosition: position size: size color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRingCenter: center innerRadius: innerRadius outerRadius: outerRadius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw ring
 	center - Vector2
@@ -1244,7 +1571,10 @@ RlFunctions >> drawRingCenter: center innerRadius: innerRadius outerRadius: oute
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawRingLinesCenter: center innerRadius: innerRadius outerRadius: outerRadius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw ring outline
 	center - Vector2
@@ -1259,7 +1589,10 @@ RlFunctions >> drawRingLinesCenter: center innerRadius: innerRadius outerRadius:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSphereCenterPos: centerPos radius: radius color: color [
 	"Draw sphere
 	centerPos - Vector3
@@ -1270,7 +1603,10 @@ RlFunctions >> drawSphereCenterPos: centerPos radius: radius color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSphereExCenterPos: centerPos radius: radius rings: rings slices: slices color: color [
 	"Draw sphere with extended parameters
 	centerPos - Vector3
@@ -1283,7 +1619,10 @@ RlFunctions >> drawSphereExCenterPos: centerPos radius: radius rings: rings slic
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSphereWiresCenterPos: centerPos radius: radius rings: rings slices: slices color: color [
 	"Draw sphere wires
 	centerPos - Vector3
@@ -1296,7 +1635,10 @@ RlFunctions >> drawSphereWiresCenterPos: centerPos radius: radius rings: rings s
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineBasisPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: B-Spline, minimum 4 points
 	points - const Vector2 *
@@ -1308,7 +1650,10 @@ RlFunctions >> drawSplineBasisPoints: points pointCount: pointCount thick: thick
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineBezierCubicPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
 	points - const Vector2 *
@@ -1320,7 +1665,10 @@ RlFunctions >> drawSplineBezierCubicPoints: points pointCount: pointCount thick:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineBezierQuadraticPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
 	points - const Vector2 *
@@ -1332,7 +1680,10 @@ RlFunctions >> drawSplineBezierQuadraticPoints: points pointCount: pointCount th
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineCatmullRomPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Catmull-Rom, minimum 4 points
 	points - const Vector2 *
@@ -1344,7 +1695,10 @@ RlFunctions >> drawSplineCatmullRomPoints: points pointCount: pointCount thick: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineLinearPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Linear, minimum 2 points
 	points - const Vector2 *
@@ -1356,7 +1710,10 @@ RlFunctions >> drawSplineLinearPoints: points pointCount: pointCount thick: thic
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineSegmentBasisP1: p1 p2: p2 p3: p3 p4: p4 thick: thick color: color [
 	"Draw spline segment: B-Spline, 4 points
 	p1 - Vector2
@@ -1370,7 +1727,10 @@ RlFunctions >> drawSplineSegmentBasisP1: p1 p2: p2 p3: p3 p4: p4 thick: thick co
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineSegmentBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 thick: thick color: color [
 	"Draw spline segment: Cubic Bezier, 2 points, 2 control points
 	p1 - Vector2
@@ -1384,7 +1744,10 @@ RlFunctions >> drawSplineSegmentBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 thick: th
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineSegmentBezierQuadraticP1: p1 c2: c2 p3: p3 thick: thick color: color [
 	"Draw spline segment: Quadratic Bezier, 2 points, 1 control point
 	p1 - Vector2
@@ -1397,7 +1760,10 @@ RlFunctions >> drawSplineSegmentBezierQuadraticP1: p1 c2: c2 p3: p3 thick: thick
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineSegmentCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 thick: thick color: color [
 	"Draw spline segment: Catmull-Rom, 4 points
 	p1 - Vector2
@@ -1411,7 +1777,10 @@ RlFunctions >> drawSplineSegmentCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 thick: thi
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawSplineSegmentLinearP1: p1 p2: p2 thick: thick color: color [
 	"Draw spline segment: Linear, 2 points
 	p1 - Vector2
@@ -1423,7 +1792,10 @@ RlFunctions >> drawSplineSegmentLinearP1: p1 p2: p2 thick: thick color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawText: text posX: posX posY: posY fontSize: fontSize color: color [
 	"Draw text (using default font)
 	text - const char *
@@ -1436,7 +1808,10 @@ RlFunctions >> drawText: text posX: posX posY: posY fontSize: fontSize color: co
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextCodepointFont: font codepoint: codepoint position: position fontSize: fontSize tint: tint [
 	"Draw one character (codepoint)
 	font - Font
@@ -1449,7 +1824,10 @@ RlFunctions >> drawTextCodepointFont: font codepoint: codepoint position: positi
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextCodepointsFont: font codepoints: codepoints codepointCount: codepointCount position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw multiple character (codepoint)
 	font - Font
@@ -1464,7 +1842,10 @@ RlFunctions >> drawTextCodepointsFont: font codepoints: codepoints codepointCoun
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextExFont: font text: text position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text using font and additional parameters
 	font - Font
@@ -1478,7 +1859,10 @@ RlFunctions >> drawTextExFont: font text: text position: position fontSize: font
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextProFont: font text: text position: position origin: origin rotation: rotation fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text using Font and pro parameters (rotation)
 	font - Font
@@ -1494,7 +1878,10 @@ RlFunctions >> drawTextProFont: font text: text position: position origin: origi
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTexture: texture posX: posX posY: posY tint: tint [
 	"Draw a Texture2D
 	texture - Texture2D
@@ -1506,7 +1893,10 @@ RlFunctions >> drawTexture: texture posX: posX posY: posY tint: tint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextureExTexture: texture position: position rotation: rotation scale: scale tint: tint [
 	"Draw a Texture2D with extended parameters
 	texture - Texture2D
@@ -1519,7 +1909,10 @@ RlFunctions >> drawTextureExTexture: texture position: position rotation: rotati
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextureNPatchTexture: texture nPatchInfo: nPatchInfo dest: dest origin: origin rotation: rotation tint: tint [
 	"Draws a texture (or part of it) that stretches or shrinks nicely
 	texture - Texture2D
@@ -1533,7 +1926,10 @@ RlFunctions >> drawTextureNPatchTexture: texture nPatchInfo: nPatchInfo dest: de
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextureProTexture: texture source: source dest: dest origin: origin rotation: rotation tint: tint [
 	"Draw a part of a texture defined by a rectangle with 'pro' parameters
 	texture - Texture2D
@@ -1547,7 +1943,10 @@ RlFunctions >> drawTextureProTexture: texture source: source dest: dest origin: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextureRecTexture: texture source: source position: position tint: tint [
 	"Draw a part of a texture defined by a rectangle
 	texture - Texture2D
@@ -1559,7 +1958,10 @@ RlFunctions >> drawTextureRecTexture: texture source: source position: position 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTextureVTexture: texture position: position tint: tint [
 	"Draw a Texture2D with position defined as Vector2
 	texture - Texture2D
@@ -1570,7 +1972,10 @@ RlFunctions >> drawTextureVTexture: texture position: position tint: tint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangle3DV1: v1 v2: v2 v3: v3 color: color [
 	"Draw a color-filled triangle (vertex in counter-clockwise order!)
 	v1 - Vector3
@@ -1582,7 +1987,10 @@ RlFunctions >> drawTriangle3DV1: v1 v2: v2 v3: v3 color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangleFanPoints: points pointCount: pointCount color: color [
 	"Draw a triangle fan defined by points (first vertex is the center)
 	points - const Vector2 *
@@ -1593,7 +2001,10 @@ RlFunctions >> drawTriangleFanPoints: points pointCount: pointCount color: color
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangleLinesV1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle outline (vertex in counter-clockwise order!)
 	v1 - Vector2
@@ -1605,7 +2016,10 @@ RlFunctions >> drawTriangleLinesV1: v1 v2: v2 v3: v3 color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangleStrip3DPoints: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points
 	points - const Vector3 *
@@ -1616,7 +2030,10 @@ RlFunctions >> drawTriangleStrip3DPoints: points pointCount: pointCount color: c
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangleStripPoints: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points
 	points - const Vector2 *
@@ -1627,7 +2044,10 @@ RlFunctions >> drawTriangleStripPoints: points pointCount: pointCount color: col
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> drawTriangleV1: v1 v2: v2 v3: v3 color: color [
 	"Draw a color-filled triangle (vertex in counter-clockwise order!)
 	v1 - Vector2
@@ -1639,7 +2059,10 @@ RlFunctions >> drawTriangleV1: v1 v2: v2 v3: v3 color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> enableCursor [
 	"Enables cursor (unlock cursor)
 "
@@ -1648,7 +2071,10 @@ RlFunctions >> enableCursor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> enableEventWaiting [
 	"Enable waiting for events on EndDrawing(), no automatic event polling
 "
@@ -1657,7 +2083,10 @@ RlFunctions >> enableEventWaiting [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> encodeDataBase64Data: data dataSize: dataSize outputSize: outputSize [
 	"Encode data to Base64 string, memory must be MemFree()
 	data - const unsigned char *
@@ -1668,7 +2097,10 @@ RlFunctions >> encodeDataBase64Data: data dataSize: dataSize outputSize: outputS
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endBlendMode [
 	"End blending mode (reset to default: alpha blending)
 "
@@ -1677,7 +2109,10 @@ RlFunctions >> endBlendMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endDrawing [
 	"End canvas drawing and swap buffers (double buffering)
 "
@@ -1686,7 +2121,10 @@ RlFunctions >> endDrawing [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endMode2D [
 	"Ends 2D mode with custom camera
 "
@@ -1695,7 +2133,10 @@ RlFunctions >> endMode2D [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endMode3D [
 	"Ends 3D mode and returns to default 2D orthographic mode
 "
@@ -1704,7 +2145,10 @@ RlFunctions >> endMode3D [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endScissorMode [
 	"End scissor mode
 "
@@ -1713,7 +2157,10 @@ RlFunctions >> endScissorMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endShaderMode [
 	"End custom shader drawing (use default shader)
 "
@@ -1722,7 +2169,10 @@ RlFunctions >> endShaderMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endTextureMode [
 	"Ends drawing to render texture
 "
@@ -1731,7 +2181,10 @@ RlFunctions >> endTextureMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> endVrStereoMode [
 	"End stereo rendering (requires VR simulator)
 "
@@ -1740,7 +2193,10 @@ RlFunctions >> endVrStereoMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportAutomationEventList: list fileName: fileName [
 	"Export automation events list as text file
 	list - AutomationEventList
@@ -1750,7 +2206,10 @@ RlFunctions >> exportAutomationEventList: list fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportDataAsCodeData: data dataSize: dataSize fileName: fileName [
 	"Export data to code (.h), returns true on success
 	data - const unsigned char *
@@ -1761,7 +2220,10 @@ RlFunctions >> exportDataAsCodeData: data dataSize: dataSize fileName: fileName 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportFontAsCodeFont: font fileName: fileName [
 	"Export font as code file, returns true on success
 	font - Font
@@ -1771,7 +2233,10 @@ RlFunctions >> exportFontAsCodeFont: font fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportImage: image fileName: fileName [
 	"Export image data to file, returns true on success
 	image - Image
@@ -1781,7 +2246,10 @@ RlFunctions >> exportImage: image fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportImageAsCodeImage: image fileName: fileName [
 	"Export image as code file defining an array of bytes, returns true on success
 	image - Image
@@ -1791,7 +2259,10 @@ RlFunctions >> exportImageAsCodeImage: image fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportImageToMemoryImage: image fileType: fileType fileSize: fileSize [
 	"Export image to memory buffer
 	image - Image
@@ -1802,7 +2273,10 @@ RlFunctions >> exportImageToMemoryImage: image fileType: fileType fileSize: file
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportMesh: mesh fileName: fileName [
 	"Export mesh data to file, returns true on success
 	mesh - Mesh
@@ -1812,7 +2286,10 @@ RlFunctions >> exportMesh: mesh fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportMeshAsCodeMesh: mesh fileName: fileName [
 	"Export mesh as code file (.h) defining multiple arrays of vertex attributes
 	mesh - Mesh
@@ -1822,7 +2299,10 @@ RlFunctions >> exportMeshAsCodeMesh: mesh fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportWave: wave fileName: fileName [
 	"Export wave data to file, returns true on success
 	wave - Wave
@@ -1832,7 +2312,10 @@ RlFunctions >> exportWave: wave fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> exportWaveAsCodeWave: wave fileName: fileName [
 	"Export wave sample data to code (.h), returns true on success
 	wave - Wave
@@ -1842,7 +2325,10 @@ RlFunctions >> exportWaveAsCodeWave: wave fileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> fadeColor: color alpha: alpha [
 	"Get color with alpha applied, alpha goes from 0.0f to 1.0f
 	color - Color
@@ -1852,7 +2338,10 @@ RlFunctions >> fadeColor: color alpha: alpha [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> fileExistsFileName: fileName [
 	"Check if file exists
 	fileName - const char *"
@@ -1861,7 +2350,10 @@ RlFunctions >> fileExistsFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageCellularWidth: width height: height tileSize: tileSize [
 	"Generate image: cellular algorithm, bigger tileSize means bigger cells
 	width - int
@@ -1872,7 +2364,10 @@ RlFunctions >> genImageCellularWidth: width height: height tileSize: tileSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageCheckedWidth: width height: height checksX: checksX checksY: checksY col1: col1 col2: col2 [
 	"Generate image: checked
 	width - int
@@ -1886,7 +2381,10 @@ RlFunctions >> genImageCheckedWidth: width height: height checksX: checksX check
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageColorWidth: width height: height color: color [
 	"Generate image: plain color
 	width - int
@@ -1897,7 +2395,10 @@ RlFunctions >> genImageColorWidth: width height: height color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageFontAtlasGlyphs: glyphs glyphRecs: glyphRecs glyphCount: glyphCount fontSize: fontSize padding: padding packMethod: packMethod [
 	"Generate image font atlas using chars info
 	glyphs - const GlyphInfo *
@@ -1911,7 +2412,10 @@ RlFunctions >> genImageFontAtlasGlyphs: glyphs glyphRecs: glyphRecs glyphCount: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageGradientLinearWidth: width height: height direction: direction start: start end: end [
 	"Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
 	width - int
@@ -1924,7 +2428,10 @@ RlFunctions >> genImageGradientLinearWidth: width height: height direction: dire
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageGradientRadialWidth: width height: height density: density inner: inner outer: outer [
 	"Generate image: radial gradient
 	width - int
@@ -1937,7 +2444,10 @@ RlFunctions >> genImageGradientRadialWidth: width height: height density: densit
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageGradientSquareWidth: width height: height density: density inner: inner outer: outer [
 	"Generate image: square gradient
 	width - int
@@ -1950,7 +2460,10 @@ RlFunctions >> genImageGradientSquareWidth: width height: height density: densit
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImagePerlinNoiseWidth: width height: height offsetX: offsetX offsetY: offsetY scale: scale [
 	"Generate image: perlin noise
 	width - int
@@ -1963,7 +2476,10 @@ RlFunctions >> genImagePerlinNoiseWidth: width height: height offsetX: offsetX o
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageTextWidth: width height: height text: text [
 	"Generate image: grayscale image from text data
 	width - int
@@ -1974,7 +2490,10 @@ RlFunctions >> genImageTextWidth: width height: height text: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genImageWhiteNoiseWidth: width height: height factor: factor [
 	"Generate image: white noise
 	width - int
@@ -1985,7 +2504,10 @@ RlFunctions >> genImageWhiteNoiseWidth: width height: height factor: factor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshConeRadius: radius height: height slices: slices [
 	"Generate cone/pyramid mesh
 	radius - float
@@ -1996,7 +2518,10 @@ RlFunctions >> genMeshConeRadius: radius height: height slices: slices [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshCubeWidth: width height: height length: length [
 	"Generate cuboid mesh
 	width - float
@@ -2007,7 +2532,10 @@ RlFunctions >> genMeshCubeWidth: width height: height length: length [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshCubicmap: cubicmap cubeSize: cubeSize [
 	"Generate cubes-based map mesh from image data
 	cubicmap - Image
@@ -2017,7 +2545,10 @@ RlFunctions >> genMeshCubicmap: cubicmap cubeSize: cubeSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshCylinderRadius: radius height: height slices: slices [
 	"Generate cylinder mesh
 	radius - float
@@ -2028,7 +2559,10 @@ RlFunctions >> genMeshCylinderRadius: radius height: height slices: slices [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshHeightmap: heightmap size: size [
 	"Generate heightmap mesh from image data
 	heightmap - Image
@@ -2038,7 +2572,10 @@ RlFunctions >> genMeshHeightmap: heightmap size: size [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshHemiSphereRadius: radius rings: rings slices: slices [
 	"Generate half-sphere mesh (no bottom cap)
 	radius - float
@@ -2049,7 +2586,10 @@ RlFunctions >> genMeshHemiSphereRadius: radius rings: rings slices: slices [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshKnotRadius: radius size: size radSeg: radSeg sides: sides [
 	"Generate trefoil knot mesh
 	radius - float
@@ -2061,7 +2601,10 @@ RlFunctions >> genMeshKnotRadius: radius size: size radSeg: radSeg sides: sides 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshPlaneWidth: width length: length resX: resX resZ: resZ [
 	"Generate plane mesh (with subdivisions)
 	width - float
@@ -2073,7 +2616,10 @@ RlFunctions >> genMeshPlaneWidth: width length: length resX: resX resZ: resZ [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshPolySides: sides radius: radius [
 	"Generate polygonal mesh
 	sides - int
@@ -2083,7 +2629,10 @@ RlFunctions >> genMeshPolySides: sides radius: radius [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshSphereRadius: radius rings: rings slices: slices [
 	"Generate sphere mesh (standard sphere)
 	radius - float
@@ -2094,7 +2643,10 @@ RlFunctions >> genMeshSphereRadius: radius rings: rings slices: slices [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshTangentsMesh: mesh [
 	"Compute mesh tangents
 	mesh - Mesh *"
@@ -2103,7 +2655,10 @@ RlFunctions >> genMeshTangentsMesh: mesh [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genMeshTorusRadius: radius size: size radSeg: radSeg sides: sides [
 	"Generate torus mesh
 	radius - float
@@ -2115,7 +2670,10 @@ RlFunctions >> genMeshTorusRadius: radius size: size radSeg: radSeg sides: sides
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> genTextureMipmapsTexture: texture [
 	"Generate GPU mipmaps for a texture
 	texture - Texture2D *"
@@ -2124,7 +2682,10 @@ RlFunctions >> genTextureMipmapsTexture: texture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getApplicationDirectory [
 	"Get the directory of the running application (uses static string)
 "
@@ -2133,7 +2694,10 @@ RlFunctions >> getApplicationDirectory [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCameraMatrix2DCamera: camera [
 	"Get camera 2d transform matrix
 	camera - Camera2D"
@@ -2142,7 +2706,10 @@ RlFunctions >> getCameraMatrix2DCamera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCameraMatrixCamera: camera [
 	"Get camera transform matrix (view matrix)
 	camera - Camera"
@@ -2151,7 +2718,10 @@ RlFunctions >> getCameraMatrixCamera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCharPressed [
 	"Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
 "
@@ -2160,7 +2730,10 @@ RlFunctions >> getCharPressed [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getClipboardImage [
 	"Get clipboard image content
 "
@@ -2169,7 +2742,10 @@ RlFunctions >> getClipboardImage [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getClipboardText [
 	"Get clipboard text content
 "
@@ -2178,7 +2754,10 @@ RlFunctions >> getClipboardText [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCodepointCountText: text [
 	"Get total number of codepoints in a UTF-8 encoded string
 	text - const char *"
@@ -2187,7 +2766,10 @@ RlFunctions >> getCodepointCountText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCodepointNextText: text codepointSize: codepointSize [
 	"Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
 	text - const char *
@@ -2197,7 +2779,10 @@ RlFunctions >> getCodepointNextText: text codepointSize: codepointSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCodepointPreviousText: text codepointSize: codepointSize [
 	"Get previous codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
 	text - const char *
@@ -2207,7 +2792,10 @@ RlFunctions >> getCodepointPreviousText: text codepointSize: codepointSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCodepointText: text codepointSize: codepointSize [
 	"Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
 	text - const char *
@@ -2217,7 +2805,10 @@ RlFunctions >> getCodepointText: text codepointSize: codepointSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCollisionRecRec1: rec1 rec2: rec2 [
 	"Get collision rectangle for two rectangles collision
 	rec1 - Rectangle
@@ -2227,7 +2818,10 @@ RlFunctions >> getCollisionRecRec1: rec1 rec2: rec2 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getColorHexValue: hexValue [
 	"Get Color structure from hexadecimal value
 	hexValue - unsigned int"
@@ -2236,7 +2830,10 @@ RlFunctions >> getColorHexValue: hexValue [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getCurrentMonitor [
 	"Get current monitor where window is placed
 "
@@ -2245,7 +2842,10 @@ RlFunctions >> getCurrentMonitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getDirectoryPathFilePath: filePath [
 	"Get full path for a given fileName with path (uses static string)
 	filePath - const char *"
@@ -2254,7 +2854,10 @@ RlFunctions >> getDirectoryPathFilePath: filePath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFPS [
 	"Get current FPS
 "
@@ -2263,7 +2866,10 @@ RlFunctions >> getFPS [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFileExtensionFileName: fileName [
 	"Get pointer to extension for a filename string (includes dot: '.png')
 	fileName - const char *"
@@ -2272,7 +2878,10 @@ RlFunctions >> getFileExtensionFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFileLengthFileName: fileName [
 	"Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)
 	fileName - const char *"
@@ -2281,7 +2890,10 @@ RlFunctions >> getFileLengthFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFileModTimeFileName: fileName [
 	"Get file modification time (last write time)
 	fileName - const char *"
@@ -2290,7 +2902,10 @@ RlFunctions >> getFileModTimeFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFileNameFilePath: filePath [
 	"Get pointer to filename for a path string
 	filePath - const char *"
@@ -2299,7 +2914,10 @@ RlFunctions >> getFileNameFilePath: filePath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFileNameWithoutExtFilePath: filePath [
 	"Get filename string without extension (uses static string)
 	filePath - const char *"
@@ -2308,7 +2926,10 @@ RlFunctions >> getFileNameWithoutExtFilePath: filePath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFontDefault [
 	"Get the default Font
 "
@@ -2317,7 +2938,10 @@ RlFunctions >> getFontDefault [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getFrameTime [
 	"Get time in seconds for last frame drawn (delta time)
 "
@@ -2326,7 +2950,10 @@ RlFunctions >> getFrameTime [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGamepadAxisCountGamepad: gamepad [
 	"Get gamepad axis count for a gamepad
 	gamepad - int"
@@ -2335,7 +2962,10 @@ RlFunctions >> getGamepadAxisCountGamepad: gamepad [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGamepadAxisMovementGamepad: gamepad axis: axis [
 	"Get axis movement value for a gamepad axis
 	gamepad - int
@@ -2345,7 +2975,10 @@ RlFunctions >> getGamepadAxisMovementGamepad: gamepad axis: axis [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGamepadButtonPressed [
 	"Get the last gamepad button pressed
 "
@@ -2354,7 +2987,10 @@ RlFunctions >> getGamepadButtonPressed [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGamepadNameGamepad: gamepad [
 	"Get gamepad internal name id
 	gamepad - int"
@@ -2363,7 +2999,10 @@ RlFunctions >> getGamepadNameGamepad: gamepad [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGestureDetected [
 	"Get latest detected gesture
 "
@@ -2372,7 +3011,10 @@ RlFunctions >> getGestureDetected [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGestureDragAngle [
 	"Get gesture drag angle
 "
@@ -2381,7 +3023,10 @@ RlFunctions >> getGestureDragAngle [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGestureDragVector [
 	"Get gesture drag vector
 "
@@ -2390,7 +3035,10 @@ RlFunctions >> getGestureDragVector [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGestureHoldDuration [
 	"Get gesture hold time in seconds
 "
@@ -2399,7 +3047,10 @@ RlFunctions >> getGestureHoldDuration [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGesturePinchAngle [
 	"Get gesture pinch angle
 "
@@ -2408,7 +3059,10 @@ RlFunctions >> getGesturePinchAngle [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGesturePinchVector [
 	"Get gesture pinch delta
 "
@@ -2417,7 +3071,10 @@ RlFunctions >> getGesturePinchVector [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGlyphAtlasRecFont: font codepoint: codepoint [
 	"Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
 	font - Font
@@ -2427,7 +3084,10 @@ RlFunctions >> getGlyphAtlasRecFont: font codepoint: codepoint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGlyphIndexFont: font codepoint: codepoint [
 	"Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
 	font - Font
@@ -2437,7 +3097,10 @@ RlFunctions >> getGlyphIndexFont: font codepoint: codepoint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getGlyphInfoFont: font codepoint: codepoint [
 	"Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
 	font - Font
@@ -2447,7 +3110,10 @@ RlFunctions >> getGlyphInfoFont: font codepoint: codepoint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getImageAlphaBorderImage: image threshold: threshold [
 	"Get image alpha border rectangle
 	image - Image
@@ -2457,7 +3123,10 @@ RlFunctions >> getImageAlphaBorderImage: image threshold: threshold [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getImageColorImage: image x: x y: y [
 	"Get image pixel color at (x, y) position
 	image - Image
@@ -2468,7 +3137,10 @@ RlFunctions >> getImageColorImage: image x: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getKeyNameKey: key [
 	"Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)
 	key - int"
@@ -2477,7 +3149,10 @@ RlFunctions >> getKeyNameKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getKeyPressed [
 	"Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
 "
@@ -2486,7 +3161,10 @@ RlFunctions >> getKeyPressed [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMasterVolume [
 	"Get master volume (listener)
 "
@@ -2495,7 +3173,10 @@ RlFunctions >> getMasterVolume [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMeshBoundingBoxMesh: mesh [
 	"Compute mesh bounding box limits
 	mesh - Mesh"
@@ -2504,7 +3185,10 @@ RlFunctions >> getMeshBoundingBoxMesh: mesh [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getModelBoundingBoxModel: model [
 	"Compute model bounding box limits (considers all meshes)
 	model - Model"
@@ -2513,7 +3197,10 @@ RlFunctions >> getModelBoundingBoxModel: model [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorCount [
 	"Get number of connected monitors
 "
@@ -2522,7 +3209,10 @@ RlFunctions >> getMonitorCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorHeightMonitor: monitor [
 	"Get specified monitor height (current video mode used by monitor)
 	monitor - int"
@@ -2531,7 +3221,10 @@ RlFunctions >> getMonitorHeightMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorNameMonitor: monitor [
 	"Get the human-readable, UTF-8 encoded name of the specified monitor
 	monitor - int"
@@ -2540,7 +3233,10 @@ RlFunctions >> getMonitorNameMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorPhysicalHeightMonitor: monitor [
 	"Get specified monitor physical height in millimetres
 	monitor - int"
@@ -2549,7 +3245,10 @@ RlFunctions >> getMonitorPhysicalHeightMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorPhysicalWidthMonitor: monitor [
 	"Get specified monitor physical width in millimetres
 	monitor - int"
@@ -2558,7 +3257,10 @@ RlFunctions >> getMonitorPhysicalWidthMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorPositionMonitor: monitor [
 	"Get specified monitor position
 	monitor - int"
@@ -2567,7 +3269,10 @@ RlFunctions >> getMonitorPositionMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorRefreshRateMonitor: monitor [
 	"Get specified monitor refresh rate
 	monitor - int"
@@ -2576,7 +3281,10 @@ RlFunctions >> getMonitorRefreshRateMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMonitorWidthMonitor: monitor [
 	"Get specified monitor width (current video mode used by monitor)
 	monitor - int"
@@ -2585,7 +3293,10 @@ RlFunctions >> getMonitorWidthMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMouseDelta [
 	"Get mouse delta between frames
 "
@@ -2594,7 +3305,10 @@ RlFunctions >> getMouseDelta [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMousePosition [
 	"Get mouse position XY
 "
@@ -2603,7 +3317,10 @@ RlFunctions >> getMousePosition [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMouseWheelMove [
 	"Get mouse wheel movement for X or Y, whichever is larger
 "
@@ -2612,7 +3329,10 @@ RlFunctions >> getMouseWheelMove [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMouseWheelMoveV [
 	"Get mouse wheel movement for both X and Y
 "
@@ -2621,7 +3341,10 @@ RlFunctions >> getMouseWheelMoveV [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMouseX [
 	"Get mouse position X
 "
@@ -2630,7 +3353,10 @@ RlFunctions >> getMouseX [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getMouseY [
 	"Get mouse position Y
 "
@@ -2639,7 +3365,10 @@ RlFunctions >> getMouseY [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getPixelColorSrcPtr: srcPtr format: format [
 	"Get Color from a source pixel pointer of certain format
 	srcPtr - void *
@@ -2649,7 +3378,10 @@ RlFunctions >> getPixelColorSrcPtr: srcPtr format: format [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getPixelDataSizeWidth: width height: height format: format [
 	"Get pixel data size in bytes for certain format
 	width - int
@@ -2660,7 +3392,10 @@ RlFunctions >> getPixelDataSizeWidth: width height: height format: format [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getPrevDirectoryPathDirPath: dirPath [
 	"Get previous directory path for a given path (uses static string)
 	dirPath - const char *"
@@ -2669,7 +3404,10 @@ RlFunctions >> getPrevDirectoryPathDirPath: dirPath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRandomValueMin: min max: max [
 	"Get a random value between min and max (both included)
 	min - int
@@ -2679,7 +3417,10 @@ RlFunctions >> getRandomValueMin: min max: max [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRayCollisionBoxRay: ray box: box [
 	"Get collision info between ray and box
 	ray - Ray
@@ -2689,7 +3430,10 @@ RlFunctions >> getRayCollisionBoxRay: ray box: box [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRayCollisionMeshRay: ray mesh: mesh transform: transform [
 	"Get collision info between ray and mesh
 	ray - Ray
@@ -2700,7 +3444,10 @@ RlFunctions >> getRayCollisionMeshRay: ray mesh: mesh transform: transform [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRayCollisionQuadRay: ray p1: p1 p2: p2 p3: p3 p4: p4 [
 	"Get collision info between ray and quad
 	ray - Ray
@@ -2713,7 +3460,10 @@ RlFunctions >> getRayCollisionQuadRay: ray p1: p1 p2: p2 p3: p3 p4: p4 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRayCollisionSphereRay: ray center: center radius: radius [
 	"Get collision info between ray and sphere
 	ray - Ray
@@ -2724,7 +3474,10 @@ RlFunctions >> getRayCollisionSphereRay: ray center: center radius: radius [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRayCollisionTriangleRay: ray p1: p1 p2: p2 p3: p3 [
 	"Get collision info between ray and triangle
 	ray - Ray
@@ -2736,7 +3489,10 @@ RlFunctions >> getRayCollisionTriangleRay: ray p1: p1 p2: p2 p3: p3 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRenderHeight [
 	"Get current render height (it considers HiDPI)
 "
@@ -2745,7 +3501,10 @@ RlFunctions >> getRenderHeight [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getRenderWidth [
 	"Get current render width (it considers HiDPI)
 "
@@ -2754,7 +3513,10 @@ RlFunctions >> getRenderWidth [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getScreenHeight [
 	"Get current screen height
 "
@@ -2763,7 +3525,10 @@ RlFunctions >> getScreenHeight [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getScreenToWorld2DPosition: position camera: camera [
 	"Get the world space position for a 2d camera screen space position
 	position - Vector2
@@ -2773,7 +3538,10 @@ RlFunctions >> getScreenToWorld2DPosition: position camera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getScreenToWorldRayExPosition: position camera: camera width: width height: height [
 	"Get a ray trace from screen position (i.e mouse) in a viewport
 	position - Vector2
@@ -2785,7 +3553,10 @@ RlFunctions >> getScreenToWorldRayExPosition: position camera: camera width: wid
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getScreenToWorldRayPosition: position camera: camera [
 	"Get a ray trace from screen position (i.e mouse)
 	position - Vector2
@@ -2795,7 +3566,10 @@ RlFunctions >> getScreenToWorldRayPosition: position camera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getScreenWidth [
 	"Get current screen width
 "
@@ -2804,7 +3578,10 @@ RlFunctions >> getScreenWidth [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getShaderLocationAttribShader: shader attribName: attribName [
 	"Get shader attribute location
 	shader - Shader
@@ -2814,7 +3591,10 @@ RlFunctions >> getShaderLocationAttribShader: shader attribName: attribName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getShaderLocationShader: shader uniformName: uniformName [
 	"Get shader uniform location
 	shader - Shader
@@ -2824,7 +3604,10 @@ RlFunctions >> getShaderLocationShader: shader uniformName: uniformName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getShapesTexture [
 	"Get texture that is used for shapes drawing
 "
@@ -2833,7 +3616,10 @@ RlFunctions >> getShapesTexture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getShapesTextureRectangle [
 	"Get texture source rectangle that is used for shapes drawing
 "
@@ -2842,7 +3628,10 @@ RlFunctions >> getShapesTextureRectangle [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getSplinePointBasisP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	"Get (evaluate) spline point: B-Spline
 	p1 - Vector2
@@ -2855,7 +3644,10 @@ RlFunctions >> getSplinePointBasisP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getSplinePointBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 t: t [
 	"Get (evaluate) spline point: Cubic Bezier
 	p1 - Vector2
@@ -2868,7 +3660,10 @@ RlFunctions >> getSplinePointBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 t: t [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getSplinePointBezierQuadP1: p1 c2: c2 p3: p3 t: t [
 	"Get (evaluate) spline point: Quadratic Bezier
 	p1 - Vector2
@@ -2880,7 +3675,10 @@ RlFunctions >> getSplinePointBezierQuadP1: p1 c2: c2 p3: p3 t: t [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getSplinePointCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	"Get (evaluate) spline point: Catmull-Rom
 	p1 - Vector2
@@ -2893,7 +3691,10 @@ RlFunctions >> getSplinePointCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getSplinePointLinearStartPos: startPos endPos: endPos t: t [
 	"Get (evaluate) spline point: Linear
 	startPos - Vector2
@@ -2904,7 +3705,10 @@ RlFunctions >> getSplinePointLinearStartPos: startPos endPos: endPos t: t [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTime [
 	"Get elapsed time in seconds since InitWindow()
 "
@@ -2913,7 +3717,10 @@ RlFunctions >> getTime [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTouchPointCount [
 	"Get number of touch points
 "
@@ -2922,7 +3729,10 @@ RlFunctions >> getTouchPointCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTouchPointIdIndex: index [
 	"Get touch point identifier for given index
 	index - int"
@@ -2931,7 +3741,10 @@ RlFunctions >> getTouchPointIdIndex: index [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTouchPositionIndex: index [
 	"Get touch position XY for a touch point index (relative to screen size)
 	index - int"
@@ -2940,7 +3753,10 @@ RlFunctions >> getTouchPositionIndex: index [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTouchX [
 	"Get touch position X for touch point 0 (relative to screen size)
 "
@@ -2949,7 +3765,10 @@ RlFunctions >> getTouchX [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getTouchY [
 	"Get touch position Y for touch point 0 (relative to screen size)
 "
@@ -2958,7 +3777,10 @@ RlFunctions >> getTouchY [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWindowHandle [
 	"Get native window handle
 "
@@ -2967,7 +3789,10 @@ RlFunctions >> getWindowHandle [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWindowPosition [
 	"Get window position XY on monitor
 "
@@ -2976,7 +3801,10 @@ RlFunctions >> getWindowPosition [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWindowScaleDPI [
 	"Get window scale DPI factor
 "
@@ -2985,7 +3813,10 @@ RlFunctions >> getWindowScaleDPI [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWorkingDirectory [
 	"Get current working directory (uses static string)
 "
@@ -2994,7 +3825,10 @@ RlFunctions >> getWorkingDirectory [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWorldToScreen2DPosition: position camera: camera [
 	"Get the screen space position for a 2d camera world space position
 	position - Vector2
@@ -3004,7 +3838,10 @@ RlFunctions >> getWorldToScreen2DPosition: position camera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWorldToScreenExPosition: position camera: camera width: width height: height [
 	"Get size position for a 3d world space position
 	position - Vector3
@@ -3016,7 +3853,10 @@ RlFunctions >> getWorldToScreenExPosition: position camera: camera width: width 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> getWorldToScreenPosition: position camera: camera [
 	"Get the screen space position for a 3d world space position
 	position - Vector3
@@ -3026,7 +3866,10 @@ RlFunctions >> getWorldToScreenPosition: position camera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> hideCursor [
 	"Hides cursor
 "
@@ -3035,7 +3878,10 @@ RlFunctions >> hideCursor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageAlphaClearImage: image color: color threshold: threshold [
 	"Clear alpha channel to desired color
 	image - Image *
@@ -3046,7 +3892,10 @@ RlFunctions >> imageAlphaClearImage: image color: color threshold: threshold [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageAlphaCropImage: image threshold: threshold [
 	"Crop image depending on alpha value
 	image - Image *
@@ -3056,7 +3905,10 @@ RlFunctions >> imageAlphaCropImage: image threshold: threshold [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageAlphaMaskImage: image alphaMask: alphaMask [
 	"Apply alpha mask to image
 	image - Image *
@@ -3066,7 +3918,10 @@ RlFunctions >> imageAlphaMaskImage: image alphaMask: alphaMask [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageAlphaPremultiplyImage: image [
 	"Premultiply alpha channel
 	image - Image *"
@@ -3075,7 +3930,10 @@ RlFunctions >> imageAlphaPremultiplyImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageBlurGaussianImage: image blurSize: blurSize [
 	"Apply Gaussian blur using a box blur approximation
 	image - Image *
@@ -3085,7 +3943,10 @@ RlFunctions >> imageBlurGaussianImage: image blurSize: blurSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageClearBackgroundDst: dst color: color [
 	"Clear image background with given color
 	dst - Image *
@@ -3095,7 +3956,10 @@ RlFunctions >> imageClearBackgroundDst: dst color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorBrightnessImage: image brightness: brightness [
 	"Modify image color: brightness (-255 to 255)
 	image - Image *
@@ -3105,7 +3969,10 @@ RlFunctions >> imageColorBrightnessImage: image brightness: brightness [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorContrastImage: image contrast: contrast [
 	"Modify image color: contrast (-100 to 100)
 	image - Image *
@@ -3115,7 +3982,10 @@ RlFunctions >> imageColorContrastImage: image contrast: contrast [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorGrayscaleImage: image [
 	"Modify image color: grayscale
 	image - Image *"
@@ -3124,7 +3994,10 @@ RlFunctions >> imageColorGrayscaleImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorInvertImage: image [
 	"Modify image color: invert
 	image - Image *"
@@ -3133,7 +4006,10 @@ RlFunctions >> imageColorInvertImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorReplaceImage: image color: color replace: replace [
 	"Modify image color: replace color
 	image - Image *
@@ -3144,7 +4020,10 @@ RlFunctions >> imageColorReplaceImage: image color: color replace: replace [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageColorTintImage: image color: color [
 	"Modify image color: tint
 	image - Image *
@@ -3154,7 +4033,10 @@ RlFunctions >> imageColorTintImage: image color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageCopyImage: image [
 	"Create an image duplicate (useful for transformations)
 	image - Image"
@@ -3163,7 +4045,10 @@ RlFunctions >> imageCopyImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageCropImage: image crop: crop [
 	"Crop an image to a defined rectangle
 	image - Image *
@@ -3173,7 +4058,10 @@ RlFunctions >> imageCropImage: image crop: crop [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDitherImage: image rBpp: rBpp gBpp: gBpp bBpp: bBpp aBpp: aBpp [
 	"Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
 	image - Image *
@@ -3186,7 +4074,10 @@ RlFunctions >> imageDitherImage: image rBpp: rBpp gBpp: gBpp bBpp: bBpp aBpp: aB
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawCircleDst: dst centerX: centerX centerY: centerY radius: radius color: color [
 	"Draw a filled circle within an image
 	dst - Image *
@@ -3199,7 +4090,10 @@ RlFunctions >> imageDrawCircleDst: dst centerX: centerX centerY: centerY radius:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawCircleLinesDst: dst centerX: centerX centerY: centerY radius: radius color: color [
 	"Draw circle outline within an image
 	dst - Image *
@@ -3212,7 +4106,10 @@ RlFunctions >> imageDrawCircleLinesDst: dst centerX: centerX centerY: centerY ra
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawCircleLinesVDst: dst center: center radius: radius color: color [
 	"Draw circle outline within an image (Vector version)
 	dst - Image *
@@ -3224,7 +4121,10 @@ RlFunctions >> imageDrawCircleLinesVDst: dst center: center radius: radius color
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawCircleVDst: dst center: center radius: radius color: color [
 	"Draw a filled circle within an image (Vector version)
 	dst - Image *
@@ -3236,7 +4136,10 @@ RlFunctions >> imageDrawCircleVDst: dst center: center radius: radius color: col
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawDst: dst src: src srcRec: srcRec dstRec: dstRec tint: tint [
 	"Draw a source image within a destination image (tint applied to source)
 	dst - Image *
@@ -3249,7 +4152,10 @@ RlFunctions >> imageDrawDst: dst src: src srcRec: srcRec dstRec: dstRec tint: ti
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawLineDst: dst startPosX: startPosX startPosY: startPosY endPosX: endPosX endPosY: endPosY color: color [
 	"Draw line within an image
 	dst - Image *
@@ -3263,7 +4169,10 @@ RlFunctions >> imageDrawLineDst: dst startPosX: startPosX startPosY: startPosY e
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawLineExDst: dst start: start end: end thick: thick color: color [
 	"Draw a line defining thickness within an image
 	dst - Image *
@@ -3276,7 +4185,10 @@ RlFunctions >> imageDrawLineExDst: dst start: start end: end thick: thick color:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawLineVDst: dst start: start end: end color: color [
 	"Draw line within an image (Vector version)
 	dst - Image *
@@ -3288,7 +4200,10 @@ RlFunctions >> imageDrawLineVDst: dst start: start end: end color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawPixelDst: dst posX: posX posY: posY color: color [
 	"Draw pixel within an image
 	dst - Image *
@@ -3300,7 +4215,10 @@ RlFunctions >> imageDrawPixelDst: dst posX: posX posY: posY color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawPixelVDst: dst position: position color: color [
 	"Draw pixel within an image (Vector version)
 	dst - Image *
@@ -3311,7 +4229,10 @@ RlFunctions >> imageDrawPixelVDst: dst position: position color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawRectangleDst: dst posX: posX posY: posY width: width height: height color: color [
 	"Draw rectangle within an image
 	dst - Image *
@@ -3325,7 +4246,10 @@ RlFunctions >> imageDrawRectangleDst: dst posX: posX posY: posY width: width hei
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawRectangleLinesDst: dst rec: rec thick: thick color: color [
 	"Draw rectangle lines within an image
 	dst - Image *
@@ -3337,7 +4261,10 @@ RlFunctions >> imageDrawRectangleLinesDst: dst rec: rec thick: thick color: colo
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawRectangleRecDst: dst rec: rec color: color [
 	"Draw rectangle within an image
 	dst - Image *
@@ -3348,7 +4275,10 @@ RlFunctions >> imageDrawRectangleRecDst: dst rec: rec color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawRectangleVDst: dst position: position size: size color: color [
 	"Draw rectangle within an image (Vector version)
 	dst - Image *
@@ -3360,7 +4290,10 @@ RlFunctions >> imageDrawRectangleVDst: dst position: position size: size color: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTextDst: dst text: text posX: posX posY: posY fontSize: fontSize color: color [
 	"Draw text (using default font) within an image (destination)
 	dst - Image *
@@ -3374,7 +4307,10 @@ RlFunctions >> imageDrawTextDst: dst text: text posX: posX posY: posY fontSize: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTextExDst: dst font: font text: text position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text (custom sprite font) within an image (destination)
 	dst - Image *
@@ -3389,7 +4325,10 @@ RlFunctions >> imageDrawTextExDst: dst font: font text: text position: position 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTriangleDst: dst v1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle within an image
 	dst - Image *
@@ -3402,7 +4341,10 @@ RlFunctions >> imageDrawTriangleDst: dst v1: v1 v2: v2 v3: v3 color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTriangleExDst: dst v1: v1 v2: v2 v3: v3 c1: c1 c2: c2 c3: c3 [
 	"Draw triangle with interpolated colors within an image
 	dst - Image *
@@ -3417,7 +4359,10 @@ RlFunctions >> imageDrawTriangleExDst: dst v1: v1 v2: v2 v3: v3 c1: c1 c2: c2 c3
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTriangleFanDst: dst points: points pointCount: pointCount color: color [
 	"Draw a triangle fan defined by points within an image (first vertex is the center)
 	dst - Image *
@@ -3429,7 +4374,10 @@ RlFunctions >> imageDrawTriangleFanDst: dst points: points pointCount: pointCoun
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTriangleLinesDst: dst v1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle outline within an image
 	dst - Image *
@@ -3442,7 +4390,10 @@ RlFunctions >> imageDrawTriangleLinesDst: dst v1: v1 v2: v2 v3: v3 color: color 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageDrawTriangleStripDst: dst points: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points within an image
 	dst - Image *
@@ -3454,7 +4405,10 @@ RlFunctions >> imageDrawTriangleStripDst: dst points: points pointCount: pointCo
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageFlipHorizontalImage: image [
 	"Flip image horizontally
 	image - Image *"
@@ -3463,7 +4417,10 @@ RlFunctions >> imageFlipHorizontalImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageFlipVerticalImage: image [
 	"Flip image vertically
 	image - Image *"
@@ -3472,7 +4429,10 @@ RlFunctions >> imageFlipVerticalImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageFormatImage: image newFormat: newFormat [
 	"Convert image data to desired format
 	image - Image *
@@ -3482,7 +4442,10 @@ RlFunctions >> imageFormatImage: image newFormat: newFormat [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageFromChannelImage: image selectedChannel: selectedChannel [
 	"Create an image from a selected channel of another image (GRAYSCALE)
 	image - Image
@@ -3492,7 +4455,10 @@ RlFunctions >> imageFromChannelImage: image selectedChannel: selectedChannel [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageFromImage: image rec: rec [
 	"Create an image from another image piece
 	image - Image
@@ -3502,7 +4468,10 @@ RlFunctions >> imageFromImage: image rec: rec [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageKernelConvolutionImage: image kernel: kernel kernelSize: kernelSize [
 	"Apply custom square convolution kernel to image
 	image - Image *
@@ -3513,7 +4482,10 @@ RlFunctions >> imageKernelConvolutionImage: image kernel: kernel kernelSize: ker
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageMipmapsImage: image [
 	"Compute all mipmap levels for a provided image
 	image - Image *"
@@ -3522,7 +4494,10 @@ RlFunctions >> imageMipmapsImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageResizeCanvasImage: image newWidth: newWidth newHeight: newHeight offsetX: offsetX offsetY: offsetY fill: fill [
 	"Resize canvas and fill with color
 	image - Image *
@@ -3536,7 +4511,10 @@ RlFunctions >> imageResizeCanvasImage: image newWidth: newWidth newHeight: newHe
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageResizeImage: image newWidth: newWidth newHeight: newHeight [
 	"Resize image (Bicubic scaling algorithm)
 	image - Image *
@@ -3547,7 +4525,10 @@ RlFunctions >> imageResizeImage: image newWidth: newWidth newHeight: newHeight [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageResizeNNImage: image newWidth: newWidth newHeight: newHeight [
 	"Resize image (Nearest-Neighbor scaling algorithm)
 	image - Image *
@@ -3558,7 +4539,10 @@ RlFunctions >> imageResizeNNImage: image newWidth: newWidth newHeight: newHeight
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageRotateCCWImage: image [
 	"Rotate image counter-clockwise 90deg
 	image - Image *"
@@ -3567,7 +4551,10 @@ RlFunctions >> imageRotateCCWImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageRotateCWImage: image [
 	"Rotate image clockwise 90deg
 	image - Image *"
@@ -3576,7 +4563,10 @@ RlFunctions >> imageRotateCWImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageRotateImage: image degrees: degrees [
 	"Rotate image by input angle in degrees (-359 to 359)
 	image - Image *
@@ -3586,7 +4576,10 @@ RlFunctions >> imageRotateImage: image degrees: degrees [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageText: text fontSize: fontSize color: color [
 	"Create an image from text (default font)
 	text - const char *
@@ -3597,7 +4590,10 @@ RlFunctions >> imageText: text fontSize: fontSize color: color [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageTextExFont: font text: text fontSize: fontSize spacing: spacing tint: tint [
 	"Create an image from text (custom sprite font)
 	font - Font
@@ -3610,7 +4606,10 @@ RlFunctions >> imageTextExFont: font text: text fontSize: fontSize spacing: spac
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> imageToPOTImage: image fill: fill [
 	"Convert image to POT (power-of-two)
 	image - Image *
@@ -3620,7 +4619,10 @@ RlFunctions >> imageToPOTImage: image fill: fill [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> initWindowWidth: width height: height title: title [
 	"Initialize window and OpenGL context
 	width - int
@@ -3631,7 +4633,10 @@ RlFunctions >> initWindowWidth: width height: height title: title [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isCursorHidden [
 	"Check if cursor is not visible
 "
@@ -3640,7 +4645,10 @@ RlFunctions >> isCursorHidden [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isCursorOnScreen [
 	"Check if cursor is on the screen
 "
@@ -3649,7 +4657,10 @@ RlFunctions >> isCursorOnScreen [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isFileDropped [
 	"Check if a file has been dropped into window
 "
@@ -3658,7 +4669,10 @@ RlFunctions >> isFileDropped [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isFileExtensionFileName: fileName ext: ext [
 	"Check file extension (including point: .png, .wav)
 	fileName - const char *
@@ -3668,7 +4682,10 @@ RlFunctions >> isFileExtensionFileName: fileName ext: ext [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isFileNameValidFileName: fileName [
 	"Check if fileName is valid for the platform/OS
 	fileName - const char *"
@@ -3677,7 +4694,10 @@ RlFunctions >> isFileNameValidFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isFontValidFont: font [
 	"Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
 	font - Font"
@@ -3686,7 +4706,10 @@ RlFunctions >> isFontValidFont: font [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGamepadAvailableGamepad: gamepad [
 	"Check if a gamepad is available
 	gamepad - int"
@@ -3695,7 +4718,10 @@ RlFunctions >> isGamepadAvailableGamepad: gamepad [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGamepadButtonDownGamepad: gamepad button: button [
 	"Check if a gamepad button is being pressed
 	gamepad - int
@@ -3705,7 +4731,10 @@ RlFunctions >> isGamepadButtonDownGamepad: gamepad button: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGamepadButtonPressedGamepad: gamepad button: button [
 	"Check if a gamepad button has been pressed once
 	gamepad - int
@@ -3715,7 +4744,10 @@ RlFunctions >> isGamepadButtonPressedGamepad: gamepad button: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGamepadButtonReleasedGamepad: gamepad button: button [
 	"Check if a gamepad button has been released once
 	gamepad - int
@@ -3725,7 +4757,10 @@ RlFunctions >> isGamepadButtonReleasedGamepad: gamepad button: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGamepadButtonUpGamepad: gamepad button: button [
 	"Check if a gamepad button is NOT being pressed
 	gamepad - int
@@ -3735,7 +4770,10 @@ RlFunctions >> isGamepadButtonUpGamepad: gamepad button: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isGestureDetectedGesture: gesture [
 	"Check if a gesture have been detected
 	gesture - unsigned int"
@@ -3744,7 +4782,10 @@ RlFunctions >> isGestureDetectedGesture: gesture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isImageValidImage: image [
 	"Check if an image is valid (data and parameters)
 	image - Image"
@@ -3753,7 +4794,10 @@ RlFunctions >> isImageValidImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isKeyDownKey: key [
 	"Check if a key is being pressed
 	key - int"
@@ -3762,7 +4806,10 @@ RlFunctions >> isKeyDownKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isKeyPressedKey: key [
 	"Check if a key has been pressed once
 	key - int"
@@ -3771,7 +4818,10 @@ RlFunctions >> isKeyPressedKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isKeyPressedRepeatKey: key [
 	"Check if a key has been pressed again
 	key - int"
@@ -3780,7 +4830,10 @@ RlFunctions >> isKeyPressedRepeatKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isKeyReleasedKey: key [
 	"Check if a key has been released once
 	key - int"
@@ -3789,7 +4842,10 @@ RlFunctions >> isKeyReleasedKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isKeyUpKey: key [
 	"Check if a key is NOT being pressed
 	key - int"
@@ -3798,7 +4854,10 @@ RlFunctions >> isKeyUpKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isMaterialValidMaterial: material [
 	"Check if a material is valid (shader assigned, map textures loaded in GPU)
 	material - Material"
@@ -3807,7 +4866,10 @@ RlFunctions >> isMaterialValidMaterial: material [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isModelAnimationValidModel: model anim: anim [
 	"Check model animation skeleton match
 	model - Model
@@ -3817,7 +4879,10 @@ RlFunctions >> isModelAnimationValidModel: model anim: anim [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isModelValidModel: model [
 	"Check if a model is valid (loaded in GPU, VAO/VBOs)
 	model - Model"
@@ -3826,7 +4891,10 @@ RlFunctions >> isModelValidModel: model [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isMouseButtonDownButton: button [
 	"Check if a mouse button is being pressed
 	button - int"
@@ -3835,7 +4903,10 @@ RlFunctions >> isMouseButtonDownButton: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isMouseButtonPressedButton: button [
 	"Check if a mouse button has been pressed once
 	button - int"
@@ -3844,7 +4915,10 @@ RlFunctions >> isMouseButtonPressedButton: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isMouseButtonReleasedButton: button [
 	"Check if a mouse button has been released once
 	button - int"
@@ -3853,7 +4927,10 @@ RlFunctions >> isMouseButtonReleasedButton: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isMouseButtonUpButton: button [
 	"Check if a mouse button is NOT being pressed
 	button - int"
@@ -3862,7 +4939,10 @@ RlFunctions >> isMouseButtonUpButton: button [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isPathFilePath: path [
 	"Check if a given path is a file or a directory
 	path - const char *"
@@ -3871,7 +4951,10 @@ RlFunctions >> isPathFilePath: path [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isRenderTextureValidTarget: target [
 	"Check if a render texture is valid (loaded in GPU)
 	target - RenderTexture2D"
@@ -3880,7 +4963,10 @@ RlFunctions >> isRenderTextureValidTarget: target [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isShaderValidShader: shader [
 	"Check if a shader is valid (loaded on GPU)
 	shader - Shader"
@@ -3889,7 +4975,10 @@ RlFunctions >> isShaderValidShader: shader [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isTextureValidTexture: texture [
 	"Check if a texture is valid (loaded in GPU)
 	texture - Texture2D"
@@ -3898,7 +4987,10 @@ RlFunctions >> isTextureValidTexture: texture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWaveValidWave: wave [
 	"Checks if wave data is valid (data loaded and parameters)
 	wave - Wave"
@@ -3907,7 +4999,10 @@ RlFunctions >> isWaveValidWave: wave [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowFocused [
 	"Check if window is currently focused
 "
@@ -3916,7 +5011,10 @@ RlFunctions >> isWindowFocused [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowFullscreen [
 	"Check if window is currently fullscreen
 "
@@ -3925,7 +5023,10 @@ RlFunctions >> isWindowFullscreen [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowHidden [
 	"Check if window is currently hidden
 "
@@ -3934,7 +5035,10 @@ RlFunctions >> isWindowHidden [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowMaximized [
 	"Check if window is currently maximized
 "
@@ -3943,7 +5047,10 @@ RlFunctions >> isWindowMaximized [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowMinimized [
 	"Check if window is currently minimized
 "
@@ -3952,7 +5059,10 @@ RlFunctions >> isWindowMinimized [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowReady [
 	"Check if window has been initialized successfully
 "
@@ -3961,7 +5071,10 @@ RlFunctions >> isWindowReady [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowResized [
 	"Check if window has been resized last frame
 "
@@ -3970,7 +5083,10 @@ RlFunctions >> isWindowResized [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> isWindowStateFlag: flag [
 	"Check if one specific window flag is enabled
 	flag - unsigned int"
@@ -3979,7 +5095,10 @@ RlFunctions >> isWindowStateFlag: flag [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadAutomationEventListFileName: fileName [
 	"Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
 	fileName - const char *"
@@ -3988,7 +5107,10 @@ RlFunctions >> loadAutomationEventListFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadCodepointsText: text count: count [
 	"Load all codepoints from a UTF-8 text string, codepoints count returned by parameter
 	text - const char *
@@ -3998,7 +5120,10 @@ RlFunctions >> loadCodepointsText: text count: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadDirectoryFilesDirPath: dirPath [
 	"Load directory filepaths
 	dirPath - const char *"
@@ -4007,7 +5132,10 @@ RlFunctions >> loadDirectoryFilesDirPath: dirPath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadDirectoryFilesExBasePath: basePath filter: filter scanSubdirs: scanSubdirs [
 	"Load directory filepaths with extension filtering and recursive directory scan. Use 'DIR' in the filter string to include directories in the result
 	basePath - const char *
@@ -4018,7 +5146,10 @@ RlFunctions >> loadDirectoryFilesExBasePath: basePath filter: filter scanSubdirs
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadDroppedFiles [
 	"Load dropped filepaths
 "
@@ -4027,7 +5158,10 @@ RlFunctions >> loadDroppedFiles [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFileDataFileName: fileName dataSize: dataSize [
 	"Load file data as byte array (read)
 	fileName - const char *
@@ -4037,7 +5171,10 @@ RlFunctions >> loadFileDataFileName: fileName dataSize: dataSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFileTextFileName: fileName [
 	"Load text data from file (read), returns a '\0' terminated string
 	fileName - const char *"
@@ -4046,7 +5183,10 @@ RlFunctions >> loadFileTextFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFontDataFileData: fileData dataSize: dataSize fontSize: fontSize codepoints: codepoints codepointCount: codepointCount type: type [
 	"Load font data for further use
 	fileData - const unsigned char *
@@ -4060,7 +5200,10 @@ RlFunctions >> loadFontDataFileData: fileData dataSize: dataSize fontSize: fontS
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFontExFileName: fileName fontSize: fontSize codepoints: codepoints codepointCount: codepointCount [
 	"Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height
 	fileName - const char *
@@ -4072,7 +5215,10 @@ RlFunctions >> loadFontExFileName: fileName fontSize: fontSize codepoints: codep
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFontFileName: fileName [
 	"Load font from file into GPU memory (VRAM)
 	fileName - const char *"
@@ -4081,7 +5227,10 @@ RlFunctions >> loadFontFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFontFromImage: image key: key firstChar: firstChar [
 	"Load font from Image (XNA style)
 	image - Image
@@ -4092,7 +5241,10 @@ RlFunctions >> loadFontFromImage: image key: key firstChar: firstChar [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadFontFromMemoryFileType: fileType fileData: fileData dataSize: dataSize fontSize: fontSize codepoints: codepoints codepointCount: codepointCount [
 	"Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
 	fileType - const char *
@@ -4106,7 +5258,10 @@ RlFunctions >> loadFontFromMemoryFileType: fileType fileData: fileData dataSize:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageAnimFileName: fileName frames: frames [
 	"Load image sequence from file (frames appended to image.data)
 	fileName - const char *
@@ -4116,7 +5271,10 @@ RlFunctions >> loadImageAnimFileName: fileName frames: frames [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageAnimFromMemoryFileType: fileType fileData: fileData dataSize: dataSize frames: frames [
 	"Load image sequence from memory buffer
 	fileType - const char *
@@ -4128,7 +5286,10 @@ RlFunctions >> loadImageAnimFromMemoryFileType: fileType fileData: fileData data
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageColorsImage: image [
 	"Load color data from image as a Color array (RGBA - 32bit)
 	image - Image"
@@ -4137,7 +5298,10 @@ RlFunctions >> loadImageColorsImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageFileName: fileName [
 	"Load image from file into CPU memory (RAM)
 	fileName - const char *"
@@ -4146,7 +5310,10 @@ RlFunctions >> loadImageFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageFromMemoryFileType: fileType fileData: fileData dataSize: dataSize [
 	"Load image from memory buffer, fileType refers to extension: i.e. '.png'
 	fileType - const char *
@@ -4157,7 +5324,10 @@ RlFunctions >> loadImageFromMemoryFileType: fileType fileData: fileData dataSize
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageFromScreen [
 	"Load image from screen buffer and (screenshot)
 "
@@ -4166,7 +5336,10 @@ RlFunctions >> loadImageFromScreen [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageFromTexture: texture [
 	"Load image from GPU texture data
 	texture - Texture2D"
@@ -4175,7 +5348,10 @@ RlFunctions >> loadImageFromTexture: texture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImagePaletteImage: image maxPaletteSize: maxPaletteSize colorCount: colorCount [
 	"Load colors palette from image as a Color array (RGBA - 32bit)
 	image - Image
@@ -4186,7 +5362,10 @@ RlFunctions >> loadImagePaletteImage: image maxPaletteSize: maxPaletteSize color
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadImageRawFileName: fileName width: width height: height format: format headerSize: headerSize [
 	"Load image from RAW file data
 	fileName - const char *
@@ -4199,7 +5378,10 @@ RlFunctions >> loadImageRawFileName: fileName width: width height: height format
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadMaterialDefault [
 	"Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
 "
@@ -4208,7 +5390,10 @@ RlFunctions >> loadMaterialDefault [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadMaterialsFileName: fileName materialCount: materialCount [
 	"Load materials from model file
 	fileName - const char *
@@ -4218,7 +5403,10 @@ RlFunctions >> loadMaterialsFileName: fileName materialCount: materialCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadModelAnimationsFileName: fileName animCount: animCount [
 	"Load model animations from file
 	fileName - const char *
@@ -4228,7 +5416,10 @@ RlFunctions >> loadModelAnimationsFileName: fileName animCount: animCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadModelFileName: fileName [
 	"Load model from files (meshes and materials)
 	fileName - const char *"
@@ -4237,7 +5428,10 @@ RlFunctions >> loadModelFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadModelFromMesh: mesh [
 	"Load model from generated mesh (default material)
 	mesh - Mesh"
@@ -4246,7 +5440,10 @@ RlFunctions >> loadModelFromMesh: mesh [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadRandomSequenceCount: count min: min max: max [
 	"Load random values sequence, no values repeated
 	count - unsigned int
@@ -4257,7 +5454,10 @@ RlFunctions >> loadRandomSequenceCount: count min: min max: max [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadRenderTextureWidth: width height: height [
 	"Load texture for rendering (framebuffer)
 	width - int
@@ -4267,7 +5467,10 @@ RlFunctions >> loadRenderTextureWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadShaderFromMemoryVsCode: vsCode fsCode: fsCode [
 	"Load shader from code strings and bind default locations
 	vsCode - const char *
@@ -4277,7 +5480,10 @@ RlFunctions >> loadShaderFromMemoryVsCode: vsCode fsCode: fsCode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadShaderVsFileName: vsFileName fsFileName: fsFileName [
 	"Load shader from files and bind default locations
 	vsFileName - const char *
@@ -4287,7 +5493,10 @@ RlFunctions >> loadShaderVsFileName: vsFileName fsFileName: fsFileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadTextureCubemapImage: image layout: layout [
 	"Load cubemap from image, multiple image cubemap layouts supported
 	image - Image
@@ -4297,7 +5506,10 @@ RlFunctions >> loadTextureCubemapImage: image layout: layout [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadTextureFileName: fileName [
 	"Load texture from file into GPU memory (VRAM)
 	fileName - const char *"
@@ -4306,7 +5518,10 @@ RlFunctions >> loadTextureFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadTextureFromImage: image [
 	"Load texture from image data
 	image - Image"
@@ -4315,7 +5530,10 @@ RlFunctions >> loadTextureFromImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadUTF8Codepoints: codepoints length: length [
 	"Load UTF-8 text encoded from codepoints array
 	codepoints - const int *
@@ -4325,7 +5543,10 @@ RlFunctions >> loadUTF8Codepoints: codepoints length: length [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadVrStereoConfigDevice: device [
 	"Load VR stereo config for VR simulator device parameters
 	device - VrDeviceInfo"
@@ -4334,7 +5555,10 @@ RlFunctions >> loadVrStereoConfigDevice: device [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadWaveFileName: fileName [
 	"Load wave data from file
 	fileName - const char *"
@@ -4343,7 +5567,10 @@ RlFunctions >> loadWaveFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadWaveFromMemoryFileType: fileType fileData: fileData dataSize: dataSize [
 	"Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
 	fileType - const char *
@@ -4354,7 +5581,10 @@ RlFunctions >> loadWaveFromMemoryFileType: fileType fileData: fileData dataSize:
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> loadWaveSamplesWave: wave [
 	"Load samples data from wave as a 32bit float data array
 	wave - Wave"
@@ -4363,7 +5593,10 @@ RlFunctions >> loadWaveSamplesWave: wave [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> makeDirectoryDirPath: dirPath [
 	"Create directories (including full path requested), returns 0 on success
 	dirPath - const char *"
@@ -4372,7 +5605,10 @@ RlFunctions >> makeDirectoryDirPath: dirPath [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> maximizeWindow [
 	"Set window state: maximized, if resizable
 "
@@ -4381,7 +5617,10 @@ RlFunctions >> maximizeWindow [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> measureText: text fontSize: fontSize [
 	"Measure string width for default font
 	text - const char *
@@ -4391,7 +5630,10 @@ RlFunctions >> measureText: text fontSize: fontSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> measureTextExFont: font text: text fontSize: fontSize spacing: spacing [
 	"Measure string size for Font
 	font - Font
@@ -4403,7 +5645,10 @@ RlFunctions >> measureTextExFont: font text: text fontSize: fontSize spacing: sp
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> memAllocSize: size [
 	"Internal memory allocator
 	size - unsigned int"
@@ -4412,7 +5657,10 @@ RlFunctions >> memAllocSize: size [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> memFreePtr: ptr [
 	"Internal memory free
 	ptr - void *"
@@ -4421,7 +5669,10 @@ RlFunctions >> memFreePtr: ptr [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> memReallocPtr: ptr size: size [
 	"Internal memory reallocator
 	ptr - void *
@@ -4431,7 +5682,10 @@ RlFunctions >> memReallocPtr: ptr size: size [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> minimizeWindow [
 	"Set window state: minimized, if resizable
 "
@@ -4440,7 +5694,10 @@ RlFunctions >> minimizeWindow [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> openURL: url [
 	"Open URL with default system browser (if available)
 	url - const char *"
@@ -4449,7 +5706,10 @@ RlFunctions >> openURL: url [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> playAutomationEvent: event [
 	"Play a recorded automation event
 	event - AutomationEvent"
@@ -4458,7 +5718,10 @@ RlFunctions >> playAutomationEvent: event [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> pollInputEvents [
 	"Register all input events
 "
@@ -4467,7 +5730,10 @@ RlFunctions >> pollInputEvents [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> restoreWindow [
 	"Set window state: not minimized/maximized
 "
@@ -4476,7 +5742,10 @@ RlFunctions >> restoreWindow [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlActiveDrawBuffersCount: count [
 	"Activate multiple draw color buffers
 	count - int"
@@ -4485,7 +5754,10 @@ RlFunctions >> rlActiveDrawBuffersCount: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlActiveTextureSlot: slot [
 	"Select and active a texture slot
 	slot - int"
@@ -4494,7 +5766,10 @@ RlFunctions >> rlActiveTextureSlot: slot [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlBeginMode: mode [
 	"Initialize drawing mode (how to organize vertex)
 	mode - int"
@@ -4503,7 +5778,10 @@ RlFunctions >> rlBeginMode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlBindFramebufferTarget: target framebuffer: framebuffer [
 	"Bind framebuffer (FBO)
 	target - unsigned int
@@ -4513,7 +5791,10 @@ RlFunctions >> rlBindFramebufferTarget: target framebuffer: framebuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlBindImageTextureId: id index: index format: format readonly: readonly [
 	"Bind image texture
 	id - unsigned int
@@ -4525,7 +5806,10 @@ RlFunctions >> rlBindImageTextureId: id index: index format: format readonly: re
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlBindShaderBufferId: id index: index [
 	"Bind SSBO buffer
 	id - unsigned int
@@ -4535,7 +5819,10 @@ RlFunctions >> rlBindShaderBufferId: id index: index [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlBlitFramebufferSrcX: srcX srcY: srcY srcWidth: srcWidth srcHeight: srcHeight dstX: dstX dstY: dstY dstWidth: dstWidth dstHeight: dstHeight bufferMask: bufferMask [
 	"Blit active framebuffer to main framebuffer
 	srcX - int
@@ -4552,7 +5839,10 @@ RlFunctions >> rlBlitFramebufferSrcX: srcX srcY: srcY srcWidth: srcWidth srcHeig
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlCheckErrors [
 	"Check and log OpenGL error codes
 "
@@ -4561,7 +5851,10 @@ RlFunctions >> rlCheckErrors [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlCheckRenderBatchLimitVCount: vCount [
 	"Check internal buffer overflow for a given number of vertex
 	vCount - int"
@@ -4570,7 +5863,10 @@ RlFunctions >> rlCheckRenderBatchLimitVCount: vCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlClearColor: r g: g b: b a: a [
 	"Clear color buffer with color
 	r - unsigned char
@@ -4582,7 +5878,10 @@ RlFunctions >> rlClearColor: r g: g b: b a: a [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlClearScreenBuffers [
 	"Clear used screen buffers (color and depth)
 "
@@ -4591,7 +5890,10 @@ RlFunctions >> rlClearScreenBuffers [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlColor3fX: x y: y z: z [
 	"Define one vertex (color) - 3 float
 	x - float
@@ -4602,7 +5904,10 @@ RlFunctions >> rlColor3fX: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlColor4fX: x y: y z: z w: w [
 	"Define one vertex (color) - 4 float
 	x - float
@@ -4614,7 +5919,10 @@ RlFunctions >> rlColor4fX: x y: y z: z w: w [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlColor4ubR: r g: g b: b a: a [
 	"Define one vertex (color) - 4 byte
 	r - unsigned char
@@ -4626,7 +5934,10 @@ RlFunctions >> rlColor4ubR: r g: g b: b a: a [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlColorMaskR: r g: g b: b a: a [
 	"Color mask control
 	r - bool
@@ -4638,7 +5949,10 @@ RlFunctions >> rlColorMaskR: r g: g b: b a: a [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlCompileShaderShaderCode: shaderCode type: type [
 	"Compile custom shader and return shader id (type: RL_VERTEX_SHADER, RL_FRAGMENT_SHADER, RL_COMPUTE_SHADER)
 	shaderCode - const char *
@@ -4648,7 +5962,10 @@ RlFunctions >> rlCompileShaderShaderCode: shaderCode type: type [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlComputeShaderDispatchGroupX: groupX groupY: groupY groupZ: groupZ [
 	"Dispatch compute shader (equivalent to *draw* for graphics pipeline)
 	groupX - unsigned int
@@ -4659,7 +5976,10 @@ RlFunctions >> rlComputeShaderDispatchGroupX: groupX groupY: groupY groupZ: grou
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlCopyShaderBufferDestId: destId srcId: srcId destOffset: destOffset srcOffset: srcOffset count: count [
 	"Copy SSBO data between buffers
 	destId - unsigned int
@@ -4672,7 +5992,10 @@ RlFunctions >> rlCopyShaderBufferDestId: destId srcId: srcId destOffset: destOff
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlCubemapParametersId: id param: param value: value [
 	"Set cubemap parameters (filter, wrap)
 	id - unsigned int
@@ -4683,7 +6006,10 @@ RlFunctions >> rlCubemapParametersId: id param: param value: value [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableBackfaceCulling [
 	"Disable backface culling
 "
@@ -4692,7 +6018,10 @@ RlFunctions >> rlDisableBackfaceCulling [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableColorBlend [
 	"Disable color blending
 "
@@ -4701,7 +6030,10 @@ RlFunctions >> rlDisableColorBlend [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableDepthMask [
 	"Disable depth write
 "
@@ -4710,7 +6042,10 @@ RlFunctions >> rlDisableDepthMask [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableDepthTest [
 	"Disable depth test
 "
@@ -4719,7 +6054,10 @@ RlFunctions >> rlDisableDepthTest [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableFramebuffer [
 	"Disable render texture (fbo), return to default framebuffer
 "
@@ -4728,7 +6066,10 @@ RlFunctions >> rlDisableFramebuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisablePointMode [
 	"Disable point mode
 "
@@ -4737,7 +6078,10 @@ RlFunctions >> rlDisablePointMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableScissorTest [
 	"Disable scissor test
 "
@@ -4746,7 +6090,10 @@ RlFunctions >> rlDisableScissorTest [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableShader [
 	"Disable shader program
 "
@@ -4755,7 +6102,10 @@ RlFunctions >> rlDisableShader [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableSmoothLines [
 	"Disable line aliasing
 "
@@ -4764,7 +6114,10 @@ RlFunctions >> rlDisableSmoothLines [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableStatePointerVertexAttribType: vertexAttribType [
 	"Disable attribute state pointer
 	vertexAttribType - int"
@@ -4773,7 +6126,10 @@ RlFunctions >> rlDisableStatePointerVertexAttribType: vertexAttribType [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableStereoRender [
 	"Disable stereo rendering
 "
@@ -4782,7 +6138,10 @@ RlFunctions >> rlDisableStereoRender [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableTexture [
 	"Disable texture
 "
@@ -4791,7 +6150,10 @@ RlFunctions >> rlDisableTexture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableTextureCubemap [
 	"Disable texture cubemap
 "
@@ -4800,7 +6162,10 @@ RlFunctions >> rlDisableTextureCubemap [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableVertexArray [
 	"Disable vertex array (VAO, if supported)
 "
@@ -4809,7 +6174,10 @@ RlFunctions >> rlDisableVertexArray [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableVertexAttributeIndex: index [
 	"Disable vertex attribute index
 	index - unsigned int"
@@ -4818,7 +6186,10 @@ RlFunctions >> rlDisableVertexAttributeIndex: index [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableVertexBuffer [
 	"Disable vertex buffer (VBO)
 "
@@ -4827,7 +6198,10 @@ RlFunctions >> rlDisableVertexBuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableVertexBufferElement [
 	"Disable vertex buffer element (VBO element)
 "
@@ -4836,7 +6210,10 @@ RlFunctions >> rlDisableVertexBufferElement [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDisableWireMode [
 	"Disable wire mode
 "
@@ -4845,7 +6222,10 @@ RlFunctions >> rlDisableWireMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawRenderBatch: batch [
 	"Draw render batch data (Update->Draw->Reset)
 	batch - rlRenderBatch *"
@@ -4854,7 +6234,10 @@ RlFunctions >> rlDrawRenderBatch: batch [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawRenderBatchActive [
 	"Update and draw internal render batch
 "
@@ -4863,7 +6246,10 @@ RlFunctions >> rlDrawRenderBatchActive [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawVertexArrayElementsInstancedOffset: offset count: count buffer: buffer instances: instances [
 	"Draw vertex array elements with instancing
 	offset - int
@@ -4875,7 +6261,10 @@ RlFunctions >> rlDrawVertexArrayElementsInstancedOffset: offset count: count buf
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawVertexArrayElementsOffset: offset count: count buffer: buffer [
 	"Draw vertex array elements
 	offset - int
@@ -4886,7 +6275,10 @@ RlFunctions >> rlDrawVertexArrayElementsOffset: offset count: count buffer: buff
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawVertexArrayInstancedOffset: offset count: count instances: instances [
 	"Draw vertex array (currently active vao) with instancing
 	offset - int
@@ -4897,7 +6289,10 @@ RlFunctions >> rlDrawVertexArrayInstancedOffset: offset count: count instances: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlDrawVertexArrayOffset: offset count: count [
 	"Draw vertex array (currently active vao)
 	offset - int
@@ -4907,7 +6302,10 @@ RlFunctions >> rlDrawVertexArrayOffset: offset count: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableBackfaceCulling [
 	"Enable backface culling
 "
@@ -4916,7 +6314,10 @@ RlFunctions >> rlEnableBackfaceCulling [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableColorBlend [
 	"Enable color blending
 "
@@ -4925,7 +6326,10 @@ RlFunctions >> rlEnableColorBlend [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableDepthMask [
 	"Enable depth write
 "
@@ -4934,7 +6338,10 @@ RlFunctions >> rlEnableDepthMask [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableDepthTest [
 	"Enable depth test
 "
@@ -4943,7 +6350,10 @@ RlFunctions >> rlEnableDepthTest [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableFramebufferId: id [
 	"Enable render texture (fbo)
 	id - unsigned int"
@@ -4952,7 +6362,10 @@ RlFunctions >> rlEnableFramebufferId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnablePointMode [
 	"Enable point mode
 "
@@ -4961,7 +6374,10 @@ RlFunctions >> rlEnablePointMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableScissorTest [
 	"Enable scissor test
 "
@@ -4970,7 +6386,10 @@ RlFunctions >> rlEnableScissorTest [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableShaderId: id [
 	"Enable shader program
 	id - unsigned int"
@@ -4979,7 +6398,10 @@ RlFunctions >> rlEnableShaderId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableSmoothLines [
 	"Enable line aliasing
 "
@@ -4988,7 +6410,10 @@ RlFunctions >> rlEnableSmoothLines [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableStatePointerVertexAttribType: vertexAttribType buffer: buffer [
 	"Enable attribute state pointer
 	vertexAttribType - int
@@ -4998,7 +6423,10 @@ RlFunctions >> rlEnableStatePointerVertexAttribType: vertexAttribType buffer: bu
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableStereoRender [
 	"Enable stereo rendering
 "
@@ -5007,7 +6435,10 @@ RlFunctions >> rlEnableStereoRender [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableTextureCubemapId: id [
 	"Enable texture cubemap
 	id - unsigned int"
@@ -5016,7 +6447,10 @@ RlFunctions >> rlEnableTextureCubemapId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableTextureId: id [
 	"Enable texture
 	id - unsigned int"
@@ -5025,7 +6459,10 @@ RlFunctions >> rlEnableTextureId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableVertexArrayVaoId: vaoId [
 	"Enable vertex array (VAO, if supported)
 	vaoId - unsigned int"
@@ -5034,7 +6471,10 @@ RlFunctions >> rlEnableVertexArrayVaoId: vaoId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableVertexAttributeIndex: index [
 	"Enable vertex attribute index
 	index - unsigned int"
@@ -5043,7 +6483,10 @@ RlFunctions >> rlEnableVertexAttributeIndex: index [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableVertexBufferElementId: id [
 	"Enable vertex buffer element (VBO element)
 	id - unsigned int"
@@ -5052,7 +6495,10 @@ RlFunctions >> rlEnableVertexBufferElementId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableVertexBufferId: id [
 	"Enable vertex buffer (VBO)
 	id - unsigned int"
@@ -5061,7 +6507,10 @@ RlFunctions >> rlEnableVertexBufferId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnableWireMode [
 	"Enable wire mode
 "
@@ -5070,7 +6519,10 @@ RlFunctions >> rlEnableWireMode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlEnd [
 	"Finish vertex providing
 "
@@ -5079,7 +6531,10 @@ RlFunctions >> rlEnd [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlFramebufferAttachFboId: fboId texId: texId attachType: attachType texType: texType mipLevel: mipLevel [
 	"Attach texture/renderbuffer to a framebuffer
 	fboId - unsigned int
@@ -5092,7 +6547,10 @@ RlFunctions >> rlFramebufferAttachFboId: fboId texId: texId attachType: attachTy
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlFramebufferCompleteId: id [
 	"Verify framebuffer is complete
 	id - unsigned int"
@@ -5101,7 +6559,10 @@ RlFunctions >> rlFramebufferCompleteId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlFrustumLeft: left right: right bottom: bottom top: top znear: znear zfar: zfar [
 	"
 	left - double
@@ -5115,7 +6576,10 @@ RlFunctions >> rlFrustumLeft: left right: right bottom: bottom top: top znear: z
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGenTextureMipmapsId: id width: width height: height format: format mipmaps: mipmaps [
 	"Generate mipmap data for selected texture
 	id - unsigned int
@@ -5128,7 +6592,10 @@ RlFunctions >> rlGenTextureMipmapsId: id width: width height: height format: for
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetActiveFramebuffer [
 	"Get the currently active render texture (fbo), 0 for default framebuffer
 "
@@ -5137,7 +6604,10 @@ RlFunctions >> rlGetActiveFramebuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetCullDistanceFar [
 	"Get cull plane distance far
 "
@@ -5146,7 +6616,10 @@ RlFunctions >> rlGetCullDistanceFar [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetCullDistanceNear [
 	"Get cull plane distance near
 "
@@ -5155,7 +6628,10 @@ RlFunctions >> rlGetCullDistanceNear [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetFramebufferHeight [
 	"Get default framebuffer height
 "
@@ -5164,7 +6640,10 @@ RlFunctions >> rlGetFramebufferHeight [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetFramebufferWidth [
 	"Get default framebuffer width
 "
@@ -5173,7 +6652,10 @@ RlFunctions >> rlGetFramebufferWidth [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetGlTextureFormatsFormat: format glInternalFormat: glInternalFormat glFormat: glFormat glType: glType [
 	"Get OpenGL internal formats
 	format - int
@@ -5185,7 +6667,10 @@ RlFunctions >> rlGetGlTextureFormatsFormat: format glInternalFormat: glInternalF
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetLineWidth [
 	"Get the line drawing width
 "
@@ -5194,7 +6679,10 @@ RlFunctions >> rlGetLineWidth [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetLocationAttribShaderId: shaderId attribName: attribName [
 	"Get shader location attribute
 	shaderId - unsigned int
@@ -5204,7 +6692,10 @@ RlFunctions >> rlGetLocationAttribShaderId: shaderId attribName: attribName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetLocationUniformShaderId: shaderId uniformName: uniformName [
 	"Get shader location uniform
 	shaderId - unsigned int
@@ -5214,7 +6705,10 @@ RlFunctions >> rlGetLocationUniformShaderId: shaderId uniformName: uniformName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetMatrixModelview [
 	"Get internal modelview matrix
 "
@@ -5223,7 +6717,10 @@ RlFunctions >> rlGetMatrixModelview [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetMatrixProjection [
 	"Get internal projection matrix
 "
@@ -5232,7 +6729,10 @@ RlFunctions >> rlGetMatrixProjection [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetMatrixProjectionStereoEye: eye [
 	"Get internal projection matrix for stereo render (selected eye)
 	eye - int"
@@ -5241,7 +6741,10 @@ RlFunctions >> rlGetMatrixProjectionStereoEye: eye [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetMatrixTransform [
 	"Get internal accumulated transform matrix
 "
@@ -5250,7 +6753,10 @@ RlFunctions >> rlGetMatrixTransform [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetMatrixViewOffsetStereoEye: eye [
 	"Get internal view offset matrix for stereo render (selected eye)
 	eye - int"
@@ -5259,7 +6765,10 @@ RlFunctions >> rlGetMatrixViewOffsetStereoEye: eye [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetPixelFormatNameFormat: format [
 	"Get name string for pixel format
 	format - unsigned int"
@@ -5268,7 +6777,10 @@ RlFunctions >> rlGetPixelFormatNameFormat: format [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetShaderBufferSizeId: id [
 	"Get SSBO buffer size
 	id - unsigned int"
@@ -5277,7 +6789,10 @@ RlFunctions >> rlGetShaderBufferSizeId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetShaderIdDefault [
 	"Get default shader id
 "
@@ -5286,7 +6801,10 @@ RlFunctions >> rlGetShaderIdDefault [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetShaderLocsDefault [
 	"Get default shader locations
 "
@@ -5295,7 +6813,10 @@ RlFunctions >> rlGetShaderLocsDefault [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetTextureIdDefault [
 	"Get default texture id
 "
@@ -5304,7 +6825,10 @@ RlFunctions >> rlGetTextureIdDefault [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlGetVersion [
 	"Get current OpenGL version
 "
@@ -5313,7 +6837,10 @@ RlFunctions >> rlGetVersion [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlIsStereoRenderEnabled [
 	"Check if stereo render is enabled
 "
@@ -5322,7 +6849,10 @@ RlFunctions >> rlIsStereoRenderEnabled [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadComputeShaderProgramShaderId: shaderId [
 	"Load compute shader program
 	shaderId - unsigned int"
@@ -5331,7 +6861,10 @@ RlFunctions >> rlLoadComputeShaderProgramShaderId: shaderId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadDrawCube [
 	"Load and draw a cube
 "
@@ -5340,7 +6873,10 @@ RlFunctions >> rlLoadDrawCube [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadDrawQuad [
 	"Load and draw a quad
 "
@@ -5349,7 +6885,10 @@ RlFunctions >> rlLoadDrawQuad [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadExtensionsLoader: loader [
 	"Load OpenGL extensions (loader function required)
 	loader - void *"
@@ -5358,7 +6897,10 @@ RlFunctions >> rlLoadExtensionsLoader: loader [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadFramebuffer [
 	"Load an empty framebuffer
 "
@@ -5367,7 +6909,10 @@ RlFunctions >> rlLoadFramebuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadIdentity [
 	"Reset current matrix to identity matrix
 "
@@ -5376,7 +6921,10 @@ RlFunctions >> rlLoadIdentity [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadRenderBatchNumBuffers: numBuffers bufferElements: bufferElements [
 	"Load a render batch system
 	numBuffers - int
@@ -5386,7 +6934,10 @@ RlFunctions >> rlLoadRenderBatchNumBuffers: numBuffers bufferElements: bufferEle
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadShaderBufferSize: size data: data usageHint: usageHint [
 	"Load shader storage buffer object (SSBO)
 	size - unsigned int
@@ -5397,7 +6948,10 @@ RlFunctions >> rlLoadShaderBufferSize: size data: data usageHint: usageHint [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadShaderCodeVsCode: vsCode fsCode: fsCode [
 	"Load shader from code strings
 	vsCode - const char *
@@ -5407,7 +6961,10 @@ RlFunctions >> rlLoadShaderCodeVsCode: vsCode fsCode: fsCode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadShaderProgramVShaderId: vShaderId fShaderId: fShaderId [
 	"Load custom shader program
 	vShaderId - unsigned int
@@ -5417,7 +6974,10 @@ RlFunctions >> rlLoadShaderProgramVShaderId: vShaderId fShaderId: fShaderId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadTextureCubemapData: data size: size format: format mipmapCount: mipmapCount [
 	"Load texture cubemap data
 	data - const void *
@@ -5429,7 +6989,10 @@ RlFunctions >> rlLoadTextureCubemapData: data size: size format: format mipmapCo
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadTextureData: data width: width height: height format: format mipmapCount: mipmapCount [
 	"Load texture data
 	data - const void *
@@ -5442,7 +7005,10 @@ RlFunctions >> rlLoadTextureData: data width: width height: height format: forma
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadTextureDepthWidth: width height: height useRenderBuffer: useRenderBuffer [
 	"Load depth texture/renderbuffer (to be attached to fbo)
 	width - int
@@ -5453,7 +7019,10 @@ RlFunctions >> rlLoadTextureDepthWidth: width height: height useRenderBuffer: us
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadVertexArray [
 	"Load vertex array (vao) if supported
 "
@@ -5462,7 +7031,10 @@ RlFunctions >> rlLoadVertexArray [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadVertexBuffer: buffer size: size dynamic: dynamic [
 	"Load a vertex buffer object
 	buffer - const void *
@@ -5473,7 +7045,10 @@ RlFunctions >> rlLoadVertexBuffer: buffer size: size dynamic: dynamic [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlLoadVertexBufferElementBuffer: buffer size: size dynamic: dynamic [
 	"Load vertex buffer elements object
 	buffer - const void *
@@ -5484,7 +7059,10 @@ RlFunctions >> rlLoadVertexBufferElementBuffer: buffer size: size dynamic: dynam
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlMatrixMode: mode [
 	"Choose the current matrix to be transformed
 	mode - int"
@@ -5493,7 +7071,10 @@ RlFunctions >> rlMatrixMode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlMultMatrixfMatf: matf [
 	"Multiply the current matrix by another matrix
 	matf - const float *"
@@ -5502,7 +7083,10 @@ RlFunctions >> rlMultMatrixfMatf: matf [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlNormal3fX: x y: y z: z [
 	"Define one vertex (normal) - 3 float
 	x - float
@@ -5513,7 +7097,10 @@ RlFunctions >> rlNormal3fX: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRBegin [
 	"
 "
@@ -5522,7 +7109,10 @@ RlFunctions >> rlOpenXRBegin [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRBeginMockHMD [
 	"
 "
@@ -5531,7 +7121,10 @@ RlFunctions >> rlOpenXRBeginMockHMD [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRBlitToWindowEye: eye keep_aspect_ratio: keep_aspect_ratio [
 	"
 	eye - RLOpenXREyeEnum
@@ -5541,7 +7134,10 @@ RlFunctions >> rlOpenXRBlitToWindowEye: eye keep_aspect_ratio: keep_aspect_ratio
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRData [
 	"
 "
@@ -5550,7 +7146,10 @@ RlFunctions >> rlOpenXRData [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXREnd [
 	"
 "
@@ -5559,7 +7158,10 @@ RlFunctions >> rlOpenXREnd [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRSetup [
 	"
 "
@@ -5568,7 +7170,10 @@ RlFunctions >> rlOpenXRSetup [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRShutdown [
 	"
 "
@@ -5577,7 +7182,10 @@ RlFunctions >> rlOpenXRShutdown [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRSyncSingleActionSetAction_set: action_set [
 	"Utility function for xrSyncAction with a single action set.
 	action_set - XrActionSet"
@@ -5586,7 +7194,10 @@ RlFunctions >> rlOpenXRSyncSingleActionSetAction_set: action_set [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRUpdate [
 	"
 "
@@ -5595,7 +7206,10 @@ RlFunctions >> rlOpenXRUpdate [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRUpdateCamera: camera [
 	"
 	camera - Camera3D *"
@@ -5604,7 +7218,10 @@ RlFunctions >> rlOpenXRUpdateCamera: camera [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRUpdateCameraTransform: transform [
 	"
 	transform - Transform *"
@@ -5613,7 +7230,10 @@ RlFunctions >> rlOpenXRUpdateCameraTransform: transform [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOpenXRUpdateHandsLeft: left right: right [
 	"
 	left - RLHand *
@@ -5623,7 +7243,10 @@ RlFunctions >> rlOpenXRUpdateHandsLeft: left right: right [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlOrthoLeft: left right: right bottom: bottom top: top znear: znear zfar: zfar [
 	"
 	left - double
@@ -5637,7 +7260,10 @@ RlFunctions >> rlOrthoLeft: left right: right bottom: bottom top: top znear: zne
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlPopMatrix [
 	"Pop latest inserted matrix from stack
 "
@@ -5646,7 +7272,10 @@ RlFunctions >> rlPopMatrix [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlPushMatrix [
 	"Push the current matrix to stack
 "
@@ -5655,7 +7284,10 @@ RlFunctions >> rlPushMatrix [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlReadScreenPixelsWidth: width height: height [
 	"Read screen pixel data (color buffer)
 	width - int
@@ -5665,7 +7297,10 @@ RlFunctions >> rlReadScreenPixelsWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlReadShaderBufferId: id dest: dest count: count offset: offset [
 	"Read SSBO buffer data (GPU->CPU)
 	id - unsigned int
@@ -5677,7 +7312,10 @@ RlFunctions >> rlReadShaderBufferId: id dest: dest count: count offset: offset [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlReadTexturePixelsId: id width: width height: height format: format [
 	"Read texture pixel data
 	id - unsigned int
@@ -5689,7 +7327,10 @@ RlFunctions >> rlReadTexturePixelsId: id width: width height: height format: for
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlRotatefAngle: angle x: x y: y z: z [
 	"Multiply the current matrix by a rotation matrix
 	angle - float
@@ -5701,7 +7342,10 @@ RlFunctions >> rlRotatefAngle: angle x: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlScalefX: x y: y z: z [
 	"Multiply the current matrix by a scaling matrix
 	x - float
@@ -5712,7 +7356,10 @@ RlFunctions >> rlScalefX: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlScissorX: x y: y width: width height: height [
 	"Scissor test
 	x - int
@@ -5724,7 +7371,10 @@ RlFunctions >> rlScissorX: x y: y width: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetBlendFactorsGlSrcFactor: glSrcFactor glDstFactor: glDstFactor glEquation: glEquation [
 	"Set blending mode factor and equation (using OpenGL factors)
 	glSrcFactor - int
@@ -5735,7 +7385,10 @@ RlFunctions >> rlSetBlendFactorsGlSrcFactor: glSrcFactor glDstFactor: glDstFacto
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetBlendFactorsSeparateGlSrcRGB: glSrcRGB glDstRGB: glDstRGB glSrcAlpha: glSrcAlpha glDstAlpha: glDstAlpha glEqRGB: glEqRGB glEqAlpha: glEqAlpha [
 	"Set blending mode factors and equations separately (using OpenGL factors)
 	glSrcRGB - int
@@ -5749,7 +7402,10 @@ RlFunctions >> rlSetBlendFactorsSeparateGlSrcRGB: glSrcRGB glDstRGB: glDstRGB gl
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetBlendMode: mode [
 	"Set blending mode
 	mode - int"
@@ -5758,7 +7414,10 @@ RlFunctions >> rlSetBlendMode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetClipPlanesNearPlane: nearPlane farPlane: farPlane [
 	"Set clip planes distances
 	nearPlane - double
@@ -5768,7 +7427,10 @@ RlFunctions >> rlSetClipPlanesNearPlane: nearPlane farPlane: farPlane [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetCullFaceMode: mode [
 	"Set face culling mode
 	mode - int"
@@ -5777,7 +7439,10 @@ RlFunctions >> rlSetCullFaceMode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetFramebufferHeight: height [
 	"Set current framebuffer height
 	height - int"
@@ -5786,7 +7451,10 @@ RlFunctions >> rlSetFramebufferHeight: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetFramebufferWidth: width [
 	"Set current framebuffer width
 	width - int"
@@ -5795,7 +7463,10 @@ RlFunctions >> rlSetFramebufferWidth: width [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetLineWidth: width [
 	"Set the line drawing width
 	width - float"
@@ -5804,7 +7475,10 @@ RlFunctions >> rlSetLineWidth: width [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetMatrixModelview: view [
 	"Set a custom modelview matrix (replaces internal modelview matrix)
 	view - Matrix"
@@ -5813,7 +7487,10 @@ RlFunctions >> rlSetMatrixModelview: view [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetMatrixProjectionProj: proj [
 	"Set a custom projection matrix (replaces internal projection matrix)
 	proj - Matrix"
@@ -5822,7 +7499,10 @@ RlFunctions >> rlSetMatrixProjectionProj: proj [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetMatrixProjectionStereoRight: right left: left [
 	"Set eyes projection matrices for stereo rendering
 	right - Matrix
@@ -5832,7 +7512,10 @@ RlFunctions >> rlSetMatrixProjectionStereoRight: right left: left [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetMatrixViewOffsetStereoRight: right left: left [
 	"Set eyes view offsets matrices for stereo rendering
 	right - Matrix
@@ -5842,7 +7525,10 @@ RlFunctions >> rlSetMatrixViewOffsetStereoRight: right left: left [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetRenderBatchActiveBatch: batch [
 	"Set the active render batch for rlgl (NULL for default internal)
 	batch - rlRenderBatch *"
@@ -5851,7 +7537,10 @@ RlFunctions >> rlSetRenderBatchActiveBatch: batch [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetShaderId: id locs: locs [
 	"Set shader currently active (id and locations)
 	id - unsigned int
@@ -5861,7 +7550,10 @@ RlFunctions >> rlSetShaderId: id locs: locs [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetTextureId: id [
 	"Set current texture for render batch and check buffers limits
 	id - unsigned int"
@@ -5870,7 +7562,10 @@ RlFunctions >> rlSetTextureId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetUniformLocIndex: locIndex value: value uniformType: uniformType count: count [
 	"Set shader value uniform
 	locIndex - int
@@ -5882,7 +7577,10 @@ RlFunctions >> rlSetUniformLocIndex: locIndex value: value uniformType: uniformT
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetUniformMatricesLocIndex: locIndex mat: mat count: count [
 	"Set shader value matrices
 	locIndex - int
@@ -5893,7 +7591,10 @@ RlFunctions >> rlSetUniformMatricesLocIndex: locIndex mat: mat count: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetUniformMatrixLocIndex: locIndex mat: mat [
 	"Set shader value matrix
 	locIndex - int
@@ -5903,7 +7604,10 @@ RlFunctions >> rlSetUniformMatrixLocIndex: locIndex mat: mat [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetUniformSamplerLocIndex: locIndex textureId: textureId [
 	"Set shader value sampler
 	locIndex - int
@@ -5913,7 +7617,10 @@ RlFunctions >> rlSetUniformSamplerLocIndex: locIndex textureId: textureId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetVertexAttributeDefaultLocIndex: locIndex value: value attribType: attribType count: count [
 	"Set vertex attribute default value, when attribute to provided
 	locIndex - int
@@ -5925,7 +7632,10 @@ RlFunctions >> rlSetVertexAttributeDefaultLocIndex: locIndex value: value attrib
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetVertexAttributeDivisorIndex: index divisor: divisor [
 	"Set vertex attribute data divisor
 	index - unsigned int
@@ -5935,7 +7645,10 @@ RlFunctions >> rlSetVertexAttributeDivisorIndex: index divisor: divisor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlSetVertexAttributeIndex: index compSize: compSize type: type normalized: normalized stride: stride offset: offset [
 	"Set vertex attribute data configuration
 	index - unsigned int
@@ -5949,7 +7662,10 @@ RlFunctions >> rlSetVertexAttributeIndex: index compSize: compSize type: type no
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlTexCoord2fX: x y: y [
 	"Define one vertex (texture coordinate) - 2 float
 	x - float
@@ -5959,7 +7675,10 @@ RlFunctions >> rlTexCoord2fX: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlTextureParametersId: id param: param value: value [
 	"Set texture parameters (filter, wrap)
 	id - unsigned int
@@ -5970,7 +7689,10 @@ RlFunctions >> rlTextureParametersId: id param: param value: value [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlTranslatefX: x y: y z: z [
 	"Multiply the current matrix by a translation matrix
 	x - float
@@ -5981,7 +7703,10 @@ RlFunctions >> rlTranslatefX: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadFramebufferId: id [
 	"Delete framebuffer from GPU
 	id - unsigned int"
@@ -5990,7 +7715,10 @@ RlFunctions >> rlUnloadFramebufferId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadRenderBatch: batch [
 	"Unload render batch system
 	batch - rlRenderBatch"
@@ -5999,7 +7727,10 @@ RlFunctions >> rlUnloadRenderBatch: batch [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadShaderBufferSsboId: ssboId [
 	"Unload shader storage buffer object (SSBO)
 	ssboId - unsigned int"
@@ -6008,7 +7739,10 @@ RlFunctions >> rlUnloadShaderBufferSsboId: ssboId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadShaderProgramId: id [
 	"Unload shader program
 	id - unsigned int"
@@ -6017,7 +7751,10 @@ RlFunctions >> rlUnloadShaderProgramId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadTextureId: id [
 	"Unload texture from GPU memory
 	id - unsigned int"
@@ -6026,7 +7763,10 @@ RlFunctions >> rlUnloadTextureId: id [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadVertexArrayVaoId: vaoId [
 	"Unload vertex array (vao)
 	vaoId - unsigned int"
@@ -6035,7 +7775,10 @@ RlFunctions >> rlUnloadVertexArrayVaoId: vaoId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUnloadVertexBufferVboId: vboId [
 	"Unload vertex buffer object
 	vboId - unsigned int"
@@ -6044,7 +7787,10 @@ RlFunctions >> rlUnloadVertexBufferVboId: vboId [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUpdateShaderBufferId: id data: data dataSize: dataSize offset: offset [
 	"Update SSBO buffer data
 	id - unsigned int
@@ -6056,7 +7802,10 @@ RlFunctions >> rlUpdateShaderBufferId: id data: data dataSize: dataSize offset: 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUpdateTextureId: id offsetX: offsetX offsetY: offsetY width: width height: height format: format data: data [
 	"Update texture with new data on GPU
 	id - unsigned int
@@ -6071,7 +7820,10 @@ RlFunctions >> rlUpdateTextureId: id offsetX: offsetX offsetY: offsetY width: wi
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUpdateVertexBufferBufferId: bufferId data: data dataSize: dataSize offset: offset [
 	"Update vertex buffer object data on GPU buffer
 	bufferId - unsigned int
@@ -6083,7 +7835,10 @@ RlFunctions >> rlUpdateVertexBufferBufferId: bufferId data: data dataSize: dataS
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlUpdateVertexBufferElementsId: id data: data dataSize: dataSize offset: offset [
 	"Update vertex buffer elements data on GPU buffer
 	id - unsigned int
@@ -6095,7 +7850,10 @@ RlFunctions >> rlUpdateVertexBufferElementsId: id data: data dataSize: dataSize 
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlVertex2fX: x y: y [
 	"Define one vertex (position) - 2 float
 	x - float
@@ -6105,7 +7863,10 @@ RlFunctions >> rlVertex2fX: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlVertex2iX: x y: y [
 	"Define one vertex (position) - 2 int
 	x - int
@@ -6115,7 +7876,10 @@ RlFunctions >> rlVertex2iX: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlVertex3fX: x y: y z: z [
 	"Define one vertex (position) - 3 float
 	x - float
@@ -6126,7 +7890,10 @@ RlFunctions >> rlVertex3fX: x y: y z: z [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlViewportX: x y: y width: width height: height [
 	"Set the viewport area
 	x - int
@@ -6138,7 +7905,10 @@ RlFunctions >> rlViewportX: x y: y width: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlglClose [
 	"De-initialize rlgl (buffers, shaders, textures)
 "
@@ -6147,7 +7917,10 @@ RlFunctions >> rlglClose [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> rlglInitWidth: width height: height [
 	"Initialize rlgl (buffers, shaders, textures, states)
 	width - int
@@ -6157,7 +7930,10 @@ RlFunctions >> rlglInitWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> saveFileDataFileName: fileName data: data dataSize: dataSize [
 	"Save data to file from byte array (write), returns true on success
 	fileName - const char *
@@ -6168,7 +7944,10 @@ RlFunctions >> saveFileDataFileName: fileName data: data dataSize: dataSize [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> saveFileTextFileName: fileName text: text [
 	"Save text data to file (write), string must be '\0' terminated, returns true on success
 	fileName - const char *
@@ -6178,7 +7957,10 @@ RlFunctions >> saveFileTextFileName: fileName text: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setAutomationEventBaseFrame: frame [
 	"Set automation event internal base frame to start recording
 	frame - int"
@@ -6187,7 +7969,10 @@ RlFunctions >> setAutomationEventBaseFrame: frame [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setAutomationEventList: list [
 	"Set automation event list to record to
 	list - AutomationEventList *"
@@ -6196,7 +7981,10 @@ RlFunctions >> setAutomationEventList: list [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setClipboardText: text [
 	"Set clipboard text content
 	text - const char *"
@@ -6205,7 +7993,10 @@ RlFunctions >> setClipboardText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setConfigFlags: flags [
 	"Setup init configuration flags (view FLAGS)
 	flags - unsigned int"
@@ -6214,7 +8005,10 @@ RlFunctions >> setConfigFlags: flags [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setExitKey: key [
 	"Set a custom key to exit program (default is ESC)
 	key - int"
@@ -6223,7 +8017,10 @@ RlFunctions >> setExitKey: key [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setGamepadMappings: mappings [
 	"Set internal gamepad mappings (SDL_GameControllerDB)
 	mappings - const char *"
@@ -6232,7 +8029,10 @@ RlFunctions >> setGamepadMappings: mappings [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setGamepadVibrationGamepad: gamepad leftMotor: leftMotor rightMotor: rightMotor duration: duration [
 	"Set gamepad vibration for both motors (duration in seconds)
 	gamepad - int
@@ -6244,7 +8044,10 @@ RlFunctions >> setGamepadVibrationGamepad: gamepad leftMotor: leftMotor rightMot
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setGesturesEnabledFlags: flags [
 	"Enable a set of gestures using flags
 	flags - unsigned int"
@@ -6253,7 +8056,10 @@ RlFunctions >> setGesturesEnabledFlags: flags [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setLoadFileDataCallback: callback [
 	"Set custom file binary data loader
 	callback - LoadFileDataCallback"
@@ -6262,7 +8068,10 @@ RlFunctions >> setLoadFileDataCallback: callback [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setLoadFileTextCallback: callback [
 	"Set custom file text data loader
 	callback - LoadFileTextCallback"
@@ -6271,7 +8080,10 @@ RlFunctions >> setLoadFileTextCallback: callback [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMasterVolume: volume [
 	"Set master volume (listener)
 	volume - float"
@@ -6280,7 +8092,10 @@ RlFunctions >> setMasterVolume: volume [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMaterialTextureMaterial: material mapType: mapType texture: texture [
 	"Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
 	material - Material *
@@ -6291,7 +8106,10 @@ RlFunctions >> setMaterialTextureMaterial: material mapType: mapType texture: te
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setModelMeshMaterialModel: model meshId: meshId materialId: materialId [
 	"Set material for a mesh
 	model - Model *
@@ -6302,7 +8120,10 @@ RlFunctions >> setModelMeshMaterialModel: model meshId: meshId materialId: mater
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMouseCursor: cursor [
 	"Set mouse cursor
 	cursor - int"
@@ -6311,7 +8132,10 @@ RlFunctions >> setMouseCursor: cursor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMouseOffsetOffsetX: offsetX offsetY: offsetY [
 	"Set mouse offset
 	offsetX - int
@@ -6321,7 +8145,10 @@ RlFunctions >> setMouseOffsetOffsetX: offsetX offsetY: offsetY [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMousePositionX: x y: y [
 	"Set mouse position XY
 	x - int
@@ -6331,7 +8158,10 @@ RlFunctions >> setMousePositionX: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setMouseScaleScaleX: scaleX scaleY: scaleY [
 	"Set mouse scaling
 	scaleX - float
@@ -6341,7 +8171,10 @@ RlFunctions >> setMouseScaleScaleX: scaleX scaleY: scaleY [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setPixelColorDstPtr: dstPtr color: color format: format [
 	"Set color formatted into destination pixel pointer
 	dstPtr - void *
@@ -6352,7 +8185,10 @@ RlFunctions >> setPixelColorDstPtr: dstPtr color: color format: format [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setRandomSeed: seed [
 	"Set the seed for the random number generator
 	seed - unsigned int"
@@ -6361,7 +8197,10 @@ RlFunctions >> setRandomSeed: seed [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setSaveFileDataCallback: callback [
 	"Set custom file binary data saver
 	callback - SaveFileDataCallback"
@@ -6370,7 +8209,10 @@ RlFunctions >> setSaveFileDataCallback: callback [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setSaveFileTextCallback: callback [
 	"Set custom file text data saver
 	callback - SaveFileTextCallback"
@@ -6379,7 +8221,10 @@ RlFunctions >> setSaveFileTextCallback: callback [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setShaderValueMatrixShader: shader locIndex: locIndex mat: mat [
 	"Set shader uniform value (matrix 4x4)
 	shader - Shader
@@ -6390,7 +8235,10 @@ RlFunctions >> setShaderValueMatrixShader: shader locIndex: locIndex mat: mat [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setShaderValueShader: shader locIndex: locIndex value: value uniformType: uniformType [
 	"Set shader uniform value
 	shader - Shader
@@ -6402,7 +8250,10 @@ RlFunctions >> setShaderValueShader: shader locIndex: locIndex value: value unif
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setShaderValueTextureShader: shader locIndex: locIndex texture: texture [
 	"Set shader uniform value and bind the texture (sampler2d)
 	shader - Shader
@@ -6413,7 +8264,10 @@ RlFunctions >> setShaderValueTextureShader: shader locIndex: locIndex texture: t
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setShaderValueVShader: shader locIndex: locIndex value: value uniformType: uniformType count: count [
 	"Set shader uniform value vector
 	shader - Shader
@@ -6426,7 +8280,10 @@ RlFunctions >> setShaderValueVShader: shader locIndex: locIndex value: value uni
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setShapesTexture: texture source: source [
 	"Set texture and rectangle to be used on shapes drawing
 	texture - Texture2D
@@ -6436,7 +8293,10 @@ RlFunctions >> setShapesTexture: texture source: source [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTargetFPS: fps [
 	"Set target FPS (maximum)
 	fps - int"
@@ -6445,7 +8305,10 @@ RlFunctions >> setTargetFPS: fps [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTextLineSpacing: spacing [
 	"Set vertical line spacing when drawing with line-breaks
 	spacing - int"
@@ -6454,7 +8317,10 @@ RlFunctions >> setTextLineSpacing: spacing [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTextureFilterTexture: texture filter: filter [
 	"Set texture scaling filter mode
 	texture - Texture2D
@@ -6464,7 +8330,10 @@ RlFunctions >> setTextureFilterTexture: texture filter: filter [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTextureWrapTexture: texture wrap: wrap [
 	"Set texture wrapping mode
 	texture - Texture2D
@@ -6474,7 +8343,10 @@ RlFunctions >> setTextureWrapTexture: texture wrap: wrap [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTraceLogCallback: callback [
 	"Set custom trace log
 	callback - TraceLogCallback"
@@ -6483,7 +8355,10 @@ RlFunctions >> setTraceLogCallback: callback [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setTraceLogLevel: logLevel [
 	"Set the current threshold (minimum) log level
 	logLevel - int"
@@ -6492,7 +8367,10 @@ RlFunctions >> setTraceLogLevel: logLevel [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowFocused [
 	"Set window focused
 "
@@ -6501,7 +8379,10 @@ RlFunctions >> setWindowFocused [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowIconImage: image [
 	"Set icon for window (single image, RGBA 32bit)
 	image - Image"
@@ -6510,7 +8391,10 @@ RlFunctions >> setWindowIconImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowIconsImages: images count: count [
 	"Set icon for window (multiple images, RGBA 32bit)
 	images - Image *
@@ -6520,7 +8404,10 @@ RlFunctions >> setWindowIconsImages: images count: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowMaxSizeWidth: width height: height [
 	"Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE)
 	width - int
@@ -6530,7 +8417,10 @@ RlFunctions >> setWindowMaxSizeWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowMinSizeWidth: width height: height [
 	"Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
 	width - int
@@ -6540,7 +8430,10 @@ RlFunctions >> setWindowMinSizeWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowMonitor: monitor [
 	"Set monitor for the current window
 	monitor - int"
@@ -6549,7 +8442,10 @@ RlFunctions >> setWindowMonitor: monitor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowOpacity: opacity [
 	"Set window opacity [0.0f..1.0f]
 	opacity - float"
@@ -6558,7 +8454,10 @@ RlFunctions >> setWindowOpacity: opacity [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowPositionX: x y: y [
 	"Set window position on screen
 	x - int
@@ -6568,7 +8467,10 @@ RlFunctions >> setWindowPositionX: x y: y [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowSizeWidth: width height: height [
 	"Set window dimensions
 	width - int
@@ -6578,7 +8480,10 @@ RlFunctions >> setWindowSizeWidth: width height: height [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowStateFlags: flags [
 	"Set window configuration state using flags
 	flags - unsigned int"
@@ -6587,7 +8492,10 @@ RlFunctions >> setWindowStateFlags: flags [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> setWindowTitle: title [
 	"Set title for window
 	title - const char *"
@@ -6596,7 +8504,10 @@ RlFunctions >> setWindowTitle: title [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> showCursor [
 	"Shows cursor
 "
@@ -6605,7 +8516,10 @@ RlFunctions >> showCursor [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> startAutomationEventRecording [
 	"Start recording automation events (AutomationEventList must be set)
 "
@@ -6614,7 +8528,10 @@ RlFunctions >> startAutomationEventRecording [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> stopAutomationEventRecording [
 	"Stop recording automation events
 "
@@ -6623,7 +8540,10 @@ RlFunctions >> stopAutomationEventRecording [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> swapScreenBuffer [
 	"Swap back buffer with front buffer (screen drawing)
 "
@@ -6632,7 +8552,10 @@ RlFunctions >> swapScreenBuffer [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> takeScreenshotFileName: fileName [
 	"Takes a screenshot of current screen (filename extension defines format)
 	fileName - const char *"
@@ -6641,7 +8564,10 @@ RlFunctions >> takeScreenshotFileName: fileName [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textAppendText: text append: append position: position [
 	"Append text at specific position and move cursor!
 	text - char *
@@ -6652,7 +8578,10 @@ RlFunctions >> textAppendText: text append: append position: position [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textCopyDst: dst src: src [
 	"Copy one string to another, returns bytes copied
 	dst - char *
@@ -6662,7 +8591,10 @@ RlFunctions >> textCopyDst: dst src: src [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textFindIndexText: text find: find [
 	"Find first text occurrence within a string
 	text - const char *
@@ -6672,7 +8604,10 @@ RlFunctions >> textFindIndexText: text find: find [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textInsertText: text insert: insert position: position [
 	"Insert text in a position (WARNING: memory must be freed!)
 	text - const char *
@@ -6683,7 +8618,10 @@ RlFunctions >> textInsertText: text insert: insert position: position [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textIsEqualText1: text1 text2: text2 [
 	"Check if two text string are equal
 	text1 - const char *
@@ -6693,7 +8631,10 @@ RlFunctions >> textIsEqualText1: text1 text2: text2 [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textJoinTextList: textList count: count delimiter: delimiter [
 	"Join text strings with delimiter
 	textList - char **
@@ -6704,7 +8645,10 @@ RlFunctions >> textJoinTextList: textList count: count delimiter: delimiter [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textLengthText: text [
 	"Get text length, checks for '\0' ending
 	text - const char *"
@@ -6713,7 +8657,10 @@ RlFunctions >> textLengthText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textReplaceText: text replace: replace by: by [
 	"Replace text string (WARNING: memory must be freed!)
 	text - const char *
@@ -6724,7 +8671,10 @@ RlFunctions >> textReplaceText: text replace: replace by: by [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textSplitText: text delimiter: delimiter count: count [
 	"Split text into multiple strings
 	text - const char *
@@ -6735,7 +8685,10 @@ RlFunctions >> textSplitText: text delimiter: delimiter count: count [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textSubtext: text position: position length: length [
 	"Get a piece of a text string
 	text - const char *
@@ -6746,7 +8699,10 @@ RlFunctions >> textSubtext: text position: position length: length [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToCamelText: text [
 	"Get Camel case notation version of provided string
 	text - const char *"
@@ -6755,7 +8711,10 @@ RlFunctions >> textToCamelText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToFloatText: text [
 	"Get float value from text
 	text - const char *"
@@ -6764,7 +8723,10 @@ RlFunctions >> textToFloatText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToIntegerText: text [
 	"Get integer value from text
 	text - const char *"
@@ -6773,7 +8735,10 @@ RlFunctions >> textToIntegerText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToLowerText: text [
 	"Get lower case version of provided string
 	text - const char *"
@@ -6782,7 +8747,10 @@ RlFunctions >> textToLowerText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToPascalText: text [
 	"Get Pascal case notation version of provided string
 	text - const char *"
@@ -6791,7 +8759,10 @@ RlFunctions >> textToPascalText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToSnakeText: text [
 	"Get Snake case notation version of provided string
 	text - const char *"
@@ -6800,7 +8771,10 @@ RlFunctions >> textToSnakeText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> textToUpperText: text [
 	"Get upper case version of provided string
 	text - const char *"
@@ -6809,7 +8783,10 @@ RlFunctions >> textToUpperText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> toggleBorderlessWindowed [
 	"Toggle window state: borderless windowed, resizes window to match monitor resolution
 "
@@ -6818,7 +8795,10 @@ RlFunctions >> toggleBorderlessWindowed [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> toggleFullscreen [
 	"Toggle window state: fullscreen/windowed, resizes monitor to match window resolution
 "
@@ -6827,7 +8807,10 @@ RlFunctions >> toggleFullscreen [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadAutomationEventList: list [
 	"Unload automation events list from file
 	list - AutomationEventList"
@@ -6836,7 +8819,10 @@ RlFunctions >> unloadAutomationEventList: list [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadCodepoints: codepoints [
 	"Unload codepoints data from memory
 	codepoints - int *"
@@ -6845,7 +8831,10 @@ RlFunctions >> unloadCodepoints: codepoints [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadDirectoryFiles: files [
 	"Unload filepaths
 	files - FilePathList"
@@ -6854,7 +8843,10 @@ RlFunctions >> unloadDirectoryFiles: files [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadDroppedFiles: files [
 	"Unload dropped filepaths
 	files - FilePathList"
@@ -6863,7 +8855,10 @@ RlFunctions >> unloadDroppedFiles: files [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadFileData: data [
 	"Unload file data allocated by LoadFileData()
 	data - unsigned char *"
@@ -6872,7 +8867,10 @@ RlFunctions >> unloadFileData: data [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadFileText: text [
 	"Unload file text data allocated by LoadFileText()
 	text - char *"
@@ -6881,7 +8879,10 @@ RlFunctions >> unloadFileText: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadFont: font [
 	"Unload font from GPU memory (VRAM)
 	font - Font"
@@ -6890,7 +8891,10 @@ RlFunctions >> unloadFont: font [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadFontDataGlyphs: glyphs glyphCount: glyphCount [
 	"Unload font chars info data (RAM)
 	glyphs - GlyphInfo *
@@ -6900,7 +8904,10 @@ RlFunctions >> unloadFontDataGlyphs: glyphs glyphCount: glyphCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadImage: image [
 	"Unload image from CPU memory (RAM)
 	image - Image"
@@ -6909,7 +8916,10 @@ RlFunctions >> unloadImage: image [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadImageColors: colors [
 	"Unload color data loaded with LoadImageColors()
 	colors - Color *"
@@ -6918,7 +8928,10 @@ RlFunctions >> unloadImageColors: colors [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadImagePaletteColors: colors [
 	"Unload colors palette loaded with LoadImagePalette()
 	colors - Color *"
@@ -6927,7 +8940,10 @@ RlFunctions >> unloadImagePaletteColors: colors [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadMaterial: material [
 	"Unload material from GPU memory (VRAM)
 	material - Material"
@@ -6936,7 +8952,10 @@ RlFunctions >> unloadMaterial: material [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadMesh: mesh [
 	"Unload mesh data from CPU and GPU
 	mesh - Mesh"
@@ -6945,7 +8964,10 @@ RlFunctions >> unloadMesh: mesh [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadModel: model [
 	"Unload model (including meshes) from memory (RAM and/or VRAM)
 	model - Model"
@@ -6954,7 +8976,10 @@ RlFunctions >> unloadModel: model [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadModelAnimationAnim: anim [
 	"Unload animation data
 	anim - ModelAnimation"
@@ -6963,7 +8988,10 @@ RlFunctions >> unloadModelAnimationAnim: anim [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadModelAnimations: animations animCount: animCount [
 	"Unload animation array data
 	animations - ModelAnimation *
@@ -6973,7 +9001,10 @@ RlFunctions >> unloadModelAnimations: animations animCount: animCount [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadRandomSequence: sequence [
 	"Unload random values sequence
 	sequence - int *"
@@ -6982,7 +9013,10 @@ RlFunctions >> unloadRandomSequence: sequence [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadRenderTextureTarget: target [
 	"Unload render texture from GPU memory (VRAM)
 	target - RenderTexture2D"
@@ -6991,7 +9025,10 @@ RlFunctions >> unloadRenderTextureTarget: target [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadShader: shader [
 	"Unload shader from GPU memory (VRAM)
 	shader - Shader"
@@ -7000,7 +9037,10 @@ RlFunctions >> unloadShader: shader [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadTexture: texture [
 	"Unload texture from GPU memory (VRAM)
 	texture - Texture2D"
@@ -7009,7 +9049,10 @@ RlFunctions >> unloadTexture: texture [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadUTF8Text: text [
 	"Unload UTF-8 text encoded from codepoints array
 	text - char *"
@@ -7018,7 +9061,10 @@ RlFunctions >> unloadUTF8Text: text [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadVrStereoConfig: config [
 	"Unload VR stereo config
 	config - VrStereoConfig"
@@ -7027,7 +9073,10 @@ RlFunctions >> unloadVrStereoConfig: config [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadWave: wave [
 	"Unload wave data
 	wave - Wave"
@@ -7036,7 +9085,10 @@ RlFunctions >> unloadWave: wave [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> unloadWaveSamples: samples [
 	"Unload samples data loaded with LoadWaveSamples()
 	samples - float *"
@@ -7045,7 +9097,10 @@ RlFunctions >> unloadWaveSamples: samples [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateCamera: camera mode: mode [
 	"Update camera position for selected mode
 	camera - Camera *
@@ -7055,7 +9110,10 @@ RlFunctions >> updateCamera: camera mode: mode [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateCameraProCamera: camera movement: movement rotation: rotation zoom: zoom [
 	"Update camera movement/rotation
 	camera - Camera *
@@ -7067,7 +9125,10 @@ RlFunctions >> updateCameraProCamera: camera movement: movement rotation: rotati
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateMeshBufferMesh: mesh index: index data: data dataSize: dataSize offset: offset [
 	"Update mesh vertex data in GPU for a specific buffer index
 	mesh - Mesh
@@ -7080,7 +9141,10 @@ RlFunctions >> updateMeshBufferMesh: mesh index: index data: data dataSize: data
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateModelAnimationBonesModel: model anim: anim frame: frame [
 	"Update model animation mesh bone matrices (GPU skinning)
 	model - Model
@@ -7091,7 +9155,10 @@ RlFunctions >> updateModelAnimationBonesModel: model anim: anim frame: frame [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateModelAnimationModel: model anim: anim frame: frame [
 	"Update model animation pose (CPU)
 	model - Model
@@ -7102,7 +9169,10 @@ RlFunctions >> updateModelAnimationModel: model anim: anim frame: frame [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateTexture: texture pixels: pixels [
 	"Update GPU texture with new data
 	texture - Texture2D
@@ -7112,7 +9182,10 @@ RlFunctions >> updateTexture: texture pixels: pixels [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> updateTextureRecTexture: texture rec: rec pixels: pixels [
 	"Update GPU texture rectangle with new data
 	texture - Texture2D
@@ -7123,7 +9196,10 @@ RlFunctions >> updateTextureRecTexture: texture rec: rec pixels: pixels [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> uploadMesh: mesh dynamic: dynamic [
 	"Upload mesh vertex data in GPU and provide VAO/VBO ids
 	mesh - Mesh *
@@ -7133,7 +9209,10 @@ RlFunctions >> uploadMesh: mesh dynamic: dynamic [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> waitTimeSeconds: seconds [
 	"Wait for some time (halt program execution)
 	seconds - double"
@@ -7142,7 +9221,10 @@ RlFunctions >> waitTimeSeconds: seconds [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> waveCopyWave: wave [
 	"Copy a wave to a new wave
 	wave - Wave"
@@ -7151,7 +9233,10 @@ RlFunctions >> waveCopyWave: wave [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> waveCropWave: wave initFrame: initFrame finalFrame: finalFrame [
 	"Crop a wave to defined frames range
 	wave - Wave *
@@ -7162,7 +9247,10 @@ RlFunctions >> waveCropWave: wave initFrame: initFrame finalFrame: finalFrame [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> waveFormatWave: wave sampleRate: sampleRate sampleSize: sampleSize channels: channels [
 	"Convert wave data to desired format
 	wave - Wave *
@@ -7174,7 +9262,10 @@ RlFunctions >> waveFormatWave: wave sampleRate: sampleRate sampleSize: sampleSiz
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFunctions >> windowShouldClose [
 	"Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)
 "

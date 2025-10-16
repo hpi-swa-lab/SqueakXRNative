@@ -82,6 +82,33 @@ SRRenderer >> cacheAt: aSymbol ifAbsentPut: aBlock [
 	^ self cache at: aSymbol ifAbsentPut: aBlock
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/9/2025 17:43'
+}
+SRRenderer >> cameraPosition [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/9/2025 17:43'
+}
+SRRenderer >> cameraTarget [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/9/2025 17:43'
+}
+SRRenderer >> cameraUp [
+
+	self subclassResponsibility
+]
+
 { #category : #cache }
 SRRenderer >> clearCache [
 

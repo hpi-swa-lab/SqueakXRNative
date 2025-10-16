@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlDrawCall class >> fields [
 	<generated>
 	^ #(#(#mode 'int32_t') #(#vertexCount 'int32_t') #(#vertexAlignment 'int32_t') #(#textureId 'uint32_t'))

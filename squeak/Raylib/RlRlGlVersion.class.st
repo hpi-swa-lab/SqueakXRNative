@@ -9,42 +9,60 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpengl11 [
 	"OpenGL 1.1"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpengl21 [
 	"OpenGL 2.1 (GLSL 120)"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpengl33 [
 	"OpenGL 3.3 (GLSL 330)"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpengl43 [
 	"OpenGL 4.3 (using GLSL 330)"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpenglEs20 [
 	"OpenGL ES 2.0 (GLSL 100)"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlGlVersion class >> rlOpenglEs30 [
 	"OpenGL ES 3.0 (GLSL 300 es)"
 	<generated>

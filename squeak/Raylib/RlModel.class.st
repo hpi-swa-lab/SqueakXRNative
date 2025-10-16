@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlModel class >> fields [
 	<generated>
 	^ #(#(#transform 'RlMatrix') #(#meshCount 'int32_t') #(#materialCount 'int32_t') #(#meshes 'RlMesh*') #(#materials 'RlMaterial*') #(#meshMaterial 'int32_t*') #(#boneCount 'int32_t') #(#bones 'RlBoneInfo*') #(#bindPose 'RlTransform*'))

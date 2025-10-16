@@ -80,13 +80,19 @@ SRObject >> allDo: aBlock [
 	self childrenDo: [:child | child allDo: aBlock].
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:18'
+}
 SRObject >> badRender [
 
 	^ badRender
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:18'
+}
 SRObject >> badRender: aBoolean [
 
 	badRender := aBoolean
@@ -140,13 +146,19 @@ SRObject >> collisionGeometry [
 	^ nil
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:22'
+}
 SRObject >> continueRendering [
 
 	self badRender: false
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:17'
+}
 SRObject >> continueStepping [
 
 	self badStep: false
@@ -175,7 +187,10 @@ SRObject >> globalRotation [
 	^ self globalTransform rotationQuaternion
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:09'
+}
 SRObject >> globalRotation: aQuaternion [
 
 	self globalTransform setFromQuaternion: aQuaternion.
@@ -189,7 +204,10 @@ SRObject >> globalScale [
 	^ self globalTransform scale
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+}
 SRObject >> globalScale: aVector3 [
 
 	self globalTransform setScale: aVector3.
@@ -203,7 +221,10 @@ SRObject >> globalTransform [
 	^ globalTransform
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+}
 SRObject >> globalTransform: aMatrix4x4 [
 
 	globalTransform := aMatrix4x4.
@@ -224,7 +245,10 @@ SRObject >> globalTranslation [
 	^ self globalTransform translation
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+}
 SRObject >> globalTranslation: aVector3 [
 
 	self globalTransform translation: aVector3.
@@ -251,7 +275,10 @@ SRObject >> hasParent [
 	^ parent notNil
 ]
 
-{ #category : #initialization }
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+}
 SRObject >> initialize [
 
 	children := OrderedCollection new.
@@ -269,7 +296,10 @@ SRObject >> initialize [
 	self transformDirtyFlag: #localTransform.
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+}
 SRObject >> isRendering [
 
 	^ isRendering and: [badRender not]
@@ -317,7 +347,10 @@ SRObject >> localRotation [
 	^ localRotation
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+}
 SRObject >> localRotation: aQuaternion [
 
 	localRotation := aQuaternion.
@@ -331,7 +364,10 @@ SRObject >> localScale [
 	^ localScale
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+}
 SRObject >> localScale: aVector3 [
 
 	localScale := aVector3.
@@ -345,7 +381,10 @@ SRObject >> localTransform [
 	^ localTransform
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:11'
+}
 SRObject >> localTransform: aMatrix4x4 [
 
 	localTransform := aMatrix4x4.
@@ -366,7 +405,10 @@ SRObject >> localTranslation [
 	^ localTranslation
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:11'
+}
 SRObject >> localTranslation: aVector3 [
 
 	localTranslation := aVector3.
@@ -539,7 +581,10 @@ SRObject >> transformDirtyFlag [
 	^ transformDirtyFlag
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'lege 10/8/2025 17:09'
+}
 SRObject >> transformDirtyFlag: flag [
 
 	transformDirtyFlag := flag

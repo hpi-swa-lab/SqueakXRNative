@@ -28,7 +28,10 @@ SRCollisionPlane class >> point: aVector3 normal: anotherVector3 extent: aPoint 
 		extent: aPoint
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/7/2025 15:35'
+}
 SRCollisionPlane class >> point: point normal: normal up: up width: width height: height [
 
 	self assert: ((normal dot: up) closeTo: 0)

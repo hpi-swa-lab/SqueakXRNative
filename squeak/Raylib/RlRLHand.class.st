@@ -7,7 +7,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRLHand class >> fields [
 	<generated>
 	^ #(#(#valid 'bool') #(#position 'RlVector3') #(#orientation 'RlVector4') #(#handedness 'int') #(#'hand_pose_action' 'XrAction') #(#'hand_pose_subpath' 'XrPath') #(#'hand_pose_space' 'XrSpace'))

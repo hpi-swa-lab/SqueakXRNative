@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlNPatchInfo class >> fields [
 	<generated>
 	^ #(#(#source 'RlRectangle') #(#left 'int32_t') #(#top 'int32_t') #(#right 'int32_t') #(#bottom 'int32_t') #(#layout 'int32_t'))

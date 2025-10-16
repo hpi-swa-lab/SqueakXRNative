@@ -58,7 +58,10 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 	lastClickPosition := clickPoint asPoint.
 ]
 
-{ #category : #initialization }
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'lege 10/7/2025 15:57'
+}
 SRMorphPanel >> initialize [
 
 	super initialize.

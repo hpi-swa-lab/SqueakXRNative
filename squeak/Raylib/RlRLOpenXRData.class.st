@@ -7,7 +7,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRLOpenXRData class >> fields [
 	<generated>
 	^ #(#(#instance 'XrInstance') #(#'system_id' 'XrSystemId') #(#session 'XrSession') #(#'session_state' 'XrSessionState') #(#'play_space' 'XrSpace') #(#'view_space' 'XrSpace') #(#'view_type' 'XrViewConfigurationType') #(#'form_factor' 'XrFormFactor') #(#'play_space_type' 'XrReferenceSpaceType'))

@@ -26,7 +26,10 @@ SRSceneTreeInspector >> build [
 	builder open: window.
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:21'
+}
 SRSceneTreeInspector >> buildButtonPanel: aBuilder [
 
 	| continueSteppingButton continueRenderingButton spacer |
@@ -48,7 +51,10 @@ SRSceneTreeInspector >> buildButtonPanel: aBuilder [
 		children: {continueSteppingButton. spacer. continueRenderingButton}
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:24'
+}
 SRSceneTreeInspector >> buildCodePaneWith: aBuilder [
 
 	| treeSpec |
@@ -63,7 +69,10 @@ SRSceneTreeInspector >> buildCodePaneWith: aBuilder [
 	^ treeSpec
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:21'
+}
 SRSceneTreeInspector >> buildListSpecWith: aBuilder [
 
 	| listSpec |
@@ -74,7 +83,10 @@ SRSceneTreeInspector >> buildListSpecWith: aBuilder [
 	^ listSpec
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:21'
+}
 SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 
 	| treeSpec |
@@ -92,7 +104,10 @@ SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 	^ treeSpec
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 10/6/2025 13:36'
+}
 SRSceneTreeInspector >> buildWith: aBuilder [
 
 	^ self buildWindowWith: aBuilder specs: {
@@ -108,19 +123,28 @@ SRSceneTreeInspector >> childrenOf: aSRObject [
 	^ aSRObject children
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:24'
+}
 SRSceneTreeInspector >> codePaneMenu: aMenu shifted: shifted [
 	^ StringHolder codePaneMenu: aMenu shifted: shifted
 
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:21'
+}
 SRSceneTreeInspector >> continueRendering [
 
 	self currentSelection ifNotNil: [:object | object continueRendering]
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 10/6/2025 13:19'
+}
 SRSceneTreeInspector >> continueStepping [
 
 	self currentSelection ifNotNil: [:object | object continueStepping]
@@ -157,25 +181,37 @@ SRSceneTreeInspector >> currentSelection: aSRObject [
 		changed: #propertiesOfCurrentSelection
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:42'
+}
 SRSceneTreeInspector >> doItContext [
 
 	^nil
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:42'
+}
 SRSceneTreeInspector >> doItReceiver [
 
 	^ self currentSelection
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:24'
+}
 SRSceneTreeInspector >> expression [
 
 	^ expression
 ]
 
-{ #category : #toolbuilder }
+{
+	#category : #toolbuilder,
+	#'squeak_changestamp' : 'lege 9/29/2025 18:24'
+}
 SRSceneTreeInspector >> expression: aString [
 
 	expression := aString.
@@ -201,7 +237,10 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 	}
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/8/2025 12:34'
+}
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
 	| selection |

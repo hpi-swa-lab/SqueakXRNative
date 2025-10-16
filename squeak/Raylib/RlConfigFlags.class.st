@@ -9,112 +9,160 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagBorderlessWindowedMode [
 	"Set to run program in borderless windowed mode"
 	<generated>
 	^ 32768
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagFullscreenMode [
 	"Set to run program in fullscreen"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagInterlacedHint [
 	"Set to try enabling interlaced video format (for V3D)"
 	<generated>
 	^ 65536
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagMsaa4xHint [
 	"Set to try enabling MSAA 4X"
 	<generated>
 	^ 32
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagVsyncHint [
 	"Set to try enabling V-Sync on GPU"
 	<generated>
 	^ 64
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowAlwaysRun [
 	"Set to allow windows running while minimized"
 	<generated>
 	^ 256
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowHidden [
 	"Set to hide window"
 	<generated>
 	^ 128
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowHighdpi [
 	"Set to support HighDPI"
 	<generated>
 	^ 8192
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowMaximized [
 	"Set to maximize window (expanded to monitor)"
 	<generated>
 	^ 1024
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowMinimized [
 	"Set to minimize window (iconify)"
 	<generated>
 	^ 512
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowMousePassthrough [
 	"Set to support mouse passthrough, only supported when FLAG_WINDOW_UNDECORATED"
 	<generated>
 	^ 16384
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowResizable [
 	"Set to allow resizable window"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowTopmost [
 	"Set to window always on top"
 	<generated>
 	^ 4096
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowTransparent [
 	"Set to allow transparent framebuffer"
 	<generated>
 	^ 16
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowUndecorated [
 	"Set to disable window decoration (frame and buttons)"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlConfigFlags class >> flagWindowUnfocused [
 	"Set to window non focused"
 	<generated>

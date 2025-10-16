@@ -9,91 +9,130 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformFloat [
 	"Shader uniform type: float"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformInt [
 	"Shader uniform type: int"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformIvec2 [
 	"Shader uniform type: ivec2 (2 int)"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformIvec3 [
 	"Shader uniform type: ivec3 (3 int)"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformIvec4 [
 	"Shader uniform type: ivec4 (4 int)"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformSampler2d [
 	"Shader uniform type: sampler2d"
 	<generated>
 	^ 12
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformUint [
 	"Shader uniform type: unsigned int"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformUivec2 [
 	"Shader uniform type: uivec2 (2 unsigned int)"
 	<generated>
 	^ 9
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformUivec3 [
 	"Shader uniform type: uivec3 (3 unsigned int)"
 	<generated>
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformUivec4 [
 	"Shader uniform type: uivec4 (4 unsigned int)"
 	<generated>
 	^ 11
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformVec2 [
 	"Shader uniform type: vec2 (2 float)"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformVec3 [
 	"Shader uniform type: vec3 (3 float)"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderUniformDataType class >> shaderUniformVec4 [
 	"Shader uniform type: vec4 (4 float)"
 	<generated>

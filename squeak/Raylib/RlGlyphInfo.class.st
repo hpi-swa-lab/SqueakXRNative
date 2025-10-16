@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlGlyphInfo class >> fields [
 	<generated>
 	^ #(#(#value 'int32_t') #(#offsetX 'int32_t') #(#offsetY 'int32_t') #(#advanceX 'int32_t') #(#image 'RlImage'))

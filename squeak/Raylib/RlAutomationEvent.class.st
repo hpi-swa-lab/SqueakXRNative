@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlAutomationEvent class >> fields [
 	<generated>
 	^ #(#(#frame 'uint32_t') #(#type 'uint32_t') #(#params 'int32_t[4]'))

@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMesh class >> fields [
 	<generated>
 	^ #(#(#vertexCount 'int32_t') #(#triangleCount 'int32_t') #(#vertices 'float*') #(#texcoords 'float*') #(#texcoords2 'float*') #(#normals 'float*') #(#tangents 'float*') #(#colors 'uchar8_t*') #(#indices 'uint16_t*') #(#animVertices 'float*') #(#animNormals 'float*') #(#boneIds 'uchar8_t*') #(#boneWeights 'float*') #(#boneMatrices 'RlMatrix*') #(#boneCount 'int32_t') #(#vaoId 'uint32_t') #(#vboId 'uint32_t*'))

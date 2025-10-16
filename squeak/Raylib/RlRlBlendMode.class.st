@@ -9,56 +9,80 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendAddColors [
 	"Blend textures adding colors (alternative)"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendAdditive [
 	"Blend textures adding colors"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendAlpha [
 	"Blend textures considering alpha (default)"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendAlphaPremultiply [
 	"Blend premultiplied textures considering alpha"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendCustom [
 	"Blend textures using custom src/dst factors (use rlSetBlendFactors())"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendCustomSeparate [
 	"Blend textures using custom src/dst factors (use rlSetBlendFactorsSeparate())"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendMultiplied [
 	"Blend textures multiplying colors"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlBlendMode class >> rlBlendSubtractColors [
 	"Blend textures subtracting colors (alternative)"
 	<generated>

@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCamera3D class >> fields [
 	<generated>
 	^ #(#(#position 'RlVector3') #(#target 'RlVector3') #(#up 'RlVector3') #(#fovy 'float') #(#projection 'int32_t'))

@@ -337,6 +337,15 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 	^ self renderer cacheAt: aSymbol ifAbsentPut: aBlock
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 10/8/2025 17:48'
+}
+SRWorld >> camera [
+
+	^ self avatar camera
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> completeFrame [
 
@@ -464,7 +473,10 @@ SRWorld >> log: aString [
 	FileStream stdout flush.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/7/2025 15:20'
+}
 SRWorld >> loop [
 
 	[[self isRunning] whileTrue: [
@@ -482,10 +494,17 @@ SRWorld >> pollActions [
 	^ self externalCallFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:22'
+}
 SRWorld >> prepareFrame [
 
 	isFramePrepared := self renderer prepareFrame: self avatar globalTransform.
+	self avatar
+		cameraPosition: self renderer
+		cameraPosition target: self renderer cameraTarget
+		up: self renderer cameraUp.
 ]
 
 { #category : #'as yet unclassified' }
@@ -528,7 +547,10 @@ SRWorld >> resume [
 		worldProcess resume].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/8/2025 17:16'
+}
 SRWorld >> runStartScript [
 
 	self log.

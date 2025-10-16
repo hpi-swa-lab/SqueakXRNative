@@ -9,77 +9,110 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapAlbedo [
 	"Albedo material (same as: MATERIAL_MAP_DIFFUSE)"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapBrdf [
 	"Brdf material"
 	<generated>
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapCubemap [
 	"Cubemap material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapEmission [
 	"Emission material"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapHeight [
 	"Heightmap material"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapIrradiance [
 	"Irradiance material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapMetalness [
 	"Metalness material (same as: MATERIAL_MAP_SPECULAR)"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapNormal [
 	"Normal material"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapOcclusion [
 	"Ambient occlusion material"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapPrefilter [
 	"Prefilter material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
 	<generated>
 	^ 9
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlMaterialMapIndex class >> materialMapRoughness [
 	"Roughness material"
 	<generated>

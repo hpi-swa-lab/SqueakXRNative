@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlVertexBuffer class >> fields [
 	<generated>
 	^ #(#(#elementCount 'int32_t') #(#vertices 'float*') #(#texcoords 'float*') #(#normals 'float*') #(#colors 'uchar8_t*') #(#indices 'uint32_t*') #(#indices 'uint16_t*') #(#vaoId 'uint32_t') #(#vboId 'uint32_t[5]'))

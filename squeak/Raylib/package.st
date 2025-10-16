@@ -1,1 +1,4 @@
-Package { #name : #Raylib }
+Package {
+	#'squeak_changestamp' : true,
+	#name : #Raylib
+}

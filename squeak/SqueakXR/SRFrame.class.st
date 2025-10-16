@@ -20,7 +20,7 @@ SRFrame class >> world: world deltaTime: deltaTime [
 		initializeObjectLists
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #processing }
 SRFrame >> completeFrame [
 
 	self world completeFrame
@@ -38,13 +38,13 @@ SRFrame >> deltaTime: aNumber [
 	deltaTime := aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initializing }
 SRFrame >> initialize [
 
 	self isOld: false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initializing }
 SRFrame >> initializeObjectLists [
 
 	steppedObjects := self world allDescendantsSelect: #isStepping.
@@ -63,13 +63,13 @@ SRFrame >> isOld: aBoolean [
 	isOld := aBoolean
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #processing }
 SRFrame >> prepareFrame [
 
 	self isOld ifFalse: [self world prepareFrame]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #processing }
 SRFrame >> process [
 
 	self updateActions;
@@ -79,7 +79,10 @@ SRFrame >> process [
 		completeFrame
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'lege 10/6/2025 15:19'
+}
 SRFrame >> renderObjects [
 
 	| currentObject |
@@ -93,7 +96,10 @@ SRFrame >> renderObjects [
 			error retry.]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'lege 10/6/2025 14:29'
+}
 SRFrame >> stepObjects [
 
 	
@@ -109,7 +115,7 @@ SRFrame >> stepObjects [
 				error retry.]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #processing }
 SRFrame >> updateActions [
 
 	isOld ifFalse: [self world updateActions]

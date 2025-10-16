@@ -9,28 +9,40 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlTextureWrap class >> textureWrapClamp [
 	"Clamps texture to edge pixel in tiled mode"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlTextureWrap class >> textureWrapMirrorClamp [
 	"Mirrors and clamps to border the texture in tiled mode"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlTextureWrap class >> textureWrapMirrorRepeat [
 	"Mirrors and repeats the texture in tiled mode"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlTextureWrap class >> textureWrapRepeat [
 	"Repeats texture in tiled mode"
 	<generated>

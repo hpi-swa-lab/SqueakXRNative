@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlFilePathList class >> fields [
 	<generated>
 	^ #(#(#capacity 'uint32_t') #(#count 'uint32_t') #(#paths 'void*'))

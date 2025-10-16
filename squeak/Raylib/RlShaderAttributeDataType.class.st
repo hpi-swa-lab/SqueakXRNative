@@ -9,28 +9,40 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderAttributeDataType class >> shaderAttribFloat [
 	"Shader attribute type: float"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderAttributeDataType class >> shaderAttribVec2 [
 	"Shader attribute type: vec2 (2 float)"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderAttributeDataType class >> shaderAttribVec3 [
 	"Shader attribute type: vec3 (3 float)"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlShaderAttributeDataType class >> shaderAttribVec4 [
 	"Shader attribute type: vec4 (4 float)"
 	<generated>

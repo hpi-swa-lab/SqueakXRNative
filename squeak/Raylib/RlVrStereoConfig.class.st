@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlVrStereoConfig class >> fields [
 	<generated>
 	^ #(#(#projection 'RlMatrix[2]') #(#viewOffset 'RlMatrix[2]') #(#leftLensCenter 'float[2]') #(#rightLensCenter 'float[2]') #(#leftScreenCenter 'float[2]') #(#rightScreenCenter 'float[2]') #(#scale 'float[2]') #(#scaleIn 'float[2]'))

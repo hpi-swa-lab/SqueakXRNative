@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlWave class >> fields [
 	<generated>
 	^ #(#(#frameCount 'uint32_t') #(#sampleRate 'uint32_t') #(#sampleSize 'uint32_t') #(#channels 'uint32_t') #(#data 'void*'))

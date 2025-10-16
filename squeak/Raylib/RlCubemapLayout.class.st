@@ -9,35 +9,50 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCubemapLayout class >> cubemapLayoutAutoDetect [
 	"Automatically detect layout type"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCubemapLayout class >> cubemapLayoutCrossFourByThree [
 	"Layout is defined by a 4x3 cross with cubemap faces"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCubemapLayout class >> cubemapLayoutCrossThreeByFour [
 	"Layout is defined by a 3x4 cross with cubemap faces"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCubemapLayout class >> cubemapLayoutLineHorizontal [
 	"Layout is defined by a horizontal line with faces"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlCubemapLayout class >> cubemapLayoutLineVertical [
 	"Layout is defined by a vertical line with faces"
 	<generated>

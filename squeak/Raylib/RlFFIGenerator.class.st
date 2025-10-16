@@ -183,6 +183,15 @@ RlFFIGenerator >> apiSpec: aJsonObject [
 	apiSpec := aJsonObject
 ]
 
+{
+	#category : #generating,
+	#'squeak_changestamp' : 'lege 10/13/2025 18:04'
+}
+RlFFIGenerator >> compileExtraMethods [
+
+	RlVector3 compile: 'asVector3 ^ Vector3 x: self x y: self y z: self z'.
+]
+
 { #category : #generating }
 RlFFIGenerator >> createAliasTable [
 
@@ -225,7 +234,10 @@ RlFFIGenerator >> functionClass: aClass [
 	functionClass := aClass
 ]
 
-{ #category : #generating }
+{
+	#category : #generating,
+	#'squeak_changestamp' : 'lege 10/13/2025 17:44'
+}
 RlFFIGenerator >> generate [
 
 	self streams ifNil: [
@@ -243,7 +255,8 @@ RlFFIGenerator >> generate [
 				generateEnums;
 				"generateAliases;"
 				generateStructs;
-				generateFunctions]
+				generateFunctions;
+				compileExtraMethods]
 			displayingProgress: [:stream | stream asString].
 	
 		Smalltalk at: #Raylib put: self functionClass new].

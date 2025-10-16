@@ -9,56 +9,80 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeX [
 	"Framebuffer texture attachment type: cubemap, -X side"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeY [
 	"Framebuffer texture attachment type: cubemap, -Y side"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeZ [
 	"Framebuffer texture attachment type: cubemap, -Z side"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveX [
 	"Framebuffer texture attachment type: cubemap, +X side"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveY [
 	"Framebuffer texture attachment type: cubemap, +Y side"
 	<generated>
 	^ 2
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveZ [
 	"Framebuffer texture attachment type: cubemap, +Z side"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentRenderbuffer [
 	"Framebuffer texture attachment type: renderbuffer"
 	<generated>
 	^ 200
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlFramebufferAttachTextureType class >> rlAttachmentTexture2d [
 	"Framebuffer texture attachment type: texture2d"
 	<generated>

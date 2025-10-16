@@ -9,182 +9,260 @@ Class {
 	#category : #'Raylib-Enum-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocColorAmbient [
 	"Shader location: vector uniform: ambient color"
 	<generated>
 	^ 14
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocColorDiffuse [
 	"Shader location: vector uniform: diffuse color"
 	<generated>
 	^ 12
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocColorSpecular [
 	"Shader location: vector uniform: specular color"
 	<generated>
 	^ 13
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapAlbedo [
 	"Shader location: sampler2d texture: albedo (same as: RL_SHADER_LOC_MAP_DIFFUSE)"
 	<generated>
 	^ 15
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapBrdf [
 	"Shader location: sampler2d texture: brdf"
 	<generated>
 	^ 25
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapCubemap [
 	"Shader location: samplerCube texture: cubemap"
 	<generated>
 	^ 22
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapEmission [
 	"Shader location: sampler2d texture: emission"
 	<generated>
 	^ 20
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapHeight [
 	"Shader location: sampler2d texture: height"
 	<generated>
 	^ 21
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapIrradiance [
 	"Shader location: samplerCube texture: irradiance"
 	<generated>
 	^ 23
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapMetalness [
 	"Shader location: sampler2d texture: metalness (same as: RL_SHADER_LOC_MAP_SPECULAR)"
 	<generated>
 	^ 16
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapNormal [
 	"Shader location: sampler2d texture: normal"
 	<generated>
 	^ 17
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapOcclusion [
 	"Shader location: sampler2d texture: occlusion"
 	<generated>
 	^ 19
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapPrefilter [
 	"Shader location: samplerCube texture: prefilter"
 	<generated>
 	^ 24
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMapRoughness [
 	"Shader location: sampler2d texture: roughness"
 	<generated>
 	^ 18
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMatrixModel [
 	"Shader location: matrix uniform: model (transform)"
 	<generated>
 	^ 9
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMatrixMvp [
 	"Shader location: matrix uniform: model-view-projection"
 	<generated>
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMatrixNormal [
 	"Shader location: matrix uniform: normal"
 	<generated>
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMatrixProjection [
 	"Shader location: matrix uniform: projection"
 	<generated>
 	^ 8
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocMatrixView [
 	"Shader location: matrix uniform: view (camera transform)"
 	<generated>
 	^ 7
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVectorView [
 	"Shader location: vector uniform: view"
 	<generated>
 	^ 11
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexColor [
 	"Shader location: vertex attribute: color"
 	<generated>
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexNormal [
 	"Shader location: vertex attribute: normal"
 	<generated>
 	^ 3
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexPosition [
 	"Shader location: vertex attribute: position"
 	<generated>
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexTangent [
 	"Shader location: vertex attribute: tangent"
 	<generated>
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexTexcoord01 [
 	"Shader location: vertex attribute: texcoord01"
 	<generated>
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlShaderLocationIndex class >> rlShaderLocVertexTexcoord02 [
 	"Shader location: vertex attribute: texcoord02"
 	<generated>

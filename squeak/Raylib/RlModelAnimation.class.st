@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlModelAnimation class >> fields [
 	<generated>
 	^ #(#(#boneCount 'int32_t') #(#frameCount 'int32_t') #(#bones 'RlBoneInfo*') #(#framePoses 'void*') #(#name 'char8_t[32]'))

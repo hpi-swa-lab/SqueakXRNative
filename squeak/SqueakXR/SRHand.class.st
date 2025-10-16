@@ -142,7 +142,10 @@ SRHand >> rayCast [
 		result object onRaycast: result.]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/6/2025 16:41'
+}
 SRHand >> startGrabbing [
 
 	| ray |
@@ -158,15 +161,22 @@ SRHand >> startGrabbing [
 		grabbedTranslationOffset := grabbedObject globalTranslation - collision point]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 18:07'
+}
 SRHand >> step: deltaTime [
 
-	grabbedObject ifNotNil: [ | currentDistanceToAvatar avatarDistanceDelta rotation translation |
-		currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
+	| distanceToAvatar movementMultiplier |
+	grabbedObject ifNotNil: [ | rotation translation |
+		distanceToAvatar := self world camera xy distanceTo: self globalTranslation xy.
+		movementMultiplier := 1 clampLow: 1 high: 5.
+		translation := 0 asVector3.
+		"currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
 		avatarDistanceDelta := currentDistanceToAvatar - grabbedDistanceToAvatar.
 		translation := self globalTranslation
 			+ ((self globalTransform localDirToGlobal: Vector3 backward  * (1 + (avatarDistanceDelta * 5))) * grabbedDistance)
-			+ grabbedTranslationOffset.
+			+ grabbedTranslationOffset."
 		rotation := self globalRotation.
 		grabbedObject
 			globalTranslation: translation;

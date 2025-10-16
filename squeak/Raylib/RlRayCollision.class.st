@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRayCollision class >> fields [
 	<generated>
 	^ #(#(#hit 'bool') #(#distance 'float') #(#point 'RlVector3') #(#normal 'RlVector3'))

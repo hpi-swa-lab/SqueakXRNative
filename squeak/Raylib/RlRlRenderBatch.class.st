@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlRlRenderBatch class >> fields [
 	<generated>
 	^ #(#(#bufferCount 'int32_t') #(#currentBuffer 'int32_t') #(#vertexBuffer 'RlRlVertexBuffer*') #(#draws 'RlRlDrawCall*') #(#drawCounter 'int32_t') #(#currentDepth 'float'))

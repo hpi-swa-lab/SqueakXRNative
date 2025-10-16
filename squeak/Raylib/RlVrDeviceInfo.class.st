@@ -9,7 +9,10 @@ Class {
 	#category : #'Raylib-Structs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 10/13/2025 17:48'
+}
 RlVrDeviceInfo class >> fields [
 	<generated>
 	^ #(#(#hResolution 'int32_t') #(#vResolution 'int32_t') #(#hScreenSize 'float') #(#vScreenSize 'float') #(#eyeToScreenDistance 'float') #(#lensSeparationDistance 'float') #(#interpupillaryDistance 'float') #(#lensDistortionValues 'float[4]') #(#chromaAbCorrection 'float[4]'))

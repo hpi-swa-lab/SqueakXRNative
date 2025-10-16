@@ -13,3 +13,11 @@ Vector2 class >> componentSelectors [
 
 	^ #(x y)
 ]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 10/13/2025 18:05'
+}
+Vector2 >> distanceTo: aVector [
+	^(self - aVector) length
+]
