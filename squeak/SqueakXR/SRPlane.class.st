@@ -28,7 +28,10 @@ SRPlane class >> withMaterial: aSRMaterial [
 		initialize
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 11/3/2025 18:02'
+}
 SRPlane >> collisionGeometry [
 
 	| scale |
@@ -37,7 +40,7 @@ SRPlane >> collisionGeometry [
 	^ (SRCollisionPlane
 		point: self globalTranslation
 		normal: self normal
-		up: self up
+		up: self planeUp
 		width: scale x
 		height: scale z)
 		object: self
@@ -77,10 +80,13 @@ SRPlane >> mesh [
 		mesh := self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]]"
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 11/3/2025 18:02'
+}
 SRPlane >> normal [
 
-	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
+	^ (self globalTransform localDirToGlobal: Vector3 planeUp) normalize
 ]
 
 { #category : #lifecycle }
@@ -99,6 +105,15 @@ SRPlane >> onWorldStarted [
 	self material: SRMaterial new.
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 11/3/2025 18:02'
+}
+SRPlane >> planeUp [
+
+	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
+]
+
 { #category : #rendering }
 SRPlane >> renderOn: aSRRenderer [
 
@@ -106,12 +121,6 @@ SRPlane >> renderOn: aSRRenderer [
 		renderMesh: self mesh
 		transform: self globalTransform
 		material: self material
-]
-
-{ #category : #'as yet unclassified' }
-SRPlane >> up [
-
-	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
 ]
 
 { #category : #accessing }

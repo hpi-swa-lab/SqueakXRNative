@@ -81,6 +81,15 @@ SRObject >> allDo: aBlock [
 ]
 
 {
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:04'
+}
+SRObject >> backward [
+
+	^ (self globalTransform localDirToGlobal: Vector3 backward) normalize
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/6/2025 15:18'
 }
@@ -164,6 +173,15 @@ SRObject >> continueStepping [
 	self badStep: false
 ]
 
+{
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
+}
+SRObject >> down [
+
+	^ (self globalTransform localDirToGlobal: Vector3 down) normalize
+]
+
 { #category : #transforms }
 SRObject >> ensureTransformClean [
 
@@ -178,6 +196,15 @@ SRObject >> ensureTransformClean [
 		[#globalTransform] -> [self updateTransformsFromGlobalTransform].
 	}.
 	self transformDirtyFlag: nil.
+]
+
+{
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
+}
+SRObject >> forward [
+
+	^ (self globalTransform localDirToGlobal: Vector3 forward) normalize
 ]
 
 { #category : #transforms }
@@ -313,6 +340,15 @@ SRObject >> isStepping [
 
 { #category : #events }
 SRObject >> keyboardEvent: aCharacter [
+]
+
+{
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:04'
+}
+SRObject >> left [
+
+	^ (self globalTransform localDirToGlobal: Vector3 left) normalize
 ]
 
 { #category : #transforms }
@@ -519,6 +555,15 @@ SRObject >> renderSelfAndChildrenOn: aSRRenderer [
 		childrenDo: [:child | child renderSelfAndChildrenOn: aSRRenderer]
 ]
 
+{
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:04'
+}
+SRObject >> right [
+
+	^ (self globalTransform localDirToGlobal: Vector3 right) normalize
+]
+
 { #category : #transforms }
 SRObject >> rotation [
 
@@ -600,6 +645,15 @@ SRObject >> translation [
 SRObject >> translation: aVector3 [
 
 	self localTranslation: aVector3
+]
+
+{
+	#category : #directions,
+	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
+}
+SRObject >> up [
+
+	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
 ]
 
 { #category : #'transforms - internal' }
