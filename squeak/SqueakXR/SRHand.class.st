@@ -9,33 +9,82 @@ Class {
 		'grabbedObject',
 		'grabbedTranslationOffset',
 		'grabbedDistance',
-		'grabbedDistanceToAvatar'
+		'grabbedDistanceToAvatar',
+		'grabbedPoint',
+		'grabbedHandPoint',
+		'grabbedObjectPoint'
+	],
+	#classVars : [
+		'EndRate',
+		'StartRate',
+		'TransitionEnd',
+		'TransitionStart'
 	],
 	#category : #'SqueakXR-Objects'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SRHand class >> left [
 
 	^ self new handIndex: self leftIndex
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #constants }
 SRHand class >> leftIndex [
 
 	^ 1
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'distance remapping',
+	#'squeak_changestamp' : 'lege 10/17/2025 18:14'
+}
+SRHand class >> remapGrabDistance: aNumber [
+	"see writeup 'Distance Remapping for Grabbing Interactions'"
+
+	| f1 f2 f3 |
+	f1 := [:x | StartRate * x].
+	f2 :=  [:x || d c |
+		d := (EndRate - StartRate) / (TransitionEnd - TransitionStart).
+		c := TransitionStart squared * d / 2.
+		(x squared / 2) * d + ((StartRate - (d * TransitionStart)) * x) + c].
+	f3 := [:x | EndRate * x + (f2 value: TransitionEnd) - (EndRate * TransitionEnd)].
+	aNumber <= TransitionStart ifTrue: [^ f1 value: aNumber].
+	aNumber >= TransitionEnd ifTrue: [^ f3 value: aNumber].
+	^ f2 value: aNumber
+]
+
+{ #category : #'instance creation' }
 SRHand class >> right [
 
 	^ self new handIndex: self rightIndex
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #constants }
 SRHand class >> rightIndex [
 
 	^ 2
+]
+
+{
+	#category : #'distance remapping',
+	#'squeak_changestamp' : 'lege 10/17/2025 17:24'
+}
+SRHand class >> setDistanceRemappingToDefault [
+
+	self setDistanceRemappingTransitionStart: 2 end: 4 startChangeRate: 1 endChangeRate: 3
+]
+
+{
+	#category : #'distance remapping',
+	#'squeak_changestamp' : 'lege 10/17/2025 17:23'
+}
+SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transitionEnd startChangeRate: startRate endChangeRate: endRate [
+
+	TransitionStart := transitionStart.
+	TransitionEnd := transitionEnd.
+	StartRate := startRate.
+	EndRate := endRate.
 ]
 
 { #category : #'as yet unclassified' }
@@ -144,7 +193,7 @@ SRHand >> rayCast [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/6/2025 16:41'
+	#'squeak_changestamp' : 'lege 10/17/2025 18:22'
 }
 SRHand >> startGrabbing [
 
@@ -156,6 +205,8 @@ SRHand >> startGrabbing [
 	(ray castNearest: self world) ifNotNil: [:collision |
 		"TODO: should be object by default, but give option to morph to redefine grabbed morph"
 		grabbedObject := collision object parent.
+		grabbedHandPoint := self globalTranslation.
+		grabbedObjectPoint := grabbedObject globalTranslation.
 		grabbedDistance := self globalTranslation distanceTo: collision point.
 		grabbedDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
 		grabbedTranslationOffset := grabbedObject globalTranslation - collision point]
@@ -163,15 +214,21 @@ SRHand >> startGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/13/2025 18:07'
+	#'squeak_changestamp' : 'lege 10/17/2025 18:43'
 }
 SRHand >> step: deltaTime [
 
-	| distanceToAvatar movementMultiplier |
+	| grabbedHandDelta handDirection mappedDistance mappedObjectPosition unmappedDistance unmappedObjectPosition |
 	grabbedObject ifNotNil: [ | rotation translation |
-		distanceToAvatar := self world camera xy distanceTo: self globalTranslation xy.
-		movementMultiplier := 1 clampLow: 1 high: 5.
-		translation := 0 asVector3.
+		"distanceToAvatar := self world camera xy distanceTo: self globalTranslation xy."
+		grabbedHandDelta := self globalTranslation - grabbedHandPoint.
+		unmappedObjectPosition := grabbedObjectPoint + grabbedHandDelta.
+		unmappedDistance := unmappedObjectPosition distanceTo: self globalTranslation.
+		mappedDistance := self class remapGrabDistance: unmappedDistance.
+		"unmappedDistanceToAvatar := unmappedObjectPosition xy distanceTo: self globalTranslation xy."
+		handDirection := self globalTransform localDirToGlobal: Vector3 backward.
+		mappedObjectPosition := handDirection * mappedDistance + self globalTranslation.
+		translation := mappedObjectPosition.
 		"currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
 		avatarDistanceDelta := currentDistanceToAvatar - grabbedDistanceToAvatar.
 		translation := self globalTranslation
