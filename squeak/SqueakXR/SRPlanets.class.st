@@ -34,7 +34,10 @@ SRPlanets >> initialize [
 	self initPlanets.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 11/11/2025 18:24'
+}
 SRPlanets >> step: deltaTime [
 
 	planets withIndexDo: [:planet :index | | rand |

@@ -11,7 +11,8 @@ Class {
 		'keyboardFocus',
 		'ranStartScript',
 		'avatar',
-		'isFramePrepared'
+		'isFramePrepared',
+		'gizmoPainter'
 	],
 	#classVars : [
 		'KeyDict',
@@ -366,6 +367,15 @@ SRWorld >> doOneCycle [
 	self class clearRenderFrame.
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
+}
+SRWorld >> gizmoPainter [
+
+	^ gizmoPainter
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
@@ -385,7 +395,10 @@ SRWorld >> initXrInput [
 	^ self externalCallFailed
 ]
 
-{ #category : #initializing }
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 11/11/2025 18:23'
+}
 SRWorld >> initialize [
 
 	super initialize.
@@ -394,6 +407,9 @@ SRWorld >> initialize [
 	needsSetup := false.
 	ranStartScript := false.
 	isFramePrepared := false.
+	
+	gizmoPainter := SRGizmoPainter new.
+	self addChild: gizmoPainter.
 	
 	self
 		isXR: false;

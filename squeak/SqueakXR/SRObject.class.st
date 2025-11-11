@@ -207,6 +207,80 @@ SRObject >> forward [
 	^ (self globalTransform localDirToGlobal: Vector3 forward) normalize
 ]
 
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:14'
+}
+SRObject >> gizmo [
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:49'
+}
+SRObject >> gizmoPainter [
+
+	^ self world ifNotNil: [:world | world gizmoPainter]
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 14:32'
+}
+SRObject >> gizmoSphere: localPosition [
+
+	self gizmoSphere: localPosition size: 20cm
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
+}
+SRObject >> gizmoSphere: size color: color [
+
+	self gizmoPainter ifNotNil: [:painter | painter gizmoSphere: size color: color]
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:45'
+}
+SRObject >> gizmoSphere: localPosition size: size [
+
+	self gizmoSphere: localPosition size: size color: Color red
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:45'
+}
+SRObject >> gizmoSphere: localPosition size: size color: color [
+
+	self gizmoPainter ifNotNil: [:painter |
+		painter
+			gizmoSphere: (self transform localPointToGlobal: localPosition)
+			size: size
+			color: color]
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:43'
+}
+SRObject >> gizmoSphereGlobal: globalPosition [
+
+	self gizmoSphere: globalPosition size: 20cm
+]
+
+{
+	#category : #gizmos,
+	#'squeak_changestamp' : 'lege 11/11/2025 13:31'
+}
+SRObject >> gizmoSphereLocal: localPosition [
+
+	self gizmoSphere: (self globalTransform localPointToGlobal: localPosition) size: 20cm
+]
+
 { #category : #transforms }
 SRObject >> globalRotation [
 
