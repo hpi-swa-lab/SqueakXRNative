@@ -192,13 +192,16 @@ RlFFIGenerator >> compileExtraMethods [
 	RlVector3 compile: 'asVector3 ^ Vector3 x: self x y: self y z: self z'.
 ]
 
-{ #category : #generating }
+{
+	#category : #generating,
+	#'squeak_changestamp' : 'lege 11/17/2025 18:11'
+}
 RlFFIGenerator >> createAliasTable [
 
 	self aliasTable:
 		(self apiSpec aliases
 			collect: [:aliasSpec |
-				aliasSpec name -> (self class convertToClassName: aliasSpec type)]
+				aliasSpec name -> (self convertToClassName: aliasSpec type)]
 			as: Dictionary)
 ]
 
