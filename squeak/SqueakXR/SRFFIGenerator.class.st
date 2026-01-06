@@ -12,7 +12,8 @@ Class {
 		'categoryName',
 		'baseCategoryName',
 		'excludeNames',
-		'moduleName'
+		'moduleName',
+		'definesClass'
 	],
 	#category : #'SqueakXR-Other'
 }
@@ -86,14 +87,14 @@ SRFFIGenerator class >> generateFromStreams: aStreamCollection [
 
 {
 	#category : #apis,
-	#'squeak_changestamp' : 'lege 11/18/2025 16:22'
+	#'squeak_changestamp' : 'lege 12/16/2025 15:48'
 }
-SRFFIGenerator class >> generateOpenALApiFromFile: aFilepath [
+SRFFIGenerator class >> generateOpenALApiFromFiles: aCollectionOfFilepaths [
 
 	self removeOpenAL.
 	
 	self new
-		streams: {FileStream readOnlyFileNamed: aFilepath};
+		streams: (aCollectionOfFilepaths collect: [:filepath | (FileStream readOnlyFileNamed: filepath)]);
 		prefix: 'Al';
 		baseCategoryName: self baseCategoryOpenAL;
 		functionGlobal: #OpenAL;
@@ -257,6 +258,42 @@ SRFFIGenerator >> createAliasTable [
 			as: Dictionary)
 ]
 
+{
+	#category : #names,
+	#'squeak_changestamp' : 'lege 12/18/2025 12:59'
+}
+SRFFIGenerator >> definesCategory [
+
+	^ self categoryName: 'Defines'
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 12/18/2025 12:59'
+}
+SRFFIGenerator >> definesClass [
+
+	^ definesClass
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 12/18/2025 12:59'
+}
+SRFFIGenerator >> definesClass: aClass [
+
+	definesClass := aClass
+]
+
+{
+	#category : #names,
+	#'squeak_changestamp' : 'lege 12/18/2025 12:57'
+}
+SRFFIGenerator >> definesClassName [
+
+	^ self convertToClassName: 'Defines'
+]
+
 { #category : #generating }
 SRFFIGenerator >> descriptionFor: aJsonSpec [
 
@@ -375,7 +412,7 @@ SRFFIGenerator >> functionGlobal: aSymbol [
 
 {
 	#category : #generating,
-	#'squeak_changestamp' : 'lege 11/18/2025 11:22'
+	#'squeak_changestamp' : 'lege 12/18/2025 12:49'
 }
 SRFFIGenerator >> generate [
 
@@ -390,6 +427,7 @@ SRFFIGenerator >> generate [
 			self apiSpec: (Json readFrom: stream);
 				extendAliasTable;
 				generateEnums;
+				generateDefines;
 				"generateAliases;"
 				generateStructs;
 				generateFunctions]
@@ -433,6 +471,39 @@ SRFFIGenerator >> generateAliases [
 
 {
 	#category : #generating,
+	#'squeak_changestamp' : 'lege 12/18/2025 13:01'
+}
+SRFFIGenerator >> generateDefine: aJsonSpec [
+
+	(self isExcludeName: aJsonSpec name) ifTrue: [^ self].
+	aJsonSpec type = 'INT' ifFalse: [^ self].
+	
+	self definesClass class compile: (self
+		sourceDefinesName: (self class screamingSnakeCaseToCamelCase: aJsonSpec name)
+		value: aJsonSpec value
+		description: aJsonSpec description)
+]
+
+{
+	#category : #generating,
+	#'squeak_changestamp' : 'lege 12/18/2025 12:58'
+}
+SRFFIGenerator >> generateDefines [
+
+	self definesClass:( Object
+		subclass: (self definesClassName)
+		instanceVariableNames: ''
+		classVariableNames: ''
+		poolDictionaries: ''
+		category: self definesCategory).
+
+	 self apiSpec defines
+		do: [:defineSpec | self generateDefine: defineSpec]
+		displayingProgress: [:defineSpec | 'Generating define ', defineSpec name]
+]
+
+{
+	#category : #generating,
 	#'squeak_changestamp' : 'lege 11/18/2025 11:23'
 }
 SRFFIGenerator >> generateEnum: aJsonSpec [
@@ -466,7 +537,7 @@ SRFFIGenerator >> generateEnums [
 
 {
 	#category : #generating,
-	#'squeak_changestamp' : 'lege 11/17/2025 18:08'
+	#'squeak_changestamp' : 'lege 12/18/2025 10:45'
 }
 SRFFIGenerator >> generateFunction: aJsonSpec [
 
@@ -760,6 +831,21 @@ SRFFIGenerator >> sourceAlias: aTypeString [
 	}
 ]
 
+{
+	#category : #sourceTemplates,
+	#'squeak_changestamp' : 'lege 12/18/2025 13:00'
+}
+SRFFIGenerator >> sourceDefinesName: aNameString value: anInteger description: aDescriptionString [
+
+	^ '{1}
+	"{2}"
+	<generated>
+	^ {3}' format: {
+	aNameString.
+	aDescriptionString.
+	anInteger}
+]
+
 { #category : #sourceTemplates }
 SRFFIGenerator >> sourceEnumName: aNameString value: anInteger description: aDescriptionString [
 
@@ -782,20 +868,6 @@ SRFFIGenerator >> sourceFunction: name arguments: arguments description: descrip
 	^ self externalCallFailed' format: {
 		name.
 		arguments.
-		description.
-		signature.
-	}
-]
-
-{ #category : #sourceTemplates }
-SRFFIGenerator >> sourceFunction: name description: description signature: signature [
-
-	^ '{1}
-	"{2}"
-	<generated>
-	<cdecl: {3}>
-	^ self externalCallFailed' format: {
-		name.
 		description.
 		signature.
 	}
