@@ -1,0 +1,42 @@
+GSMetadata {
+	#version : 1,
+	#mappers : [
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'SqueakXR'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
+		},
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'OpenAL'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
+		},
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'OpenXR'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
+		},
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'Raylib'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
+		}
+	],
+	#name : 'SqueakXRNative'
+}

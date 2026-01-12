@@ -13,6 +13,16 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 1/8/2026 17:57'
+}
+SRAudio class >> initialize [
+
+	Smalltalk addToStartUpList: self.
+	Smalltalk addToShutDownList: self.
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 12/19/2025 16:55'
 }
 SRAudio class >> instance [
@@ -22,18 +32,39 @@ SRAudio class >> instance [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/19/2025 16:55'
+	#'squeak_changestamp' : 'lege 1/8/2026 18:07'
 }
-SRAudio class >> resetInstance [ 
+SRAudio class >> resetInstance [
 
+	Instance cleanup.
 	Instance := nil
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/18/2025 15:03'
+	#'squeak_changestamp' : 'lege 1/8/2026 18:00'
 }
-SRAudio >> checkError: comment [
+SRAudio class >> shutDown: quitting [
+
+	quitting ifFalse: [^ self].
+	self instance cleanup.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 1/8/2026 18:06'
+}
+SRAudio class >> startUp: resuming [
+
+	resuming ifFalse: [^ self].
+	self instance setup.
+]
+
+{
+	#category : #'error checking',
+	#'squeak_changestamp' : 'lege 1/8/2026 15:36'
+}
+SRAudio >> checkErrorAl [
 
 	| code matches |
 	code := OpenAL alGetError.
@@ -43,14 +74,14 @@ SRAudio >> checkError: comment [
 	AlDefines class methodsDo: [:m |
 		((m getSource asString includesSubstring: code asString)
 		and: [(m selector includesSubstring: 'alc') not]) ifTrue: [matches add: m selector]].
-	Transcript showln: comment, ' AL Error ', (matches joinSeparatedBy: ' ')
+	self error: 'AL error: ', (matches joinSeparatedBy: '; ').
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/18/2025 15:03'
+	#category : #'error checking',
+	#'squeak_changestamp' : 'lege 1/8/2026 15:37'
 }
-SRAudio >> checkErrorAlc: comment [
+SRAudio >> checkErrorAlc [
 
 	| code matches |
 	code := OpenAL alcGetErrorDevice: device.
@@ -60,20 +91,22 @@ SRAudio >> checkErrorAlc: comment [
 	AlDefines class methodsDo: [:m |
 		((m getSource asString includesSubstring: code asString)
 		and: [m selector includesSubstring: 'alc']) ifTrue: [matches add: m selector]].
-	Transcript showln: comment, ' ALC Error ', (matches joinSeparatedBy: ' ')
+	self error: 'ALC error: ', (matches joinSeparatedBy: '; ').
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/16/2025 16:23'
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'lege 1/8/2026 18:05'
 }
 SRAudio >> cleanup [
 
 	context ifNotNil: [
 		OpenAL alcMakeContextCurrentContext: nil.
-		OpenAL alcDestroyContext: context].
+		OpenAL alcDestroyContext: context.
+		context := nil].
 	device ifNotNil: [
- 		OpenAL alcCloseDevice: device]
+ 		OpenAL alcCloseDevice: device.
+		device := nil]
 ]
 
 {
@@ -168,69 +201,57 @@ QQJWAmACRgIGAsUBlQFTAQsB2wCjAFcAHAD3/+L/4v/o/+3/+P8IAB4APQBnAKAA1AD9AC0BSgFPAWYB
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/18/2025 15:04'
+	#'squeak_changestamp' : 'lege 1/9/2026 17:43'
+}
+SRAudio >> ensureOpenAL [
+
+	"noop"
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 1/8/2026 18:06'
 }
 SRAudio >> initialize [
 
-	| name |
 	super initialize.
 	
-	device := OpenAL alcOpenDeviceDevicename: nil.
-	device ifNil: [
-		Transcript showln: 'Failed to open audio device!'.
-		^ self].
-	"self checkError: 'alcOpenDevice'."
-	
-	context := OpenAL alcCreateContextDevice: device attrlist: nil.
-	context ifNil: [
-		OpenAL alcCloseDevice: device.
-		Transcript showln: 'Failed to create audio context'.
-		^ self].
-	self checkErrorAlc: 'alcCreateContext'.
-	
-	(OpenAL alcMakeContextCurrentContext: context) = 0 ifTrue: [
-		OpenAL alcDestroyContext: context.
-		OpenAL alcCloseDevice: device.
-		Transcript showln: 'Could not set an audio context!'].
-	self checkErrorAlc: 'alcMakeContextCurrent'.
-	
-	name := OpenAL alcGetStringDevice: device param: AlDefines alcAllDevicesSpecifier.
-	Transcript showln: 'Opened "', name, '"'.
+	self setup
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/19/2025 16:57'
+	#'squeak_changestamp' : 'lege 1/8/2026 18:09'
 }
 SRAudio >> play: audio [
 
 	| source buffer |
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
-	self checkError: 'alGenSourcesN:'.
+	self checkErrorAl.
 	
 	buffer := ExternalType uint32_t allocate.
 	OpenAL alGenBuffersN: 1 buffers: buffer.
-	self checkError: 'alGenSourcesN:'.
+	self checkErrorAl.
 	
 	OpenAL alBufferDataBuffer: buffer first
 			format: AlDefines alFormatMono16
 			data: audio
 			size: audio size * 2
-			samplerate: 24000.
-	self checkError: 'alBufferDataBuffer:'.
+			samplerate: 44100.
+	self checkErrorAl.
 	OpenAL alSourceiSource: source first param: AlDefines alBuffer value: buffer first.
-	self checkError: ''.
+	self checkErrorAl.
 		"alSourceQueueBuffersSource: source first nb: 1 buffers: buffer;"
 	OpenAL alSourcePlaySource: source first.
-	self checkError: 'alSourcePlaySource:'.
+	self checkErrorAl.
 	
-	2 seconds wait.
+	4 seconds wait.
 	
 	OpenAL alDeleteSourcesN: 1 sources: source.
-	self checkError: 'alDeleteSourcesN:'.
+	self checkErrorAl.
 	OpenAL alDeleteBuffersN: 1 buffers: buffer.
-	self checkError: 'alDeleteBuffersN:'.
+	self checkErrorAl.
 ]
 
 {
@@ -260,4 +281,34 @@ SRAudio >> record [
 	OpenAL alcCaptureCloseDevice: recordingDevice.
 	self checkErrorAlc: 'alcCaptureCloseDevice:'.
 	^ buffer
+]
+
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'lege 1/8/2026 18:08'
+}
+SRAudio >> setup [	
+	
+	| name |
+	device := OpenAL alcOpenDeviceDevicename: nil.
+	device ifNil: [
+		Transcript showln: self class name, ': Failed to open audio device!'.
+		^ self].
+	self checkErrorAlc.
+	
+	context := OpenAL alcCreateContextDevice: device attrlist: nil.
+	context ifNil: [
+		OpenAL alcCloseDevice: device.
+		Transcript showln: self class name, ':Failed to create audio context'.
+		^ self].
+	self checkErrorAlc.
+	
+	(OpenAL alcMakeContextCurrentContext: context) = 0 ifTrue: [
+		OpenAL alcDestroyContext: context.
+		OpenAL alcCloseDevice: device.
+		Transcript showln: self class name, ':Could not set an audio context!'].
+	self checkErrorAlc.
+	
+	name := OpenAL alcGetStringDevice: device param: AlDefines alcAllDevicesSpecifier.
+	Transcript showln: self class name, ': Opened "', name, '"'.
 ]
