@@ -89,7 +89,7 @@ SRAudioSource >> play: audio [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/12/2026 17:27'
+	#'squeak_changestamp' : 'lege 1/13/2026 11:36'
 }
 SRAudioSource >> position: aVector3 [
 
@@ -97,7 +97,6 @@ SRAudioSource >> position: aVector3 [
 		value1: aVector3 x
 		value2: aVector3 y
 		value3: aVector3 z.
-	"OpenAL alSourcefvSource: source first param: AlDefines alDirection values: aVector3."
 	SRAudio instance checkErrorAl.
 ]
 

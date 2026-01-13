@@ -1,9 +1,8 @@
 Class {
 	#name : #SRAudioSnippet,
-	#superclass : #Object,
+	#superclass : #SRAudioData,
 	#instVars : [
-		'buffer',
-		'currentSource'
+		'buffer'
 	],
 	#category : #'SqueakXR-Audio'
 }
@@ -61,26 +60,7 @@ SRAudioSnippet >> cleanup [
 ]
 
 {
-	#category : #finalizing,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:20'
-}
-SRAudioSnippet >> finalize [
-
-	self cleanup.
-]
-
-{
-	#category : #initializing,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:17'
-}
-SRAudioSnippet >> initialize [
-
-	super initialize.
-	self setup.
-]
-
-{
-	#category : #'as yet unclassified',
+	#category : #playback,
 	#'squeak_changestamp' : 'lege 1/12/2026 16:22'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
@@ -110,7 +90,7 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #playback,
 	#'squeak_changestamp' : 'lege 1/9/2026 17:57'
 }
 SRAudioSnippet >> playOn: aSource [
@@ -134,14 +114,4 @@ SRAudioSnippet >> setup [
 	buffer := ExternalType uint32_t allocate.
 	OpenAL alGenBuffersN: 1 buffers: buffer.
 	SRAudio instance checkErrorAl.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/9/2026 18:00'
-}
-SRAudioSnippet >> unbindFromCurrentSource [
-
-	currentSource ifNotNil: [
-		currentSource unbindBuffer]
 ]
