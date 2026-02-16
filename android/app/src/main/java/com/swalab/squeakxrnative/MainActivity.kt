@@ -67,23 +67,20 @@ class MainActivity : AppCompatActivity() {
         val fetchImageOnLaunch = preferences.getBoolean("fetch_image_on_launch", false)
         var selectedImage: String
 
-        if (fetchImageOnLaunch) {
-            selectedImage = "Squeak6.0-22148-64bit.image"
-        } else {
-            selectedImage = preferences.getString("selected_image", "")!!
-            if (selectedImage.isEmpty()) {
-                System.err.println(getString(R.string.no_image_selected))
-                Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
-                setButtonEnabled(true)
-                return
-            }
+
+        selectedImage = preferences.getString("selected_image", "")!!
+        if (selectedImage.isEmpty()) {
+            System.err.println(getString(R.string.no_image_selected))
+            Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
+            setButtonEnabled(true)
+            return
         }
 
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
         GlobalScope.launch {
             var setupSuccessful = true
             if (fetchImageOnLaunch) {
-                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", selectedImage/*preferences.getString("selected_image", "")!!*/, true, getExternalFilesDir(null)!!)
+                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", selectedImage, true, getExternalFilesDir(null)!!)
                 if (!fetchResult.first) {
                     setupSuccessful = false
                     System.err.println(getString(R.string.fetching_images_failed))
@@ -108,12 +105,12 @@ class MainActivity : AppCompatActivity() {
         storeStartScript(preferences.getString("start_script", "")!!)
 
         val intent = Intent(this, VrActivity::class.java)
-        startActivity(intent);
+        startActivity(intent)
     }
 
     private val squeakImageFiles = mapOf(
-        "changes" to "Squeak6.0-22148-64bit.changes",
-        "image" to "Squeak6.0-22148-64bit.image",
+        "changes" to "staticsqueak.changes",
+        "image" to "staticsqueak.image",
 //        "changes" to "squeak-ffi-test.changes",
 //        "image" to "squeak-ffi-test.image",
         "sources" to "SqueakV60.sources"

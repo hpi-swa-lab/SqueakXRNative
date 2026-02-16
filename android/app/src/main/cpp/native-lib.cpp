@@ -420,7 +420,11 @@ static void *squeak_func(void* args) {
 //# define NUM_ARGS 5
 //    char *argv[NUM_ARGS] = {"squeak", squeakImagePath, "-vm-display-null", "-doit", "ExternalAddress allBeNull. SRSyncServer start"};
     char *envp[1]= {nullptr};
-    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
+    std::stringstream argsStringStream;
+    for (auto arg : func_args->argv) {
+        argsStringStream << arg << " ";
+    }
+    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with args '%s'", argsStringStream.str().c_str());
     run_squeak(static_cast<int>(func_args->argv.size()), func_args->argv.data(), envp);
 
     delete func_args;
@@ -486,7 +490,7 @@ int main(int argc, char *argv[]) {
 //    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
 
     auto *squeak_func_args = new SqueakFuncArgs {
-        .argv = {"squeak", squeakImagePath, "-vm-display-null", "-doit", fullStartScript},
+        .argv = {"squeak", /*"-vm-display-null",*/ squeakImagePath, "-doit", fullStartScript},
 //        .argc = argv2.size(),
     };
 
