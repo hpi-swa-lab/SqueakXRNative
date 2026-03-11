@@ -4,7 +4,10 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 2/23/2026 15:14'
+}
 SRRaylibRendererFlat >> completeFrame [
 
 	Raylib updateCamera: camera mode: RlCameraMode cameraFree.
@@ -47,6 +50,15 @@ SRRaylibRendererFlat >> setup [
 	Raylib
 		"disableCursor;"
 		setTargetFPS: -1.
+]
+
+{
+	#category : #info,
+	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
+}
+SRRaylibRendererFlat >> shaderVersion [
+
+	^ #'330'
 ]
 
 { #category : #'render-loop' }

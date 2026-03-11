@@ -82,11 +82,11 @@ SRPlane >> mesh [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/3/2025 18:02'
+	#'squeak_changestamp' : 'lege 2/23/2026 16:05'
 }
 SRPlane >> normal [
 
-	^ (self globalTransform localDirToGlobal: Vector3 planeUp) normalize
+	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
 ]
 
 { #category : #lifecycle }

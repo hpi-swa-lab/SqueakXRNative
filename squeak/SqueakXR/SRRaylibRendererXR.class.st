@@ -78,6 +78,15 @@ SRRaylibRendererXR >> setup [
 		projection: RlCameraProjection cameraPerspective.
 ]
 
+{
+	#category : #info,
+	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
+}
+SRRaylibRendererXR >> shaderVersion [
+
+	^ #'300es'
+]
+
 { #category : #'render-loop' }
 SRRaylibRendererXR >> shutdown [
 

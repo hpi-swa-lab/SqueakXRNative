@@ -114,6 +114,15 @@ SRRaylibRenderer >> setup [
 	self subclassResponsibility
 ]
 
+{
+	#category : #info,
+	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
+}
+SRRaylibRenderer >> shaderVersion [
+
+	self subclassResponsibility
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> shutdown [
 

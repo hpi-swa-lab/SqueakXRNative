@@ -6,6 +6,16 @@ Vector >> asRaylibObject [
 	^ self asRlVector
 ]
 
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 3/4/2026 19:04'
+}
+Vector >> closeTo: anotherVector [
+
+	self with: anotherVector do: [:a :b | (a closeTo: b) ifFalse: [^ false]].
+	^ true
+]
+
 { #category : #'*SqueakXR-helpers' }
 Vector class >> componentSelectors [
 

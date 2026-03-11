@@ -5,13 +5,12 @@ Class {
 		'morph',
 		'plane',
 		'texture',
-		'needsTextureUpdate',
 		'lastClickPosition'
 	],
 	#classVars : [
 		'Mesh'
 	],
-	#category : #'SqueakXR-Objects'
+	#category : #'SqueakXR-Morphic'
 }
 
 { #category : #'as yet unclassified' }
@@ -20,7 +19,40 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 	^ 500
 ]
 
-{ #category : #events }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 2/23/2026 16:28'
+}
+SRMorphPanel class >> systemBrowser [
+
+	^ self new
+		morph: SystemBrowser default open dependents first
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 2/23/2026 16:28'
+}
+SRMorphPanel class >> transcript [
+
+	^ self new
+		morph: Transcript open dependents first
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 2/23/2026 11:38'
+}
+SRMorphPanel >> fullTextureUpdate [
+
+	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
+	texture fullUpdate.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 3/6/2026 14:08'
+}
 SRMorphPanel >> handleRaycast: intersectionResult [
 
 	| normalizedPoint clickPoint point downEvent upEvent |
@@ -52,15 +84,14 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 			processEvent: downEvent;
 			processEvent: upEvent]
 				on: ProvideAnswerNotification
-				do: [:n | Transcript showln: 'During raycast click: '; show: n. n resume: true].
-		self needsTextureUpdate].
+				do: [:n | Transcript showln: 'During raycast click: '; show: n. n resume: true]].
 	
 	lastClickPosition := clickPoint asPoint.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 10/7/2025 15:57'
+	#'squeak_changestamp' : 'lege 3/11/2026 17:54'
 }
 SRMorphPanel >> initialize [
 
@@ -71,13 +102,19 @@ SRMorphPanel >> initialize [
 		addDependent: self;
 		yourself.
 	texture := SRMorphTexture new.
-	needsTextureUpdate := false.
 	lastClickPosition := nil.
+
+	plane material shader: texture shader.
+	
+	self addChild: (SRSphere new scale: 5cm asVector3).
 	
 	self addChild: plane.
 ]
 
-{ #category : #events }
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 2/18/2026 18:51'
+}
 SRMorphPanel >> keyboardEvent: aCharacter [
 
 	| buttons event keyValue |
@@ -118,8 +155,7 @@ SRMorphPanel >> keyboardEvent: aCharacter [
 					ifFalse: [notification pass]]
 			on: Exception
 			do: [:exception |
-				Transcript showln: 'Exception during keystroke: '; show: exception. exception pass].
-			self needsTextureUpdate.].
+				Transcript showln: 'Exception during keystroke: '; show: exception. exception pass]].
 ]
 
 { #category : #accessing }
@@ -128,7 +164,10 @@ SRMorphPanel >> morph [
 	^ morph
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 2/23/2026 16:52'
+}
 SRMorphPanel >> morph: aMorph [
 
 	morph := aMorph.
@@ -137,29 +176,25 @@ SRMorphPanel >> morph: aMorph [
 	self updateTexture.
 ]
 
-{ #category : #accessing }
-SRMorphPanel >> needsTextureUpdate [
-	
-	"calling this from e.g. the UI thread should be thread-safe"
-	needsTextureUpdate := true
-	
-]
-
-{ #category : #events }
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 3/11/2026 16:39'
+}
 SRMorphPanel >> onCacheInvalidated [
 
 	super onCacheInvalidated.
 
 	texture resetTexture.
-	self needsTextureUpdate.
+	self fullTextureUpdate.
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/6/2026 12:06'
+}
 SRMorphPanel >> renderOn: aSRRenderer [
 
-	needsTextureUpdate ifTrue: [
-		needsTextureUpdate := false.
-		self updateTexture].
+	self updateTexture.
 
 	super renderOn: aSRRenderer.
 ]
@@ -176,10 +211,12 @@ SRMorphPanel >> update: aSymbol with: anObject [
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject]
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 2/23/2026 11:37'
+}
 SRMorphPanel >> updateTexture [
 
-	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
 	plane material texture: texture update.
 	
 ]

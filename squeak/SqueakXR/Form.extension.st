@@ -1,6 +1,9 @@
 Extension { #name : #Form }
 
-{ #category : #'*SqueakXR-core' }
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
+}
 Form >> createTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
@@ -20,7 +23,10 @@ Form >> createTexture [
 	^ tex
 ]
 
-{ #category : #'*SqueakXR-core' }
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'lege 2/18/2026 16:12'
+}
 Form >> getTextureData [
 	
 	| data |
@@ -31,7 +37,10 @@ Form >> getTextureData [
 	^ data
 ]
 
-{ #category : #'*SqueakXR-core' }
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
+}
 Form >> updateTexture: aTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
@@ -40,6 +49,23 @@ Form >> updateTexture: aTexture [
 		offsetY: 0
 		width: self width
 		height: self height
+		format: RlPixelFormat pixelformatUncompressedR8g8b8a8
+		data: self getTextureData;
+		genTextureMipmapsTexture: aTexture
+]
+
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
+}
+Form >> updateTexture: aTexture in: aRectangle [
+	
+	"Adapted from Raylib's LoadTextureFromImage"
+	Raylib rlUpdateTextureId: aTexture id
+		offsetX: aRectangle left
+		offsetY: aRectangle top
+		width: aRectangle width
+		height: aRectangle height
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8
 		data: self getTextureData;
 		genTextureMipmapsTexture: aTexture

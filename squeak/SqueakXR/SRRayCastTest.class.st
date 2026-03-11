@@ -33,7 +33,10 @@ SRRayCastTest >> testIntersectionsAreSortedByDistance [
 	self assert: false
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 2/23/2026 16:11'
+}
 SRRayCastTest >> testPlaneCollisionGeometry [
 
 	| plane collisionGeometry |
@@ -45,7 +48,7 @@ SRRayCastTest >> testPlaneCollisionGeometry [
 	self assert: (collisionGeometry width = 2).
 	self assert: (collisionGeometry height = 3).
 	
-	plane rotation: self error "-90 @ 0 @ 0".
+	plane rotation: (Quaternion angle: 90 axis: 1 @ 0 @ 0).
 	collisionGeometry := plane collisionGeometry.
 	
 	self assert: (collisionGeometry normal = (0 @ 0 @ 1)).

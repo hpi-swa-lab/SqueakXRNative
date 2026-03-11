@@ -12,7 +12,10 @@ Class {
 		'ranStartScript',
 		'avatar',
 		'isFramePrepared',
-		'gizmoPainter'
+		'gizmoPainter',
+		'project',
+		'i',
+		'secondStart'
 	],
 	#classVars : [
 		'KeyDict',
@@ -26,6 +29,234 @@ Class {
 SRWorld class >> clearRenderFrame [
 
 	RenderFrame := nil
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 1/16/2026 15:24'
+}
+SRWorld class >> createKeyDict [ 
+
+	"A bug on ARMv8 Android causes a segfault if we create this dict in the keyDict method directly.
+	A layer of indirection, like this method, fixes it."
+	| keyDict |
+	keyDict := {
+		0 -> nil.
+		39 -> $'.
+		44 -> $,.
+		45 -> $-.
+		46 -> $..
+		47 -> $/.
+		48 -> $0.
+		49 -> $1.
+		50 -> $2.
+		51 -> $3.
+		52 -> $4.
+		53 -> $5.
+		54 -> $6.
+		55 -> $7.
+		56 -> $8.
+		57 -> $9.
+		59 -> $;.
+		61 -> $=.
+		65 -> $a.
+		66 -> $b.
+		67 -> $c.
+		68 -> $d.
+		69 -> $e.
+		70 -> $f.
+		71 -> $g.
+		72 -> $h.
+		73 -> $i.
+		74 -> $j.
+		75 -> $k.
+		76 -> $l.
+		77 -> $m.
+		78 -> $n.
+		79 -> $o.
+		80 -> $p.
+		81 -> $q.
+		82 -> $r.
+		83 -> $s.
+		84 -> $t.
+		85 -> $u.
+		86 -> $v.
+		87 -> $w.
+		88 -> $x.
+		89 -> $y.
+		90 -> $z.
+		91 -> $[.
+		92 -> $\.
+		93 -> $].
+		96 -> $`.
+		32 -> Character space.
+		256 -> Character escape.
+		257 -> Character return.
+		258 -> Character tab.
+		259 -> Character backspace.
+		260 -> Character insert.
+		261 -> Character delete.
+		262 -> Character arrowRight.
+		263 -> Character arrowLeft.
+		264 -> Character arrowDown.
+		265 -> Character arrowUp.
+		266 -> Character pageUp.
+		267 -> Character pageDown.
+		268 -> Character home.
+		269 -> Character end.
+		280 -> nil "capsLock".
+		281 -> nil "scroll_lock".
+		282 -> nil "num_lock".
+		283 -> nil "print_screen".
+		284 -> nil "pause".
+		290 -> nil "F1".
+		291 -> nil "F2".
+		292 -> nil "F3".
+		293 -> nil "F4".
+		294 -> nil "F5".
+		295 -> nil "F6".
+		296 -> nil "F7".
+		297 -> nil "F8".
+		298 -> nil "F9".
+		299 -> nil "F10".
+		300 -> nil "F11".
+		301 -> nil "F12".
+		340 -> nil "left_shift".
+		341 -> nil "left_control".
+		342 -> nil "left_alt".
+		343 -> nil "left_super".
+		344 -> nil "right_shift".
+		345 -> nil "right_control".
+		346 -> nil "right_alt".
+		347 -> nil "right_super".
+		348 -> nil "kb_menu".
+		320 -> 0 "num0".
+		321 -> 1 "num1".
+		322 -> 2 "num2".
+		323 -> 3 "num3".
+		324 -> 4 "num4".
+		325 -> 5 "num5".
+		326 -> 6 "num6".
+		327 -> 7 "num7".
+		328 -> 8 "num8".
+		329 -> 9 "num9".
+		330 -> nil "numDec".
+		331 -> $/ "numDiv".
+		332 -> $* "numMul".
+		333 -> $- "numSub".
+		334 -> $+ "numAdd".
+		335 -> Character return. 
+	} as: Dictionary.
+
+	keyDict addAll: ({
+		0 -> nil.
+		39 -> $".
+		44 -> $<.
+		45 -> $_.
+		46 -> $>.
+		47 -> $?.
+		48 -> $).
+		49 -> $!.
+		50 -> $@.
+		51 -> $#.
+		52 -> $$.
+		53 -> $%.
+		54 -> $^.
+		55 -> $&.
+		56 -> $*.
+		57 -> $(.
+		59 -> $:.
+		61 -> $+.
+		65 -> $A.
+		66 -> $B.
+		67 -> $C.
+		68 -> $D.
+		69 -> $E.
+		70 -> $F.
+		71 -> $G.
+		72 -> $H.
+		73 -> $I.
+		74 -> $J.
+		75 -> $K.
+		76 -> $L.
+		77 -> $M.
+		78 -> $N.
+		79 -> $O.
+		80 -> $P.
+		81 -> $Q.
+		82 -> $R.
+		83 -> $S.
+		84 -> $T.
+		85 -> $U.
+		86 -> $V.
+		87 -> $W.
+		88 -> $X.
+		89 -> $Y.
+		90 -> $Z.
+		91 -> ${.
+		92 -> $|.
+		93 -> $}.
+		96 -> $~.
+		32 -> Character space.
+		256 -> Character escape.
+		257 -> Character return.
+		258 -> Character tab.
+		259 -> Character backspace.
+		260 -> Character insert.
+		261 -> Character delete.
+		262 -> Character arrowRight.
+		263 -> Character arrowLeft.
+		264 -> Character arrowDown.
+		265 -> Character arrowUp.
+		266 -> Character pageUp.
+		267 -> Character pageDown.
+		268 -> Character home.
+		269 -> Character end.
+		280 -> nil "capsLock".
+		281 -> nil "scroll_lock".
+		282 -> nil "num_lock".
+		283 -> nil "print_screen".
+		284 -> nil "pause".
+		290 -> nil "F1".
+		291 -> nil "F2".
+		292 -> nil "F3".
+		293 -> nil "F4".
+		294 -> nil "F5".
+		295 -> nil "F6".
+		296 -> nil "F7".
+		297 -> nil "F8".
+		298 -> nil "F9".
+		299 -> nil "F10".
+		300 -> nil "F11".
+		301 -> nil "F12".
+		340 -> nil "left_shift".
+		341 -> nil "left_control".
+		342 -> nil "left_alt".
+		343 -> nil "left_super".
+		344 -> nil "right_shift".
+		345 -> nil "right_control".
+		346 -> nil "right_alt".
+		347 -> nil "right_super".
+		348 -> nil "kb_menu".
+		320 -> 0 "num0".
+		321 -> 1 "num1".
+		322 -> 2 "num2".
+		323 -> 3 "num3".
+		324 -> 4 "num4".
+		325 -> 5 "num5".
+		326 -> 6 "num6".
+		327 -> 7 "num7".
+		328 -> 8 "num8".
+		329 -> 9 "num9".
+		330 -> nil "numDec".
+		331 -> $/ "numDiv".
+		332 -> $* "numMul".
+		333 -> $- "numSub".
+		334 -> $+ "numAdd".
+		335 -> Character return. 
+	} collect: [:assoc | assoc key: assoc key + self shiftValueOffset]).
+	
+	^keyDict
 ]
 
 { #category : #'as yet unclassified' }
@@ -50,226 +281,14 @@ SRWorld class >> initialize [
 		addToShutDownList: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 2/16/2026 14:31'
+}
 SRWorld class >> keyDict [
 
 	^ KeyDict ifNil: [
-		KeyDict := {
-			0 -> nil.
-			39 -> $'.
-			44 -> $,.
-			45 -> $-.
-			46 -> $..
-			47 -> $/.
-			48 -> $0.
-			49 -> $1.
-			50 -> $2.
-			51 -> $3.
-			52 -> $4.
-			53 -> $5.
-			54 -> $6.
-			55 -> $7.
-			56 -> $8.
-			57 -> $9.
-			59 -> $;.
-			61 -> $=.
-			65 -> $a.
-			66 -> $b.
-			67 -> $c.
-			68 -> $d.
-			69 -> $e.
-			70 -> $f.
-			71 -> $g.
-			72 -> $h.
-			73 -> $i.
-			74 -> $j.
-			75 -> $k.
-			76 -> $l.
-			77 -> $m.
-			78 -> $n.
-			79 -> $o.
-			80 -> $p.
-			81 -> $q.
-			82 -> $r.
-			83 -> $s.
-			84 -> $t.
-			85 -> $u.
-			86 -> $v.
-			87 -> $w.
-			88 -> $x.
-			89 -> $y.
-			90 -> $z.
-			91 -> $[.
-			92 -> $\.
-			93 -> $].
-			96 -> $`.
-			32 -> Character space.
-			256 -> Character escape.
-			257 -> Character return.
-			258 -> Character tab.
-			259 -> Character backspace.
-			260 -> Character insert.
-			261 -> Character delete.
-			262 -> Character arrowRight.
-			263 -> Character arrowLeft.
-			264 -> Character arrowDown.
-			265 -> Character arrowUp.
-			266 -> Character pageUp.
-			267 -> Character pageDown.
-			268 -> Character home.
-			269 -> Character end.
-			280 -> nil "capsLock".
-			281 -> nil "scroll_lock".
-			282 -> nil "num_lock".
-			283 -> nil "print_screen".
-			284 -> nil "pause".
-			290 -> nil "F1".
-			291 -> nil "F2".
-			292 -> nil "F3".
-			293 -> nil "F4".
-			294 -> nil "F5".
-			295 -> nil "F6".
-			296 -> nil "F7".
-			297 -> nil "F8".
-			298 -> nil "F9".
-			299 -> nil "F10".
-			300 -> nil "F11".
-			301 -> nil "F12".
-			340 -> nil "left_shift".
-			341 -> nil "left_control".
-			342 -> nil "left_alt".
-			343 -> nil "left_super".
-			344 -> nil "right_shift".
-			345 -> nil "right_control".
-			346 -> nil "right_alt".
-			347 -> nil "right_super".
-			348 -> nil "kb_menu".
-			320 -> 0 "num0".
-			321 -> 1 "num1".
-			322 -> 2 "num2".
-			323 -> 3 "num3".
-			324 -> 4 "num4".
-			325 -> 5 "num5".
-			326 -> 6 "num6".
-			327 -> 7 "num7".
-			328 -> 8 "num8".
-			329 -> 9 "num9".
-			330 -> nil "numDec".
-			331 -> $/ "numDiv".
-			332 -> $* "numMul".
-			333 -> $- "numSub".
-			334 -> $+ "numAdd".
-			335 -> Character return. 
-		} as: Dictionary.
-	
-		KeyDict addAll: ({
-			0 -> nil.
-			39 -> $".
-			44 -> $<.
-			45 -> $_.
-			46 -> $>.
-			47 -> $?.
-			48 -> $).
-			49 -> $!.
-			50 -> $@.
-			51 -> $#.
-			52 -> $$.
-			53 -> $%.
-			54 -> $^.
-			55 -> $&.
-			56 -> $*.
-			57 -> $(.
-			59 -> $:.
-			61 -> $+.
-			65 -> $A.
-			66 -> $B.
-			67 -> $C.
-			68 -> $D.
-			69 -> $E.
-			70 -> $F.
-			71 -> $G.
-			72 -> $H.
-			73 -> $I.
-			74 -> $J.
-			75 -> $K.
-			76 -> $L.
-			77 -> $M.
-			78 -> $N.
-			79 -> $O.
-			80 -> $P.
-			81 -> $Q.
-			82 -> $R.
-			83 -> $S.
-			84 -> $T.
-			85 -> $U.
-			86 -> $V.
-			87 -> $W.
-			88 -> $X.
-			89 -> $Y.
-			90 -> $Z.
-			91 -> ${.
-			92 -> $|.
-			93 -> $}.
-			96 -> $~.
-			32 -> Character space.
-			256 -> Character escape.
-			257 -> Character return.
-			258 -> Character tab.
-			259 -> Character backspace.
-			260 -> Character insert.
-			261 -> Character delete.
-			262 -> Character arrowRight.
-			263 -> Character arrowLeft.
-			264 -> Character arrowDown.
-			265 -> Character arrowUp.
-			266 -> Character pageUp.
-			267 -> Character pageDown.
-			268 -> Character home.
-			269 -> Character end.
-			280 -> nil "capsLock".
-			281 -> nil "scroll_lock".
-			282 -> nil "num_lock".
-			283 -> nil "print_screen".
-			284 -> nil "pause".
-			290 -> nil "F1".
-			291 -> nil "F2".
-			292 -> nil "F3".
-			293 -> nil "F4".
-			294 -> nil "F5".
-			295 -> nil "F6".
-			296 -> nil "F7".
-			297 -> nil "F8".
-			298 -> nil "F9".
-			299 -> nil "F10".
-			300 -> nil "F11".
-			301 -> nil "F12".
-			340 -> nil "left_shift".
-			341 -> nil "left_control".
-			342 -> nil "left_alt".
-			343 -> nil "left_super".
-			344 -> nil "right_shift".
-			345 -> nil "right_control".
-			346 -> nil "right_alt".
-			347 -> nil "right_super".
-			348 -> nil "kb_menu".
-			320 -> 0 "num0".
-			321 -> 1 "num1".
-			322 -> 2 "num2".
-			323 -> 3 "num3".
-			324 -> 4 "num4".
-			325 -> 5 "num5".
-			326 -> 6 "num6".
-			327 -> 7 "num7".
-			328 -> 8 "num8".
-			329 -> 9 "num9".
-			330 -> nil "numDec".
-			331 -> $/ "numDiv".
-			332 -> $* "numMul".
-			333 -> $- "numSub".
-			334 -> $+ "numAdd".
-			335 -> Character return. 
-		} collect: [:assoc | assoc key: assoc key + self shiftValueOffset]).
-		KeyDict]
+		KeyDict := self createKeyDict]
 ]
 
 { #category : #'as yet unclassified' }
@@ -326,6 +345,18 @@ SRWorld class >> startUp: resuming [
 				start]].
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/6/2026 13:24'
+}
+SRWorld >> adjustPreferences [
+
+	self isXR ifTrue: [
+		UIManager openToolsAttachedToMouseCursor: false.
+		"Disable the drop shadow, ensures that the size of a Morph texture is not affected by focus"
+		Preferences disable: #menuAppearance3d.]
+]
+
 { #category : #accessing }
 SRWorld >> avatar [
 
@@ -365,6 +396,28 @@ SRWorld >> doOneCycle [
 	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
 	frame process.
 	self class clearRenderFrame.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/6/2026 14:09'
+}
+SRWorld >> enterMorphicProject [
+
+	| stopButton |
+	project := SRMorphicProject new.
+	Project current addDeferredUIMessage: [
+		project
+			enter: false
+			revert: false
+			saveForRevert: false].
+	project waitForStart.
+	
+	stopButton := (SimpleButtonMorph newWithLabel: 'Stop')
+		target: self;
+		actionSelector: #stopWorldAndLeaveProject.
+	project world addMorph: stopButton.
+	stopButton position: 100 @ 100.
 ]
 
 {
@@ -594,7 +647,10 @@ SRWorld >> shutDown [
 	self suspend
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/4/2026 19:38'
+}
 SRWorld >> start [
 
 	self log.
@@ -603,7 +659,9 @@ SRWorld >> start [
 		self avatar ifNil: [
 				avatar := SRAvatar new.
 				self addChild: avatar].
-		self initializeWorldProcess;
+		self adjustPreferences;
+			initializeWorldProcess;
+			enterMorphicProject;
 			runStartScript.
 		running := true.
 		lastFrameTime := DateAndTime now.
@@ -627,11 +685,29 @@ SRWorld >> startUp: resuming [
 	self resume
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/3/2026 16:01'
+}
 SRWorld >> stop [
 
 	self invalidateCache.
 	running := false.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/4/2026 19:16'
+}
+SRWorld >> stopWorldAndLeaveProject [
+
+	self stop.
+	[project close]
+		on: ProvideAnswerNotification
+		do: [:noti |
+			(noti messageText beginsWith: 'Do you really want to delete the project')
+				ifTrue: [noti resume: true]
+				ifFalse: [noti pass]].
 ]
 
 { #category : #'as yet unclassified' }
