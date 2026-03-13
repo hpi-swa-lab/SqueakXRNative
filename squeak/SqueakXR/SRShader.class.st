@@ -29,11 +29,11 @@ SRShader class >> allShaderSelectors [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/11/2026 17:48'
+	#'squeak_changestamp' : 'lege 3/12/2026 19:05'
 }
 SRShader class >> doesNotUnderstand: aMessage [
 
-	^ (self sourceFor: aMessage selector version: #'300es' "XRWorld renderer shaderVersion")
+	^ (self sourceFor: aMessage selector version: XRWorld renderer shaderVersion)
 		ifNotNil: [:source |
 			self new vertexSource: (source at: #vert) fragmentSource: (source at: #frag)]
 		ifNil: [super doesNotUnderstand: aMessage]
