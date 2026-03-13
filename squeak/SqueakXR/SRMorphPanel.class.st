@@ -40,6 +40,16 @@ SRMorphPanel class >> transcript [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/13/2026 14:54'
+}
+SRMorphPanel class >> workspace [
+
+	^ self new
+		morph: Workspace open dependents first
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 2/23/2026 11:38'
 }
@@ -51,12 +61,13 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/6/2026 14:08'
+	#'squeak_changestamp' : 'lege 3/13/2026 14:47'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
 	| normalizedPoint clickPoint point downEvent upEvent |
 	self world keyboardFocus: self.
+	self morph beKeyWindow.
 	
 	point := plane globalTransform globalPointToLocal: intersectionResult point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
