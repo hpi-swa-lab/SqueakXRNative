@@ -61,7 +61,7 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/16/2026 18:01'
+	#'squeak_changestamp' : 'lege 3/16/2026 18:15'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
@@ -89,13 +89,10 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 		nClicks: 1
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
-	
-	Project current addDeferredUIMessage: [[
-		self morph
-			processEvent: downEvent;
-			processEvent: upEvent]
-				on: ProvideAnswerNotification
-				do: [:n | n pass. Transcript showln: 'During raycast click: '; show: n. n resume: true]].
+
+	self morph
+		processEvent: downEvent;
+		processEvent: upEvent.
 	
 	lastClickPosition := clickPoint asPoint.
 ]
