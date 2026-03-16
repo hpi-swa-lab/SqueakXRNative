@@ -6,6 +6,20 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/16/2026 17:57'
+}
+SRPasteUpMorph >> addedMorph: aMorph [
+
+	aMorph isInMorphPanel ifFalse: [ | transform |
+		"place the panel in front of the user"
+		transform := XRWorld camera transform * (Matrix4x4 withOffset: Vector3 backward * 1.25).
+		XRWorld addChild: (SRMorphPanel new
+			morph: aMorph;
+			transform: transform)].
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 2/16/2026 17:34'
 }
 SRPasteUpMorph >> beWorldForProject: aProject [
@@ -27,4 +41,18 @@ SRPasteUpMorph >> invalidRect: damageRect from: aMorph [
 	self isWorldMorph
 		ifTrue: [worldState recordDamagedRect: damageRect from: aMorph].
 	^super invalidRect: damageRect from: aMorph
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/16/2026 16:25'
+}
+SRPasteUpMorph >> removedMorph: aMorph [
+
+	aMorph isInMorphPanel ifTrue: [
+		XRWorld allDescendantsSelect: [:obj |
+				obj isMorphPanel and: [obj morph = aMorph]]
+			thenDo: [:panel |
+				panel removeMorph.
+				XRWorld removeChild: panel]]
 ]

@@ -70,16 +70,14 @@ SRMorphTexture >> morph [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 2/18/2026 15:48'
+	#'squeak_changestamp' : 'lege 3/16/2026 17:28'
 }
 SRMorphTexture >> morph: aMorph [
 	
 	morph ifNotNil: [morph removeDependent: self].
 	
 	morph := aMorph.
-	aMorph
-		setIsInMorphPanel;
-		addDependent: self.
+	morph ifNotNil: [morph addDependent: self].
 ]
 
 {
@@ -92,6 +90,15 @@ SRMorphTexture >> partialUpdate: aRectangle [
 	
 	update := #partial.
 	updateRects add: aRectangle.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/16/2026 17:27'
+}
+SRMorphTexture >> removeMorph [
+
+	self morph: nil
 ]
 
 {
@@ -135,12 +142,12 @@ SRMorphTexture >> update: aSymbol with: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/5/2026 18:25'
+	#'squeak_changestamp' : 'lege 3/16/2026 17:29'
 }
 SRMorphTexture >> updateTexture [
 
 	| updateRect |
-	update ifNil: [^ texture].
+	(update isNil or: [morph isNil]) ifTrue: [^ texture].
 	
 	update := #full. "seems fast enough for now"
 	updateRect := update caseOf: {

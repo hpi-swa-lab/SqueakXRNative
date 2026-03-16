@@ -73,6 +73,15 @@ SRObject >> allDescendantsSelect: aBlock [
 	^ descendants
 ]
 
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 3/16/2026 16:04'
+}
+SRObject >> allDescendantsSelect: aSelectBlock thenDo: aDoBlock [
+
+	(self allDescendantsSelect: aSelectBlock) do: aDoBlock
+]
+
 { #category : #hierarchy }
 SRObject >> allDo: aBlock [
 
@@ -395,6 +404,15 @@ SRObject >> initialize [
 	localScale := Vector3 one.
 	
 	self transformDirtyFlag: #localTransform.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 3/16/2026 16:16'
+}
+SRObject >> isMorphPanel [
+
+	^ false
 ]
 
 {

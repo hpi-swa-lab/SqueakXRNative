@@ -61,13 +61,13 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/13/2026 14:47'
+	#'squeak_changestamp' : 'lege 3/16/2026 18:01'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
 	| normalizedPoint clickPoint point downEvent upEvent |
 	self world keyboardFocus: self.
-	self morph beKeyWindow.
+	self morph isSystemWindow ifTrue: [self morph beKeyWindow].
 	
 	point := plane globalTransform globalPointToLocal: intersectionResult point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
@@ -95,7 +95,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 			processEvent: downEvent;
 			processEvent: upEvent]
 				on: ProvideAnswerNotification
-				do: [:n | Transcript showln: 'During raycast click: '; show: n. n resume: true]].
+				do: [:n | n pass. Transcript showln: 'During raycast click: '; show: n. n resume: true]].
 	
 	lastClickPosition := clickPoint asPoint.
 ]
@@ -120,6 +120,15 @@ SRMorphPanel >> initialize [
 	self addChild: (SRSphere new scale: 5cm asVector3).
 	
 	self addChild: plane.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 3/16/2026 16:15'
+}
+SRMorphPanel >> isMorphPanel [
+
+	^ true
 ]
 
 {
@@ -177,12 +186,16 @@ SRMorphPanel >> morph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 2/23/2026 16:52'
+	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
 SRMorphPanel >> morph: aMorph [
 
-	morph := aMorph.
+	self removeMorph.
 	
+	morph := aMorph.
+	morph lastPanelPosition ifNotNil: [:position |
+		self globalTranslation: position].
+	morph setIsInMorphPanel.
 	texture morph: morph.
 	self updateTexture.
 ]
@@ -201,12 +214,25 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/6/2026 12:06'
+	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
+}
+SRMorphPanel >> removeMorph [
+
+	morph ifNotNil: [
+		morph setInMorphPanel: false. "assumption: morph is only ever in one morph panel"
+		morph lastPanelPosition: self globalTranslation.
+		morph := nil.
+		texture removeMorph].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/16/2026 16:32'
 }
 SRMorphPanel >> renderOn: aSRRenderer [
 
+	self morph ifNil: [^ self].
 	self updateTexture.
-
 	super renderOn: aSRRenderer.
 ]
 

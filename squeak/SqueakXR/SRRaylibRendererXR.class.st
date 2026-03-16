@@ -4,7 +4,10 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 3/13/2026 15:54'
+}
 SRRaylibRendererXR >> completeFrame [
 
 	Raylib

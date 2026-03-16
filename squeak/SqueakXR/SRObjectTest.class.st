@@ -116,6 +116,31 @@ SRObjectTest >> testAllDescendantsSelect [
 	self assert: 3 equals: result size.
 ]
 
+{
+	#category : #'tests - children',
+	#'squeak_changestamp' : 'lege 3/16/2026 16:15'
+}
+SRObjectTest >> testAllDescendantsSelectThenDo [
+
+	| o1 o2 o3 o4 o5 chosenObjects |
+	o1 := SRObject new.
+	o2 := SRObject new.
+	o3 := SRObject new.
+	o4 := SRObject new.
+	o5 := SRObject new.
+	
+	chosenObjects := {o1. o3. o5} asOrderedCollection.
+	
+	o1 addChild: o2.
+	o1 addChild: o3.
+	o3 addChild: o4.
+	o3 addChild: o5.
+	
+	o1 allDescendantsSelect: [:object | chosenObjects includes: object]
+		thenDo: [:object | chosenObjects remove: object].
+	self assert: chosenObjects isEmpty.
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testAllDo [
 

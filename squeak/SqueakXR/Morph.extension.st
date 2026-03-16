@@ -11,11 +11,38 @@ Morph >> isInMorphPanel [
 
 {
 	#category : #'*SqueakXR-morphic',
-	#'squeak_changestamp' : 'lege 2/23/2026 17:37'
+	#'squeak_changestamp' : 'lege 3/16/2026 17:39'
+}
+Morph >> lastPanelPosition [
+
+	^ self valueOfProperty: #lastPanelPosition
+]
+
+{
+	#category : #'*SqueakXR-morphic',
+	#'squeak_changestamp' : 'lege 3/16/2026 17:38'
+}
+Morph >> lastPanelPosition: aVector3 [
+
+	^ self setProperty: #lastPanelPosition toValue: aVector3
+]
+
+{
+	#category : #'*SqueakXR-morphic',
+	#'squeak_changestamp' : 'lege 3/16/2026 17:24'
+}
+Morph >> setInMorphPanel: aBoolean [
+
+	^ self setProperty: #isInMorphPanel toValue: aBoolean
+]
+
+{
+	#category : #'*SqueakXR-morphic',
+	#'squeak_changestamp' : 'lege 3/16/2026 17:24'
 }
 Morph >> setIsInMorphPanel [
 
-	^ self setProperty: #isInMorphPanel toValue: true
+	^ self setInMorphPanel: true
 ]
 
 {
