@@ -6,14 +6,14 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/19/2026 14:57'
+	#'squeak_changestamp' : 'lege 3/19/2026 15:15'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
 	aMorph isInMorphPanel ifFalse: [ | transform |
 		"place the panel in front of the user"
 		transform := XRWorld camera globalTransform
-			* (Matrix4x4 withOffset: Vector3 backward * 1.25).
+			* (Matrix4x4 withOffset: Vector3 forward * 1.25).
 		XRWorld addChild: (SRMorphPanel new
 			morph: aMorph;
 			transform: transform)].
