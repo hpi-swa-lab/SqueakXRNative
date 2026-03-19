@@ -47,6 +47,15 @@ Morph >> setIsInMorphPanel [
 
 {
 	#category : #'*SqueakXR-morphic',
+	#'squeak_changestamp' : 'lege 3/19/2026 15:20'
+}
+Morph >> shouldBeInMorphPanel [
+
+	^ false
+]
+
+{
+	#category : #'*SqueakXR-morphic',
 	#'squeak_changestamp' : 'lege 3/11/2026 17:55'
 }
 Morph >> worldDrewIn: aRectangle [
