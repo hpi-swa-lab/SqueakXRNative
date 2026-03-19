@@ -99,7 +99,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 3/11/2026 17:54'
+	#'squeak_changestamp' : 'lege 3/17/2026 16:14'
 }
 SRMorphPanel >> initialize [
 
@@ -113,8 +113,6 @@ SRMorphPanel >> initialize [
 	lastClickPosition := nil.
 
 	plane material shader: texture shader.
-	
-	self addChild: (SRSphere new scale: 5cm asVector3).
 	
 	self addChild: plane.
 ]

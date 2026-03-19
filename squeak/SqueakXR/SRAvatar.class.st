@@ -20,11 +20,11 @@ SRAvatar >> camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/8/2025 17:57'
+	#'squeak_changestamp' : 'lege 3/19/2026 14:50'
 }
 SRAvatar >> cameraPosition: position target: target up: up [
 
-	camera localTranslation: position
+	camera globalTransform: (Matrix4x4 objectLookAt: target from: position up: up) 
 ]
 
 {
