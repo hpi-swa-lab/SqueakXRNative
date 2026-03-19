@@ -114,13 +114,17 @@ SRPlane >> planeUp [
 	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:22'
+}
 SRPlane >> renderOn: aSRRenderer [
 
-	aSRRenderer
-		renderMesh: self mesh
-		transform: self globalTransform
-		material: self material
+	aSRRenderer withoutBackfaceCullingDo: [
+		aSRRenderer
+			renderMesh: self mesh
+			transform: self globalTransform
+			material: self material].
 ]
 
 { #category : #accessing }

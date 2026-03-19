@@ -47,6 +47,24 @@ SRRaylibRenderer >> completeFrame [
 	self subclassResponsibility
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
+}
+SRRaylibRenderer >> disableBackfaceCulling [
+
+	Raylib rlDisableBackfaceCulling.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
+}
+SRRaylibRenderer >> enableBackfaceCulling [
+
+	Raylib rlEnableBackfaceCulling.
+]
+
 { #category : #initializing }
 SRRaylibRenderer >> initialize [
 

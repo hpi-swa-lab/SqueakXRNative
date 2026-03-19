@@ -119,6 +119,24 @@ SRRenderer >> clearCache [
 SRRenderer >> completeFrame [
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
+}
+SRRenderer >> disableBackfaceCulling [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
+}
+SRRenderer >> enableBackfaceCulling [
+
+	self subclassResponsibility
+]
+
 { #category : #rendering }
 SRRenderer >> initialize [
 
@@ -239,4 +257,15 @@ SRRenderer >> simpleDrawLoop [
 SRRenderer >> test [
 
 	^ 102934
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 3/17/2026 16:21'
+}
+SRRenderer >> withoutBackfaceCullingDo: aBlock [
+
+	self disableBackfaceCulling.
+	aBlock value.
+	self enableBackfaceCulling.
 ]
