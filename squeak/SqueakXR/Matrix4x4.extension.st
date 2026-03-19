@@ -21,10 +21,63 @@ Matrix4x4 >> asRlMatrix [
 		
 ]
 
+{
+	#category : #'*SqueakXR-row-access',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:34'
+}
+Matrix4x4 >> column4 [
+	"Return column 3"
+	^ Vector3 x: self a14 y: self a24 z: self a34
+]
+
+{
+	#category : #'*SqueakXR-row-access',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:33'
+}
+Matrix4x4 >> column4: col [
+	"Set column 3"
+	self a14: col x.
+	self a24: col y.
+	self a34: col z
+]
+
 { #category : #'*SqueakXR-helpers' }
 Matrix4x4 class >> fromQuaternion: aQuaternion [
 
 	^ self identity setFromQuaternion: aQuaternion
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:37'
+}
+Matrix4x4 class >> objectLookAt: target from: position up: worldUp [
+	"creates a lookAt matrix for an object (as opposed to a view matrix for a camera)"
+	
+	| front side up |
+	front := (target - position) normalized.
+	side := (front cross: worldUp normalized) normalized.
+	up := side cross: front.
+	^ self identity
+		column1:  side;
+		column2: up;
+		column3: front;
+		column4: position;
+		yourself
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 3/18/2026 15:10'
+}
+Matrix4x4 >> prettyString [
+
+	^ String streamContents: [:stream |
+		1 to: 4 do:[:r|
+			1 to: 4 do:[:c| 
+				(self at: r-1*4+c) printOn: stream showingDecimalPlaces: 2.
+				stream nextPut: Character space].
+			(r < 4) ifTrue:[stream nextPut: Character cr]]]
 ]
 
 { #category : #'*SqueakXR-helpers' }
@@ -65,6 +118,26 @@ Matrix4x4 >> rotationQuaternion [
 					q := {t. r23 - r32. r31 - r13. r12 - r21} as: Quaternion]].
 	
 	^ (q *= (0.5 / t sqrt)) normalize
+]
+
+{
+	#category : #'*SqueakXR-row-access',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:34'
+}
+Matrix4x4 >> row4 [
+	"Return row 3"
+	^ Vector3 x: self a41 y: self a42 z: self a43
+]
+
+{
+	#category : #'*SqueakXR-row-access',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:34'
+}
+Matrix4x4 >> row4: row [
+	"Set row 3"
+	self a41: row x.
+	self a42: row y.
+	self a43: row z
 ]
 
 { #category : #'*SqueakXR-helpers' }

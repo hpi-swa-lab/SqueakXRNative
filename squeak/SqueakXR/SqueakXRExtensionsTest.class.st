@@ -5,6 +5,47 @@ Class {
 }
 
 {
+	#category : #support,
+	#'squeak_changestamp' : 'lege 3/19/2026 14:42'
+}
+SqueakXRExtensionsTest >> assertMatrix: aMatrix4x4 closeTo: aMatrixCollection [
+	
+	self assert: (aMatrix4x4 closeTo: (Matrix4x4 newFrom: aMatrixCollection))
+]
+
+{
+	#category : #'testing-matrix4x4',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:45'
+}
+SqueakXRExtensionsTest >> testMatrix4x4FromQuaternion [
+
+	| m |
+	m := Matrix4x4 fromQuaternion: (Quaternion angle: 90 axis: 0 @ 1 @ 0).
+	self assertMatrix: m closeTo: #(
+		 0  0  1  0
+		 0  1  0  0
+		-1  0  0  0
+		 0  0  0  1
+	).
+]
+
+{
+	#category : #'testing-matrix4x4',
+	#'squeak_changestamp' : 'lege 3/19/2026 14:49'
+}
+SqueakXRExtensionsTest >> testMatrix4x4ObjectLookAt [
+
+	| m |
+	m := Matrix4x4 objectLookAt: 0 @ 0 @ 0 from: 1 @ 0 @ 0 up: 0 @ 1 @ 0.
+	self assertMatrix: m closeTo: #(
+		 0  0 -1  1
+		 0  1  0  0
+		-1  0  0  0
+		 0  0  0  1
+	).
+]
+
+{
 	#category : #'testing-quaternion',
 	#'squeak_changestamp' : 'lege 1/22/2026 17:13'
 }
