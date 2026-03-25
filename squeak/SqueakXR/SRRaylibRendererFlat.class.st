@@ -1,12 +1,16 @@
 Class {
 	#name : #SRRaylibRendererFlat,
 	#superclass : #SRRaylibRenderer,
+	#instVars : [
+		'reticleLines',
+		'reticleColor'
+	],
 	#category : #'SqueakXR-Core'
 }
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 2/23/2026 15:14'
+	#'squeak_changestamp' : 'lege 3/25/2026 15:23'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -14,8 +18,52 @@ SRRaylibRendererFlat >> completeFrame [
 
 	Raylib
 		drawGridSlices: 10 spacing: 1;
-		endMode3D;
-		endDrawing.
+		endMode3D.
+	self drawReticle.
+	Raylib endDrawing.
+	
+	1 milliSecond wait.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 3/25/2026 15:48'
+}
+SRRaylibRendererFlat >> drawReticle [
+
+	reticleLines do: [:line |
+		Raylib drawLineStartPosX: line first x
+			startPosY: line first y
+			endPosX: line second x
+			endPosY: line second y
+			color: reticleColor].
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 3/25/2026 15:45'
+}
+SRRaylibRendererFlat >> initReticle [
+
+	| horiLineStart vertLineStart |
+	horiLineStart := ((self windowWidth - self reticleSize) @ (self windowHeight)) / 2.
+	vertLineStart := ((self windowWidth) @ (self windowHeight - self reticleSize)) / 2.
+	reticleLines := {
+		{horiLineStart. horiLineStart + (self reticleSize @ 0)}.
+		{vertLineStart. vertLineStart + (0 @ self reticleSize)}.
+	}.
+	reticleColor := Color red asRaylibObject.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 3/25/2026 15:30'
+}
+SRRaylibRendererFlat >> initialize [
+
+	super initialize.
+	
+	self initReticle.
 ]
 
 { #category : #'render-loop' }
@@ -30,12 +78,21 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 3/25/2026 15:48'
+}
+SRRaylibRendererFlat >> reticleSize [
+
+	^ 50
+]
+
+{
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 10/8/2025 13:36'
+	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
 }
 SRRaylibRendererFlat >> setup [
 
-	Raylib initWindowWidth: 800 height: 450 title: 'Squeak 3D World';
+	Raylib initWindowWidth: self windowWidth height: self windowHeight title: 'Squeak 3D World';
 		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
 			ifTrue: [0]
 			ifFalse: [self class startMonitor]).
@@ -65,4 +122,22 @@ SRRaylibRendererFlat >> shaderVersion [
 SRRaylibRendererFlat >> shutdown [
 
 	Raylib closeWindow.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+}
+SRRaylibRendererFlat >> windowHeight [
+
+	^ 450
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+}
+SRRaylibRendererFlat >> windowWidth [
+
+	^ 800
 ]
