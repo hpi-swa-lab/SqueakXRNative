@@ -22,7 +22,7 @@ SRMorphTexture class >> shader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/11/2026 17:22'
+	#'squeak_changestamp' : 'lege 3/19/2026 15:39'
 }
 SRMorphTexture >> createTexture [
 

@@ -61,11 +61,13 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/16/2026 18:15'
+	#'squeak_changestamp' : 'lege 3/25/2026 18:28'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
 	| normalizedPoint clickPoint point downEvent upEvent |
+	self morph ifNil: [^ self].
+	
 	self world keyboardFocus: self.
 	self morph isSystemWindow ifTrue: [self morph beKeyWindow].
 	
@@ -90,9 +92,10 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 		hand: self currentHand
 		stamp: Sensor eventTimeNow.
 
-	self morph
-		processEvent: downEvent;
-		processEvent: upEvent.
+	downEvent becomeActiveDuring: [
+		self morph processEvent: downEvent].
+	upEvent becomeActiveDuring: [
+		self morph processEvent: upEvent].
 	
 	lastClickPosition := clickPoint asPoint.
 ]
@@ -128,11 +131,12 @@ SRMorphPanel >> isMorphPanel [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 2/18/2026 18:51'
+	#'squeak_changestamp' : 'lege 3/25/2026 18:25'
 }
 SRMorphPanel >> keyboardEvent: aCharacter [
 
 	| buttons event keyValue |
+	self morph ifNil: [^ self].
 	buttons := 0.
 	((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
 		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift])
@@ -159,18 +163,19 @@ SRMorphPanel >> keyboardEvent: aCharacter [
 		stamp: Sensor eventTimeNow.
 	
 	Project current addDeferredUIMessage: [[
-		self morph processEvent: event]
-			on: Error
-			do: [:error |
-				Transcript showln: 'Error occurred during keystroke: '; show: error. error pass]
-			on: ProvideAnswerNotification
-			do: [:notification |
-				notification messageText = 'Please type your initials:'
-					ifTrue: [notification resume: 'xr user']
-					ifFalse: [notification pass]]
-			on: Exception
-			do: [:exception |
-				Transcript showln: 'Exception during keystroke: '; show: exception. exception pass]].
+		event becomeActiveDuring:[
+			self morph processEvent: event]]
+		on: Error
+		do: [:error |
+			Transcript showln: 'Error occurred during keystroke: '; show: error. error pass]
+		on: ProvideAnswerNotification
+		do: [:notification |
+			notification messageText = 'Please type your initials:'
+				ifTrue: [notification resume: 'xr user']
+				ifFalse: [notification pass]]
+		on: Exception
+		do: [:exception |
+			Transcript showln: 'Exception during keystroke: '; show: exception. exception pass]].
 ]
 
 { #category : #accessing }

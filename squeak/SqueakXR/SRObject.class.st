@@ -430,6 +430,15 @@ SRObject >> isStepping [
 	^ isStepping and: [badStep not]
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 3/25/2026 17:24'
+}
+SRObject >> isXR [
+
+	^ self world ifNotNil: [:world | world isXR] ifNil: [false]
+]
+
 { #category : #events }
 SRObject >> keyboardEvent: aCharacter [
 ]
