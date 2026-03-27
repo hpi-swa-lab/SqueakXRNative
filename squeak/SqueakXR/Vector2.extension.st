@@ -8,10 +8,13 @@ Vector2 >> asRlVector [
 		y: self y
 ]
 
-{ #category : #'*SqueakXR-helpers' }
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 3/26/2026 16:33'
+}
 Vector2 class >> componentSelectors [
 
-	^ #(x y)
+	^ #(x y o i)
 ]
 
 {

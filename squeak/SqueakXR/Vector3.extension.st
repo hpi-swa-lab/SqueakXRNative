@@ -12,10 +12,13 @@ Vector3 class >> backward [
 	^ self x: 0 y: 0 z: -1
 ]
 
-{ #category : #'*SqueakXR-helpers' }
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 3/26/2026 16:33'
+}
 Vector3 class >> componentSelectors [
 
-	^ #(x y z)
+	^ #(x y z o i)
 ]
 
 { #category : #'*SqueakXR-helpers' }
