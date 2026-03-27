@@ -347,11 +347,12 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 13:24'
+	#'squeak_changestamp' : 'lege 3/27/2026 13:46'
 }
 SRWorld >> adjustPreferences [
 
 	self isXR ifTrue: [
+		Display relativeUiScaleFactor: 1.0.
 		UIManager openToolsAttachedToMouseCursor: false.
 		"Disable the drop shadow, ensures that the size of a Morph texture is not affected by focus"
 		Preferences disable: #menuAppearance3d.]
