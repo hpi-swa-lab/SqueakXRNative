@@ -69,7 +69,10 @@ SRFrame >> prepareFrame [
 	self isOld ifFalse: [self world prepareFrame]
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'lege 4/1/2026 17:00'
+}
 SRFrame >> process [
 
 	self updateActions;

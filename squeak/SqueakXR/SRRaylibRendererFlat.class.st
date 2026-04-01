@@ -5,20 +5,40 @@ Class {
 		'reticleLines',
 		'reticleColor'
 	],
+	#classVars : [
+		'HighDpiEnabled'
+	],
 	#category : #'SqueakXR-Core'
 }
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/1/2026 17:02'
+}
+SRRaylibRendererFlat class >> highDpiEnabled [
+	<preference: 'High DPI Enabled in Flat'
+		category: 'SqueakXR'
+		description: 'Whether to enable high DPI rendering in a flat (non-XR) environment. Enable this if only part of the rendered image is shown in the window. Recommended for MacBook Retina displays.'
+		type: #Boolean>
+	^ HighDpiEnabled ifNil: [HighDpiEnabled := false]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/1/2026 16:57'
+}
+SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
+
+	HighDpiEnabled := aBoolean
+]
+
+{
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 3/25/2026 15:23'
+	#'squeak_changestamp' : 'lege 4/1/2026 16:16'
 }
 SRRaylibRendererFlat >> completeFrame [
 
-	Raylib updateCamera: camera mode: RlCameraMode cameraFree.
-
-	Raylib
-		drawGridSlices: 10 spacing: 1;
-		endMode3D.
+	Raylib endMode3D.
 	self drawReticle.
 	Raylib endDrawing.
 	
@@ -66,13 +86,18 @@ SRRaylibRendererFlat >> initialize [
 	self initReticle.
 ]
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 4/1/2026 16:16'
+}
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
 	Raylib
+		updateCamera: camera mode: RlCameraMode cameraFree;
 		beginDrawing;
 		clearBackgroundColor: clearColor;
-		beginMode3DCamera: camera.
+		beginMode3DCamera: camera;
+		drawGridSlices: 10 spacing: 1.
 	
 	^ true
 ]
@@ -88,10 +113,14 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+	#'squeak_changestamp' : 'lege 4/1/2026 16:59'
 }
 SRRaylibRendererFlat >> setup [
 
+	Raylib setConfigFlags: 0.
+	self class highDpiEnabled ifTrue: [
+		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
+	
 	Raylib initWindowWidth: self windowWidth height: self windowHeight title: 'Squeak 3D World';
 		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
 			ifTrue: [0]
