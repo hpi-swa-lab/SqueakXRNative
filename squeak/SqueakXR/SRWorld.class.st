@@ -566,18 +566,21 @@ SRWorld >> pollActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/13/2025 17:22'
+	#'squeak_changestamp' : 'lege 3/17/2026 16:13'
 }
 SRWorld >> prepareFrame [
 
 	isFramePrepared := self renderer prepareFrame: self avatar globalTransform.
 	self avatar
-		cameraPosition: self renderer
-		cameraPosition target: self renderer cameraTarget
-		up: self renderer cameraUp.
+		cameraPosition: self renderer cameraPosition asVector3
+		target: self renderer cameraTarget asVector3
+		up: self renderer cameraUp asVector3.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/25/2026 16:36'
+}
 SRWorld >> processKeyInput [
 
 	| keyValue keys |
@@ -585,7 +588,7 @@ SRWorld >> processKeyInput [
 	[(keyValue := Raylib getKeyPressed) = 0] whileFalse: [
 		keys add: keyValue].
 	
-	keys ifNotEmpty: [ 
+	keys ifNotEmpty: [
 		keys do: [:k | self handleKeyPress: k]].
 ]
 
@@ -650,7 +653,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/4/2026 19:38'
+	#'squeak_changestamp' : 'lege 3/25/2026 17:25'
 }
 SRWorld >> start [
 
@@ -664,6 +667,7 @@ SRWorld >> start [
 			initializeWorldProcess;
 			enterMorphicProject;
 			runStartScript.
+		self isXR ifFalse: [self addChild: SRXRInputEmulator new].
 		running := true.
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
