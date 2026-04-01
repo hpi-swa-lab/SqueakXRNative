@@ -125,10 +125,11 @@ SRAudioSource >> source [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/9/2026 17:57'
+	#'squeak_changestamp' : 'lege 3/6/2026 16:29'
 }
 SRAudioSource >> unbindBuffer [
 
-	OpenAL alSourceiSource: source first param: AlDefines alBuffer value: 0.
+	source ifNotNil: [
+		OpenAL alSourceiSource: source first param: AlDefines alBuffer value: 0].
 	SRAudio instance checkErrorAl.
 ]

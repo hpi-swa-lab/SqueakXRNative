@@ -48,14 +48,14 @@ SRAudioSnippet >> buffer [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/9/2026 18:00'
+	#'squeak_changestamp' : 'lege 3/6/2026 16:30'
 }
 SRAudioSnippet >> cleanup [
 
 	self unbindFromCurrentSource.
 	buffer ifNotNil: [
 		OpenAL alDeleteBuffersN: 1 buffers: buffer.
-		self checkErrorAl.
+		SRAudio instance checkErrorAl.
 		buffer := nil]
 ]
 
