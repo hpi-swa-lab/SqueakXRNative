@@ -115,11 +115,11 @@ SRToolBuilder >> buildPluggableWindow: aSpec [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/26/2026 15:17'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
 }
 SRToolBuilder >> open: anObject [
 
-	^ XRWorld addChild: (self build: anObject)
+	^ self currentXRWorld addChild: (self build: anObject)
 ]
 
 {
