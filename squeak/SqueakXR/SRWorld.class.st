@@ -18,6 +18,7 @@ Class {
 		'secondStart'
 	],
 	#classVars : [
+		'Current',
 		'KeyDict',
 		'RenderFrame',
 		'RunStartScriptInFlat'
@@ -259,6 +260,24 @@ SRWorld class >> createKeyDict [
 	^keyDict
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 16:43'
+}
+SRWorld class >> current [
+
+	^ Current
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 16:46'
+}
+SRWorld class >> current: aSRWorld [
+
+	Current := aSRWorld
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 
@@ -299,6 +318,15 @@ SRWorld class >> keyFor: charCode shift: isShiftPressed [
 	^ self keyDict at: (charCode + (isShiftPressed ifFalse: [0] ifTrue: [self shiftValueOffset]))
 		ifAbsent: [nil]
 	
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 16:43'
+}
+SRWorld class >> resetCurrent [
+
+	Current := nil
 ]
 
 { #category : #'as yet unclassified' }
@@ -504,6 +532,18 @@ SRWorld >> isRunning [
 	^ running
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 17:10'
+}
+SRWorld >> isRunning: aBoolean [
+
+	running := aBoolean.
+	running
+		ifTrue: [self class current: self]
+		ifFalse: [self class resetCurrent]
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> isWorldObject [
 
@@ -631,9 +671,12 @@ SRWorld >> renderer: aSRRenderer [
 	renderer := aSRRenderer
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 17:11'
+}
 SRWorld >> resume [
-
+	
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
@@ -722,10 +765,12 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/25/2026 17:25'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:11'
 }
 SRWorld >> start [
 
+	self class current ifNotNil: [self error: 'A world is already running!'].
+	
 	self log.
 	self worldProcess: ([
 		self log: 'add avatar'.
@@ -737,7 +782,6 @@ SRWorld >> start [
 			enterMorphicProject;
 			runStartScript.
 		self isXR ifFalse: [self addChild: SRXRInputEmulator new].
-		running := true.
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
 		self loop.
@@ -746,7 +790,8 @@ SRWorld >> start [
 			name: 'XR World Process';
 			priority: Processor userSchedulingPriority).
 	
-	self worldProcess resume.
+	self isRunning: true.
+	self resume.
 ]
 
 { #category : #'as yet unclassified' }
@@ -761,12 +806,12 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/3/2026 16:01'
+	#'squeak_changestamp' : 'lege 4/2/2026 16:59'
 }
 SRWorld >> stop [
 
-	self invalidateCache.
-	running := false.
+	self invalidateCache;
+		isRunning: false.
 ]
 
 {
@@ -784,7 +829,10 @@ SRWorld >> stopWorldAndLeaveProject [
 				ifFalse: [noti pass]].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 16:53'
+}
 SRWorld >> suspend [
 
 	worldProcess ifNotNil: [worldProcess suspend].
