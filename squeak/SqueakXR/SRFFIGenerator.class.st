@@ -38,13 +38,16 @@ SRFFIGenerator class >> baseCategoryRaylib [
 
 {
 	#category : #apis,
-	#'squeak_changestamp' : 'lege 11/18/2025 11:26'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:13'
 }
 SRFFIGenerator class >> extraRaylibMethods [
 
 	^ {
 		#RlVector3 -> 'asVector3 ^ Vector3 x: self x y: self y z: self z'.
-	} asDictionary
+		#RlFunctions -> 'drawTextWithFont: font text: text position: pos size: size fontSpacing: fontSpac lineSpacing: lineSpac backface: backface color: color
+	<cdecl: void ''DrawText3D''(RlFont, char*, RlVector3, float, float, float, bool, RlColor)>
+	^self externalCallFailed'.
+	} as: Dictionary
 ]
 
 { #category : #generating }

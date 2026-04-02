@@ -386,13 +386,23 @@ SRWorld >> completeFrame [
 		self renderer completeFrame]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 3/6/2026 14:09'
+}
 SRWorld >> doOneCycle [
 
-	| deltaTime startTime frame |
+	| deltaTime startTime frame secondCurrent secondDelta |
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
+	
+	secondStart ifNil: [secondStart := DateAndTime now].
+	secondCurrent := DateAndTime now.
+	secondDelta := (secondCurrent - secondStart).
+	secondDelta > 10 seconds ifTrue: [
+		secondStart := DateAndTime now.
+		Transcript showln: '=------ FPS: ', Raylib getFPS asString].
 	
 	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
 	frame process.
@@ -545,12 +555,23 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/7/2025 15:20'
+	#'squeak_changestamp' : 'lege 3/6/2026 17:00'
 }
 SRWorld >> loop [
 
-	[[self isRunning] whileTrue: [
-		self doOneCycle. Processor yield]]
+	["| profiling |
+	
+	profiling := true.
+	[10 seconds wait. profiling := false] fork.
+	MessageTally spyOn:
+	[[profiling] whileTrue: [
+		self doOneCycle. Processor yield]].
+	Transcript showln: '================= PROFILING COMPLETE'."
+	
+	[self isRunning] whileTrue: [
+		self doOneCycle. Processor yield]
+	
+	]
 		on: Error
 		do: [:error |
 			error printVerboseOn: Transcript.
@@ -566,7 +587,7 @@ SRWorld >> pollActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/17/2026 16:13'
+	#'squeak_changestamp' : 'lege 4/1/2026 16:05'
 }
 SRWorld >> prepareFrame [
 
@@ -622,7 +643,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/8/2025 17:16'
+	#'squeak_changestamp' : 'lege 3/26/2026 18:12'
 }
 SRWorld >> runStartScript [
 
@@ -630,19 +651,67 @@ SRWorld >> runStartScript [
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
 	ranStartScript := true.
 	
+	"self log: 'trying yaros...'."
+	"methodMorser := MethodMorser new.
+	methodMorserMorph := methodMorser open.
+	methodMorser
+		addSpace: (MorseCodeSpace forEnvironment: self environment);
+		server: (MorseYarosServer forYaros:
+			(YarosServer new
+				connector: (YarosWebSocketClientConnector remoteName: 'localhost' port: 8082);
+				yourself));
+		startConnection.
+	1 second wait.
+	methodMorser
+		addProjects: (methodMorser spaces first projectsWithAllNames: {#SqueakXR});
+		startAutoSync."
+	"yaros2 := YarosServer new
+		""""connector: (YarosHTTPClientAndServerConnector remoteName: 'localhost' clientPort: 8083 serverPort: 8082);""""
+		connector: (YarosWebSocketClientConnector remoteName: 'localhost' port: 8082)
+		yourself.
+	yaros2 startServer.
+	yaros2 startClient.
+	Smalltalk at: #TheYaros put: yaros2.
+	self log: 'yaros connected'."
+	
+	"[10 seconds wait. Project current world imageForm writePNGfileNamed: 'world-', DateAndTime now asUnixTime asString, '.png'.
+	Transcript showln: '----------------- WROTE IMAGE'] fork."
+	
+	self isXR ifFalse: [
+		SRSceneTreeInspector openOn: self].
+	
 	self log: 'proceeding';
-		addChild: (SRMorphPanel new
-			morph: SystemBrowser default open dependents first;
+		"addChild: (SRMorphPanel new
+			morph: methodMorserMorph;
+			translation: -1 @ 1 @ -2.5);"
+		addChild: (SRMorphPanel transcript
+			translation: 1 @ 2 @ -2.5);
+		addChild: (SRMorphPanel systemBrowser
 			translation: 0 @ 1 @ -1.5);
-		addChild: (SRMorphPanel new
+		"addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
-			translation: 0 @ 2 @ -1.5);
-		addChild: (SRMorphPanel new
-			morph: Workspace open dependents first;
-			translation: 1.5 @ 1 @ -1.5);
+			translation: 0 @ 2 @ -1.5);"
+		addChild: (SRMorphPanel workspace
+			translation: 1.5 @ 1 @ -1.5)";
 		addChild: (SRMorphPanel new
 			morph: SRSaveMorph new openInWorld;
-			translation: -1.25 @ 1 @ -1.5)
+			translation: -1.25 @ 1 @ -1.5)".
+	
+	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
+	
+	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
+		label: 'Profile'
+		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
+		extent: 200 @ 100;
+		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
+		actionSelector: #value))
+	
+	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
+	self addChild: (SRMorphPanel new
+		morph: (Morph new
+			extent: 50 asPoint;
+			color: col);
+		translation: i * 0.2 + 9 @ 9.5 @ 9.5)]"
 ]
 
 { #category : #'as yet unclassified' }

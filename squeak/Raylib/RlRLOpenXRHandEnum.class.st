@@ -10,7 +10,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRLOpenXRHandEnum class >> rlopenxrHandCount [
 	""
@@ -20,7 +20,7 @@ RlRLOpenXRHandEnum class >> rlopenxrHandCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRLOpenXRHandEnum class >> rlopenxrHandLeft [
 	""
@@ -30,7 +30,7 @@ RlRLOpenXRHandEnum class >> rlopenxrHandLeft [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRLOpenXRHandEnum class >> rlopenxrHandRight [
 	""

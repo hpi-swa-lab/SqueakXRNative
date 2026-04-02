@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions class >> moduleName [
 
@@ -15,7 +15,7 @@ RlFunctions class >> moduleName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginBlendMode: mode [
 	"Begin blending mode (alpha, additive, multiplied, subtract, custom)
@@ -27,7 +27,7 @@ RlFunctions >> beginBlendMode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginDrawing [
 	"Setup canvas (framebuffer) to start drawing
@@ -39,7 +39,7 @@ RlFunctions >> beginDrawing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginMode2DCamera: camera [
 	"Begin 2D mode with custom camera (2D)
@@ -51,7 +51,7 @@ RlFunctions >> beginMode2DCamera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginMode3DCamera: camera [
 	"Begin 3D mode with custom camera (3D)
@@ -63,7 +63,7 @@ RlFunctions >> beginMode3DCamera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginScissorModeX: x y: y width: width height: height [
 	"Begin scissor mode (define screen area for following drawing)
@@ -78,7 +78,7 @@ RlFunctions >> beginScissorModeX: x y: y width: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginShaderModeShader: shader [
 	"Begin custom shader drawing
@@ -90,7 +90,7 @@ RlFunctions >> beginShaderModeShader: shader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginTextureModeTarget: target [
 	"Begin drawing to render texture
@@ -102,7 +102,7 @@ RlFunctions >> beginTextureModeTarget: target [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> beginVrStereoModeConfig: config [
 	"Begin stereo rendering (requires VR simulator)
@@ -114,7 +114,7 @@ RlFunctions >> beginVrStereoModeConfig: config [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> changeDirectoryDir: dir [
 	"Change working directory, return true on success
@@ -126,7 +126,7 @@ RlFunctions >> changeDirectoryDir: dir [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionBoxSphereBox: box center: center radius: radius [
 	"Check collision between box and sphere
@@ -140,7 +140,7 @@ RlFunctions >> checkCollisionBoxSphereBox: box center: center radius: radius [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionBoxesBox1: box1 box2: box2 [
 	"Check collision between two bounding boxes
@@ -153,7 +153,7 @@ RlFunctions >> checkCollisionBoxesBox1: box1 box2: box2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionCircleLineCenter: center radius: radius p1: p1 p2: p2 [
 	"Check if circle collides with a line created betweeen two points [p1] and [p2]
@@ -168,7 +168,7 @@ RlFunctions >> checkCollisionCircleLineCenter: center radius: radius p1: p1 p2: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionCircleRecCenter: center radius: radius rec: rec [
 	"Check collision between circle and rectangle
@@ -182,7 +182,7 @@ RlFunctions >> checkCollisionCircleRecCenter: center radius: radius rec: rec [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionCirclesCenter1: center1 radius1: radius1 center2: center2 radius2: radius2 [
 	"Check collision between two circles
@@ -197,7 +197,7 @@ RlFunctions >> checkCollisionCirclesCenter1: center1 radius1: radius1 center2: c
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionLinesStartPos1: startPos1 endPos1: endPos1 startPos2: startPos2 endPos2: endPos2 collisionPoint: collisionPoint [
 	"Check the collision between two lines defined by two points each, returns collision point by reference
@@ -213,7 +213,7 @@ RlFunctions >> checkCollisionLinesStartPos1: startPos1 endPos1: endPos1 startPos
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionPointCirclePoint: point center: center radius: radius [
 	"Check if point is inside circle
@@ -227,7 +227,7 @@ RlFunctions >> checkCollisionPointCirclePoint: point center: center radius: radi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionPointLinePoint: point p1: p1 p2: p2 threshold: threshold [
 	"Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
@@ -242,7 +242,7 @@ RlFunctions >> checkCollisionPointLinePoint: point p1: p1 p2: p2 threshold: thre
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionPointPolyPoint: point points: points pointCount: pointCount [
 	"Check if point is within a polygon described by array of vertices
@@ -256,7 +256,7 @@ RlFunctions >> checkCollisionPointPolyPoint: point points: points pointCount: po
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionPointRecPoint: point rec: rec [
 	"Check if point is inside rectangle
@@ -269,7 +269,7 @@ RlFunctions >> checkCollisionPointRecPoint: point rec: rec [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionPointTrianglePoint: point p1: p1 p2: p2 p3: p3 [
 	"Check if point is inside a triangle
@@ -284,7 +284,7 @@ RlFunctions >> checkCollisionPointTrianglePoint: point p1: p1 p2: p2 p3: p3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionRecsRec1: rec1 rec2: rec2 [
 	"Check collision between two rectangles
@@ -297,7 +297,7 @@ RlFunctions >> checkCollisionRecsRec1: rec1 rec2: rec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> checkCollisionSpheresCenter1: center1 radius1: radius1 center2: center2 radius2: radius2 [
 	"Check collision between two spheres
@@ -312,7 +312,7 @@ RlFunctions >> checkCollisionSpheresCenter1: center1 radius1: radius1 center2: c
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> clearBackgroundColor: color [
 	"Set background color (framebuffer clear color)
@@ -324,7 +324,7 @@ RlFunctions >> clearBackgroundColor: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> clearWindowStateFlags: flags [
 	"Clear window configuration state flags
@@ -336,7 +336,7 @@ RlFunctions >> clearWindowStateFlags: flags [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> closeWindow [
 	"Close window and unload OpenGL context
@@ -348,7 +348,7 @@ RlFunctions >> closeWindow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> codepointToUTF8Codepoint: codepoint utf8Size: utf8Size [
 	"Encode one codepoint into UTF-8 byte array (array length returned as parameter)
@@ -361,7 +361,7 @@ RlFunctions >> codepointToUTF8Codepoint: codepoint utf8Size: utf8Size [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorAlphaBlendDst: dst src: src tint: tint [
 	"Get src alpha-blended into dst color with tint
@@ -375,7 +375,7 @@ RlFunctions >> colorAlphaBlendDst: dst src: src tint: tint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorAlphaColor: color alpha: alpha [
 	"Get color with alpha applied, alpha goes from 0.0f to 1.0f
@@ -388,7 +388,7 @@ RlFunctions >> colorAlphaColor: color alpha: alpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorBrightnessColor: color factor: factor [
 	"Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
@@ -401,7 +401,7 @@ RlFunctions >> colorBrightnessColor: color factor: factor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorContrastColor: color contrast: contrast [
 	"Get color with contrast correction, contrast values between -1.0f and 1.0f
@@ -414,7 +414,7 @@ RlFunctions >> colorContrastColor: color contrast: contrast [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorFromHSVHue: hue saturation: saturation value: value [
 	"Get a Color from HSV values, hue [0..360], saturation/value [0..1]
@@ -428,7 +428,7 @@ RlFunctions >> colorFromHSVHue: hue saturation: saturation value: value [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorFromNormalized: normalized [
 	"Get Color from normalized values [0..1]
@@ -440,7 +440,7 @@ RlFunctions >> colorFromNormalized: normalized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorIsEqualCol1: col1 col2: col2 [
 	"Check if two colors are equal
@@ -453,7 +453,7 @@ RlFunctions >> colorIsEqualCol1: col1 col2: col2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorLerpColor1: color1 color2: color2 factor: factor [
 	"Get color lerp interpolation between two colors, factor [0.0f..1.0f]
@@ -467,7 +467,7 @@ RlFunctions >> colorLerpColor1: color1 color2: color2 factor: factor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorNormalizeColor: color [
 	"Get Color normalized as float [0..1]
@@ -479,7 +479,7 @@ RlFunctions >> colorNormalizeColor: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorTintColor: color tint: tint [
 	"Get color multiplied with another color
@@ -492,7 +492,7 @@ RlFunctions >> colorTintColor: color tint: tint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorToHSVColor: color [
 	"Get HSV values for a Color, hue [0..360], saturation/value [0..1]
@@ -504,7 +504,7 @@ RlFunctions >> colorToHSVColor: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> colorToIntColor: color [
 	"Get hexadecimal value for a Color (0xRRGGBBAA)
@@ -516,7 +516,7 @@ RlFunctions >> colorToIntColor: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> compressData: data dataSize: dataSize compDataSize: compDataSize [
 	"Compress data (DEFLATE algorithm), memory must be MemFree()
@@ -530,7 +530,7 @@ RlFunctions >> compressData: data dataSize: dataSize compDataSize: compDataSize 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> computeCRC32Data: data dataSize: dataSize [
 	"Compute CRC32 hash code
@@ -543,7 +543,7 @@ RlFunctions >> computeCRC32Data: data dataSize: dataSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> computeMD5Data: data dataSize: dataSize [
 	"Compute MD5 hash code, returns static int[4] (16 bytes)
@@ -556,7 +556,7 @@ RlFunctions >> computeMD5Data: data dataSize: dataSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> computeSHA1Data: data dataSize: dataSize [
 	"Compute SHA1 hash code, returns static int[5] (20 bytes)
@@ -569,7 +569,7 @@ RlFunctions >> computeSHA1Data: data dataSize: dataSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> decodeDataBase64Data: data outputSize: outputSize [
 	"Decode Base64 string data, memory must be MemFree()
@@ -582,7 +582,7 @@ RlFunctions >> decodeDataBase64Data: data outputSize: outputSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> decompressDataCompData: compData compDataSize: compDataSize dataSize: dataSize [
 	"Decompress data (DEFLATE algorithm), memory must be MemFree()
@@ -596,7 +596,7 @@ RlFunctions >> decompressDataCompData: compData compDataSize: compDataSize dataS
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> directoryExistsDirPath: dirPath [
 	"Check if a directory path exists
@@ -608,7 +608,7 @@ RlFunctions >> directoryExistsDirPath: dirPath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> disableCursor [
 	"Disables cursor (lock cursor)
@@ -620,7 +620,7 @@ RlFunctions >> disableCursor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> disableEventWaiting [
 	"Disable waiting for events on EndDrawing(), automatic events polling
@@ -632,7 +632,7 @@ RlFunctions >> disableEventWaiting [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawBillboardCamera: camera texture: texture position: position scale: scale tint: tint [
 	"Draw a billboard texture
@@ -648,7 +648,7 @@ RlFunctions >> drawBillboardCamera: camera texture: texture position: position s
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawBillboardProCamera: camera texture: texture source: source position: position up: up size: size origin: origin rotation: rotation tint: tint [
 	"Draw a billboard texture defined by source and rotation
@@ -668,7 +668,7 @@ RlFunctions >> drawBillboardProCamera: camera texture: texture source: source po
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawBillboardRecCamera: camera texture: texture source: source position: position size: size tint: tint [
 	"Draw a billboard texture defined by source
@@ -685,7 +685,7 @@ RlFunctions >> drawBillboardRecCamera: camera texture: texture source: source po
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawBoundingBox: box color: color [
 	"Draw bounding box (wires)
@@ -698,7 +698,7 @@ RlFunctions >> drawBoundingBox: box color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCapsuleStartPos: startPos endPos: endPos radius: radius slices: slices rings: rings color: color [
 	"Draw a capsule with the center of its sphere caps at startPos and endPos
@@ -715,7 +715,7 @@ RlFunctions >> drawCapsuleStartPos: startPos endPos: endPos radius: radius slice
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCapsuleWiresStartPos: startPos endPos: endPos radius: radius slices: slices rings: rings color: color [
 	"Draw capsule wireframe with the center of its sphere caps at startPos and endPos
@@ -732,7 +732,7 @@ RlFunctions >> drawCapsuleWiresStartPos: startPos endPos: endPos radius: radius 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircle3DCenter: center radius: radius rotationAxis: rotationAxis rotationAngle: rotationAngle color: color [
 	"Draw a circle in 3D world space
@@ -748,7 +748,7 @@ RlFunctions >> drawCircle3DCenter: center radius: radius rotationAxis: rotationA
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleCenterX: centerX centerY: centerY radius: radius color: color [
 	"Draw a color-filled circle
@@ -763,7 +763,7 @@ RlFunctions >> drawCircleCenterX: centerX centerY: centerY radius: radius color:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleGradientCenterX: centerX centerY: centerY radius: radius inner: inner outer: outer [
 	"Draw a gradient-filled circle
@@ -779,7 +779,7 @@ RlFunctions >> drawCircleGradientCenterX: centerX centerY: centerY radius: radiu
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleLinesCenterX: centerX centerY: centerY radius: radius color: color [
 	"Draw circle outline
@@ -794,7 +794,7 @@ RlFunctions >> drawCircleLinesCenterX: centerX centerY: centerY radius: radius c
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleLinesVCenter: center radius: radius color: color [
 	"Draw circle outline (Vector version)
@@ -808,7 +808,7 @@ RlFunctions >> drawCircleLinesVCenter: center radius: radius color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleSectorCenter: center radius: radius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw a piece of a circle
@@ -825,7 +825,7 @@ RlFunctions >> drawCircleSectorCenter: center radius: radius startAngle: startAn
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleSectorLinesCenter: center radius: radius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw circle sector outline
@@ -842,7 +842,7 @@ RlFunctions >> drawCircleSectorLinesCenter: center radius: radius startAngle: st
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCircleVCenter: center radius: radius color: color [
 	"Draw a color-filled circle (Vector version)
@@ -856,7 +856,7 @@ RlFunctions >> drawCircleVCenter: center radius: radius color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCubePosition: position width: width height: height length: length color: color [
 	"Draw cube
@@ -872,7 +872,7 @@ RlFunctions >> drawCubePosition: position width: width height: height length: le
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCubeVPosition: position size: size color: color [
 	"Draw cube (Vector version)
@@ -886,7 +886,7 @@ RlFunctions >> drawCubeVPosition: position size: size color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCubeWiresPosition: position width: width height: height length: length color: color [
 	"Draw cube wires
@@ -902,7 +902,7 @@ RlFunctions >> drawCubeWiresPosition: position width: width height: height lengt
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCubeWiresVPosition: position size: size color: color [
 	"Draw cube wires (Vector version)
@@ -916,7 +916,7 @@ RlFunctions >> drawCubeWiresVPosition: position size: size color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCylinderExStartPos: startPos endPos: endPos startRadius: startRadius endRadius: endRadius sides: sides color: color [
 	"Draw a cylinder with base at startPos and top at endPos
@@ -933,7 +933,7 @@ RlFunctions >> drawCylinderExStartPos: startPos endPos: endPos startRadius: star
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCylinderPosition: position radiusTop: radiusTop radiusBottom: radiusBottom height: height slices: slices color: color [
 	"Draw a cylinder/cone
@@ -950,7 +950,7 @@ RlFunctions >> drawCylinderPosition: position radiusTop: radiusTop radiusBottom:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCylinderWiresExStartPos: startPos endPos: endPos startRadius: startRadius endRadius: endRadius sides: sides color: color [
 	"Draw a cylinder wires with base at startPos and top at endPos
@@ -967,7 +967,7 @@ RlFunctions >> drawCylinderWiresExStartPos: startPos endPos: endPos startRadius:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawCylinderWiresPosition: position radiusTop: radiusTop radiusBottom: radiusBottom height: height slices: slices color: color [
 	"Draw a cylinder/cone wires
@@ -984,7 +984,7 @@ RlFunctions >> drawCylinderWiresPosition: position radiusTop: radiusTop radiusBo
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawEllipseCenterX: centerX centerY: centerY radiusH: radiusH radiusV: radiusV color: color [
 	"Draw ellipse
@@ -1000,7 +1000,7 @@ RlFunctions >> drawEllipseCenterX: centerX centerY: centerY radiusH: radiusH rad
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawEllipseLinesCenterX: centerX centerY: centerY radiusH: radiusH radiusV: radiusV color: color [
 	"Draw ellipse outline
@@ -1016,7 +1016,7 @@ RlFunctions >> drawEllipseLinesCenterX: centerX centerY: centerY radiusH: radius
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawFPSPosX: posX posY: posY [
 	"Draw current FPS
@@ -1029,7 +1029,7 @@ RlFunctions >> drawFPSPosX: posX posY: posY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawGridSlices: slices spacing: spacing [
 	"Draw a grid (centered at (0, 0, 0))
@@ -1042,7 +1042,7 @@ RlFunctions >> drawGridSlices: slices spacing: spacing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLine3DStartPos: startPos endPos: endPos color: color [
 	"Draw a line in 3D world space
@@ -1056,7 +1056,7 @@ RlFunctions >> drawLine3DStartPos: startPos endPos: endPos color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLineBezierStartPos: startPos endPos: endPos thick: thick color: color [
 	"Draw line segment cubic-bezier in-out interpolation
@@ -1071,7 +1071,7 @@ RlFunctions >> drawLineBezierStartPos: startPos endPos: endPos thick: thick colo
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLineExStartPos: startPos endPos: endPos thick: thick color: color [
 	"Draw a line (using triangles/quads)
@@ -1086,7 +1086,7 @@ RlFunctions >> drawLineExStartPos: startPos endPos: endPos thick: thick color: c
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLineStartPosX: startPosX startPosY: startPosY endPosX: endPosX endPosY: endPosY color: color [
 	"Draw a line
@@ -1102,7 +1102,7 @@ RlFunctions >> drawLineStartPosX: startPosX startPosY: startPosY endPosX: endPos
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLineStripPoints: points pointCount: pointCount color: color [
 	"Draw lines sequence (using gl lines)
@@ -1116,7 +1116,7 @@ RlFunctions >> drawLineStripPoints: points pointCount: pointCount color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawLineVStartPos: startPos endPos: endPos color: color [
 	"Draw a line (using gl lines)
@@ -1130,7 +1130,7 @@ RlFunctions >> drawLineVStartPos: startPos endPos: endPos color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawMesh: mesh material: material transform: transform [
 	"Draw a 3d mesh with material and transform
@@ -1144,7 +1144,7 @@ RlFunctions >> drawMesh: mesh material: material transform: transform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawMeshInstancedMesh: mesh material: material transforms: transforms instances: instances [
 	"Draw multiple mesh instances with material and different transforms
@@ -1159,7 +1159,7 @@ RlFunctions >> drawMeshInstancedMesh: mesh material: material transforms: transf
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModel: model position: position scale: scale tint: tint [
 	"Draw a model (with texture if set)
@@ -1174,7 +1174,7 @@ RlFunctions >> drawModel: model position: position scale: scale tint: tint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModelExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model with extended parameters
@@ -1191,7 +1191,7 @@ RlFunctions >> drawModelExModel: model position: position rotationAxis: rotation
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModelPointsExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model as points with extended parameters
@@ -1208,7 +1208,7 @@ RlFunctions >> drawModelPointsExModel: model position: position rotationAxis: ro
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModelPointsModel: model position: position scale: scale tint: tint [
 	"Draw a model as points
@@ -1223,7 +1223,7 @@ RlFunctions >> drawModelPointsModel: model position: position scale: scale tint:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModelWiresExModel: model position: position rotationAxis: rotationAxis rotationAngle: rotationAngle scale: scale tint: tint [
 	"Draw a model wires (with texture if set) with extended parameters
@@ -1240,7 +1240,7 @@ RlFunctions >> drawModelWiresExModel: model position: position rotationAxis: rot
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawModelWiresModel: model position: position scale: scale tint: tint [
 	"Draw a model wires (with texture if set)
@@ -1255,7 +1255,7 @@ RlFunctions >> drawModelWiresModel: model position: position scale: scale tint: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPixelPosX: posX posY: posY color: color [
 	"Draw a pixel using geometry [Can be slow, use with care]
@@ -1269,7 +1269,7 @@ RlFunctions >> drawPixelPosX: posX posY: posY color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPixelVPosition: position color: color [
 	"Draw a pixel using geometry (Vector version) [Can be slow, use with care]
@@ -1282,7 +1282,7 @@ RlFunctions >> drawPixelVPosition: position color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPlaneCenterPos: centerPos size: size color: color [
 	"Draw a plane XZ
@@ -1296,7 +1296,7 @@ RlFunctions >> drawPlaneCenterPos: centerPos size: size color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPoint3DPosition: position color: color [
 	"Draw a point in 3D space, actually a small line
@@ -1309,7 +1309,7 @@ RlFunctions >> drawPoint3DPosition: position color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPolyCenter: center sides: sides radius: radius rotation: rotation color: color [
 	"Draw a regular polygon (Vector version)
@@ -1325,7 +1325,7 @@ RlFunctions >> drawPolyCenter: center sides: sides radius: radius rotation: rota
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPolyLinesCenter: center sides: sides radius: radius rotation: rotation color: color [
 	"Draw a polygon outline of n sides
@@ -1341,7 +1341,7 @@ RlFunctions >> drawPolyLinesCenter: center sides: sides radius: radius rotation:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawPolyLinesExCenter: center sides: sides radius: radius rotation: rotation lineThick: lineThick color: color [
 	"Draw a polygon outline of n sides with extended parameters
@@ -1358,7 +1358,7 @@ RlFunctions >> drawPolyLinesExCenter: center sides: sides radius: radius rotatio
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRay: ray color: color [
 	"Draw a ray line
@@ -1371,7 +1371,7 @@ RlFunctions >> drawRay: ray color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleGradientExRec: rec topLeft: topLeft bottomLeft: bottomLeft topRight: topRight bottomRight: bottomRight [
 	"Draw a gradient-filled rectangle with custom vertex colors
@@ -1387,7 +1387,7 @@ RlFunctions >> drawRectangleGradientExRec: rec topLeft: topLeft bottomLeft: bott
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleGradientHPosX: posX posY: posY width: width height: height left: left right: right [
 	"Draw a horizontal-gradient-filled rectangle
@@ -1404,7 +1404,7 @@ RlFunctions >> drawRectangleGradientHPosX: posX posY: posY width: width height: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleGradientVPosX: posX posY: posY width: width height: height top: top bottom: bottom [
 	"Draw a vertical-gradient-filled rectangle
@@ -1421,7 +1421,7 @@ RlFunctions >> drawRectangleGradientVPosX: posX posY: posY width: width height: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleLinesExRec: rec lineThick: lineThick color: color [
 	"Draw rectangle outline with extended parameters
@@ -1435,7 +1435,7 @@ RlFunctions >> drawRectangleLinesExRec: rec lineThick: lineThick color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleLinesPosX: posX posY: posY width: width height: height color: color [
 	"Draw rectangle outline
@@ -1451,7 +1451,7 @@ RlFunctions >> drawRectangleLinesPosX: posX posY: posY width: width height: heig
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectanglePosX: posX posY: posY width: width height: height color: color [
 	"Draw a color-filled rectangle
@@ -1467,7 +1467,7 @@ RlFunctions >> drawRectanglePosX: posX posY: posY width: width height: height co
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleProRec: rec origin: origin rotation: rotation color: color [
 	"Draw a color-filled rectangle with pro parameters
@@ -1482,7 +1482,7 @@ RlFunctions >> drawRectangleProRec: rec origin: origin rotation: rotation color:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleRec: rec color: color [
 	"Draw a color-filled rectangle
@@ -1495,7 +1495,7 @@ RlFunctions >> drawRectangleRec: rec color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleRoundedLinesExRec: rec roundness: roundness segments: segments lineThick: lineThick color: color [
 	"Draw rectangle with rounded edges outline
@@ -1511,7 +1511,7 @@ RlFunctions >> drawRectangleRoundedLinesExRec: rec roundness: roundness segments
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleRoundedLinesRec: rec roundness: roundness segments: segments color: color [
 	"Draw rectangle lines with rounded edges
@@ -1526,7 +1526,7 @@ RlFunctions >> drawRectangleRoundedLinesRec: rec roundness: roundness segments: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleRoundedRec: rec roundness: roundness segments: segments color: color [
 	"Draw rectangle with rounded edges
@@ -1541,7 +1541,7 @@ RlFunctions >> drawRectangleRoundedRec: rec roundness: roundness segments: segme
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRectangleVPosition: position size: size color: color [
 	"Draw a color-filled rectangle (Vector version)
@@ -1555,7 +1555,7 @@ RlFunctions >> drawRectangleVPosition: position size: size color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRingCenter: center innerRadius: innerRadius outerRadius: outerRadius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw ring
@@ -1573,7 +1573,7 @@ RlFunctions >> drawRingCenter: center innerRadius: innerRadius outerRadius: oute
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawRingLinesCenter: center innerRadius: innerRadius outerRadius: outerRadius startAngle: startAngle endAngle: endAngle segments: segments color: color [
 	"Draw ring outline
@@ -1591,7 +1591,7 @@ RlFunctions >> drawRingLinesCenter: center innerRadius: innerRadius outerRadius:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSphereCenterPos: centerPos radius: radius color: color [
 	"Draw sphere
@@ -1605,7 +1605,7 @@ RlFunctions >> drawSphereCenterPos: centerPos radius: radius color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSphereExCenterPos: centerPos radius: radius rings: rings slices: slices color: color [
 	"Draw sphere with extended parameters
@@ -1621,7 +1621,7 @@ RlFunctions >> drawSphereExCenterPos: centerPos radius: radius rings: rings slic
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSphereWiresCenterPos: centerPos radius: radius rings: rings slices: slices color: color [
 	"Draw sphere wires
@@ -1637,7 +1637,7 @@ RlFunctions >> drawSphereWiresCenterPos: centerPos radius: radius rings: rings s
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineBasisPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: B-Spline, minimum 4 points
@@ -1652,7 +1652,7 @@ RlFunctions >> drawSplineBasisPoints: points pointCount: pointCount thick: thick
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineBezierCubicPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
@@ -1667,7 +1667,7 @@ RlFunctions >> drawSplineBezierCubicPoints: points pointCount: pointCount thick:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineBezierQuadraticPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
@@ -1682,7 +1682,7 @@ RlFunctions >> drawSplineBezierQuadraticPoints: points pointCount: pointCount th
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineCatmullRomPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Catmull-Rom, minimum 4 points
@@ -1697,7 +1697,7 @@ RlFunctions >> drawSplineCatmullRomPoints: points pointCount: pointCount thick: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineLinearPoints: points pointCount: pointCount thick: thick color: color [
 	"Draw spline: Linear, minimum 2 points
@@ -1712,7 +1712,7 @@ RlFunctions >> drawSplineLinearPoints: points pointCount: pointCount thick: thic
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineSegmentBasisP1: p1 p2: p2 p3: p3 p4: p4 thick: thick color: color [
 	"Draw spline segment: B-Spline, 4 points
@@ -1729,7 +1729,7 @@ RlFunctions >> drawSplineSegmentBasisP1: p1 p2: p2 p3: p3 p4: p4 thick: thick co
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineSegmentBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 thick: thick color: color [
 	"Draw spline segment: Cubic Bezier, 2 points, 2 control points
@@ -1746,7 +1746,7 @@ RlFunctions >> drawSplineSegmentBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 thick: th
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineSegmentBezierQuadraticP1: p1 c2: c2 p3: p3 thick: thick color: color [
 	"Draw spline segment: Quadratic Bezier, 2 points, 1 control point
@@ -1762,7 +1762,7 @@ RlFunctions >> drawSplineSegmentBezierQuadraticP1: p1 c2: c2 p3: p3 thick: thick
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineSegmentCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 thick: thick color: color [
 	"Draw spline segment: Catmull-Rom, 4 points
@@ -1779,7 +1779,7 @@ RlFunctions >> drawSplineSegmentCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 thick: thi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawSplineSegmentLinearP1: p1 p2: p2 thick: thick color: color [
 	"Draw spline segment: Linear, 2 points
@@ -1794,7 +1794,7 @@ RlFunctions >> drawSplineSegmentLinearP1: p1 p2: p2 thick: thick color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawText: text posX: posX posY: posY fontSize: fontSize color: color [
 	"Draw text (using default font)
@@ -1810,7 +1810,7 @@ RlFunctions >> drawText: text posX: posX posY: posY fontSize: fontSize color: co
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextCodepointFont: font codepoint: codepoint position: position fontSize: fontSize tint: tint [
 	"Draw one character (codepoint)
@@ -1826,7 +1826,7 @@ RlFunctions >> drawTextCodepointFont: font codepoint: codepoint position: positi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextCodepointsFont: font codepoints: codepoints codepointCount: codepointCount position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw multiple character (codepoint)
@@ -1844,7 +1844,7 @@ RlFunctions >> drawTextCodepointsFont: font codepoints: codepoints codepointCoun
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextExFont: font text: text position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text using font and additional parameters
@@ -1861,7 +1861,7 @@ RlFunctions >> drawTextExFont: font text: text position: position fontSize: font
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextProFont: font text: text position: position origin: origin rotation: rotation fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text using Font and pro parameters (rotation)
@@ -1880,7 +1880,16 @@ RlFunctions >> drawTextProFont: font text: text position: position origin: origi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+}
+RlFunctions >> drawTextWithFont: font text: text position: pos size: size fontSpacing: fontSpac lineSpacing: lineSpac backface: backface color: color [
+	<cdecl: void 'DrawText3D'(RlFont, char*, RlVector3, float, float, float, bool, RlColor)>
+	^self externalCallFailed
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTexture: texture posX: posX posY: posY tint: tint [
 	"Draw a Texture2D
@@ -1895,7 +1904,7 @@ RlFunctions >> drawTexture: texture posX: posX posY: posY tint: tint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextureExTexture: texture position: position rotation: rotation scale: scale tint: tint [
 	"Draw a Texture2D with extended parameters
@@ -1911,7 +1920,7 @@ RlFunctions >> drawTextureExTexture: texture position: position rotation: rotati
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextureNPatchTexture: texture nPatchInfo: nPatchInfo dest: dest origin: origin rotation: rotation tint: tint [
 	"Draws a texture (or part of it) that stretches or shrinks nicely
@@ -1928,7 +1937,7 @@ RlFunctions >> drawTextureNPatchTexture: texture nPatchInfo: nPatchInfo dest: de
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextureProTexture: texture source: source dest: dest origin: origin rotation: rotation tint: tint [
 	"Draw a part of a texture defined by a rectangle with 'pro' parameters
@@ -1945,7 +1954,7 @@ RlFunctions >> drawTextureProTexture: texture source: source dest: dest origin: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextureRecTexture: texture source: source position: position tint: tint [
 	"Draw a part of a texture defined by a rectangle
@@ -1960,7 +1969,7 @@ RlFunctions >> drawTextureRecTexture: texture source: source position: position 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTextureVTexture: texture position: position tint: tint [
 	"Draw a Texture2D with position defined as Vector2
@@ -1974,7 +1983,7 @@ RlFunctions >> drawTextureVTexture: texture position: position tint: tint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangle3DV1: v1 v2: v2 v3: v3 color: color [
 	"Draw a color-filled triangle (vertex in counter-clockwise order!)
@@ -1989,7 +1998,7 @@ RlFunctions >> drawTriangle3DV1: v1 v2: v2 v3: v3 color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangleFanPoints: points pointCount: pointCount color: color [
 	"Draw a triangle fan defined by points (first vertex is the center)
@@ -2003,7 +2012,7 @@ RlFunctions >> drawTriangleFanPoints: points pointCount: pointCount color: color
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangleLinesV1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle outline (vertex in counter-clockwise order!)
@@ -2018,7 +2027,7 @@ RlFunctions >> drawTriangleLinesV1: v1 v2: v2 v3: v3 color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangleStrip3DPoints: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points
@@ -2032,7 +2041,7 @@ RlFunctions >> drawTriangleStrip3DPoints: points pointCount: pointCount color: c
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangleStripPoints: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points
@@ -2046,7 +2055,7 @@ RlFunctions >> drawTriangleStripPoints: points pointCount: pointCount color: col
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> drawTriangleV1: v1 v2: v2 v3: v3 color: color [
 	"Draw a color-filled triangle (vertex in counter-clockwise order!)
@@ -2061,7 +2070,7 @@ RlFunctions >> drawTriangleV1: v1 v2: v2 v3: v3 color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> enableCursor [
 	"Enables cursor (unlock cursor)
@@ -2073,7 +2082,7 @@ RlFunctions >> enableCursor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> enableEventWaiting [
 	"Enable waiting for events on EndDrawing(), no automatic event polling
@@ -2085,7 +2094,7 @@ RlFunctions >> enableEventWaiting [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> encodeDataBase64Data: data dataSize: dataSize outputSize: outputSize [
 	"Encode data to Base64 string, memory must be MemFree()
@@ -2099,7 +2108,7 @@ RlFunctions >> encodeDataBase64Data: data dataSize: dataSize outputSize: outputS
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endBlendMode [
 	"End blending mode (reset to default: alpha blending)
@@ -2111,7 +2120,7 @@ RlFunctions >> endBlendMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endDrawing [
 	"End canvas drawing and swap buffers (double buffering)
@@ -2123,7 +2132,7 @@ RlFunctions >> endDrawing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endMode2D [
 	"Ends 2D mode with custom camera
@@ -2135,7 +2144,7 @@ RlFunctions >> endMode2D [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endMode3D [
 	"Ends 3D mode and returns to default 2D orthographic mode
@@ -2147,7 +2156,7 @@ RlFunctions >> endMode3D [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endScissorMode [
 	"End scissor mode
@@ -2159,7 +2168,7 @@ RlFunctions >> endScissorMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endShaderMode [
 	"End custom shader drawing (use default shader)
@@ -2171,7 +2180,7 @@ RlFunctions >> endShaderMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endTextureMode [
 	"Ends drawing to render texture
@@ -2183,7 +2192,7 @@ RlFunctions >> endTextureMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> endVrStereoMode [
 	"End stereo rendering (requires VR simulator)
@@ -2195,7 +2204,7 @@ RlFunctions >> endVrStereoMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportAutomationEventList: list fileName: fileName [
 	"Export automation events list as text file
@@ -2208,7 +2217,7 @@ RlFunctions >> exportAutomationEventList: list fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportDataAsCodeData: data dataSize: dataSize fileName: fileName [
 	"Export data to code (.h), returns true on success
@@ -2222,7 +2231,7 @@ RlFunctions >> exportDataAsCodeData: data dataSize: dataSize fileName: fileName 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportFontAsCodeFont: font fileName: fileName [
 	"Export font as code file, returns true on success
@@ -2235,7 +2244,7 @@ RlFunctions >> exportFontAsCodeFont: font fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportImage: image fileName: fileName [
 	"Export image data to file, returns true on success
@@ -2248,7 +2257,7 @@ RlFunctions >> exportImage: image fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportImageAsCodeImage: image fileName: fileName [
 	"Export image as code file defining an array of bytes, returns true on success
@@ -2261,7 +2270,7 @@ RlFunctions >> exportImageAsCodeImage: image fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportImageToMemoryImage: image fileType: fileType fileSize: fileSize [
 	"Export image to memory buffer
@@ -2275,7 +2284,7 @@ RlFunctions >> exportImageToMemoryImage: image fileType: fileType fileSize: file
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportMesh: mesh fileName: fileName [
 	"Export mesh data to file, returns true on success
@@ -2288,7 +2297,7 @@ RlFunctions >> exportMesh: mesh fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportMeshAsCodeMesh: mesh fileName: fileName [
 	"Export mesh as code file (.h) defining multiple arrays of vertex attributes
@@ -2301,7 +2310,7 @@ RlFunctions >> exportMeshAsCodeMesh: mesh fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportWave: wave fileName: fileName [
 	"Export wave data to file, returns true on success
@@ -2314,7 +2323,7 @@ RlFunctions >> exportWave: wave fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> exportWaveAsCodeWave: wave fileName: fileName [
 	"Export wave sample data to code (.h), returns true on success
@@ -2327,7 +2336,7 @@ RlFunctions >> exportWaveAsCodeWave: wave fileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> fadeColor: color alpha: alpha [
 	"Get color with alpha applied, alpha goes from 0.0f to 1.0f
@@ -2340,7 +2349,7 @@ RlFunctions >> fadeColor: color alpha: alpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> fileExistsFileName: fileName [
 	"Check if file exists
@@ -2352,7 +2361,7 @@ RlFunctions >> fileExistsFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageCellularWidth: width height: height tileSize: tileSize [
 	"Generate image: cellular algorithm, bigger tileSize means bigger cells
@@ -2366,7 +2375,7 @@ RlFunctions >> genImageCellularWidth: width height: height tileSize: tileSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageCheckedWidth: width height: height checksX: checksX checksY: checksY col1: col1 col2: col2 [
 	"Generate image: checked
@@ -2383,7 +2392,7 @@ RlFunctions >> genImageCheckedWidth: width height: height checksX: checksX check
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageColorWidth: width height: height color: color [
 	"Generate image: plain color
@@ -2397,7 +2406,7 @@ RlFunctions >> genImageColorWidth: width height: height color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageFontAtlasGlyphs: glyphs glyphRecs: glyphRecs glyphCount: glyphCount fontSize: fontSize padding: padding packMethod: packMethod [
 	"Generate image font atlas using chars info
@@ -2414,7 +2423,7 @@ RlFunctions >> genImageFontAtlasGlyphs: glyphs glyphRecs: glyphRecs glyphCount: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageGradientLinearWidth: width height: height direction: direction start: start end: end [
 	"Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
@@ -2430,7 +2439,7 @@ RlFunctions >> genImageGradientLinearWidth: width height: height direction: dire
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageGradientRadialWidth: width height: height density: density inner: inner outer: outer [
 	"Generate image: radial gradient
@@ -2446,7 +2455,7 @@ RlFunctions >> genImageGradientRadialWidth: width height: height density: densit
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageGradientSquareWidth: width height: height density: density inner: inner outer: outer [
 	"Generate image: square gradient
@@ -2462,7 +2471,7 @@ RlFunctions >> genImageGradientSquareWidth: width height: height density: densit
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImagePerlinNoiseWidth: width height: height offsetX: offsetX offsetY: offsetY scale: scale [
 	"Generate image: perlin noise
@@ -2478,7 +2487,7 @@ RlFunctions >> genImagePerlinNoiseWidth: width height: height offsetX: offsetX o
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageTextWidth: width height: height text: text [
 	"Generate image: grayscale image from text data
@@ -2492,7 +2501,7 @@ RlFunctions >> genImageTextWidth: width height: height text: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genImageWhiteNoiseWidth: width height: height factor: factor [
 	"Generate image: white noise
@@ -2506,7 +2515,7 @@ RlFunctions >> genImageWhiteNoiseWidth: width height: height factor: factor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshConeRadius: radius height: height slices: slices [
 	"Generate cone/pyramid mesh
@@ -2520,7 +2529,7 @@ RlFunctions >> genMeshConeRadius: radius height: height slices: slices [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshCubeWidth: width height: height length: length [
 	"Generate cuboid mesh
@@ -2534,7 +2543,7 @@ RlFunctions >> genMeshCubeWidth: width height: height length: length [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshCubicmap: cubicmap cubeSize: cubeSize [
 	"Generate cubes-based map mesh from image data
@@ -2547,7 +2556,7 @@ RlFunctions >> genMeshCubicmap: cubicmap cubeSize: cubeSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshCylinderRadius: radius height: height slices: slices [
 	"Generate cylinder mesh
@@ -2561,7 +2570,7 @@ RlFunctions >> genMeshCylinderRadius: radius height: height slices: slices [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshHeightmap: heightmap size: size [
 	"Generate heightmap mesh from image data
@@ -2574,7 +2583,7 @@ RlFunctions >> genMeshHeightmap: heightmap size: size [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshHemiSphereRadius: radius rings: rings slices: slices [
 	"Generate half-sphere mesh (no bottom cap)
@@ -2588,7 +2597,7 @@ RlFunctions >> genMeshHemiSphereRadius: radius rings: rings slices: slices [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshKnotRadius: radius size: size radSeg: radSeg sides: sides [
 	"Generate trefoil knot mesh
@@ -2603,7 +2612,7 @@ RlFunctions >> genMeshKnotRadius: radius size: size radSeg: radSeg sides: sides 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshPlaneWidth: width length: length resX: resX resZ: resZ [
 	"Generate plane mesh (with subdivisions)
@@ -2618,7 +2627,7 @@ RlFunctions >> genMeshPlaneWidth: width length: length resX: resX resZ: resZ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshPolySides: sides radius: radius [
 	"Generate polygonal mesh
@@ -2631,7 +2640,7 @@ RlFunctions >> genMeshPolySides: sides radius: radius [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshSphereRadius: radius rings: rings slices: slices [
 	"Generate sphere mesh (standard sphere)
@@ -2645,7 +2654,7 @@ RlFunctions >> genMeshSphereRadius: radius rings: rings slices: slices [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshTangentsMesh: mesh [
 	"Compute mesh tangents
@@ -2657,7 +2666,7 @@ RlFunctions >> genMeshTangentsMesh: mesh [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genMeshTorusRadius: radius size: size radSeg: radSeg sides: sides [
 	"Generate torus mesh
@@ -2672,7 +2681,7 @@ RlFunctions >> genMeshTorusRadius: radius size: size radSeg: radSeg sides: sides
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> genTextureMipmapsTexture: texture [
 	"Generate GPU mipmaps for a texture
@@ -2684,7 +2693,7 @@ RlFunctions >> genTextureMipmapsTexture: texture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getApplicationDirectory [
 	"Get the directory of the running application (uses static string)
@@ -2696,7 +2705,7 @@ RlFunctions >> getApplicationDirectory [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCameraMatrix2DCamera: camera [
 	"Get camera 2d transform matrix
@@ -2708,7 +2717,7 @@ RlFunctions >> getCameraMatrix2DCamera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCameraMatrixCamera: camera [
 	"Get camera transform matrix (view matrix)
@@ -2720,7 +2729,7 @@ RlFunctions >> getCameraMatrixCamera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCharPressed [
 	"Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
@@ -2732,7 +2741,7 @@ RlFunctions >> getCharPressed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getClipboardImage [
 	"Get clipboard image content
@@ -2744,7 +2753,7 @@ RlFunctions >> getClipboardImage [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getClipboardText [
 	"Get clipboard text content
@@ -2756,7 +2765,7 @@ RlFunctions >> getClipboardText [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCodepointCountText: text [
 	"Get total number of codepoints in a UTF-8 encoded string
@@ -2768,7 +2777,7 @@ RlFunctions >> getCodepointCountText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCodepointNextText: text codepointSize: codepointSize [
 	"Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
@@ -2781,7 +2790,7 @@ RlFunctions >> getCodepointNextText: text codepointSize: codepointSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCodepointPreviousText: text codepointSize: codepointSize [
 	"Get previous codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
@@ -2794,7 +2803,7 @@ RlFunctions >> getCodepointPreviousText: text codepointSize: codepointSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCodepointText: text codepointSize: codepointSize [
 	"Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure
@@ -2807,7 +2816,7 @@ RlFunctions >> getCodepointText: text codepointSize: codepointSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCollisionRecRec1: rec1 rec2: rec2 [
 	"Get collision rectangle for two rectangles collision
@@ -2820,7 +2829,7 @@ RlFunctions >> getCollisionRecRec1: rec1 rec2: rec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getColorHexValue: hexValue [
 	"Get Color structure from hexadecimal value
@@ -2832,7 +2841,7 @@ RlFunctions >> getColorHexValue: hexValue [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getCurrentMonitor [
 	"Get current monitor where window is placed
@@ -2844,7 +2853,7 @@ RlFunctions >> getCurrentMonitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getDirectoryPathFilePath: filePath [
 	"Get full path for a given fileName with path (uses static string)
@@ -2856,7 +2865,7 @@ RlFunctions >> getDirectoryPathFilePath: filePath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFPS [
 	"Get current FPS
@@ -2868,7 +2877,7 @@ RlFunctions >> getFPS [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFileExtensionFileName: fileName [
 	"Get pointer to extension for a filename string (includes dot: '.png')
@@ -2880,7 +2889,7 @@ RlFunctions >> getFileExtensionFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFileLengthFileName: fileName [
 	"Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)
@@ -2892,7 +2901,7 @@ RlFunctions >> getFileLengthFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFileModTimeFileName: fileName [
 	"Get file modification time (last write time)
@@ -2904,7 +2913,7 @@ RlFunctions >> getFileModTimeFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFileNameFilePath: filePath [
 	"Get pointer to filename for a path string
@@ -2916,7 +2925,7 @@ RlFunctions >> getFileNameFilePath: filePath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFileNameWithoutExtFilePath: filePath [
 	"Get filename string without extension (uses static string)
@@ -2928,7 +2937,7 @@ RlFunctions >> getFileNameWithoutExtFilePath: filePath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFontDefault [
 	"Get the default Font
@@ -2940,7 +2949,7 @@ RlFunctions >> getFontDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getFrameTime [
 	"Get time in seconds for last frame drawn (delta time)
@@ -2952,7 +2961,7 @@ RlFunctions >> getFrameTime [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGamepadAxisCountGamepad: gamepad [
 	"Get gamepad axis count for a gamepad
@@ -2964,7 +2973,7 @@ RlFunctions >> getGamepadAxisCountGamepad: gamepad [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGamepadAxisMovementGamepad: gamepad axis: axis [
 	"Get axis movement value for a gamepad axis
@@ -2977,7 +2986,7 @@ RlFunctions >> getGamepadAxisMovementGamepad: gamepad axis: axis [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGamepadButtonPressed [
 	"Get the last gamepad button pressed
@@ -2989,7 +2998,7 @@ RlFunctions >> getGamepadButtonPressed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGamepadNameGamepad: gamepad [
 	"Get gamepad internal name id
@@ -3001,7 +3010,7 @@ RlFunctions >> getGamepadNameGamepad: gamepad [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGestureDetected [
 	"Get latest detected gesture
@@ -3013,7 +3022,7 @@ RlFunctions >> getGestureDetected [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGestureDragAngle [
 	"Get gesture drag angle
@@ -3025,7 +3034,7 @@ RlFunctions >> getGestureDragAngle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGestureDragVector [
 	"Get gesture drag vector
@@ -3037,7 +3046,7 @@ RlFunctions >> getGestureDragVector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGestureHoldDuration [
 	"Get gesture hold time in seconds
@@ -3049,7 +3058,7 @@ RlFunctions >> getGestureHoldDuration [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGesturePinchAngle [
 	"Get gesture pinch angle
@@ -3061,7 +3070,7 @@ RlFunctions >> getGesturePinchAngle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGesturePinchVector [
 	"Get gesture pinch delta
@@ -3073,7 +3082,7 @@ RlFunctions >> getGesturePinchVector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGlyphAtlasRecFont: font codepoint: codepoint [
 	"Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
@@ -3086,7 +3095,7 @@ RlFunctions >> getGlyphAtlasRecFont: font codepoint: codepoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGlyphIndexFont: font codepoint: codepoint [
 	"Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
@@ -3099,7 +3108,7 @@ RlFunctions >> getGlyphIndexFont: font codepoint: codepoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getGlyphInfoFont: font codepoint: codepoint [
 	"Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
@@ -3112,7 +3121,7 @@ RlFunctions >> getGlyphInfoFont: font codepoint: codepoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getImageAlphaBorderImage: image threshold: threshold [
 	"Get image alpha border rectangle
@@ -3125,7 +3134,7 @@ RlFunctions >> getImageAlphaBorderImage: image threshold: threshold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getImageColorImage: image x: x y: y [
 	"Get image pixel color at (x, y) position
@@ -3139,7 +3148,7 @@ RlFunctions >> getImageColorImage: image x: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getKeyNameKey: key [
 	"Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)
@@ -3151,7 +3160,7 @@ RlFunctions >> getKeyNameKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getKeyPressed [
 	"Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
@@ -3163,7 +3172,7 @@ RlFunctions >> getKeyPressed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMasterVolume [
 	"Get master volume (listener)
@@ -3175,7 +3184,7 @@ RlFunctions >> getMasterVolume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMeshBoundingBoxMesh: mesh [
 	"Compute mesh bounding box limits
@@ -3187,7 +3196,7 @@ RlFunctions >> getMeshBoundingBoxMesh: mesh [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getModelBoundingBoxModel: model [
 	"Compute model bounding box limits (considers all meshes)
@@ -3199,7 +3208,7 @@ RlFunctions >> getModelBoundingBoxModel: model [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorCount [
 	"Get number of connected monitors
@@ -3211,7 +3220,7 @@ RlFunctions >> getMonitorCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorHeightMonitor: monitor [
 	"Get specified monitor height (current video mode used by monitor)
@@ -3223,7 +3232,7 @@ RlFunctions >> getMonitorHeightMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorNameMonitor: monitor [
 	"Get the human-readable, UTF-8 encoded name of the specified monitor
@@ -3235,7 +3244,7 @@ RlFunctions >> getMonitorNameMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorPhysicalHeightMonitor: monitor [
 	"Get specified monitor physical height in millimetres
@@ -3247,7 +3256,7 @@ RlFunctions >> getMonitorPhysicalHeightMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorPhysicalWidthMonitor: monitor [
 	"Get specified monitor physical width in millimetres
@@ -3259,7 +3268,7 @@ RlFunctions >> getMonitorPhysicalWidthMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorPositionMonitor: monitor [
 	"Get specified monitor position
@@ -3271,7 +3280,7 @@ RlFunctions >> getMonitorPositionMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorRefreshRateMonitor: monitor [
 	"Get specified monitor refresh rate
@@ -3283,7 +3292,7 @@ RlFunctions >> getMonitorRefreshRateMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMonitorWidthMonitor: monitor [
 	"Get specified monitor width (current video mode used by monitor)
@@ -3295,7 +3304,7 @@ RlFunctions >> getMonitorWidthMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMouseDelta [
 	"Get mouse delta between frames
@@ -3307,7 +3316,7 @@ RlFunctions >> getMouseDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMousePosition [
 	"Get mouse position XY
@@ -3319,7 +3328,7 @@ RlFunctions >> getMousePosition [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMouseWheelMove [
 	"Get mouse wheel movement for X or Y, whichever is larger
@@ -3331,7 +3340,7 @@ RlFunctions >> getMouseWheelMove [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMouseWheelMoveV [
 	"Get mouse wheel movement for both X and Y
@@ -3343,7 +3352,7 @@ RlFunctions >> getMouseWheelMoveV [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMouseX [
 	"Get mouse position X
@@ -3355,7 +3364,7 @@ RlFunctions >> getMouseX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getMouseY [
 	"Get mouse position Y
@@ -3367,7 +3376,7 @@ RlFunctions >> getMouseY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getPixelColorSrcPtr: srcPtr format: format [
 	"Get Color from a source pixel pointer of certain format
@@ -3380,7 +3389,7 @@ RlFunctions >> getPixelColorSrcPtr: srcPtr format: format [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getPixelDataSizeWidth: width height: height format: format [
 	"Get pixel data size in bytes for certain format
@@ -3394,7 +3403,7 @@ RlFunctions >> getPixelDataSizeWidth: width height: height format: format [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getPrevDirectoryPathDirPath: dirPath [
 	"Get previous directory path for a given path (uses static string)
@@ -3406,7 +3415,7 @@ RlFunctions >> getPrevDirectoryPathDirPath: dirPath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRandomValueMin: min max: max [
 	"Get a random value between min and max (both included)
@@ -3419,7 +3428,7 @@ RlFunctions >> getRandomValueMin: min max: max [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRayCollisionBoxRay: ray box: box [
 	"Get collision info between ray and box
@@ -3432,7 +3441,7 @@ RlFunctions >> getRayCollisionBoxRay: ray box: box [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRayCollisionMeshRay: ray mesh: mesh transform: transform [
 	"Get collision info between ray and mesh
@@ -3446,7 +3455,7 @@ RlFunctions >> getRayCollisionMeshRay: ray mesh: mesh transform: transform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRayCollisionQuadRay: ray p1: p1 p2: p2 p3: p3 p4: p4 [
 	"Get collision info between ray and quad
@@ -3462,7 +3471,7 @@ RlFunctions >> getRayCollisionQuadRay: ray p1: p1 p2: p2 p3: p3 p4: p4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRayCollisionSphereRay: ray center: center radius: radius [
 	"Get collision info between ray and sphere
@@ -3476,7 +3485,7 @@ RlFunctions >> getRayCollisionSphereRay: ray center: center radius: radius [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRayCollisionTriangleRay: ray p1: p1 p2: p2 p3: p3 [
 	"Get collision info between ray and triangle
@@ -3491,7 +3500,7 @@ RlFunctions >> getRayCollisionTriangleRay: ray p1: p1 p2: p2 p3: p3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRenderHeight [
 	"Get current render height (it considers HiDPI)
@@ -3503,7 +3512,7 @@ RlFunctions >> getRenderHeight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getRenderWidth [
 	"Get current render width (it considers HiDPI)
@@ -3515,7 +3524,7 @@ RlFunctions >> getRenderWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getScreenHeight [
 	"Get current screen height
@@ -3527,7 +3536,7 @@ RlFunctions >> getScreenHeight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getScreenToWorld2DPosition: position camera: camera [
 	"Get the world space position for a 2d camera screen space position
@@ -3540,7 +3549,7 @@ RlFunctions >> getScreenToWorld2DPosition: position camera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getScreenToWorldRayExPosition: position camera: camera width: width height: height [
 	"Get a ray trace from screen position (i.e mouse) in a viewport
@@ -3555,7 +3564,7 @@ RlFunctions >> getScreenToWorldRayExPosition: position camera: camera width: wid
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getScreenToWorldRayPosition: position camera: camera [
 	"Get a ray trace from screen position (i.e mouse)
@@ -3568,7 +3577,7 @@ RlFunctions >> getScreenToWorldRayPosition: position camera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getScreenWidth [
 	"Get current screen width
@@ -3580,7 +3589,7 @@ RlFunctions >> getScreenWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getShaderLocationAttribShader: shader attribName: attribName [
 	"Get shader attribute location
@@ -3593,7 +3602,7 @@ RlFunctions >> getShaderLocationAttribShader: shader attribName: attribName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getShaderLocationShader: shader uniformName: uniformName [
 	"Get shader uniform location
@@ -3606,7 +3615,7 @@ RlFunctions >> getShaderLocationShader: shader uniformName: uniformName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getShapesTexture [
 	"Get texture that is used for shapes drawing
@@ -3618,7 +3627,7 @@ RlFunctions >> getShapesTexture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getShapesTextureRectangle [
 	"Get texture source rectangle that is used for shapes drawing
@@ -3630,7 +3639,7 @@ RlFunctions >> getShapesTextureRectangle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getSplinePointBasisP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	"Get (evaluate) spline point: B-Spline
@@ -3646,7 +3655,7 @@ RlFunctions >> getSplinePointBasisP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getSplinePointBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 t: t [
 	"Get (evaluate) spline point: Cubic Bezier
@@ -3662,7 +3671,7 @@ RlFunctions >> getSplinePointBezierCubicP1: p1 c2: c2 c3: c3 p4: p4 t: t [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getSplinePointBezierQuadP1: p1 c2: c2 p3: p3 t: t [
 	"Get (evaluate) spline point: Quadratic Bezier
@@ -3677,7 +3686,7 @@ RlFunctions >> getSplinePointBezierQuadP1: p1 c2: c2 p3: p3 t: t [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getSplinePointCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 	"Get (evaluate) spline point: Catmull-Rom
@@ -3693,7 +3702,7 @@ RlFunctions >> getSplinePointCatmullRomP1: p1 p2: p2 p3: p3 p4: p4 t: t [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getSplinePointLinearStartPos: startPos endPos: endPos t: t [
 	"Get (evaluate) spline point: Linear
@@ -3707,7 +3716,7 @@ RlFunctions >> getSplinePointLinearStartPos: startPos endPos: endPos t: t [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTime [
 	"Get elapsed time in seconds since InitWindow()
@@ -3719,7 +3728,7 @@ RlFunctions >> getTime [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTouchPointCount [
 	"Get number of touch points
@@ -3731,7 +3740,7 @@ RlFunctions >> getTouchPointCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTouchPointIdIndex: index [
 	"Get touch point identifier for given index
@@ -3743,7 +3752,7 @@ RlFunctions >> getTouchPointIdIndex: index [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTouchPositionIndex: index [
 	"Get touch position XY for a touch point index (relative to screen size)
@@ -3755,7 +3764,7 @@ RlFunctions >> getTouchPositionIndex: index [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTouchX [
 	"Get touch position X for touch point 0 (relative to screen size)
@@ -3767,7 +3776,7 @@ RlFunctions >> getTouchX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getTouchY [
 	"Get touch position Y for touch point 0 (relative to screen size)
@@ -3779,7 +3788,7 @@ RlFunctions >> getTouchY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWindowHandle [
 	"Get native window handle
@@ -3791,7 +3800,7 @@ RlFunctions >> getWindowHandle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWindowPosition [
 	"Get window position XY on monitor
@@ -3803,7 +3812,7 @@ RlFunctions >> getWindowPosition [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWindowScaleDPI [
 	"Get window scale DPI factor
@@ -3815,7 +3824,7 @@ RlFunctions >> getWindowScaleDPI [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWorkingDirectory [
 	"Get current working directory (uses static string)
@@ -3827,7 +3836,7 @@ RlFunctions >> getWorkingDirectory [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWorldToScreen2DPosition: position camera: camera [
 	"Get the screen space position for a 2d camera world space position
@@ -3840,7 +3849,7 @@ RlFunctions >> getWorldToScreen2DPosition: position camera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWorldToScreenExPosition: position camera: camera width: width height: height [
 	"Get size position for a 3d world space position
@@ -3855,7 +3864,7 @@ RlFunctions >> getWorldToScreenExPosition: position camera: camera width: width 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> getWorldToScreenPosition: position camera: camera [
 	"Get the screen space position for a 3d world space position
@@ -3868,7 +3877,7 @@ RlFunctions >> getWorldToScreenPosition: position camera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> hideCursor [
 	"Hides cursor
@@ -3880,7 +3889,7 @@ RlFunctions >> hideCursor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageAlphaClearImage: image color: color threshold: threshold [
 	"Clear alpha channel to desired color
@@ -3894,7 +3903,7 @@ RlFunctions >> imageAlphaClearImage: image color: color threshold: threshold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageAlphaCropImage: image threshold: threshold [
 	"Crop image depending on alpha value
@@ -3907,7 +3916,7 @@ RlFunctions >> imageAlphaCropImage: image threshold: threshold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageAlphaMaskImage: image alphaMask: alphaMask [
 	"Apply alpha mask to image
@@ -3920,7 +3929,7 @@ RlFunctions >> imageAlphaMaskImage: image alphaMask: alphaMask [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageAlphaPremultiplyImage: image [
 	"Premultiply alpha channel
@@ -3932,7 +3941,7 @@ RlFunctions >> imageAlphaPremultiplyImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageBlurGaussianImage: image blurSize: blurSize [
 	"Apply Gaussian blur using a box blur approximation
@@ -3945,7 +3954,7 @@ RlFunctions >> imageBlurGaussianImage: image blurSize: blurSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageClearBackgroundDst: dst color: color [
 	"Clear image background with given color
@@ -3958,7 +3967,7 @@ RlFunctions >> imageClearBackgroundDst: dst color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorBrightnessImage: image brightness: brightness [
 	"Modify image color: brightness (-255 to 255)
@@ -3971,7 +3980,7 @@ RlFunctions >> imageColorBrightnessImage: image brightness: brightness [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorContrastImage: image contrast: contrast [
 	"Modify image color: contrast (-100 to 100)
@@ -3984,7 +3993,7 @@ RlFunctions >> imageColorContrastImage: image contrast: contrast [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorGrayscaleImage: image [
 	"Modify image color: grayscale
@@ -3996,7 +4005,7 @@ RlFunctions >> imageColorGrayscaleImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorInvertImage: image [
 	"Modify image color: invert
@@ -4008,7 +4017,7 @@ RlFunctions >> imageColorInvertImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorReplaceImage: image color: color replace: replace [
 	"Modify image color: replace color
@@ -4022,7 +4031,7 @@ RlFunctions >> imageColorReplaceImage: image color: color replace: replace [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageColorTintImage: image color: color [
 	"Modify image color: tint
@@ -4035,7 +4044,7 @@ RlFunctions >> imageColorTintImage: image color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageCopyImage: image [
 	"Create an image duplicate (useful for transformations)
@@ -4047,7 +4056,7 @@ RlFunctions >> imageCopyImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageCropImage: image crop: crop [
 	"Crop an image to a defined rectangle
@@ -4060,7 +4069,7 @@ RlFunctions >> imageCropImage: image crop: crop [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDitherImage: image rBpp: rBpp gBpp: gBpp bBpp: bBpp aBpp: aBpp [
 	"Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
@@ -4076,7 +4085,7 @@ RlFunctions >> imageDitherImage: image rBpp: rBpp gBpp: gBpp bBpp: bBpp aBpp: aB
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawCircleDst: dst centerX: centerX centerY: centerY radius: radius color: color [
 	"Draw a filled circle within an image
@@ -4092,7 +4101,7 @@ RlFunctions >> imageDrawCircleDst: dst centerX: centerX centerY: centerY radius:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawCircleLinesDst: dst centerX: centerX centerY: centerY radius: radius color: color [
 	"Draw circle outline within an image
@@ -4108,7 +4117,7 @@ RlFunctions >> imageDrawCircleLinesDst: dst centerX: centerX centerY: centerY ra
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawCircleLinesVDst: dst center: center radius: radius color: color [
 	"Draw circle outline within an image (Vector version)
@@ -4123,7 +4132,7 @@ RlFunctions >> imageDrawCircleLinesVDst: dst center: center radius: radius color
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawCircleVDst: dst center: center radius: radius color: color [
 	"Draw a filled circle within an image (Vector version)
@@ -4138,7 +4147,7 @@ RlFunctions >> imageDrawCircleVDst: dst center: center radius: radius color: col
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawDst: dst src: src srcRec: srcRec dstRec: dstRec tint: tint [
 	"Draw a source image within a destination image (tint applied to source)
@@ -4154,7 +4163,7 @@ RlFunctions >> imageDrawDst: dst src: src srcRec: srcRec dstRec: dstRec tint: ti
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawLineDst: dst startPosX: startPosX startPosY: startPosY endPosX: endPosX endPosY: endPosY color: color [
 	"Draw line within an image
@@ -4171,7 +4180,7 @@ RlFunctions >> imageDrawLineDst: dst startPosX: startPosX startPosY: startPosY e
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawLineExDst: dst start: start end: end thick: thick color: color [
 	"Draw a line defining thickness within an image
@@ -4187,7 +4196,7 @@ RlFunctions >> imageDrawLineExDst: dst start: start end: end thick: thick color:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawLineVDst: dst start: start end: end color: color [
 	"Draw line within an image (Vector version)
@@ -4202,7 +4211,7 @@ RlFunctions >> imageDrawLineVDst: dst start: start end: end color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawPixelDst: dst posX: posX posY: posY color: color [
 	"Draw pixel within an image
@@ -4217,7 +4226,7 @@ RlFunctions >> imageDrawPixelDst: dst posX: posX posY: posY color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawPixelVDst: dst position: position color: color [
 	"Draw pixel within an image (Vector version)
@@ -4231,7 +4240,7 @@ RlFunctions >> imageDrawPixelVDst: dst position: position color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawRectangleDst: dst posX: posX posY: posY width: width height: height color: color [
 	"Draw rectangle within an image
@@ -4248,7 +4257,7 @@ RlFunctions >> imageDrawRectangleDst: dst posX: posX posY: posY width: width hei
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawRectangleLinesDst: dst rec: rec thick: thick color: color [
 	"Draw rectangle lines within an image
@@ -4263,7 +4272,7 @@ RlFunctions >> imageDrawRectangleLinesDst: dst rec: rec thick: thick color: colo
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawRectangleRecDst: dst rec: rec color: color [
 	"Draw rectangle within an image
@@ -4277,7 +4286,7 @@ RlFunctions >> imageDrawRectangleRecDst: dst rec: rec color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawRectangleVDst: dst position: position size: size color: color [
 	"Draw rectangle within an image (Vector version)
@@ -4292,7 +4301,7 @@ RlFunctions >> imageDrawRectangleVDst: dst position: position size: size color: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTextDst: dst text: text posX: posX posY: posY fontSize: fontSize color: color [
 	"Draw text (using default font) within an image (destination)
@@ -4309,7 +4318,7 @@ RlFunctions >> imageDrawTextDst: dst text: text posX: posX posY: posY fontSize: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTextExDst: dst font: font text: text position: position fontSize: fontSize spacing: spacing tint: tint [
 	"Draw text (custom sprite font) within an image (destination)
@@ -4327,7 +4336,7 @@ RlFunctions >> imageDrawTextExDst: dst font: font text: text position: position 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTriangleDst: dst v1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle within an image
@@ -4343,7 +4352,7 @@ RlFunctions >> imageDrawTriangleDst: dst v1: v1 v2: v2 v3: v3 color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTriangleExDst: dst v1: v1 v2: v2 v3: v3 c1: c1 c2: c2 c3: c3 [
 	"Draw triangle with interpolated colors within an image
@@ -4361,7 +4370,7 @@ RlFunctions >> imageDrawTriangleExDst: dst v1: v1 v2: v2 v3: v3 c1: c1 c2: c2 c3
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTriangleFanDst: dst points: points pointCount: pointCount color: color [
 	"Draw a triangle fan defined by points within an image (first vertex is the center)
@@ -4376,7 +4385,7 @@ RlFunctions >> imageDrawTriangleFanDst: dst points: points pointCount: pointCoun
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTriangleLinesDst: dst v1: v1 v2: v2 v3: v3 color: color [
 	"Draw triangle outline within an image
@@ -4392,7 +4401,7 @@ RlFunctions >> imageDrawTriangleLinesDst: dst v1: v1 v2: v2 v3: v3 color: color 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageDrawTriangleStripDst: dst points: points pointCount: pointCount color: color [
 	"Draw a triangle strip defined by points within an image
@@ -4407,7 +4416,7 @@ RlFunctions >> imageDrawTriangleStripDst: dst points: points pointCount: pointCo
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageFlipHorizontalImage: image [
 	"Flip image horizontally
@@ -4419,7 +4428,7 @@ RlFunctions >> imageFlipHorizontalImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageFlipVerticalImage: image [
 	"Flip image vertically
@@ -4431,7 +4440,7 @@ RlFunctions >> imageFlipVerticalImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageFormatImage: image newFormat: newFormat [
 	"Convert image data to desired format
@@ -4444,7 +4453,7 @@ RlFunctions >> imageFormatImage: image newFormat: newFormat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageFromChannelImage: image selectedChannel: selectedChannel [
 	"Create an image from a selected channel of another image (GRAYSCALE)
@@ -4457,7 +4466,7 @@ RlFunctions >> imageFromChannelImage: image selectedChannel: selectedChannel [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageFromImage: image rec: rec [
 	"Create an image from another image piece
@@ -4470,7 +4479,7 @@ RlFunctions >> imageFromImage: image rec: rec [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageKernelConvolutionImage: image kernel: kernel kernelSize: kernelSize [
 	"Apply custom square convolution kernel to image
@@ -4484,7 +4493,7 @@ RlFunctions >> imageKernelConvolutionImage: image kernel: kernel kernelSize: ker
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageMipmapsImage: image [
 	"Compute all mipmap levels for a provided image
@@ -4496,7 +4505,7 @@ RlFunctions >> imageMipmapsImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageResizeCanvasImage: image newWidth: newWidth newHeight: newHeight offsetX: offsetX offsetY: offsetY fill: fill [
 	"Resize canvas and fill with color
@@ -4513,7 +4522,7 @@ RlFunctions >> imageResizeCanvasImage: image newWidth: newWidth newHeight: newHe
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageResizeImage: image newWidth: newWidth newHeight: newHeight [
 	"Resize image (Bicubic scaling algorithm)
@@ -4527,7 +4536,7 @@ RlFunctions >> imageResizeImage: image newWidth: newWidth newHeight: newHeight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageResizeNNImage: image newWidth: newWidth newHeight: newHeight [
 	"Resize image (Nearest-Neighbor scaling algorithm)
@@ -4541,7 +4550,7 @@ RlFunctions >> imageResizeNNImage: image newWidth: newWidth newHeight: newHeight
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageRotateCCWImage: image [
 	"Rotate image counter-clockwise 90deg
@@ -4553,7 +4562,7 @@ RlFunctions >> imageRotateCCWImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageRotateCWImage: image [
 	"Rotate image clockwise 90deg
@@ -4565,7 +4574,7 @@ RlFunctions >> imageRotateCWImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageRotateImage: image degrees: degrees [
 	"Rotate image by input angle in degrees (-359 to 359)
@@ -4578,7 +4587,7 @@ RlFunctions >> imageRotateImage: image degrees: degrees [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageText: text fontSize: fontSize color: color [
 	"Create an image from text (default font)
@@ -4592,7 +4601,7 @@ RlFunctions >> imageText: text fontSize: fontSize color: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageTextExFont: font text: text fontSize: fontSize spacing: spacing tint: tint [
 	"Create an image from text (custom sprite font)
@@ -4608,7 +4617,7 @@ RlFunctions >> imageTextExFont: font text: text fontSize: fontSize spacing: spac
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> imageToPOTImage: image fill: fill [
 	"Convert image to POT (power-of-two)
@@ -4621,7 +4630,7 @@ RlFunctions >> imageToPOTImage: image fill: fill [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> initWindowWidth: width height: height title: title [
 	"Initialize window and OpenGL context
@@ -4635,7 +4644,7 @@ RlFunctions >> initWindowWidth: width height: height title: title [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isCursorHidden [
 	"Check if cursor is not visible
@@ -4647,7 +4656,7 @@ RlFunctions >> isCursorHidden [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isCursorOnScreen [
 	"Check if cursor is on the screen
@@ -4659,7 +4668,7 @@ RlFunctions >> isCursorOnScreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isFileDropped [
 	"Check if a file has been dropped into window
@@ -4671,7 +4680,7 @@ RlFunctions >> isFileDropped [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isFileExtensionFileName: fileName ext: ext [
 	"Check file extension (including point: .png, .wav)
@@ -4684,7 +4693,7 @@ RlFunctions >> isFileExtensionFileName: fileName ext: ext [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isFileNameValidFileName: fileName [
 	"Check if fileName is valid for the platform/OS
@@ -4696,7 +4705,7 @@ RlFunctions >> isFileNameValidFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isFontValidFont: font [
 	"Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
@@ -4708,7 +4717,7 @@ RlFunctions >> isFontValidFont: font [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGamepadAvailableGamepad: gamepad [
 	"Check if a gamepad is available
@@ -4720,7 +4729,7 @@ RlFunctions >> isGamepadAvailableGamepad: gamepad [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGamepadButtonDownGamepad: gamepad button: button [
 	"Check if a gamepad button is being pressed
@@ -4733,7 +4742,7 @@ RlFunctions >> isGamepadButtonDownGamepad: gamepad button: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGamepadButtonPressedGamepad: gamepad button: button [
 	"Check if a gamepad button has been pressed once
@@ -4746,7 +4755,7 @@ RlFunctions >> isGamepadButtonPressedGamepad: gamepad button: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGamepadButtonReleasedGamepad: gamepad button: button [
 	"Check if a gamepad button has been released once
@@ -4759,7 +4768,7 @@ RlFunctions >> isGamepadButtonReleasedGamepad: gamepad button: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGamepadButtonUpGamepad: gamepad button: button [
 	"Check if a gamepad button is NOT being pressed
@@ -4772,7 +4781,7 @@ RlFunctions >> isGamepadButtonUpGamepad: gamepad button: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isGestureDetectedGesture: gesture [
 	"Check if a gesture have been detected
@@ -4784,7 +4793,7 @@ RlFunctions >> isGestureDetectedGesture: gesture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isImageValidImage: image [
 	"Check if an image is valid (data and parameters)
@@ -4796,7 +4805,7 @@ RlFunctions >> isImageValidImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isKeyDownKey: key [
 	"Check if a key is being pressed
@@ -4808,7 +4817,7 @@ RlFunctions >> isKeyDownKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isKeyPressedKey: key [
 	"Check if a key has been pressed once
@@ -4820,7 +4829,7 @@ RlFunctions >> isKeyPressedKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isKeyPressedRepeatKey: key [
 	"Check if a key has been pressed again
@@ -4832,7 +4841,7 @@ RlFunctions >> isKeyPressedRepeatKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isKeyReleasedKey: key [
 	"Check if a key has been released once
@@ -4844,7 +4853,7 @@ RlFunctions >> isKeyReleasedKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isKeyUpKey: key [
 	"Check if a key is NOT being pressed
@@ -4856,7 +4865,7 @@ RlFunctions >> isKeyUpKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isMaterialValidMaterial: material [
 	"Check if a material is valid (shader assigned, map textures loaded in GPU)
@@ -4868,7 +4877,7 @@ RlFunctions >> isMaterialValidMaterial: material [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isModelAnimationValidModel: model anim: anim [
 	"Check model animation skeleton match
@@ -4881,7 +4890,7 @@ RlFunctions >> isModelAnimationValidModel: model anim: anim [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isModelValidModel: model [
 	"Check if a model is valid (loaded in GPU, VAO/VBOs)
@@ -4893,7 +4902,7 @@ RlFunctions >> isModelValidModel: model [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isMouseButtonDownButton: button [
 	"Check if a mouse button is being pressed
@@ -4905,7 +4914,7 @@ RlFunctions >> isMouseButtonDownButton: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isMouseButtonPressedButton: button [
 	"Check if a mouse button has been pressed once
@@ -4917,7 +4926,7 @@ RlFunctions >> isMouseButtonPressedButton: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isMouseButtonReleasedButton: button [
 	"Check if a mouse button has been released once
@@ -4929,7 +4938,7 @@ RlFunctions >> isMouseButtonReleasedButton: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isMouseButtonUpButton: button [
 	"Check if a mouse button is NOT being pressed
@@ -4941,7 +4950,7 @@ RlFunctions >> isMouseButtonUpButton: button [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isPathFilePath: path [
 	"Check if a given path is a file or a directory
@@ -4953,7 +4962,7 @@ RlFunctions >> isPathFilePath: path [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isRenderTextureValidTarget: target [
 	"Check if a render texture is valid (loaded in GPU)
@@ -4965,7 +4974,7 @@ RlFunctions >> isRenderTextureValidTarget: target [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isShaderValidShader: shader [
 	"Check if a shader is valid (loaded on GPU)
@@ -4977,7 +4986,7 @@ RlFunctions >> isShaderValidShader: shader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isTextureValidTexture: texture [
 	"Check if a texture is valid (loaded in GPU)
@@ -4989,7 +4998,7 @@ RlFunctions >> isTextureValidTexture: texture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWaveValidWave: wave [
 	"Checks if wave data is valid (data loaded and parameters)
@@ -5001,7 +5010,7 @@ RlFunctions >> isWaveValidWave: wave [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowFocused [
 	"Check if window is currently focused
@@ -5013,7 +5022,7 @@ RlFunctions >> isWindowFocused [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowFullscreen [
 	"Check if window is currently fullscreen
@@ -5025,7 +5034,7 @@ RlFunctions >> isWindowFullscreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowHidden [
 	"Check if window is currently hidden
@@ -5037,7 +5046,7 @@ RlFunctions >> isWindowHidden [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowMaximized [
 	"Check if window is currently maximized
@@ -5049,7 +5058,7 @@ RlFunctions >> isWindowMaximized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowMinimized [
 	"Check if window is currently minimized
@@ -5061,7 +5070,7 @@ RlFunctions >> isWindowMinimized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowReady [
 	"Check if window has been initialized successfully
@@ -5073,7 +5082,7 @@ RlFunctions >> isWindowReady [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowResized [
 	"Check if window has been resized last frame
@@ -5085,7 +5094,7 @@ RlFunctions >> isWindowResized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> isWindowStateFlag: flag [
 	"Check if one specific window flag is enabled
@@ -5097,7 +5106,7 @@ RlFunctions >> isWindowStateFlag: flag [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadAutomationEventListFileName: fileName [
 	"Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
@@ -5109,7 +5118,7 @@ RlFunctions >> loadAutomationEventListFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadCodepointsText: text count: count [
 	"Load all codepoints from a UTF-8 text string, codepoints count returned by parameter
@@ -5122,7 +5131,7 @@ RlFunctions >> loadCodepointsText: text count: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadDirectoryFilesDirPath: dirPath [
 	"Load directory filepaths
@@ -5134,7 +5143,7 @@ RlFunctions >> loadDirectoryFilesDirPath: dirPath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadDirectoryFilesExBasePath: basePath filter: filter scanSubdirs: scanSubdirs [
 	"Load directory filepaths with extension filtering and recursive directory scan. Use 'DIR' in the filter string to include directories in the result
@@ -5148,7 +5157,7 @@ RlFunctions >> loadDirectoryFilesExBasePath: basePath filter: filter scanSubdirs
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadDroppedFiles [
 	"Load dropped filepaths
@@ -5160,7 +5169,7 @@ RlFunctions >> loadDroppedFiles [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFileDataFileName: fileName dataSize: dataSize [
 	"Load file data as byte array (read)
@@ -5173,7 +5182,7 @@ RlFunctions >> loadFileDataFileName: fileName dataSize: dataSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFileTextFileName: fileName [
 	"Load text data from file (read), returns a '\0' terminated string
@@ -5185,7 +5194,7 @@ RlFunctions >> loadFileTextFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFontDataFileData: fileData dataSize: dataSize fontSize: fontSize codepoints: codepoints codepointCount: codepointCount type: type [
 	"Load font data for further use
@@ -5202,7 +5211,7 @@ RlFunctions >> loadFontDataFileData: fileData dataSize: dataSize fontSize: fontS
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFontExFileName: fileName fontSize: fontSize codepoints: codepoints codepointCount: codepointCount [
 	"Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height
@@ -5217,7 +5226,7 @@ RlFunctions >> loadFontExFileName: fileName fontSize: fontSize codepoints: codep
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFontFileName: fileName [
 	"Load font from file into GPU memory (VRAM)
@@ -5229,7 +5238,7 @@ RlFunctions >> loadFontFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFontFromImage: image key: key firstChar: firstChar [
 	"Load font from Image (XNA style)
@@ -5243,7 +5252,7 @@ RlFunctions >> loadFontFromImage: image key: key firstChar: firstChar [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadFontFromMemoryFileType: fileType fileData: fileData dataSize: dataSize fontSize: fontSize codepoints: codepoints codepointCount: codepointCount [
 	"Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
@@ -5260,7 +5269,7 @@ RlFunctions >> loadFontFromMemoryFileType: fileType fileData: fileData dataSize:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageAnimFileName: fileName frames: frames [
 	"Load image sequence from file (frames appended to image.data)
@@ -5273,7 +5282,7 @@ RlFunctions >> loadImageAnimFileName: fileName frames: frames [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageAnimFromMemoryFileType: fileType fileData: fileData dataSize: dataSize frames: frames [
 	"Load image sequence from memory buffer
@@ -5288,7 +5297,7 @@ RlFunctions >> loadImageAnimFromMemoryFileType: fileType fileData: fileData data
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageColorsImage: image [
 	"Load color data from image as a Color array (RGBA - 32bit)
@@ -5300,7 +5309,7 @@ RlFunctions >> loadImageColorsImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageFileName: fileName [
 	"Load image from file into CPU memory (RAM)
@@ -5312,7 +5321,7 @@ RlFunctions >> loadImageFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageFromMemoryFileType: fileType fileData: fileData dataSize: dataSize [
 	"Load image from memory buffer, fileType refers to extension: i.e. '.png'
@@ -5326,7 +5335,7 @@ RlFunctions >> loadImageFromMemoryFileType: fileType fileData: fileData dataSize
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageFromScreen [
 	"Load image from screen buffer and (screenshot)
@@ -5338,7 +5347,7 @@ RlFunctions >> loadImageFromScreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageFromTexture: texture [
 	"Load image from GPU texture data
@@ -5350,7 +5359,7 @@ RlFunctions >> loadImageFromTexture: texture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImagePaletteImage: image maxPaletteSize: maxPaletteSize colorCount: colorCount [
 	"Load colors palette from image as a Color array (RGBA - 32bit)
@@ -5364,7 +5373,7 @@ RlFunctions >> loadImagePaletteImage: image maxPaletteSize: maxPaletteSize color
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadImageRawFileName: fileName width: width height: height format: format headerSize: headerSize [
 	"Load image from RAW file data
@@ -5380,7 +5389,7 @@ RlFunctions >> loadImageRawFileName: fileName width: width height: height format
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadMaterialDefault [
 	"Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
@@ -5392,7 +5401,7 @@ RlFunctions >> loadMaterialDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadMaterialsFileName: fileName materialCount: materialCount [
 	"Load materials from model file
@@ -5405,7 +5414,7 @@ RlFunctions >> loadMaterialsFileName: fileName materialCount: materialCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadModelAnimationsFileName: fileName animCount: animCount [
 	"Load model animations from file
@@ -5418,7 +5427,7 @@ RlFunctions >> loadModelAnimationsFileName: fileName animCount: animCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadModelFileName: fileName [
 	"Load model from files (meshes and materials)
@@ -5430,7 +5439,7 @@ RlFunctions >> loadModelFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadModelFromMesh: mesh [
 	"Load model from generated mesh (default material)
@@ -5442,7 +5451,7 @@ RlFunctions >> loadModelFromMesh: mesh [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadRandomSequenceCount: count min: min max: max [
 	"Load random values sequence, no values repeated
@@ -5456,7 +5465,7 @@ RlFunctions >> loadRandomSequenceCount: count min: min max: max [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadRenderTextureWidth: width height: height [
 	"Load texture for rendering (framebuffer)
@@ -5469,7 +5478,7 @@ RlFunctions >> loadRenderTextureWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadShaderFromMemoryVsCode: vsCode fsCode: fsCode [
 	"Load shader from code strings and bind default locations
@@ -5482,7 +5491,7 @@ RlFunctions >> loadShaderFromMemoryVsCode: vsCode fsCode: fsCode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadShaderVsFileName: vsFileName fsFileName: fsFileName [
 	"Load shader from files and bind default locations
@@ -5495,7 +5504,7 @@ RlFunctions >> loadShaderVsFileName: vsFileName fsFileName: fsFileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadTextureCubemapImage: image layout: layout [
 	"Load cubemap from image, multiple image cubemap layouts supported
@@ -5508,7 +5517,7 @@ RlFunctions >> loadTextureCubemapImage: image layout: layout [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadTextureFileName: fileName [
 	"Load texture from file into GPU memory (VRAM)
@@ -5520,7 +5529,7 @@ RlFunctions >> loadTextureFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadTextureFromImage: image [
 	"Load texture from image data
@@ -5532,7 +5541,7 @@ RlFunctions >> loadTextureFromImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadUTF8Codepoints: codepoints length: length [
 	"Load UTF-8 text encoded from codepoints array
@@ -5545,7 +5554,7 @@ RlFunctions >> loadUTF8Codepoints: codepoints length: length [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadVrStereoConfigDevice: device [
 	"Load VR stereo config for VR simulator device parameters
@@ -5557,7 +5566,7 @@ RlFunctions >> loadVrStereoConfigDevice: device [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadWaveFileName: fileName [
 	"Load wave data from file
@@ -5569,7 +5578,7 @@ RlFunctions >> loadWaveFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadWaveFromMemoryFileType: fileType fileData: fileData dataSize: dataSize [
 	"Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
@@ -5583,7 +5592,7 @@ RlFunctions >> loadWaveFromMemoryFileType: fileType fileData: fileData dataSize:
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> loadWaveSamplesWave: wave [
 	"Load samples data from wave as a 32bit float data array
@@ -5595,7 +5604,7 @@ RlFunctions >> loadWaveSamplesWave: wave [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> makeDirectoryDirPath: dirPath [
 	"Create directories (including full path requested), returns 0 on success
@@ -5607,7 +5616,7 @@ RlFunctions >> makeDirectoryDirPath: dirPath [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> maximizeWindow [
 	"Set window state: maximized, if resizable
@@ -5619,7 +5628,7 @@ RlFunctions >> maximizeWindow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> measureText: text fontSize: fontSize [
 	"Measure string width for default font
@@ -5632,7 +5641,7 @@ RlFunctions >> measureText: text fontSize: fontSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> measureTextExFont: font text: text fontSize: fontSize spacing: spacing [
 	"Measure string size for Font
@@ -5647,7 +5656,7 @@ RlFunctions >> measureTextExFont: font text: text fontSize: fontSize spacing: sp
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> memAllocSize: size [
 	"Internal memory allocator
@@ -5659,7 +5668,7 @@ RlFunctions >> memAllocSize: size [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> memFreePtr: ptr [
 	"Internal memory free
@@ -5671,7 +5680,7 @@ RlFunctions >> memFreePtr: ptr [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> memReallocPtr: ptr size: size [
 	"Internal memory reallocator
@@ -5684,7 +5693,7 @@ RlFunctions >> memReallocPtr: ptr size: size [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> minimizeWindow [
 	"Set window state: minimized, if resizable
@@ -5696,7 +5705,7 @@ RlFunctions >> minimizeWindow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> openURL: url [
 	"Open URL with default system browser (if available)
@@ -5708,7 +5717,7 @@ RlFunctions >> openURL: url [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> playAutomationEvent: event [
 	"Play a recorded automation event
@@ -5720,7 +5729,7 @@ RlFunctions >> playAutomationEvent: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> pollInputEvents [
 	"Register all input events
@@ -5732,7 +5741,7 @@ RlFunctions >> pollInputEvents [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> restoreWindow [
 	"Set window state: not minimized/maximized
@@ -5744,7 +5753,7 @@ RlFunctions >> restoreWindow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlActiveDrawBuffersCount: count [
 	"Activate multiple draw color buffers
@@ -5756,7 +5765,7 @@ RlFunctions >> rlActiveDrawBuffersCount: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlActiveTextureSlot: slot [
 	"Select and active a texture slot
@@ -5768,7 +5777,7 @@ RlFunctions >> rlActiveTextureSlot: slot [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlBeginMode: mode [
 	"Initialize drawing mode (how to organize vertex)
@@ -5780,7 +5789,7 @@ RlFunctions >> rlBeginMode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlBindFramebufferTarget: target framebuffer: framebuffer [
 	"Bind framebuffer (FBO)
@@ -5793,7 +5802,7 @@ RlFunctions >> rlBindFramebufferTarget: target framebuffer: framebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlBindImageTextureId: id index: index format: format readonly: readonly [
 	"Bind image texture
@@ -5808,7 +5817,7 @@ RlFunctions >> rlBindImageTextureId: id index: index format: format readonly: re
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlBindShaderBufferId: id index: index [
 	"Bind SSBO buffer
@@ -5821,7 +5830,7 @@ RlFunctions >> rlBindShaderBufferId: id index: index [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlBlitFramebufferSrcX: srcX srcY: srcY srcWidth: srcWidth srcHeight: srcHeight dstX: dstX dstY: dstY dstWidth: dstWidth dstHeight: dstHeight bufferMask: bufferMask [
 	"Blit active framebuffer to main framebuffer
@@ -5841,7 +5850,7 @@ RlFunctions >> rlBlitFramebufferSrcX: srcX srcY: srcY srcWidth: srcWidth srcHeig
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlCheckErrors [
 	"Check and log OpenGL error codes
@@ -5853,7 +5862,7 @@ RlFunctions >> rlCheckErrors [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlCheckRenderBatchLimitVCount: vCount [
 	"Check internal buffer overflow for a given number of vertex
@@ -5865,7 +5874,7 @@ RlFunctions >> rlCheckRenderBatchLimitVCount: vCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlClearColor: r g: g b: b a: a [
 	"Clear color buffer with color
@@ -5880,7 +5889,7 @@ RlFunctions >> rlClearColor: r g: g b: b a: a [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlClearScreenBuffers [
 	"Clear used screen buffers (color and depth)
@@ -5892,7 +5901,7 @@ RlFunctions >> rlClearScreenBuffers [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlColor3fX: x y: y z: z [
 	"Define one vertex (color) - 3 float
@@ -5906,7 +5915,7 @@ RlFunctions >> rlColor3fX: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlColor4fX: x y: y z: z w: w [
 	"Define one vertex (color) - 4 float
@@ -5921,7 +5930,7 @@ RlFunctions >> rlColor4fX: x y: y z: z w: w [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlColor4ubR: r g: g b: b a: a [
 	"Define one vertex (color) - 4 byte
@@ -5936,7 +5945,7 @@ RlFunctions >> rlColor4ubR: r g: g b: b a: a [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlColorMaskR: r g: g b: b a: a [
 	"Color mask control
@@ -5951,7 +5960,7 @@ RlFunctions >> rlColorMaskR: r g: g b: b a: a [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlCompileShaderShaderCode: shaderCode type: type [
 	"Compile custom shader and return shader id (type: RL_VERTEX_SHADER, RL_FRAGMENT_SHADER, RL_COMPUTE_SHADER)
@@ -5964,7 +5973,7 @@ RlFunctions >> rlCompileShaderShaderCode: shaderCode type: type [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlComputeShaderDispatchGroupX: groupX groupY: groupY groupZ: groupZ [
 	"Dispatch compute shader (equivalent to *draw* for graphics pipeline)
@@ -5978,7 +5987,7 @@ RlFunctions >> rlComputeShaderDispatchGroupX: groupX groupY: groupY groupZ: grou
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlCopyShaderBufferDestId: destId srcId: srcId destOffset: destOffset srcOffset: srcOffset count: count [
 	"Copy SSBO data between buffers
@@ -5994,7 +6003,7 @@ RlFunctions >> rlCopyShaderBufferDestId: destId srcId: srcId destOffset: destOff
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlCubemapParametersId: id param: param value: value [
 	"Set cubemap parameters (filter, wrap)
@@ -6008,7 +6017,7 @@ RlFunctions >> rlCubemapParametersId: id param: param value: value [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableBackfaceCulling [
 	"Disable backface culling
@@ -6020,7 +6029,7 @@ RlFunctions >> rlDisableBackfaceCulling [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableColorBlend [
 	"Disable color blending
@@ -6032,7 +6041,7 @@ RlFunctions >> rlDisableColorBlend [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableDepthMask [
 	"Disable depth write
@@ -6044,7 +6053,7 @@ RlFunctions >> rlDisableDepthMask [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableDepthTest [
 	"Disable depth test
@@ -6056,7 +6065,7 @@ RlFunctions >> rlDisableDepthTest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableFramebuffer [
 	"Disable render texture (fbo), return to default framebuffer
@@ -6068,7 +6077,7 @@ RlFunctions >> rlDisableFramebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisablePointMode [
 	"Disable point mode
@@ -6080,7 +6089,7 @@ RlFunctions >> rlDisablePointMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableScissorTest [
 	"Disable scissor test
@@ -6092,7 +6101,7 @@ RlFunctions >> rlDisableScissorTest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableShader [
 	"Disable shader program
@@ -6104,7 +6113,7 @@ RlFunctions >> rlDisableShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableSmoothLines [
 	"Disable line aliasing
@@ -6116,7 +6125,7 @@ RlFunctions >> rlDisableSmoothLines [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableStatePointerVertexAttribType: vertexAttribType [
 	"Disable attribute state pointer
@@ -6128,7 +6137,7 @@ RlFunctions >> rlDisableStatePointerVertexAttribType: vertexAttribType [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableStereoRender [
 	"Disable stereo rendering
@@ -6140,7 +6149,7 @@ RlFunctions >> rlDisableStereoRender [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableTexture [
 	"Disable texture
@@ -6152,7 +6161,7 @@ RlFunctions >> rlDisableTexture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableTextureCubemap [
 	"Disable texture cubemap
@@ -6164,7 +6173,7 @@ RlFunctions >> rlDisableTextureCubemap [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableVertexArray [
 	"Disable vertex array (VAO, if supported)
@@ -6176,7 +6185,7 @@ RlFunctions >> rlDisableVertexArray [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableVertexAttributeIndex: index [
 	"Disable vertex attribute index
@@ -6188,7 +6197,7 @@ RlFunctions >> rlDisableVertexAttributeIndex: index [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableVertexBuffer [
 	"Disable vertex buffer (VBO)
@@ -6200,7 +6209,7 @@ RlFunctions >> rlDisableVertexBuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableVertexBufferElement [
 	"Disable vertex buffer element (VBO element)
@@ -6212,7 +6221,7 @@ RlFunctions >> rlDisableVertexBufferElement [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDisableWireMode [
 	"Disable wire mode
@@ -6224,7 +6233,7 @@ RlFunctions >> rlDisableWireMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawRenderBatch: batch [
 	"Draw render batch data (Update->Draw->Reset)
@@ -6236,7 +6245,7 @@ RlFunctions >> rlDrawRenderBatch: batch [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawRenderBatchActive [
 	"Update and draw internal render batch
@@ -6248,7 +6257,7 @@ RlFunctions >> rlDrawRenderBatchActive [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawVertexArrayElementsInstancedOffset: offset count: count buffer: buffer instances: instances [
 	"Draw vertex array elements with instancing
@@ -6263,7 +6272,7 @@ RlFunctions >> rlDrawVertexArrayElementsInstancedOffset: offset count: count buf
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawVertexArrayElementsOffset: offset count: count buffer: buffer [
 	"Draw vertex array elements
@@ -6277,7 +6286,7 @@ RlFunctions >> rlDrawVertexArrayElementsOffset: offset count: count buffer: buff
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawVertexArrayInstancedOffset: offset count: count instances: instances [
 	"Draw vertex array (currently active vao) with instancing
@@ -6291,7 +6300,7 @@ RlFunctions >> rlDrawVertexArrayInstancedOffset: offset count: count instances: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlDrawVertexArrayOffset: offset count: count [
 	"Draw vertex array (currently active vao)
@@ -6304,7 +6313,7 @@ RlFunctions >> rlDrawVertexArrayOffset: offset count: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableBackfaceCulling [
 	"Enable backface culling
@@ -6316,7 +6325,7 @@ RlFunctions >> rlEnableBackfaceCulling [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableColorBlend [
 	"Enable color blending
@@ -6328,7 +6337,7 @@ RlFunctions >> rlEnableColorBlend [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableDepthMask [
 	"Enable depth write
@@ -6340,7 +6349,7 @@ RlFunctions >> rlEnableDepthMask [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableDepthTest [
 	"Enable depth test
@@ -6352,7 +6361,7 @@ RlFunctions >> rlEnableDepthTest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableFramebufferId: id [
 	"Enable render texture (fbo)
@@ -6364,7 +6373,7 @@ RlFunctions >> rlEnableFramebufferId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnablePointMode [
 	"Enable point mode
@@ -6376,7 +6385,7 @@ RlFunctions >> rlEnablePointMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableScissorTest [
 	"Enable scissor test
@@ -6388,7 +6397,7 @@ RlFunctions >> rlEnableScissorTest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableShaderId: id [
 	"Enable shader program
@@ -6400,7 +6409,7 @@ RlFunctions >> rlEnableShaderId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableSmoothLines [
 	"Enable line aliasing
@@ -6412,7 +6421,7 @@ RlFunctions >> rlEnableSmoothLines [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableStatePointerVertexAttribType: vertexAttribType buffer: buffer [
 	"Enable attribute state pointer
@@ -6425,7 +6434,7 @@ RlFunctions >> rlEnableStatePointerVertexAttribType: vertexAttribType buffer: bu
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableStereoRender [
 	"Enable stereo rendering
@@ -6437,7 +6446,7 @@ RlFunctions >> rlEnableStereoRender [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableTextureCubemapId: id [
 	"Enable texture cubemap
@@ -6449,7 +6458,7 @@ RlFunctions >> rlEnableTextureCubemapId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableTextureId: id [
 	"Enable texture
@@ -6461,7 +6470,7 @@ RlFunctions >> rlEnableTextureId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableVertexArrayVaoId: vaoId [
 	"Enable vertex array (VAO, if supported)
@@ -6473,7 +6482,7 @@ RlFunctions >> rlEnableVertexArrayVaoId: vaoId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableVertexAttributeIndex: index [
 	"Enable vertex attribute index
@@ -6485,7 +6494,7 @@ RlFunctions >> rlEnableVertexAttributeIndex: index [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableVertexBufferElementId: id [
 	"Enable vertex buffer element (VBO element)
@@ -6497,7 +6506,7 @@ RlFunctions >> rlEnableVertexBufferElementId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableVertexBufferId: id [
 	"Enable vertex buffer (VBO)
@@ -6509,7 +6518,7 @@ RlFunctions >> rlEnableVertexBufferId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnableWireMode [
 	"Enable wire mode
@@ -6521,7 +6530,7 @@ RlFunctions >> rlEnableWireMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlEnd [
 	"Finish vertex providing
@@ -6533,7 +6542,7 @@ RlFunctions >> rlEnd [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlFramebufferAttachFboId: fboId texId: texId attachType: attachType texType: texType mipLevel: mipLevel [
 	"Attach texture/renderbuffer to a framebuffer
@@ -6549,7 +6558,7 @@ RlFunctions >> rlFramebufferAttachFboId: fboId texId: texId attachType: attachTy
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlFramebufferCompleteId: id [
 	"Verify framebuffer is complete
@@ -6561,7 +6570,7 @@ RlFunctions >> rlFramebufferCompleteId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlFrustumLeft: left right: right bottom: bottom top: top znear: znear zfar: zfar [
 	"
@@ -6578,7 +6587,7 @@ RlFunctions >> rlFrustumLeft: left right: right bottom: bottom top: top znear: z
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGenTextureMipmapsId: id width: width height: height format: format mipmaps: mipmaps [
 	"Generate mipmap data for selected texture
@@ -6594,7 +6603,7 @@ RlFunctions >> rlGenTextureMipmapsId: id width: width height: height format: for
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetActiveFramebuffer [
 	"Get the currently active render texture (fbo), 0 for default framebuffer
@@ -6606,7 +6615,7 @@ RlFunctions >> rlGetActiveFramebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetCullDistanceFar [
 	"Get cull plane distance far
@@ -6618,7 +6627,7 @@ RlFunctions >> rlGetCullDistanceFar [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetCullDistanceNear [
 	"Get cull plane distance near
@@ -6630,7 +6639,7 @@ RlFunctions >> rlGetCullDistanceNear [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetFramebufferHeight [
 	"Get default framebuffer height
@@ -6642,7 +6651,7 @@ RlFunctions >> rlGetFramebufferHeight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetFramebufferWidth [
 	"Get default framebuffer width
@@ -6654,7 +6663,7 @@ RlFunctions >> rlGetFramebufferWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetGlTextureFormatsFormat: format glInternalFormat: glInternalFormat glFormat: glFormat glType: glType [
 	"Get OpenGL internal formats
@@ -6669,7 +6678,7 @@ RlFunctions >> rlGetGlTextureFormatsFormat: format glInternalFormat: glInternalF
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetLineWidth [
 	"Get the line drawing width
@@ -6681,7 +6690,7 @@ RlFunctions >> rlGetLineWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetLocationAttribShaderId: shaderId attribName: attribName [
 	"Get shader location attribute
@@ -6694,7 +6703,7 @@ RlFunctions >> rlGetLocationAttribShaderId: shaderId attribName: attribName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetLocationUniformShaderId: shaderId uniformName: uniformName [
 	"Get shader location uniform
@@ -6707,7 +6716,7 @@ RlFunctions >> rlGetLocationUniformShaderId: shaderId uniformName: uniformName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetMatrixModelview [
 	"Get internal modelview matrix
@@ -6719,7 +6728,7 @@ RlFunctions >> rlGetMatrixModelview [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetMatrixProjection [
 	"Get internal projection matrix
@@ -6731,7 +6740,7 @@ RlFunctions >> rlGetMatrixProjection [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetMatrixProjectionStereoEye: eye [
 	"Get internal projection matrix for stereo render (selected eye)
@@ -6743,7 +6752,7 @@ RlFunctions >> rlGetMatrixProjectionStereoEye: eye [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetMatrixTransform [
 	"Get internal accumulated transform matrix
@@ -6755,7 +6764,7 @@ RlFunctions >> rlGetMatrixTransform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetMatrixViewOffsetStereoEye: eye [
 	"Get internal view offset matrix for stereo render (selected eye)
@@ -6767,7 +6776,7 @@ RlFunctions >> rlGetMatrixViewOffsetStereoEye: eye [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetPixelFormatNameFormat: format [
 	"Get name string for pixel format
@@ -6779,7 +6788,7 @@ RlFunctions >> rlGetPixelFormatNameFormat: format [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetShaderBufferSizeId: id [
 	"Get SSBO buffer size
@@ -6791,7 +6800,7 @@ RlFunctions >> rlGetShaderBufferSizeId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetShaderIdDefault [
 	"Get default shader id
@@ -6803,7 +6812,7 @@ RlFunctions >> rlGetShaderIdDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetShaderLocsDefault [
 	"Get default shader locations
@@ -6815,7 +6824,7 @@ RlFunctions >> rlGetShaderLocsDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetTextureIdDefault [
 	"Get default texture id
@@ -6827,7 +6836,7 @@ RlFunctions >> rlGetTextureIdDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlGetVersion [
 	"Get current OpenGL version
@@ -6839,7 +6848,7 @@ RlFunctions >> rlGetVersion [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlIsStereoRenderEnabled [
 	"Check if stereo render is enabled
@@ -6851,7 +6860,7 @@ RlFunctions >> rlIsStereoRenderEnabled [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadComputeShaderProgramShaderId: shaderId [
 	"Load compute shader program
@@ -6863,7 +6872,7 @@ RlFunctions >> rlLoadComputeShaderProgramShaderId: shaderId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadDrawCube [
 	"Load and draw a cube
@@ -6875,7 +6884,7 @@ RlFunctions >> rlLoadDrawCube [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadDrawQuad [
 	"Load and draw a quad
@@ -6887,7 +6896,7 @@ RlFunctions >> rlLoadDrawQuad [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadExtensionsLoader: loader [
 	"Load OpenGL extensions (loader function required)
@@ -6899,7 +6908,7 @@ RlFunctions >> rlLoadExtensionsLoader: loader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadFramebuffer [
 	"Load an empty framebuffer
@@ -6911,7 +6920,7 @@ RlFunctions >> rlLoadFramebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadIdentity [
 	"Reset current matrix to identity matrix
@@ -6923,7 +6932,7 @@ RlFunctions >> rlLoadIdentity [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadRenderBatchNumBuffers: numBuffers bufferElements: bufferElements [
 	"Load a render batch system
@@ -6936,7 +6945,7 @@ RlFunctions >> rlLoadRenderBatchNumBuffers: numBuffers bufferElements: bufferEle
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadShaderBufferSize: size data: data usageHint: usageHint [
 	"Load shader storage buffer object (SSBO)
@@ -6950,7 +6959,7 @@ RlFunctions >> rlLoadShaderBufferSize: size data: data usageHint: usageHint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadShaderCodeVsCode: vsCode fsCode: fsCode [
 	"Load shader from code strings
@@ -6963,7 +6972,7 @@ RlFunctions >> rlLoadShaderCodeVsCode: vsCode fsCode: fsCode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadShaderProgramVShaderId: vShaderId fShaderId: fShaderId [
 	"Load custom shader program
@@ -6976,7 +6985,7 @@ RlFunctions >> rlLoadShaderProgramVShaderId: vShaderId fShaderId: fShaderId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadTextureCubemapData: data size: size format: format mipmapCount: mipmapCount [
 	"Load texture cubemap data
@@ -6991,7 +7000,7 @@ RlFunctions >> rlLoadTextureCubemapData: data size: size format: format mipmapCo
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadTextureData: data width: width height: height format: format mipmapCount: mipmapCount [
 	"Load texture data
@@ -7007,7 +7016,7 @@ RlFunctions >> rlLoadTextureData: data width: width height: height format: forma
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadTextureDepthWidth: width height: height useRenderBuffer: useRenderBuffer [
 	"Load depth texture/renderbuffer (to be attached to fbo)
@@ -7021,7 +7030,7 @@ RlFunctions >> rlLoadTextureDepthWidth: width height: height useRenderBuffer: us
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadVertexArray [
 	"Load vertex array (vao) if supported
@@ -7033,7 +7042,7 @@ RlFunctions >> rlLoadVertexArray [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadVertexBuffer: buffer size: size dynamic: dynamic [
 	"Load a vertex buffer object
@@ -7047,7 +7056,7 @@ RlFunctions >> rlLoadVertexBuffer: buffer size: size dynamic: dynamic [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlLoadVertexBufferElementBuffer: buffer size: size dynamic: dynamic [
 	"Load vertex buffer elements object
@@ -7061,7 +7070,7 @@ RlFunctions >> rlLoadVertexBufferElementBuffer: buffer size: size dynamic: dynam
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlMatrixMode: mode [
 	"Choose the current matrix to be transformed
@@ -7073,7 +7082,7 @@ RlFunctions >> rlMatrixMode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlMultMatrixfMatf: matf [
 	"Multiply the current matrix by another matrix
@@ -7085,7 +7094,7 @@ RlFunctions >> rlMultMatrixfMatf: matf [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlNormal3fX: x y: y z: z [
 	"Define one vertex (normal) - 3 float
@@ -7099,7 +7108,7 @@ RlFunctions >> rlNormal3fX: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRBegin [
 	"
@@ -7111,7 +7120,7 @@ RlFunctions >> rlOpenXRBegin [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRBeginMockHMD [
 	"
@@ -7123,7 +7132,7 @@ RlFunctions >> rlOpenXRBeginMockHMD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRBlitToWindowEye: eye keep_aspect_ratio: keep_aspect_ratio [
 	"
@@ -7136,7 +7145,7 @@ RlFunctions >> rlOpenXRBlitToWindowEye: eye keep_aspect_ratio: keep_aspect_ratio
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRData [
 	"
@@ -7148,7 +7157,7 @@ RlFunctions >> rlOpenXRData [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXREnd [
 	"
@@ -7160,7 +7169,7 @@ RlFunctions >> rlOpenXREnd [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRSetup [
 	"
@@ -7172,7 +7181,7 @@ RlFunctions >> rlOpenXRSetup [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRShutdown [
 	"
@@ -7184,7 +7193,7 @@ RlFunctions >> rlOpenXRShutdown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRSyncSingleActionSetAction_set: action_set [
 	"Utility function for xrSyncAction with a single action set.
@@ -7196,7 +7205,7 @@ RlFunctions >> rlOpenXRSyncSingleActionSetAction_set: action_set [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRUpdate [
 	"
@@ -7208,7 +7217,7 @@ RlFunctions >> rlOpenXRUpdate [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRUpdateCamera: camera [
 	"
@@ -7220,7 +7229,7 @@ RlFunctions >> rlOpenXRUpdateCamera: camera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRUpdateCameraTransform: transform [
 	"
@@ -7232,7 +7241,7 @@ RlFunctions >> rlOpenXRUpdateCameraTransform: transform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOpenXRUpdateHandsLeft: left right: right [
 	"
@@ -7245,7 +7254,7 @@ RlFunctions >> rlOpenXRUpdateHandsLeft: left right: right [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlOrthoLeft: left right: right bottom: bottom top: top znear: znear zfar: zfar [
 	"
@@ -7262,7 +7271,7 @@ RlFunctions >> rlOrthoLeft: left right: right bottom: bottom top: top znear: zne
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlPopMatrix [
 	"Pop latest inserted matrix from stack
@@ -7274,7 +7283,7 @@ RlFunctions >> rlPopMatrix [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlPushMatrix [
 	"Push the current matrix to stack
@@ -7286,7 +7295,7 @@ RlFunctions >> rlPushMatrix [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlReadScreenPixelsWidth: width height: height [
 	"Read screen pixel data (color buffer)
@@ -7299,7 +7308,7 @@ RlFunctions >> rlReadScreenPixelsWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlReadShaderBufferId: id dest: dest count: count offset: offset [
 	"Read SSBO buffer data (GPU->CPU)
@@ -7314,7 +7323,7 @@ RlFunctions >> rlReadShaderBufferId: id dest: dest count: count offset: offset [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlReadTexturePixelsId: id width: width height: height format: format [
 	"Read texture pixel data
@@ -7329,7 +7338,7 @@ RlFunctions >> rlReadTexturePixelsId: id width: width height: height format: for
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlRotatefAngle: angle x: x y: y z: z [
 	"Multiply the current matrix by a rotation matrix
@@ -7344,7 +7353,7 @@ RlFunctions >> rlRotatefAngle: angle x: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlScalefX: x y: y z: z [
 	"Multiply the current matrix by a scaling matrix
@@ -7358,7 +7367,7 @@ RlFunctions >> rlScalefX: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlScissorX: x y: y width: width height: height [
 	"Scissor test
@@ -7373,7 +7382,7 @@ RlFunctions >> rlScissorX: x y: y width: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetBlendFactorsGlSrcFactor: glSrcFactor glDstFactor: glDstFactor glEquation: glEquation [
 	"Set blending mode factor and equation (using OpenGL factors)
@@ -7387,7 +7396,7 @@ RlFunctions >> rlSetBlendFactorsGlSrcFactor: glSrcFactor glDstFactor: glDstFacto
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetBlendFactorsSeparateGlSrcRGB: glSrcRGB glDstRGB: glDstRGB glSrcAlpha: glSrcAlpha glDstAlpha: glDstAlpha glEqRGB: glEqRGB glEqAlpha: glEqAlpha [
 	"Set blending mode factors and equations separately (using OpenGL factors)
@@ -7404,7 +7413,7 @@ RlFunctions >> rlSetBlendFactorsSeparateGlSrcRGB: glSrcRGB glDstRGB: glDstRGB gl
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetBlendMode: mode [
 	"Set blending mode
@@ -7416,7 +7425,7 @@ RlFunctions >> rlSetBlendMode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetClipPlanesNearPlane: nearPlane farPlane: farPlane [
 	"Set clip planes distances
@@ -7429,7 +7438,7 @@ RlFunctions >> rlSetClipPlanesNearPlane: nearPlane farPlane: farPlane [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetCullFaceMode: mode [
 	"Set face culling mode
@@ -7441,7 +7450,7 @@ RlFunctions >> rlSetCullFaceMode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetFramebufferHeight: height [
 	"Set current framebuffer height
@@ -7453,7 +7462,7 @@ RlFunctions >> rlSetFramebufferHeight: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetFramebufferWidth: width [
 	"Set current framebuffer width
@@ -7465,7 +7474,7 @@ RlFunctions >> rlSetFramebufferWidth: width [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetLineWidth: width [
 	"Set the line drawing width
@@ -7477,7 +7486,7 @@ RlFunctions >> rlSetLineWidth: width [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetMatrixModelview: view [
 	"Set a custom modelview matrix (replaces internal modelview matrix)
@@ -7489,7 +7498,7 @@ RlFunctions >> rlSetMatrixModelview: view [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetMatrixProjectionProj: proj [
 	"Set a custom projection matrix (replaces internal projection matrix)
@@ -7501,7 +7510,7 @@ RlFunctions >> rlSetMatrixProjectionProj: proj [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetMatrixProjectionStereoRight: right left: left [
 	"Set eyes projection matrices for stereo rendering
@@ -7514,7 +7523,7 @@ RlFunctions >> rlSetMatrixProjectionStereoRight: right left: left [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetMatrixViewOffsetStereoRight: right left: left [
 	"Set eyes view offsets matrices for stereo rendering
@@ -7527,7 +7536,7 @@ RlFunctions >> rlSetMatrixViewOffsetStereoRight: right left: left [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetRenderBatchActiveBatch: batch [
 	"Set the active render batch for rlgl (NULL for default internal)
@@ -7539,7 +7548,7 @@ RlFunctions >> rlSetRenderBatchActiveBatch: batch [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetShaderId: id locs: locs [
 	"Set shader currently active (id and locations)
@@ -7552,7 +7561,7 @@ RlFunctions >> rlSetShaderId: id locs: locs [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetTextureId: id [
 	"Set current texture for render batch and check buffers limits
@@ -7564,7 +7573,7 @@ RlFunctions >> rlSetTextureId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetUniformLocIndex: locIndex value: value uniformType: uniformType count: count [
 	"Set shader value uniform
@@ -7579,7 +7588,7 @@ RlFunctions >> rlSetUniformLocIndex: locIndex value: value uniformType: uniformT
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetUniformMatricesLocIndex: locIndex mat: mat count: count [
 	"Set shader value matrices
@@ -7593,7 +7602,7 @@ RlFunctions >> rlSetUniformMatricesLocIndex: locIndex mat: mat count: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetUniformMatrixLocIndex: locIndex mat: mat [
 	"Set shader value matrix
@@ -7606,7 +7615,7 @@ RlFunctions >> rlSetUniformMatrixLocIndex: locIndex mat: mat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetUniformSamplerLocIndex: locIndex textureId: textureId [
 	"Set shader value sampler
@@ -7619,7 +7628,7 @@ RlFunctions >> rlSetUniformSamplerLocIndex: locIndex textureId: textureId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetVertexAttributeDefaultLocIndex: locIndex value: value attribType: attribType count: count [
 	"Set vertex attribute default value, when attribute to provided
@@ -7634,7 +7643,7 @@ RlFunctions >> rlSetVertexAttributeDefaultLocIndex: locIndex value: value attrib
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetVertexAttributeDivisorIndex: index divisor: divisor [
 	"Set vertex attribute data divisor
@@ -7647,7 +7656,7 @@ RlFunctions >> rlSetVertexAttributeDivisorIndex: index divisor: divisor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlSetVertexAttributeIndex: index compSize: compSize type: type normalized: normalized stride: stride offset: offset [
 	"Set vertex attribute data configuration
@@ -7664,7 +7673,7 @@ RlFunctions >> rlSetVertexAttributeIndex: index compSize: compSize type: type no
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlTexCoord2fX: x y: y [
 	"Define one vertex (texture coordinate) - 2 float
@@ -7677,7 +7686,7 @@ RlFunctions >> rlTexCoord2fX: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlTextureParametersId: id param: param value: value [
 	"Set texture parameters (filter, wrap)
@@ -7691,7 +7700,7 @@ RlFunctions >> rlTextureParametersId: id param: param value: value [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlTranslatefX: x y: y z: z [
 	"Multiply the current matrix by a translation matrix
@@ -7705,7 +7714,7 @@ RlFunctions >> rlTranslatefX: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadFramebufferId: id [
 	"Delete framebuffer from GPU
@@ -7717,7 +7726,7 @@ RlFunctions >> rlUnloadFramebufferId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadRenderBatch: batch [
 	"Unload render batch system
@@ -7729,7 +7738,7 @@ RlFunctions >> rlUnloadRenderBatch: batch [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadShaderBufferSsboId: ssboId [
 	"Unload shader storage buffer object (SSBO)
@@ -7741,7 +7750,7 @@ RlFunctions >> rlUnloadShaderBufferSsboId: ssboId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadShaderProgramId: id [
 	"Unload shader program
@@ -7753,7 +7762,7 @@ RlFunctions >> rlUnloadShaderProgramId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadTextureId: id [
 	"Unload texture from GPU memory
@@ -7765,7 +7774,7 @@ RlFunctions >> rlUnloadTextureId: id [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadVertexArrayVaoId: vaoId [
 	"Unload vertex array (vao)
@@ -7777,7 +7786,7 @@ RlFunctions >> rlUnloadVertexArrayVaoId: vaoId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUnloadVertexBufferVboId: vboId [
 	"Unload vertex buffer object
@@ -7789,7 +7798,7 @@ RlFunctions >> rlUnloadVertexBufferVboId: vboId [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUpdateShaderBufferId: id data: data dataSize: dataSize offset: offset [
 	"Update SSBO buffer data
@@ -7804,7 +7813,7 @@ RlFunctions >> rlUpdateShaderBufferId: id data: data dataSize: dataSize offset: 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUpdateTextureId: id offsetX: offsetX offsetY: offsetY width: width height: height format: format data: data [
 	"Update texture with new data on GPU
@@ -7822,7 +7831,7 @@ RlFunctions >> rlUpdateTextureId: id offsetX: offsetX offsetY: offsetY width: wi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUpdateVertexBufferBufferId: bufferId data: data dataSize: dataSize offset: offset [
 	"Update vertex buffer object data on GPU buffer
@@ -7837,7 +7846,7 @@ RlFunctions >> rlUpdateVertexBufferBufferId: bufferId data: data dataSize: dataS
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlUpdateVertexBufferElementsId: id data: data dataSize: dataSize offset: offset [
 	"Update vertex buffer elements data on GPU buffer
@@ -7852,7 +7861,7 @@ RlFunctions >> rlUpdateVertexBufferElementsId: id data: data dataSize: dataSize 
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlVertex2fX: x y: y [
 	"Define one vertex (position) - 2 float
@@ -7865,7 +7874,7 @@ RlFunctions >> rlVertex2fX: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlVertex2iX: x y: y [
 	"Define one vertex (position) - 2 int
@@ -7878,7 +7887,7 @@ RlFunctions >> rlVertex2iX: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlVertex3fX: x y: y z: z [
 	"Define one vertex (position) - 3 float
@@ -7892,7 +7901,7 @@ RlFunctions >> rlVertex3fX: x y: y z: z [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlViewportX: x y: y width: width height: height [
 	"Set the viewport area
@@ -7907,7 +7916,7 @@ RlFunctions >> rlViewportX: x y: y width: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlglClose [
 	"De-initialize rlgl (buffers, shaders, textures)
@@ -7919,7 +7928,7 @@ RlFunctions >> rlglClose [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> rlglInitWidth: width height: height [
 	"Initialize rlgl (buffers, shaders, textures, states)
@@ -7932,7 +7941,7 @@ RlFunctions >> rlglInitWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> saveFileDataFileName: fileName data: data dataSize: dataSize [
 	"Save data to file from byte array (write), returns true on success
@@ -7946,7 +7955,7 @@ RlFunctions >> saveFileDataFileName: fileName data: data dataSize: dataSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> saveFileTextFileName: fileName text: text [
 	"Save text data to file (write), string must be '\0' terminated, returns true on success
@@ -7959,7 +7968,7 @@ RlFunctions >> saveFileTextFileName: fileName text: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setAutomationEventBaseFrame: frame [
 	"Set automation event internal base frame to start recording
@@ -7971,7 +7980,7 @@ RlFunctions >> setAutomationEventBaseFrame: frame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setAutomationEventList: list [
 	"Set automation event list to record to
@@ -7983,7 +7992,7 @@ RlFunctions >> setAutomationEventList: list [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setClipboardText: text [
 	"Set clipboard text content
@@ -7995,7 +8004,7 @@ RlFunctions >> setClipboardText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setConfigFlags: flags [
 	"Setup init configuration flags (view FLAGS)
@@ -8007,7 +8016,7 @@ RlFunctions >> setConfigFlags: flags [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setExitKey: key [
 	"Set a custom key to exit program (default is ESC)
@@ -8019,7 +8028,7 @@ RlFunctions >> setExitKey: key [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setGamepadMappings: mappings [
 	"Set internal gamepad mappings (SDL_GameControllerDB)
@@ -8031,7 +8040,7 @@ RlFunctions >> setGamepadMappings: mappings [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setGamepadVibrationGamepad: gamepad leftMotor: leftMotor rightMotor: rightMotor duration: duration [
 	"Set gamepad vibration for both motors (duration in seconds)
@@ -8046,7 +8055,7 @@ RlFunctions >> setGamepadVibrationGamepad: gamepad leftMotor: leftMotor rightMot
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setGesturesEnabledFlags: flags [
 	"Enable a set of gestures using flags
@@ -8058,7 +8067,7 @@ RlFunctions >> setGesturesEnabledFlags: flags [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setLoadFileDataCallback: callback [
 	"Set custom file binary data loader
@@ -8070,7 +8079,7 @@ RlFunctions >> setLoadFileDataCallback: callback [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setLoadFileTextCallback: callback [
 	"Set custom file text data loader
@@ -8082,7 +8091,7 @@ RlFunctions >> setLoadFileTextCallback: callback [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMasterVolume: volume [
 	"Set master volume (listener)
@@ -8094,7 +8103,7 @@ RlFunctions >> setMasterVolume: volume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMaterialTextureMaterial: material mapType: mapType texture: texture [
 	"Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
@@ -8108,7 +8117,7 @@ RlFunctions >> setMaterialTextureMaterial: material mapType: mapType texture: te
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setModelMeshMaterialModel: model meshId: meshId materialId: materialId [
 	"Set material for a mesh
@@ -8122,7 +8131,7 @@ RlFunctions >> setModelMeshMaterialModel: model meshId: meshId materialId: mater
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMouseCursor: cursor [
 	"Set mouse cursor
@@ -8134,7 +8143,7 @@ RlFunctions >> setMouseCursor: cursor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMouseOffsetOffsetX: offsetX offsetY: offsetY [
 	"Set mouse offset
@@ -8147,7 +8156,7 @@ RlFunctions >> setMouseOffsetOffsetX: offsetX offsetY: offsetY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMousePositionX: x y: y [
 	"Set mouse position XY
@@ -8160,7 +8169,7 @@ RlFunctions >> setMousePositionX: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setMouseScaleScaleX: scaleX scaleY: scaleY [
 	"Set mouse scaling
@@ -8173,7 +8182,7 @@ RlFunctions >> setMouseScaleScaleX: scaleX scaleY: scaleY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setPixelColorDstPtr: dstPtr color: color format: format [
 	"Set color formatted into destination pixel pointer
@@ -8187,7 +8196,7 @@ RlFunctions >> setPixelColorDstPtr: dstPtr color: color format: format [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setRandomSeed: seed [
 	"Set the seed for the random number generator
@@ -8199,7 +8208,7 @@ RlFunctions >> setRandomSeed: seed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setSaveFileDataCallback: callback [
 	"Set custom file binary data saver
@@ -8211,7 +8220,7 @@ RlFunctions >> setSaveFileDataCallback: callback [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setSaveFileTextCallback: callback [
 	"Set custom file text data saver
@@ -8223,7 +8232,7 @@ RlFunctions >> setSaveFileTextCallback: callback [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setShaderValueMatrixShader: shader locIndex: locIndex mat: mat [
 	"Set shader uniform value (matrix 4x4)
@@ -8237,7 +8246,7 @@ RlFunctions >> setShaderValueMatrixShader: shader locIndex: locIndex mat: mat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setShaderValueShader: shader locIndex: locIndex value: value uniformType: uniformType [
 	"Set shader uniform value
@@ -8252,7 +8261,7 @@ RlFunctions >> setShaderValueShader: shader locIndex: locIndex value: value unif
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setShaderValueTextureShader: shader locIndex: locIndex texture: texture [
 	"Set shader uniform value and bind the texture (sampler2d)
@@ -8266,7 +8275,7 @@ RlFunctions >> setShaderValueTextureShader: shader locIndex: locIndex texture: t
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setShaderValueVShader: shader locIndex: locIndex value: value uniformType: uniformType count: count [
 	"Set shader uniform value vector
@@ -8282,7 +8291,7 @@ RlFunctions >> setShaderValueVShader: shader locIndex: locIndex value: value uni
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setShapesTexture: texture source: source [
 	"Set texture and rectangle to be used on shapes drawing
@@ -8295,7 +8304,7 @@ RlFunctions >> setShapesTexture: texture source: source [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTargetFPS: fps [
 	"Set target FPS (maximum)
@@ -8307,7 +8316,7 @@ RlFunctions >> setTargetFPS: fps [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTextLineSpacing: spacing [
 	"Set vertical line spacing when drawing with line-breaks
@@ -8319,7 +8328,7 @@ RlFunctions >> setTextLineSpacing: spacing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTextureFilterTexture: texture filter: filter [
 	"Set texture scaling filter mode
@@ -8332,7 +8341,7 @@ RlFunctions >> setTextureFilterTexture: texture filter: filter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTextureWrapTexture: texture wrap: wrap [
 	"Set texture wrapping mode
@@ -8345,7 +8354,7 @@ RlFunctions >> setTextureWrapTexture: texture wrap: wrap [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTraceLogCallback: callback [
 	"Set custom trace log
@@ -8357,7 +8366,7 @@ RlFunctions >> setTraceLogCallback: callback [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setTraceLogLevel: logLevel [
 	"Set the current threshold (minimum) log level
@@ -8369,7 +8378,7 @@ RlFunctions >> setTraceLogLevel: logLevel [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowFocused [
 	"Set window focused
@@ -8381,7 +8390,7 @@ RlFunctions >> setWindowFocused [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowIconImage: image [
 	"Set icon for window (single image, RGBA 32bit)
@@ -8393,7 +8402,7 @@ RlFunctions >> setWindowIconImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowIconsImages: images count: count [
 	"Set icon for window (multiple images, RGBA 32bit)
@@ -8406,7 +8415,7 @@ RlFunctions >> setWindowIconsImages: images count: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowMaxSizeWidth: width height: height [
 	"Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE)
@@ -8419,7 +8428,7 @@ RlFunctions >> setWindowMaxSizeWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowMinSizeWidth: width height: height [
 	"Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
@@ -8432,7 +8441,7 @@ RlFunctions >> setWindowMinSizeWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowMonitor: monitor [
 	"Set monitor for the current window
@@ -8444,7 +8453,7 @@ RlFunctions >> setWindowMonitor: monitor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowOpacity: opacity [
 	"Set window opacity [0.0f..1.0f]
@@ -8456,7 +8465,7 @@ RlFunctions >> setWindowOpacity: opacity [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowPositionX: x y: y [
 	"Set window position on screen
@@ -8469,7 +8478,7 @@ RlFunctions >> setWindowPositionX: x y: y [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowSizeWidth: width height: height [
 	"Set window dimensions
@@ -8482,7 +8491,7 @@ RlFunctions >> setWindowSizeWidth: width height: height [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowStateFlags: flags [
 	"Set window configuration state using flags
@@ -8494,7 +8503,7 @@ RlFunctions >> setWindowStateFlags: flags [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> setWindowTitle: title [
 	"Set title for window
@@ -8506,7 +8515,7 @@ RlFunctions >> setWindowTitle: title [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> showCursor [
 	"Shows cursor
@@ -8518,7 +8527,7 @@ RlFunctions >> showCursor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> startAutomationEventRecording [
 	"Start recording automation events (AutomationEventList must be set)
@@ -8530,7 +8539,7 @@ RlFunctions >> startAutomationEventRecording [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> stopAutomationEventRecording [
 	"Stop recording automation events
@@ -8542,7 +8551,7 @@ RlFunctions >> stopAutomationEventRecording [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> swapScreenBuffer [
 	"Swap back buffer with front buffer (screen drawing)
@@ -8554,7 +8563,7 @@ RlFunctions >> swapScreenBuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> takeScreenshotFileName: fileName [
 	"Takes a screenshot of current screen (filename extension defines format)
@@ -8566,7 +8575,7 @@ RlFunctions >> takeScreenshotFileName: fileName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textAppendText: text append: append position: position [
 	"Append text at specific position and move cursor!
@@ -8580,7 +8589,7 @@ RlFunctions >> textAppendText: text append: append position: position [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textCopyDst: dst src: src [
 	"Copy one string to another, returns bytes copied
@@ -8593,7 +8602,7 @@ RlFunctions >> textCopyDst: dst src: src [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textFindIndexText: text find: find [
 	"Find first text occurrence within a string
@@ -8606,7 +8615,7 @@ RlFunctions >> textFindIndexText: text find: find [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textInsertText: text insert: insert position: position [
 	"Insert text in a position (WARNING: memory must be freed!)
@@ -8620,7 +8629,7 @@ RlFunctions >> textInsertText: text insert: insert position: position [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textIsEqualText1: text1 text2: text2 [
 	"Check if two text string are equal
@@ -8633,7 +8642,7 @@ RlFunctions >> textIsEqualText1: text1 text2: text2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textJoinTextList: textList count: count delimiter: delimiter [
 	"Join text strings with delimiter
@@ -8647,7 +8656,7 @@ RlFunctions >> textJoinTextList: textList count: count delimiter: delimiter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textLengthText: text [
 	"Get text length, checks for '\0' ending
@@ -8659,7 +8668,7 @@ RlFunctions >> textLengthText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textReplaceText: text replace: replace by: by [
 	"Replace text string (WARNING: memory must be freed!)
@@ -8673,7 +8682,7 @@ RlFunctions >> textReplaceText: text replace: replace by: by [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textSplitText: text delimiter: delimiter count: count [
 	"Split text into multiple strings
@@ -8687,7 +8696,7 @@ RlFunctions >> textSplitText: text delimiter: delimiter count: count [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textSubtext: text position: position length: length [
 	"Get a piece of a text string
@@ -8701,7 +8710,7 @@ RlFunctions >> textSubtext: text position: position length: length [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToCamelText: text [
 	"Get Camel case notation version of provided string
@@ -8713,7 +8722,7 @@ RlFunctions >> textToCamelText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToFloatText: text [
 	"Get float value from text
@@ -8725,7 +8734,7 @@ RlFunctions >> textToFloatText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToIntegerText: text [
 	"Get integer value from text
@@ -8737,7 +8746,7 @@ RlFunctions >> textToIntegerText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToLowerText: text [
 	"Get lower case version of provided string
@@ -8749,7 +8758,7 @@ RlFunctions >> textToLowerText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToPascalText: text [
 	"Get Pascal case notation version of provided string
@@ -8761,7 +8770,7 @@ RlFunctions >> textToPascalText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToSnakeText: text [
 	"Get Snake case notation version of provided string
@@ -8773,7 +8782,7 @@ RlFunctions >> textToSnakeText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> textToUpperText: text [
 	"Get upper case version of provided string
@@ -8785,7 +8794,7 @@ RlFunctions >> textToUpperText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> toggleBorderlessWindowed [
 	"Toggle window state: borderless windowed, resizes window to match monitor resolution
@@ -8797,7 +8806,7 @@ RlFunctions >> toggleBorderlessWindowed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> toggleFullscreen [
 	"Toggle window state: fullscreen/windowed, resizes monitor to match window resolution
@@ -8809,7 +8818,7 @@ RlFunctions >> toggleFullscreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadAutomationEventList: list [
 	"Unload automation events list from file
@@ -8821,7 +8830,7 @@ RlFunctions >> unloadAutomationEventList: list [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadCodepoints: codepoints [
 	"Unload codepoints data from memory
@@ -8833,7 +8842,7 @@ RlFunctions >> unloadCodepoints: codepoints [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadDirectoryFiles: files [
 	"Unload filepaths
@@ -8845,7 +8854,7 @@ RlFunctions >> unloadDirectoryFiles: files [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadDroppedFiles: files [
 	"Unload dropped filepaths
@@ -8857,7 +8866,7 @@ RlFunctions >> unloadDroppedFiles: files [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadFileData: data [
 	"Unload file data allocated by LoadFileData()
@@ -8869,7 +8878,7 @@ RlFunctions >> unloadFileData: data [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadFileText: text [
 	"Unload file text data allocated by LoadFileText()
@@ -8881,7 +8890,7 @@ RlFunctions >> unloadFileText: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadFont: font [
 	"Unload font from GPU memory (VRAM)
@@ -8893,7 +8902,7 @@ RlFunctions >> unloadFont: font [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadFontDataGlyphs: glyphs glyphCount: glyphCount [
 	"Unload font chars info data (RAM)
@@ -8906,7 +8915,7 @@ RlFunctions >> unloadFontDataGlyphs: glyphs glyphCount: glyphCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadImage: image [
 	"Unload image from CPU memory (RAM)
@@ -8918,7 +8927,7 @@ RlFunctions >> unloadImage: image [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadImageColors: colors [
 	"Unload color data loaded with LoadImageColors()
@@ -8930,7 +8939,7 @@ RlFunctions >> unloadImageColors: colors [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadImagePaletteColors: colors [
 	"Unload colors palette loaded with LoadImagePalette()
@@ -8942,7 +8951,7 @@ RlFunctions >> unloadImagePaletteColors: colors [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadMaterial: material [
 	"Unload material from GPU memory (VRAM)
@@ -8954,7 +8963,7 @@ RlFunctions >> unloadMaterial: material [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadMesh: mesh [
 	"Unload mesh data from CPU and GPU
@@ -8966,7 +8975,7 @@ RlFunctions >> unloadMesh: mesh [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadModel: model [
 	"Unload model (including meshes) from memory (RAM and/or VRAM)
@@ -8978,7 +8987,7 @@ RlFunctions >> unloadModel: model [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadModelAnimationAnim: anim [
 	"Unload animation data
@@ -8990,7 +8999,7 @@ RlFunctions >> unloadModelAnimationAnim: anim [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadModelAnimations: animations animCount: animCount [
 	"Unload animation array data
@@ -9003,7 +9012,7 @@ RlFunctions >> unloadModelAnimations: animations animCount: animCount [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadRandomSequence: sequence [
 	"Unload random values sequence
@@ -9015,7 +9024,7 @@ RlFunctions >> unloadRandomSequence: sequence [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadRenderTextureTarget: target [
 	"Unload render texture from GPU memory (VRAM)
@@ -9027,7 +9036,7 @@ RlFunctions >> unloadRenderTextureTarget: target [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadShader: shader [
 	"Unload shader from GPU memory (VRAM)
@@ -9039,7 +9048,7 @@ RlFunctions >> unloadShader: shader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadTexture: texture [
 	"Unload texture from GPU memory (VRAM)
@@ -9051,7 +9060,7 @@ RlFunctions >> unloadTexture: texture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadUTF8Text: text [
 	"Unload UTF-8 text encoded from codepoints array
@@ -9063,7 +9072,7 @@ RlFunctions >> unloadUTF8Text: text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadVrStereoConfig: config [
 	"Unload VR stereo config
@@ -9075,7 +9084,7 @@ RlFunctions >> unloadVrStereoConfig: config [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadWave: wave [
 	"Unload wave data
@@ -9087,7 +9096,7 @@ RlFunctions >> unloadWave: wave [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> unloadWaveSamples: samples [
 	"Unload samples data loaded with LoadWaveSamples()
@@ -9099,7 +9108,7 @@ RlFunctions >> unloadWaveSamples: samples [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateCamera: camera mode: mode [
 	"Update camera position for selected mode
@@ -9112,7 +9121,7 @@ RlFunctions >> updateCamera: camera mode: mode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateCameraProCamera: camera movement: movement rotation: rotation zoom: zoom [
 	"Update camera movement/rotation
@@ -9127,7 +9136,7 @@ RlFunctions >> updateCameraProCamera: camera movement: movement rotation: rotati
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateMeshBufferMesh: mesh index: index data: data dataSize: dataSize offset: offset [
 	"Update mesh vertex data in GPU for a specific buffer index
@@ -9143,7 +9152,7 @@ RlFunctions >> updateMeshBufferMesh: mesh index: index data: data dataSize: data
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateModelAnimationBonesModel: model anim: anim frame: frame [
 	"Update model animation mesh bone matrices (GPU skinning)
@@ -9157,7 +9166,7 @@ RlFunctions >> updateModelAnimationBonesModel: model anim: anim frame: frame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateModelAnimationModel: model anim: anim frame: frame [
 	"Update model animation pose (CPU)
@@ -9171,7 +9180,7 @@ RlFunctions >> updateModelAnimationModel: model anim: anim frame: frame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateTexture: texture pixels: pixels [
 	"Update GPU texture with new data
@@ -9184,7 +9193,7 @@ RlFunctions >> updateTexture: texture pixels: pixels [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> updateTextureRecTexture: texture rec: rec pixels: pixels [
 	"Update GPU texture rectangle with new data
@@ -9198,7 +9207,7 @@ RlFunctions >> updateTextureRecTexture: texture rec: rec pixels: pixels [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> uploadMesh: mesh dynamic: dynamic [
 	"Upload mesh vertex data in GPU and provide VAO/VBO ids
@@ -9211,7 +9220,7 @@ RlFunctions >> uploadMesh: mesh dynamic: dynamic [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> waitTimeSeconds: seconds [
 	"Wait for some time (halt program execution)
@@ -9223,7 +9232,7 @@ RlFunctions >> waitTimeSeconds: seconds [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> waveCopyWave: wave [
 	"Copy a wave to a new wave
@@ -9235,7 +9244,7 @@ RlFunctions >> waveCopyWave: wave [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> waveCropWave: wave initFrame: initFrame finalFrame: finalFrame [
 	"Crop a wave to defined frames range
@@ -9249,7 +9258,7 @@ RlFunctions >> waveCropWave: wave initFrame: initFrame finalFrame: finalFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> waveFormatWave: wave sampleRate: sampleRate sampleSize: sampleSize channels: channels [
 	"Convert wave data to desired format
@@ -9264,7 +9273,7 @@ RlFunctions >> waveFormatWave: wave sampleRate: sampleRate sampleSize: sampleSiz
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFunctions >> windowShouldClose [
 	"Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)

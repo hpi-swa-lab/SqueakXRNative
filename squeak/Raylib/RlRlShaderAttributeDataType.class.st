@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlShaderAttributeDataType class >> rlShaderAttribFloat [
 	"Shader attribute type: float"
@@ -22,7 +22,7 @@ RlRlShaderAttributeDataType class >> rlShaderAttribFloat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlShaderAttributeDataType class >> rlShaderAttribVec2 [
 	"Shader attribute type: vec2 (2 float)"
@@ -32,7 +32,7 @@ RlRlShaderAttributeDataType class >> rlShaderAttribVec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlShaderAttributeDataType class >> rlShaderAttribVec3 [
 	"Shader attribute type: vec3 (3 float)"
@@ -42,7 +42,7 @@ RlRlShaderAttributeDataType class >> rlShaderAttribVec3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlShaderAttributeDataType class >> rlShaderAttribVec4 [
 	"Shader attribute type: vec4 (4 float)"
