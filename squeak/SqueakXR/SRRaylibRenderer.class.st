@@ -128,6 +128,33 @@ SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 				color: aColor thriceDarker asRlColor].
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:31'
+}
+SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor [
+
+	self renderString: aString transformed: aMatrix4x4 color: aColor font: nil 
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:30'
+}
+SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor font: aFont [ 
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawTextWithFont: (aFont ifNil: [Raylib getFontDefault])
+			text: aString
+			position: Vector3 zero asRlVector
+			size: 1
+			fontSpacing: 0.1
+			lineSpacing: 0.1
+			backface: true
+			color: aColor asRlColor].
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 

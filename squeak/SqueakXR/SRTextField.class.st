@@ -2,32 +2,66 @@ Class {
 	#name : #SRTextField,
 	#superclass : #SRObject,
 	#instVars : [
-		'textPanel'
+		'textPanel',
+		'text',
+		'color'
 	],
 	#category : #'SqueakXR-Objects'
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/26/2026 17:23'
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:32'
+}
+SRTextField >> color [
+
+	^ color
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:32'
+}
+SRTextField >> color: aColor [
+
+	color := aColor
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:32'
 }
 SRTextField >> initialize [
 
 	super initialize.
 	
-	textPanel := SRMorphPanel new morph: PluggableTextMorph new.
-	textPanel morph extent: 200 asPoint.
-	textPanel
-		rotation: (Quaternion angle: -90 axis: Vector3 right);
-		scale: Vector3 one * SRMorphPanel defaultPixelsPerMeter / textPanel morph extent x.
-	self addChild: textPanel.
+	self text: 'text';
+		color: Color black
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/26/2026 17:04'
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:33'
+}
+SRTextField >> renderOn: aSRRenderer [
+
+	aSRRenderer renderString: self text transformed: self globalTransform color: self color
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:06'
+}
+SRTextField >> text [
+
+	^ text
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:05'
 }
 SRTextField >> text: aString [
 
-	textPanel morph setText: aString
+	text := aString
 ]
