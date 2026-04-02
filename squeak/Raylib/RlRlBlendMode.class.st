@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendAddColors [
 	"Blend textures adding colors (alternative)"
@@ -22,7 +22,7 @@ RlRlBlendMode class >> rlBlendAddColors [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendAdditive [
 	"Blend textures adding colors"
@@ -32,7 +32,7 @@ RlRlBlendMode class >> rlBlendAdditive [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendAlpha [
 	"Blend textures considering alpha (default)"
@@ -42,7 +42,7 @@ RlRlBlendMode class >> rlBlendAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendAlphaPremultiply [
 	"Blend premultiplied textures considering alpha"
@@ -52,7 +52,7 @@ RlRlBlendMode class >> rlBlendAlphaPremultiply [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendCustom [
 	"Blend textures using custom src/dst factors (use rlSetBlendFactors())"
@@ -62,7 +62,7 @@ RlRlBlendMode class >> rlBlendCustom [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendCustomSeparate [
 	"Blend textures using custom src/dst factors (use rlSetBlendFactorsSeparate())"
@@ -72,7 +72,7 @@ RlRlBlendMode class >> rlBlendCustomSeparate [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendMultiplied [
 	"Blend textures multiplying colors"
@@ -82,7 +82,7 @@ RlRlBlendMode class >> rlBlendMultiplied [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlBlendMode class >> rlBlendSubtractColors [
 	"Blend textures subtracting colors (alternative)"

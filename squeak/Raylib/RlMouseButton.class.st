@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonBack [
 	"Mouse button back (advanced mouse device)"
@@ -22,7 +22,7 @@ RlMouseButton class >> mouseButtonBack [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonExtra [
 	"Mouse button extra (advanced mouse device)"
@@ -32,7 +32,7 @@ RlMouseButton class >> mouseButtonExtra [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonForward [
 	"Mouse button forward (advanced mouse device)"
@@ -42,7 +42,7 @@ RlMouseButton class >> mouseButtonForward [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonLeft [
 	"Mouse button left"
@@ -52,7 +52,7 @@ RlMouseButton class >> mouseButtonLeft [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonMiddle [
 	"Mouse button middle (pressed wheel)"
@@ -62,7 +62,7 @@ RlMouseButton class >> mouseButtonMiddle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonRight [
 	"Mouse button right"
@@ -72,7 +72,7 @@ RlMouseButton class >> mouseButtonRight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlMouseButton class >> mouseButtonSide [
 	"Mouse button side (advanced mouse device)"

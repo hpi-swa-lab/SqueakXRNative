@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlCubemapLayout class >> cubemapLayoutAutoDetect [
 	"Automatically detect layout type"
@@ -22,7 +22,7 @@ RlCubemapLayout class >> cubemapLayoutAutoDetect [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlCubemapLayout class >> cubemapLayoutCrossFourByThree [
 	"Layout is defined by a 4x3 cross with cubemap faces"
@@ -32,7 +32,7 @@ RlCubemapLayout class >> cubemapLayoutCrossFourByThree [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlCubemapLayout class >> cubemapLayoutCrossThreeByFour [
 	"Layout is defined by a 3x4 cross with cubemap faces"
@@ -42,7 +42,7 @@ RlCubemapLayout class >> cubemapLayoutCrossThreeByFour [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlCubemapLayout class >> cubemapLayoutLineHorizontal [
 	"Layout is defined by a horizontal line with faces"
@@ -52,7 +52,7 @@ RlCubemapLayout class >> cubemapLayoutLineHorizontal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlCubemapLayout class >> cubemapLayoutLineVertical [
 	"Layout is defined by a vertical line with faces"

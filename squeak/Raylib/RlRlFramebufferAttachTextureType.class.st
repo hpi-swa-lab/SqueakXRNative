@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeX [
 	"Framebuffer texture attachment type: cubemap, -X side"
@@ -22,7 +22,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeY [
 	"Framebuffer texture attachment type: cubemap, -Y side"
@@ -32,7 +32,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeZ [
 	"Framebuffer texture attachment type: cubemap, -Z side"
@@ -42,7 +42,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapNegativeZ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveX [
 	"Framebuffer texture attachment type: cubemap, +X side"
@@ -52,7 +52,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveY [
 	"Framebuffer texture attachment type: cubemap, +Y side"
@@ -62,7 +62,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveZ [
 	"Framebuffer texture attachment type: cubemap, +Z side"
@@ -72,7 +72,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentCubemapPositiveZ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentRenderbuffer [
 	"Framebuffer texture attachment type: renderbuffer"
@@ -82,7 +82,7 @@ RlRlFramebufferAttachTextureType class >> rlAttachmentRenderbuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlRlFramebufferAttachTextureType class >> rlAttachmentTexture2d [
 	"Framebuffer texture attachment type: texture2d"

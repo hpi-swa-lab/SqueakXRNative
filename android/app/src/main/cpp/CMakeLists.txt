@@ -6,6 +6,7 @@ add_subdirectory(thirdparty)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_library(${CMAKE_PROJECT_NAME} SHARED
         native-lib.cpp
+        text-rendering.cpp
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}

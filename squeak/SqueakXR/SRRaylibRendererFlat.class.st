@@ -34,7 +34,7 @@ SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:16'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:27'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -113,11 +113,10 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:59'
+	#'squeak_changestamp' : 'lege 4/2/2026 10:19'
 }
 SRRaylibRendererFlat >> setup [
 
-	Raylib setConfigFlags: 0.
 	self class highDpiEnabled ifTrue: [
 		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
 	

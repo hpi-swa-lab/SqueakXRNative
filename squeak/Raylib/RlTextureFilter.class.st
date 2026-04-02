@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterAnisotropic16x [
 	"Anisotropic filtering 16x"
@@ -22,7 +22,7 @@ RlTextureFilter class >> textureFilterAnisotropic16x [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterAnisotropic4x [
 	"Anisotropic filtering 4x"
@@ -32,7 +32,7 @@ RlTextureFilter class >> textureFilterAnisotropic4x [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterAnisotropic8x [
 	"Anisotropic filtering 8x"
@@ -42,7 +42,7 @@ RlTextureFilter class >> textureFilterAnisotropic8x [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterBilinear [
 	"Linear filtering"
@@ -52,7 +52,7 @@ RlTextureFilter class >> textureFilterBilinear [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterPoint [
 	"No filter, just pixel approximation"
@@ -62,7 +62,7 @@ RlTextureFilter class >> textureFilterPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlTextureFilter class >> textureFilterTrilinear [
 	"Trilinear filtering (linear with mipmaps)"

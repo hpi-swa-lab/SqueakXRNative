@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFontType class >> fontBitmap [
 	"Bitmap font generation, no anti-aliasing"
@@ -22,7 +22,7 @@ RlFontType class >> fontBitmap [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFontType class >> fontDefault [
 	"Default font generation, anti-aliased"
@@ -32,7 +32,7 @@ RlFontType class >> fontDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 11/18/2025 16:27'
+	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
 }
 RlFontType class >> fontSdf [
 	"SDF font generation, requires external shader"
