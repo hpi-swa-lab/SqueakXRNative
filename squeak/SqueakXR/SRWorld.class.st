@@ -357,7 +357,10 @@ SRWorld class >> shutDown [
 		world shutDown]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/10/2026 16:19'
+}
 SRWorld class >> startUp: resuming [
 
 	| worlds |
@@ -365,7 +368,7 @@ SRWorld class >> startUp: resuming [
 	worlds do: [:world | world startUp: resuming].
 	
 	(worlds noneSatisfy: [:world | world isRunning]) ifTrue: [
-		Smalltalk platformName = 'unix' "android (for now)" ifTrue: [
+		(Smalltalk arguments includes: '--xr') ifTrue: [
 			TranscriptStream redirectToStdOut: true.
 			SRWorld new
 				isXR: true;
