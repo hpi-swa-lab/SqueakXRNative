@@ -13,12 +13,12 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/8/2026 17:57'
+	#'squeak_changestamp' : 'lege 4/10/2026 16:19'
 }
 SRAudio class >> initialize [
 
-	Smalltalk addToStartUpList: self.
-	Smalltalk addToShutDownList: self.
+	"Smalltalk addToStartUpList: self.
+	Smalltalk addToShutDownList: self."
 ]
 
 {
