@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlNPatchLayout class >> npatchNinePatch [
 	"Npatch layout: 3x3 tiles"
@@ -22,7 +22,7 @@ RlNPatchLayout class >> npatchNinePatch [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlNPatchLayout class >> npatchThreePatchHorizontal [
 	"Npatch layout: 3x1 tiles"
@@ -32,7 +32,7 @@ RlNPatchLayout class >> npatchThreePatchHorizontal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlNPatchLayout class >> npatchThreePatchVertical [
 	"Npatch layout: 1x3 tiles"
