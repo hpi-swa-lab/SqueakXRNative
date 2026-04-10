@@ -9,7 +9,9 @@ Class {
 		'vertexSource',
 		'fragmentSource',
 		'id',
-		'internalShader'
+		'internalShader',
+		'uniforms',
+		'uniformLocs'
 	],
 	#classVars : [
 		'Default',
@@ -29,25 +31,22 @@ SRShader class >> allShaderSelectors [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/12/2026 19:05'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:35'
 }
 SRShader class >> doesNotUnderstand: aMessage [
 
-	^ (self sourceFor: aMessage selector version: XRWorld renderer shaderVersion)
-		ifNotNil: [:source |
-			self new vertexSource: (source at: #vert) fragmentSource: (source at: #frag)]
+	^ (self sourceFor: aMessage selector version: self currentXRWorld renderer shaderVersion)
+		ifNotNil: [:source | self shaderFromDict: source]
 		ifNil: [super doesNotUnderstand: aMessage]
 ]
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 3/10/2026 17:21'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:45'
 }
 SRShader class >> morphicPanelSource [
 
 	^ {
-		#vert -> nil.
-
 		#frag -> '
 #version 450
 
@@ -78,6 +77,18 @@ SRShader class >> resetCache [
 
 {
 	#category : #shaders,
+	#'squeak_changestamp' : 'lege 4/2/2026 17:56'
+}
+SRShader class >> shaderFromDict: aDictionary [
+
+	^ self new
+		vertexSource: (aDictionary at: #vert);
+		fragmentSource: (aDictionary at: #frag);
+		uniforms: (aDictionary at: #uniforms ifAbsent: [#()])
+]
+
+{
+	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/11/2026 14:59'
 }
 SRShader class >> sourceFor: shader version: version [
@@ -87,6 +98,15 @@ SRShader class >> sourceFor: shader version: version [
 			sources at: version
 				ifAbsent: [self error: 'Shader source is missing for ', version]]
 		ifAbsent: [nil]
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 4/2/2026 17:42'
+}
+SRShader class >> stages [
+
+	^ #(vert frag)
 ]
 
 {
@@ -139,22 +159,52 @@ SRShader class >> transpileAll [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/11/2026 17:52'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:51'
 }
 SRShader class >> transpileSource: sourceDict [
 
+	| sources |
+	sources := {
+		#'330' -> (self stages collect: [:stage |
+			stage -> (sourceDict at: stage ifPresent: [:source |
+				self transpile330: source stage: stage])
+			] as: Dictionary).
+		#'300es' -> (self stages collect: [:stage |
+			stage -> (sourceDict at: stage ifPresent: [:source |
+				self transpile300es: source stage: stage])
+			] as: Dictionary).
+	} as: Dictionary.
+	
+	sources addAll: (sourceDict associationsSelect: [:assoc | (self stages includes: assoc key) not]).
+	
+	^ sources
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'lege 4/2/2026 17:52'
+}
+SRShader class >> waterShaderSource [
+
 	^ {
-		#'330' -> (sourceDict associations collect: [:stageAndSource | | stage |
-			stage := stageAndSource key.
-			stage -> (stageAndSource value ifNotNil: [:source |
-				(self transpile330: source stage: stage)])
-			] as: Dictionary).
-		#'300es' -> (sourceDict associations collect: [:stageAndSource | | stage |
-			stage := stageAndSource key.
-			stage -> (stageAndSource value ifNotNil: [:source |
-				(self transpile300es: source stage: stage)])
-			] as: Dictionary).
-	} as: Dictionary
+		#uniforms -> #(time).
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor;
+}'
+} as: Dictionary
 ]
 
 {
@@ -186,11 +236,32 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/11/2026 17:54'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:59'
 }
 SRShader >> load [
 
-	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource
+	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
+	
+	uniformLocs := self uniforms collect: [:uniform |
+		uniform -> Raylib getShaderLocationShader: internalShader uniformName: uniform]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 17:55'
+}
+SRShader >> uniforms [
+
+	^ uniforms
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 4/2/2026 17:56'
+}
+SRShader >> uniforms: aSymbolCollection [
+
+	uniforms := aSymbolCollection
 ]
 
 {

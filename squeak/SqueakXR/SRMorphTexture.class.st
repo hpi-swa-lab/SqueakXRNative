@@ -112,11 +112,11 @@ SRMorphTexture >> resetTexture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/11/2026 17:06'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
 }
 SRMorphTexture >> shader [
 
-	^ XRWorld cacheAt: #morphTextureShader ifAbsentPut: [self class shader load]
+	^ self currentXRWorld cacheAt: #morphTextureShader ifAbsentPut: [self class shader load]
 ]
 
 {

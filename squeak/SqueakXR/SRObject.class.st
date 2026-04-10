@@ -589,6 +589,17 @@ SRObject >> onWorldStarted [
 
 ]
 
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 4/2/2026 16:37'
+}
+SRObject >> openInWorld [
+
+	self currentXRWorld
+		ifNil: [self error: 'world is missing']
+		ifNotNil: [:world | world addChild: self]
+]
+
 { #category : #accessing }
 SRObject >> parent [
 

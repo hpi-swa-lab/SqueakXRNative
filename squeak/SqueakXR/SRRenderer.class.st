@@ -261,6 +261,18 @@ SRRenderer >> test [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'lege 4/2/2026 13:16'
+}
+SRRenderer >> withTransform: aMatrix4x4 do: aBlock [
+
+	Raylib rlPushMatrix;
+		rlMultMatrixfMatf: aMatrix4x4 transposed.
+	aBlock value.
+	Raylib rlPopMatrix.
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:21'
 }
 SRRenderer >> withoutBackfaceCullingDo: aBlock [
