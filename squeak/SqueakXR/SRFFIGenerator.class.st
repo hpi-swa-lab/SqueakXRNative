@@ -415,7 +415,7 @@ SRFFIGenerator >> functionGlobal: aSymbol [
 
 {
 	#category : #generating,
-	#'squeak_changestamp' : 'lege 12/18/2025 12:49'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:27'
 }
 SRFFIGenerator >> generate [
 
@@ -439,8 +439,7 @@ SRFFIGenerator >> generate [
 		UIManager default informUser: 'Compiling extra methods' during: [
 			self compileExtraMethods]. 
 	
-		self functionGlobal ifNotNil: [
-			Smalltalk at: self functionGlobal put: self functionClass new]].
+		self installFunctionGlobal].
 ]
 
 {
@@ -580,6 +579,17 @@ SRFFIGenerator >> generateFunctions [
 
 {
 	#category : #generating,
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+}
+SRFFIGenerator >> generateInstallFunctionGlobal [
+
+	self functionClass class
+		compile: self sourceInstallFunctionGlobal;
+		compile: self sourceClassInitialize
+]
+
+{
+	#category : #generating,
 	#'squeak_changestamp' : 'lege 11/18/2025 11:23'
 }
 SRFFIGenerator >> generateStruct: aJsonSpec [
@@ -614,6 +624,18 @@ SRFFIGenerator >> generateStructs [
 SRFFIGenerator >> initialize [
 
 	self excludeNames: #()
+]
+
+{
+	#category : #generating,
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+}
+SRFFIGenerator >> installFunctionGlobal [
+
+	functionGlobal ifNil: [^ self].
+	
+	self generateInstallFunctionGlobal.
+	self functionClass installFunctionGlobal.
 ]
 
 {
@@ -836,6 +858,17 @@ SRFFIGenerator >> sourceAlias: aTypeString [
 
 {
 	#category : #sourceTemplates,
+	#'squeak_changestamp' : 'lege 4/10/2026 17:39'
+}
+SRFFIGenerator >> sourceClassInitialize [
+
+	^ 'initialize
+	
+	self installFunctionGlobal'
+]
+
+{
+	#category : #sourceTemplates,
 	#'squeak_changestamp' : 'lege 12/18/2025 13:00'
 }
 SRFFIGenerator >> sourceDefinesName: aNameString value: anInteger description: aDescriptionString [
@@ -873,6 +906,21 @@ SRFFIGenerator >> sourceFunction: name arguments: arguments description: descrip
 		arguments.
 		description.
 		signature.
+	}
+]
+
+{
+	#category : #sourceTemplates,
+	#'squeak_changestamp' : 'lege 4/10/2026 17:32'
+}
+SRFFIGenerator >> sourceInstallFunctionGlobal [
+
+	^ 'installFunctionGlobal
+
+	Smalltalk at: #{1} put: {2} new'
+	format: {
+		self functionGlobal.
+		self functionClass.
 	}
 ]
 

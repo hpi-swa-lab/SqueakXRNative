@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgb8Etc2 [
 	""
@@ -16,7 +16,7 @@ RlDefines class >> glCompressedRgb8Etc2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbPvrtc4bppv1Img [
 	""
@@ -26,7 +26,7 @@ RlDefines class >> glCompressedRgbPvrtc4bppv1Img [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbS3tcDxt1Ext [
 	""
@@ -36,7 +36,7 @@ RlDefines class >> glCompressedRgbS3tcDxt1Ext [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgba8Etc2Eac [
 	""
@@ -46,7 +46,7 @@ RlDefines class >> glCompressedRgba8Etc2Eac [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaAstc4x4Khr [
 	""
@@ -56,7 +56,7 @@ RlDefines class >> glCompressedRgbaAstc4x4Khr [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaAstc8x8Khr [
 	""
@@ -66,7 +66,7 @@ RlDefines class >> glCompressedRgbaAstc8x8Khr [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaPvrtc4bppv1Img [
 	""
@@ -76,7 +76,7 @@ RlDefines class >> glCompressedRgbaPvrtc4bppv1Img [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaS3tcDxt1Ext [
 	""
@@ -86,7 +86,7 @@ RlDefines class >> glCompressedRgbaS3tcDxt1Ext [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaS3tcDxt3Ext [
 	""
@@ -96,7 +96,7 @@ RlDefines class >> glCompressedRgbaS3tcDxt3Ext [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glCompressedRgbaS3tcDxt5Ext [
 	""
@@ -106,7 +106,7 @@ RlDefines class >> glCompressedRgbaS3tcDxt5Ext [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glEtc1Rgb8Oes [
 	""
@@ -116,7 +116,7 @@ RlDefines class >> glEtc1Rgb8Oes [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glLineWidth [
 	""
@@ -126,7 +126,7 @@ RlDefines class >> glLineWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glLuminance [
 	""
@@ -136,7 +136,7 @@ RlDefines class >> glLuminance [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glLuminanceAlpha [
 	""
@@ -146,7 +146,7 @@ RlDefines class >> glLuminanceAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glMaxTextureMaxAnisotropyExt [
 	""
@@ -156,7 +156,7 @@ RlDefines class >> glMaxTextureMaxAnisotropyExt [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glProgramPointSize [
 	""
@@ -166,7 +166,7 @@ RlDefines class >> glProgramPointSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glShadingLanguageVersion [
 	""
@@ -176,7 +176,7 @@ RlDefines class >> glShadingLanguageVersion [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glTextureMaxAnisotropyExt [
 	""
@@ -186,7 +186,7 @@ RlDefines class >> glTextureMaxAnisotropyExt [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glUnsignedShort4444 [
 	""
@@ -196,7 +196,7 @@ RlDefines class >> glUnsignedShort4444 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glUnsignedShort5551 [
 	""
@@ -206,7 +206,7 @@ RlDefines class >> glUnsignedShort5551 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> glUnsignedShort565 [
 	""
@@ -216,7 +216,7 @@ RlDefines class >> glUnsignedShort565 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> raylibVersionMajor [
 	""
@@ -226,7 +226,7 @@ RlDefines class >> raylibVersionMajor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> raylibVersionMinor [
 	""
@@ -236,7 +236,7 @@ RlDefines class >> raylibVersionMinor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> raylibVersionPatch [
 	""
@@ -246,7 +246,7 @@ RlDefines class >> raylibVersionPatch [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendColor [
 	"GL_BLEND_COLOR"
@@ -256,7 +256,7 @@ RlDefines class >> rlBlendColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendDstAlpha [
 	"GL_BLEND_DST_ALPHA"
@@ -266,7 +266,7 @@ RlDefines class >> rlBlendDstAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendDstRgb [
 	"GL_BLEND_DST_RGB"
@@ -276,7 +276,7 @@ RlDefines class >> rlBlendDstRgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendEquation [
 	"GL_BLEND_EQUATION"
@@ -286,7 +286,7 @@ RlDefines class >> rlBlendEquation [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendEquationAlpha [
 	"GL_BLEND_EQUATION_ALPHA"
@@ -296,7 +296,7 @@ RlDefines class >> rlBlendEquationAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendEquationRgb [
 	"GL_BLEND_EQUATION_RGB   // (Same as BLEND_EQUATION)"
@@ -306,7 +306,7 @@ RlDefines class >> rlBlendEquationRgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendSrcAlpha [
 	"GL_BLEND_SRC_ALPHA"
@@ -316,7 +316,7 @@ RlDefines class >> rlBlendSrcAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlBlendSrcRgb [
 	"GL_BLEND_SRC_RGB"
@@ -326,7 +326,7 @@ RlDefines class >> rlBlendSrcRgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlComputeShader [
 	"GL_COMPUTE_SHADER"
@@ -336,7 +336,7 @@ RlDefines class >> rlComputeShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlConstantAlpha [
 	"GL_CONSTANT_ALPHA"
@@ -346,7 +346,7 @@ RlDefines class >> rlConstantAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlConstantColor [
 	"GL_CONSTANT_COLOR"
@@ -356,7 +356,7 @@ RlDefines class >> rlConstantColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultBatchBufferElements [
 	""
@@ -366,7 +366,7 @@ RlDefines class >> rlDefaultBatchBufferElements [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultBatchBuffers [
 	"Default number of batch buffers (multi-buffering)"
@@ -376,7 +376,7 @@ RlDefines class >> rlDefaultBatchBuffers [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultBatchDrawcalls [
 	"Default number of batch draw calls (by state changes: mode, texture)"
@@ -386,7 +386,7 @@ RlDefines class >> rlDefaultBatchDrawcalls [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultBatchMaxTextureUnits [
 	"Maximum number of textures units that can be activated on batch drawing (SetShaderValueTexture())"
@@ -396,7 +396,7 @@ RlDefines class >> rlDefaultBatchMaxTextureUnits [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationBoneids [
 	""
@@ -406,7 +406,7 @@ RlDefines class >> rlDefaultShaderAttribLocationBoneids [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationBoneweights [
 	""
@@ -416,7 +416,7 @@ RlDefines class >> rlDefaultShaderAttribLocationBoneweights [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationColor [
 	""
@@ -426,7 +426,7 @@ RlDefines class >> rlDefaultShaderAttribLocationColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationIndices [
 	""
@@ -436,7 +436,7 @@ RlDefines class >> rlDefaultShaderAttribLocationIndices [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationInstanceTx [
 	""
@@ -446,7 +446,7 @@ RlDefines class >> rlDefaultShaderAttribLocationInstanceTx [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationNormal [
 	""
@@ -456,7 +456,7 @@ RlDefines class >> rlDefaultShaderAttribLocationNormal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationPosition [
 	""
@@ -466,7 +466,7 @@ RlDefines class >> rlDefaultShaderAttribLocationPosition [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationTangent [
 	""
@@ -476,7 +476,7 @@ RlDefines class >> rlDefaultShaderAttribLocationTangent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationTexcoord [
 	""
@@ -486,7 +486,7 @@ RlDefines class >> rlDefaultShaderAttribLocationTexcoord [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDefaultShaderAttribLocationTexcoord2 [
 	""
@@ -496,7 +496,7 @@ RlDefines class >> rlDefaultShaderAttribLocationTexcoord2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDrawFramebuffer [
 	"GL_DRAW_FRAMEBUFFER"
@@ -506,7 +506,7 @@ RlDefines class >> rlDrawFramebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDstAlpha [
 	"GL_DST_ALPHA"
@@ -516,7 +516,7 @@ RlDefines class >> rlDstAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDstColor [
 	"GL_DST_COLOR"
@@ -526,7 +526,7 @@ RlDefines class >> rlDstColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDynamicCopy [
 	"GL_DYNAMIC_COPY"
@@ -536,7 +536,7 @@ RlDefines class >> rlDynamicCopy [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDynamicDraw [
 	"GL_DYNAMIC_DRAW"
@@ -546,7 +546,7 @@ RlDefines class >> rlDynamicDraw [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlDynamicRead [
 	"GL_DYNAMIC_READ"
@@ -556,7 +556,7 @@ RlDefines class >> rlDynamicRead [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlFloat [
 	"GL_FLOAT"
@@ -566,7 +566,7 @@ RlDefines class >> rlFloat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlFragmentShader [
 	"GL_FRAGMENT_SHADER"
@@ -576,7 +576,7 @@ RlDefines class >> rlFragmentShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlFuncAdd [
 	"GL_FUNC_ADD"
@@ -586,7 +586,7 @@ RlDefines class >> rlFuncAdd [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlFuncReverseSubtract [
 	"GL_FUNC_REVERSE_SUBTRACT"
@@ -596,7 +596,7 @@ RlDefines class >> rlFuncReverseSubtract [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlFuncSubtract [
 	"GL_FUNC_SUBTRACT"
@@ -606,7 +606,7 @@ RlDefines class >> rlFuncSubtract [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlLines [
 	"GL_LINES"
@@ -616,7 +616,7 @@ RlDefines class >> rlLines [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlMax [
 	"GL_MAX"
@@ -626,7 +626,7 @@ RlDefines class >> rlMax [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlMaxMatrixStackSize [
 	"Maximum size of Matrix stack"
@@ -636,7 +636,7 @@ RlDefines class >> rlMaxMatrixStackSize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlMaxShaderLocations [
 	"Maximum number of shader locations supported"
@@ -646,7 +646,7 @@ RlDefines class >> rlMaxShaderLocations [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlMin [
 	"GL_MIN"
@@ -656,7 +656,7 @@ RlDefines class >> rlMin [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlModelview [
 	"GL_MODELVIEW"
@@ -666,7 +666,7 @@ RlDefines class >> rlModelview [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOne [
 	"GL_ONE"
@@ -676,7 +676,7 @@ RlDefines class >> rlOne [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusConstantAlpha [
 	"GL_ONE_MINUS_CONSTANT_ALPHA"
@@ -686,7 +686,7 @@ RlDefines class >> rlOneMinusConstantAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusConstantColor [
 	"GL_ONE_MINUS_CONSTANT_COLOR"
@@ -696,7 +696,7 @@ RlDefines class >> rlOneMinusConstantColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusDstAlpha [
 	"GL_ONE_MINUS_DST_ALPHA"
@@ -706,7 +706,7 @@ RlDefines class >> rlOneMinusDstAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusDstColor [
 	"GL_ONE_MINUS_DST_COLOR"
@@ -716,7 +716,7 @@ RlDefines class >> rlOneMinusDstColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusSrcAlpha [
 	"GL_ONE_MINUS_SRC_ALPHA"
@@ -726,7 +726,7 @@ RlDefines class >> rlOneMinusSrcAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlOneMinusSrcColor [
 	"GL_ONE_MINUS_SRC_COLOR"
@@ -736,7 +736,7 @@ RlDefines class >> rlOneMinusSrcColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlProjection [
 	"GL_PROJECTION"
@@ -746,7 +746,7 @@ RlDefines class >> rlProjection [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlQuads [
 	"GL_QUADS"
@@ -756,7 +756,7 @@ RlDefines class >> rlQuads [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlReadFramebuffer [
 	"GL_READ_FRAMEBUFFER"
@@ -766,7 +766,7 @@ RlDefines class >> rlReadFramebuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlSrcAlpha [
 	"GL_SRC_ALPHA"
@@ -776,7 +776,7 @@ RlDefines class >> rlSrcAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlSrcAlphaSaturate [
 	"GL_SRC_ALPHA_SATURATE"
@@ -786,7 +786,7 @@ RlDefines class >> rlSrcAlphaSaturate [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlSrcColor [
 	"GL_SRC_COLOR"
@@ -796,7 +796,7 @@ RlDefines class >> rlSrcColor [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStaticCopy [
 	"GL_STATIC_COPY"
@@ -806,7 +806,7 @@ RlDefines class >> rlStaticCopy [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStaticDraw [
 	"GL_STATIC_DRAW"
@@ -816,7 +816,7 @@ RlDefines class >> rlStaticDraw [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStaticRead [
 	"GL_STATIC_READ"
@@ -826,7 +826,7 @@ RlDefines class >> rlStaticRead [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStreamCopy [
 	"GL_STREAM_COPY"
@@ -836,7 +836,7 @@ RlDefines class >> rlStreamCopy [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStreamDraw [
 	"GL_STREAM_DRAW"
@@ -846,7 +846,7 @@ RlDefines class >> rlStreamDraw [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlStreamRead [
 	"GL_STREAM_READ"
@@ -856,7 +856,7 @@ RlDefines class >> rlStreamRead [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTexture [
 	"GL_TEXTURE"
@@ -866,7 +866,7 @@ RlDefines class >> rlTexture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterAnisotropic [
 	"Anisotropic filter (custom identifier)"
@@ -876,7 +876,7 @@ RlDefines class >> rlTextureFilterAnisotropic [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterLinear [
 	"GL_LINEAR"
@@ -886,7 +886,7 @@ RlDefines class >> rlTextureFilterLinear [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterLinearMipNearest [
 	"GL_LINEAR_MIPMAP_NEAREST"
@@ -896,7 +896,7 @@ RlDefines class >> rlTextureFilterLinearMipNearest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterMipLinear [
 	"GL_LINEAR_MIPMAP_LINEAR"
@@ -906,7 +906,7 @@ RlDefines class >> rlTextureFilterMipLinear [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterMipNearest [
 	"GL_NEAREST_MIPMAP_NEAREST"
@@ -916,7 +916,7 @@ RlDefines class >> rlTextureFilterMipNearest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterNearest [
 	"GL_NEAREST"
@@ -926,7 +926,7 @@ RlDefines class >> rlTextureFilterNearest [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureFilterNearestMipLinear [
 	"GL_NEAREST_MIPMAP_LINEAR"
@@ -936,7 +936,7 @@ RlDefines class >> rlTextureFilterNearestMipLinear [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureMagFilter [
 	"GL_TEXTURE_MAG_FILTER"
@@ -946,7 +946,7 @@ RlDefines class >> rlTextureMagFilter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureMinFilter [
 	"GL_TEXTURE_MIN_FILTER"
@@ -956,7 +956,7 @@ RlDefines class >> rlTextureMinFilter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureMipmapBiasRatio [
 	"Texture mipmap bias, percentage ratio (custom identifier)"
@@ -966,7 +966,7 @@ RlDefines class >> rlTextureMipmapBiasRatio [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapClamp [
 	"GL_CLAMP_TO_EDGE"
@@ -976,7 +976,7 @@ RlDefines class >> rlTextureWrapClamp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapMirrorClamp [
 	"GL_MIRROR_CLAMP_EXT"
@@ -986,7 +986,7 @@ RlDefines class >> rlTextureWrapMirrorClamp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapMirrorRepeat [
 	"GL_MIRRORED_REPEAT"
@@ -996,7 +996,7 @@ RlDefines class >> rlTextureWrapMirrorRepeat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapRepeat [
 	"GL_REPEAT"
@@ -1006,7 +1006,7 @@ RlDefines class >> rlTextureWrapRepeat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapS [
 	"GL_TEXTURE_WRAP_S"
@@ -1016,7 +1016,7 @@ RlDefines class >> rlTextureWrapS [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTextureWrapT [
 	"GL_TEXTURE_WRAP_T"
@@ -1026,7 +1026,7 @@ RlDefines class >> rlTextureWrapT [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlTriangles [
 	"GL_TRIANGLES"
@@ -1036,7 +1036,7 @@ RlDefines class >> rlTriangles [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlUnsignedByte [
 	"GL_UNSIGNED_BYTE"
@@ -1046,7 +1046,7 @@ RlDefines class >> rlUnsignedByte [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlVertexShader [
 	"GL_VERTEX_SHADER"
@@ -1056,7 +1056,7 @@ RlDefines class >> rlVertexShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:17'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
 }
 RlDefines class >> rlZero [
 	"GL_ZERO"
