@@ -359,7 +359,7 @@ SRWorld class >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 16:19'
+	#'squeak_changestamp' : 'lege 4/15/2026 14:01'
 }
 SRWorld class >> startUp: resuming [
 
@@ -370,6 +370,7 @@ SRWorld class >> startUp: resuming [
 	(worlds noneSatisfy: [:world | world isRunning]) ifTrue: [
 		(Smalltalk arguments includes: '--xr') ifTrue: [
 			TranscriptStream redirectToStdOut: true.
+			Transcript showln: 'Starting new XR world'.
 			SRWorld new
 				isXR: true;
 				renderer: SRRaylibRendererXR new;
@@ -378,12 +379,13 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/27/2026 13:46'
+	#'squeak_changestamp' : 'lege 4/8/2026 16:18'
 }
 SRWorld >> adjustPreferences [
 
+	self log.
 	self isXR ifTrue: [
-		Display relativeUiScaleFactor: 1.0.
+		"Display relativeUiScaleFactor: 1.0."
 		UIManager openToolsAttachedToMouseCursor: false.
 		"Disable the drop shadow, ensures that the size of a Morph texture is not affected by focus"
 		Preferences disable: #menuAppearance3d.]
@@ -442,11 +444,12 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 14:09'
+	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
 }
 SRWorld >> enterMorphicProject [
 
 	| stopButton |
+	self log.
 	project := SRMorphicProject new.
 	Project current addDeferredUIMessage: [
 		project
@@ -768,13 +771,14 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:11'
+	#'squeak_changestamp' : 'lege 4/8/2026 16:16'
 }
 SRWorld >> start [
 
 	self class current ifNotNil: [self error: 'A world is already running!'].
 	
 	self log.
+	self log: 'here'.
 	self worldProcess: ([
 		self log: 'add avatar'.
 		self avatar ifNil: [

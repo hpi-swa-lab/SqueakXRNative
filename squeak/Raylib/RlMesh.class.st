@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMesh class >> fields [
 	<generated>

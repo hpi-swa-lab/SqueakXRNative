@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logAll [
 	"Display all logs"
@@ -22,7 +22,7 @@ RlTraceLogLevel class >> logAll [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logDebug [
 	"Debug logging, used for internal debugging, it should be disabled on release builds"
@@ -32,7 +32,7 @@ RlTraceLogLevel class >> logDebug [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logError [
 	"Error logging, used on unrecoverable failures"
@@ -42,7 +42,7 @@ RlTraceLogLevel class >> logError [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logFatal [
 	"Fatal logging, used to abort program: exit(EXIT_FAILURE)"
@@ -52,7 +52,7 @@ RlTraceLogLevel class >> logFatal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logInfo [
 	"Info logging, used for program execution info"
@@ -62,7 +62,7 @@ RlTraceLogLevel class >> logInfo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logNone [
 	"Disable logging"
@@ -72,7 +72,7 @@ RlTraceLogLevel class >> logNone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logTrace [
 	"Trace logging, intended for internal use only"
@@ -82,7 +82,7 @@ RlTraceLogLevel class >> logTrace [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlTraceLogLevel class >> logWarning [
 	"Warning logging, used on recoverable failures"

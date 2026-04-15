@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlVector3 class >> fields [
 	<generated>
@@ -21,7 +21,7 @@ RlVector3 class >> fields [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlVector3 >> asVector3 [ ^ Vector3 x: self x y: self y z: self z
 ]
