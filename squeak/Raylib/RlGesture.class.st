@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureDoubletap [
 	"Double tap gesture"
@@ -22,7 +22,7 @@ RlGesture class >> gestureDoubletap [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureDrag [
 	"Drag gesture"
@@ -32,7 +32,7 @@ RlGesture class >> gestureDrag [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureHold [
 	"Hold gesture"
@@ -42,7 +42,7 @@ RlGesture class >> gestureHold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureNone [
 	"No gesture"
@@ -52,7 +52,7 @@ RlGesture class >> gestureNone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gesturePinchIn [
 	"Pinch in gesture"
@@ -62,7 +62,7 @@ RlGesture class >> gesturePinchIn [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gesturePinchOut [
 	"Pinch out gesture"
@@ -72,7 +72,7 @@ RlGesture class >> gesturePinchOut [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureSwipeDown [
 	"Swipe down gesture"
@@ -82,7 +82,7 @@ RlGesture class >> gestureSwipeDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureSwipeLeft [
 	"Swipe left gesture"
@@ -92,7 +92,7 @@ RlGesture class >> gestureSwipeLeft [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureSwipeRight [
 	"Swipe right gesture"
@@ -102,7 +102,7 @@ RlGesture class >> gestureSwipeRight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureSwipeUp [
 	"Swipe up gesture"
@@ -112,7 +112,7 @@ RlGesture class >> gestureSwipeUp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlGesture class >> gestureTap [
 	"Tap gesture"

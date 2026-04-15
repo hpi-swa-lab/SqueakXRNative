@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapAlbedo [
 	"Albedo material (same as: MATERIAL_MAP_DIFFUSE)"
@@ -22,7 +22,7 @@ RlMaterialMapIndex class >> materialMapAlbedo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapBrdf [
 	"Brdf material"
@@ -32,7 +32,7 @@ RlMaterialMapIndex class >> materialMapBrdf [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapCubemap [
 	"Cubemap material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
@@ -42,7 +42,7 @@ RlMaterialMapIndex class >> materialMapCubemap [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapEmission [
 	"Emission material"
@@ -52,7 +52,7 @@ RlMaterialMapIndex class >> materialMapEmission [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapHeight [
 	"Heightmap material"
@@ -62,7 +62,7 @@ RlMaterialMapIndex class >> materialMapHeight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapIrradiance [
 	"Irradiance material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
@@ -72,7 +72,7 @@ RlMaterialMapIndex class >> materialMapIrradiance [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapMetalness [
 	"Metalness material (same as: MATERIAL_MAP_SPECULAR)"
@@ -82,7 +82,7 @@ RlMaterialMapIndex class >> materialMapMetalness [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapNormal [
 	"Normal material"
@@ -92,7 +92,7 @@ RlMaterialMapIndex class >> materialMapNormal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapOcclusion [
 	"Ambient occlusion material"
@@ -102,7 +102,7 @@ RlMaterialMapIndex class >> materialMapOcclusion [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapPrefilter [
 	"Prefilter material (NOTE: Uses GL_TEXTURE_CUBE_MAP)"
@@ -112,7 +112,7 @@ RlMaterialMapIndex class >> materialMapPrefilter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlMaterialMapIndex class >> materialMapRoughness [
 	"Roughness material"

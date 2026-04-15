@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyA [
 	"Key: A | a"
@@ -22,7 +22,7 @@ RlKeyboardKey class >> keyA [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyApostrophe [
 	"Key: '"
@@ -32,7 +32,7 @@ RlKeyboardKey class >> keyApostrophe [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyB [
 	"Key: B | b"
@@ -42,7 +42,7 @@ RlKeyboardKey class >> keyB [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyBack [
 	"Key: Android back button"
@@ -52,7 +52,7 @@ RlKeyboardKey class >> keyBack [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyBackslash [
 	"Key: '\'"
@@ -62,7 +62,7 @@ RlKeyboardKey class >> keyBackslash [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyBackspace [
 	"Key: Backspace"
@@ -72,7 +72,7 @@ RlKeyboardKey class >> keyBackspace [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyC [
 	"Key: C | c"
@@ -82,7 +82,7 @@ RlKeyboardKey class >> keyC [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyCapsLock [
 	"Key: Caps lock"
@@ -92,7 +92,7 @@ RlKeyboardKey class >> keyCapsLock [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyComma [
 	"Key: ,"
@@ -102,7 +102,7 @@ RlKeyboardKey class >> keyComma [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyD [
 	"Key: D | d"
@@ -112,7 +112,7 @@ RlKeyboardKey class >> keyD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyDelete [
 	"Key: Del"
@@ -122,7 +122,7 @@ RlKeyboardKey class >> keyDelete [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyDown [
 	"Key: Cursor down"
@@ -132,7 +132,7 @@ RlKeyboardKey class >> keyDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyE [
 	"Key: E | e"
@@ -142,7 +142,7 @@ RlKeyboardKey class >> keyE [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyEight [
 	"Key: 8"
@@ -152,7 +152,7 @@ RlKeyboardKey class >> keyEight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyEnd [
 	"Key: End"
@@ -162,7 +162,7 @@ RlKeyboardKey class >> keyEnd [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyEnter [
 	"Key: Enter"
@@ -172,7 +172,7 @@ RlKeyboardKey class >> keyEnter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyEqual [
 	"Key: ="
@@ -182,7 +182,7 @@ RlKeyboardKey class >> keyEqual [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyEscape [
 	"Key: Esc"
@@ -192,7 +192,7 @@ RlKeyboardKey class >> keyEscape [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF [
 	"Key: F | f"
@@ -202,7 +202,7 @@ RlKeyboardKey class >> keyF [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF1 [
 	"Key: F1"
@@ -212,7 +212,7 @@ RlKeyboardKey class >> keyF1 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF10 [
 	"Key: F10"
@@ -222,7 +222,7 @@ RlKeyboardKey class >> keyF10 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF11 [
 	"Key: F11"
@@ -232,7 +232,7 @@ RlKeyboardKey class >> keyF11 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF12 [
 	"Key: F12"
@@ -242,7 +242,7 @@ RlKeyboardKey class >> keyF12 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF2 [
 	"Key: F2"
@@ -252,7 +252,7 @@ RlKeyboardKey class >> keyF2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF3 [
 	"Key: F3"
@@ -262,7 +262,7 @@ RlKeyboardKey class >> keyF3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF4 [
 	"Key: F4"
@@ -272,7 +272,7 @@ RlKeyboardKey class >> keyF4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF5 [
 	"Key: F5"
@@ -282,7 +282,7 @@ RlKeyboardKey class >> keyF5 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF6 [
 	"Key: F6"
@@ -292,7 +292,7 @@ RlKeyboardKey class >> keyF6 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF7 [
 	"Key: F7"
@@ -302,7 +302,7 @@ RlKeyboardKey class >> keyF7 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF8 [
 	"Key: F8"
@@ -312,7 +312,7 @@ RlKeyboardKey class >> keyF8 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyF9 [
 	"Key: F9"
@@ -322,7 +322,7 @@ RlKeyboardKey class >> keyF9 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyFive [
 	"Key: 5"
@@ -332,7 +332,7 @@ RlKeyboardKey class >> keyFive [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyFour [
 	"Key: 4"
@@ -342,7 +342,7 @@ RlKeyboardKey class >> keyFour [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyG [
 	"Key: G | g"
@@ -352,7 +352,7 @@ RlKeyboardKey class >> keyG [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyGrave [
 	"Key: `"
@@ -362,7 +362,7 @@ RlKeyboardKey class >> keyGrave [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyH [
 	"Key: H | h"
@@ -372,7 +372,7 @@ RlKeyboardKey class >> keyH [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyHome [
 	"Key: Home"
@@ -382,7 +382,7 @@ RlKeyboardKey class >> keyHome [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyI [
 	"Key: I | i"
@@ -392,7 +392,7 @@ RlKeyboardKey class >> keyI [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyInsert [
 	"Key: Ins"
@@ -402,7 +402,7 @@ RlKeyboardKey class >> keyInsert [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyJ [
 	"Key: J | j"
@@ -412,7 +412,7 @@ RlKeyboardKey class >> keyJ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyK [
 	"Key: K | k"
@@ -422,7 +422,7 @@ RlKeyboardKey class >> keyK [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKbMenu [
 	"Key: KB menu"
@@ -432,7 +432,7 @@ RlKeyboardKey class >> keyKbMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp0 [
 	"Key: Keypad 0"
@@ -442,7 +442,7 @@ RlKeyboardKey class >> keyKp0 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp1 [
 	"Key: Keypad 1"
@@ -452,7 +452,7 @@ RlKeyboardKey class >> keyKp1 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp2 [
 	"Key: Keypad 2"
@@ -462,7 +462,7 @@ RlKeyboardKey class >> keyKp2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp3 [
 	"Key: Keypad 3"
@@ -472,7 +472,7 @@ RlKeyboardKey class >> keyKp3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp4 [
 	"Key: Keypad 4"
@@ -482,7 +482,7 @@ RlKeyboardKey class >> keyKp4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp5 [
 	"Key: Keypad 5"
@@ -492,7 +492,7 @@ RlKeyboardKey class >> keyKp5 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp6 [
 	"Key: Keypad 6"
@@ -502,7 +502,7 @@ RlKeyboardKey class >> keyKp6 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp7 [
 	"Key: Keypad 7"
@@ -512,7 +512,7 @@ RlKeyboardKey class >> keyKp7 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp8 [
 	"Key: Keypad 8"
@@ -522,7 +522,7 @@ RlKeyboardKey class >> keyKp8 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKp9 [
 	"Key: Keypad 9"
@@ -532,7 +532,7 @@ RlKeyboardKey class >> keyKp9 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpAdd [
 	"Key: Keypad +"
@@ -542,7 +542,7 @@ RlKeyboardKey class >> keyKpAdd [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpDecimal [
 	"Key: Keypad ."
@@ -552,7 +552,7 @@ RlKeyboardKey class >> keyKpDecimal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpDivide [
 	"Key: Keypad /"
@@ -562,7 +562,7 @@ RlKeyboardKey class >> keyKpDivide [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpEnter [
 	"Key: Keypad Enter"
@@ -572,7 +572,7 @@ RlKeyboardKey class >> keyKpEnter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpEqual [
 	"Key: Keypad ="
@@ -582,7 +582,7 @@ RlKeyboardKey class >> keyKpEqual [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpMultiply [
 	"Key: Keypad *"
@@ -592,7 +592,7 @@ RlKeyboardKey class >> keyKpMultiply [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyKpSubtract [
 	"Key: Keypad -"
@@ -602,7 +602,7 @@ RlKeyboardKey class >> keyKpSubtract [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyL [
 	"Key: L | l"
@@ -612,7 +612,7 @@ RlKeyboardKey class >> keyL [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeft [
 	"Key: Cursor left"
@@ -622,7 +622,7 @@ RlKeyboardKey class >> keyLeft [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeftAlt [
 	"Key: Alt left"
@@ -632,7 +632,7 @@ RlKeyboardKey class >> keyLeftAlt [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeftBracket [
 	"Key: ["
@@ -642,7 +642,7 @@ RlKeyboardKey class >> keyLeftBracket [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeftControl [
 	"Key: Control left"
@@ -652,7 +652,7 @@ RlKeyboardKey class >> keyLeftControl [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeftShift [
 	"Key: Shift left"
@@ -662,7 +662,7 @@ RlKeyboardKey class >> keyLeftShift [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyLeftSuper [
 	"Key: Super left"
@@ -672,7 +672,7 @@ RlKeyboardKey class >> keyLeftSuper [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyM [
 	"Key: M | m"
@@ -682,7 +682,7 @@ RlKeyboardKey class >> keyM [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyMenu [
 	"Key: Android menu button"
@@ -692,7 +692,7 @@ RlKeyboardKey class >> keyMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyMinus [
 	"Key: -"
@@ -702,7 +702,7 @@ RlKeyboardKey class >> keyMinus [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyN [
 	"Key: N | n"
@@ -712,7 +712,7 @@ RlKeyboardKey class >> keyN [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyNine [
 	"Key: 9"
@@ -722,7 +722,7 @@ RlKeyboardKey class >> keyNine [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyNull [
 	"Key: NULL, used for no key pressed"
@@ -732,7 +732,7 @@ RlKeyboardKey class >> keyNull [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyNumLock [
 	"Key: Num lock"
@@ -742,7 +742,7 @@ RlKeyboardKey class >> keyNumLock [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyO [
 	"Key: O | o"
@@ -752,7 +752,7 @@ RlKeyboardKey class >> keyO [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyOne [
 	"Key: 1"
@@ -762,7 +762,7 @@ RlKeyboardKey class >> keyOne [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyP [
 	"Key: P | p"
@@ -772,7 +772,7 @@ RlKeyboardKey class >> keyP [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyPageDown [
 	"Key: Page down"
@@ -782,7 +782,7 @@ RlKeyboardKey class >> keyPageDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyPageUp [
 	"Key: Page up"
@@ -792,7 +792,7 @@ RlKeyboardKey class >> keyPageUp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyPause [
 	"Key: Pause"
@@ -802,7 +802,7 @@ RlKeyboardKey class >> keyPause [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyPeriod [
 	"Key: ."
@@ -812,7 +812,7 @@ RlKeyboardKey class >> keyPeriod [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyPrintScreen [
 	"Key: Print screen"
@@ -822,7 +822,7 @@ RlKeyboardKey class >> keyPrintScreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyQ [
 	"Key: Q | q"
@@ -832,7 +832,7 @@ RlKeyboardKey class >> keyQ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyR [
 	"Key: R | r"
@@ -842,7 +842,7 @@ RlKeyboardKey class >> keyR [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRight [
 	"Key: Cursor right"
@@ -852,7 +852,7 @@ RlKeyboardKey class >> keyRight [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRightAlt [
 	"Key: Alt right"
@@ -862,7 +862,7 @@ RlKeyboardKey class >> keyRightAlt [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRightBracket [
 	"Key: ]"
@@ -872,7 +872,7 @@ RlKeyboardKey class >> keyRightBracket [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRightControl [
 	"Key: Control right"
@@ -882,7 +882,7 @@ RlKeyboardKey class >> keyRightControl [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRightShift [
 	"Key: Shift right"
@@ -892,7 +892,7 @@ RlKeyboardKey class >> keyRightShift [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyRightSuper [
 	"Key: Super right"
@@ -902,7 +902,7 @@ RlKeyboardKey class >> keyRightSuper [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyS [
 	"Key: S | s"
@@ -912,7 +912,7 @@ RlKeyboardKey class >> keyS [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyScrollLock [
 	"Key: Scroll down"
@@ -922,7 +922,7 @@ RlKeyboardKey class >> keyScrollLock [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keySemicolon [
 	"Key: ;"
@@ -932,7 +932,7 @@ RlKeyboardKey class >> keySemicolon [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keySeven [
 	"Key: 7"
@@ -942,7 +942,7 @@ RlKeyboardKey class >> keySeven [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keySix [
 	"Key: 6"
@@ -952,7 +952,7 @@ RlKeyboardKey class >> keySix [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keySlash [
 	"Key: /"
@@ -962,7 +962,7 @@ RlKeyboardKey class >> keySlash [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keySpace [
 	"Key: Space"
@@ -972,7 +972,7 @@ RlKeyboardKey class >> keySpace [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyT [
 	"Key: T | t"
@@ -982,7 +982,7 @@ RlKeyboardKey class >> keyT [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyTab [
 	"Key: Tab"
@@ -992,7 +992,7 @@ RlKeyboardKey class >> keyTab [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyThree [
 	"Key: 3"
@@ -1002,7 +1002,7 @@ RlKeyboardKey class >> keyThree [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyTwo [
 	"Key: 2"
@@ -1012,7 +1012,7 @@ RlKeyboardKey class >> keyTwo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyU [
 	"Key: U | u"
@@ -1022,7 +1022,7 @@ RlKeyboardKey class >> keyU [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyUp [
 	"Key: Cursor up"
@@ -1032,7 +1032,7 @@ RlKeyboardKey class >> keyUp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyV [
 	"Key: V | v"
@@ -1042,7 +1042,7 @@ RlKeyboardKey class >> keyV [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyVolumeDown [
 	"Key: Android volume down button"
@@ -1052,7 +1052,7 @@ RlKeyboardKey class >> keyVolumeDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyVolumeUp [
 	"Key: Android volume up button"
@@ -1062,7 +1062,7 @@ RlKeyboardKey class >> keyVolumeUp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyW [
 	"Key: W | w"
@@ -1072,7 +1072,7 @@ RlKeyboardKey class >> keyW [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyX [
 	"Key: X | x"
@@ -1082,7 +1082,7 @@ RlKeyboardKey class >> keyX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyY [
 	"Key: Y | y"
@@ -1092,7 +1092,7 @@ RlKeyboardKey class >> keyY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyZ [
 	"Key: Z | z"
@@ -1102,7 +1102,7 @@ RlKeyboardKey class >> keyZ [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlKeyboardKey class >> keyZero [
 	"Key: 0"

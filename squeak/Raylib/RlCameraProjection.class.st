@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlCameraProjection class >> cameraOrthographic [
 	"Orthographic projection"
@@ -22,7 +22,7 @@ RlCameraProjection class >> cameraOrthographic [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:40'
+	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
 }
 RlCameraProjection class >> cameraPerspective [
 	"Perspective projection"
