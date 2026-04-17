@@ -15,12 +15,6 @@ It currently only supports Meta Quest headsets.
 3. Install [glslang](https://github.com/khronosGroup/glslang) and [SPIRV-cross](https://github.com/khronosgroup/spirv-cross).
 4. Clone this repository.
 
-### Compile and install the app
-
-1. Open the android/ directory with Android Studio
-2. Connect your headset and select it.
-3. Run the app.
-
 ### Prepare the Squeak image
 
 *Alternatively, you can grab an image [from the releases](https://github.com/hpi-swa-lab/SqueakXRNative/releases).*
@@ -42,6 +36,13 @@ Metacello new
 3. Using a Git client like [this](https://github.com/hpi-swa/git-s), open this repository and load it.
 4. Run `SRShader transpileAll`.
 5. Save the image.
+
+### Compile and install the app
+
+1. Open the android/ directory with Android Studio
+2. Create a directory called `assets` in android/app/src/main. Copy the `SqueakV60.sources` file you downloaded with the Squeak image into it.
+3. Connect your headset and select it.
+4. Run the app.
 
 ### Launch SqueakXR
 
