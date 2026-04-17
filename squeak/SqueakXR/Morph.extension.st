@@ -29,6 +29,15 @@ Morph >> lastPanelPosition: aVector3 [
 
 {
 	#category : #'*SqueakXR-morphic',
+	#'squeak_changestamp' : 'lege 4/8/2026 17:55'
+}
+Morph >> openInXRWorld [
+
+	^ SRMorphPanel new morph: self; openInWorld; yourself
+]
+
+{
+	#category : #'*SqueakXR-morphic',
 	#'squeak_changestamp' : 'lege 3/16/2026 17:24'
 }
 Morph >> setInMorphPanel: aBoolean [
