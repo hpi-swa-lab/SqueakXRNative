@@ -214,30 +214,14 @@ SRHand >> startGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/17/2025 18:43'
+	#'squeak_changestamp' : 'lege 4/8/2026 17:37'
 }
 SRHand >> step: deltaTime [
 
-	| grabbedHandDelta handDirection mappedDistance mappedObjectPosition unmappedDistance unmappedObjectPosition |
-	grabbedObject ifNotNil: [ | rotation translation |
-		"distanceToAvatar := self world camera xy distanceTo: self globalTranslation xy."
-		grabbedHandDelta := self globalTranslation - grabbedHandPoint.
-		unmappedObjectPosition := grabbedObjectPoint + grabbedHandDelta.
-		unmappedDistance := unmappedObjectPosition distanceTo: self globalTranslation.
-		mappedDistance := self class remapGrabDistance: unmappedDistance.
-		"unmappedDistanceToAvatar := unmappedObjectPosition xy distanceTo: self globalTranslation xy."
-		handDirection := self globalTransform localDirToGlobal: Vector3 backward.
-		mappedObjectPosition := handDirection * mappedDistance + self globalTranslation.
-		translation := mappedObjectPosition.
-		"currentDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
-		avatarDistanceDelta := currentDistanceToAvatar - grabbedDistanceToAvatar.
-		translation := self globalTranslation
-			+ ((self globalTransform localDirToGlobal: Vector3 backward  * (1 + (avatarDistanceDelta * 5))) * grabbedDistance)
-			+ grabbedTranslationOffset."
-		rotation := self globalRotation.
-		grabbedObject
-			globalTranslation: translation;
-			globalRotation: rotation]
+	grabbedObject ifNotNil: [ | transform |
+		transform := self globalTransform
+			* (Matrix4x4 withOffset: Vector3 backward * grabbedDistance).
+		grabbedObject globalTransform: transform]
 ]
 
 { #category : #'as yet unclassified' }
