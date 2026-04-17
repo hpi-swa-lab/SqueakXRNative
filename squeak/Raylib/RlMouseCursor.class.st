@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorArrow [
 	"Arrow shape"
@@ -22,7 +22,7 @@ RlMouseCursor class >> mouseCursorArrow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorCrosshair [
 	"Cross shape"
@@ -32,7 +32,7 @@ RlMouseCursor class >> mouseCursorCrosshair [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorDefault [
 	"Default pointer shape"
@@ -42,7 +42,7 @@ RlMouseCursor class >> mouseCursorDefault [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorIbeam [
 	"Text writing cursor shape"
@@ -52,7 +52,7 @@ RlMouseCursor class >> mouseCursorIbeam [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorNotAllowed [
 	"The operation-not-allowed shape"
@@ -62,7 +62,7 @@ RlMouseCursor class >> mouseCursorNotAllowed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorPointingHand [
 	"Pointing hand cursor"
@@ -72,7 +72,7 @@ RlMouseCursor class >> mouseCursorPointingHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorResizeAll [
 	"The omnidirectional resize/move cursor shape"
@@ -82,7 +82,7 @@ RlMouseCursor class >> mouseCursorResizeAll [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorResizeEw [
 	"Horizontal resize/move arrow shape"
@@ -92,7 +92,7 @@ RlMouseCursor class >> mouseCursorResizeEw [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorResizeNesw [
 	"The top-right to bottom-left diagonal resize/move arrow shape"
@@ -102,7 +102,7 @@ RlMouseCursor class >> mouseCursorResizeNesw [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorResizeNs [
 	"Vertical resize/move arrow shape"
@@ -112,7 +112,7 @@ RlMouseCursor class >> mouseCursorResizeNs [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlMouseCursor class >> mouseCursorResizeNwse [
 	"Top-left to bottom-right diagonal resize/move arrow shape"

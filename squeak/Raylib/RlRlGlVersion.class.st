@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpengl11 [
 	"OpenGL 1.1"
@@ -22,7 +22,7 @@ RlRlGlVersion class >> rlOpengl11 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpengl21 [
 	"OpenGL 2.1 (GLSL 120)"
@@ -32,7 +32,7 @@ RlRlGlVersion class >> rlOpengl21 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpengl33 [
 	"OpenGL 3.3 (GLSL 330)"
@@ -42,7 +42,7 @@ RlRlGlVersion class >> rlOpengl33 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpengl43 [
 	"OpenGL 4.3 (using GLSL 330)"
@@ -52,7 +52,7 @@ RlRlGlVersion class >> rlOpengl43 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpenglEs20 [
 	"OpenGL ES 2.0 (GLSL 100)"
@@ -62,7 +62,7 @@ RlRlGlVersion class >> rlOpenglEs20 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlGlVersion class >> rlOpenglEs30 [
 	"OpenGL ES 3.0 (GLSL 300 es)"

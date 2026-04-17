@@ -61,11 +61,11 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/25/2026 18:28'
+	#'squeak_changestamp' : 'lege 4/8/2026 17:02'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
-	| normalizedPoint clickPoint point downEvent upEvent |
+	| normalizedPoint clickPoint point downEvent upEvent thumbstickY |
 	self morph ifNil: [^ self].
 	
 	self world keyboardFocus: self.
@@ -75,27 +75,40 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
 	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft.
 	
-	downEvent := MouseButtonEvent new
-		setType: #mouseDown
-		position: clickPoint asPoint
-		which: MouseButtonEvent redButton
-		buttons: MouseButtonEvent redButton
-		nClicks: 1
-		hand: self currentHand
-		stamp: Sensor eventTimeNow.
-	upEvent := MouseButtonEvent new
-		setType: #mouseUp
-		position: clickPoint asPoint
-		which: MouseButtonEvent redButton
-		buttons: MouseButtonEvent redButton
-		nClicks: 1
-		hand: self currentHand
-		stamp: Sensor eventTimeNow.
-
-	downEvent becomeActiveDuring: [
-		self morph processEvent: downEvent].
-	upEvent becomeActiveDuring: [
-		self morph processEvent: upEvent].
+	Project current addDeferredUIMessage: [thumbstickY := intersectionResult actionState thumbstickY first.
+	thumbstickY abs > 0.5
+		ifTrue: [ | scrollEvent |
+			scrollEvent := MouseWheelEvent new
+				setType: #mouseWheel
+				position: clickPoint asPoint
+				delta: 0@30 * thumbstickY sign
+				buttons: 0
+				hand: self currentHand
+				stamp: Sensor eventTimeNow.
+			scrollEvent becomeActiveDuring: [
+				self morph processEvent: scrollEvent].]
+		ifFalse: [
+			downEvent := MouseButtonEvent new
+				setType: #mouseDown
+				position: clickPoint asPoint
+				which: MouseButtonEvent redButton
+				buttons: MouseButtonEvent redButton
+				nClicks: 1
+				hand: self currentHand
+				stamp: Sensor eventTimeNow.
+			upEvent := MouseButtonEvent new
+				setType: #mouseUp
+				position: clickPoint asPoint
+				which: MouseButtonEvent redButton
+				buttons: MouseButtonEvent redButton
+				nClicks: 1
+				hand: self currentHand
+				stamp: Sensor eventTimeNow.
+				
+			downEvent becomeActiveDuring: [
+				self morph processEvent: downEvent].
+			upEvent becomeActiveDuring: [
+				self morph processEvent: upEvent]].].
 	
 	lastClickPosition := clickPoint asPoint.
 ]
