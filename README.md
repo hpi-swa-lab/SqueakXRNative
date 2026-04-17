@@ -23,7 +23,7 @@ It currently only supports Meta Quest headsets.
 
 ### Prepare the Squeak image
 
-**Alternatively, you can grab an image from the releases [TODO add link].**
+*Alternatively, you can grab an image [from the releases](https://github.com/hpi-swa-lab/SqueakXRNative/releases).*
 
 1. Use a trunk image or download it from https://files.squeak.org/trunk/. The last tested version is `Squeak6.1alpha-23704-64bit`.
 2. Install dependencies by running:
