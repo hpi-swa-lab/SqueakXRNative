@@ -10,7 +10,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRLHand class >> fields [
 	<generated>

@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedAstc4x4Rgba [
 	"8 bpp"
@@ -22,7 +22,7 @@ RlPixelFormat class >> pixelformatCompressedAstc4x4Rgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedAstc8x8Rgba [
 	"2 bpp"
@@ -32,7 +32,7 @@ RlPixelFormat class >> pixelformatCompressedAstc8x8Rgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedDxt1Rgb [
 	"4 bpp (no alpha)"
@@ -42,7 +42,7 @@ RlPixelFormat class >> pixelformatCompressedDxt1Rgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedDxt1Rgba [
 	"4 bpp (1 bit alpha)"
@@ -52,7 +52,7 @@ RlPixelFormat class >> pixelformatCompressedDxt1Rgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedDxt3Rgba [
 	"8 bpp"
@@ -62,7 +62,7 @@ RlPixelFormat class >> pixelformatCompressedDxt3Rgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedDxt5Rgba [
 	"8 bpp"
@@ -72,7 +72,7 @@ RlPixelFormat class >> pixelformatCompressedDxt5Rgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedEtc1Rgb [
 	"4 bpp"
@@ -82,7 +82,7 @@ RlPixelFormat class >> pixelformatCompressedEtc1Rgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedEtc2EacRgba [
 	"8 bpp"
@@ -92,7 +92,7 @@ RlPixelFormat class >> pixelformatCompressedEtc2EacRgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedEtc2Rgb [
 	"4 bpp"
@@ -102,7 +102,7 @@ RlPixelFormat class >> pixelformatCompressedEtc2Rgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedPvrtRgb [
 	"4 bpp"
@@ -112,7 +112,7 @@ RlPixelFormat class >> pixelformatCompressedPvrtRgb [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatCompressedPvrtRgba [
 	"4 bpp"
@@ -122,7 +122,7 @@ RlPixelFormat class >> pixelformatCompressedPvrtRgba [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedGrayAlpha [
 	"8*2 bpp (2 channels)"
@@ -132,7 +132,7 @@ RlPixelFormat class >> pixelformatUncompressedGrayAlpha [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedGrayscale [
 	"8 bit per pixel (no alpha)"
@@ -142,7 +142,7 @@ RlPixelFormat class >> pixelformatUncompressedGrayscale [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR16 [
 	"16 bpp (1 channel - half float)"
@@ -152,7 +152,7 @@ RlPixelFormat class >> pixelformatUncompressedR16 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR16g16b16 [
 	"16*3 bpp (3 channels - half float)"
@@ -162,7 +162,7 @@ RlPixelFormat class >> pixelformatUncompressedR16g16b16 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR16g16b16a16 [
 	"16*4 bpp (4 channels - half float)"
@@ -172,7 +172,7 @@ RlPixelFormat class >> pixelformatUncompressedR16g16b16a16 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR32 [
 	"32 bpp (1 channel - float)"
@@ -182,7 +182,7 @@ RlPixelFormat class >> pixelformatUncompressedR32 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR32g32b32 [
 	"32*3 bpp (3 channels - float)"
@@ -192,7 +192,7 @@ RlPixelFormat class >> pixelformatUncompressedR32g32b32 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR32g32b32a32 [
 	"32*4 bpp (4 channels - float)"
@@ -202,7 +202,7 @@ RlPixelFormat class >> pixelformatUncompressedR32g32b32a32 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR4g4b4a4 [
 	"16 bpp (4 bit alpha)"
@@ -212,7 +212,7 @@ RlPixelFormat class >> pixelformatUncompressedR4g4b4a4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR5g5b5a1 [
 	"16 bpp (1 bit alpha)"
@@ -222,7 +222,7 @@ RlPixelFormat class >> pixelformatUncompressedR5g5b5a1 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR5g6b5 [
 	"16 bpp"
@@ -232,7 +232,7 @@ RlPixelFormat class >> pixelformatUncompressedR5g6b5 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR8g8b8 [
 	"24 bpp"
@@ -242,7 +242,7 @@ RlPixelFormat class >> pixelformatUncompressedR8g8b8 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlPixelFormat class >> pixelformatUncompressedR8g8b8a8 [
 	"32 bpp"

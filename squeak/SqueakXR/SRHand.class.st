@@ -12,7 +12,8 @@ Class {
 		'grabbedDistanceToAvatar',
 		'grabbedPoint',
 		'grabbedHandPoint',
-		'grabbedObjectPoint'
+		'grabbedObjectPoint',
+		'actionState'
 	],
 	#classVars : [
 		'EndRate',
@@ -87,12 +88,17 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 	EndRate := endRate.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/8/2026 16:54'
+}
 SRHand >> actionsUpdated: aSRActionStates [
 
 	| aJustPressed prevAPressed prevSqueezePressed squeezeJustPressed squeezeJustReleased threshold |
+	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
+	(actionState thumbstickY at: self handIndex) abs > 0.5 ifTrue: [self rayCast].
 	
 	"TODO: move low handling of inputs to separate class"
 	prevAPressed := aPressed.
@@ -177,7 +183,10 @@ SRHand >> onWorldChanged: oldWorld [
 	self world addDependent: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 4/8/2026 15:53'
+}
 SRHand >> rayCast [
 
 	| ray results |
@@ -188,7 +197,7 @@ SRHand >> rayCast [
 	results := ray cast: self world.
 	
 	results do: [:result |
-		result object onRaycast: result.]
+		result object onRaycast: (result asHandRayIntersection: actionState).]
 ]
 
 {

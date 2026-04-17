@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformFloat [
 	"Shader uniform type: float"
@@ -22,7 +22,7 @@ RlShaderUniformDataType class >> shaderUniformFloat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformInt [
 	"Shader uniform type: int"
@@ -32,7 +32,7 @@ RlShaderUniformDataType class >> shaderUniformInt [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformIvec2 [
 	"Shader uniform type: ivec2 (2 int)"
@@ -42,7 +42,7 @@ RlShaderUniformDataType class >> shaderUniformIvec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformIvec3 [
 	"Shader uniform type: ivec3 (3 int)"
@@ -52,7 +52,7 @@ RlShaderUniformDataType class >> shaderUniformIvec3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformIvec4 [
 	"Shader uniform type: ivec4 (4 int)"
@@ -62,7 +62,7 @@ RlShaderUniformDataType class >> shaderUniformIvec4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformSampler2d [
 	"Shader uniform type: sampler2d"
@@ -72,7 +72,7 @@ RlShaderUniformDataType class >> shaderUniformSampler2d [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformUint [
 	"Shader uniform type: unsigned int"
@@ -82,7 +82,7 @@ RlShaderUniformDataType class >> shaderUniformUint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformUivec2 [
 	"Shader uniform type: uivec2 (2 unsigned int)"
@@ -92,7 +92,7 @@ RlShaderUniformDataType class >> shaderUniformUivec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformUivec3 [
 	"Shader uniform type: uivec3 (3 unsigned int)"
@@ -102,7 +102,7 @@ RlShaderUniformDataType class >> shaderUniformUivec3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformUivec4 [
 	"Shader uniform type: uivec4 (4 unsigned int)"
@@ -112,7 +112,7 @@ RlShaderUniformDataType class >> shaderUniformUivec4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformVec2 [
 	"Shader uniform type: vec2 (2 float)"
@@ -122,7 +122,7 @@ RlShaderUniformDataType class >> shaderUniformVec2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformVec3 [
 	"Shader uniform type: vec3 (3 float)"
@@ -132,7 +132,7 @@ RlShaderUniformDataType class >> shaderUniformVec3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlShaderUniformDataType class >> shaderUniformVec4 [
 	"Shader uniform type: vec4 (4 float)"
