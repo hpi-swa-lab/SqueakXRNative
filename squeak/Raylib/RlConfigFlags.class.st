@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagBorderlessWindowedMode [
 	"Set to run program in borderless windowed mode"
@@ -22,7 +22,7 @@ RlConfigFlags class >> flagBorderlessWindowedMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagFullscreenMode [
 	"Set to run program in fullscreen"
@@ -32,7 +32,7 @@ RlConfigFlags class >> flagFullscreenMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagInterlacedHint [
 	"Set to try enabling interlaced video format (for V3D)"
@@ -42,7 +42,7 @@ RlConfigFlags class >> flagInterlacedHint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagMsaa4xHint [
 	"Set to try enabling MSAA 4X"
@@ -52,7 +52,7 @@ RlConfigFlags class >> flagMsaa4xHint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagVsyncHint [
 	"Set to try enabling V-Sync on GPU"
@@ -62,7 +62,7 @@ RlConfigFlags class >> flagVsyncHint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowAlwaysRun [
 	"Set to allow windows running while minimized"
@@ -72,7 +72,7 @@ RlConfigFlags class >> flagWindowAlwaysRun [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowHidden [
 	"Set to hide window"
@@ -82,7 +82,7 @@ RlConfigFlags class >> flagWindowHidden [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowHighdpi [
 	"Set to support HighDPI"
@@ -92,7 +92,7 @@ RlConfigFlags class >> flagWindowHighdpi [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowMaximized [
 	"Set to maximize window (expanded to monitor)"
@@ -102,7 +102,7 @@ RlConfigFlags class >> flagWindowMaximized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowMinimized [
 	"Set to minimize window (iconify)"
@@ -112,7 +112,7 @@ RlConfigFlags class >> flagWindowMinimized [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowMousePassthrough [
 	"Set to support mouse passthrough, only supported when FLAG_WINDOW_UNDECORATED"
@@ -122,7 +122,7 @@ RlConfigFlags class >> flagWindowMousePassthrough [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowResizable [
 	"Set to allow resizable window"
@@ -132,7 +132,7 @@ RlConfigFlags class >> flagWindowResizable [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowTopmost [
 	"Set to window always on top"
@@ -142,7 +142,7 @@ RlConfigFlags class >> flagWindowTopmost [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowTransparent [
 	"Set to allow transparent framebuffer"
@@ -152,7 +152,7 @@ RlConfigFlags class >> flagWindowTransparent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowUndecorated [
 	"Set to disable window decoration (frame and buttons)"
@@ -162,7 +162,7 @@ RlConfigFlags class >> flagWindowUndecorated [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlConfigFlags class >> flagWindowUnfocused [
 	"Set to window non focused"

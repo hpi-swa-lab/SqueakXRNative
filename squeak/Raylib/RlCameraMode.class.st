@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlCameraMode class >> cameraCustom [
 	"Camera custom, controlled by user (UpdateCamera() does nothing)"
@@ -22,7 +22,7 @@ RlCameraMode class >> cameraCustom [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlCameraMode class >> cameraFirstPerson [
 	"Camera first person"
@@ -32,7 +32,7 @@ RlCameraMode class >> cameraFirstPerson [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlCameraMode class >> cameraFree [
 	"Camera free mode"
@@ -42,7 +42,7 @@ RlCameraMode class >> cameraFree [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlCameraMode class >> cameraOrbital [
 	"Camera orbital, around target, zoom supported"
@@ -52,7 +52,7 @@ RlCameraMode class >> cameraOrbital [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlCameraMode class >> cameraThirdPerson [
 	"Camera third person"

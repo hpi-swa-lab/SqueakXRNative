@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisLeftTrigger [
 	"Gamepad back trigger left, pressure level: [1..-1]"
@@ -22,7 +22,7 @@ RlGamepadAxis class >> gamepadAxisLeftTrigger [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisLeftX [
 	"Gamepad left stick X axis"
@@ -32,7 +32,7 @@ RlGamepadAxis class >> gamepadAxisLeftX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisLeftY [
 	"Gamepad left stick Y axis"
@@ -42,7 +42,7 @@ RlGamepadAxis class >> gamepadAxisLeftY [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisRightTrigger [
 	"Gamepad back trigger right, pressure level: [1..-1]"
@@ -52,7 +52,7 @@ RlGamepadAxis class >> gamepadAxisRightTrigger [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisRightX [
 	"Gamepad right stick X axis"
@@ -62,7 +62,7 @@ RlGamepadAxis class >> gamepadAxisRightX [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlGamepadAxis class >> gamepadAxisRightY [
 	"Gamepad right stick Y axis"

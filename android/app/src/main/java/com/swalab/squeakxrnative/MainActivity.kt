@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val squeakImageFiles = mapOf(
-        "changes" to "staticsqueak.changes",
-        "image" to "staticsqueak.image",
+//        "changes" to "staticsqueak.changes",
+//        "image" to "staticsqueak.image",
 //        "changes" to "squeak-ffi-test.changes",
 //        "image" to "squeak-ffi-test.image",
         "sources" to "SqueakV60.sources"

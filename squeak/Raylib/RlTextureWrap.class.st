@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlTextureWrap class >> textureWrapClamp [
 	"Clamps texture to edge pixel in tiled mode"
@@ -22,7 +22,7 @@ RlTextureWrap class >> textureWrapClamp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlTextureWrap class >> textureWrapMirrorClamp [
 	"Mirrors and clamps to border the texture in tiled mode"
@@ -32,7 +32,7 @@ RlTextureWrap class >> textureWrapMirrorClamp [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlTextureWrap class >> textureWrapMirrorRepeat [
 	"Mirrors and repeats the texture in tiled mode"
@@ -42,7 +42,7 @@ RlTextureWrap class >> textureWrapMirrorRepeat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlTextureWrap class >> textureWrapRepeat [
 	"Repeats texture in tiled mode"

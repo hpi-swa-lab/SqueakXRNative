@@ -12,7 +12,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel0 [
 	"Framebuffer attachment type: color 0"
@@ -22,7 +22,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel0 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel1 [
 	"Framebuffer attachment type: color 1"
@@ -32,7 +32,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel1 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel2 [
 	"Framebuffer attachment type: color 2"
@@ -42,7 +42,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel2 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel3 [
 	"Framebuffer attachment type: color 3"
@@ -52,7 +52,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel3 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel4 [
 	"Framebuffer attachment type: color 4"
@@ -62,7 +62,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel4 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel5 [
 	"Framebuffer attachment type: color 5"
@@ -72,7 +72,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel5 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel6 [
 	"Framebuffer attachment type: color 6"
@@ -82,7 +82,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel6 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentColorChannel7 [
 	"Framebuffer attachment type: color 7"
@@ -92,7 +92,7 @@ RlRlFramebufferAttachType class >> rlAttachmentColorChannel7 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentDepth [
 	"Framebuffer attachment type: depth"
@@ -102,7 +102,7 @@ RlRlFramebufferAttachType class >> rlAttachmentDepth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlRlFramebufferAttachType class >> rlAttachmentStencil [
 	"Framebuffer attachment type: stencil"
