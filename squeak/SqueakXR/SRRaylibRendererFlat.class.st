@@ -43,15 +43,19 @@ SRRaylibRendererFlat >> camera [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:27'
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 16:40'
 }
 SRRaylibRendererFlat >> completeFrame [
 
 	Raylib endMode3D.
 	self drawReticle.
+	
+	"Draw game camera debug HUD if active"
+	SRWorld current gameCamera ifNotNil: [:cam | cam debugHUD].
+	
 	Raylib endDrawing.
 	
-	1 milliSecond wait.
+	1 milliSecond wait
 ]
 
 {

@@ -15,7 +15,8 @@ Class {
 		'gizmoPainter',
 		'project',
 		'i',
-		'secondStart'
+		'secondStart',
+		'gameCamera'
 	],
 	#classVars : [
 		'Current',
@@ -443,6 +444,23 @@ SRWorld >> doOneCycle [
 ]
 
 {
+	#category : #camera,
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 16:26'
+}
+SRWorld >> enableGameCamera [
+
+	gameCamera ifNil: [
+		gameCamera := SWAGameCamera new.
+		gameCamera world: self.
+		gameCamera initializeFromCurrentCamera].
+	
+	"Disable free camera mode"
+	self renderer freeCameraEnabled: false.
+	
+	^ gameCamera
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
 }
@@ -463,6 +481,15 @@ SRWorld >> enterMorphicProject [
 		actionSelector: #stopWorldAndLeaveProject.
 	project world addMorph: stopButton.
 	stopButton position: 100 @ 100.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:44'
+}
+SRWorld >> gameCamera [
+
+	^ gameCamera
 ]
 
 {
@@ -646,7 +673,7 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:25'
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:45'
 }
 SRWorld >> processKeyInput [
 
@@ -659,7 +686,10 @@ SRWorld >> processKeyInput [
 		keys do: [:k |
 			(k = RlKeyboardKey keyGrave and: [self renderer respondsTo: #toggleFreeCameraEnabled])
 				ifTrue: [self renderer toggleFreeCameraEnabled]
-				ifFalse: [self handleKeyPress: k]]]
+				ifFalse: [
+					(k = RlKeyboardKey keyTab and: [gameCamera notNil])
+						ifTrue: [gameCamera toggleLookMode]
+						ifFalse: [self handleKeyPress: k]]]]
 ]
 
 { #category : #'as yet unclassified' }
@@ -854,12 +884,18 @@ SRWorld >> suspend [
 	worldProcess ifNotNil: [worldProcess suspend].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:45'
+}
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
 	self processKeyInput.
+	
+	"Update game camera if active"
+	gameCamera ifNotNil: [:cam | cam update: 16.0]
 ]
 
 { #category : #accessing }
