@@ -646,7 +646,7 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:25'
 }
 SRWorld >> processKeyInput [
 
@@ -659,7 +659,7 @@ SRWorld >> processKeyInput [
 		keys do: [:k |
 			(k = RlKeyboardKey keyGrave and: [self renderer respondsTo: #toggleFreeCameraEnabled])
 				ifTrue: [self renderer toggleFreeCameraEnabled]
-				ifFalse: [self handleKeyPress: k]]].
+				ifFalse: [self handleKeyPress: k]]]
 ]
 
 { #category : #'as yet unclassified' }

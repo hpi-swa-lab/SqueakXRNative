@@ -118,7 +118,10 @@ SRFrame >> stepObjects [
 				error retry.]
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:23'
+}
 SRFrame >> updateActions [
 
 	isOld ifFalse: [self world updateActions]

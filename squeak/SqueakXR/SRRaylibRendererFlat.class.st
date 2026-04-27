@@ -115,7 +115,7 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:19'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
@@ -141,7 +141,7 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/2/2026 10:19'
+	#'squeak_changestamp' : 'jl 4/27/2026 14:41'
 }
 SRRaylibRendererFlat >> setup [
 
@@ -154,7 +154,7 @@ SRRaylibRendererFlat >> setup [
 			ifFalse: [self class startMonitor]).
 	
 	camera := RlCamera3D new
-		position: (10 @ 10 @ 10) asRlVector;
+		position: 10 asVector3 asRlVector;
 		target: Vector3 zero asRlVector;
 		up: Vector3 up asRlVector;
 		fovy: 45;
