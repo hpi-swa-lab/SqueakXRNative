@@ -3,7 +3,8 @@ Class {
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
 		'reticleLines',
-		'reticleColor'
+		'reticleColor',
+		'freeCameraEnabled'
 	],
 	#classVars : [
 		'HighDpiEnabled'
@@ -30,6 +31,14 @@ SRRaylibRendererFlat class >> highDpiEnabled [
 SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 
 	HighDpiEnabled := aBoolean
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 15:24'
+}
+SRRaylibRendererFlat >> camera [
+	^camera
 ]
 
 {
@@ -60,6 +69,24 @@ SRRaylibRendererFlat >> drawReticle [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
+}
+SRRaylibRendererFlat >> freeCameraEnabled [
+
+	^ freeCameraEnabled ifNil: [freeCameraEnabled := true]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
+}
+SRRaylibRendererFlat >> freeCameraEnabled: aBoolean [
+
+	freeCameraEnabled := aBoolean
+]
+
+{
 	#category : #initializing,
 	#'squeak_changestamp' : 'lege 3/25/2026 15:45'
 }
@@ -77,23 +104,24 @@ SRRaylibRendererFlat >> initReticle [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:44'
 }
 SRRaylibRendererFlat >> initialize [
 
 	super initialize.
-	
+	freeCameraEnabled := true.
 	self initReticle.
 ]
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:16'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:44'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
+	self freeCameraEnabled ifTrue: [
+		Raylib updateCamera: camera mode: RlCameraMode cameraFree].
 	Raylib
-		updateCamera: camera mode: RlCameraMode cameraFree;
 		beginDrawing;
 		clearBackgroundColor: clearColor;
 		beginMode3DCamera: camera;
@@ -154,18 +182,32 @@ SRRaylibRendererFlat >> shutdown [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
 }
-SRRaylibRendererFlat >> windowHeight [
+SRRaylibRendererFlat >> toggleFreeCameraEnabled [
 
-	^ 450
+	self freeCameraEnabled: self freeCameraEnabled not.
+	Transcript
+		cr;
+		show: 'Free camera ';
+		show: (self freeCameraEnabled ifTrue: ['ON'] ifFalse: ['OFF']).
+	^ self freeCameraEnabled
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+	#'squeak_changestamp' : 'jl 4/22/2026 15:12'
+}
+SRRaylibRendererFlat >> windowHeight [
+
+	^ 1400
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl 4/22/2026 15:12'
 }
 SRRaylibRendererFlat >> windowWidth [
 
-	^ 800
+	^ 2400
 ]

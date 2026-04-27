@@ -193,23 +193,32 @@ SRHand >> rayCast [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/17/2025 18:22'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 17:43'
 }
 SRHand >> startGrabbing [
 
-	| ray |
+	| ray candidate target |
 	ray := SRRay
 		origin: self globalTranslation
 		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
 	
 	(ray castNearest: self world) ifNotNil: [:collision |
-		"TODO: should be object by default, but give option to morph to redefine grabbed morph"
-		grabbedObject := collision object parent.
+		candidate := collision object.
+		(candidate respondsTo: #globalTranslation) ifFalse: [
+			candidate := collision object parent].
+		candidate ifNil: [^ self].
+		target := (candidate respondsTo: #grabTarget)
+			ifTrue: [candidate grabTarget]
+			ifFalse: [candidate].
+		target ifNil: [^ self].
+		grabbedObject := target.
 		grabbedHandPoint := self globalTranslation.
 		grabbedObjectPoint := grabbedObject globalTranslation.
 		grabbedDistance := self globalTranslation distanceTo: collision point.
 		grabbedDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
-		grabbedTranslationOffset := grabbedObject globalTranslation - collision point]
+		grabbedTranslationOffset := grabbedObject globalTranslation - collision point.
+		(grabbedObject respondsTo: #onGrabStartFrom:) ifTrue: [
+			grabbedObject onGrabStartFrom: self]]
 ]
 
 {
@@ -224,9 +233,15 @@ SRHand >> step: deltaTime [
 		grabbedObject globalTransform: transform]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:55'
+}
 SRHand >> stopGrabbing [
 
+	grabbedObject ifNotNil: [
+		(grabbedObject respondsTo: #onGrabStopFrom:) ifTrue: [
+			grabbedObject onGrabStopFrom: self]].
 	grabbedObject := nil.
 ]
 

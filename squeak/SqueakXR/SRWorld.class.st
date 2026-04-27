@@ -646,7 +646,7 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/25/2026 16:36'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
 }
 SRWorld >> processKeyInput [
 
@@ -656,7 +656,10 @@ SRWorld >> processKeyInput [
 		keys add: keyValue].
 	
 	keys ifNotEmpty: [
-		keys do: [:k | self handleKeyPress: k]].
+		keys do: [:k |
+			(k = RlKeyboardKey keyGrave and: [self renderer respondsTo: #toggleFreeCameraEnabled])
+				ifTrue: [self renderer toggleFreeCameraEnabled]
+				ifFalse: [self handleKeyPress: k]]].
 ]
 
 { #category : #'as yet unclassified' }
@@ -771,11 +774,15 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:16'
+	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:46'
 }
 SRWorld >> start [
 
 	self class current ifNotNil: [self error: 'A world is already running!'].
+	
+	self isXR ifFalse: [
+		(self allDescendants anySatisfy: [:obj | obj isKindOf: SRXRInputEmulator]) ifFalse: [
+			self addChild: SRXRInputEmulator new]].
 	
 	self log.
 	self log: 'here'.
@@ -788,7 +795,9 @@ SRWorld >> start [
 			initializeWorldProcess;
 			enterMorphicProject;
 			runStartScript.
-		self isXR ifFalse: [self addChild: SRXRInputEmulator new].
+		self isXR ifFalse: [
+			(self allDescendants anySatisfy: [:obj | obj isKindOf: SRXRInputEmulator]) ifFalse: [
+				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
 		self loop.
