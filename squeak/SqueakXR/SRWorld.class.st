@@ -543,14 +543,14 @@ SRWorld >> isRunning [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:10'
+	#'squeak_changestamp' : 'jl 4/29/2026 18:00'
 }
 SRWorld >> isRunning: aBoolean [
 
 	running := aBoolean.
 	running
 		ifTrue: [self class current: self]
-		ifFalse: [self class resetCurrent]
+		ifFalse: []
 ]
 
 { #category : #'as yet unclassified' }
@@ -604,7 +604,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 17:00'
+	#'squeak_changestamp' : 'jl 4/29/2026 18:03'
 }
 SRWorld >> loop [
 
@@ -624,7 +624,8 @@ SRWorld >> loop [
 		on: Error
 		do: [:error |
 			error printVerboseOn: Transcript.
-			error pass]
+			error pass].
+	self class resetCurrent.
 ]
 
 { #category : #'as yet unclassified' }
@@ -824,6 +825,16 @@ SRWorld >> stop [
 
 	self invalidateCache;
 		isRunning: false.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'jl 4/29/2026 18:07'
+}
+SRWorld >> stopAndWait [
+
+	self stop.
+	[self class current] whileNotNil: [Processor yield].
 ]
 
 {
