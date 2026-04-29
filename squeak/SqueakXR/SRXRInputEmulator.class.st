@@ -42,15 +42,16 @@ SRXRInputEmulator >> emulatedCamera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 15:06'
+	#'squeak_changestamp' : 'jl 4/29/2026 19:09'
 }
 SRXRInputEmulator >> initialize [
 	"Initialize emulated camera."
 	
 	super initialize.
 	emulatedCamera := SRXREmulatedCamera new.
-	"debugHUD := SRXRDebugHUD new emulator: self.
-	self addChild: debugHUD"
+	
+	debugHUD := SRXRDebugHUD new emulator: self.
+	self addChild: debugHUD
 ]
 
 {

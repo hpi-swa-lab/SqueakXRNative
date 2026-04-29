@@ -13,39 +13,34 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 19:26'
 }
-SRXRDebugHUD >> draw [
-	"Draw debug information on screen."
+SRXRDebugHUD >> draw2DDebugOn: aSRRenderer [
+	"Draw the debug HUD as a 2D overlay"
+
+	| white pos target dir |
+	white := RlColor new r: 255; g: 255; b: 255; a: 255.
+	pos := aSRRenderer cameraPosition.
+	target := aSRRenderer cameraTarget.
+	dir := RlVector3 new 
+		x: target x - pos x;
+		y: target y - pos y;
+		z: target z - pos z.
 	
-	| camera pos y lineHeight |
-	visible ifFalse: [^ self].
-	emulator ifNil: [^ self].
-	camera := emulator emulatedCamera.
-	camera ifNil: [^ self].
-	
-	y := 10.
-	lineHeight := 20.
-	
-	"Camera position"
-	pos := camera position.
-	self drawText: 'Camera: ', pos x printShowingDecimalPlaces: 2, ' / ', 
-		pos y printShowingDecimalPlaces: 2, ' / ', 
-		pos z printShowingDecimalPlaces: 2 at: 10 @ y.
-	y := y + lineHeight.
-	
-	"Look mode"
-	self drawText: 'Look mode: ', (camera lookModeEnabled ifTrue: ['ON (mouse rotates camera)'] ifFalse: ['OFF (mouse controls hand)']) at: 10 @ y.
-	y := y + lineHeight.
-	
-	"Controls hint"
-	self drawText: 'TAB=toggle look | WASD=move | L-click=trigger | R-click=grab | F=raycast' at: 10 @ y
+	Raylib 
+		drawText: 'Camera Debug:' posX: 10 posY: 10 fontSize: 20 color: white.
+	Raylib 
+		drawText: 'Position: ', (pos x roundTo: 0.01) printString, ', ', (pos y roundTo: 0.01) printString, ', ', (pos z roundTo: 0.01) printString 
+		posX: 10 posY: 35 fontSize: 16 color: white.
+	Raylib 
+		drawText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString 
+		posX: 10 posY: 55 fontSize: 16 color: white.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 13:41'
+	#'squeak_changestamp' : 'jl 4/29/2026 19:13'
 }
 SRXRDebugHUD >> drawText: aString at: aPoint [
 	"Draw text at position using Raylib."
@@ -55,7 +50,7 @@ SRXRDebugHUD >> drawText: aString at: aPoint [
 		posX: aPoint x
 		posY: aPoint y
 		fontSize: 16
-		color: RlColors rayWhite
+		color: (RlColor externalNew r: 255; g: 255; b: 255; a: 255).
 ]
 
 {
@@ -77,16 +72,6 @@ SRXRDebugHUD >> initialize [
 	
 	super initialize.
 	visible := false
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:57'
-}
-SRXRDebugHUD >> renderOn: aSRRenderer [
-	"Render the debug HUD. Draw 2D text during 3D rendering."
-	
-	self draw
 ]
 
 {

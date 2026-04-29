@@ -191,6 +191,17 @@ SRObject >> down [
 	^ (self globalTransform localDirToGlobal: Vector3 down) normalize
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'jl 4/29/2026 19:01'
+}
+SRObject >> draw2DDebugOn: aSRRenderer [
+	"Override in subclasses to draw 2D debug overlays. Called after 3D rendering ends."
+	
+	"Transcript showln: 'draw2DDebugOn: called on ', self class name."
+	^ self
+]
+
 { #category : #transforms }
 SRObject >> ensureTransformClean [
 

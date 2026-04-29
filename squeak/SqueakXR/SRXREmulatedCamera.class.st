@@ -63,13 +63,13 @@ SRXREmulatedCamera >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:54'
+	#'squeak_changestamp' : 'jl 4/29/2026 19:25'
 }
 SRXREmulatedCamera >> initialize [
 	"Initialize camera at eye level, looking forward."
 	
 	super initialize.
-	position := (0 @ 1.8 @ 0) asVector3.
+	position := (-6 @ 1.8 @ 0) asVector3.
 	yaw := 0.0.
 	pitch := 0.0.
 	moveSpeed := 0.05.

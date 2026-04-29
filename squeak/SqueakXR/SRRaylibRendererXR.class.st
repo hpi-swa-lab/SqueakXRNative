@@ -6,12 +6,17 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:55'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 19:01'
 }
 SRRaylibRendererXR >> completeFrame [
 
 	Raylib
-		endMode3D;
+		endMode3D.
+	
+	"Give all objects a chance to draw 2D debug overlays"
+	SRWorld current allDo: [:obj | obj draw2DDebugOn: self].
+	
+	Raylib
 		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
@@ -22,12 +27,17 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:53'
 }
 SRRaylibRendererXR >> completeFrame: aWorld [
 
 	Raylib
-		endMode3D;
+		endMode3D.
+	
+	"Give all objects a chance to draw 2D debug overlays"
+	aWorld allDo: [:obj | obj draw2DDebugOn: self].
+	
+	Raylib
 		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
