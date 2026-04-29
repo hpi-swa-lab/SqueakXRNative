@@ -6,7 +6,9 @@ Class {
 		'reticleColor'
 	],
 	#classVars : [
-		'HighDpiEnabled'
+		'HighDpiEnabled',
+		'WindowHeight',
+		'WindowWidth'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -30,6 +32,46 @@ SRRaylibRendererFlat class >> highDpiEnabled [
 SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 
 	HighDpiEnabled := aBoolean
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowHeight [
+	<preference: 'Height of the Raylib renderer window'
+		category: 'SqueakXR'
+		description: 'Height of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
+		type: #Number>
+	^ WindowHeight ifNil: [1400]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowHeight: aNumber [
+	WindowHeight := aNumber
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowWidth [
+	<preference: 'Width of the Raylib renderer window'
+		category: 'SqueakXR'
+		description: 'Width of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
+		type: #Number>
+	^ WindowWidth ifNil: [2400]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowWidth: aNumber [
+	WindowWidth := aNumber
 ]
 
 {
@@ -177,18 +219,18 @@ SRRaylibRendererFlat >> shutdown [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl 4/22/2026 15:12'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
 }
 SRRaylibRendererFlat >> windowHeight [
 
-	^ 1400
+	^ self class windowHeight
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl 4/22/2026 15:12'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
 }
 SRRaylibRendererFlat >> windowWidth [
 
-	^ 2400
+	^ self class windowWidth
 ]
