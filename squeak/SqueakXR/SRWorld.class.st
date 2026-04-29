@@ -15,8 +15,7 @@ Class {
 		'gizmoPainter',
 		'project',
 		'i',
-		'secondStart',
-		'gameCamera'
+		'secondStart'
 	],
 	#classVars : [
 		'Current',
@@ -360,7 +359,7 @@ SRWorld class >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/15/2026 14:01'
+	#'squeak_changestamp' : 'jl 4/29/2026 10:13'
 }
 SRWorld class >> startUp: resuming [
 
@@ -444,23 +443,6 @@ SRWorld >> doOneCycle [
 ]
 
 {
-	#category : #camera,
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 16:26'
-}
-SRWorld >> enableGameCamera [
-
-	gameCamera ifNil: [
-		gameCamera := SWAGameCamera new.
-		gameCamera world: self.
-		gameCamera initializeFromCurrentCamera].
-	
-	"Disable free camera mode"
-	self renderer freeCameraEnabled: false.
-	
-	^ gameCamera
-]
-
-{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
 }
@@ -481,15 +463,6 @@ SRWorld >> enterMorphicProject [
 		actionSelector: #stopWorldAndLeaveProject.
 	project world addMorph: stopButton.
 	stopButton position: 100 @ 100.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:44'
-}
-SRWorld >> gameCamera [
-
-	^ gameCamera
 ]
 
 {
@@ -673,7 +646,7 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:45'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 09:40'
 }
 SRWorld >> processKeyInput [
 
@@ -683,13 +656,7 @@ SRWorld >> processKeyInput [
 		keys add: keyValue].
 	
 	keys ifNotEmpty: [
-		keys do: [:k |
-			(k = RlKeyboardKey keyGrave and: [self renderer respondsTo: #toggleFreeCameraEnabled])
-				ifTrue: [self renderer toggleFreeCameraEnabled]
-				ifFalse: [
-					(k = RlKeyboardKey keyTab and: [gameCamera notNil])
-						ifTrue: [gameCamera toggleLookMode]
-						ifFalse: [self handleKeyPress: k]]]]
+		keys do: [:k | self handleKeyPress: k]]
 ]
 
 { #category : #'as yet unclassified' }
@@ -804,15 +771,11 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:46'
+	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:10'
 }
 SRWorld >> start [
 
 	self class current ifNotNil: [self error: 'A world is already running!'].
-	
-	self isXR ifFalse: [
-		(self allDescendants anySatisfy: [:obj | obj isKindOf: SRXRInputEmulator]) ifFalse: [
-			self addChild: SRXRInputEmulator new]].
 	
 	self log.
 	self log: 'here'.
@@ -837,7 +800,7 @@ SRWorld >> start [
 			priority: Processor userSchedulingPriority).
 	
 	self isRunning: true.
-	self resume.
+	self resume
 ]
 
 { #category : #'as yet unclassified' }
@@ -886,16 +849,13 @@ SRWorld >> suspend [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:45'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 09:40'
 }
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
-	self processKeyInput.
-	
-	"Update game camera if active"
-	gameCamera ifNotNil: [:cam | cam update: 16.0]
+	self processKeyInput
 ]
 
 { #category : #accessing }

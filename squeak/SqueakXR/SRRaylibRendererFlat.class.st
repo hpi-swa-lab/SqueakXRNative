@@ -3,8 +3,7 @@ Class {
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
 		'reticleLines',
-		'reticleColor',
-		'freeCameraEnabled'
+		'reticleColor'
 	],
 	#classVars : [
 		'HighDpiEnabled'
@@ -34,25 +33,13 @@ SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 15:24'
-}
-SRRaylibRendererFlat >> camera [
-	^camera
-]
-
-{
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 16:40'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 09:40'
 }
 SRRaylibRendererFlat >> completeFrame [
 
 	Raylib endMode3D.
 	self drawReticle.
-	
-	"Draw game camera debug HUD if active"
-	SRWorld current gameCamera ifNotNil: [:cam | cam debugHUD].
-	
 	Raylib endDrawing.
 	
 	1 milliSecond wait
@@ -73,24 +60,6 @@ SRRaylibRendererFlat >> drawReticle [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
-}
-SRRaylibRendererFlat >> freeCameraEnabled [
-
-	^ freeCameraEnabled ifNil: [freeCameraEnabled := true]
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
-}
-SRRaylibRendererFlat >> freeCameraEnabled: aBoolean [
-
-	freeCameraEnabled := aBoolean
-]
-
-{
 	#category : #initializing,
 	#'squeak_changestamp' : 'lege 3/25/2026 15:45'
 }
@@ -108,23 +77,21 @@ SRRaylibRendererFlat >> initReticle [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:09'
 }
 SRRaylibRendererFlat >> initialize [
 
 	super initialize.
-	freeCameraEnabled := true.
-	self initReticle.
+	self initReticle
 ]
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/27/2026 15:19'
+	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:09'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
-
-	self freeCameraEnabled ifTrue: [
-		Raylib updateCamera: camera mode: RlCameraMode cameraFree].
+	"Prepare for rendering a frame. Camera is controlled by SRXREmulatedCamera, not Raylib."
+	
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
@@ -182,20 +149,6 @@ SRRaylibRendererFlat >> shaderVersion [
 SRRaylibRendererFlat >> shutdown [
 
 	Raylib closeWindow.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:45'
-}
-SRRaylibRendererFlat >> toggleFreeCameraEnabled [
-
-	self freeCameraEnabled: self freeCameraEnabled not.
-	Transcript
-		cr;
-		show: 'Free camera ';
-		show: (self freeCameraEnabled ifTrue: ['ON'] ifFalse: ['OFF']).
-	^ self freeCameraEnabled
 ]
 
 {

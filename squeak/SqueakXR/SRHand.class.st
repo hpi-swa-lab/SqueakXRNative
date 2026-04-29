@@ -1,3 +1,13 @@
+"
+Represents a VR hand controller.
+
+Instance Variables:
+  handIndex - 0 for left hand, 1 for right hand
+  triggerPressed - boolean, trigger button state
+  aPressed - boolean, A button state
+  squeezePressed - boolean, squeeze/grip button state
+  actionState - OpenXR action state data
+"
 Class {
 	#name : #SRHand,
 	#superclass : #SRObject,
@@ -6,13 +16,6 @@ Class {
 		'triggerPressed',
 		'aPressed',
 		'squeezePressed',
-		'grabbedObject',
-		'grabbedTranslationOffset',
-		'grabbedDistance',
-		'grabbedDistanceToAvatar',
-		'grabbedPoint',
-		'grabbedHandPoint',
-		'grabbedObjectPoint',
 		'actionState'
 	],
 	#classVars : [
@@ -21,7 +24,8 @@ Class {
 		'TransitionEnd',
 		'TransitionStart'
 	],
-	#category : #'SqueakXR-Objects'
+	#category : #'SqueakXR-Objects',
+	#'squeak_changestamp' : '<historical>'
 }
 
 { #category : #'instance creation' }
@@ -198,60 +202,6 @@ SRHand >> rayCast [
 	
 	results do: [:result |
 		result object onRaycast: (result asHandRayIntersection: actionState).]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 17:43'
-}
-SRHand >> startGrabbing [
-
-	| ray candidate target |
-	ray := SRRay
-		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	
-	(ray castNearest: self world) ifNotNil: [:collision |
-		candidate := collision object.
-		(candidate respondsTo: #globalTranslation) ifFalse: [
-			candidate := collision object parent].
-		candidate ifNil: [^ self].
-		target := (candidate respondsTo: #grabTarget)
-			ifTrue: [candidate grabTarget]
-			ifFalse: [candidate].
-		target ifNil: [^ self].
-		grabbedObject := target.
-		grabbedHandPoint := self globalTranslation.
-		grabbedObjectPoint := grabbedObject globalTranslation.
-		grabbedDistance := self globalTranslation distanceTo: collision point.
-		grabbedDistanceToAvatar := self world avatar globalTranslation distanceTo: self globalTranslation.
-		grabbedTranslationOffset := grabbedObject globalTranslation - collision point.
-		(grabbedObject respondsTo: #onGrabStartFrom:) ifTrue: [
-			grabbedObject onGrabStartFrom: self]]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 17:37'
-}
-SRHand >> step: deltaTime [
-
-	grabbedObject ifNotNil: [ | transform |
-		transform := self globalTransform
-			* (Matrix4x4 withOffset: Vector3 backward * grabbedDistance).
-		grabbedObject globalTransform: transform]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 16:55'
-}
-SRHand >> stopGrabbing [
-
-	grabbedObject ifNotNil: [
-		(grabbedObject respondsTo: #onGrabStopFrom:) ifTrue: [
-			grabbedObject onGrabStopFrom: self]].
-	grabbedObject := nil.
 ]
 
 { #category : #'as yet unclassified' }
