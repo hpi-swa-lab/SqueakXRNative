@@ -13,11 +13,22 @@ Class {
 	#instVars : [
 		'grabbedObject',
 		'grabbedRelativeTransform',
-		'emulatedCamera'
+		'emulatedCamera',
+		'debugHUD'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+}
+SRXRInputEmulator >> debugHUD [
+	"Return the debug HUD."
+	
+	^ debugHUD
+]
 
 {
 	#category : #'as yet unclassified',
@@ -31,13 +42,15 @@ SRXRInputEmulator >> emulatedCamera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:08'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 15:06'
 }
 SRXRInputEmulator >> initialize [
 	"Initialize emulated camera."
 	
 	super initialize.
-	emulatedCamera := SRXREmulatedCamera new
+	emulatedCamera := SRXREmulatedCamera new.
+	"debugHUD := SRXRDebugHUD new emulator: self.
+	self addChild: debugHUD"
 ]
 
 {

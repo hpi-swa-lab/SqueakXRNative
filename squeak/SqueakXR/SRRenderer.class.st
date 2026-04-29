@@ -115,8 +115,24 @@ SRRenderer >> clearCache [
 	self cache removeAll
 ]
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:55'
+}
 SRRenderer >> completeFrame [
+	"Complete rendering the current frame. Subclasses should implement this."
+	
+	self subclassResponsibility
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+}
+SRRenderer >> completeFrame: aWorld [
+	"Complete rendering the current frame. Subclasses should implement this."
+	
+	self subclassResponsibility
 ]
 
 {

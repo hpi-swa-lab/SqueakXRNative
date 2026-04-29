@@ -6,9 +6,25 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 3/13/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:55'
 }
 SRRaylibRendererXR >> completeFrame [
+
+	Raylib
+		endMode3D;
+		endDrawing;
+		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
+			keep_aspect_ratio: true;
+		rlOpenXREnd.
+	
+	1 milliSecond wait.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+}
+SRRaylibRendererXR >> completeFrame: aWorld [
 
 	Raylib
 		endMode3D;

@@ -412,7 +412,10 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:55'
+}
 SRWorld >> completeFrame [
 
 	isFramePrepared ifTrue: [
