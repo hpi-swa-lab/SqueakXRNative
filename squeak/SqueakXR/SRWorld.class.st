@@ -477,7 +477,10 @@ SRWorld >> gizmoPainter [
 	^ gizmoPainter
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:16'
+}
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
 	

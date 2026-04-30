@@ -76,7 +76,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 19:01'
+	#'squeak_changestamp' : 'jl 4/30/2026 11:08'
 }
 SRRaylibRendererFlat >> completeFrame [
 

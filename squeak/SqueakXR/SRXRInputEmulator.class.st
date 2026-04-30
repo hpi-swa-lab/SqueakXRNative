@@ -100,7 +100,7 @@ SRXRInputEmulator >> startGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:56'
+	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:20'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -118,6 +118,10 @@ SRXRInputEmulator >> step: delta [
 	"TAB toggles look mode"
 	(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
+	
+	"F2 toggles debug HUD"
+	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
+		debugHUD toggleVisibility].
 	
 	"Always update hand - either from mouse cursor or screen center"
 	emulatedCamera lookModeEnabled
