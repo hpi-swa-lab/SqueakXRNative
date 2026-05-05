@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #baseline,
-	#'squeak_changestamp' : 'lege 4/30/2026 18:10'
+	#'squeak_changestamp' : 'lege 5/5/2026 11:27'
 }
 BaselineOfSqueakXR >> baseline: spec [
 	<baseline>
@@ -21,7 +21,7 @@ BaselineOfSqueakXR >> baseline: spec [
 			baseline: '3DTransform'
 				with: [spec repository: 'github://hpi-swa-lab/squeak-graphics-opengl:main/3DTransform/src/'];
 			baseline: 'OSProcess'
-				with: [spec repository: 'http://www.squeaksource.com/OSProcess'];
+				with: [spec preLoad: #loadOSProcess];
 			"baseline: 'CommandShell'
 				with: [spec repository: '???'];"
 			baseline: 'GitS'
@@ -37,6 +37,15 @@ BaselineOfSqueakXR >> baseline: spec [
 					postLoadDoIt: #postLoad].
 		
 		spec group: 'default' with: #('SqueakXR')]
+]
+
+{
+	#category : #baseline,
+	#'squeak_changestamp' : 'lege 5/5/2026 11:27'
+}
+BaselineOfSqueakXR >> loadOSProcess [
+
+	PreferenceWizardMorph new installOSProcess
 ]
 
 {
