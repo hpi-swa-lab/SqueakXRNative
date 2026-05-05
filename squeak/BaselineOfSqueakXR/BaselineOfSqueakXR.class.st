@@ -50,9 +50,10 @@ BaselineOfSqueakXR >> postLoad [
 
 {
 	#category : #baseline,
-	#'squeak_changestamp' : 'lege 5/5/2026 12:28'
+	#'squeak_changestamp' : 'lege 5/5/2026 17:46'
 }
 BaselineOfSqueakXR >> preLoad [
 
-	PreferenceWizardMorph new installOSProcess
+	PreferenceWizardMorph new installOSProcess.
+	FileStream startUp: true.
 ]
