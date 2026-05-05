@@ -36,6 +36,15 @@ GSMetadata {
 			#path : FSAbsolutePath [
 				'squeak'
 			]
+		},
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'BaselineOfSqueakXR'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
 		}
 	],
 	#name : 'SqueakXRNative'
