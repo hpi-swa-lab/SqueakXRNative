@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #baseline,
-	#'squeak_changestamp' : 'lege 5/5/2026 12:29'
+	#'squeak_changestamp' : 'lege 5/5/2026 12:40'
 }
 BaselineOfSqueakXR >> baseline: spec [
 	<baseline>
@@ -31,7 +31,7 @@ BaselineOfSqueakXR >> baseline: spec [
 			package: 'Raylib';
 			package: 'SqueakXR' with: [
 				spec
-					requires: #('OpenXR' 'OpenAL' 'Raylib' 'FFI' '3DTransform' 'OSProcess');
+					requires: #('OpenXR' 'OpenAL' 'Raylib' 'FFI' '3DTransform');
 					preLoadDoIt: #preLoad;
 					postLoadDoIt: #postLoad].
 		

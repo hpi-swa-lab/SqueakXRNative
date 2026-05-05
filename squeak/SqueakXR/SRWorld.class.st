@@ -771,7 +771,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:16'
+	#'squeak_changestamp' : 'lege 4/28/2026 16:15'
 }
 SRWorld >> start [
 
@@ -786,8 +786,8 @@ SRWorld >> start [
 				self addChild: avatar].
 		self adjustPreferences;
 			initializeWorldProcess;
-			enterMorphicProject;
-			runStartScript.
+			enterMorphicProject";
+			runStartScript".
 		self isXR ifFalse: [self addChild: SRXRInputEmulator new].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
