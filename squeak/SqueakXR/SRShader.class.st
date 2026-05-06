@@ -161,16 +161,23 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 17:06'
+	#'squeak_changestamp' : 'lege 5/6/2026 13:29'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
-	| file output |
-	[file := FileStream forceNewFileNamed: 'input.shader'.
+	| file output basePath inputFileName shaderFileName |
+	[
+	basePath := Smalltalk imagePath.
+	inputFileName := basePath, '/input.shader'.
+	shaderFileName := basePath, '/shader.spv'.
+	file := FileStream forceNewFileNamed: 'input.shader'.
 	file nextPutAll: source; close.
-	OSProcess waitForCommand: 'glslang -G -o shader.spv input.shader -S ', stage.
-	output := OSProcess outputOf: 'spirv-cross ', options, ' shader.spv']
-		ensure: [FileDirectory default deleteFileNamed: 'input.shader'; deleteFileNamed: 'shader.spv'].
+	OSProcess waitForCommand: ('glslang -G -o {1} {2} -S {3}' format: {
+		shaderFileName. inputFileName. stage}).
+	output := OSProcess outputOf: ('spirv-cross {1} {2}' format: {options. shaderFileName})]
+		ensure: [FileDirectory default
+			deleteFileNamed: inputFileName;
+			deleteFileNamed: shaderFileName].
 	^ output
 ]
 
