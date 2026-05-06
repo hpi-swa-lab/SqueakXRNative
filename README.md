@@ -59,6 +59,82 @@ By default, it will attempt to load the image from `http://localhost:8080`.
 If you connect the headset to another machine (e.g. your development device), you can serve it from there by running `adb reverse tcp:8080 tcp:8080`.
 Launching the app from Android Studio will automatically perform this for you.
 
+## Usage Guide
+
+*This section is work-in-progress.*
+
+### Running the 3D world
+
+The 3D interface ('World') can be started by creating an instance of `SRWorld` and calling `start` on it. 
+
+```
+world := SRWorld.
+world start.
+```
+
+Worlds that are running will persist when saving the image.
+They will automatically resume running when the image starts.
+
+If you launch SqueakXR on a headset and no world is currently running in the image, a new SRWorld instance will be started automatically.
+
+You get the current XRWorld with `Object>>currentXRWorld`.
+
+### API Overview
+
+The base class for 3D objects is `SRObject`.
+
+Every 3D object in a world is organized as a [scene graph](https://en.wikipedia.org/wiki/Scene_graph), the root of which is the respective `SRWorld`.
+
+#### Scene Hierarchy
+
+A `SRObject` may have further `SRObject`s as children.
+
+Call `addChild:` and `removeChild:` to add and remove children from an object respectively. You can add multiple children with `addChildren:`.
+
+You can get a list of an objects children with `children` and a list of an object's descendants with `allDescendants`.
+
+#### Transforms: Translation, Rotation, and Scale
+
+Each `SRObject` has a local and a global transformation.
+The latter is the local transformation of the object combined with the local transformation of each ancestor.
+This means that each `SRObject` effectively inherits the transform of its parent.
+If you e.g. translate an object, all of its descendants will be translated by the same amount.
+
+Every object has a translation (position), rotation, and scale.
+The local value for each object's transform can be accessed with the respective accessors (`translation`, `translation:`, `rotation`, `rotation:`, `scale`, `scale:`).
+The entire transform can also be accessed at once with `transform` and `transform:`.
+Global values can be accessed by prepending the accessors with `global`; using this, you can directly change the transform of an object in world space.
+
+Related objects:
+- `Vector3` for translation and scale; can be quickly instantiated with the `@` syntax, e.g. `1 @ 2 @ 3`
+- `Quaternion` for rotation
+- `Matrix4x4` for transforms
+
+#### Stepping
+
+If you want to execute behavior for a subclass of `SRObject` on every frame, you can override its `step:` method.
+
+The method is passed the amount of time in seconds since the last frame.
+
+Objects will stop stepping if an error occurs within their `step:` method.
+
+#### Rendering
+
+You can override the `renderOn:` method of a subclass of `SRObject` to display .
+This method will be called every frame and is passed an instance of SRRenderer, which provides graphical primitives for you to call.
+
+Objects will stop rendering if an error occurs within their `renderOn:` method.
+
+It is often not necessary to override `renderOn:`.
+Consider if you can achieve the same thing by adding children to your object (e.g. `SRCube` for displaying a cube).
+
+#### Other
+
+Simple graphical objects that you can use to quickly visualize something include:
+
+- `SRCube`
+- `SRSphere`
+
 ## Troubleshooting
 
 ### Launching the Squeak environment from the main screen fails with 'Fetching images failed!'
@@ -83,6 +159,10 @@ Take a look at the logcat output.
 If it cannot find `SqueakV60.sources`, you need to click the 'Reset images' button once in the launch screen.
 
 If it does not say 'Starting new XR world', make sure that there is no SRWorld running in the image you are trying to launch (`SRWorld allInstancesDo: #stop`).
+
+### My subclass of SRObject is not properly initialized / errors when calling methods like addChild:
+
+Make sure that the `initialize` method of your object calls `super initialize`; the earlier the better.
 
 ## Working with dependencies locally
 
