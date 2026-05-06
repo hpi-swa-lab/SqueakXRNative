@@ -40,11 +40,10 @@ BaselineOfSqueakXR >> baseline: spec [
 
 {
 	#category : #baseline,
-	#'squeak_changestamp' : 'lege 4/30/2026 18:09'
+	#'squeak_changestamp' : 'lege 5/6/2026 13:21'
 }
 BaselineOfSqueakXR >> postLoad [
 
-	self error: 'make sure that transpile only runs when necessary tools are present'.
 	SRShader transpileAll.
 ]
 

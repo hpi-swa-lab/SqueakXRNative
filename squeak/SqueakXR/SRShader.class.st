@@ -30,6 +30,18 @@ SRShader class >> allShaderSelectors [
 ]
 
 {
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:09'
+}
+SRShader class >> doesCommandExist: aString [
+
+	^ (ShellSyntax new
+		programNameAndArgumentsFrom: aString
+		inDirectoryPath: OSProcess thisOSProcess path
+		findExecutable: true) notNil
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 4/2/2026 17:35'
 }
@@ -38,6 +50,26 @@ SRShader class >> doesNotUnderstand: aMessage [
 	^ (self sourceFor: aMessage selector version: self currentXRWorld renderer shaderVersion)
 		ifNotNil: [:source | self shaderFromDict: source]
 		ifNil: [super doesNotUnderstand: aMessage]
+]
+
+{
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+}
+SRShader class >> ensureGlslangAvailable [
+
+	self assert: (self doesCommandExist: 'glslang')
+		description: 'command glslang is missing'
+]
+
+{
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:21'
+}
+SRShader class >> ensureSpirvCrossAvailable [
+
+	self assert: (self doesCommandExist: 'spirv-cross')
+		description: 'command spirv-cross is missing'
 ]
 
 {
@@ -144,9 +176,11 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
 }
 SRShader class >> transpileAll [
+	
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 
 	self resetCache.
 	
