@@ -4,7 +4,7 @@ set -e
 
 baseUrl='https://files.squeak.org/trunk/'
 temp=$(mktemp -d)
-resultArchive="$HOME/$(date +%Y%m%d)-SqueakXR-releaseImage.tar.gz"
+resultArchive="$(date +%Y%m%d)-SqueakXR-releaseImage.tar.gz"
 
 function show() {
   echo ">>> $1"

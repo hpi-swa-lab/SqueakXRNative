@@ -1,14 +1,20 @@
+| show |
+
+show := [:s | FileStream stdout nextPut: Character cr; nextPutAll: s; flush].
+
+show value: 'Starting image preparation script'.
+
 Project current addDeferredUIMessage: [[
-  Transcript showln: 'Installing updates'.
+  show value: 'Installing updates'.
   MCMcmUpdater updateFromServer.
 
-  Transcript showln: 'Installing Tonel'.
+  show value: 'Installing Tonel'.
   Metacello new
     repository: 'github://squeak-smalltalk/squeak-tonel:squeak';
     baseline: 'Tonel';
     load.
 
-  Transcript showln: 'Installing SqueakXR'.
+  show value: 'Installing SqueakXR'.
   Metacello new
     baseline: 'SqueakXR';
     repository: 'github://hpi-swa-lab/SqueakXRNative:main/squeak';
@@ -21,21 +27,17 @@ Project current addDeferredUIMessage: [[
 world := SRWorld new.
 world start.
 
-"Use this to stop the running 3d world.
+"Use this to stop the running 3D world.
 You can also use the stop button in the SRWorld project"
 world stop.'.
 
-  Transcript showln: 'Image is prepared!!'.
+  show value: 'Image is prepared!!'.
   Smalltalk snapshot: true andQuit: true.
 ] on: Error do: [:e |
-    Transcript
-      showln: 'An error occurred while preparing the image:';
-      showln: e description.
+    show value: 'An error occurred while preparing the image: ', e description.
       Smalltalk snapshot: false andQuit: true withExitCode: 111 embedded: false.
   ]
   on: ProvideAnswerNotification do: [:n |
-    Transcript
-      showln: 'Got ProvideAnswerNotification (will resume with true):';
-      showln: n description.
+    show value: 'Got ProvideAnswerNotification (will resume with true): ', n description.
     n resume: true.
   ]].
