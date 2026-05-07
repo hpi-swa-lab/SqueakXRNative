@@ -30,6 +30,18 @@ SRShader class >> allShaderSelectors [
 ]
 
 {
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:09'
+}
+SRShader class >> doesCommandExist: aString [
+
+	^ (ShellSyntax new
+		programNameAndArgumentsFrom: aString
+		inDirectoryPath: OSProcess thisOSProcess path
+		findExecutable: true) notNil
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 4/2/2026 17:35'
 }
@@ -38,6 +50,26 @@ SRShader class >> doesNotUnderstand: aMessage [
 	^ (self sourceFor: aMessage selector version: self currentXRWorld renderer shaderVersion)
 		ifNotNil: [:source | self shaderFromDict: source]
 		ifNil: [super doesNotUnderstand: aMessage]
+]
+
+{
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+}
+SRShader class >> ensureGlslangAvailable [
+
+	self assert: (self doesCommandExist: 'glslang')
+		description: 'command glslang is missing'
+]
+
+{
+	#category : #prerequisites,
+	#'squeak_changestamp' : 'lege 5/6/2026 13:21'
+}
+SRShader class >> ensureSpirvCrossAvailable [
+
+	self assert: (self doesCommandExist: 'spirv-cross')
+		description: 'command spirv-cross is missing'
 ]
 
 {
@@ -129,24 +161,33 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 17:06'
+	#'squeak_changestamp' : 'lege 5/6/2026 13:29'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
-	| file output |
-	[file := FileStream forceNewFileNamed: 'input.shader'.
+	| file output basePath inputFileName shaderFileName |
+	[
+	basePath := Smalltalk imagePath.
+	inputFileName := basePath, '/input.shader'.
+	shaderFileName := basePath, '/shader.spv'.
+	file := FileStream forceNewFileNamed: 'input.shader'.
 	file nextPutAll: source; close.
-	OSProcess waitForCommand: 'glslang -G -o shader.spv input.shader -S ', stage.
-	output := OSProcess outputOf: 'spirv-cross ', options, ' shader.spv']
-		ensure: [FileDirectory default deleteFileNamed: 'input.shader'; deleteFileNamed: 'shader.spv'].
+	OSProcess waitForCommand: ('glslang -G -o {1} {2} -S {3}' format: {
+		shaderFileName. inputFileName. stage}).
+	output := OSProcess outputOf: ('spirv-cross {1} {2}' format: {options. shaderFileName})]
+		ensure: [FileDirectory default
+			deleteFileNamed: inputFileName;
+			deleteFileNamed: shaderFileName].
 	^ output
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 17:37'
+	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
 }
 SRShader class >> transpileAll [
+	
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 
 	self resetCache.
 	
