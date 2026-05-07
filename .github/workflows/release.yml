@@ -1,0 +1,8 @@
+name: create-release
+on: workflow_dispatch
+jobs:
+  create-release-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - run: scripts/createRelease.sh
