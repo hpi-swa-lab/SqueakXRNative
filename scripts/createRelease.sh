@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 baseUrl='https://files.squeak.org/trunk/'
 temp=$(mktemp -d)
