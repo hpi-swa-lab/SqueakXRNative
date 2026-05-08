@@ -14,3 +14,4 @@ jobs:
         with:
           tag_name: ${{ env.RELEASE_TIME }}-dev-release
           files: "*-SqueakXR-releaseImage.tar.gz"
+          working_directory: scripts
