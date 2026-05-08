@@ -12,4 +12,4 @@ jobs:
       - uses: softprops/action-gh-release@v3
         with:
           tag-name: ${{ env.RELEASE_TIME }}-dev-release
-          files: *-SqueakXR-releaseImage.tar.gz
+          files: "*-SqueakXR-releaseImage.tar.gz"
