@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.2
       - run: sudo apt install -y glslang-tools spirv-cross
-      #- run: (cd scripts && ./createRelease.sh)
+      - run: (cd scripts && ./createRelease.sh)
       - run: echo "RELEASE_TIME=$(date +%Y%m%d)" >> "$GITHUB_ENV"
       - uses: softprops/action-gh-release@v3
         with:
