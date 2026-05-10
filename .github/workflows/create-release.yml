@@ -1,8 +1,9 @@
 name: create-release
-on:
-  schedule:
-    - cron: "15 0 * * *"
-      timezone: "Europe/Berlin"
+on: workflow_dispatch
+# on:
+#   schedule:
+#     - cron: "15 0 * * *"
+#       timezone: "Europe/Berlin"
 env:
   RELEASE_TIME: REPLACE-THIS
 jobs:
@@ -15,7 +16,6 @@ jobs:
         with:
           # Fetches only one commit
           fetch-depth: 1
-
       - name: check last commit date
         id: script
         # check if last commit is newer than 24h
@@ -28,6 +28,8 @@ jobs:
             echo "No recent commits. Skipping build...";
           fi
   create-release-archive:
+    needs: last-commit-check
+    if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
