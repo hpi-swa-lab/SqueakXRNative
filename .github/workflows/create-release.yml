@@ -1,9 +1,8 @@
 name: create-release
-on: workflow_dispatch
-# on:
-#   schedule:
-#     - cron: "15 0 * * *"
-#       timezone: "Europe/Berlin"
+on:
+  schedule:
+    - cron: "15 0 * * *"
+      timezone: "Europe/Berlin"
 env:
   RELEASE_TIME: REPLACE-THIS
 jobs:
