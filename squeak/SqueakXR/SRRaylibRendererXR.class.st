@@ -26,7 +26,7 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 10/8/2025 15:52'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:27'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
@@ -39,7 +39,6 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 	
 	camera position: (cameraTransform translation + (Vector3 fromRlVector3: camera position)) asRlVector.
 	camera target: (cameraTransform translation + (Vector3 fromRlVector3: camera target)) asRlVector.
-	"TODO camera rotation"
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
@@ -49,15 +48,7 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 				beginMode3DCamera: camera;
 				drawGridSlices: 10 spacing: 1].
 	
-	"Orthographic projection -- for posterity, do not use
-	mat := ((Matrix4x4 ortho: (Rectangle exactCenter: 0 asPoint extent: 2 asPoint) near: 0.1 far: 100) scaledBy: 1 @ -1 @ 1) asRlMatrix.
-	offset := (Matrix4x4 withOffset: 1 @ 0 @ 0) asRlMatrix.
-	offset2 := (Matrix4x4 withOffset: -1 @ 0 @ 0) asRlMatrix.
-	Raylib rlSetMatrixProjectionStereoRight: mat left: mat;
-	rlSetMatrixViewOffsetStereoRight: offset left: offset2."
-	
 	^ beginSuccessful
-		
 ]
 
 { #category : #'render-loop' }

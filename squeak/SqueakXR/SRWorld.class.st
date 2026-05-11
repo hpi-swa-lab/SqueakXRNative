@@ -638,15 +638,11 @@ SRWorld >> pollActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:05'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:10'
 }
 SRWorld >> prepareFrame [
 
-	isFramePrepared := self renderer prepareFrame: self avatar globalTransform.
-	self avatar
-		cameraPosition: self renderer cameraPosition asVector3
-		target: self renderer cameraTarget asVector3
-		up: self renderer cameraUp asVector3.
+	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform
 ]
 
 {

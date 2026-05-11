@@ -42,13 +42,13 @@ SRXRInputEmulator >> emulatedCamera [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:26'
 }
 SRXRInputEmulator >> initialize [
 	"Initialize emulated camera."
 	
 	super initialize.
-	emulatedCamera := SRXREmulatedCamera new.
+	emulatedCamera := SRSimpleAvatarMovementEmulator new.
 	
 	debugHUD := SRXRDebugHUD new.
 	self addChild: debugHUD
@@ -65,16 +65,15 @@ SRXRInputEmulator >> isXRInputEmulator [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:09'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:21'
 }
-SRXRInputEmulator >> onWorldChanged: aWorld [
-	"Hook up our emulated camera to the renderer when added to world."
+SRXRInputEmulator >> onWorldChanged: oldWorld [
+	"Hook up our emulated camera to the avatar when added to world."
 	
-	super onWorldChanged: aWorld.
+	super onWorldChanged: oldWorld.
 	
-	aWorld ifNotNil: [
-		(aWorld renderer respondsTo: #camera) ifTrue: [
-			emulatedCamera rlCamera: aWorld renderer camera]]
+	self world ifNotNil: [:aWorld |
+		emulatedCamera avatar: aWorld avatar]
 ]
 
 {
@@ -109,39 +108,26 @@ SRXRInputEmulator >> startGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:20'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:19'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
 	| rightHand |
 	
-	"Ensure camera is hooked up (lazy initialization)"
-	emulatedCamera rlCamera ifNil: [
-		self world renderer ifNotNil: [:r |
-			(r respondsTo: #camera) ifTrue: [
-				emulatedCamera rlCamera: r camera]]].
-	
-	"Update emulated camera (WASD movement, mouse look if enabled)"
 	emulatedCamera update.
 	
-	"TAB toggles look mode"
 	(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
 	
-	"F2 toggles debug HUD"
 	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
 		debugHUD toggleVisibility].
 	
-	"Always update hand - either from mouse cursor or screen center"
 	emulatedCamera lookModeEnabled
 		ifTrue: [
-			"Look mode: hand points at screen center"
 			rightHand := self updateRightHandFromScreenCenter]
 		ifFalse: [
-			"Hand mode: hand follows mouse cursor"
 			rightHand := self updateRightHandFromMouseRay].
 	
-	"Mouse button inputs (work in both modes)"
 	(Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonLeft) ifTrue: [
 		rightHand handleTrigger: 1.0].
 	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonLeft) ifTrue: [
@@ -152,11 +138,9 @@ SRXRInputEmulator >> step: delta [
 	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) ifTrue: [
 		self stopGrabbing].
 	
-	"F key for explicit raycast"
 	(Raylib isKeyPressedKey: RlKeyboardKey keyF) ifTrue: [
 		self rayCast].
 	
-	"Update grabbed object position"
 	grabbedObject ifNotNil: [
 		rightHand := self world avatar rightHand.
 		grabbedObject globalTransform: (rightHand globalTransform * grabbedRelativeTransform)]

@@ -12,7 +12,7 @@ Instance Variables:
   lookModeEnabled - Boolean, when true mouse controls camera look, when false mouse controls hand
 "
 Class {
-	#name : #SRXREmulatedCamera,
+	#name : #SRSimpleAvatarMovementEmulator,
 	#superclass : #Object,
 	#instVars : [
 		'position',
@@ -20,18 +20,28 @@ Class {
 		'pitch',
 		'moveSpeed',
 		'lookSpeed',
-		'rlCamera',
-		'lookModeEnabled'
+		'lookModeEnabled',
+		'avatar'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:18'
+}
+SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
+
+	avatar := anAvatar.
+	self updateAvatarCamera
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:54'
 }
-SRXREmulatedCamera >> forwardVector [
+SRSimpleAvatarMovementEmulator >> forwardVector [
 	"Calculate forward direction vector from yaw and pitch for camera target."
 	
 	| yawRad pitchRad x y z |
@@ -47,25 +57,22 @@ SRXREmulatedCamera >> forwardVector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/28/2026 19:41'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:22'
 }
-SRXREmulatedCamera >> handleMouseDelta: aDelta [
+SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 	"Update yaw and pitch from mouse movement delta."
 	
 	yaw := yaw + (aDelta x * lookSpeed).
 	pitch := pitch - (aDelta y * lookSpeed).
 	
-	"Clamp pitch to prevent gimbal lock"
-	pitch := pitch min: 89.0 max: -89.0.
-	
-	self updateRaylibCamera
+	pitch := pitch min: 89.0 max: -89.0
 ]
 
 {
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'jl 4/29/2026 19:25'
 }
-SRXREmulatedCamera >> initialize [
+SRSimpleAvatarMovementEmulator >> initialize [
 	"Initialize camera at eye level, looking forward."
 	
 	super initialize.
@@ -81,7 +88,7 @@ SRXREmulatedCamera >> initialize [
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:51'
 }
-SRXREmulatedCamera >> lookModeEnabled [
+SRSimpleAvatarMovementEmulator >> lookModeEnabled [
 	"Return whether look mode is enabled (mouse controls camera vs hand)."
 	
 	^ lookModeEnabled
@@ -91,7 +98,7 @@ SRXREmulatedCamera >> lookModeEnabled [
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:50'
 }
-SRXREmulatedCamera >> position [
+SRSimpleAvatarMovementEmulator >> position [
 	"Return current camera position."
 	
 	^ position
@@ -99,30 +106,9 @@ SRXREmulatedCamera >> position [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:07'
-}
-SRXREmulatedCamera >> rlCamera [
-	"Return the Raylib camera object."
-	
-	^ rlCamera
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:07'
-}
-SRXREmulatedCamera >> rlCamera: aRlCamera [
-	"Set the Raylib camera object."
-	
-	rlCamera := aRlCamera.
-	self updateRaylibCamera
-]
-
-{
-	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:51'
 }
-SRXREmulatedCamera >> toggleLookMode [
+SRSimpleAvatarMovementEmulator >> toggleLookMode [
 	"Toggle between mouse controlling camera look vs hand position."
 	
 	lookModeEnabled := lookModeEnabled not.
@@ -135,19 +121,19 @@ SRXREmulatedCamera >> toggleLookMode [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 12:54'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:09'
 }
-SRXREmulatedCamera >> update [
+SRSimpleAvatarMovementEmulator >> update [
 	"Update camera: WASD moves horizontally at 1.8m height, look mode toggles mouse control."
 	
 	| forward right movement |
 	
-	"Calculate forward/right on XZ plane only (no vertical component)"
+	avatar ifNil: [^ self].
+	
 	forward := (yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin) asVector3.
 	right := (forward cross: Vector3 up) normalize.
 	movement := Vector3 zero.
 	
-	"WASD movement - only horizontal, stays at 1.8m"
 	(Raylib isKeyDownKey: RlKeyboardKey keyW) ifTrue: [
 		movement := movement + forward].
 	(Raylib isKeyDownKey: RlKeyboardKey keyS) ifTrue: [
@@ -157,33 +143,28 @@ SRXREmulatedCamera >> update [
 	(Raylib isKeyDownKey: RlKeyboardKey keyA) ifTrue: [
 		movement := movement - right].
 	
-	"Apply movement and lock Y to 1.8"
 	movement length > 0 ifTrue: [
 		position := position + (movement normalize * moveSpeed)].
 	position := position x @ 1.8 @ position z.
 	
-	"Mouse look ONLY when in look mode"
 	lookModeEnabled ifTrue: [
 		self handleMouseDelta: Raylib getMouseDelta].
 	
-	self updateRaylibCamera
+	self updateAvatarCamera
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:07'
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:09'
 }
-SRXREmulatedCamera >> updateRaylibCamera [
-	"Update the Raylib camera position and target from our state."
+SRSimpleAvatarMovementEmulator >> updateAvatarCamera [
+	"Update the avatar camera position and target from our state."
 	
 	| forward target |
-	rlCamera ifNil: [^ self].
+	avatar ifNil: [^ self].
 	
-	"Calculate forward vector from yaw/pitch"
 	forward := self forwardVector.
 	target := position + forward.
 	
-	rlCamera
-		position: position asRlVector;
-		target: target asRlVector
+	avatar cameraPosition: position target: target up: Vector3 up
 ]
