@@ -6,15 +6,14 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 19:01'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
 SRRaylibRendererXR >> completeFrame [
 
 	Raylib
 		endMode3D.
 	
-	"Give all objects a chance to draw 2D debug overlays"
-	SRWorld current allDo: [:obj | obj draw2DDebugOn: self].
+	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
 	Raylib
 		endDrawing;

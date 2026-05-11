@@ -76,15 +76,14 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 4/30/2026 11:08'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
 SRRaylibRendererFlat >> completeFrame [
 
 	Raylib endMode3D.
 	self drawReticle.
 	
-	"Give all objects a chance to draw 2D debug overlays"
-	SRWorld current allDo: [:obj | obj draw2DDebugOn: self].
+	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
 	Raylib endDrawing.
 	
