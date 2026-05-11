@@ -126,16 +126,6 @@ SRRenderer >> completeFrame [
 ]
 
 {
-	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
-}
-SRRenderer >> completeFrame: aWorld [
-	"Complete rendering the current frame. Subclasses should implement this."
-	
-	self subclassResponsibility
-]
-
-{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }

@@ -27,27 +27,6 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:53'
-}
-SRRaylibRendererXR >> completeFrame: aWorld [
-
-	Raylib
-		endMode3D.
-	
-	"Give all objects a chance to draw 2D debug overlays"
-	aWorld allDo: [:obj | obj draw2DDebugOn: self].
-	
-	Raylib
-		endDrawing;
-		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
-			keep_aspect_ratio: true;
-		rlOpenXREnd.
-	
-	1 milliSecond wait.
-]
-
-{
-	#category : #'render-loop',
 	#'squeak_changestamp' : 'lege 10/8/2025 15:52'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [

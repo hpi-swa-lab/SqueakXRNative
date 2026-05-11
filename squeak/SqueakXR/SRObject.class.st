@@ -450,6 +450,15 @@ SRObject >> isXR [
 	^ self world ifNotNil: [:world | world isXR] ifNil: [false]
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
+}
+SRObject >> isXRInputEmulator [
+
+	^ false
+]
+
 { #category : #events }
 SRObject >> keyboardEvent: aCharacter [
 ]

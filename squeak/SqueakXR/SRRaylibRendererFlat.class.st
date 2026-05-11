@@ -93,30 +93,6 @@ SRRaylibRendererFlat >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
-}
-SRRaylibRendererFlat >> completeFrame: aWorld [
-	"Complete the frame, drawing 2D overlays after 3D rendering."
-	
-	| inputEmulator debugHUD |
-	Raylib endMode3D.
-	self drawReticle.
-	
-	"Find and render debug HUD if present"
-	inputEmulator := aWorld allDescendants 
-		detect: [:obj | obj isKindOf: SRXRInputEmulator] 
-		ifNone: [nil].
-	inputEmulator ifNotNil: [
-		debugHUD := inputEmulator debugHUD.
-		debugHUD ifNotNil: [debugHUD draw]].
-	
-	Raylib endDrawing.
-	
-	1 milliSecond wait
-]
-
-{
-	#category : #'render-loop',
 	#'squeak_changestamp' : 'lege 3/25/2026 15:48'
 }
 SRRaylibRendererFlat >> drawReticle [

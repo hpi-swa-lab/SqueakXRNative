@@ -5,7 +5,6 @@ Class {
 	#name : #SRXRDebugHUD,
 	#superclass : #SRObject,
 	#instVars : [
-		'emulator',
 		'visible',
 		'lastStepTime',
 		'measuredFPS'
@@ -48,31 +47,6 @@ SRXRDebugHUD >> draw2DDebugOn: aSRRenderer [
 	Raylib 
 		drawText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString 
 		posX: 10 posY: 95 fontSize: 16 color: white.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/29/2026 19:13'
-}
-SRXRDebugHUD >> drawText: aString at: aPoint [
-	"Draw text at position using Raylib."
-	
-	Raylib
-		drawTextText: aString
-		posX: aPoint x
-		posY: aPoint y
-		fontSize: 16
-		color: (RlColor externalNew r: 255; g: 255; b: 255; a: 255).
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 13:41'
-}
-SRXRDebugHUD >> emulator: anEmulator [
-	"Set the input emulator to display debug info for."
-	
-	emulator := anEmulator
 ]
 
 {

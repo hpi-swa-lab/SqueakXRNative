@@ -139,7 +139,7 @@ SRHand >> handIndex: anInteger [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 13:26'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:41'
 }
 SRHand >> handleTrigger: aNumber [
 
@@ -151,7 +151,7 @@ SRHand >> handleTrigger: aNumber [
 	triggerPressed := aNumber > threshold.
 	
 	(triggerPressed and: [prevTriggerPressed not]) 
-		ifTrue: [self rayCastNearest]
+		ifTrue: [self rayCast]
 ]
 
 { #category : #'as yet unclassified' }
@@ -192,26 +192,9 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 13:26'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
 }
 SRHand >> rayCast [
-
-	| ray results |
-	ray := SRRay
-		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	
-	results := ray cast: self world.
-	
-	results do: [:result |
-		result object onRaycast: (result asHandRayIntersection: actionState).]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 13:26'
-}
-SRHand >> rayCastNearest [
 
 	| ray result |
 	ray := SRRay

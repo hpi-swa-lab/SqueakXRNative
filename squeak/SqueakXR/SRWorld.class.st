@@ -546,14 +546,12 @@ SRWorld >> isRunning [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl 4/29/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
 }
 SRWorld >> isRunning: aBoolean [
 
 	running := aBoolean.
-	running
-		ifTrue: [self class current: self]
-		ifFalse: []
+	running ifTrue: [self class current: self]
 ]
 
 { #category : #'as yet unclassified' }
@@ -778,7 +776,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:10'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
 }
 SRWorld >> start [
 
@@ -796,7 +794,7 @@ SRWorld >> start [
 			enterMorphicProject;
 			runStartScript.
 		self isXR ifFalse: [
-			(self allDescendants anySatisfy: [:obj | obj isKindOf: SRXRInputEmulator]) ifFalse: [
+			(self allDescendants anySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
 				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
