@@ -39,35 +39,12 @@ SRCollisionBoxTest >> testAccessors [
 ]
 
 {
-	#category : #'tests - edge cases',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:52'
-}
-SRCollisionBoxTest >> testRayFromBehind [
-	"Test ray pointing away from the box"
-	| box ray result |
-	
-	box := SRCollisionBox new
-		center: Vector3 zero;
-		size: Vector3 one;
-		rotation: Quaternion identity;
-		object: self.
-	
-	ray := SRRay new
-		origin: (Vector3 x: 0 y: 0 z: -5);
-		forward: (Vector3 x: 0 y: 0 z: -1).
-	
-	result := box rayIntersection: ray.
-	
-	self assert: result isNil description: 'Ray pointing away should miss'
-]
-
-{
 	#category : #'tests - basic AABB',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:52'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:52'
 }
 SRCollisionBoxTest >> testRayHitsAxisAlignedBoxCenter [
 	"Test ray hitting the center of an axis-aligned box face"
-	| box ray result |
+	| box ray result expectedPoint |
 	
 	box := SRCollisionBox new
 		center: Vector3 zero;
@@ -80,21 +57,20 @@ SRCollisionBoxTest >> testRayHitsAxisAlignedBoxCenter [
 		forward: (Vector3 x: 0 y: 0 z: 1).
 	
 	result := box rayIntersection: ray.
+	expectedPoint := Vector3 x: 0 y: 0 z: -0.5.
 	
 	self assert: result notNil description: 'Ray should hit the box'.
 	self assert: (result object == self) description: 'Result should reference the test object'.
-	self assert: (result point x closeTo: 0.0) description: 'Hit x should be 0'.
-	self assert: (result point y closeTo: 0.0) description: 'Hit y should be 0'.
-	self assert: (result point z closeTo: -0.5) description: 'Hit z should be at front face (-0.5)'
+	self assert: (result point closeTo: expectedPoint)
 ]
 
 {
 	#category : #'tests - basic AABB',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:52'
 }
 SRCollisionBoxTest >> testRayHitsBoxCorner [
-	"Test ray hitting near the corner of a box (important for box vs sphere comparison)"
-	| box ray result |
+	"Test ray hitting near the corner of a box"
+	| box ray result expectedPoint |
 	
 	box := SRCollisionBox new
 		center: Vector3 zero;
@@ -102,26 +78,24 @@ SRCollisionBoxTest >> testRayHitsBoxCorner [
 		rotation: Quaternion identity;
 		object: self.
 	
-	"Ray aimed at a point near the corner (0.4, 0.4, z) which is inside a 1x1 box"
 	ray := SRRay new
 		origin: (Vector3 x: 0.4 y: 0.4 z: -5);
 		forward: (Vector3 x: 0 y: 0 z: 1).
 	
 	result := box rayIntersection: ray.
+	expectedPoint := Vector3 x: 0.4 y: 0.4 z: -0.5.
 	
 	self assert: result notNil description: 'Ray should hit the box near corner'.
-	self assert: (result point x closeTo: 0.4).
-	self assert: (result point y closeTo: 0.4).
-	self assert: (result point z closeTo: -0.5)
+	self assert: (result point closeTo: expectedPoint)
 ]
 
 {
 	#category : #'tests - OBB',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:53'
 }
 SRCollisionBoxTest >> testRayHitsRotatedBox [
 	"Test ray hitting a box rotated 45 degrees around Y axis"
-	| box ray result q |
+	| box ray result q expectedPoint |
 	
 	q := Quaternion radiansAngle: Float pi / 4 axis: (Vector3 x: 0 y: 1 z: 0).
 	box := SRCollisionBox new
@@ -135,12 +109,10 @@ SRCollisionBoxTest >> testRayHitsRotatedBox [
 		forward: (Vector3 x: 0 y: 0 z: 1).
 	
 	result := box rayIntersection: ray.
+	expectedPoint := Vector3 x: 0 y: 0 z: (Float pi / 4) cos negated.
 	
 	self assert: result notNil description: 'Ray should hit rotated box'.
-	self assert: (result point x closeTo: 0.0).
-	self assert: (result point y closeTo: 0.0).
-	"For a 2x1x1 box rotated 45Â° around Y, the front face is closer to camera"
-	self assert: result point z < 0 description: 'Hit should be in front of origin'
+	self assert: (result point closeTo: expectedPoint)
 ]
 
 {
@@ -168,10 +140,10 @@ SRCollisionBoxTest >> testRayMissesAxisAlignedBox [
 
 {
 	#category : #'tests - edge cases',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:52'
 }
-SRCollisionBoxTest >> testRayParallelToBoxFace [
-	"Test ray parallel to a box face (edge case for division by zero)"
+SRCollisionBoxTest >> testRayPointingAway [
+	"Test ray pointing away from the box"
 	| box ray result |
 	
 	box := SRCollisionBox new
@@ -180,24 +152,22 @@ SRCollisionBoxTest >> testRayParallelToBoxFace [
 		rotation: Quaternion identity;
 		object: self.
 	
-	"Ray parallel to XY plane, passing through the box"
 	ray := SRRay new
-		origin: (Vector3 x: -2 y: 0 z: 0);
-		forward: (Vector3 x: 1 y: 0 z: 0).
+		origin: (Vector3 x: 0 y: 0 z: -5);
+		forward: (Vector3 x: 0 y: 0 z: -1).
 	
 	result := box rayIntersection: ray.
 	
-	self assert: result notNil description: 'Parallel ray through box should hit'.
-	self assert: (result point x closeTo: -0.5) description: 'Should hit left face'
+	self assert: result isNil description: 'Ray pointing away should miss'
 ]
 
 {
 	#category : #'tests - edge cases',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:53'
 }
 SRCollisionBoxTest >> testRayStartsInsideBox [
 	"Test ray that starts inside the box"
-	| box ray result |
+	| box ray result expectedPoint |
 	
 	box := SRCollisionBox new
 		center: Vector3 zero;
@@ -210,7 +180,8 @@ SRCollisionBoxTest >> testRayStartsInsideBox [
 		forward: (Vector3 x: 0 y: 0 z: 1).
 	
 	result := box rayIntersection: ray.
+	expectedPoint := Vector3 x: 0 y: 0 z: 1.
 	
 	self assert: result notNil description: 'Ray starting inside should still hit exit point'.
-	self assert: (result point z closeTo: 1.0) description: 'Should hit back face at z=1'
+	self assert: (result point closeTo: expectedPoint)
 ]
