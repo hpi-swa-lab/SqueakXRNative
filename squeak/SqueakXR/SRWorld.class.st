@@ -772,7 +772,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
+	#'squeak_changestamp' : 'MCPServer 5/12/2026 13:21'
 }
 SRWorld >> start [
 

@@ -1,6 +1,6 @@
 GSMetadata {
 	#version : 1,
-	#mappers : [
+	#mappers : OrderedCollection [
 		GSTonelMapper {
 			#version : 1,
 			#package : MCPackage {
@@ -32,6 +32,15 @@ GSMetadata {
 			#version : 1,
 			#package : MCPackage {
 				#name : 'Raylib'
+			},
+			#path : FSAbsolutePath [
+				'squeak'
+			]
+		},
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'BaselineOfSqueakXR'
 			},
 			#path : FSAbsolutePath [
 				'squeak'
