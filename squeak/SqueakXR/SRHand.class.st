@@ -1,12 +1,5 @@
 "
-Represents a VR hand controller.
-
-Instance Variables:
-  handIndex - 0 for left hand, 1 for right hand
-  triggerPressed - boolean, trigger button state
-  aPressed - boolean, A button state
-  squeezePressed - boolean, squeeze/grip button state
-  actionState - OpenXR action state data
+A VR hand controller.
 "
 Class {
 	#name : #SRHand,
@@ -150,10 +143,7 @@ SRHand >> handleSqueeze: aNumber [
 		ifTrue: [self stopGrabbing]
 ]
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:41'
-}
+{ #category : #'as yet unclassified' }
 SRHand >> handleTrigger: aNumber [
 
 	| prevTriggerPressed threshold |

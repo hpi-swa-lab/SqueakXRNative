@@ -412,10 +412,7 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:58'
-}
+{ #category : #'as yet unclassified' }
 SRWorld >> completeFrame [
 
 	isFramePrepared ifTrue: [
@@ -477,10 +474,7 @@ SRWorld >> gizmoPainter [
 	^ gizmoPainter
 ]
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:16'
-}
+{ #category : #'as yet unclassified' }
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
 	
@@ -647,7 +641,7 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 09:40'
+	#'squeak_changestamp' : 'lege 3/25/2026 16:36'
 }
 SRWorld >> processKeyInput [
 
@@ -858,10 +852,7 @@ SRWorld >> suspend [
 	worldProcess ifNotNil: [worldProcess suspend].
 ]
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 09:40'
-}
+{ #category : #'as yet unclassified' }
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [

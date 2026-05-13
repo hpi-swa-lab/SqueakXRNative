@@ -122,7 +122,7 @@ SRRaylibRendererFlat >> initReticle [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 19:09'
+	#'squeak_changestamp' : 'lege 3/25/2026 15:30'
 }
 SRRaylibRendererFlat >> initialize [
 
@@ -132,28 +132,24 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:10'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
-	"Update camera from avatar camera transform and prepare for rendering."
-	
+
 	| position forward up target |
 	position := cameraTransform translation.
 	forward := cameraTransform localDirToGlobal: Vector3 forward.
 	up := cameraTransform localDirToGlobal: Vector3 up.
 	target := position + forward.
-	
 	camera
 		position: position asRlVector;
 		target: target asRlVector;
 		up: up asRlVector.
-	
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
 		beginMode3DCamera: camera;
 		drawGridSlices: 10 spacing: 1.
-	
 	^ true
 ]
 

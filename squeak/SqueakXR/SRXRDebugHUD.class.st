@@ -1,5 +1,5 @@
 "
-Debug HUD for displaying XR input emulation information on screen.
+Debug HUD overlay. Toggle with F2.
 "
 Class {
 	#name : #SRXRDebugHUD,
@@ -15,16 +15,15 @@ Class {
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:24'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
 SRXRDebugHUD >> initialize [
-	"Initialize with HUD disabled by default."
-	
+
 	super initialize.
 	visible := false.
 	lastStepTime := Time millisecondClockValue.
 	measuredFPS := 0.
-	isStepping := true.
+	isStepping := true
 ]
 
 {
@@ -61,30 +60,27 @@ SRXRDebugHUD >> step: delta [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
 SRXRDebugHUD >> toggleVisibility [
-	"Toggle HUD visibility."
-	
+
 	visible := visible not
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
 SRXRDebugHUD >> visible [
-	"Return whether the HUD is visible."
-	
+
 	^ visible
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
 SRXRDebugHUD >> visible: aBoolean [
-	"Set whether the HUD is visible."
-	
+
 	visible := aBoolean
 ]
