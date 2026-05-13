@@ -16,6 +16,8 @@ Class {
 		'triggerPressed',
 		'aPressed',
 		'squeezePressed',
+		'grabbedObject',
+		'grabbedRelativeTransform',
 		'actionState'
 	],
 	#classVars : [
@@ -94,11 +96,11 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:54'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
-	| aJustPressed prevAPressed prevSqueezePressed squeezeJustPressed squeezeJustReleased threshold |
+	| aJustPressed prevAPressed |
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
@@ -111,15 +113,7 @@ SRHand >> actionsUpdated: aSRActionStates [
 	(self isRight and: aJustPressed) ifTrue: [
 		self teleport].
 	
-	prevSqueezePressed := squeezePressed.
-	threshold := squeezePressed
-		ifTrue: [0.8]
-		ifFalse: [0.9].
-	squeezePressed := (aSRActionStates squeeze at: self handIndex) > threshold.
-	squeezeJustPressed := squeezePressed and: prevSqueezePressed not.
-	squeezeJustReleased := squeezePressed not and: prevSqueezePressed.
-	squeezeJustPressed ifTrue: [self startGrabbing].
-	squeezeJustReleased ifTrue: [self stopGrabbing]
+	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
 ]
 
 { #category : #accessing }
@@ -135,6 +129,25 @@ SRHand >> handIndex: anInteger [
 	self name: (handIndex caseOf: {
 		[self class leftIndex] -> ['Left Hand'].
 		[self class rightIndex] -> ['Right Hand']})
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+}
+SRHand >> handleSqueeze: aNumber [
+
+	| prevSqueezePressed threshold |
+	prevSqueezePressed := squeezePressed.
+	threshold := squeezePressed
+		ifTrue: [0.8]
+		ifFalse: [0.9].
+	squeezePressed := aNumber > threshold.
+	
+	(squeezePressed and: [prevSqueezePressed not])
+		ifTrue: [self startGrabbing].
+	(squeezePressed not and: [prevSqueezePressed])
+		ifTrue: [self stopGrabbing]
 ]
 
 {
@@ -205,6 +218,41 @@ SRHand >> rayCast [
 	
 	result ifNotNil: [
 		result object onRaycast: (result asHandRayIntersection: actionState)]
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:48'
+}
+SRHand >> startGrabbing [
+
+	| ray |
+	ray := SRRay
+		origin: self globalTranslation
+		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	
+	(ray castNearest: self world) ifNotNil: [:collision |
+		grabbedObject := collision object parent.
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform]
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:48'
+}
+SRHand >> step: deltaTime [
+
+	grabbedObject ifNotNil: [
+		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform]
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+}
+SRHand >> stopGrabbing [
+
+	grabbedObject := nil.
 ]
 
 { #category : #'as yet unclassified' }

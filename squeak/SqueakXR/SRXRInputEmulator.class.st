@@ -11,8 +11,6 @@ Class {
 	#name : #SRXRInputEmulator,
 	#superclass : #SRObject,
 	#instVars : [
-		'grabbedObject',
-		'grabbedRelativeTransform',
 		'emulatedCamera',
 		'debugHUD'
 	],
@@ -86,29 +84,8 @@ SRXRInputEmulator >> rayCast [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 18:56'
-}
-SRXRInputEmulator >> startGrabbing [
-	"Desktop debug: Cast a ray from right hand and grab the nearest object.
-	Store the relative transformation from hand to object."
-	
-	| ray rightHand |
-	rightHand := self world avatar rightHand.
-	ray := SRRay
-		origin: rightHand globalTranslation
-		forward: (rightHand globalTransform localDirToGlobal: Vector3 backward) normalize.
-	
-	(ray castNearest: self world) ifNotNil: [:collision |
-		grabbedObject := collision object parent.
-		grabbedObject ifNotNil: [
-			"Store the transform FROM hand TO object at grab moment"
-			grabbedRelativeTransform := rightHand globalTransform inverseTransformation * grabbedObject globalTransform]]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:19'
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:25'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -134,27 +111,12 @@ SRXRInputEmulator >> step: delta [
 		rightHand handleTrigger: 0.0].
 	
 	(Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonRight) ifTrue: [
-		self startGrabbing].
+		rightHand handleSqueeze: 1.0].
 	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) ifTrue: [
-		self stopGrabbing].
+		rightHand handleSqueeze: 0.0].
 	
 	(Raylib isKeyPressedKey: RlKeyboardKey keyF) ifTrue: [
-		self rayCast].
-	
-	grabbedObject ifNotNil: [
-		rightHand := self world avatar rightHand.
-		grabbedObject globalTransform: (rightHand globalTransform * grabbedRelativeTransform)]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/28/2026 18:57'
-}
-SRXRInputEmulator >> stopGrabbing [
-	"Desktop debug: Release the currently grabbed object."
-	
-	grabbedObject := nil.
-	grabbedRelativeTransform := nil
+		self rayCast]
 ]
 
 {
