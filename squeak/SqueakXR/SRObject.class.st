@@ -14,7 +14,8 @@ Class {
 		'isStepping',
 		'isRendering',
 		'badStep',
-		'badRender'
+		'badRender',
+		'grabTarget'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -363,6 +364,26 @@ SRObject >> globalTranslation: aVector3 [
 
 	self globalTransform translation: aVector3.
 	self globalTransformDirty.
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:29'
+}
+SRObject >> grabTarget [
+	"Return the object that should be moved when this object is grabbed.
+	 Can be set explicitly via grabTarget:, otherwise returns self."
+	^ grabTarget ifNil: [self]
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:29'
+}
+SRObject >> grabTarget: anObjectOrNil [
+	"Set which object should be moved when this object is grabbed.
+	 nil means not grabbable. self means grab this object."
+	grabTarget := anObjectOrNil
 ]
 
 { #category : #hierarchy }

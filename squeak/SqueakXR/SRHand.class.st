@@ -212,7 +212,7 @@ SRHand >> rayCast [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:48'
+	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:27'
 }
 SRHand >> startGrabbing [
 
@@ -222,7 +222,10 @@ SRHand >> startGrabbing [
 		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
 	
 	(ray castNearest: self world) ifNotNil: [:collision |
-		grabbedObject := collision object parent.
+		| target |
+		target := collision object grabTarget.
+		target ifNil: [^ self].
+		grabbedObject := target.
 		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform]
 ]
 
