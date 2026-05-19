@@ -28,12 +28,12 @@ SRXRDebugHUD >> initialize [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:03'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
 }
 SRXRDebugHUD >> step: delta [
 	"Calculate FPS and draw debug info using gizmos"
 	
-	| currentTime deltaMs white raylibFPS camera pos dir painter |
+	| currentTime deltaMs white raylibFPS camera pos dir painter selText selected |
 	currentTime := Time millisecondClockValue.
 	deltaMs := currentTime - lastStepTime.
 	
@@ -55,7 +55,23 @@ SRXRDebugHUD >> step: delta [
 	painter gizmo2DText: 'FPS (Raylib): ', raylibFPS printString at: 10 @ 35 fontSize: 16 color: white.
 	painter gizmo2DText: 'FPS (Measured): ', measuredFPS printString at: 10 @ 55 fontSize: 16 color: white.
 	painter gizmo2DText: 'Position: ', (pos x roundTo: 0.01) printString, ', ', (pos y roundTo: 0.01) printString, ', ', (pos z roundTo: 0.01) printString at: 10 @ 75 fontSize: 16 color: white.
-	painter gizmo2DText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString at: 10 @ 95 fontSize: 16 color: white
+	painter gizmo2DText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString at: 10 @ 95 fontSize: 16 color: white.
+	
+	selected := self world avatar rightHand selectedObject.
+	selText := selected
+		ifNotNil: [:obj | obj class name, ' (', (obj name ifNil: ['unnamed']), ')']
+		ifNil: ['none'].
+	painter gizmo2DText: 'Selected: ', selText at: 10 @ 115 fontSize: 16 color: Color green.
+	
+	"Draw wireframes around all objects with collision geometry"
+	self world allDo: [:obj |
+		| geom color |
+		geom := obj collisionGeometry.
+		color := obj == selected ifTrue: [Color green] ifFalse: [Color gray].
+		(geom isKindOf: SRCollisionBox) ifTrue: [
+			painter gizmoWireBox: geom color: color].
+		(geom isKindOf: SRCollisionPlane) ifTrue: [
+			painter gizmoWirePlane: geom color: color]].
 ]
 
 {

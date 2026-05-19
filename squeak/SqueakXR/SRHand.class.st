@@ -7,11 +7,12 @@ Class {
 	#instVars : [
 		'handIndex',
 		'triggerPressed',
-		'aPressed',
 		'squeezePressed',
+		'aPressed',
 		'grabbedObject',
 		'grabbedRelativeTransform',
-		'actionState'
+		'actionState',
+		'selectedObject'
 	],
 	#classVars : [
 		'EndRate',
@@ -255,8 +256,16 @@ SRHand >> rayCast [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:32'
+}
+SRHand >> selectedObject [
+	^ selectedObject
+]
+
+{
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:27'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:31'
 }
 SRHand >> startGrabbing [
 
@@ -270,17 +279,29 @@ SRHand >> startGrabbing [
 		target := collision object grabTarget.
 		target ifNil: [^ self].
 		grabbedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform]
+		selectedObject := target.
+		Transcript cr; show: 'Selected: ', target class name, ' (', (target name ifNil: ['unnamed']), ')'.
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform].
 ]
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:48'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:09'
 }
 SRHand >> step: deltaTime [
 
+	| painter geom |
 	grabbedObject ifNotNil: [
-		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform]
+		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+	
+	selectedObject ifNotNil: [
+		painter := self gizmoPainter.
+		painter ifNotNil: [
+			geom := selectedObject collisionGeometry.
+			(geom isKindOf: SRCollisionBox) ifTrue: [
+				painter gizmoWireBox: geom color: Color green].
+			(geom isKindOf: SRCollisionPlane) ifTrue: [
+				painter gizmoWirePlane: geom color: Color green]]].
 ]
 
 {
