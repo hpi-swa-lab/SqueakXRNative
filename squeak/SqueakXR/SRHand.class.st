@@ -126,7 +126,7 @@ SRHand >> handIndex: anInteger [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
 }
 SRHand >> handleSqueeze: aNumber [
 
@@ -137,13 +137,18 @@ SRHand >> handleSqueeze: aNumber [
 		ifFalse: [0.9].
 	squeezePressed := aNumber > threshold.
 	
-	(squeezePressed and: [prevSqueezePressed not])
-		ifTrue: [self startGrabbing].
+	(squeezePressed and: [prevSqueezePressed not]) ifTrue: [
+		triggerPressed
+			ifTrue: [self openMenu]
+			ifFalse: [self startGrabbing]].
 	(squeezePressed not and: [prevSqueezePressed])
-		ifTrue: [self stopGrabbing]
+		ifTrue: [self stopGrabbing].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:35'
+}
 SRHand >> handleTrigger: aNumber [
 
 	| prevTriggerPressed threshold |
@@ -153,8 +158,10 @@ SRHand >> handleTrigger: aNumber [
 		ifFalse: [0.9].
 	triggerPressed := aNumber > threshold.
 	
-	(triggerPressed and: [prevTriggerPressed not]) 
-		ifTrue: [self rayCast]
+	(triggerPressed and: [prevTriggerPressed not]) ifTrue: [
+		squeezePressed
+			ifTrue: [self openMenu]
+			ifFalse: [self rayCast]].
 ]
 
 { #category : #'as yet unclassified' }
@@ -191,6 +198,43 @@ SRHand >> onWorldChanged: oldWorld [
 	
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
 	self world addDependent: self.
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+}
+SRHand >> openContextMenuFor: anObject [
+	| handPos handForward |
+	handPos := self globalTranslation.
+	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	SRMenu contextMenuFor: anObject at: handPos + (handForward * 0.5) facing: handForward in: self world.
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+}
+SRHand >> openMenu [
+	| existingMenus |
+	existingMenus := self world allDescendantsSelect: [:obj | obj isMenu].
+	existingMenus ifNotEmpty: [
+		existingMenus do: [:m | m close].
+		^ self].
+	grabbedObject
+		ifNotNil: [self openContextMenuFor: grabbedObject]
+		ifNil: [self openWorldMenu].
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+}
+SRHand >> openWorldMenu [
+	| handPos handForward |
+	handPos := self globalTranslation.
+	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	SRMenu worldMenuAt: handPos + (handForward * 0.5) facing: handForward in: self world.
 ]
 
 {

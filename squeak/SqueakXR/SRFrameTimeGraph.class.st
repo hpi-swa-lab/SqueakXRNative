@@ -67,6 +67,18 @@ SRFrameTimeGraph >> bucketDurationMs: milliseconds [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:26'
+}
+SRFrameTimeGraph >> collisionGeometry [
+	^ SRCollisionBox new
+		center: self globalTranslation;
+		halfExtents: self globalScale * (graphWidth / 2 @ 0.25 @ (barDepth / 2));
+		rotation: self globalRotation;
+		object: self.
+]
+
+{
 	#category : #private,
 	#'squeak_changestamp' : 'lege 3/13/2026 16:43'
 }
