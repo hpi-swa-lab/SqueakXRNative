@@ -95,8 +95,8 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:57'
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 10:20'
 }
 SRSimpleAvatarMovementEmulator >> update [
 
@@ -113,9 +113,12 @@ SRSimpleAvatarMovementEmulator >> update [
 		movement := movement + right].
 	(Raylib isKeyDownKey: RlKeyboardKey keyA) ifTrue: [
 		movement := movement - right].
+	(Raylib isKeyDownKey: RlKeyboardKey keyLeftShift) ifTrue: [
+		movement := movement + Vector3 up].
+	(Raylib isKeyDownKey: RlKeyboardKey keyLeftControl) ifTrue: [
+		movement := movement - Vector3 up].
 	movement length > 0 ifTrue: [
 		position := position + (movement normalize * moveSpeed)].
-	position := position x @ 1.8 @ position z.
 	lookModeEnabled ifTrue: [
 		self handleMouseDelta: Raylib getMouseDelta].
 	self updateAvatarCamera
