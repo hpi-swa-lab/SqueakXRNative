@@ -11,7 +11,8 @@ Class {
 		'highlightColor',
 		'normalColor',
 		'itemWidth',
-		'itemHeight'
+		'itemHeight',
+		'hovered'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -38,14 +39,33 @@ SRMenuItem >> collisionGeometry [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+}
+SRMenuItem >> hovered [
+	^ hovered
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+}
+SRMenuItem >> hovered: aBoolean [
+	hovered = aBoolean ifTrue: [^ self].
+	hovered := aBoolean.
+	textField color: (hovered ifTrue: [highlightColor] ifFalse: [normalColor])
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:14'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:29'
 }
 SRMenuItem >> initialize [
 	super initialize.
 	label := ''.
 	normalColor := Color white.
 	highlightColor := Color yellow.
+	hovered := false.
 	itemWidth := 0.14.
 	itemHeight := 0.02.
 	textField := SRTextField new
@@ -55,6 +75,14 @@ SRMenuItem >> initialize [
 		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
 		yourself.
 	self addChild: textField.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:30'
+}
+SRMenuItem >> isMenuItem [
+	^ true.
 ]
 
 {
@@ -104,18 +132,26 @@ SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:12'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:29'
 }
 SRMenuItem >> renderOn: aSRRenderer [
+	| fillColor wireColor |
+	self hovered
+		ifTrue: [
+			fillColor := Color r: 0.25 g: 0.25 b: 0.4.
+			wireColor := highlightColor]
+		ifFalse: [
+			fillColor := Color r: 0.1 g: 0.1 b: 0.2.
+			wireColor := Color r: 0.3 g: 0.3 b: 0.6].
 	Raylib rlPushMatrix;
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
 		drawCubePosition: (0 @ 0 @ 0) asRlVector
 		width: itemWidth height: itemHeight length: 0.002
-		color: (Color r: 0.1 g: 0.1 b: 0.2) asRlColor.
+		color: fillColor asRlColor.
 	Raylib
 		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
 		width: itemWidth height: itemHeight length: 0.002
-		color: (Color r: 0.3 g: 0.3 b: 0.6) asRlColor.
+		color: wireColor asRlColor.
 	Raylib rlPopMatrix.
 ]

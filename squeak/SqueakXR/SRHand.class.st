@@ -12,7 +12,8 @@ Class {
 		'grabbedObject',
 		'grabbedRelativeTransform',
 		'actionState',
-		'selectedObject'
+		'selectedObject',
+		'hoveredMenuItem'
 	],
 	#classVars : [
 		'EndRate',
@@ -108,6 +109,21 @@ SRHand >> actionsUpdated: aSRActionStates [
 		self teleport].
 	
 	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+}
+SRHand >> castRay [
+	"Cast a ray from the hand into the world and return the nearest intersection, or nil."
+
+	| ray |
+	self world ifNil: [^ nil].
+	ray := SRRay
+		origin: self globalTranslation
+		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	^ ray castNearest: self world
 ]
 
 { #category : #accessing }
@@ -240,17 +256,12 @@ SRHand >> openWorldMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
 }
 SRHand >> rayCast [
 
-	| ray result |
-	ray := SRRay
-		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	
-	result := ray castNearest: self world.
-	
+	| result |
+	result := self castRay.
 	result ifNotNil: [
 		result object onRaycast: (result asHandRayIntersection: actionState)]
 ]
@@ -286,13 +297,15 @@ SRHand >> startGrabbing [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:09'
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:30'
 }
 SRHand >> step: deltaTime [
 
 	| painter geom |
 	grabbedObject ifNotNil: [
 		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+	
+	self updateHover.
 	
 	selectedObject ifNotNil: [
 		painter := self gizmoPainter.
@@ -330,6 +343,24 @@ SRHand >> teleport [
 SRHand >> update: aSymbol with: anObject [
 
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+}
+SRHand >> updateHover [
+	"Cast a ray from the hand each frame and highlight any SRMenuItem under it."
+
+	| result hit |
+	result := self castRay.
+	hit := (result notNil and: [result object isMenuItem])
+		ifTrue: [result object]
+		ifFalse: [nil].
+	hit == hoveredMenuItem ifTrue: [^ self].
+	hoveredMenuItem ifNotNil: [hoveredMenuItem hovered: false].
+	hoveredMenuItem := hit.
+	hoveredMenuItem ifNotNil: [hoveredMenuItem hovered: true]
 ]
 
 { #category : #'as yet unclassified' }

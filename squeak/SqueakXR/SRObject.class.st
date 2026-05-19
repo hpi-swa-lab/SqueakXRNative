@@ -437,6 +437,14 @@ SRObject >> isMenu [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:30'
+}
+SRObject >> isMenuItem [
+	^ false.
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 3/16/2026 16:16'
 }
 SRObject >> isMorphPanel [
