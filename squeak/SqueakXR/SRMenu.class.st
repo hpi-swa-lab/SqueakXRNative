@@ -192,3 +192,41 @@ SRMenu >> renderOn: aSRRenderer [
 		color: wireColor asRlColor.
 	Raylib rlPopMatrix.
 ]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer 5/26/2026 17:44'
+}
+SRMenu >> step: deltaTime [
+	"Update hover highlight on our own items by casting rays from each hand.
+	Only walks our own item children -- no world-wide traversal."
+
+	| avatar hands nearest nearestDist |
+	self world ifNil: [^ self].
+	avatar := self world avatar.
+	avatar ifNil: [^ self].
+	hands := {avatar leftHand. avatar rightHand} reject: [:h | h isNil].
+	hands isEmpty ifTrue: [^ self].
+	
+	nearest := nil.
+	nearestDist := nil.
+	hands do: [:hand |
+		| ray |
+		ray := SRRay
+			origin: hand globalTranslation
+			forward: (hand globalTransform localDirToGlobal: Vector3 backward) normalize.
+		self childrenDo: [:item |
+			item isMenuItem ifTrue: [
+				item collisionGeometry ifNotNil: [:geom |
+					(geom rayIntersection: ray) ifNotNil: [:result |
+						| dist |
+						dist := ray origin distanceTo: result point.
+						(nearestDist isNil or: [dist < nearestDist]) ifTrue: [
+							nearestDist := dist.
+							nearest := item]]]]]].
+	
+	"Update all items: only the nearest is hovered."
+	self childrenDo: [:item |
+		item isMenuItem ifTrue: [
+			item hovered: (item == nearest)]]
+]

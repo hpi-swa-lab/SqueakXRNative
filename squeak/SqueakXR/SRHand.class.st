@@ -297,7 +297,7 @@ SRHand >> startGrabbing [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:30'
+	#'squeak_changestamp' : 'MCPServer 5/26/2026 17:46'
 }
 SRHand >> step: deltaTime [
 
@@ -305,7 +305,6 @@ SRHand >> step: deltaTime [
 	grabbedObject ifNotNil: [
 		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
 	
-	self updateHover.
 	
 	selectedObject ifNotNil: [
 		painter := self gizmoPainter.
@@ -343,24 +342,6 @@ SRHand >> teleport [
 SRHand >> update: aSymbol with: anObject [
 
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
-]
-
-{
-	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
-}
-SRHand >> updateHover [
-	"Cast a ray from the hand each frame and highlight any SRMenuItem under it."
-
-	| result hit |
-	result := self castRay.
-	hit := (result notNil and: [result object isMenuItem])
-		ifTrue: [result object]
-		ifFalse: [nil].
-	hit == hoveredMenuItem ifTrue: [^ self].
-	hoveredMenuItem ifNotNil: [hoveredMenuItem hovered: false].
-	hoveredMenuItem := hit.
-	hoveredMenuItem ifNotNil: [hoveredMenuItem hovered: true]
 ]
 
 { #category : #'as yet unclassified' }
