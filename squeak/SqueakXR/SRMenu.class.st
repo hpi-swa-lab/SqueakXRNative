@@ -20,7 +20,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 14:08'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aDirection in: aWorld [
 	| menu |
@@ -34,6 +34,8 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aDirection in: aW
 		anObject parent addChild: clone].
 	menu addItem: 'Remove' action: [
 		anObject remove].
+	(anObject respondsTo: #addCustomMenuItemsTo:)
+		ifTrue: [anObject addCustomMenuItemsTo: menu].
 	menu openAt: aPosition facing: aDirection.
 	aWorld addChild: menu.
 	^ menu.
