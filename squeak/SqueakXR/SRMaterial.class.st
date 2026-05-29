@@ -19,14 +19,19 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 13:24'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
-	"Build a fresh RlMaterial and bind the SRTexture (if any) to its diffuse map. Both the RlMaterial and the underlying RlTexture come from cache misses, so they're always fresh for the current GL context."
-
+	"Build a fresh RlMaterial and bind the SRTexture (if any) to its diffuse map. Both the RlMaterial and the underlying RlTexture come from cache misses, so they're always fresh for the current GL context. If a custom shader was previously assigned (via vertexShader:fragmentShader: or shader:), re-bind it; otherwise raylib's default shader stays in place."
+	| sh |
 	internalMaterial := Raylib loadMaterialDefault.
 	srTexture ifNotNil: [
 		internalMaterial maps texture: (srTexture internalTextureFor: aSRRenderer)].
+	shader ifNotNil: [
+		sh := (shader respondsTo: #internalShader)
+			ifTrue: [shader internalShader]
+			ifFalse: [shader].
+		internalMaterial shader: sh].
 	^ internalMaterial
 ]
 
