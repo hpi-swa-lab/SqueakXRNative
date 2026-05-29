@@ -123,12 +123,12 @@ SRTexture >> fillRect: aRectangle color: aColor [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
 }
 SRTexture >> flush [
-	"Push the current CPU pixels to the existing GPU texture handle. Requires the texture to have been uploaded (via a render pass or explicit internalTextureFor:). After image restart, just paint and let the next render rebuild from pixelBytes."
+	"Push the current CPU pixels to the existing GPU texture handle. Calls currentRlTexture first to ensure the local image/texture ivars are populated for the current session (rebuilds via cache miss after image restart)."
 
-	(isUploaded ifNil: [false]) ifFalse: [^ self].
+	self currentRlTexture ifNil: [^ self].
 	image ifNil: [^ self].
 	texture ifNil: [^ self].
 	Raylib updateTexture: texture pixels: image data.

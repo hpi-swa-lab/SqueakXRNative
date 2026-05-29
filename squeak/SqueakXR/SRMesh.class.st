@@ -119,6 +119,21 @@ SRMesh >> cols [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:21'
+}
+SRMesh >> currentRlMesh [
+	"Return the live RlMesh from the current world renderer's cache, building+uploading on first miss. Returns nil if no renderer is available (pre-GL or no world). SRPlane-style pattern: the renderer cache is the source of truth for GPU state, so a stale local rlMesh ivar (e.g. after image save+restart) is never consulted."
+
+	| w r |
+	w := SRWorld current.
+	w ifNil: [^ nil].
+	r := w renderer.
+	r ifNil: [^ nil].
+	^ self internalMeshFor: r
+]
+
+{
 	#category : #private,
 	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
 }
@@ -141,10 +156,12 @@ SRMesh >> ensureExternalBuffers [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
 }
 SRMesh >> flushNormals [
-	(isUploaded ifNil: [false]) ifFalse: [^ self].
+	"Push the CPU normal buffer to GPU VBO 2. See flushVertices for rationale."
+
+	self currentRlMesh ifNil: [^ self].
 	Raylib
 		updateMeshBufferMesh: rlMesh
 		index: 2
@@ -155,12 +172,12 @@ SRMesh >> flushNormals [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
 }
 SRMesh >> flushVertices [
-	"Push the CPU vertex buffer to GPU VBO 0. Requires the mesh to have been built+uploaded (call site is typically inside step:/render where this is true)."
+	"Push the CPU vertex buffer to GPU VBO 0. Calls currentRlMesh first to ensure ivars are populated for the current session (rebuilds via cache miss after image restart). Silently bails if no renderer is available yet."
 
-	(isUploaded ifNil: [false]) ifFalse: [^ self].
+	self currentRlMesh ifNil: [^ self].
 	Raylib
 		updateMeshBufferMesh: rlMesh
 		index: 0
@@ -284,12 +301,12 @@ SRMesh >> isUploaded [
 
 {
 	#category : #buffers,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
 }
 SRMesh >> normalBuffer [
-	normals ifNil: [
-		(SRWorld current isNil or: [SRWorld current renderer isNil]) ifTrue: [^ nil].
-		self internalMeshFor: SRWorld current renderer].
+	"Raw access to the off-heap normal buffer. See vertexBuffer."
+
+	self currentRlMesh ifNil: [^ nil].
 	^ normals
 ]
 
@@ -392,15 +409,12 @@ SRMesh >> upload [
 
 {
 	#category : #buffers,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
 }
 SRMesh >> vertexBuffer [
-	"Raw access to the off-heap vertex buffer for direct mutation via floatAt:put:. Returns nil if the mesh hasn't been built yet -- callers should access this only inside step:/render after the renderer has cached the RlMesh. To force-build, call (mesh internalMeshFor: SRWorld current renderer)."
+	"Raw access to the off-heap vertex buffer for direct mutation via floatAt:put:. Calls currentRlMesh first to ensure the local vertices ivar is populated for the current session (rebuilds via cache miss after image restart, which (re)allocates the ExternalAddress and reassigns the ivar inside buildAndUploadRlMesh). Returns nil if no renderer is available yet."
 
-	vertices ifNil: [
-		"Try to lazily build via the current world's renderer."
-		(SRWorld current isNil or: [SRWorld current renderer isNil]) ifTrue: [^ nil].
-		self internalMeshFor: SRWorld current renderer].
+	self currentRlMesh ifNil: [^ nil].
 	^ vertices
 ]
 
