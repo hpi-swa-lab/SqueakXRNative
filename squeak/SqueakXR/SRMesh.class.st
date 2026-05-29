@@ -39,10 +39,12 @@ Class {
 		'normalBytes',
 		'texcoordBytes',
 		'indexBytes',
+		'colorBytes',
 		'vertices',
 		'normals',
 		'texcoords',
 		'indices',
+		'colors',
 		'vertexCount',
 		'triangleCount',
 		'cols',
@@ -65,8 +67,30 @@ SRMesh class >> grid: aCols by: aRows extent: aPoint [
 ]
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:47'
+}
+SRMesh class >> vertexBytes: vBytes normalBytes: nBytes texcoordBytes: tBytes colorBytes: cBytes indexBytes: iBytes vertexCount: vCount triangleCount: tCount [
+	"General constructor for a non-grid mesh. Caller supplies already-laid-out ByteArrays.
+	 vBytes: vCount * 3 * 4 bytes (xyz floats)
+	 nBytes: vCount * 3 * 4 bytes (xyz floats)
+	 tBytes: vCount * 2 * 4 bytes (uv floats)   -- may be a zero-filled placeholder
+	 cBytes: vCount * 4 bytes (rgba uchar)      -- may be nil for no per-vertex color
+	 iBytes: tCount * 3 * 2 bytes (uint16)      -- may be nil for non-indexed mesh"
+
+	^ self new
+		initializeVertexBytes: vBytes
+		normalBytes: nBytes
+		texcoordBytes: tBytes
+		colorBytes: cBytes
+		indexBytes: iBytes
+		vertexCount: vCount
+		triangleCount: tCount
+]
+
+{
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:47'
 }
 SRMesh >> buildAndUploadRlMesh [
 	"Materialize fresh external buffers from canonical ByteArrays, build the RlMesh struct, upload to GPU. Returns the RlMesh ready for DrawMesh. Cached by the renderer."
@@ -81,12 +105,16 @@ SRMesh >> buildAndUploadRlMesh [
 	indexBytes ifNotNil: [
 		indices := ExternalAddress allocate: indexBytes size.
 		self writeBytes: indexBytes to: indices].
+	colorBytes ifNotNil: [
+		colors := ExternalAddress allocate: colorBytes size.
+		self writeBytes: colorBytes to: colors].
 	rlMesh vertexCount: vertexCount.
 	rlMesh triangleCount: triangleCount.
 	rlMesh vertices: vertices.
 	rlMesh normals: normals.
 	rlMesh texcoords: texcoords.
 	indices ifNotNil: [rlMesh indices: indices].
+	colors ifNotNil: [rlMesh colors: colors].
 	Raylib uploadMesh: rlMesh dynamic: isDynamic.
 	isUploaded := true.
 	^ rlMesh
@@ -94,7 +122,7 @@ SRMesh >> buildAndUploadRlMesh [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:47'
 }
 SRMesh >> buildRlMesh [
 	"Construct the RlMesh struct and point its float pointers at our external buffers. Requires ensureExternalBuffers first. Upload is deferred to first #internalMesh access."
@@ -107,6 +135,7 @@ SRMesh >> buildRlMesh [
 	rlMesh normals: normals.
 	rlMesh texcoords: texcoords.
 	indices ifNotNil: [rlMesh indices: indices].
+	colors ifNotNil: [rlMesh colors: colors].
 	isUploaded := false
 ]
 
@@ -135,7 +164,7 @@ SRMesh >> currentRlMesh [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:47'
 }
 SRMesh >> ensureExternalBuffers [
 	"Allocate external mirrors of the ByteArrays if they are not yet materialized (e.g. fresh construction or first access after restart). Copy ByteArray contents into the external buffers when (re)allocating."
@@ -151,7 +180,10 @@ SRMesh >> ensureExternalBuffers [
 		self writeBytes: texcoordBytes to: texcoords].
 	(indexBytes notNil and: [indices isNil]) ifTrue: [
 		indices := ExternalAddress allocate: indexBytes size.
-		self writeBytes: indexBytes to: indices]
+		self writeBytes: indexBytes to: indices].
+	(colorBytes notNil and: [colors isNil]) ifTrue: [
+		colors := ExternalAddress allocate: colorBytes size.
+		self writeBytes: colorBytes to: colors]
 ]
 
 {
@@ -270,6 +302,27 @@ SRMesh >> initializeGridCols: aCols rows: aRows extent: aPoint [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:48'
+}
+SRMesh >> initializeVertexBytes: vBytes normalBytes: nBytes texcoordBytes: tBytes colorBytes: cBytes indexBytes: iBytes vertexCount: vCount triangleCount: tCount [
+	"General initializer. ByteArrays are stored as the canonical (image-persistent) backing; external buffers + RlMesh struct are built lazily by buildRlMesh."
+
+	vertexBytes := vBytes.
+	normalBytes := nBytes.
+	texcoordBytes := tBytes.
+	colorBytes := cBytes.
+	indexBytes := iBytes.
+	vertexCount := vCount.
+	triangleCount := tCount.
+	cols := nil.
+	rows := nil.
+	isDynamic := true.
+	isUploaded := false.
+	self buildRlMesh
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
 }
@@ -376,7 +429,7 @@ SRMesh >> rows [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:43'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 11:47'
 }
 SRMesh >> syncExternalToBytes [
 	"Copy current external buffer contents into the canonical ByteArrays. Called once at construction; can also be called manually to checkpoint the latest state if you need restart-survivable mutated geometry."
@@ -385,7 +438,9 @@ SRMesh >> syncExternalToBytes [
 	normalBytes := self readBytesFrom: normals count: vertexCount * 3 * 4.
 	texcoordBytes := self readBytesFrom: texcoords count: vertexCount * 2 * 4.
 	indices ifNotNil: [
-		indexBytes := self readBytesFrom: indices count: triangleCount * 3 * 2]
+		indexBytes := self readBytesFrom: indices count: triangleCount * 3 * 2].
+	colors ifNotNil: [
+		colorBytes := self readBytesFrom: colors count: vertexCount * 4]
 ]
 
 {
