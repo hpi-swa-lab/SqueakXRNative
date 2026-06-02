@@ -187,11 +187,45 @@ SRShader class >> stages [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 12:00'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 18:14'
+}
+SRShader class >> stripInputLocationsForES: glslSource [
+	"Remove 'layout(location = N) ' qualifiers that immediately precede an
+	 'in ' declaration. GLSL ES 3.0 forbids explicit locations on vertex
+	 inputs; raylib binds attributes by name, so they are safe to drop.
+	 Leaves 'out' location qualifiers (legal in ES3, used for MRT) intact.
+	 Returns nil unchanged (some stages have no source)."
+	| lines |
+	glslSource ifNil: [^ nil].
+	lines := glslSource lines collect: [:line |
+		| trimmed rest |
+		trimmed := line withBlanksTrimmed.
+		(trimmed beginsWith: 'layout(location')
+			ifTrue: [
+				rest := trimmed copyAfter: $).
+				rest := rest withBlanksTrimmed.
+				(rest beginsWith: 'in ')
+					ifTrue: [rest]
+					ifFalse: [line]]
+			ifFalse: [line]].
+	^ lines inject: '' into: [:acc :each | acc, each, (String with: Character lf)]
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 18:14'
 }
 SRShader class >> transpile300es: source stage: stage [
-
-	^ self transpile: source stage: stage options: '--version 300 --es'
+	"Transpile to GLSL ES 3.0. spirv-cross keeps explicit
+	 layout(location = N) qualifiers on shader inputs, but GLSL ES 3.0 does
+	 NOT allow them on 'in' declarations (that is an ES 3.1+ / desktop GL
+	 feature). The Quest's Adreno ES3 compiler rejects the whole shader with
+	 'Unsupported or invalid OpenGL ES version'. raylib binds vertex
+	 attributes by name (glBindAttribLocation) anyway, so the location is
+	 redundant -- strip it from 'in' declarations."
+	| out |
+	out := self transpile: source stage: stage options: '--version 300 --es'.
+	^ self stripInputLocationsForES: out
 ]
 
 {
