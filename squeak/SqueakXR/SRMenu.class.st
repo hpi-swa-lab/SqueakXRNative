@@ -20,9 +20,10 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 5/29/2026 14:08'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
 }
-SRMenu class >> contextMenuFor: anObject at: aPosition facing: aDirection in: aWorld [
+SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
+	"aViewerPosition is the user's head/camera position; the menu will face it."
 	| menu |
 	menu := self new.
 	menu addItem: 'Inspect' action: [
@@ -36,16 +37,17 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aDirection in: aW
 		anObject remove].
 	(anObject respondsTo: #addCustomMenuItemsTo:)
 		ifTrue: [anObject addCustomMenuItemsTo: menu].
-	menu openAt: aPosition facing: aDirection.
+	menu openAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
 	^ menu.
 ]
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:32'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:36'
 }
-SRMenu class >> worldMenuAt: aPosition facing: aDirection in: aWorld [
+SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
+	"aViewerPosition is the user's head/camera position; the menu will face it."
 	| menu |
 	menu := self new.
 	menu addItem: 'Spawn Cube' action: [
@@ -77,7 +79,7 @@ SRMenu class >> worldMenuAt: aPosition facing: aDirection in: aWorld [
 		Workspace open].
 	menu addItem: 'System Browser' action: [
 		Browser open].
-	menu openAt: aPosition facing: aDirection.
+	menu openAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
 	^ menu.
 ]
@@ -138,16 +140,29 @@ SRMenu >> isMenu [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:23'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:58'
 }
-SRMenu >> openAt: aPosition facing: aForwardDirection [
-	"Position the menu at aPosition, rotated so its front face (+Z) points back at the viewer.
-	aForwardDirection is the direction the hand points (away from viewer)."
-	| flat |
+SRMenu >> openAt: aPosition facingViewer: aViewerPosition [
+	"Position the menu at aPosition and orient it so its front (+Z) points at
+	the viewer: yaw in the horizontal plane, then pitch around world +X so
+	the menu tilts to meet the viewer's gaze, like a book held up to read."
+	| toViewer flat fwd yaw toViewerNorm pitchAngle pitch |
 	self position: aPosition.
-	flat := (aForwardDirection x @ 0 @ aForwardDirection z) safelyNormalize.
+	toViewer := aViewerPosition - aPosition.
+	flat := (toViewer x @ 0 @ toViewer z) safelyNormalize.
 	flat isZero ifTrue: [^ self].
-	self rotation: (Quaternion new from: Vector3 forward to: flat negated).
+	fwd := Vector3 forward.
+	yaw := (fwd dot: flat) < -0.9999
+		ifTrue: [Quaternion new angle: 180 axis: Vector3 up]
+		ifFalse: [Quaternion new from: fwd to: flat].
+	toViewerNorm := toViewer safelyNormalize.
+	"Negate so +Z front tilts toward the viewer (not away)."
+	pitchAngle := toViewerNorm y arcSin negated.
+	pitch := Quaternion new radiansAngle: pitchAngle axis: Vector3 right.
+	"Order matters: yaw first (applied to local vector), then pitch around
+	world +X. Since flat is in XZ and pitch is around world +X, the menu's
+	tilt always lies in the vertical plane through the viewer direction."
+	self rotation: pitch * yaw.
 ]
 
 {

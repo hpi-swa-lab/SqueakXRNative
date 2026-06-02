@@ -58,7 +58,7 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:29'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
 }
 SRMenuItem >> initialize [
 	super initialize.
@@ -104,7 +104,7 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:15'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.

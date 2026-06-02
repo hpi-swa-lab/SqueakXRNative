@@ -208,6 +208,30 @@ SRHand >> isRight [
 	^ self handIndex = self class rightIndex
 ]
 
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
+}
+SRHand >> menuPlacementPosition [
+	"Choose a comfortable spot along the hand's pointing ray for placing a menu.
+	Preferred distance is short so the menu lands near the user, but we raycast
+	so the menu never ends up buried inside an object the hand is pointing at."
+	| handPos handForward preferredDistance margin minDistance hit distance |
+	handPos := self globalTranslation.
+	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+	preferredDistance := 0.4.
+	margin := 0.05.
+	minDistance := 0.15.
+	hit := self castRay.
+	distance := preferredDistance.
+	hit ifNotNil: [
+		| hitDistance |
+		hitDistance := (hit point - handPos) length.
+		distance := (hitDistance - margin) min: preferredDistance].
+	distance := distance max: minDistance.
+	^ handPos + (handForward * distance)
+]
+
 { #category : #events }
 SRHand >> onWorldChanged: oldWorld [
 
@@ -219,13 +243,13 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
 }
 SRHand >> openContextMenuFor: anObject [
-	| handPos handForward |
-	handPos := self globalTranslation.
-	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	SRMenu contextMenuFor: anObject at: handPos + (handForward * 0.5) facing: handForward in: self world.
+	| pos viewer |
+	pos := self menuPlacementPosition.
+	viewer := self viewerPosition.
+	SRMenu contextMenuFor: anObject at: pos facing: viewer in: self world.
 ]
 
 {
@@ -245,13 +269,13 @@ SRHand >> openMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
 }
 SRHand >> openWorldMenu [
-	| handPos handForward |
-	handPos := self globalTranslation.
-	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	SRMenu worldMenuAt: handPos + (handForward * 0.5) facing: handForward in: self world.
+	| pos viewer |
+	pos := self menuPlacementPosition.
+	viewer := self viewerPosition.
+	SRMenu worldMenuAt: pos facing: viewer in: self world.
 ]
 
 {
@@ -351,4 +375,21 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 	pose := aSRActionStates aimPoses at: self handIndex.
 	self translation: pose position;
 		rotation: pose orientation
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:38'
+}
+SRHand >> viewerPosition [
+	"Return the user's head/camera position in world space.
+	Fall back to the hand position if no camera is available."
+	| w avatar cam |
+	w := self world.
+	w ifNil: [^ self globalTranslation].
+	avatar := w avatar.
+	avatar ifNil: [^ self globalTranslation].
+	cam := avatar camera.
+	cam ifNil: [^ self globalTranslation].
+	^ cam globalTranslation
 ]
