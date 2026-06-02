@@ -73,6 +73,15 @@ SRMaterial >> internalMaterialFor: aSRRenderer [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:48'
+}
+SRMaterial >> shader [
+	"The SRShader (or bare RlShader) currently bound to this material, if any."
+	^ shader
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'lege 3/11/2026 17:08'
 }
 SRMaterial >> shader: aShader [

@@ -30,6 +30,35 @@ SRShader class >> allShaderSelectors [
 ]
 
 {
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:39'
+}
+SRShader class >> cache: aName source: aSourceDict [
+	"Transpile and cache a single named shader source on demand.
+	 Lets application packages (e.g. SWAGame) own their shader source methods
+	 instead of adding them to SRShader's own 'shader sources' category.
+	 aName is the cache key used later by DNU dispatch (e.g. SRShader swagameVoxelEdge).
+	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form.
+	 Requires glslang + spirv-cross (same prerequisites as transpileAll)."
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	ShaderCache ifNil: [ShaderCache := Dictionary new].
+	ShaderCache at: aName asString put: (self transpileSource: aSourceDict).
+	^ aName
+]
+
+{
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:48'
+}
+SRShader class >> canTranspile [
+	"Answer whether the GLSL transpile toolchain (glslang + spirv-cross) is
+	 available on this platform. False on the Meta Quest (Android), where shaders
+	 must be pre-transpiled on desktop and read from a saved ShaderCache."
+	^ (self doesCommandExist: 'glslang')
+		and: [self doesCommandExist: 'spirv-cross']
+]
+
+{
 	#category : #prerequisites,
 	#'squeak_changestamp' : 'lege 5/6/2026 13:09'
 }
@@ -54,7 +83,7 @@ SRShader class >> doesNotUnderstand: aMessage [
 
 {
 	#category : #prerequisites,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:09'
 }
 SRShader class >> ensureGlslangAvailable [
 
@@ -70,6 +99,15 @@ SRShader class >> ensureSpirvCrossAvailable [
 
 	self assert: (self doesCommandExist: 'spirv-cross')
 		description: 'command spirv-cross is missing'
+]
+
+{
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:40'
+}
+SRShader class >> hasCachedShader: aName [
+	"Answer whether a shader source has been transpiled and cached under aName."
+	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
 ]
 
 {
@@ -121,14 +159,20 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/11/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:28'
 }
 SRShader class >> sourceFor: shader version: version [
-
+	"Return the {vert. frag} source dict for the given shader name and GLSL
+	 version, with any shader-wide #uniforms list (stored at the top level of
+	 the cache entry by transpileSource:) merged in so shaderFromDict: can see it."
 	^ ShaderCache at: shader
 		ifPresent: [:sources |
-			sources at: version
-				ifAbsent: [self error: 'Shader source is missing for ', version]]
+			| versioned |
+			versioned := sources at: version
+				ifAbsent: [self error: 'Shader source is missing for ', version].
+			(sources includesKey: #uniforms)
+				ifTrue: [versioned , { #uniforms -> (sources at: #uniforms) } ]
+				ifFalse: [versioned]]
 		ifAbsent: [nil]
 ]
 
@@ -183,19 +227,23 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:41'
 }
 SRShader class >> transpileAll [
-	
+	"Transpile SRShader's own 'shader sources' (framework shaders) into ShaderCache.
+	 App-registered shaders (added via cache:source:) are preserved: we merge the
+	 framework sources into the existing cache rather than replacing it wholesale."
+
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 
-	self resetCache.
-	
+	ShaderCache ifNil: [ShaderCache := Dictionary new].
+
 	UIManager default informUser: 'Transpiling...' during: [
-		ShaderCache := (self class selectorsInCategory: #'shader sources') collect: [:selector |
+		(self class selectorsInCategory: #'shader sources') do: [:selector |
 			UIManager default informUser: selector during: [
-				(selector allButLast: 'Source' size) -> (self transpileSource: (self perform: selector))].
-			] as: Dictionary]
+				ShaderCache
+					at: (selector allButLast: 'Source' size)
+					put: (self transpileSource: (self perform: selector))]]]
 ]
 
 {
@@ -277,14 +325,27 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:59'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:30'
 }
 SRShader >> load [
 
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |
-		uniform -> Raylib getShaderLocationShader: internalShader uniformName: uniform]
+		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:27'
+}
+SRShader >> uniformLocAt: aUniformName [
+	"Return the cached GL location of the named uniform (set during #load from
+	 the #uniforms list), or -1 if this shader does not declare it."
+	uniformLocs ifNil: [^ -1].
+	^ (uniformLocs detect: [:assoc | assoc key = aUniformName] ifNone: [nil])
+		ifNil: [-1]
+		ifNotNil: [:assoc | assoc value]
 ]
 
 {
