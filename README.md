@@ -10,14 +10,16 @@ It currently only supports Meta Quest headsets.
 
 ## How to use
 
-### Prerequisites
+### Meta Quest / Android
+
+#### Prerequisites
 
 1. Set up a Meta Quest headset with developer mode. See [Meta Docs](https://developers.meta.com/horizon/documentation/native/android/mobile-device-setup/). Run `adb devices` to verify that it is available. If not, you may have to confirm a dialog within the headset.
 2. Download [Android Studio](https://developer.android.com/studio)
 3. Install [glslang](https://github.com/khronosGroup/glslang) and [SPIRV-cross](https://github.com/khronosgroup/spirv-cross).
 4. Clone this repository.
 
-### Prepare the Squeak image
+#### Prepare the Squeak image
 
 *Alternatively, you can grab an image [from the releases](https://github.com/hpi-swa-lab/SqueakXRNative/releases).*
 
@@ -39,14 +41,14 @@ Metacello new
 4. Run `SRShader transpileAll`.
 5. Save the image.
 
-### Compile and install the app
+#### Compile and install the app
 
 1. Open the android/ directory with Android Studio
 2. Create a directory called `assets` in android/app/src/main. Copy the `SqueakV60.sources` file you downloaded with the Squeak image into it.
 3. Connect your headset and select it.
 4. Run the app.
 
-### Launch SqueakXR
+#### Launch SqueakXR
 
 1. Launch the SqueakXR app on the headset.
 2. If no image is available, load one in the 'Manage Images' menu. By default, you can serve images over http from a connected device on port 8080. Make sure that the endpoint is visible on the headset; you may have to reverse forward the port with `adb reverse tcp:8080 tcp:8080`. Also see 'Automatically fetching images' below.
@@ -54,12 +56,41 @@ Metacello new
 4. Click the 'Reset images' button. You only have to do this once after installing the app.
 5. Hit launch.
 
-#### Automatically fetching images
+##### Automatically fetching images
 
 If the option 'Fetch image from remote on launch' is enabled, the launcher will automatically load and replace the currently selected squeak image from the endpoint specified under 'Manage images'.
 By default, it will attempt to load the image from `http://localhost:8080`.
 If you connect the headset to another machine (e.g. your development device), you can serve it from there by running `adb reverse tcp:8080 tcp:8080`.
 Launching the app from Android Studio will automatically perform this for you.
+
+### Windows, Linux, macOS
+
+#### With OpenXR
+
+*TODO*
+
+#### Without OpenXR (flat only)
+
+Make sure you have an up-to-date version of Squeak.
+
+[GLFW](https://www.glfw.org) is required as a dependency.
+
+Compile the library:
+
+```
+mkdir build
+cd build
+cmake -DENABLE_RLOPENXR=OFF -DENABLE_ANDROID=OFF ../android/app/src/main/cpp/CMakeLists.txt
+cmake --build .
+```
+
+Ensure that the library is available to Squeak by copying it to the correct location.
+
+**Windows**: Next to the exe.
+
+**Linux**: In the bin/ folder.
+
+**macOS**: In the Resources folder of the package. You may have to rename library from `libsqueakxrnative.dylib` to `squeakxrnative`.
 
 ## Usage Guide
 
