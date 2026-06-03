@@ -21,7 +21,9 @@ Class {
 		'Current',
 		'KeyDict',
 		'RenderFrame',
-		'RunStartScriptInFlat'
+		'RunStartScriptInFlat',
+		'RunStartScriptInXR',
+		'StartMCPServer'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -344,6 +346,27 @@ SRWorld class >> runStartScriptInFlat: aBoolean [
 	RunStartScriptInFlat := aBoolean
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:02'
+}
+SRWorld class >> runStartScriptInXR [
+	<preference: 'Run Start Script in XR'
+		category: 'SqueakXR'
+		description: 'Whether to run the start script in an XR environment'
+		type: #Boolean>
+	^ RunStartScriptInXR ifNil: [RunStartScriptInXR := true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:03'
+}
+SRWorld class >> runStartScriptInXR: aBoolean [
+
+	RunStartScriptInXR := aBoolean
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> shiftValueOffset [
 
@@ -355,6 +378,27 @@ SRWorld class >> shutDown [
 
 	self allInstances do: [:world |
 		world shutDown]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:23'
+}
+SRWorld class >> startMCPServer [
+	<preference: 'Start MCP Server'
+		category: 'SqueakXR'
+		description: 'Whether the start script should start an SBMCPServer (if available)'
+		type: #Boolean>
+	^ StartMCPServer ifNil: [StartMCPServer := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:23'
+}
+SRWorld class >> startMCPServer: aBoolean [
+
+	StartMCPServer := aBoolean
 ]
 
 {
@@ -623,6 +667,31 @@ SRWorld >> loop [
 	self class resetCurrent.
 ]
 
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 14:43'
+}
+SRWorld >> maybeStartMCPServer [
+	"Start the singleton SBMCPServer if the preference is on and the class is
+	available. Uses SBMCPServer current so we never spawn a second instance
+	fighting over the port. Never breaks the start script if it is missing or
+	fails to start."
+
+	| serverClass server |
+	self class startMCPServer ifFalse: [^ self].
+	serverClass := Smalltalk at: #SBMCPServer ifAbsent: [
+		self log: 'SBMCPServer not available, skipping'.
+		^ self].
+	[server := serverClass current.
+	server isRunning ifFalse: [server start].
+	self log: 'MCP server started (singleton)'.
+	server]
+		on: Error
+		do: [:e |
+			self log: 'MCP server failed to start: ', e messageText.
+			nil]
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> pollActions [
 
@@ -687,14 +756,26 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/26/2026 18:12'
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 15:01'
 }
 SRWorld >> runStartScript [
 
 	self log.
+
+	"Set the author initials FIRST, before any early-return guard, so it always
+	happens even when the start-script content is skipped. In XR there is no
+	reachable keyboard dialog, so without this the first code-changing operation
+	pops a modal FillInTheBlank (asking for initials) that renders behind the
+	user and blocks the MCP eval handler. Guarded so it can never break startup."
+	[Utilities setAuthorInitials: 'SqueakXR']
+		on: Error do: [:ex | self log: 'could not set author initials: ', ex messageText].
+
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
+
+	"self maybeStartMCPServer."
+
+	(self isXR and: [self class runStartScriptInXR not]) ifTrue: [^ self].
 	ranStartScript := true.
-	
 	"self log: 'trying yaros...'."
 	"methodMorser := MethodMorser new.
 	methodMorserMorph := methodMorser open.
@@ -720,6 +801,8 @@ SRWorld >> runStartScript [
 	
 	"[10 seconds wait. Project current world imageForm writePNGfileNamed: 'world-', DateAndTime now asUnixTime asString, '.png'.
 	Transcript showln: '----------------- WROTE IMAGE'] fork."
+	
+	
 	
 	self isXR ifFalse: [
 		SRSceneTreeInspector openOn: self].

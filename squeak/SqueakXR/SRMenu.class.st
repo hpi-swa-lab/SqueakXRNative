@@ -44,7 +44,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:36'
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 14:11'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -75,6 +75,16 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		aWorld addChild: (SRFrameTimeGraph new
 			position: aPosition;
 			yourself)].
+	(Smalltalk hasClassNamed: #SBMCPServer) ifTrue: [
+		| mcp label |
+		mcp := Smalltalk at: #SBMCPServer.
+		label := mcp shared isRunning
+			ifTrue: ['MCP Server: ON']
+			ifFalse: ['MCP Server: OFF'].
+		menu addItem: label action: [mcp toggle]].
+	(Smalltalk hasClassNamed: #MCPLogger) ifTrue: [
+		menu addItem: 'Open MCP Log' action: [
+			(Smalltalk at: #MCPLogger) openLog]].
 	menu addItem: 'Workspace' action: [
 		Workspace open].
 	menu addItem: 'System Browser' action: [

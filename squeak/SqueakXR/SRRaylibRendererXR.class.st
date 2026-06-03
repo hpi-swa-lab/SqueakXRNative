@@ -1,8 +1,32 @@
 Class {
 	#name : #SRRaylibRendererXR,
 	#superclass : #SRRaylibRenderer,
+	#classVars : [
+		'DiagnosticWaitMs'
+	],
 	#category : #'SqueakXR-Core'
 }
+
+{
+	#category : #diagnostics,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 13:01'
+}
+SRRaylibRendererXR class >> diagnosticWaitMs [
+	"Milliseconds to wait at the end of completeFrame. Default 1 (original
+	behaviour). Raise it live (e.g. 10, 20) to test whether a bigger
+	per-frame window lets the MCP handler finish an evaluate on slower
+	devices (Quest 2). Set back to 1 (or nil) to restore."
+	^ DiagnosticWaitMs ifNil: [1]
+]
+
+{
+	#category : #diagnostics,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 13:01'
+}
+SRRaylibRendererXR class >> diagnosticWaitMs: anIntegerOrNil [
+	"Set the per-frame end-of-completeFrame wait in ms. nil restores default (1)."
+	DiagnosticWaitMs := anIntegerOrNil
+]
 
 {
 	#category : #'render-loop',
