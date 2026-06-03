@@ -1,3 +1,5 @@
+[![create-release](https://github.com/hpi-swa-lab/SqueakXRNative/actions/workflows/create-release.yml/badge.svg)](https://github.com/hpi-swa-lab/SqueakXRNative/actions/workflows/create-release.yml)
+
 # SqueakXR
 
 SqueakXR provides a XR interface for the [Squeak/Smalltalk](squeak.org) programming environment.
