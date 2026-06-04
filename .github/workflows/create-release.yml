@@ -70,5 +70,5 @@ jobs:
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TIME }}-dev-release
-          files: "build/*.so"
-          working_directory: scripts
+          files: "*.so"
+          working_directory: build
