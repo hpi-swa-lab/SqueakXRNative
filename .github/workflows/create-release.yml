@@ -7,26 +7,26 @@ on: workflow_dispatch
 env:
   RELEASE_TIME: REPLACE-THIS
 jobs:
-  last-commit-check:
-    runs-on: ubuntu-latest
-    outputs:
-      has-new-commits: ${{ steps.script.outputs.has-new-commits }}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          # Fetches only one commit
-          fetch-depth: 1
-      - name: check last commit date
-        id: script
-        # check if last commit is newer than 24h
-        run: |
-          value=$(if [[ $(( $(date +%s) - 86400 )) -lt $(git log -1 --format="%ct") ]]; then echo true; else echo false; fi)
-          echo "::set-output name=has-new-commits::$value"
-          if [ "$value" = "true" ]; then 
-            echo "Recent commits found. Continuing build..."; 
-          else 
-            echo "No recent commits. Skipping build...";
-          fi
+  # last-commit-check:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     has-new-commits: ${{ steps.script.outputs.has-new-commits }}
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         # Fetches only one commit
+  #         fetch-depth: 1
+  #     - name: check last commit date
+  #       id: script
+  #       # check if last commit is newer than 24h
+  #       run: |
+  #         value=$(if [[ $(( $(date +%s) - 86400 )) -lt $(git log -1 --format="%ct") ]]; then echo true; else echo false; fi)
+  #         echo "::set-output name=has-new-commits::$value"
+  #         if [ "$value" = "true" ]; then 
+  #           echo "Recent commits found. Continuing build..."; 
+  #         else 
+  #           echo "No recent commits. Skipping build...";
+  #         fi
   # create-release-image:
   #   needs: last-commit-check
   #   if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
@@ -42,8 +42,8 @@ jobs:
   #         files: "*-SqueakXR-releaseImage.tar.gz"
   #         working_directory: scripts
   create-release-libraries:
-    needs: last-commit-check
-    if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
+    # needs: last-commit-check
+    # if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -66,6 +66,7 @@ jobs:
           options: |
             ENABLE_RLOPENXR=OFF
             ENABLE_ANDROID=OFF
+      - run: ls -lisa
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TIME }}-dev-release
