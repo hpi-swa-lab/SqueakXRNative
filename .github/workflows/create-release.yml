@@ -27,20 +27,20 @@ jobs:
   #         else 
   #           echo "No recent commits. Skipping build...";
   #         fi
-  # create-release-image:
-  #   needs: last-commit-check
-  #   if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - run: sudo apt update && sudo apt install -y glslang-tools spirv-cross
-  #     - run: (cd scripts && ./createRelease.sh)
-  #     - run: echo "RELEASE_TIME=$(date +%Y%m%d)" >> "$GITHUB_ENV"
-  #     - uses: softprops/action-gh-release@v3
-  #       with:
-  #         tag_name: ${{ env.RELEASE_TIME }}-dev-release
-  #         files: "*-SqueakXR-releaseImage.tar.gz"
-  #         working_directory: scripts
+  create-release-image:
+    # needs: last-commit-check
+    # if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: sudo apt update && sudo apt install -y glslang-tools spirv-cross
+      - run: (cd scripts && ./createRelease.sh)
+      - run: echo "RELEASE_TIME=$(date +%Y%m%d)" >> "$GITHUB_ENV"
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.RELEASE_TIME }}-dev-release
+          files: "*-SqueakXR-releaseImage.tar.gz"
+          working_directory: scripts
   create-release-libraries:
     # needs: last-commit-check
     # if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
