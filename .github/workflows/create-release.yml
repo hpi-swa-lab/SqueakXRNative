@@ -55,9 +55,9 @@ jobs:
       - run: mkdir build
       - uses: threeal/cmake-action@v2.1.0
         with:
-          source-dir: $GITHUB_WORKSPACE/android/app/src/main/cpp/CMakeLists.txt
+          source-dir: android/app/src/main/cpp/CMakeLists.txt
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TIME }}-dev-release
-          files: "$GITHUB_WORKSPACE/build/*.so"
+          files: "build/*.so"
           working_directory: scripts
