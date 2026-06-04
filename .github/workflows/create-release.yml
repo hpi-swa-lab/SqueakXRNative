@@ -79,7 +79,7 @@ jobs:
           options: |
             ENABLE_RLOPENXR=OFF
             ENABLE_ANDROID=OFF
-      - run: ls -lisa build/
+      - run: ls build
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.last-commit-check.outputs.release-date }}-dev-release
