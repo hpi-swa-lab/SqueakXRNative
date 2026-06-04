@@ -51,7 +51,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
-      - run: sudo apt update && sudo apt install -y glfw
+      - run: sudo apt update && sudo apt install -y libglfw3-dev
       - run: mkdir build
       - uses: threeal/cmake-action@v2.1.0
         with:
