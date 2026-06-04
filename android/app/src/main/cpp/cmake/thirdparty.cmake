@@ -9,7 +9,7 @@ if(LOCAL_RAYLIB_SOURCE)
 endif()
 
 FetchContent_Declare(raylib
-    GIT_REPOSITORY git@github.com:leogeier/raylib.git
+    GIT_REPOSITORY https://github.com/leogeier/raylib.git
     GIT_TAG squeakxr
     SOURCE_SUBDIR ignoreCmakeLists
 )
@@ -101,7 +101,7 @@ if(LOCAL_OPENSMALLTALKVM_SOURCE)
 endif()
 
 FetchContent_Declare(opensmalltalkvm
-  GIT_REPOSITORY git@github.com:leogeier/opensmalltalk-vm.git
+  GIT_REPOSITORY https://github.com/leogeier/opensmalltalk-vm.git
   GIT_TAG cmake-for-quest
 )
 
@@ -113,7 +113,7 @@ if(ENABLE_RLOPENXR)
     endif()
 
     FetchContent_Declare(rlOpenXR
-            GIT_REPOSITORY git@github.com:leogeier/rlOpenXR.git# "${RLOPENXR_GIT_REPO}"
+            GIT_REPOSITORY https://github.com/leogeier/rlopenxr
             GIT_TAG squeakxr
     #        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rlOpenXR"
     )
