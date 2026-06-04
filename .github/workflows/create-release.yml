@@ -51,7 +51,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
-      - run: sudo apt update && sudo apt install -y libglfw3-dev
+      - name: Install GLFW dependencies
+        run: sudo apt update && sudo apt install -y libwayland-dev libxkbcommon-dev xorg-dev
+      - name: Build and install GLFW 3.4
+        run: |
+          git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
+          cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
+          sudo cmake --build glfw-build --target install
       - run: mkdir build
       - uses: threeal/cmake-action@v2.1.0
         with:
