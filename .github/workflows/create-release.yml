@@ -60,7 +60,10 @@ jobs:
             cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
             sudo cmake --build glfw-build --target install
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            vcpkg install glfw3
+            git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
+            cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/glfw-install"
+            cmake --build glfw-build --target install --config Release
+            echo "CMAKE_PREFIX_PATH=$RUNNER_TEMP/glfw-install" >> "$GITHUB_ENV"
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install glfw
           else
