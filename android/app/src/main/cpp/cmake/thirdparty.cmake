@@ -64,7 +64,9 @@ else()
 endif()
 
 # Link required libraries to raylib
-target_link_libraries(raylib dl m c)
+if(NOT WIN32)
+    target_link_libraries(raylib dl m c)
+endif()
 
 if(ENABLE_ANDROID)
   target_link_libraries(raylib android log EGL OpenSLES)
