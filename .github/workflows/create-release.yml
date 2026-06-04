@@ -79,6 +79,7 @@ jobs:
           options: |
             ENABLE_RLOPENXR=OFF
             ENABLE_ANDROID=OFF
+            CMAKE_RUNTIME_OUTPUT_DIRECTORY=build
       - run: ls build
       - uses: softprops/action-gh-release@v3
         with:
