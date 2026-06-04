@@ -64,7 +64,9 @@ else()
 endif()
 
 # Link required libraries to raylib
-if(NOT WIN32)
+if(WIN32)
+    target_link_libraries(raylib winmm gdi32 opengl32)
+else()
     target_link_libraries(raylib dl m c)
 endif()
 
