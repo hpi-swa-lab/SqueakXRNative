@@ -57,6 +57,9 @@ jobs:
         with:
           build-dir: build/
           source-dir: android/app/src/main/cpp/
+          options: |
+            ENABLE_RLOPENXR=OFF
+            ENABLE_ANDROID=OFF
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TIME }}-dev-release
