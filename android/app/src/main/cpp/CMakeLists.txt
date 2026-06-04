@@ -5,6 +5,12 @@ project("squeakxrnative")
 set(ENABLE_RLOPENXR ON CACHE BOOL "Whether to compile with rlOpenXR")
 set(ENABLE_ANDROID ON CACHE BOOL "Whether to compile for Android")
 
+if(WIN32)
+    foreach(config DEBUG RELEASE RELWITHDEBINFO MINSIZEREL)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${config} ${CMAKE_BINARY_DIR})
+    endforeach()
+endif()
+
 include(cmake/thirdparty.cmake)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
