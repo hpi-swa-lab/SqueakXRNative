@@ -32,7 +32,7 @@ jobs:
           fi
   create-release-image:
     needs: last-commit-check
-    # if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
+    if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -45,21 +45,30 @@ jobs:
           working_directory: scripts
   create-release-libraries:
     needs: last-commit-check
-    # if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
+    if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
-      - name: Install GLFW dependencies
-        run: sudo apt update && sudo apt install -y libwayland-dev libxkbcommon-dev xorg-dev
       - name: Build and install GLFW 3.4
         run: |
-          git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
-          cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
-          sudo cmake --build glfw-build --target install
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt update && sudo apt install -y libwayland-dev libxkbcommon-dev xorg-dev
+            git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
+            cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
+            sudo cmake --build glfw-build --target install
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            choco install important_windows_software
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install glfw
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+        shell: bash
       - run: mkdir build
       - uses: threeal/cmake-action@v2.1.0
         with:
@@ -68,9 +77,11 @@ jobs:
           options: |
             ENABLE_RLOPENXR=OFF
             ENABLE_ANDROID=OFF
-      - run: ls -lisa build
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.last-commit-check.outputs.release-date }}-dev-release
-          files: "*.so"
+          files: |
+            *.dll
+            *.so
+            *.dylib
           working_directory: build
