@@ -596,11 +596,11 @@ SRWorld >> exitOutOfBody [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
 }
 SRWorld >> gizmoPainter [
 
-	^ gizmoPainter
+	^ self children detect: [:c | c isGizmoPainter] ifNone: [nil]
 ]
 
 { #category : #'as yet unclassified' }
@@ -623,25 +623,22 @@ SRWorld >> initXrInput [
 ]
 
 {
-	#category : #initializing,
-	#'squeak_changestamp' : 'lege 11/11/2025 18:23'
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
 }
 SRWorld >> initialize [
 
 	super initialize.
 	
-	running := false.
-	needsSetup := false.
+	isRunning := false.
 	ranStartScript := false.
 	isFramePrepared := false.
 	
-	gizmoPainter := SRGizmoPainter new.
-	self addChild: gizmoPainter.
+	self addChild: SRGizmoPainter new.
 	
 	self
 		isXR: false;
-		renderer: SRRenderer rendererClass new. "TODO: decide this based on XRness"
-	
+		renderer: SRRenderer rendererClass new.
 ]
 
 { #category : #'as yet unclassified' }

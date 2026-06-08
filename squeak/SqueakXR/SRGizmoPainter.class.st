@@ -161,6 +161,14 @@ SRGizmoPainter >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
+}
+SRGizmoPainter >> isGizmoPainter [
+	^ true.
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }

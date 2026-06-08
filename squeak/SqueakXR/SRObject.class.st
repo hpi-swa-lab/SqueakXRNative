@@ -443,6 +443,14 @@ SRObject >> isDebugHUD [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
+}
+SRObject >> isGizmoPainter [
+	^ false.
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:27'
 }
 SRObject >> isMenu [
