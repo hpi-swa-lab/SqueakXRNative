@@ -1,0 +1,3 @@
+[submodule "android/app/src/main/cpp/squeak/opensmalltalk-vm"]
+	path = android/app/src/main/cpp/squeak/opensmalltalk-vm
+	url = git@github.com:leogeier/opensmalltalk-vm.git
