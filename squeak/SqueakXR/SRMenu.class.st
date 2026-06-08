@@ -155,12 +155,10 @@ SRMenu >> isMenu [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:58'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRMenu >> openAt: aPosition facingViewer: aViewerPosition [
-	"Position the menu at aPosition and orient it so its front (+Z) points at
-	the viewer: yaw in the horizontal plane, then pitch around world +X so
-	the menu tilts to meet the viewer's gaze, like a book held up to read."
+
 	| toViewer flat fwd yaw toViewerNorm pitchAngle pitch |
 	self position: aPosition.
 	toViewer := aViewerPosition - aPosition.
@@ -171,12 +169,8 @@ SRMenu >> openAt: aPosition facingViewer: aViewerPosition [
 		ifTrue: [Quaternion new angle: 180 axis: Vector3 up]
 		ifFalse: [Quaternion new from: fwd to: flat].
 	toViewerNorm := toViewer safelyNormalize.
-	"Negate so +Z front tilts toward the viewer (not away)."
 	pitchAngle := toViewerNorm y arcSin negated.
 	pitch := Quaternion new radiansAngle: pitchAngle axis: Vector3 right.
-	"Order matters: yaw first (applied to local vector), then pitch around
-	world +X. Since flat is in XZ and pitch is around world +X, the menu's
-	tilt always lies in the vertical plane through the viewer direction."
 	self rotation: pitch * yaw.
 ]
 

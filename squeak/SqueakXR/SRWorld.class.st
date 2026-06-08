@@ -463,20 +463,13 @@ SRWorld >> completeFrame [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> createGhostAvatar [
-	"Create a visible ghost avatar at the frozen position: head cube with eyes, two hand cubes.
-	Hand sizes match SRHand>>initialize (10cm cube + 1cm x 1cm x 10m ray).
-	Each anchor is an SRObject positioned via globalTransform:, with scaled cubes as children
-	so the scale is not overwritten by the transform.
-	
-	Camera convention: local +Z = look direction (see Matrix4x4>>objectLookAt:from:up:).
-	Hand convention: local -Z = pointing direction (see SRHand>>castRay)."
+
 	| ghost headAnchor leftAnchor rightAnchor |
 	ghost := SRObject new name: 'GhostAvatar'.
 	
-	"--- Head: eyes face +Z (camera look direction) ---"
 	headAnchor := SRObject new name: 'GhostHeadAnchor'.
 	headAnchor globalTransform: (frozenAvatar at: #cameraTransform).
 	headAnchor addChild: (SRCube new color: Color gray; scale: 10cm asVector3; name: 'GhostHead').
@@ -485,13 +478,11 @@ SRWorld >> createGhostAvatar [
 	headAnchor addChild: (SRCube new color: Color black; scale: 1cm @ 1cm @ 0.25cm; translation: -2cm @ 1cm @ 5.8cm; name: 'GhostLeftPupil').
 	headAnchor addChild: (SRCube new color: Color black; scale: 1cm @ 1cm @ 0.25cm; translation: 2cm @ 1cm @ 5.8cm; name: 'GhostRightPupil').
 	
-	"--- Left hand (blue) + ray ---"
 	leftAnchor := SRObject new name: 'GhostLeftHandAnchor'.
 	leftAnchor globalTransform: (frozenAvatar at: #leftHandTransform).
 	leftAnchor addChild: (SRCube new color: Color blue; scale: 10cm asVector3; name: 'GhostLeftHand').
 	leftAnchor addChild: (SRCube new color: Color cyan; scale: 1cm @ 1cm @ 10m; translation: 0 @ 0 @ -5m; name: 'GhostLeftRay').
 	
-	"--- Right hand (red) + ray ---"
 	rightAnchor := SRObject new name: 'GhostRightHandAnchor'.
 	rightAnchor globalTransform: (frozenAvatar at: #rightHandTransform).
 	rightAnchor addChild: (SRCube new color: Color red; scale: 10cm asVector3; name: 'GhostRightHand').
@@ -506,10 +497,10 @@ SRWorld >> createGhostAvatar [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:54'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> debugHUD [
-	"Find the debug HUD in the scene tree, if any."
+
 	^ self allDescendants detect: [:obj | obj isKindOf: SRXRDebugHUD] ifNone: [nil]
 ]
 
@@ -561,36 +552,29 @@ SRWorld >> enterMorphicProject [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:00'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> enterOutOfBody [
-	"Freeze the avatar in place and detach the camera for free-fly debugging.
-	In XR: the HMD keeps tracking but a ghost avatar stays at the old position.
-	In flat: the emulated camera detaches and you fly freely."
+
 	| av |
 	self outOfBodyMode ifTrue: [^ self].
 	av := self avatar.
 	av ifNil: [^ self].
 	
-	"Snapshot the avatar's current global transforms for hands and camera"
 	frozenAvatar := Dictionary new.
 	frozenAvatar at: #avatarTransform put: av globalTransform copy.
 	frozenAvatar at: #leftHandTransform put: av leftHand globalTransform copy.
 	frozenAvatar at: #rightHandTransform put: av rightHand globalTransform copy.
 	frozenAvatar at: #cameraTransform put: av camera globalTransform copy.
 	
-	"Create the ghost -- a visible copy of the avatar that stays in place"
 	self createGhostAvatar.
 	
-	"In flat mode, spawn a new free-fly camera that takes over rendering"
 	self isXR ifFalse: [
 		| camPos |
 		outOfBodyCamera := SRSimpleAvatarMovementEmulator new.
-		"Don't set avatar -- this camera is standalone"
-		"Start from the current camera position, slightly backed off"
 		camPos := (frozenAvatar at: #cameraTransform) translation copy.
 		outOfBodyCamera position: camPos.
-		outOfBodyCamera toggleLookMode "enable look mode by default"].
+		outOfBodyCamera toggleLookMode].
 	
 	outOfBodyMode := true.
 	Transcript cr; show: 'Out-of-body mode ENABLED'.
@@ -598,15 +582,12 @@ SRWorld >> enterOutOfBody [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:00'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> exitOutOfBody [
-	"Return to normal avatar-attached camera."
+
 	self outOfBodyMode ifFalse: [^ self].
-	
-	"Remove the ghost avatar"
 	self removeGhostAvatar.
-	
 	outOfBodyCamera := nil.
 	frozenAvatar := nil.
 	outOfBodyMode := false.
@@ -776,13 +757,9 @@ SRWorld >> loop [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 6/3/2026 14:43'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> maybeStartMCPServer [
-	"Start the singleton SBMCPServer if the preference is on and the class is
-	available. Uses SBMCPServer current so we never spawn a second instance
-	fighting over the port. Never breaks the start script if it is missing or
-	fails to start."
 
 	| serverClass server |
 	self class startMCPServer ifFalse: [^ self].
@@ -852,10 +829,10 @@ SRWorld >> processKeyInput [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:55'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRWorld >> removeGhostAvatar [
-	"Remove the ghost avatar from the scene."
+
 	self children copy do: [:child |
 		child name = 'GhostAvatar' ifTrue: [child remove]]
 ]
@@ -893,17 +870,13 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/3/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:09'
 }
 SRWorld >> runStartScript [
 
 	self log.
 
-	"Set the author initials FIRST, before any early-return guard, so it always
-	happens even when the start-script content is skipped. In XR there is no
-	reachable keyboard dialog, so without this the first code-changing operation
-	pops a modal FillInTheBlank (asking for initials) that renders behind the
-	user and blocks the MCP eval handler. Guarded so it can never break startup."
+	"Set author initials early -- in XR there is no keyboard for the FillInTheBlank dialog."
 	[Utilities setAuthorInitials: 'SqueakXR']
 		on: Error do: [:ex | self log: 'could not set author initials: ', ex messageText].
 
@@ -928,7 +901,7 @@ SRWorld >> runStartScript [
 		addProjects: (methodMorser spaces first projectsWithAllNames: {#SqueakXR});
 		startAutoSync."
 	"yaros2 := YarosServer new
-		""""connector: (YarosHTTPClientAndServerConnector remoteName: 'localhost' clientPort: 8083 serverPort: 8082);""""
+		""connector: (YarosHTTPClientAndServerConnector remoteName: 'localhost' clientPort: 8083 serverPort: 8082);""
 		connector: (YarosWebSocketClientConnector remoteName: 'localhost' port: 8082)
 		yourself.
 	yaros2 startServer.
@@ -964,11 +937,11 @@ SRWorld >> runStartScript [
 	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
 	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
-		label: 'Profile'
-		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
-		extent: 200 @ 100;
-		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
-		actionSelector: #value))
+	label: 'Profile'
+	font: (StrikeFont familyName: #DefaultTextStyle size: 20))
+	extent: 200 @ 100;
+	target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
+	actionSelector: #value))
 	
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new

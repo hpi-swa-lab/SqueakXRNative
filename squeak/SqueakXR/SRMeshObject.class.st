@@ -59,24 +59,21 @@ SRMeshObject >> mesh: anSRMesh [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRMeshObject >> onCacheInvalidated [
-	"Renderer cache is cleared (image restart). We hold no GPU state of our own -- mesh / material / texture are all rebuilt lazily from the renderer cache. So nothing to do here besides super."
 
 	super onCacheInvalidated
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRMeshObject >> renderOn: aSRRenderer [
-	"Force cache-managed lazy rebuild of mesh + material+texture, then call the renderer's standard renderMesh:transform:material: which itself reads the (now-refreshed) internalMaterial off the SRMaterial wrapper."
 
 	mesh ifNil: [^ self].
 	material ifNil: [^ self].
-	"Side-effect: ensure cache entries exist and internalMaterial ivar is fresh."
 	material internalMaterialFor: aSRRenderer.
 	aSRRenderer withoutBackfaceCullingDo: [
 		aSRRenderer

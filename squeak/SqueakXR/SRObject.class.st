@@ -368,21 +368,19 @@ SRObject >> globalTranslation: aVector3 [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:29'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRObject >> grabTarget [
-	"Return the object that should be moved when this object is grabbed.
-	 Can be set explicitly via grabTarget:, otherwise returns self."
+
 	^ grabTarget ifNil: [self]
 ]
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/18/2026 18:29'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRObject >> grabTarget: anObjectOrNil [
-	"Set which object should be moved when this object is grabbed.
-	 nil means not grabbable. self means grab this object."
+	"nil means not grabbable."
 	grabTarget := anObjectOrNil
 ]
 

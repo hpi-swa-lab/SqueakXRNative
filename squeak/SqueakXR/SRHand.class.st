@@ -131,10 +131,9 @@ SRHand >> actionsUpdated: aSRActionStates [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRHand >> castRay [
-	"Cast a ray from the hand into the world and return the nearest intersection, or nil."
 
 	| ray |
 	self world ifNil: [^ nil].
@@ -242,12 +241,11 @@ SRHand >> isRight [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 12:05'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRHand >> menuPlacementPosition [
-	"Place the menu in front of the viewer (camera), not the hand.
-	Uses the camera's look direction at a comfortable reading distance.
-	Raycasts from the hand to avoid placing the menu inside objects."
+	"Place the menu in front of the viewer, avoiding objects via raycast."
+
 	| viewer forward preferredDistance margin minDistance hit distance |
 	viewer := self viewerPosition.
 	forward := self world avatar camera globalTransform localDirToGlobal: Vector3 forward.
@@ -333,7 +331,7 @@ SRHand >> selectedObject [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:31'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRHand >> startGrabbing [
 
@@ -348,7 +346,6 @@ SRHand >> startGrabbing [
 		target ifNil: [^ self].
 		grabbedObject := target.
 		selectedObject := target.
-		Transcript cr; show: 'Selected: ', target class name, ' (', (target name ifNil: ['unnamed']), ')'.
 		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform].
 ]
 
@@ -412,11 +409,10 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:38'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRHand >> viewerPosition [
-	"Return the user's head/camera position in world space.
-	Fall back to the hand position if no camera is available."
+
 	| w avatar cam |
 	w := self world.
 	w ifNil: [^ self globalTranslation].

@@ -31,15 +31,11 @@ SRShader class >> allShaderSelectors [
 
 {
 	#category : #'app shaders',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:39'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> cache: aName source: aSourceDict [
 	"Transpile and cache a single named shader source on demand.
-	 Lets application packages (e.g. SWAGame) own their shader source methods
-	 instead of adding them to SRShader's own 'shader sources' category.
-	 aName is the cache key used later by DNU dispatch (e.g. SRShader swagameVoxelEdge).
-	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form.
-	 Requires glslang + spirv-cross (same prerequisites as transpileAll)."
+	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form."
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 	ShaderCache ifNil: [ShaderCache := Dictionary new].
 	ShaderCache at: aName asString put: (self transpileSource: aSourceDict).
@@ -48,12 +44,10 @@ SRShader class >> cache: aName source: aSourceDict [
 
 {
 	#category : #'app shaders',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:48'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> canTranspile [
-	"Answer whether the GLSL transpile toolchain (glslang + spirv-cross) is
-	 available on this platform. False on the Meta Quest (Android), where shaders
-	 must be pre-transpiled on desktop and read from a saved ShaderCache."
+
 	^ (self doesCommandExist: 'glslang')
 		and: [self doesCommandExist: 'spirv-cross']
 ]
@@ -103,10 +97,10 @@ SRShader class >> ensureSpirvCrossAvailable [
 
 {
 	#category : #'app shaders',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:40'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> hasCachedShader: aName [
-	"Answer whether a shader source has been transpiled and cached under aName."
+
 	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
 ]
 
@@ -159,12 +153,10 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:28'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> sourceFor: shader version: version [
-	"Return the {vert. frag} source dict for the given shader name and GLSL
-	 version, with any shader-wide #uniforms list (stored at the top level of
-	 the cache entry by transpileSource:) merged in so shaderFromDict: can see it."
+	"Merge any top-level #uniforms list into the versioned source dict."
 	^ ShaderCache at: shader
 		ifPresent: [:sources |
 			| versioned |
@@ -187,14 +179,11 @@ SRShader class >> stages [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 18:14'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> stripInputLocationsForES: glslSource [
-	"Remove 'layout(location = N) ' qualifiers that immediately precede an
-	 'in ' declaration. GLSL ES 3.0 forbids explicit locations on vertex
-	 inputs; raylib binds attributes by name, so they are safe to drop.
-	 Leaves 'out' location qualifiers (legal in ES3, used for MRT) intact.
-	 Returns nil unchanged (some stages have no source)."
+	"Strip layout(location=N) from 'in' declarations for GLSL ES 3.0 compatibility."
+
 	| lines |
 	glslSource ifNil: [^ nil].
 	lines := glslSource lines collect: [:line |
@@ -213,16 +202,11 @@ SRShader class >> stripInputLocationsForES: glslSource [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 18:14'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> transpile300es: source stage: stage [
-	"Transpile to GLSL ES 3.0. spirv-cross keeps explicit
-	 layout(location = N) qualifiers on shader inputs, but GLSL ES 3.0 does
-	 NOT allow them on 'in' declarations (that is an ES 3.1+ / desktop GL
-	 feature). The Quest's Adreno ES3 compiler rejects the whole shader with
-	 'Unsupported or invalid OpenGL ES version'. raylib binds vertex
-	 attributes by name (glBindAttribLocation) anyway, so the location is
-	 redundant -- strip it from 'in' declarations."
+	"Transpile to GLSL ES 3.0, stripping input location qualifiers."
+
 	| out |
 	out := self transpile: source stage: stage options: '--version 300 --es'.
 	^ self stripInputLocationsForES: out
@@ -261,12 +245,10 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:41'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> transpileAll [
-	"Transpile SRShader's own 'shader sources' (framework shaders) into ShaderCache.
-	 App-registered shaders (added via cache:source:) are preserved: we merge the
-	 framework sources into the existing cache rather than replacing it wholesale."
+	"Transpile framework shaders, preserving app-registered shaders in cache."
 
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 
@@ -371,11 +353,10 @@ SRShader >> load [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:27'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader >> uniformLocAt: aUniformName [
-	"Return the cached GL location of the named uniform (set during #load from
-	 the #uniforms list), or -1 if this shader does not declare it."
+
 	uniformLocs ifNil: [^ -1].
 	^ (uniformLocs detect: [:assoc | assoc key = aUniformName] ifNone: [nil])
 		ifNil: [-1]

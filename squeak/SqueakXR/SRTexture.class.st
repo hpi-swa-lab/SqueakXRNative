@@ -74,10 +74,9 @@ SRTexture class >> solidColor: aColor extent: aPoint [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> buildAndUploadRlTexture [
-	"Materialize an RlImage from canonical pixelBytes, upload to a fresh RlTexture handle. Returns the texture."
 
 	| addr nBytes |
 	image := Raylib genImageColorWidth: width height: height color: Color black asRlColor.
@@ -93,20 +92,18 @@ SRTexture >> buildAndUploadRlTexture [
 
 {
 	#category : #painting,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:45'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> fillColor: aColor [
-	"Clear the whole image and pixelBytes to a solid color."
 
 	self fillRect: (0 @ 0 extent: width @ height) color: aColor
 ]
 
 {
 	#category : #painting,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> fillRect: aRectangle color: aColor [
-	"Fill a rectangle in pixelBytes; also in the RlImage if it exists."
 
 	image ifNotNil: [
 		Raylib
@@ -123,10 +120,9 @@ SRTexture >> fillRect: aRectangle color: aColor [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 5/29/2026 10:38'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> flush [
-	"Push the current CPU pixels to the existing GPU texture handle. Calls currentRlTexture first to ensure the local image/texture ivars are populated for the current session (rebuilds via cache miss after image restart)."
 
 	self currentRlTexture ifNil: [^ self].
 	image ifNil: [^ self].
@@ -145,9 +141,10 @@ SRTexture >> height [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> initializeImage: anRlImage extent: aPoint [
+
 	image := anRlImage.
 	width := aPoint x.
 	height := aPoint y.
@@ -157,10 +154,9 @@ SRTexture >> initializeImage: anRlImage extent: aPoint [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> internalTexture [
-	"Lazily rebuild RlImage from pixelBytes and upload to a fresh RlTexture handle. Used by SRMaterial to bind the diffuse map."
 
 	image ifNil: [self rebuildImageFromBytes].
 	isUploaded ifFalse: [self upload].
@@ -169,10 +165,9 @@ SRTexture >> internalTexture [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> internalTextureFor: aSRRenderer [
-	"Return the GPU RlTexture handle, building and uploading on first access via the renderer cache. All GL work gated by this call, which only happens at render time."
 
 	^ aSRRenderer cacheAt: self ifAbsentPut: [self buildAndUploadRlTexture]
 ]
@@ -187,18 +182,16 @@ SRTexture >> isUploaded [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:29'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> onCacheInvalidated [
-	"Renderer cache is being cleared. Our RlImage + RlTexture live in the cache. Do nothing here; cache miss on next render will rebuild from pixelBytes."
 ]
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:37'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> rebuildImageFromBytes [
-	"Allocate a fresh RlImage of the right extent and copy pixelBytes into its data buffer."
 
 	| addr nBytes |
 	pixelBytes ifNil: [^ self].
@@ -210,10 +203,9 @@ SRTexture >> rebuildImageFromBytes [
 
 {
 	#category : #painting,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> setPixelAt: aPoint color: aColor [
-	"Set a pixel in pixelBytes (canonical) and in the RlImage (if it exists -- so subsequent flush is cheap). If image is nil we are pre-upload; canonical bytes hold the truth and the first render will pick them up."
 
 	self writePixelAt: aPoint color: aColor.
 	image ifNotNil: [
@@ -222,10 +214,9 @@ SRTexture >> setPixelAt: aPoint color: aColor [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:37'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> snapshotImageToBytes [
-	"Copy the current RlImage's pixel data into the canonical ByteArray. RlImage pixels are RGBA bytes (4 per pixel)."
 
 	| addr nBytes |
 	image ifNil: [^ self].
@@ -237,10 +228,9 @@ SRTexture >> snapshotImageToBytes [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> upload [
-	"Upload the current RlImage to a fresh GPU texture handle."
 
 	texture := Raylib loadTextureFromImage: image.
 	Raylib genTextureMipmapsTexture: texture.
@@ -258,10 +248,10 @@ SRTexture >> width [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:06'
 }
 SRTexture >> writePixelAt: aPoint color: aColor [
-	"Mirror a single pixel write into the canonical pixelBytes ByteArray. RGBA byte layout, 4 bytes per pixel, row-major."
+	"RGBA, 4 bytes per pixel, row-major."
 
 	| idx rgba |
 	(aPoint x < 0 or: [aPoint x >= width or: [aPoint y < 0 or: [aPoint y >= height]]]) ifTrue: [^ self].
