@@ -28,6 +28,19 @@ SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+}
+SRSimpleAvatarMovementEmulator >> cameraTransform [
+	"Return the camera transform matrix for the current position and look direction,
+	without requiring an avatar reference."
+	| forward target |
+	forward := self forwardVector.
+	target := position + forward.
+	^ Matrix4x4 objectLookAt: target from: position up: Vector3 up
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:57'
 }
@@ -83,6 +96,14 @@ SRSimpleAvatarMovementEmulator >> position [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+}
+SRSimpleAvatarMovementEmulator >> position: aVector3 [
+	position := aVector3
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
@@ -96,12 +117,11 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 10:20'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
 }
 SRSimpleAvatarMovementEmulator >> update [
 
 	| forward right movement |
-	avatar ifNil: [^ self].
 	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
 	right := (forward cross: Vector3 up) normalize.
 	movement := Vector3 zero.

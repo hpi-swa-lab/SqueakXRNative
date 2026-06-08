@@ -73,19 +73,35 @@ SRXRInputEmulator >> rayCast [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:25'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:30'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
 	| rightHand |
+	
+	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
+		debugHUD toggleVisibility].
+	
+	(Raylib isKeyPressedKey: RlKeyboardKey keyF3) ifTrue: [
+		self world toggleOutOfBody].
+	
+	"In out-of-body mode, the free camera handles movement instead"
+	self world outOfBodyMode ifTrue: [
+		| oobCam |
+		oobCam := self world outOfBodyCamera.
+		oobCam ifNil: [^ self].
+		(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
+			oobCam toggleLookMode].
+		oobCam update.
+		^ self].
 	
 	emulatedCamera update.
 	
 	(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
 	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
-		debugHUD toggleVisibility].
+	"Update left hand to follow camera at a natural offset"
+	self updateLeftHandFromCamera.
 	
 	emulatedCamera lookModeEnabled
 		ifTrue: [
@@ -109,10 +125,41 @@ SRXRInputEmulator >> step: delta [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 13:00'
+}
+SRXRInputEmulator >> updateLeftHandFromCamera [
+	"Position the left hand at a subtle shoulder offset from the camera,
+	aimed at the same point the camera is looking at (convergence at ~5m).
+	Kept close (20cm) so the ray still aligns well with the camera for aiming."
+	| leftHand camTransform camPos camForward camRight camDown handPos target up transform |
+	leftHand := self world avatar leftHand.
+	camTransform := self world avatar camera globalTransform.
+	camPos := camTransform translation.
+	camForward := (camTransform localDirToGlobal: Vector3 forward) normalize.
+	camRight := (camTransform localDirToGlobal: Vector3 right) normalize.
+	camDown := (camTransform localDirToGlobal: Vector3 down) normalize.
+	
+	"Hand position: 20cm left, 20cm down from camera"
+	handPos := camPos - (camRight * 0.2) + (camDown * 0.2).
+	
+	"Aim at the camera's look point 5m ahead"
+	target := camPos + (camForward * 5.0).
+	up := self world renderer cameraUp asVector3.
+	
+	"Z-flip so hand's -Z = pointing direction"
+	transform := (Matrix4x4 objectLookAt: target from: handPos up: up)
+		* (Matrix4x4 withScale: 1 @ 1 @ -1).
+	leftHand globalTransform: transform.
+	^ leftHand
+]
+
+{
+	#category : #'hand updating',
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 13:04'
 }
 SRXRInputEmulator >> updateRightHandFromMouseRay [
-
+	"Position the right hand at the camera origin, aimed where the mouse points.
+	Kept at camera origin so the ray exactly matches what you click on."
 	| rightHand rlRay origin direction up target transform |
 	rightHand := self world avatar rightHand.
 	rlRay := Raylib
@@ -130,10 +177,11 @@ SRXRInputEmulator >> updateRightHandFromMouseRay [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 13:04'
 }
 SRXRInputEmulator >> updateRightHandFromScreenCenter [
-
+	"Position the right hand at the camera origin, aimed at screen center.
+	Kept at camera origin so the ray exactly matches what you see."
 	| rightHand rlRay origin direction up target transform screenCenter rlScreenCenter |
 	rightHand := self world avatar rightHand.
 	screenCenter := (Raylib getScreenWidth // 2) @ (Raylib getScreenHeight // 2).

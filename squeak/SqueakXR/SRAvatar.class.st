@@ -29,7 +29,7 @@ SRAvatar >> cameraPosition: position target: target up: up [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:49'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:04'
 }
 SRAvatar >> initialize [
 

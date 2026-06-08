@@ -44,7 +44,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 6/3/2026 14:11'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:54'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -75,6 +75,11 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		aWorld addChild: (SRFrameTimeGraph new
 			position: aPosition;
 			yourself)].
+	"--- Debug tools ---"
+	menu addItem: (aWorld debugHUD ifNotNil: [:h | h visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF']] ifNil: ['Debug HUD: N/A']) action: [
+		aWorld debugHUD ifNotNil: [:h | h toggleVisibility]].
+	menu addItem: (aWorld outOfBodyMode ifTrue: ['Return to Body'] ifFalse: ['Out-of-Body Mode']) action: [
+		aWorld toggleOutOfBody].
 	(Smalltalk hasClassNamed: #SBMCPServer) ifTrue: [
 		| mcp label |
 		mcp := Smalltalk at: #SBMCPServer.

@@ -9,6 +9,8 @@ Class {
 		'triggerPressed',
 		'squeezePressed',
 		'aPressed',
+		'menuPressed',
+		'xPressed',
 		'grabbedObject',
 		'grabbedRelativeTransform',
 		'actionState',
@@ -91,22 +93,38 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:56'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
-	| aJustPressed prevAPressed |
+	| aJustPressed prevAPressed prevMenuPressed menuJustPressed prevXPressed xJustPressed |
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
 	(actionState thumbstickY at: self handIndex) abs > 0.5 ifTrue: [self rayCast].
 	
-	"TODO: move low handling of inputs to separate class"
+	"A button -- teleport (right hand only)"
 	prevAPressed := aPressed.
 	aPressed := aSRActionStates a.
 	aJustPressed := aPressed and: prevAPressed not.
 	(self isRight and: aJustPressed) ifTrue: [
 		self teleport].
+	
+	"Menu button -- toggle debug HUD (left hand only, button is global)"
+	self isLeft ifTrue: [
+		prevMenuPressed := menuPressed.
+		menuPressed := aSRActionStates menu.
+		menuJustPressed := menuPressed and: [prevMenuPressed not].
+		menuJustPressed ifTrue: [
+			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]]].
+	
+	"X button -- toggle out-of-body mode (left hand only, button is global)"
+	self isLeft ifTrue: [
+		prevXPressed := xPressed.
+		xPressed := aSRActionStates x.
+		xJustPressed := xPressed and: [prevXPressed not].
+		xJustPressed ifTrue: [
+			self world toggleOutOfBody]].
 	
 	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
 ]
@@ -132,13 +150,22 @@ SRHand >> handIndex [
 	^ handIndex
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:56'
+}
 SRHand >> handIndex: anInteger [
 
+	| handColor |
 	handIndex := anInteger.
 	self name: (handIndex caseOf: {
 		[self class leftIndex] -> ['Left Hand'].
-		[self class rightIndex] -> ['Right Hand']})
+		[self class rightIndex] -> ['Right Hand']}).
+	
+	"Color the hand cube and ray to distinguish left from right"
+	handColor := self isLeft ifTrue: [Color blue] ifFalse: [Color red].
+	self children do: [:child |
+		(child isKindOf: SRCube) ifTrue: [child color: handColor]]
 ]
 
 {
@@ -181,7 +208,10 @@ SRHand >> handleTrigger: aNumber [
 			ifFalse: [self rayCast]].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:55'
+}
 SRHand >> initialize [
 
 	super initialize.
@@ -189,6 +219,8 @@ SRHand >> initialize [
 	triggerPressed := false.
 	aPressed := false.
 	squeezePressed := false.
+	menuPressed := false.
+	xPressed := false.
 	
 	self addChild: (SRCube new scale: 10cm asVector3);
 		addChild: (SRCube new
@@ -210,26 +242,27 @@ SRHand >> isRight [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 12:05'
 }
 SRHand >> menuPlacementPosition [
-	"Choose a comfortable spot along the hand's pointing ray for placing a menu.
-	Preferred distance is short so the menu lands near the user, but we raycast
-	so the menu never ends up buried inside an object the hand is pointing at."
-	| handPos handForward preferredDistance margin minDistance hit distance |
-	handPos := self globalTranslation.
-	handForward := (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	preferredDistance := 0.4.
+	"Place the menu in front of the viewer (camera), not the hand.
+	Uses the camera's look direction at a comfortable reading distance.
+	Raycasts from the hand to avoid placing the menu inside objects."
+	| viewer forward preferredDistance margin minDistance hit distance |
+	viewer := self viewerPosition.
+	forward := self world avatar camera globalTransform localDirToGlobal: Vector3 forward.
+	forward := forward normalize.
+	preferredDistance := 0.5.
 	margin := 0.05.
-	minDistance := 0.15.
+	minDistance := 0.25.
 	hit := self castRay.
 	distance := preferredDistance.
 	hit ifNotNil: [
 		| hitDistance |
-		hitDistance := (hit point - handPos) length.
+		hitDistance := (hit point - viewer) length.
 		distance := (hitDistance - margin) min: preferredDistance].
 	distance := distance max: minDistance.
-	^ handPos + (handForward * distance)
+	^ viewer + (forward * distance)
 ]
 
 { #category : #events }
