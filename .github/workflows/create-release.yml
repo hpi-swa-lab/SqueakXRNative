@@ -1,0 +1,42 @@
+name: create-release
+on:
+  schedule:
+    - cron: "15 0 * * *"
+      timezone: "Europe/Berlin"
+env:
+  RELEASE_TIME: REPLACE-THIS
+jobs:
+  last-commit-check:
+    runs-on: ubuntu-latest
+    outputs:
+      has-new-commits: ${{ steps.script.outputs.has-new-commits }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Fetches only one commit
+          fetch-depth: 1
+      - name: check last commit date
+        id: script
+        # check if last commit is newer than 24h
+        run: |
+          value=$(if [[ $(( $(date +%s) - 86400 )) -lt $(git log -1 --format="%ct") ]]; then echo true; else echo false; fi)
+          echo "::set-output name=has-new-commits::$value"
+          if [ "$value" = "true" ]; then 
+            echo "Recent commits found. Continuing build..."; 
+          else 
+            echo "No recent commits. Skipping build...";
+          fi
+  create-release-archive:
+    needs: last-commit-check
+    if: ${{ needs.last-commit-check.outputs.has-new-commits == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: sudo apt update && sudo apt install -y glslang-tools spirv-cross
+      - run: (cd scripts && ./createRelease.sh)
+      - run: echo "RELEASE_TIME=$(date +%Y%m%d)" >> "$GITHUB_ENV"
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.RELEASE_TIME }}-dev-release
+          files: "*-SqueakXR-releaseImage.tar.gz"
+          working_directory: scripts
