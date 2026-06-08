@@ -179,12 +179,12 @@ SRShader class >> stages [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:23'
 }
 SRShader class >> stripInputLocationsForES: glslSource [
 	"Strip layout(location=N) from 'in' declarations for GLSL ES 3.0 compatibility."
 
-	| lines |
+	| lines stream |
 	glslSource ifNil: [^ nil].
 	lines := glslSource lines collect: [:line |
 		| trimmed rest |
@@ -197,7 +197,9 @@ SRShader class >> stripInputLocationsForES: glslSource [
 					ifTrue: [rest]
 					ifFalse: [line]]
 			ifFalse: [line]].
-	^ lines inject: '' into: [:acc :each | acc, each, (String with: Character lf)]
+	stream := WriteStream on: (String new: glslSource size).
+	lines do: [:line | stream nextPutAll: line; lf].
+	^ stream contents
 ]
 
 {

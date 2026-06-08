@@ -427,46 +427,6 @@ SRObject >> initialize [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
-}
-SRObject >> isCube [
-	^ false.
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
-}
-SRObject >> isDebugHUD [
-	^ false.
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
-}
-SRObject >> isGizmoPainter [
-	^ false.
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:27'
-}
-SRObject >> isMenu [
-	^ false.
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:30'
-}
-SRObject >> isMenuItem [
-	^ false.
-]
-
-{
-	#category : #testing,
 	#'squeak_changestamp' : 'lege 3/16/2026 16:16'
 }
 SRObject >> isMorphPanel [

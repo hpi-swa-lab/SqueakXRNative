@@ -19,22 +19,6 @@ SRCollisionGeometry >> intersectsWithRay: aRay [
 	^ (self rayIntersection: aRay) notNil
 ]
 
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
-}
-SRCollisionGeometry >> isCollisionBox [
-	^ false.
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
-}
-SRCollisionGeometry >> isCollisionPlane [
-	^ false.
-]
-
 { #category : #accessing }
 SRCollisionGeometry >> object [
 

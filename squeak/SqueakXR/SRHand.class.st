@@ -350,7 +350,7 @@ SRHand >> startGrabbing [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:34'
 }
 SRHand >> step: deltaTime [
 

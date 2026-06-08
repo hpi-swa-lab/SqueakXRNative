@@ -36,11 +36,10 @@ SRXRDebugHUD >> isDebugHUD [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
 }
 SRXRDebugHUD >> step: delta [
-	"Calculate FPS and draw debug info using gizmos"
-	
+
 	| currentTime deltaMs white raylibFPS camera pos dir painter selText selected |
 	currentTime := Time millisecondClockValue.
 	deltaMs := currentTime - lastStepTime.
@@ -70,15 +69,6 @@ SRXRDebugHUD >> step: delta [
 		ifNotNil: [:obj | obj class name, ' (', (obj name ifNil: ['unnamed']), ')']
 		ifNil: ['none'].
 	painter gizmo2DText: 'Selected: ', selText at: 10 @ 115 fontSize: 16 color: Color green.
-	
-	self world allDo: [:obj |
-		| geom color |
-		geom := obj collisionGeometry.
-		color := obj == selected ifTrue: [Color green] ifFalse: [Color gray].
-		geom isCollisionBox ifTrue: [
-			painter gizmoWireBox: geom color: color].
-		geom isCollisionPlane ifTrue: [
-			painter gizmoWirePlane: geom color: color]].
 ]
 
 {

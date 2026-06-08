@@ -13,7 +13,8 @@ Class {
 		'isFramePrepared',
 		'outOfBodyMode',
 		'outOfBodyCamera',
-		'frozenAvatar'
+		'frozenAvatar',
+		'ghostAvatar'
 	],
 	#classVars : [
 		'Current',
@@ -463,7 +464,7 @@ SRWorld >> completeFrame [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
 }
 SRWorld >> createGhostAvatar [
 
@@ -492,6 +493,7 @@ SRWorld >> createGhostAvatar [
 		addChild: leftAnchor;
 		addChild: rightAnchor.
 	
+	ghostAvatar := ghost.
 	self addChild: ghost.
 ]
 
@@ -582,7 +584,7 @@ SRWorld >> enterOutOfBody [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
 }
 SRWorld >> exitOutOfBody [
 
@@ -826,12 +828,12 @@ SRWorld >> processKeyInput [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
 }
 SRWorld >> removeGhostAvatar [
 
-	self children copy do: [:child |
-		child name = 'GhostAvatar' ifTrue: [child remove]]
+	ghostAvatar ifNotNil: [ghostAvatar remove].
+	ghostAvatar := nil.
 ]
 
 { #category : #'as yet unclassified' }
