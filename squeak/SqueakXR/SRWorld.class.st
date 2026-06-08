@@ -497,11 +497,11 @@ SRWorld >> createGhostAvatar [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
 }
 SRWorld >> debugHUD [
 
-	^ self allDescendants detect: [:obj | obj isKindOf: SRXRDebugHUD] ifNone: [nil]
+	^ self allDescendants detect: [:obj | obj isDebugHUD] ifNone: [nil]
 ]
 
 {

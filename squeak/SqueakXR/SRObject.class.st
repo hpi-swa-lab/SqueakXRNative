@@ -427,6 +427,22 @@ SRObject >> initialize [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+}
+SRObject >> isCube [
+	^ false.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
+}
+SRObject >> isDebugHUD [
+	^ false.
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:27'
 }
 SRObject >> isMenu [

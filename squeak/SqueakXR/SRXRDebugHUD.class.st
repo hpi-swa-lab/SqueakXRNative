@@ -27,8 +27,16 @@ SRXRDebugHUD >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+}
+SRXRDebugHUD >> isDebugHUD [
+	^ true.
+]
+
+{
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
 }
 SRXRDebugHUD >> step: delta [
 	"Calculate FPS and draw debug info using gizmos"
@@ -63,14 +71,13 @@ SRXRDebugHUD >> step: delta [
 		ifNil: ['none'].
 	painter gizmo2DText: 'Selected: ', selText at: 10 @ 115 fontSize: 16 color: Color green.
 	
-	"Draw wireframes around all objects with collision geometry"
 	self world allDo: [:obj |
 		| geom color |
 		geom := obj collisionGeometry.
 		color := obj == selected ifTrue: [Color green] ifFalse: [Color gray].
-		(geom isKindOf: SRCollisionBox) ifTrue: [
+		geom isCollisionBox ifTrue: [
 			painter gizmoWireBox: geom color: color].
-		(geom isKindOf: SRCollisionPlane) ifTrue: [
+		geom isCollisionPlane ifTrue: [
 			painter gizmoWirePlane: geom color: color]].
 ]
 

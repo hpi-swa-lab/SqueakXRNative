@@ -151,7 +151,7 @@ SRHand >> handIndex [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:56'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
 }
 SRHand >> handIndex: anInteger [
 
@@ -161,10 +161,9 @@ SRHand >> handIndex: anInteger [
 		[self class leftIndex] -> ['Left Hand'].
 		[self class rightIndex] -> ['Right Hand']}).
 	
-	"Color the hand cube and ray to distinguish left from right"
 	handColor := self isLeft ifTrue: [Color blue] ifFalse: [Color red].
 	self children do: [:child |
-		(child isKindOf: SRCube) ifTrue: [child color: handColor]]
+		child isCube ifTrue: [child color: handColor]]
 ]
 
 {
@@ -351,7 +350,7 @@ SRHand >> startGrabbing [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/26/2026 17:46'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
 }
 SRHand >> step: deltaTime [
 
@@ -359,14 +358,13 @@ SRHand >> step: deltaTime [
 	grabbedObject ifNotNil: [
 		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
 	
-	
 	selectedObject ifNotNil: [
 		painter := self gizmoPainter.
 		painter ifNotNil: [
 			geom := selectedObject collisionGeometry.
-			(geom isKindOf: SRCollisionBox) ifTrue: [
+			geom isCollisionBox ifTrue: [
 				painter gizmoWireBox: geom color: Color green].
-			(geom isKindOf: SRCollisionPlane) ifTrue: [
+			geom isCollisionPlane ifTrue: [
 				painter gizmoWirePlane: geom color: Color green]]].
 ]
 

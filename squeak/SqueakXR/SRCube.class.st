@@ -27,6 +27,14 @@ SRCube >> initialize [
 	self color: Color red.
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+}
+SRCube >> isCube [
+	^ true.
+]
+
 { #category : #rendering }
 SRCube >> renderOn: aSRRenderer [
 

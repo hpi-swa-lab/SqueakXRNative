@@ -50,6 +50,14 @@ SRCollisionBox >> halfExtents: aVector3 [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
+}
+SRCollisionBox >> isCollisionBox [
+	^ true.
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:56'
 }
