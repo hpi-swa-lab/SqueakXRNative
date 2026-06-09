@@ -557,27 +557,39 @@ SRWorld >> enterMorphicProject [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 18:16'
 }
 SRWorld >> enterOutOfBody [
 
-	| av |
+	| av camTransform |
 	self outOfBodyMode ifTrue: [^ self].
 	av := self avatar.
 	av ifNil: [^ self].
+	
+	"On XR the avatar's camera SRObject is never updated (the head pose
+	 lives only in the Raylib camera struct). Build the transform from the
+	 renderer's camera instead."
+	camTransform := self isXR
+		ifTrue: [
+			| pos target up |
+			pos := Vector3 fromRlVector3: self renderer cameraPosition.
+			target := Vector3 fromRlVector3: self renderer cameraTarget.
+			up := Vector3 fromRlVector3: self renderer cameraUp.
+			Matrix4x4 objectLookAt: target from: pos up: up]
+		ifFalse: [av camera globalTransform copy].
 	
 	frozenAvatar := Dictionary new.
 	frozenAvatar at: #avatarTransform put: av globalTransform copy.
 	frozenAvatar at: #leftHandTransform put: av leftHand globalTransform copy.
 	frozenAvatar at: #rightHandTransform put: av rightHand globalTransform copy.
-	frozenAvatar at: #cameraTransform put: av camera globalTransform copy.
+	frozenAvatar at: #cameraTransform put: camTransform.
 	
 	self createGhostAvatar.
 	
 	self isXR ifFalse: [
 		| camPos |
 		outOfBodyCamera := SRSimpleAvatarMovementEmulator new.
-		camPos := (frozenAvatar at: #cameraTransform) translation copy.
+		camPos := camTransform translation copy.
 		outOfBodyCamera position: camPos.
 		outOfBodyCamera toggleLookMode].
 	
