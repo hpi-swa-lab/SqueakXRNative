@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
+	#'squeak_changestamp' : 'jl 6/9/2026 09:55'
 }
 SRRaylibRendererXR >> completeFrame [
 
