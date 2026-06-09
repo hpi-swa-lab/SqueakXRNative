@@ -16,7 +16,8 @@ Class {
 		'secondStart',
 		'outOfBodyMode',
 		'outOfBodyCamera',
-		'frozenAvatar'
+		'frozenAvatar',
+		'ghostAvatar'
 	],
 	#classVars : [
 		'Current',
@@ -627,22 +628,25 @@ SRWorld >> initXrInput [
 ]
 
 {
-	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 11/11/2025 18:23'
 }
 SRWorld >> initialize [
 
 	super initialize.
 	
-	isRunning := false.
+	running := false.
+	needsSetup := false.
 	ranStartScript := false.
 	isFramePrepared := false.
 	
-	self addChild: SRGizmoPainter new.
+	gizmoPainter := SRGizmoPainter new.
+	self addChild: gizmoPainter.
 	
 	self
 		isXR: false;
-		renderer: SRRenderer rendererClass new.
+		renderer: SRRenderer rendererClass new. "TODO: decide this based on XRness"
+	
 ]
 
 {
