@@ -666,7 +666,10 @@ SRWorld >> initialize [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
+}
 SRWorld >> initializeWorldProcess [
 	
 	self log.
@@ -826,15 +829,17 @@ SRWorld >> pollActions [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
 }
 SRWorld >> prepareFrame [
 
 	| cameraTransform |
 	cameraTransform := (outOfBodyMode == true and: [self isXR not and: [outOfBodyCamera notNil]])
 		ifTrue: [outOfBodyCamera cameraTransform]
-		ifFalse: [self avatar camera globalTransform].
+		ifFalse: [self isXR
+			ifTrue: [self avatar globalTransform]
+			ifFalse: [self avatar camera globalTransform]].
 	isFramePrepared := self renderer prepareFrame: cameraTransform
 ]
 
@@ -1091,6 +1096,35 @@ SRWorld >> updateActions [
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
 	self processKeyInput
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:43'
+}
+SRWorld >> viewerForward [
+	"Return the actual viewer look direction in world space.
+	 On XR, derive from renderer camera position/target.
+	 On flat, derive from the avatar camera SRObject."
+	self isXR ifTrue: [
+		| pos target |
+		pos := Vector3 fromRlVector3: self renderer cameraPosition.
+		target := Vector3 fromRlVector3: self renderer cameraTarget.
+		^ (target - pos) safelyNormalize].
+	^ self avatar camera globalTransform localDirToGlobal: Vector3 forward
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:43'
+}
+SRWorld >> viewerPosition [
+	"Return the actual viewer (head/camera) position in world space.
+	 On XR, read from the renderer which has the headset tracking pose.
+	 On flat, read from the avatar camera SRObject."
+	self isXR ifTrue: [
+		^ Vector3 fromRlVector3: self renderer cameraPosition].
+	^ self avatar camera globalTranslation
 ]
 
 { #category : #accessing }

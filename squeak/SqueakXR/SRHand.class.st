@@ -241,8 +241,8 @@ SRHand >> isRight [
 ]
 
 {
-	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 12:05'
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:44'
 }
 SRHand >> menuPlacementPosition [
 	"Place the menu in front of the viewer (camera), not the hand.
@@ -250,7 +250,7 @@ SRHand >> menuPlacementPosition [
 	Raycasts from the hand to avoid placing the menu inside objects."
 	| viewer forward preferredDistance margin minDistance hit distance |
 	viewer := self viewerPosition.
-	forward := self world avatar camera globalTransform localDirToGlobal: Vector3 forward.
+	forward := self world viewerForward.
 	forward := forward normalize.
 	preferredDistance := 0.5.
 	margin := 0.05.
@@ -401,28 +401,32 @@ SRHand >> update: aSymbol with: anObject [
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'xr-input',
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:52'
+}
 SRHand >> updateTransformFromActions: aSRActionStates [
-	
-	| pose |
+	"XR aim poses are in stage (world) space. Since the hand is a child of
+	 the avatar, use globalTransform: so the avatar's own transform does
+	 not offset the hand. Also convert OpenXR types to our Vector3/Quaternion."
+	| pose pos quat transform |
 	pose := aSRActionStates aimPoses at: self handIndex.
-	self translation: pose position;
-		rotation: pose orientation
+	pos := pose position.
+	quat := pose orientation.
+	transform := Matrix4x4 fromQuaternion: (Quaternion a: quat w b: quat x c: quat y d: quat z).
+	transform translation: (Vector3 x: pos x y: pos y z: pos z).
+	self globalTransform: transform
 ]
 
 {
-	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:38'
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:44'
 }
 SRHand >> viewerPosition [
 	"Return the user's head/camera position in world space.
-	Fall back to the hand position if no camera is available."
-	| w avatar cam |
+	 Fall back to the hand position if no world is available."
+	| w |
 	w := self world.
 	w ifNil: [^ self globalTranslation].
-	avatar := w avatar.
-	avatar ifNil: [^ self globalTranslation].
-	cam := avatar camera.
-	cam ifNil: [^ self globalTranslation].
-	^ cam globalTranslation
+	^ w viewerPosition
 ]
