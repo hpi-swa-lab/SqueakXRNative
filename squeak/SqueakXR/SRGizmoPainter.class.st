@@ -36,7 +36,7 @@ SRGizmoPainter >> drawSphere: command renderer: aSRRenderer [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
+	#'squeak_changestamp' : 'lege 6/26/2026 17:20'
 }
 SRGizmoPainter >> drawText2D: command renderer: aSRRenderer [
 
@@ -45,12 +45,11 @@ SRGizmoPainter >> drawText2D: command renderer: aSRRenderer [
 	pos := command third.
 	fontSize := command fourth.
 	color := command fifth.
-	Raylib
-		drawText: text
-		posX: pos x
-		posY: pos y
-		fontSize: fontSize
-		color: color asRlColor
+	aSRRenderer
+		render2DString: text
+		position: pos
+		color: color
+		fontSize: fontSize.
 ]
 
 {

@@ -221,7 +221,7 @@ SRMenu >> renderOn: aSRRenderer [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:18'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:28'
 }
 SRMenu >> step: deltaTime [
 	"Update hover highlight on our own items by casting rays from each hand.
@@ -243,7 +243,7 @@ SRMenu >> step: deltaTime [
 			forward: (hand globalTransform localDirToGlobal: Vector3 backward) normalize.
 		self childrenDo: [:item |
 			item isMenuItem ifTrue: [
-				item collisionGeometry ifCollisionGeometry: [:geom |
+				item collisionGeometryDo: [:geom |
 					(geom rayIntersection: ray) ifNotNil: [:result |
 						| dist |
 						dist := ray origin distanceTo: result point.

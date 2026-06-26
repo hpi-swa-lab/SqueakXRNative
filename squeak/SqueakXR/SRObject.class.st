@@ -159,10 +159,22 @@ SRObject >> childrenDo: aBlock [
 	self children do: aBlock
 ]
 
-{ #category : #collisions }
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+}
 SRObject >> collisionGeometry [
 
 	^ nil
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+}
+SRObject >> collisionGeometryDo: aBlock [
+
+	^ self collisionGeometry ifNotNil: [:geom | aBlock value: geom]
 ]
 
 {

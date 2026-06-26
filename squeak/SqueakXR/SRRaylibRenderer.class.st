@@ -89,6 +89,20 @@ SRRaylibRenderer >> prepareFrame: cameraTransform [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'lege 6/26/2026 17:19'
+}
+SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontSize: aNumber [
+
+	Raylib
+		drawText: aString
+		posX: aPoint x
+		posY: aPoint y
+		fontSize: aNumber
+		color: aColor asRlColor
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 4/2/2026 13:20'
 }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [

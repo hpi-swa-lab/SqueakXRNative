@@ -347,22 +347,22 @@ SRHand >> startGrabbing [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:34'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:27'
 }
 SRHand >> step: deltaTime [
 
-	| painter geom |
+	| painter |
 	grabbedObject ifNotNil: [
 		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
 	
 	selectedObject ifNotNil: [
 		painter := self gizmoPainter.
 		painter ifNotNil: [
-			geom := selectedObject collisionGeometry.
-			geom isCollisionBox ifTrue: [
-				painter gizmoWireBox: geom color: Color green].
-			geom isCollisionPlane ifTrue: [
-				painter gizmoWirePlane: geom color: Color green]]].
+			selectedObject collisionGeometryDo: [:geom |
+				geom isCollisionBox ifTrue: [
+					painter gizmoWireBox: geom color: Color green].
+				geom isCollisionPlane ifTrue: [
+					painter gizmoWirePlane: geom color: Color green]]]].
 ]
 
 {
