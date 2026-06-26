@@ -135,6 +135,74 @@ SRObject >> cacheInvalidated [
 	self allDo: #onCacheInvalidated.
 ]
 
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayBackward [
+
+	^ self castRayDirection: self backward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:44'
+}
+SRObject >> castRayDirection: aGlobalDirection [
+
+	| ray |
+	self world ifNil: [^ nil].
+	ray := SRRay
+		origin: self globalTranslation
+		forward: aGlobalDirection.
+	^ ray castNearest: self world
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayDown [
+
+	^ self castRayDirection: self down
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:44'
+}
+SRObject >> castRayForward [
+
+	^ self castRayDirection: self forward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayLeft [
+
+	^ self castRayDirection: self left
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayRight [
+
+	^ self castRayDirection: self right
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayUp [
+
+	^ self castRayDirection: self up
+]
+
 { #category : #hierarchy }
 SRObject >> childCount [
 

@@ -93,7 +93,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:25'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:52'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -110,34 +110,19 @@ SRHand >> actionsUpdated: aSRActionStates [
 	(self isRight and: aJustPressed) ifTrue: [
 		self teleport].
 	
-	self isLeft ifTrue: [
-		prevMenuPressed := menuPressed.
-		menuPressed := aSRActionStates menu.
-		menuJustPressed := menuPressed and: [prevMenuPressed not].
-		menuJustPressed ifTrue: [
-			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
-		
-		prevXPressed := xPressed.
-		xPressed := aSRActionStates x.
-		xJustPressed := xPressed and: [prevXPressed not].
-		xJustPressed ifTrue: [
-			self world toggleOutOfBody]].
+	prevMenuPressed := menuPressed.
+	menuPressed := aSRActionStates menu.
+	menuJustPressed := menuPressed and: [prevMenuPressed not].
+	menuJustPressed ifTrue: [
+		self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
+	
+	prevXPressed := xPressed.
+	xPressed := aSRActionStates x.
+	xJustPressed := xPressed and: [prevXPressed not].
+	xJustPressed ifTrue: [
+		self world toggleOutOfBody].
 	
 	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
-}
-SRHand >> castRay [
-
-	| ray |
-	self world ifNil: [^ nil].
-	ray := SRRay
-		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	^ ray castNearest: self world
 ]
 
 { #category : #accessing }
@@ -236,7 +221,7 @@ SRHand >> isRight [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:51'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
 }
 SRHand >> menuPlacementPosition [
 	"Place the menu in front of the viewer, avoiding objects via raycast."
@@ -247,7 +232,7 @@ SRHand >> menuPlacementPosition [
 	preferredDistance := 0.5.
 	margin := 0.05.
 	minDistance := 0.25.
-	hit := self castRay.
+	hit := self castRayBackward.
 	distance := preferredDistance.
 	hit ifNotNil: [
 		| hitDistance |
@@ -307,12 +292,12 @@ SRHand >> openWorldMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
 }
 SRHand >> rayCast [
 
 	| result |
-	result := self castRay.
+	result := self castRayBackward.
 	result ifNotNil: [
 		result object onRaycast: (result asHandRayIntersection: actionState)]
 ]
