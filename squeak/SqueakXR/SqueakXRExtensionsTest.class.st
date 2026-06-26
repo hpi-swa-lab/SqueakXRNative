@@ -105,6 +105,38 @@ SqueakXRExtensionsTest >> testQuaternionInverse [
 ]
 
 {
+	#category : #'testing-quaternion',
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:25'
+}
+SqueakXRExtensionsTest >> testQuaternionRotateVector [
+
+	"The identity quaternion leaves a vector unchanged."
+	self assert:
+		(((Quaternion new setIdentity) rotateVector: 3 @ -2 @ 5)
+		closeTo: 3 @ -2 @ 5).
+
+	"A 90 degree rotation about Z maps the X axis onto the Y axis."
+	self assert:
+		(((Quaternion angle: 90 axis: 0 @ 0 @ 1) rotateVector: 1 @ 0 @ 0)
+		closeTo: 0 @ 1 @ 0).
+
+	"A 90 degree rotation about X maps the Y axis onto the Z axis."
+	self assert:
+		(((Quaternion angle: 90 axis: 1 @ 0 @ 0) rotateVector: 0 @ 1 @ 0)
+		closeTo: 0 @ 0 @ 1).
+
+	"Rotating about an axis leaves a vector along that axis unchanged."
+	self assert:
+		(((Quaternion angle: 47 axis: 0 @ 1 @ 0) rotateVector: 0 @ 3 @ 0)
+		closeTo: 0 @ 3 @ 0).
+
+	"Rotation preserves vector length."
+	self assert:
+		((((Quaternion angle: 33 axis: 1 @ 2 @ 3) rotateVector: 4 @ -1 @ 2) length)
+		closeTo: (4 @ -1 @ 2) length)
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 1/12/2026 14:10'
 }
