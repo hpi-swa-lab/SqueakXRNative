@@ -12,13 +12,16 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #preferences }
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:30'
+}
 SRRenderer class >> clearColor [
 	<preference: 'Clear color'
 		category: 'SqueakXR'
 		description: 'Clear color for the renderer'
 		type: #Color>
-	^ ClearColor ifNil: [ClearColor := Color gray]
+	^ ClearColor ifNil: [ClearColor := Color r: 0.753 g: 0.973 b: 0.977]
 ]
 
 { #category : #preferences }
