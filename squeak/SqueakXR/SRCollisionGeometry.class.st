@@ -13,10 +13,46 @@ SRCollisionGeometry class >> toolIcon [
 	^ #srcollision
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:17'
+}
+SRCollisionGeometry >> ifCollisionGeometry: aBlock [
+
+	^ aBlock value: self
+]
+
 { #category : #collisions }
 SRCollisionGeometry >> intersectsWithRay: aRay [
 
 	^ (self rayIntersection: aRay) notNil
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:09'
+}
+SRCollisionGeometry >> isCollisionBox [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:13'
+}
+SRCollisionGeometry >> isCollisionNull [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:09'
+}
+SRCollisionGeometry >> isCollisionPlane [
+
+	^ false
 ]
 
 { #category : #accessing }

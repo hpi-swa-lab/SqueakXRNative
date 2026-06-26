@@ -93,33 +93,30 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:56'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:25'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
+	"TODO: move low handling of inputs to separate class"
 	| aJustPressed prevAPressed prevMenuPressed menuJustPressed prevXPressed xJustPressed |
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
 	(actionState thumbstickY at: self handIndex) abs > 0.5 ifTrue: [self rayCast].
 	
-	"A button -- teleport (right hand only)"
 	prevAPressed := aPressed.
 	aPressed := aSRActionStates a.
 	aJustPressed := aPressed and: prevAPressed not.
 	(self isRight and: aJustPressed) ifTrue: [
 		self teleport].
 	
-	"Menu button -- toggle debug HUD (left hand only, button is global)"
 	self isLeft ifTrue: [
 		prevMenuPressed := menuPressed.
 		menuPressed := aSRActionStates menu.
 		menuJustPressed := menuPressed and: [prevMenuPressed not].
 		menuJustPressed ifTrue: [
-			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]]].
-	
-	"X button -- toggle out-of-body mode (left hand only, button is global)"
-	self isLeft ifTrue: [
+			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
+		
 		prevXPressed := xPressed.
 		xPressed := aSRActionStates x.
 		xJustPressed := xPressed and: [prevXPressed not].
@@ -151,7 +148,7 @@ SRHand >> handIndex [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:26'
 }
 SRHand >> handIndex: anInteger [
 
@@ -162,8 +159,7 @@ SRHand >> handIndex: anInteger [
 		[self class rightIndex] -> ['Right Hand']}).
 	
 	handColor := self isLeft ifTrue: [Color blue] ifFalse: [Color red].
-	self children do: [:child |
-		child isCube ifTrue: [child color: handColor]]
+	self children do: [:child | child color: handColor].
 ]
 
 {
@@ -240,15 +236,14 @@ SRHand >> isRight [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/9/2026 15:53'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:51'
 }
 SRHand >> menuPlacementPosition [
 	"Place the menu in front of the viewer, avoiding objects via raycast."
 
 	| viewer forward preferredDistance margin minDistance hit distance |
 	viewer := self viewerPosition.
-	forward := self world viewerForward.
-	forward := forward normalize.
+	forward := self world viewerForward normalize.
 	preferredDistance := 0.5.
 	margin := 0.05.
 	minDistance := 0.25.
@@ -273,13 +268,15 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:52'
 }
 SRHand >> openContextMenuFor: anObject [
-	| pos viewer |
-	pos := self menuPlacementPosition.
-	viewer := self viewerPosition.
-	SRMenu contextMenuFor: anObject at: pos facing: viewer in: self world.
+
+	SRMenu
+		contextMenuFor: anObject
+		at: self menuPlacementPosition
+		facing: self viewerPosition
+		in: self world.
 ]
 
 {
@@ -398,19 +395,14 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #'xr-input',
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:52'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 17:59'
 }
 SRHand >> updateTransformFromActions: aSRActionStates [
-	"XR aim poses are in stage (world) space. Since the hand is a child of
-	 the avatar, use globalTransform: so the avatar's own transform does
-	 not offset the hand. Also convert OpenXR types to our Vector3/Quaternion."
-	| pose pos quat transform |
+	
+	| pose |
 	pose := aSRActionStates aimPoses at: self handIndex.
-	pos := pose position.
-	quat := pose orientation.
-	transform := Matrix4x4 fromQuaternion: (Quaternion a: quat w b: quat x c: quat y d: quat z).
-	transform translation: (Vector3 x: pos x y: pos y z: pos z).
-	self globalTransform: transform
+	self globalTranslation: pose position;
+		globalRotation: pose orientation
 ]
 
 {

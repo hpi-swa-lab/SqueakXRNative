@@ -27,14 +27,14 @@ SRRay >> cast: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 10/6/2025 16:40'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:18'
 }
 SRRay >> castAll: aSRWorld [
 
 	| intersections |
 	intersections := OrderedCollection new.
 	aSRWorld allDo: [:object |
-		object collisionGeometry ifNotNil: [:geometry |
+		object collisionGeometry ifCollisionGeometry: [:geometry |
 			(geometry rayIntersection: self) ifNotNil: [:result |
 				intersections add: result]]].
 	^ intersections sorted: [:intersectionA :intersectionB | | distA distB |

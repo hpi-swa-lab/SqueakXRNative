@@ -133,19 +133,19 @@ SRGizmoPainter >> gizmoSphere: globalPosition size: size color: color [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:34'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:14'
 }
 SRGizmoPainter >> gizmoWireBox: aSRCollisionBox color: aColor [
-	aSRCollisionBox ifNil: [^ self].
+
 	commands add: {#wireBox. aSRCollisionBox. aColor}.
 ]
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:37'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:15'
 }
 SRGizmoPainter >> gizmoWirePlane: aSRCollisionPlane color: aColor [
-	aSRCollisionPlane ifNil: [^ self].
+
 	commands add: {#wirePlane. aSRCollisionPlane. aColor}.
 ]
 
@@ -162,9 +162,10 @@ SRGizmoPainter >> initialize [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:15'
 }
 SRGizmoPainter >> isGizmoPainter [
+
 	^ true.
 ]
 

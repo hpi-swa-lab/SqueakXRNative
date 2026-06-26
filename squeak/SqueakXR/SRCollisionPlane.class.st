@@ -71,10 +71,10 @@ SRCollisionPlane >> isBounded [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:13'
 }
 SRCollisionPlane >> isCollisionPlane [
-	^ true.
+	^ true
 ]
 
 { #category : #accessing }

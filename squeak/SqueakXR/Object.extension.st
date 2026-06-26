@@ -16,22 +16,6 @@ Object >> currentXRWorld [
 ]
 
 {
-	#category : #'*SqueakXR-Collisions',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:36'
-}
-Object >> isCollisionBox [
-	^ false.
-]
-
-{
-	#category : #'*SqueakXR-Collisions',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:36'
-}
-Object >> isCollisionPlane [
-	^ false.
-]
-
-{
 	#category : #'*SqueakXR-Objects',
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:36'
 }
