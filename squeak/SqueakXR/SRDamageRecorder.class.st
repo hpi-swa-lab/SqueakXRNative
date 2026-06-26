@@ -33,7 +33,7 @@ SRDamageRecorder >> invalidRectsFullBoundsWithMorphs: aRectangle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 09:58'
+	#'squeak_changestamp' : 'lege 6/26/2026 16:41'
 }
 SRDamageRecorder >> recordInvalidRect: newRect from: aMorph [
 	"Record the given rectangle in my damage list, a list of rectangular areas of the display that should be redraw on the next display cycle."
@@ -43,7 +43,7 @@ SRDamageRecorder >> recordInvalidRect: newRect from: aMorph [
 
 	totalRepaint ifTrue: [^ self].  "planning full repaint; don't bother collecting damage"
 
-	invalidRects copy keysAndValuesDo:
+	invalidRects keysAndValuesDo:
 		[:rect :morphs |
 		| a |
 		((a := (rect intersect: newRect) area) > 40
@@ -52,11 +52,11 @@ SRDamageRecorder >> recordInvalidRect: newRect from: aMorph [
 				  a > (newRect area // 4) or: [a > (rect area // 4)]])
 			ifTrue:
 			["merge rectangle in place (see note below) if there is significant overlap"
-			mergeRect := Rectangle
-				origin: (rect origin min: newRect origin) truncated
+			"invalidRects removeKey: rect ifAbsent: []."
+			rect
+				setOrigin: (rect origin min: newRect origin) truncated
 				corner: (rect corner max: newRect corner) truncated.
-			invalidRects removeKey: rect ifAbsent: [].
-			invalidRects add: mergeRect -> {aMorph. morphs} flatten.
+			invalidRects at: rect put: {aMorph. morphs} flatten.
 			^ self]].
 
 
