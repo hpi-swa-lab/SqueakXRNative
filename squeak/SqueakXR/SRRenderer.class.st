@@ -181,6 +181,15 @@ SRRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 	self subclassResponsibility
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+}
+SRRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
 { #category : #'render-loop' }
 SRRenderer >> setup [
 ]

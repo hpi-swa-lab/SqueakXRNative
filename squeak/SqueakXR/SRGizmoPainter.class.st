@@ -54,23 +54,16 @@ SRGizmoPainter >> drawText2D: command renderer: aSRRenderer [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:41'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:37'
 }
 SRGizmoPainter >> drawWireBox: command renderer: aSRRenderer [
 	"Slightly expand the wireframe so it pokes through any solid surface."
 	| box color transform |
 	box := command second.
 	color := command third.
-	transform := (Matrix4x4 withOffset: box center) * box rotation asMatrix4x4.
-	Raylib rlPushMatrix;
-		rlMultMatrixfMatf: transform transposed.
-	Raylib
-		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: box halfExtents x * 2.02
-		height: box halfExtents y * 2.02
-		length: box halfExtents z * 2.02
-		color: color asRlColor.
-	Raylib rlPopMatrix.
+	transform := (Matrix4x4 withOffset: box center) * box rotation asMatrix4x4 * (Matrix4x4 withScale: box halfExtents * 2.02).
+	aSRRenderer
+		renderWireCubeTransformed: transform withColor: color.
 ]
 
 {

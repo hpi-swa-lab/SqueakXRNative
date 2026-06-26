@@ -177,6 +177,21 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 			color: aColor asRlColor].
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+}
+SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubeWiresPosition: Vector3 zero asRlVector
+				width: 1
+				height: 1
+				length: 1
+				color: aColor muchDarker asRlColor].
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 
