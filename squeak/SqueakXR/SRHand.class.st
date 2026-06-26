@@ -221,13 +221,13 @@ SRHand >> isRight [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
 }
 SRHand >> menuPlacementPosition [
 	"Place the menu in front of the viewer, avoiding objects via raycast."
 
 	| viewer forward preferredDistance margin minDistance hit distance |
-	viewer := self viewerPosition.
+	viewer := self world viewerPosition.
 	forward := self world viewerForward normalize.
 	preferredDistance := 0.5.
 	margin := 0.05.
@@ -253,14 +253,14 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:52'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
 }
 SRHand >> openContextMenuFor: anObject [
 
 	SRMenu
 		contextMenuFor: anObject
 		at: self menuPlacementPosition
-		facing: self viewerPosition
+		facing: self world viewerPosition
 		in: self world.
 ]
 
@@ -281,12 +281,12 @@ SRHand >> openMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
 }
 SRHand >> openWorldMenu [
 	| pos viewer |
 	pos := self menuPlacementPosition.
-	viewer := self viewerPosition.
+	viewer := self world viewerPosition.
 	SRMenu worldMenuAt: pos facing: viewer in: self world.
 ]
 
@@ -388,16 +388,4 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 	pose := aSRActionStates aimPoses at: self handIndex.
 	self globalTranslation: pose position;
 		globalRotation: pose orientation
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'SqueakXR 6/9/2026 15:53'
-}
-SRHand >> viewerPosition [
-
-	| w  |
-	w := self world.
-	w ifNil: [^ self globalTranslation].
-	^ w viewerPosition
 ]
