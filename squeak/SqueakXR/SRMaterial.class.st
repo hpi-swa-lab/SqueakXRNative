@@ -4,29 +4,29 @@ Class {
 	#instVars : [
 		'internalMaterial',
 		'shader',
-		'srTexture'
+		'texture'
 	],
 	#category : #'SqueakXR-Core'
 }
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:43'
 }
 SRMaterial class >> withTexture: anSRTexture [
-	^ self new srTexture: anSRTexture; yourself
+	^ self new texture: anSRTexture; yourself
 ]
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:38'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
 	| sh |
 	internalMaterial := Raylib loadMaterialDefault.
-	srTexture ifNotNil: [
-		internalMaterial maps texture: (srTexture internalTextureFor: aSRRenderer)].
+	texture ifNotNil: [
+		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
 	shader ifNotNil: [
 		sh := (shader respondsTo: #internalShader)
 			ifTrue: [shader internalShader]
@@ -69,6 +69,26 @@ SRMaterial >> internalMaterialFor: aSRRenderer [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:41'
+}
+SRMaterial >> internalTexture [
+
+	self flag: #remove.
+	^ self internalMaterial maps texture
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:41'
+}
+SRMaterial >> internalTexture: aRlTexture [
+
+	self flag: #remove.
+	internalMaterial maps texture: aRlTexture
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRMaterial >> shader [
@@ -89,32 +109,20 @@ SRMaterial >> shader: aShader [
 
 {
 	#category : #textures,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:42'
 }
-SRMaterial >> srTexture [
-	^ srTexture
+SRMaterial >> texture [
+	^ texture
 ]
 
 {
 	#category : #textures,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:42'
 }
-SRMaterial >> srTexture: anSRTexture [
+SRMaterial >> texture: anSRTexture [
 
-	srTexture := anSRTexture.
+	texture := anSRTexture.
 	^ self
-]
-
-{ #category : #accessing }
-SRMaterial >> texture [
-
-	^ self internalMaterial maps texture
-]
-
-{ #category : #accessing }
-SRMaterial >> texture: aRlTexture [
-
-	internalMaterial maps texture: aRlTexture
 ]
 
 { #category : #'as yet unclassified' }

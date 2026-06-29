@@ -264,10 +264,10 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 2/23/2026 11:37'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 17:05'
 }
 SRMorphPanel >> updateTexture [
 
-	plane material texture: texture update.
+	plane material internalTexture: texture update.
 	
 ]
