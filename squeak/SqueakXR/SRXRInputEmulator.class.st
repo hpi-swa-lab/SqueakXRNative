@@ -73,7 +73,7 @@ SRXRInputEmulator >> rayCast [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:30'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 17:52'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -114,9 +114,13 @@ SRXRInputEmulator >> step: delta [
 	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonLeft) ifTrue: [
 		rightHand handleTrigger: 0.0].
 	
-	(Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonRight) ifTrue: [
+	((Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonRight) or: [
+		(Raylib isKeyDownKey: RlKeyboardKey keyZ)
+		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
 		rightHand handleSqueeze: 1.0].
-	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) ifTrue: [
+	((Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) or: [
+		(Raylib isKeyUpKey: RlKeyboardKey keyZ)
+		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
 		rightHand handleSqueeze: 0.0].
 	
 	(Raylib isKeyPressedKey: RlKeyboardKey keyF) ifTrue: [
