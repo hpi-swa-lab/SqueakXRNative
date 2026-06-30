@@ -19,19 +19,15 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:38'
+	#'squeak_changestamp' : 'SqueakXR 6/29/2026 18:08'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
-	| sh |
 	internalMaterial := Raylib loadMaterialDefault.
 	texture ifNotNil: [
 		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
 	shader ifNotNil: [
-		sh := (shader respondsTo: #internalShader)
-			ifTrue: [shader internalShader]
-			ifFalse: [shader].
-		internalMaterial shader: sh].
+		internalMaterial shader: shader internalShader].
 	^ internalMaterial
 ]
 
