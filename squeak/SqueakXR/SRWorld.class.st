@@ -892,15 +892,18 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:09'
+	#'squeak_changestamp' : 'lege 6/29/2026 18:16'
 }
 SRWorld >> runStartScript [
 
 	self log.
 
-	"Set author initials early -- in XR there is no keyboard for the FillInTheBlank dialog."
-	[Utilities setAuthorInitials: 'SqueakXR']
-		on: Error do: [:ex | self log: 'could not set author initials: ', ex messageText].
+	"Ensure author initials are not empty to avoid dialog in XR.
+	TODO: Users should be able to set this in XR"
+	[Utilities authorInitials]
+		on: ProvideAnswerNotification
+		do: [:n | (n description includesSubstring: 'Please type your initials:') ifTrue: [
+				Utilities setAuthorInitials: 'SqueakXR']].
 
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
 
