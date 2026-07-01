@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'camera',
 		'leftHand',
-		'rightHand'
+		'rightHand',
+		'contextMenu'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -28,15 +29,24 @@ SRAvatar >> cameraPosition: position target: target up: up [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:09'
+}
+SRAvatar >> contextMenu [
+
+	^ contextMenu
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:04'
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }
 SRAvatar >> initialize [
 
 	super initialize.
 	
-	leftHand := SRHand left.
-	rightHand := SRHand right.
+	leftHand := SRHand left avatar: self.
+	rightHand := SRHand right avatar: self.
 	camera := SRObject new name: 'Camera'.
 
 	self addChild: leftHand;
@@ -51,6 +61,75 @@ SRAvatar >> initialize [
 SRAvatar >> leftHand [
 
 	^ leftHand
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'lege 7/1/2026 15:46'
+}
+SRAvatar >> menuPlacementPositionForHand: aHand [
+	"Place the menu in front of the camera, avoiding objects via a raycast from the hand."
+
+	| viewer forward preferredDistance margin minDistance hit distance |
+	viewer := camera globalTranslation.
+	forward := (camera globalTransform localDirToGlobal: Vector3 forward) normalize.
+	preferredDistance := 0.5.
+	margin := 0.05.
+	minDistance := 0.25.
+	hit := aHand castRayBackward.
+	distance := preferredDistance.
+	hit ifNotNil: [
+		| hitDistance |
+		hitDistance := hit point distanceTo: viewer.
+		distance := (hitDistance - margin) min: preferredDistance].
+	distance := distance max: minDistance.
+	^ viewer + (forward * distance)
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:13'
+}
+SRAvatar >> openContextMenuFor: anObject at: aPosition [
+
+	^ contextMenu := SRMenu
+		contextMenuFor: anObject
+		at: aPosition
+		facing: self world viewerPosition
+		in: self world
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'lege 7/1/2026 15:37'
+}
+SRAvatar >> openMenuForHand: aHand [
+	"Notified by a hand that a menu should be spawned. If our menu is still open,
+	close it. Otherwise open a context menu for the hand's grabbed object, or the
+	world menu. A menu that was dismissed elsewhere (e.g. by selecting an item)
+	has a nil parent, so it no longer counts as open."
+
+	| position |
+	(contextMenu notNil and: [contextMenu isOpen]) ifTrue: [
+		contextMenu close.
+		contextMenu := nil.
+		^ self].
+	position := self menuPlacementPositionForHand: aHand.
+	aHand grabbedObject
+		ifNotNil: [:object | self openContextMenuFor: object at: position]
+		ifNil: [self openWorldMenuAt: position].
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+}
+SRAvatar >> openWorldMenuAt: aPosition [
+
+	^ contextMenu := SRMenu
+		worldMenuAt: aPosition
+		facing: self world viewerPosition
+		in: self world
 ]
 
 {

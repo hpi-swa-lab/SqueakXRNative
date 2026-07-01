@@ -110,9 +110,10 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:26'
+	#'squeak_changestamp' : 'lege 7/1/2026 15:37'
 }
 SRMenu >> close [
+
 	self remove.
 ]
 
@@ -151,6 +152,15 @@ SRMenu >> initialize [
 }
 SRMenu >> isMenu [
 	^ true.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/1/2026 15:37'
+}
+SRMenu >> isOpen [
+
+	^ self parent notNil
 ]
 
 {

@@ -15,7 +15,8 @@ Class {
 		'grabbedRelativeTransform',
 		'actionState',
 		'selectedObject',
-		'hoveredMenuItem'
+		'hoveredMenuItem',
+		'avatar'
 	],
 	#classVars : [
 		'EndRate',
@@ -125,6 +126,33 @@ SRHand >> actionsUpdated: aSRActionStates [
 	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+}
+SRHand >> avatar [
+
+	^ avatar
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+}
+SRHand >> avatar: anSRAvatar [
+
+	avatar := anSRAvatar
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+}
+SRHand >> grabbedObject [
+
+	^ grabbedObject
+]
+
 { #category : #accessing }
 SRHand >> handIndex [
 
@@ -219,29 +247,6 @@ SRHand >> isRight [
 	^ self handIndex = self class rightIndex
 ]
 
-{
-	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
-}
-SRHand >> menuPlacementPosition [
-	"Place the menu in front of the viewer, avoiding objects via raycast."
-
-	| viewer forward preferredDistance margin minDistance hit distance |
-	viewer := self world viewerPosition.
-	forward := self world viewerForward normalize.
-	preferredDistance := 0.5.
-	margin := 0.05.
-	minDistance := 0.25.
-	hit := self castRayBackward.
-	distance := preferredDistance.
-	hit ifNotNil: [
-		| hitDistance |
-		hitDistance := (hit point - viewer) length.
-		distance := (hitDistance - margin) min: preferredDistance].
-	distance := distance max: minDistance.
-	^ viewer + (forward * distance)
-]
-
 { #category : #events }
 SRHand >> onWorldChanged: oldWorld [
 
@@ -253,41 +258,11 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
-}
-SRHand >> openContextMenuFor: anObject [
-
-	SRMenu
-		contextMenuFor: anObject
-		at: self menuPlacementPosition
-		facing: self world viewerPosition
-		in: self world.
-]
-
-{
-	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }
 SRHand >> openMenu [
-	| existingMenus |
-	existingMenus := self world allDescendantsSelect: [:obj | obj isMenu].
-	existingMenus ifNotEmpty: [
-		existingMenus do: [:m | m close].
-		^ self].
-	grabbedObject
-		ifNotNil: [self openContextMenuFor: grabbedObject]
-		ifNil: [self openWorldMenu].
-]
 
-{
-	#category : #menu,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 19:01'
-}
-SRHand >> openWorldMenu [
-	| pos viewer |
-	pos := self menuPlacementPosition.
-	viewer := self world viewerPosition.
-	SRMenu worldMenuAt: pos facing: viewer in: self world.
+	self avatar openMenuForHand: self
 ]
 
 {
