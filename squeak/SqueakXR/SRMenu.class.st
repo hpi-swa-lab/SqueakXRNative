@@ -44,7 +44,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 10:40'
+	#'squeak_changestamp' : 'lege 7/1/2026 15:49'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -80,13 +80,13 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		aWorld debugHUD ifNotNil: [:h | h toggleVisibility]].
 	menu addItem: (aWorld outOfBodyMode ifTrue: ['Return to Body'] ifFalse: ['Out-of-Body Mode']) action: [
 		aWorld toggleOutOfBody].
-	(Smalltalk hasClassNamed: #SBMCPServer) ifTrue: [
+	"(Smalltalk hasClassNamed: #SBMCPServer) ifTrue: [
 		| mcp label |
 		mcp := Smalltalk at: #SBMCPServer.
 		label := (mcp current notNil and: [mcp current isRunning])
 			ifTrue: ['MCP Server: ON']
 			ifFalse: ['MCP Server: OFF'].
-		menu addItem: label action: [mcp toggle]].
+		menu addItem: label action: [mcp toggle]]."
 	(Smalltalk hasClassNamed: #MCPLogger) ifTrue: [
 		menu addItem: 'Open MCP Log' action: [
 			(Smalltalk at: #MCPLogger) openLog]].

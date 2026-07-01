@@ -31,6 +31,15 @@ SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 	^ internalMaterial
 ]
 
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 7/1/2026 15:57'
+}
+SRMaterial >> ensureInternalMaterial [
+
+	^ internalMaterial ifNil: [internalMaterial := Raylib loadMaterialDefault]
+]
+
 { #category : #'as yet unclassified' }
 SRMaterial >> finalize [
 
@@ -39,13 +48,11 @@ SRMaterial >> finalize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'lege 7/1/2026 15:57'
 }
 SRMaterial >> initialize [
 
 	super initialize.
-	Raylib isWindowReady ifTrue: [
-		internalMaterial := Raylib loadMaterialDefault]
 ]
 
 { #category : #accessing }
@@ -75,12 +82,12 @@ SRMaterial >> internalTexture [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:41'
+	#'squeak_changestamp' : 'lege 7/1/2026 15:59'
 }
 SRMaterial >> internalTexture: aRlTexture [
 
 	self flag: #remove.
-	internalMaterial maps texture: aRlTexture
+	self ensureInternalMaterial maps texture: aRlTexture
 ]
 
 {
@@ -94,13 +101,13 @@ SRMaterial >> shader [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 17:08'
+	#'squeak_changestamp' : 'lege 7/1/2026 15:59'
 }
 SRMaterial >> shader: aShader [
 
 	self unloadShader.
 	shader := aShader.
-	internalMaterial shader: shader internalShader.
+	self ensureInternalMaterial shader: shader internalShader.
 ]
 
 {
@@ -136,15 +143,4 @@ SRMaterial >> unloadShader [
 	shader ifNotNil: [
 		Raylib unloadShader: shader.
 		shader := nil.]
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/6/2026 16:47'
-}
-SRMaterial >> vertexShader: vertexShaderString fragmentShader: fragmentShaderString [
-
-	self unloadShader.
-	shader := Raylib loadShaderFromMemoryVsCode: vertexShaderString fsCode: fragmentShaderString.
-	internalMaterial shader: shader.
 ]
