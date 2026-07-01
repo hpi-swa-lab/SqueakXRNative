@@ -57,6 +57,13 @@ SRObject >> addChildren: aCollection [
 	aCollection do: [:obj | self addChild: obj]
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/1/2026 16:35'
+}
+SRObject >> addCustomMenuItemsTo: aMenu [
+]
+
 { #category : #hierarchy }
 SRObject >> allDescendants [
 

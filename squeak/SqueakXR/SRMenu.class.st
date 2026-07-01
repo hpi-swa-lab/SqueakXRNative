@@ -20,7 +20,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:37'
+	#'squeak_changestamp' : 'lege 7/1/2026 16:35'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -35,8 +35,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		anObject parent addChild: clone].
 	menu addItem: 'Remove' action: [
 		anObject remove].
-	(anObject respondsTo: #addCustomMenuItemsTo:)
-		ifTrue: [anObject addCustomMenuItemsTo: menu].
+	anObject addCustomMenuItemsTo: menu.
 	menu openAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
 	^ menu.
