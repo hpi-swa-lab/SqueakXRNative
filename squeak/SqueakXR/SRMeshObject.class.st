@@ -68,16 +68,15 @@ SRMeshObject >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'lege 7/1/2026 16:09'
 }
 SRMeshObject >> renderOn: aSRRenderer [
 
 	mesh ifNil: [^ self].
 	material ifNil: [^ self].
-	material internalMaterialFor: aSRRenderer.
 	aSRRenderer withoutBackfaceCullingDo: [
 		aSRRenderer
 			renderMesh: (mesh internalMeshFor: aSRRenderer)
 			transform: self globalTransform
-			material: material]
+			material: material].
 ]

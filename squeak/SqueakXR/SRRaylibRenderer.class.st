@@ -121,12 +121,15 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 				color: aColor muchDarker asRlColor].
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 7/1/2026 16:08'
+}
 SRRaylibRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aSRMaterial [
 
 	Raylib
 		drawMesh: aMesh
-		material: aSRMaterial internalMaterial
+		material: (aSRMaterial internalMaterialFor: self)
 		transform: aMatrix4x4 asRlMatrix
 ]
 
