@@ -6,13 +6,11 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'items',
-		'slabWidth',
-		'slabHeight',
-		'slabDepth',
 		'slabColor',
 		'wireColor',
 		'textScale',
-		'rowSpacing'
+		'rowSpacing',
+		'slabSize'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -131,27 +129,25 @@ SRMenu >> close [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:08'
+	#'squeak_changestamp' : 'lege 7/1/2026 18:49'
 }
 SRMenu >> collisionGeometry [
-	slabHeight = 0 ifTrue: [^ nil].
+	slabSize y = 0 ifTrue: [^ nil].
 	^ SRCollisionBox new
 		center: self globalTranslation;
-		halfExtents: self globalScale * (slabWidth / 2 @ (slabHeight / 2) @ (slabDepth / 2));
+		halfExtents: self globalScale * slabSize / 2;
 		rotation: self globalRotation;
 		object: self.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:10'
+	#'squeak_changestamp' : 'lege 7/1/2026 18:48'
 }
 SRMenu >> initialize [
 	super initialize.
 	items := OrderedCollection new.
-	slabWidth := 0.15.
-	slabHeight := 0.
-	slabDepth := 0.005.
+	slabSize := 15cm @ 0 @ 5mm.
 	slabColor := Color r: 0.05 g: 0.05 b: 0.1.
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
 	textScale := 0.015.
@@ -213,16 +209,16 @@ SRMenu >> openWorkspace [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:11'
+	#'squeak_changestamp' : 'lege 7/1/2026 18:50'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
 	self children copy do: [:child | child remove].
 	
-	items ifEmpty: [slabHeight := 0. ^ self].
+	items ifEmpty: [slabSize y: 0. ^ self].
 	
 	totalHeight := items size * rowSpacing + (rowSpacing * 0.5).
-	slabHeight := totalHeight.
+	slabSize y: totalHeight.
 	
 	rowY := totalHeight / 2 - (rowSpacing * 0.75).
 	
@@ -230,8 +226,8 @@ SRMenu >> rebuild [
 		| menuItem |
 		menuItem := SRMenuItem new
 			label: assoc key action: assoc value;
-			itemWidth: slabWidth - 0.01 height: rowSpacing * 0.85;
-			position: 0 @ rowY @ (slabDepth / 2 + 0.002);
+			itemWidth: slabSize x - 0.01 height: rowSpacing * 0.85;
+			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
 		self addChild: menuItem.
 		rowY := rowY - rowSpacing].
@@ -248,19 +244,19 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:08'
+	#'squeak_changestamp' : 'lege 7/1/2026 18:50'
 }
 SRMenu >> renderOn: aSRRenderer [
-	slabHeight = 0 ifTrue: [^ self].
+	slabSize y = 0 ifTrue: [^ self].
 	Raylib rlPushMatrix;
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
 		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: slabWidth height: slabHeight length: slabDepth
+		width: slabSize x height: slabSize y length: slabSize z
 		color: slabColor asRlColor.
 	Raylib
 		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: slabWidth height: slabHeight length: slabDepth
+		width: slabSize x height: slabSize y length: slabSize z
 		color: wireColor asRlColor.
 	Raylib rlPopMatrix.
 ]
