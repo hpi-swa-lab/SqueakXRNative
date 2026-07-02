@@ -123,11 +123,11 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
+	#'squeak_changestamp' : 'lege 7/2/2026 11:35'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 	action ifNotNil: [action value].
-	self menu ifNotNil: [:m | m close].
+	self menu ifNotNil: [:m | m remove].
 ]
 
 {

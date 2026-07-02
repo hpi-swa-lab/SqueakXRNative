@@ -101,7 +101,7 @@ SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:37'
+	#'squeak_changestamp' : 'lege 7/2/2026 11:35'
 }
 SRAvatar >> openMenuForHand: aHand [
 	"Notified by a hand that a menu should be spawned. If our menu is still open,
@@ -111,7 +111,7 @@ SRAvatar >> openMenuForHand: aHand [
 
 	| position |
 	(contextMenu notNil and: [contextMenu isOpen]) ifTrue: [
-		contextMenu close.
+		contextMenu remove.
 		contextMenu := nil.
 		^ self].
 	position := self menuPlacementPositionForHand: aHand.
