@@ -10,13 +10,21 @@ Class {
 		'textField',
 		'highlightColor',
 		'normalColor',
-		'itemWidth',
-		'itemHeight',
+		'itemSize',
 		'hovered'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:12'
+}
+SRMenuItem class >> itemDepth [
+
+	^ 2cm
+]
 
 {
 	#category : #accessing,
@@ -28,12 +36,12 @@ SRMenuItem >> action [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:08'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:16'
 }
 SRMenuItem >> collisionGeometry [
 	^ SRCollisionBox new
 		center: self globalTranslation;
-		halfExtents: self globalScale * (itemWidth / 2 @ (itemHeight / 2) @ 0.01);
+		halfExtents: self globalScale * itemSize / 2;
 		rotation: self globalRotation;
 		object: self.
 ]
@@ -58,20 +66,21 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:19'
 }
 SRMenuItem >> initialize [
+
 	super initialize.
+	
 	label := ''.
 	normalColor := Color white.
 	highlightColor := Color yellow.
 	hovered := false.
-	itemWidth := 0.14.
-	itemHeight := 0.02.
+	itemSize := 14cm @ 2cm @ self class itemDepth.
 	textField := SRTextField new
 		text: label;
 		color: normalColor;
-		scale: 0.015 @ 0.015 @ 0.015;
+		scale: 0.015 asVector3;
 		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
 		yourself.
 	self addChild: textField.
@@ -87,11 +96,12 @@ SRMenuItem >> isMenuItem [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:17'
 }
 SRMenuItem >> itemWidth: w height: h [
-	itemWidth := w.
-	itemHeight := h.
+
+	itemSize x: w.
+	itemSize y: h.
 ]
 
 {
@@ -104,13 +114,13 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:17'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
 	textField text: aString;
-		position: itemWidth / -2 + 0.005 @ (itemHeight / 2 - 0.002) @ 0.002.
+		position: itemSize x / -2 + 0.005 @ (itemSize y / 2 - 0.002) @ 0.002.
 ]
 
 {
@@ -132,7 +142,7 @@ SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:29'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:18'
 }
 SRMenuItem >> renderOn: aSRRenderer [
 	| fillColor wireColor |
@@ -147,11 +157,11 @@ SRMenuItem >> renderOn: aSRRenderer [
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
 		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: itemWidth height: itemHeight length: 0.002
+		width: itemSize x height: itemSize y length: 0.002
 		color: fillColor asRlColor.
 	Raylib
 		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: itemWidth height: itemHeight length: 0.002
+		width: itemSize x height: itemSize y length: 0.002
 		color: wireColor asRlColor.
 	Raylib rlPopMatrix.
 ]
