@@ -8,7 +8,6 @@ Class {
 		'items',
 		'slabColor',
 		'wireColor',
-		'textScale',
 		'rowSpacing',
 		'slabSize',
 		'needsRebuild'
@@ -135,7 +134,7 @@ SRMenu >> collisionGeometry [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:49'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -143,8 +142,7 @@ SRMenu >> initialize [
 	slabSize := 15cm @ 0 @ 5mm.
 	slabColor := Color r: 0.05 g: 0.05 b: 0.1.
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
-	textScale := 0.015.
-	rowSpacing := 0.025.
+	rowSpacing := 2.5cm.
 	needsRebuild := false.
 ]
 
