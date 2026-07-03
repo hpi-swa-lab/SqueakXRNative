@@ -44,7 +44,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:14'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:33'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -65,12 +65,12 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		addItem: 'Scene Tree'
 		action: (MessageSend receiver: menu selector: #openSceneTreeInspector);
 		addItem: 'Frame Time Graph'
-		action: (MessageSend receiver: menu selector: #spawnFrameTimeGraph: argument: aPosition);
-		addItem: (aWorld debugHUD
-			ifNotNil: [:h | h visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF']]
-			ifNil: ['Debug HUD: N/A'])
-		action: (MessageSend receiver: menu selector: #toggleDebugHUD);
-		addItem: (aWorld outOfBodyMode
+		action: (MessageSend receiver: menu selector: #spawnFrameTimeGraph: argument: aPosition).
+	aWorld debugHUD ifNotNil: [
+		menu
+			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
+			action: (MessageSend receiver: menu selector: #toggleDebugHUD)].
+	menu addItem: (aWorld outOfBodyMode
 			ifTrue: ['Return to Body']
 			ifFalse: ['Out-of-Body Mode'])
 		action: (MessageSend receiver: menu selector: #toggleOutOfBody).
@@ -351,11 +351,11 @@ SRMenu >> step: deltaTime [
 
 {
 	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:06'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:34'
 }
 SRMenu >> toggleDebugHUD [
 
-	self world debugHUD ifNotNil: [:h | h toggleVisibility]
+	self world debugHUD toggleVisibility.
 ]
 
 {
