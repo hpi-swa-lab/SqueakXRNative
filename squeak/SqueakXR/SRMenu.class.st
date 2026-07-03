@@ -314,40 +314,18 @@ SRMenu >> spawnSWAGame: aVector3 [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:28'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:08'
 }
 SRMenu >> step: deltaTime [
-	"Update hover highlight on our own items by casting rays from each hand.
-	Only walks our own item children -- no world-wide traversal."
+	"Update hover highlight on our own items by casting rays from each hand."
 
-	| avatar hands nearest nearestDist |
-	self world ifNil: [^ self].
-	avatar := self world avatar.
-	avatar ifNil: [^ self].
-	hands := {avatar leftHand. avatar rightHand} reject: [:h | h isNil].
-	hands isEmpty ifTrue: [^ self].
-	
-	nearest := nil.
-	nearestDist := nil.
-	hands do: [:hand |
-		| ray |
-		ray := SRRay
-			origin: hand globalTranslation
-			forward: (hand globalTransform localDirToGlobal: Vector3 backward) normalize.
+	| nearest |
+	self world avatar hands do: [:hand | | |
+		nearest := (hand rayBackward castNearestObjects: self children) ifNotNil: #object.
+		
 		self childrenDo: [:item |
 			item isMenuItem ifTrue: [
-				item collisionGeometryDo: [:geom |
-					(geom rayIntersection: ray) ifNotNil: [:result |
-						| dist |
-						dist := ray origin distanceTo: result point.
-						(nearestDist isNil or: [dist < nearestDist]) ifTrue: [
-							nearestDist := dist.
-							nearest := item]]]]]].
-	
-	"Update all items: only the nearest is hovered."
-	self childrenDo: [:item |
-		item isMenuItem ifTrue: [
-			item hovered: (item == nearest)]]
+				item hovered: (item == nearest)]]].
 ]
 
 {
