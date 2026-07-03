@@ -201,7 +201,7 @@ SRMenu >> openWorkspace [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:40'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -218,7 +218,7 @@ SRMenu >> rebuild [
 		| menuItem |
 		menuItem := SRMenuItem new
 			label: assoc key action: assoc value;
-			itemWidth: slabSize x - 0.01 height: rowSpacing * 0.85;
+			width: slabSize x - 0.01 height: rowSpacing * 0.85;
 			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
 		self addChild: menuItem.
