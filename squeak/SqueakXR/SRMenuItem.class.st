@@ -10,8 +10,8 @@ Class {
 		'textField',
 		'highlightColor',
 		'normalColor',
-		'itemSize',
-		'hovered'
+		'hovered',
+		'size'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -36,12 +36,12 @@ SRMenuItem >> action [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:16'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:20'
 }
 SRMenuItem >> collisionGeometry [
 	^ SRCollisionBox new
 		center: self globalTranslation;
-		halfExtents: self globalScale * itemSize / 2;
+		halfExtents: self globalScale * size / 2;
 		rotation: self globalRotation;
 		object: self.
 ]
@@ -66,7 +66,7 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:19'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:20'
 }
 SRMenuItem >> initialize [
 
@@ -76,7 +76,7 @@ SRMenuItem >> initialize [
 	normalColor := Color white.
 	highlightColor := Color yellow.
 	hovered := false.
-	itemSize := 14cm @ 2cm @ self class itemDepth.
+	size := 14cm @ 2cm @ self class itemDepth.
 	textField := SRTextField new
 		text: label;
 		color: normalColor;
@@ -96,12 +96,12 @@ SRMenuItem >> isMenuItem [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:17'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:20'
 }
 SRMenuItem >> itemWidth: w height: h [
 
-	itemSize x: w.
-	itemSize y: h.
+	size x: w.
+	size y: h.
 ]
 
 {
@@ -114,13 +114,13 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:17'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:21'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
 	textField text: aString;
-		position: itemSize x / -2 + 0.005 @ (itemSize y / 2 - 0.002) @ 0.002.
+		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ 0.002.
 ]
 
 {
@@ -142,7 +142,7 @@ SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:18'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:21'
 }
 SRMenuItem >> renderOn: aSRRenderer [
 	| fillColor wireColor |
@@ -157,11 +157,11 @@ SRMenuItem >> renderOn: aSRRenderer [
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
 		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: itemSize x height: itemSize y length: 0.002
+		width: size x height: size y length: 0.002
 		color: fillColor asRlColor.
 	Raylib
 		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: itemSize x height: itemSize y length: 0.002
+		width: size x height: size y length: 0.002
 		color: wireColor asRlColor.
 	Raylib rlPopMatrix.
 ]
