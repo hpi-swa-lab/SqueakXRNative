@@ -200,13 +200,13 @@ SRMenu >> openWorkspace [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'lege 7/1/2026 18:50'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:36'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
 	self children copy do: [:child | child remove].
 	
-	items ifEmpty: [slabSize y: 0. ^ self].
+	items ifEmpty: [^ self].
 	
 	totalHeight := items size * rowSpacing + (rowSpacing * 0.5).
 	slabSize y: totalHeight.
@@ -235,10 +235,10 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/1/2026 18:50'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:36'
 }
 SRMenu >> renderOn: aSRRenderer [
-	slabSize y = 0 ifTrue: [^ self].
+	items ifEmpty: [^ self].
 	Raylib rlPushMatrix;
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
