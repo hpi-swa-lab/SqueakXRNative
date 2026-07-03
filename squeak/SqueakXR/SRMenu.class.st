@@ -10,7 +10,8 @@ Class {
 		'wireColor',
 		'textScale',
 		'rowSpacing',
-		'slabSize'
+		'slabSize',
+		'needsRebuild'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -99,11 +100,12 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:40'
 }
 SRMenu >> addItem: aString action: aBlock [
+
 	items add: (Association key: aString value: aBlock).
-	self rebuild.
+	needsRebuild := true.
 ]
 
 {
@@ -133,7 +135,7 @@ SRMenu >> collisionGeometry [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/1/2026 18:48'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -143,6 +145,7 @@ SRMenu >> initialize [
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
 	textScale := 0.015.
 	rowSpacing := 0.025.
+	needsRebuild := false.
 ]
 
 {
@@ -200,7 +203,7 @@ SRMenu >> openWorkspace [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:36'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:40'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -222,6 +225,8 @@ SRMenu >> rebuild [
 			yourself.
 		self addChild: menuItem.
 		rowY := rowY - rowSpacing].
+	
+	needsRebuild := false.
 ]
 
 {
@@ -235,10 +240,13 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:36'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
 }
 SRMenu >> renderOn: aSRRenderer [
+
 	items ifEmpty: [^ self].
+	needsRebuild ifTrue: [self rebuild].
+	
 	Raylib rlPushMatrix;
 		rlMultMatrixfMatf: self globalTransform transposed.
 	Raylib
