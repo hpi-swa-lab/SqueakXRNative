@@ -135,6 +135,21 @@ SRRaylibRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aSRMateria
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'lege 7/3/2026 16:57'
+}
+SRRaylibRenderer >> renderPlainCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubePosition: Vector3 zero asRlVector
+				width: 1
+				height: 1
+				length: 1
+				color: aColor asRlColor].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 4/2/2026 13:20'
 }
 SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [

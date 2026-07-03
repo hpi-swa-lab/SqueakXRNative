@@ -134,7 +134,7 @@ SRMenu >> collisionGeometry [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:49'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:56'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -238,24 +238,19 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
+	#'squeak_changestamp' : 'lege 7/3/2026 17:17'
 }
 SRMenu >> renderOn: aSRRenderer [
 
+	| transform |
 	items ifEmpty: [^ self].
 	needsRebuild ifTrue: [self rebuild].
 	
-	Raylib rlPushMatrix;
-		rlMultMatrixfMatf: self globalTransform transposed.
-	Raylib
-		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: slabSize x height: slabSize y length: slabSize z
-		color: slabColor asRlColor.
-	Raylib
-		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: slabSize x height: slabSize y length: slabSize z
-		color: wireColor asRlColor.
-	Raylib rlPopMatrix.
+	transform := self globalTransform * (Matrix4x4 withScale: slabSize).
+	
+	aSRRenderer
+		renderPlainCubeTransformed: transform withColor: slabColor;
+		renderWireCubeTransformed: transform withColor: wireColor.
 ]
 
 {
