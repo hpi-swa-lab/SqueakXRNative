@@ -667,6 +667,19 @@ SRObject >> localTranslation: aVector3 [
 	self localComponentDirty.
 ]
 
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 7/2/2026 11:40'
+}
+SRObject >> lookAt: aGlobalVector3 [
+
+	self globalTransform: (
+		Matrix4x4
+			objectLookAt: aGlobalVector3
+			from: self globalTranslation
+			up: Vector3 up)
+]
+
 { #category : #accessing }
 SRObject >> name [
 

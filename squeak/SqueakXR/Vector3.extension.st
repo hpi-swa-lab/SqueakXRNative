@@ -21,6 +21,15 @@ Vector3 class >> componentSelectors [
 	^ #(x y z o i)
 ]
 
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'lege 7/3/2026 14:32'
+}
+Vector3 >> directionTo: anotherVector3 [
+
+	^ (anotherVector3 - self) normalized
+]
+
 { #category : #'*SqueakXR-helpers' }
 Vector3 class >> down [
 

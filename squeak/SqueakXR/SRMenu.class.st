@@ -254,23 +254,12 @@ SRMenu >> renderOn: aSRRenderer [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'lege 7/2/2026 11:37'
+	#'squeak_changestamp' : 'lege 7/3/2026 15:54'
 }
 SRMenu >> setTransformAt: aPosition facingViewer: aViewerPosition [
 
-	| toViewer flat forward yaw toViewerNorm pitchAngle pitch |
-	self position: aPosition.
-	toViewer := aViewerPosition - aPosition.
-	flat := (toViewer x @ 0 @ toViewer z) safelyNormalize.
-	flat isZero ifTrue: [^ self].
-	forward := Vector3 forward.
-	yaw := (forward dot: flat) < -0.9999
-		ifTrue: [Quaternion new angle: 180 axis: Vector3 up]
-		ifFalse: [Quaternion new from: forward to: flat].
-	toViewerNorm := toViewer safelyNormalize.
-	pitchAngle := toViewerNorm y arcSin negated.
-	pitch := Quaternion new radiansAngle: pitchAngle axis: Vector3 right.
-	self rotation: pitch * yaw.
+	self globalTranslation: aPosition;
+		lookAt: aViewerPosition.
 ]
 
 {

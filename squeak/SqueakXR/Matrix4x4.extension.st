@@ -49,17 +49,17 @@ Matrix4x4 class >> fromQuaternion: aQuaternion [
 
 {
 	#category : #'*SqueakXR-helpers',
-	#'squeak_changestamp' : 'lege 3/19/2026 14:37'
+	#'squeak_changestamp' : 'lege 7/3/2026 14:43'
 }
 Matrix4x4 class >> objectLookAt: target from: position up: worldUp [
 	"creates a lookAt matrix for an object (as opposed to a view matrix for a camera)"
 	
 	| front side up |
-	front := (target - position) normalized.
-	side := (front cross: worldUp normalized) normalized.
-	up := side cross: front.
+	front := position directionTo: target.
+	side := (worldUp normalized cross: front) normalized.
+	up := front cross: side.
 	^ self identity
-		column1:  side;
+		column1: side;
 		column2: up;
 		column3: front;
 		column4: position;
