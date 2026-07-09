@@ -8,7 +8,6 @@ Class {
 		'items',
 		'slabColor',
 		'wireColor',
-		'textScale',
 		'rowSpacing',
 		'slabSize',
 		'needsRebuild'
@@ -135,7 +134,7 @@ SRMenu >> collisionGeometry [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
+	#'squeak_changestamp' : 'lege 7/3/2026 16:56'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -143,8 +142,7 @@ SRMenu >> initialize [
 	slabSize := 15cm @ 0 @ 5mm.
 	slabColor := Color r: 0.05 g: 0.05 b: 0.1.
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
-	textScale := 0.015.
-	rowSpacing := 0.025.
+	rowSpacing := 2.5cm.
 	needsRebuild := false.
 ]
 
@@ -203,7 +201,7 @@ SRMenu >> openWorkspace [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:40'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -220,7 +218,7 @@ SRMenu >> rebuild [
 		| menuItem |
 		menuItem := SRMenuItem new
 			label: assoc key action: assoc value;
-			itemWidth: slabSize x - 0.01 height: rowSpacing * 0.85;
+			width: slabSize x - 0.01 height: rowSpacing * 0.85;
 			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
 		self addChild: menuItem.
@@ -240,24 +238,19 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:39'
+	#'squeak_changestamp' : 'lege 7/3/2026 17:17'
 }
 SRMenu >> renderOn: aSRRenderer [
 
+	| transform |
 	items ifEmpty: [^ self].
 	needsRebuild ifTrue: [self rebuild].
 	
-	Raylib rlPushMatrix;
-		rlMultMatrixfMatf: self globalTransform transposed.
-	Raylib
-		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: slabSize x height: slabSize y length: slabSize z
-		color: slabColor asRlColor.
-	Raylib
-		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: slabSize x height: slabSize y length: slabSize z
-		color: wireColor asRlColor.
-	Raylib rlPopMatrix.
+	transform := self globalTransform * (Matrix4x4 withScale: slabSize).
+	
+	aSRRenderer
+		renderPlainCubeTransformed: transform withColor: slabColor;
+		renderWireCubeTransformed: transform withColor: wireColor.
 ]
 
 {
@@ -321,40 +314,18 @@ SRMenu >> spawnSWAGame: aVector3 [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:28'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:08'
 }
 SRMenu >> step: deltaTime [
-	"Update hover highlight on our own items by casting rays from each hand.
-	Only walks our own item children -- no world-wide traversal."
+	"Update hover highlight on our own items by casting rays from each hand."
 
-	| avatar hands nearest nearestDist |
-	self world ifNil: [^ self].
-	avatar := self world avatar.
-	avatar ifNil: [^ self].
-	hands := {avatar leftHand. avatar rightHand} reject: [:h | h isNil].
-	hands isEmpty ifTrue: [^ self].
-	
-	nearest := nil.
-	nearestDist := nil.
-	hands do: [:hand |
-		| ray |
-		ray := SRRay
-			origin: hand globalTranslation
-			forward: (hand globalTransform localDirToGlobal: Vector3 backward) normalize.
+	| nearest |
+	self world avatar hands do: [:hand | | |
+		nearest := (hand rayBackward castNearestObjects: self children) ifNotNil: #object.
+		
 		self childrenDo: [:item |
 			item isMenuItem ifTrue: [
-				item collisionGeometryDo: [:geom |
-					(geom rayIntersection: ray) ifNotNil: [:result |
-						| dist |
-						dist := ray origin distanceTo: result point.
-						(nearestDist isNil or: [dist < nearestDist]) ifTrue: [
-							nearestDist := dist.
-							nearest := item]]]]]].
-	
-	"Update all items: only the nearest is hovered."
-	self childrenDo: [:item |
-		item isMenuItem ifTrue: [
-			item hovered: (item == nearest)]]
+				item hovered: (item == nearest)]]].
 ]
 
 {

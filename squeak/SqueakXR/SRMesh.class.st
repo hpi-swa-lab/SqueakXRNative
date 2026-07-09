@@ -34,7 +34,7 @@ Class {
 	#name : #SRMesh,
 	#superclass : #Object,
 	#instVars : [
-		'rlMesh',
+		'internalMesh',
 		'vertexBytes',
 		'normalBytes',
 		'texcoordBytes',
@@ -50,7 +50,8 @@ Class {
 		'cols',
 		'rows',
 		'isDynamic',
-		'isUploaded'
+		'isUploaded',
+		'source'
 	],
 	#category : #'SqueakXR-Core',
 	#'squeak_changestamp' : '<historical>'
@@ -89,12 +90,21 @@ SRMesh class >> vertexBytes: vBytes normalBytes: nBytes texcoordBytes: tBytes co
 ]
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'lege 7/7/2026 12:06'
+}
+SRMesh class >> withSource: aMeshSource [
+
+	^ self new source: aMeshSource
+]
+
+{
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:11'
 }
 SRMesh >> buildAndUploadRlMesh [
 
-	rlMesh := RlMesh new.
+	internalMesh := RlMesh new.
 	vertices := ExternalAddress allocate: vertexBytes size.
 	self writeBytes: vertexBytes to: vertices.
 	normals := ExternalAddress allocate: normalBytes size.
@@ -107,56 +117,43 @@ SRMesh >> buildAndUploadRlMesh [
 	colorBytes ifNotNil: [
 		colors := ExternalAddress allocate: colorBytes size.
 		self writeBytes: colorBytes to: colors].
-	rlMesh vertexCount: vertexCount.
-	rlMesh triangleCount: triangleCount.
-	rlMesh vertices: vertices.
-	rlMesh normals: normals.
-	rlMesh texcoords: texcoords.
-	indices ifNotNil: [rlMesh indices: indices].
-	colors ifNotNil: [rlMesh colors: colors].
-	Raylib uploadMesh: rlMesh dynamic: isDynamic.
+	internalMesh vertexCount: vertexCount.
+	internalMesh triangleCount: triangleCount.
+	internalMesh vertices: vertices.
+	internalMesh normals: normals.
+	internalMesh texcoords: texcoords.
+	indices ifNotNil: [internalMesh indices: indices].
+	colors ifNotNil: [internalMesh colors: colors].
+	Raylib uploadMesh: internalMesh dynamic: isDynamic.
 	isUploaded := true.
-	^ rlMesh
+	^ internalMesh
 ]
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:11'
 }
 SRMesh >> buildRlMesh [
 
 	self ensureExternalBuffers.
-	rlMesh := RlMesh new.
-	rlMesh vertexCount: vertexCount.
-	rlMesh triangleCount: triangleCount.
-	rlMesh vertices: vertices.
-	rlMesh normals: normals.
-	rlMesh texcoords: texcoords.
-	indices ifNotNil: [rlMesh indices: indices].
-	colors ifNotNil: [rlMesh colors: colors].
+	internalMesh := RlMesh new.
+	internalMesh vertexCount: vertexCount.
+	internalMesh triangleCount: triangleCount.
+	internalMesh vertices: vertices.
+	internalMesh normals: normals.
+	internalMesh texcoords: texcoords.
+	indices ifNotNil: [internalMesh indices: indices].
+	colors ifNotNil: [internalMesh colors: colors].
 	isUploaded := false
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:16'
 }
 SRMesh >> cols [
+
 	^ cols
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
-}
-SRMesh >> currentRlMesh [
-
-	| w r |
-	w := SRWorld current.
-	w ifNil: [^ nil].
-	r := w renderer.
-	r ifNil: [^ nil].
-	^ self internalMeshFor: r
 ]
 
 {
@@ -183,33 +180,12 @@ SRMesh >> ensureExternalBuffers [
 ]
 
 {
-	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/6/2026 18:12'
 }
-SRMesh >> flushNormals [
+SRMesh >> hasInternalMesh [
 
-	self currentRlMesh ifNil: [^ self].
-	Raylib
-		updateMeshBufferMesh: rlMesh
-		index: 2
-		data: normals
-		dataSize: vertexCount * 3 * 4
-		offset: 0
-]
-
-{
-	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
-}
-SRMesh >> flushVertices [
-
-	self currentRlMesh ifNil: [^ self].
-	Raylib
-		updateMeshBufferMesh: rlMesh
-		index: 0
-		data: vertices
-		dataSize: vertexCount * 3 * 4
-		offset: 0
+	^ internalMesh notNil
 ]
 
 {
@@ -313,13 +289,11 @@ SRMesh >> initializeVertexBytes: vBytes normalBytes: nBytes texcoordBytes: tByte
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/7/2026 18:03'
 }
 SRMesh >> internalMesh [
 
-	rlMesh ifNil: [self buildRlMesh].
-	isUploaded ifFalse: [self upload].
-	^ rlMesh
+	^ internalMesh ifNil: [self source createInternalMesh]
 ]
 
 {
@@ -333,19 +307,20 @@ SRMesh >> internalMeshFor: aSRRenderer [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:35'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:16'
 }
 SRMesh >> isUploaded [
+
 	^ isUploaded ifNil: [false]
 ]
 
 {
 	#category : #buffers,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:13'
 }
 SRMesh >> normalBuffer [
 
-	self currentRlMesh ifNil: [^ nil].
+	self hasInternalMesh ifFalse: [^ self].
 	^ normals
 ]
 
@@ -405,10 +380,29 @@ SRMesh >> recomputeGridNormals [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:15'
 }
 SRMesh >> rows [
+
 	^ rows
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/7/2026 12:07'
+}
+SRMesh >> source [
+
+	^ source
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/7/2026 12:08'
+}
+SRMesh >> source: aMeshSource [
+
+	source := aMeshSource
 ]
 
 {
@@ -428,37 +422,39 @@ SRMesh >> syncExternalToBytes [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:35'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:15'
 }
 SRMesh >> triangleCount [
+
 	^ triangleCount
 ]
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:11'
 }
 SRMesh >> upload [
 
-	Raylib uploadMesh: rlMesh dynamic: isDynamic.
+	Raylib uploadMesh: internalMesh dynamic: isDynamic.
 	isUploaded := true
 ]
 
 {
 	#category : #buffers,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:13'
 }
 SRMesh >> vertexBuffer [
 
-	self currentRlMesh ifNil: [^ nil].
+	self hasInternalMesh ifFalse: [^ self].
 	^ vertices
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:34'
+	#'squeak_changestamp' : 'lege 7/6/2026 18:15'
 }
 SRMesh >> vertexCount [
+
 	^ vertexCount
 ]
 

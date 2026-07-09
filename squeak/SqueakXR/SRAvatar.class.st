@@ -38,6 +38,15 @@ SRAvatar >> contextMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/3/2026 17:26'
+}
+SRAvatar >> hands [
+
+	^ {self leftHand. self rightHand}
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }

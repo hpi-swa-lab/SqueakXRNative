@@ -17,6 +17,24 @@ Class {
 }
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/8/2026 14:27'
+}
+SRMeshObject class >> fromSource: aSRMeshSource [
+
+	^ self withMesh: (SRMesh withSource: aSRMeshSource)
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/8/2026 14:26'
+}
+SRMeshObject class >> withMesh: aSRMesh [
+
+	^ self new mesh: aSRMesh
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
 }
@@ -68,7 +86,7 @@ SRMeshObject >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/1/2026 16:09'
+	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
 }
 SRMeshObject >> renderOn: aSRRenderer [
 
@@ -76,7 +94,7 @@ SRMeshObject >> renderOn: aSRRenderer [
 	material ifNil: [^ self].
 	aSRRenderer withoutBackfaceCullingDo: [
 		aSRRenderer
-			renderMesh: (mesh internalMeshFor: aSRRenderer)
+			renderMesh: self mesh
 			transform: self globalTransform
 			material: material].
 ]

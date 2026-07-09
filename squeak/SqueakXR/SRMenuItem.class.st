@@ -9,14 +9,75 @@ Class {
 		'action',
 		'textField',
 		'highlightColor',
-		'normalColor',
-		'itemWidth',
-		'itemHeight',
-		'hovered'
+		'hovered',
+		'size'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:31'
+}
+SRMenuItem class >> fillColorHighlight [
+
+	^ Color r: 0.25 g: 0.25 b: 0.4
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:31'
+}
+SRMenuItem class >> fillColorNormal [
+
+	^ Color r: 0.1 g: 0.1 b: 0.2
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:12'
+}
+SRMenuItem class >> itemDepth [
+
+	^ 2cm
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:31'
+}
+SRMenuItem class >> textColorHighlight [
+
+	^ Color yellow
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:31'
+}
+SRMenuItem class >> textColorNormal [
+
+	^ Color white
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:32'
+}
+SRMenuItem class >> wireColorHighlight [
+
+	^ Color yellow
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/3/2026 18:31'
+}
+SRMenuItem class >> wireColorNormal [
+
+	^ Color r: 0.3 g: 0.3 b: 0.6
+]
 
 {
 	#category : #accessing,
@@ -28,12 +89,12 @@ SRMenuItem >> action [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:08'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:20'
 }
 SRMenuItem >> collisionGeometry [
 	^ SRCollisionBox new
 		center: self globalTranslation;
-		halfExtents: self globalScale * (itemWidth / 2 @ (itemHeight / 2) @ 0.01);
+		halfExtents: self globalScale * size / 2;
 		rotation: self globalRotation;
 		object: self.
 ]
@@ -48,30 +109,29 @@ SRMenuItem >> hovered [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:33'
 }
 SRMenuItem >> hovered: aBoolean [
 	hovered = aBoolean ifTrue: [^ self].
 	hovered := aBoolean.
-	textField color: (hovered ifTrue: [highlightColor] ifFalse: [normalColor])
+	textField color: (hovered ifTrue: [self class textColorHighlight] ifFalse: [self class textColorNormal])
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:33'
 }
 SRMenuItem >> initialize [
+
 	super initialize.
+	
 	label := ''.
-	normalColor := Color white.
-	highlightColor := Color yellow.
 	hovered := false.
-	itemWidth := 0.14.
-	itemHeight := 0.02.
+	size := 14cm @ 2cm @ self class itemDepth.
 	textField := SRTextField new
 		text: label;
-		color: normalColor;
-		scale: 0.015 @ 0.015 @ 0.015;
+		color: self class textColorNormal;
+		scale: 0.015 asVector3;
 		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
 		yourself.
 	self addChild: textField.
@@ -89,28 +149,19 @@ SRMenuItem >> isMenuItem [
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
 }
-SRMenuItem >> itemWidth: w height: h [
-	itemWidth := w.
-	itemHeight := h.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
-}
 SRMenuItem >> label [
 	^ label
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 10:52'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:21'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
 	textField text: aString;
-		position: itemWidth / -2 + 0.005 @ (itemHeight / 2 - 0.002) @ 0.002.
+		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ 0.002.
 ]
 
 {
@@ -132,26 +183,31 @@ SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 17:29'
+	#'squeak_changestamp' : 'lege 7/3/2026 18:36'
 }
 SRMenuItem >> renderOn: aSRRenderer [
-	| fillColor wireColor |
+	| fillColor wireColor transform |
 	self hovered
 		ifTrue: [
-			fillColor := Color r: 0.25 g: 0.25 b: 0.4.
-			wireColor := highlightColor]
+			fillColor := self class fillColorHighlight.
+			wireColor := self class wireColorHighlight]
 		ifFalse: [
-			fillColor := Color r: 0.1 g: 0.1 b: 0.2.
-			wireColor := Color r: 0.3 g: 0.3 b: 0.6].
-	Raylib rlPushMatrix;
-		rlMultMatrixfMatf: self globalTransform transposed.
-	Raylib
-		drawCubePosition: (0 @ 0 @ 0) asRlVector
-		width: itemWidth height: itemHeight length: 0.002
-		color: fillColor asRlColor.
-	Raylib
-		drawCubeWiresPosition: (0 @ 0 @ 0) asRlVector
-		width: itemWidth height: itemHeight length: 0.002
-		color: wireColor asRlColor.
-	Raylib rlPopMatrix.
+			fillColor := self class fillColorNormal.
+			wireColor := self class wireColorNormal].
+	
+	transform := self globalTransform * (Matrix4x4 withScale: size).
+	
+	aSRRenderer
+		renderPlainCubeTransformed: transform withColor: fillColor;
+		renderWireCubeTransformed: transform withColor: wireColor.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
+}
+SRMenuItem >> width: w height: h [
+
+	size x: w.
+	size y: h.
 ]

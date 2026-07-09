@@ -769,6 +769,71 @@ SRObject >> position: aVector3 [
 	self translation: aVector3
 ]
 
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayBackward [
+
+	^ self rayForDirection: self backward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayDown [
+
+	^ self rayForDirection: self down
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 7/3/2026 17:43'
+}
+SRObject >> rayForDirection: aNormalizedVector3 [
+
+	^ SRRay
+		origin: self globalTranslation
+		forward: aNormalizedVector3
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayForward [
+
+	^ self rayForDirection: self forward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayLeft [
+
+	^ self rayForDirection: self left
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayRight [
+
+	^ self rayForDirection: self right
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayUp [
+
+	^ self rayForDirection: self up
+]
+
 { #category : #hierarchy }
 SRObject >> remove [
 
