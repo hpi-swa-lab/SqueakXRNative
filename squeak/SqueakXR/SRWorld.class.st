@@ -17,7 +17,8 @@ Class {
 		'outOfBodyMode',
 		'outOfBodyCamera',
 		'frozenAvatar',
-		'ghostAvatar'
+		'ghostAvatar',
+		'project'
 	],
 	#classVars : [
 		'Current',
@@ -534,7 +535,7 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
+	#'squeak_changestamp' : 'lege 7/9/2026 18:07'
 }
 SRWorld >> enterMorphicProject [
 

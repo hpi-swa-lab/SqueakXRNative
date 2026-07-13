@@ -98,21 +98,30 @@ SRMeshSourceRaw >> colors: aByteArray [
 
 {
 	#category : #mesh,
-	#'squeak_changestamp' : 'lege 7/9/2026 17:20'
+	#'squeak_changestamp' : 'lege 7/13/2026 18:07'
 }
 SRMeshSourceRaw >> createInternalMesh [
 
-	| newMesh |
+	| mesh |
+	mesh := self createMeshVertexCount: self elementCount
+		triangleCount: self triangleCount
+		vertices: (vertices pin; yourself)
+		normals: (normals pin; yourself)
+		texcoords: (texcoords pin; yourself)
+		colors: (colors pin; yourself)
+		indices: (indices pin; yourself).
+	Raylib uploadMesh: mesh dynamic: false.
+	^ mesh
+]
 
-	newMesh := RlMesh new
-		vertexCount: self elementCount;
-		triangleCount: self triangleCount;
-		vertices: (self class pointerFor: vertices);
-		normals: (self class pointerFor: normals);
-		texcoords: (self class pointerFor: texcoords).
-	indices ifNotNil: [newMesh indices: (self class pointerFor: indices)].
-	colors ifNotNil: [newMesh colors: (self class pointerFor: colors)].
-	^ newMesh
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/9/2026 19:28'
+}
+SRMeshSourceRaw >> createMeshVertexCount: a triangleCount: b vertices: c normals: d texcoords: e colors: f indices: g [
+
+	<cdecl: RlMesh 'createRaylibMeshFromArrays'(int, int, float*, float*, float*, char*, short*) module: 'squeakxrnative'>
+	^ self externalCallFailed
 ]
 
 {
@@ -132,11 +141,11 @@ SRMeshSourceRaw >> editDo: aBlock [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/7/2026 19:32'
+	#'squeak_changestamp' : 'lege 7/10/2026 18:43'
 }
 SRMeshSourceRaw >> elementCount [
 
-	^ self vertices size / (3 * 4)
+	^ self vertices size / 3
 ]
 
 {
@@ -217,11 +226,11 @@ SRMeshSourceRaw >> texcoords: aFloat32Array [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/7/2026 19:33'
+	#'squeak_changestamp' : 'lege 7/10/2026 18:44'
 }
 SRMeshSourceRaw >> triangleCount [
 
-	^ (self indices ifNotNil: [:i | i size / 2] ifNil: [self elementCount]) / 3
+	^ (self indices ifNotNil: [:i | i size] ifNil: [self elementCount]) / 3
 ]
 
 {

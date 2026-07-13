@@ -86,7 +86,7 @@ SRMeshObject >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
+	#'squeak_changestamp' : 'lege 7/13/2026 17:58'
 }
 SRMeshObject >> renderOn: aSRRenderer [
 
