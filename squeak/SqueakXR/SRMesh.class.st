@@ -50,7 +50,8 @@ Class {
 		'cols',
 		'rows',
 		'isDynamic',
-		'isUploaded'
+		'isUploaded',
+		'source'
 	],
 	#category : #'SqueakXR-Core',
 	#'squeak_changestamp' : '<historical>'
@@ -86,6 +87,15 @@ SRMesh class >> vertexBytes: vBytes normalBytes: nBytes texcoordBytes: tBytes co
 		indexBytes: iBytes
 		vertexCount: vCount
 		triangleCount: tCount
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'lege 7/7/2026 12:06'
+}
+SRMesh class >> withSource: aMeshSource [
+
+	^ self new source: aMeshSource
 ]
 
 {
@@ -167,36 +177,6 @@ SRMesh >> ensureExternalBuffers [
 	(colorBytes notNil and: [colors isNil]) ifTrue: [
 		colors := ExternalAddress allocate: colorBytes size.
 		self writeBytes: colorBytes to: colors]
-]
-
-{
-	#category : #gpu,
-	#'squeak_changestamp' : 'lege 7/6/2026 18:12'
-}
-SRMesh >> flushNormals [
-
-	self hasInternalMesh ifFalse: [^ self].
-	Raylib
-		updateMeshBufferMesh: internalMesh
-		index: 2
-		data: normals
-		dataSize: vertexCount * 3 * 4
-		offset: 0
-]
-
-{
-	#category : #gpu,
-	#'squeak_changestamp' : 'lege 7/6/2026 18:13'
-}
-SRMesh >> flushVertices [
-
-	self hasInternalMesh ifFalse: [^ self].
-	Raylib
-		updateMeshBufferMesh: internalMesh
-		index: 0
-		data: vertices
-		dataSize: vertexCount * 3 * 4
-		offset: 0
 ]
 
 {
@@ -309,6 +289,15 @@ SRMesh >> initializeVertexBytes: vBytes normalBytes: nBytes texcoordBytes: tByte
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/7/2026 18:03'
+}
+SRMesh >> internalMesh [
+
+	^ internalMesh ifNil: [self source createInternalMesh]
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 14:58'
 }
 SRMesh >> internalMeshFor: aSRRenderer [
@@ -396,6 +385,24 @@ SRMesh >> recomputeGridNormals [
 SRMesh >> rows [
 
 	^ rows
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/7/2026 12:07'
+}
+SRMesh >> source [
+
+	^ source
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/7/2026 12:08'
+}
+SRMesh >> source: aMeshSource [
+
+	source := aMeshSource
 ]
 
 {

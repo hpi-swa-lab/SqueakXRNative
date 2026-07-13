@@ -84,7 +84,7 @@ SRFrame >> process [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:19'
+	#'squeak_changestamp' : 'lege 7/9/2026 17:22'
 }
 SRFrame >> renderObjects [
 
@@ -94,6 +94,7 @@ SRFrame >> renderObjects [
 		self world render: currentObject]]
 		on: Error
 		do: [:error |
+			"ToolSet default handleError: error."
 			error printVerboseOn: Transcript.
 			currentObject badRender: true.
 			error retry.]

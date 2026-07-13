@@ -82,11 +82,12 @@ SRMaterial >> internalTexture [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:59'
+	#'squeak_changestamp' : 'lege 7/9/2026 17:24'
 }
 SRMaterial >> internalTexture: aRlTexture [
 
 	self flag: #remove.
+	Transcript showln: aRlTexture.
 	self ensureInternalMaterial maps texture: aRlTexture
 ]
 

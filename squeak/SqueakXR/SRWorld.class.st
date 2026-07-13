@@ -17,7 +17,8 @@ Class {
 		'outOfBodyMode',
 		'outOfBodyCamera',
 		'frozenAvatar',
-		'ghostAvatar'
+		'ghostAvatar',
+		'project'
 	],
 	#classVars : [
 		'Current',
@@ -425,7 +426,7 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:18'
+	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
 }
 SRWorld >> adjustPreferences [
 
@@ -434,7 +435,7 @@ SRWorld >> adjustPreferences [
 		"Display relativeUiScaleFactor: 1.0."
 		UIManager openToolsAttachedToMouseCursor: false.
 		"Disable the drop shadow, ensures that the size of a Morph texture is not affected by focus"
-		Preferences disable: #menuAppearance3d.]
+		Preferences disable: #menuAppearance3d].
 ]
 
 { #category : #accessing }
@@ -534,7 +535,7 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
+	#'squeak_changestamp' : 'lege 7/9/2026 18:07'
 }
 SRWorld >> enterMorphicProject [
 

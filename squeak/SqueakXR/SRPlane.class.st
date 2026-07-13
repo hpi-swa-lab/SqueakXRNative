@@ -116,15 +116,15 @@ SRPlane >> planeUp [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/17/2026 16:22'
+	#'squeak_changestamp' : 'lege 7/7/2026 18:13'
 }
 SRPlane >> renderOn: aSRRenderer [
 
-	aSRRenderer withoutBackfaceCullingDo: [
+	"aSRRenderer withoutBackfaceCullingDo: [
 		aSRRenderer
 			renderMesh: self mesh
 			transform: self globalTransform
-			material: self material].
+			material: self material]."
 ]
 
 { #category : #accessing }
