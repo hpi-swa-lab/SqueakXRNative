@@ -96,6 +96,30 @@ SRShader class >> ensureSpirvCrossAvailable [
 ]
 
 {
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/14/2026 15:44'
+}
+SRShader class >> evaluateCommand: aCommandString [
+
+	|pipeline out err|
+	pipeline := OSProcess evaluate: aCommandString.
+	out := pipeline upToEndOfFile.
+	err := pipeline errorUpToEndOfFile.
+	
+	(pipeline anySatisfy: [:p | p succeeded not]) ifTrue: [
+		Transcript
+			showln: ('An error occurred while evaluting ''{1}''' format: {aCommandString});
+			showln: 'stdout:';
+			showln: out;
+			showln: 'stderr:';
+			showln: err.
+		self error: ('An error occurred while evaluating ''{1}''. See Transcript for details.'
+			format: {aCommandString})].
+	
+	^ out
+]
+
+{
 	#category : #'app shaders',
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
@@ -126,6 +150,57 @@ void main()
 {
       vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
       finalColor = texelColor.gbar;
+}'
+} as: Dictionary
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'lege 7/15/2026 11:58'
+}
+SRShader class >> phongSource [
+
+	^ {
+		#vert -> '#version 450
+
+layout(location = 0) in vec3 vertexPosition;
+layout(location = 1) in vec2 vertexTexCoord;
+layout(location = 2) in vec3 vertexNormal;
+layout(location = 3) in vec4 vertexColor;
+
+layout(location = 0) uniform mat4 mvp;
+layout(location = 1) uniform mat4 matNormal;
+
+layout(location = 0) out vec2 fragTexCoord;
+layout(location = 1) out vec4 fragColor;
+layout(location = 2) out vec3 fragNormal;
+
+void main()
+{
+    fragTexCoord = vertexTexCoord;
+    fragColor = vertexColor;
+    fragNormal = normalize(vec3(matNormal*vec4(vertexNormal, 1.0)));
+
+    gl_Position = mvp*vec4(vertexPosition, 1.0);
+}'.
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+layout(location = 2) in vec3 fragNormal;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.5));
+	vec3 diffuse = vec3(max(0.05, dot(normalize(fragNormal), -lightDirection)));
+      finalColor = texelColor * vec4(diffuse, 1.0);
 }'
 } as: Dictionary
 ]
@@ -225,7 +300,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:29'
+	#'squeak_changestamp' : 'lege 7/14/2026 15:42'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -236,9 +311,10 @@ SRShader class >> transpile: source stage: stage options: options [
 	shaderFileName := basePath, '/shader.spv'.
 	file := FileStream forceNewFileNamed: 'input.shader'.
 	file nextPutAll: source; close.
-	OSProcess waitForCommand: ('glslang -G -o {1} {2} -S {3}' format: {
+	self evaluateCommand: ('glslang -G -o {1} {2} -S {3}' format: {
 		shaderFileName. inputFileName. stage}).
-	output := OSProcess outputOf: ('spirv-cross {1} {2}' format: {options. shaderFileName})]
+	output := self evaluateCommand: ('spirv-cross {1} {2}' format: {
+		options. shaderFileName})]
 		ensure: [FileDirectory default
 			deleteFileNamed: inputFileName;
 			deleteFileNamed: shaderFileName].
@@ -247,21 +323,47 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'lege 7/15/2026 11:02'
 }
 SRShader class >> transpileAll [
-	"Transpile framework shaders, preserving app-registered shaders in cache."
 
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
+		transpileAllUnsafe.
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/15/2026 11:01'
+}
+SRShader class >> transpileAllUnsafe [
 
 	ShaderCache ifNil: [ShaderCache := Dictionary new].
 
-	UIManager default informUser: 'Transpiling...' during: [
+	UIManager default informUser: 'Transpiling all shaders...' during: [
 		(self class selectorsInCategory: #'shader sources') do: [:selector |
-			UIManager default informUser: selector during: [
-				ShaderCache
-					at: (selector allButLast: 'Source' size)
-					put: (self transpileSource: (self perform: selector))]]]
+			self transpileSingleSourceAtUnsafe: selector]]
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/15/2026 11:00'
+}
+SRShader class >> transpileSingleSourceAt: selector [
+
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
+		transpileSingleSourceAtUnsafe: selector.
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/15/2026 11:02'
+}
+SRShader class >> transpileSingleSourceAtUnsafe: selector [
+
+	UIManager default informUser: 'Transpiling ', selector, '...' during: [
+		ShaderCache
+			at: (selector allButLast: 'Source' size)
+			put: (self transpileSource: (self perform: selector))]
 ]
 
 {
