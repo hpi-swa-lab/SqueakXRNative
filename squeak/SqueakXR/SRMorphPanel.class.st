@@ -200,7 +200,7 @@ SRMorphPanel >> morph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:34'
 }
 SRMorphPanel >> morph: aMorph [
 
@@ -211,7 +211,8 @@ SRMorphPanel >> morph: aMorph [
 		self globalTranslation: position].
 	morph setIsInMorphPanel.
 	texture morph: morph.
-	self updateTexture.
+	self updateTexture;
+		name: (morph knownName ifNil: [morph class asString]).
 ]
 
 {

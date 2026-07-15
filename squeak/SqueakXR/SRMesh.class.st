@@ -51,9 +51,22 @@ SRMesh >> source [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/7/2026 12:08'
+	#'squeak_changestamp' : 'lege 7/15/2026 19:06'
 }
 SRMesh >> source: aMeshSource [
 
-	source := aMeshSource
+	source ifNotNil: [source removeDependent: self].
+	source := aMeshSource.
+	source addDependent: self.
+	internalMesh := nil.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/15/2026 19:02'
+}
+SRMesh >> update: aSymbol [
+
+	aSymbol = #meshChanged ifTrue: [
+		internalMesh := nil]
 ]

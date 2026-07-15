@@ -1,5 +1,5 @@
 "
-An SRObject that draws an SRMesh with an SRMaterial at its own world transform. One DrawMesh call per frame per object; the mesh stays GPU-resident across frames and survives image save/restart (via SRMesh and SRTexture's shutDown/startUp hooks).
+An SRObject that draws an SRMesh with an SRMaterial at its own world transform. One DrawMesh call per frame per object.
 
 ivars:
   mesh      an SRMesh
@@ -13,7 +13,7 @@ Class {
 		'material'
 	],
 	#category : #'SqueakXR-Objects',
-	#'squeak_changestamp' : '<historical>'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:17'
 }
 
 {
@@ -78,13 +78,13 @@ SRMeshObject >> mesh: anSRMesh [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:52'
+	#'squeak_changestamp' : 'lege 7/15/2026 19:04'
 }
 SRMeshObject >> onCacheInvalidated [
 
 	super onCacheInvalidated.
 	
-	self mesh ifNotNil: [:m | m onCacheInvalidated].
+	self mesh ifNotNil: #onCacheInvalidated.
 	self material onCacheInvalidated.
 ]
 

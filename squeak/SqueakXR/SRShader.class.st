@@ -66,7 +66,7 @@ SRShader class >> doesCommandExist: aString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:35'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:22'
 }
 SRShader class >> doesNotUnderstand: aMessage [
 
@@ -228,18 +228,18 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:20'
 }
 SRShader class >> sourceFor: shader version: version [
-	"Merge any top-level #uniforms list into the versioned source dict."
+	
 	^ ShaderCache at: shader
 		ifPresent: [:sources |
 			| versioned |
 			versioned := sources at: version
 				ifAbsent: [self error: 'Shader source is missing for ', version].
-			(sources includesKey: #uniforms)
-				ifTrue: [versioned , { #uniforms -> (sources at: #uniforms) } ]
-				ifFalse: [versioned]]
+			versioned, (sources at: #uniforms
+				ifPresent: [{#uniforms -> (sources at: #uniforms) }]
+				ifAbsent: [#()])]
 		ifAbsent: [nil]
 ]
 

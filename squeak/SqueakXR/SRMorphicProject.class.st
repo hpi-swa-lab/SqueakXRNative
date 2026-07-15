@@ -24,10 +24,10 @@ SRMorphicProject >> initialize [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 10:24'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:16'
 }
 SRMorphicProject >> openDebuggerWindow: windowOrModel [
-	"In XR mode, do not open debugger windows â they crash the render loop.
+	"In XR mode, do not open debugger windows as they crash the render loop.
 	 Log the error to the Transcript instead."
 	| world label |
 	world := SRWorld allInstances detect: [:w | w isRunning] ifNone: [nil].
