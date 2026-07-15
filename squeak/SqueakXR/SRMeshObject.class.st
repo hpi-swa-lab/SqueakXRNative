@@ -69,24 +69,28 @@ SRMeshObject >> mesh [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 17:36'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:49'
 }
 SRMeshObject >> mesh: anSRMesh [
+
 	mesh := anSRMesh
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'lege 7/15/2026 15:52'
 }
 SRMeshObject >> onCacheInvalidated [
 
-	super onCacheInvalidated
+	super onCacheInvalidated.
+	
+	self mesh ifNotNil: [:m | m onCacheInvalidated].
+	self material onCacheInvalidated.
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/14/2026 12:01'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:08'
 }
 SRMeshObject >> renderOn: aSRRenderer [
 

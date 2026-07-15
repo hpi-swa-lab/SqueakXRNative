@@ -156,7 +156,7 @@ void main()
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 7/15/2026 11:58'
+	#'squeak_changestamp' : 'lege 7/15/2026 12:58'
 }
 SRShader class >> phongSource [
 
@@ -198,7 +198,7 @@ layout(location = 0) out vec4 finalColor;
 void main()
 {
       vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.5));
+	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.25));
 	vec3 diffuse = vec3(max(0.05, dot(normalize(fragNormal), -lightDirection)));
       finalColor = texelColor * vec4(diffuse, 1.0);
 }'

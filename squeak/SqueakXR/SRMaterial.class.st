@@ -19,7 +19,7 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 18:08'
+	#'squeak_changestamp' : 'lege 7/15/2026 15:43'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
@@ -27,7 +27,7 @@ SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 	texture ifNotNil: [
 		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
 	shader ifNotNil: [
-		internalMaterial shader: shader internalShader].
+		internalMaterial shader: shader load internalShader].
 	^ internalMaterial
 ]
 
@@ -92,6 +92,15 @@ SRMaterial >> internalTexture: aRlTexture [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/15/2026 15:52'
+}
+SRMaterial >> onCacheInvalidated [
+
+	internalMaterial := nil.
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
 }
 SRMaterial >> shader [
@@ -101,13 +110,12 @@ SRMaterial >> shader [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:59'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:03'
 }
 SRMaterial >> shader: aShader [
 
 	self unloadShader.
 	shader := aShader.
-	self ensureInternalMaterial shader: shader internalShader.
 ]
 
 {
@@ -136,7 +144,7 @@ SRMaterial >> unloadInternalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/6/2026 16:48'
+	#'squeak_changestamp' : 'lege 7/15/2026 15:40'
 }
 SRMaterial >> unloadShader [
 

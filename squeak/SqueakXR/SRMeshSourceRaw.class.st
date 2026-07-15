@@ -97,8 +97,8 @@ SRMeshSourceRaw >> colors: aByteArray [
 ]
 
 {
-	#category : #mesh,
-	#'squeak_changestamp' : 'lege 7/13/2026 18:07'
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/15/2026 12:56'
 }
 SRMeshSourceRaw >> createInternalMesh [
 

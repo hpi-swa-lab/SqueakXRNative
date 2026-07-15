@@ -1017,7 +1017,10 @@ SRWorld >> start [
 	self resume
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 14:45'
+}
 SRWorld >> startUp: resuming [
 
 	self log.

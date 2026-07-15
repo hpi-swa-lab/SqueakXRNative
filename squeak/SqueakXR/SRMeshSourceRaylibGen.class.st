@@ -27,6 +27,15 @@ SRMeshSourceRaylibGen class >> knotRadius: radius size: size radSeg: radSeg side
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 13:56'
+}
+SRMeshSourceRaylibGen class >> planeWidth: width length: length widthSections: widthSections lengthSections: lengthSections [
+
+	^ self new planeWidth: width length: length widthSections: widthSections lengthSections: lengthSections
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/14/2026 11:16'
 }
 SRMeshSourceRaylibGen >> createInternalMesh [
@@ -77,4 +86,26 @@ SRMeshSourceRaylibGen >> knotRadius: radius size: size radSeg: radSeg sides: sid
 			receiver: Raylib
 			selector: #genMeshKnotRadius:size:radSeg:sides:
 			arguments: {radius. size. radSeg. sides}).
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 14:08'
+}
+SRMeshSourceRaylibGen >> onCacheInvalidated [
+
+	"noop"
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 13:57'
+}
+SRMeshSourceRaylibGen >> planeWidth: width length: length widthSections: widthSections lengthSections: lengthSections [
+
+	self generatorMessage: (
+		MessageSend
+			receiver: Raylib
+			selector: #genMeshPlaneWidth:length:resX:resZ:
+			arguments: {width. length. widthSections. lengthSections}).
 ]

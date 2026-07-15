@@ -116,7 +116,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 3/17/2026 16:14'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
 }
 SRMorphPanel >> initialize [
 
@@ -241,7 +241,7 @@ SRMorphPanel >> removeMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/16/2026 16:32'
+	#'squeak_changestamp' : 'lege 7/15/2026 13:54'
 }
 SRMorphPanel >> renderOn: aSRRenderer [
 
@@ -264,10 +264,9 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 17:05'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
 }
 SRMorphPanel >> updateTexture [
 
 	plane material internalTexture: texture update.
-	
 ]
