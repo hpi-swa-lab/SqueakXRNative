@@ -120,19 +120,6 @@ SRPlane >> planeUp [
 	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
 ]
 
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:00'
-}
-SRPlane >> renderOn: aSRRenderer [
-
-	"aSRRenderer withoutBackfaceCullingDo: [
-		aSRRenderer
-			renderMesh: self mesh
-			transform: self globalTransform
-			material: self material]."
-]
-
 { #category : #accessing }
 SRPlane >> width [
 
