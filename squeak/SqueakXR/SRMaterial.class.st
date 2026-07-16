@@ -64,11 +64,13 @@ SRMaterial >> internalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 15:47'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:28'
 }
 SRMaterial >> internalMaterialFor: aSRRenderer [
 
-	isDirty ifTrue: [aSRRenderer removeAt: self].
+	isDirty ifTrue: [
+		aSRRenderer removeAt: self.
+		isDirty := false.].
 	^ aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer]
 ]
 
