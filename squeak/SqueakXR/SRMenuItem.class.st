@@ -36,11 +36,11 @@ SRMenuItem class >> fillColorNormal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/3/2026 18:12'
+	#'squeak_changestamp' : 'lege 7/16/2026 10:02'
 }
 SRMenuItem class >> itemDepth [
 
-	^ 2cm
+	^ 1cm
 ]
 
 {
@@ -119,7 +119,7 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:33'
+	#'squeak_changestamp' : 'lege 7/16/2026 09:55'
 }
 SRMenuItem >> initialize [
 
@@ -155,13 +155,13 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:21'
+	#'squeak_changestamp' : 'lege 7/16/2026 10:01'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
 	textField text: aString;
-		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ 0.002.
+		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ (size z / 2 + 1mm).
 ]
 
 {

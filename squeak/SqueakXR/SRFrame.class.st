@@ -102,7 +102,7 @@ SRFrame >> renderObjects [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 10/6/2025 14:29'
+	#'squeak_changestamp' : 'lege 7/16/2026 10:08'
 }
 SRFrame >> stepObjects [
 
@@ -110,7 +110,10 @@ SRFrame >> stepObjects [
 	| currentObject |
 	[[steppedObjects notEmpty] whileTrue: [
 		currentObject := steppedObjects removeFirst.
-		currentObject step: deltaTime]]
+		"It's possible that the current object was removed in another step: call in this frame.
+		Thus, we need to check if the object is still in the world before proceeding."
+		currentObject world = self world ifTrue: [
+			currentObject step: deltaTime]]]
 		on: Error
 		do: [:error |
 				"ToolSet default handleError: error."

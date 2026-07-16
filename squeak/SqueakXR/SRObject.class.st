@@ -734,7 +734,10 @@ SRObject >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/16/2026 10:07'
+}
 SRObject >> parent: aSRObject [
 
 	self allDo: [:object | object parentTransformDirty].
