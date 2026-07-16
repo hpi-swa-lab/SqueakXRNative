@@ -19,21 +19,19 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:18'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
 }
 SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
 
 	avatar := anAvatar.
-	self updateAvatarCamera
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
 }
 SRSimpleAvatarMovementEmulator >> cameraTransform [
-	"Return the camera transform matrix for the current position and look direction,
-	without requiring an avatar reference."
+
 	| forward target |
 	forward := self forwardVector.
 	target := position + forward.
@@ -64,12 +62,12 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:57'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
 	super initialize.
-	position := -6 @ 1.8 @ 0.
+	position := -6m @ 1.8m @ 0m.
 	yaw := 0.0.
 	pitch := 0.0.
 	moveSpeed := 0.05.

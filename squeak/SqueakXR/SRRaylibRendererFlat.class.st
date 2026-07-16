@@ -76,7 +76,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:47'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -87,7 +87,7 @@ SRRaylibRendererFlat >> completeFrame [
 	
 	Raylib endDrawing.
 	
-	1 milliSecond wait
+	1 milliSecond wait.
 ]
 
 {
@@ -122,12 +122,13 @@ SRRaylibRendererFlat >> initReticle [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:30'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:49'
 }
 SRRaylibRendererFlat >> initialize [
 
 	super initialize.
-	self initReticle
+	
+	self initReticle.
 ]
 
 {

@@ -31,9 +31,10 @@ SRShader class >> allShaderSelectors [
 
 {
 	#category : #'app shaders',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'lege 7/16/2026 18:11'
 }
 SRShader class >> cache: aName source: aSourceDict [
+	self deprecated.
 	"Transpile and cache a single named shader source on demand.
 	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form."
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
@@ -333,11 +334,11 @@ SRShader class >> transpileAll [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 11:01'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
 }
 SRShader class >> transpileAllUnsafe [
 
-	ShaderCache ifNil: [ShaderCache := Dictionary new].
+	self resetCache.
 
 	UIManager default informUser: 'Transpiling all shaders...' during: [
 		(self class selectorsInCategory: #'shader sources') do: [:selector |
@@ -356,10 +357,12 @@ SRShader class >> transpileSingleSourceAt: selector [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 11:02'
+	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
 }
 SRShader class >> transpileSingleSourceAtUnsafe: selector [
 
+	ShaderCache ifNil: [self resetCache].
+	
 	UIManager default informUser: 'Transpiling ', selector, '...' during: [
 		ShaderCache
 			at: (selector allButLast: 'Source' size)
@@ -445,14 +448,14 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:30'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:59'
 }
 SRShader >> load [
 
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |
-		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)]
+		uniform -> Raylib getShaderLocationShader: internalShader uniformName: uniform]
 ]
 
 {
