@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'internalMaterial',
 		'shader',
-		'texture'
+		'texture',
+		'isDirty'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -48,11 +49,11 @@ SRMaterial >> finalize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:57'
+	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
 }
 SRMaterial >> initialize [
 
-	super initialize.
+	isDirty := true.
 ]
 
 { #category : #accessing }
@@ -63,10 +64,11 @@ SRMaterial >> internalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'lege 7/16/2026 15:47'
 }
 SRMaterial >> internalMaterialFor: aSRRenderer [
 
+	isDirty ifTrue: [aSRRenderer removeAt: self].
 	^ aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer]
 ]
 
@@ -110,12 +112,13 @@ SRMaterial >> shader [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 16:03'
+	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
 }
 SRMaterial >> shader: aShader [
 
 	self unloadShader.
 	shader := aShader.
+	isDirty := true.
 ]
 
 {

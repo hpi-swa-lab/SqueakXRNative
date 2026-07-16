@@ -163,6 +163,15 @@ SRRenderer >> pollAndroidEvents [
 SRRenderer >> prepareFrame: aCameraTransform [
 ]
 
+{
+	#category : #cache,
+	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
+}
+SRRenderer >> removeAt: aSymbol [
+
+	self cache removeKey: aSymbol ifAbsent: [].
+]
+
 { #category : #rendering }
 SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
