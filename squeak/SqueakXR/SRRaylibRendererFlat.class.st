@@ -36,14 +36,14 @@ SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:45'
 }
 SRRaylibRendererFlat class >> windowHeight [
 	<preference: 'Height of the Raylib renderer window'
 		category: 'SqueakXR'
 		description: 'Height of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
 		type: #Number>
-	^ WindowHeight ifNil: [1400]
+	^ WindowHeight ifNil: [720]
 ]
 
 {
@@ -56,14 +56,14 @@ SRRaylibRendererFlat class >> windowHeight: aNumber [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:44'
 }
 SRRaylibRendererFlat class >> windowWidth [
 	<preference: 'Width of the Raylib renderer window'
 		category: 'SqueakXR'
 		description: 'Width of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
 		type: #Number>
-	^ WindowWidth ifNil: [2400]
+	^ WindowWidth ifNil: [1280]
 ]
 
 {

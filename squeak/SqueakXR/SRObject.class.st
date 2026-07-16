@@ -464,10 +464,10 @@ SRObject >> grabTarget [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:12'
 }
 SRObject >> grabTarget: anObjectOrNil [
-	"nil means not grabbable."
+	
 	grabTarget := anObjectOrNil
 ]
 

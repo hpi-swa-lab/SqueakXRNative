@@ -10,10 +10,11 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 15:24'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:13'
 }
 SRRaylibRenderer >> camera [
-	^camera
+
+	^ camera
 ]
 
 {
