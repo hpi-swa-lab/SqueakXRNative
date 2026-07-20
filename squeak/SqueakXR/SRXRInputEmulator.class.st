@@ -63,17 +63,8 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 4/22/2026 17:38'
-}
-SRXRInputEmulator >> rayCast [
-
-	self updateRightHandFromMouseRay rayCast.
-]
-
-{
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:58'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:43'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -112,26 +103,22 @@ SRXRInputEmulator >> step: delta [
 		(Raylib isKeyUpKey: RlKeyboardKey keyZ)
 		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
 		rightHand handleSqueeze: 0.0].
-	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF) ifTrue: [
-		self rayCast]
 ]
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/3/2026 16:10'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:48'
 }
 SRXRInputEmulator >> updateLeftHandFromCamera [
 	"Position the left hand at a subtle shoulder offset from the camera,
 	aimed at the same point the camera is looking at (convergence at ~5m).
 	Kept close (20cm) so the ray still aligns well with the camera for aiming."
-	| leftHand camTransform camPos camForward camRight camDown handPos target up transform |
+	| leftHand camPos camForward camRight camDown handPos target up transform |
 	leftHand := self world avatar leftHand.
-	camTransform := self world avatar camera globalTransform.
-	camPos := camTransform translation.
-	camForward := (camTransform localDirToGlobal: Vector3 backward) normalize.
-	camRight := (camTransform localDirToGlobal: Vector3 right) normalize.
-	camDown := (camTransform localDirToGlobal: Vector3 down) normalize.
+	camPos := self world avatar camera globalTransform translation.
+	camForward := self world avatar backward.
+	camRight := self world avatar right.
+	camDown := self world avatar down.
 	
 	"Hand position: 20cm left, 20cm down from camera"
 	handPos := camPos - (camRight * 0.2) + (camDown * 0.2).
