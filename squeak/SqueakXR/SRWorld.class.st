@@ -523,11 +523,11 @@ SRWorld >> enterMorphicProject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:54'
+	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
 }
 SRWorld >> gizmoPainter [
 
-	^ self children detect: [:c | c isGizmoPainter] ifNone: [nil]
+	^ gizmoPainter
 ]
 
 { #category : #'as yet unclassified' }
@@ -551,7 +551,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 11/11/2025 18:23'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:33'
 }
 SRWorld >> initialize [
 
@@ -559,7 +559,6 @@ SRWorld >> initialize [
 	
 	running := false.
 	needsSetup := false.
-	ranStartScript := false.
 	isFramePrepared := false.
 	
 	gizmoPainter := SRGizmoPainter new.
@@ -572,7 +571,7 @@ SRWorld >> initialize [
 ]
 
 {
-	#category : #initialization,
+	#category : #startup,
 	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
 }
 SRWorld >> initializeWorldProcess [
@@ -613,13 +612,10 @@ SRWorld >> isWorldObject [
 	^ true
 ]
 
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 11:04'
-}
+{ #category : #accessing }
 SRWorld >> isXR [
 	
-	^ isXR == true
+	^ isXR
 ]
 
 { #category : #accessing }
@@ -715,22 +711,16 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:28'
 }
 SRWorld >> prepareFrame [
 
-	| cameraTransform |
-	cameraTransform := (outOfBodyMode == true and: [self isXR not and: [outOfBodyCamera notNil]])
-		ifTrue: [outOfBodyCamera cameraTransform]
-		ifFalse: [self isXR
-			ifTrue: [self avatar globalTransform]
-			ifFalse: [self avatar camera globalTransform]].
-	isFramePrepared := self renderer prepareFrame: cameraTransform
+	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/25/2026 16:36'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:32'
 }
 SRWorld >> processKeyInput [
 
@@ -740,7 +730,7 @@ SRWorld >> processKeyInput [
 		keys add: keyValue].
 	
 	keys ifNotEmpty: [
-		keys do: [:k | self handleKeyPress: k]]
+		keys do: [:k | self handleKeyPress: k]].
 ]
 
 { #category : #'as yet unclassified' }
@@ -776,7 +766,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 6/29/2026 18:16'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
 }
 SRWorld >> runStartScript [
 
@@ -794,7 +784,6 @@ SRWorld >> runStartScript [
 	"self maybeStartMCPServer."
 
 	(self isXR and: [self class runStartScriptInXR not]) ifTrue: [^ self].
-	ranStartScript := true.
 	"self log: 'trying yaros...'."
 	"methodMorser := MethodMorser new.
 	methodMorserMorph := methodMorser open.
@@ -821,8 +810,6 @@ SRWorld >> runStartScript [
 	"[10 seconds wait. Project current world imageForm writePNGfileNamed: 'world-', DateAndTime now asUnixTime asString, '.png'.
 	Transcript showln: '----------------- WROTE IMAGE'] fork."
 	
-	
-	
 	self isXR ifFalse: [
 		SRSceneTreeInspector openOn: self].
 	
@@ -846,12 +833,12 @@ SRWorld >> runStartScript [
 	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
 	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
-	label: 'Profile'
-	font: (StrikeFont familyName: #DefaultTextStyle size: 20))
-	extent: 200 @ 100;
-	target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
-	actionSelector: #value))
-	
+		label: 'Profile'
+		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
+		extent: 200 @ 100;
+		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
+		actionSelector: #value)).
+
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new
 		morph: (Morph new
@@ -868,7 +855,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/12/2026 13:21'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
 }
 SRWorld >> start [
 
@@ -897,7 +884,7 @@ SRWorld >> start [
 			priority: Processor userSchedulingPriority).
 	
 	self isRunning: true.
-	self resume
+	self resume.
 ]
 
 {
@@ -957,41 +944,15 @@ SRWorld >> suspend [
 	worldProcess ifNotNil: [worldProcess suspend].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/20/2026 18:35'
+}
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
-	self processKeyInput
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:43'
-}
-SRWorld >> viewerForward [
-	"Return the actual viewer look direction in world space.
-	 On XR, derive from renderer camera position/target.
-	 On flat, derive from the avatar camera SRObject."
-	self isXR ifTrue: [
-		| pos target |
-		pos := Vector3 fromRlVector3: self renderer cameraPosition.
-		target := Vector3 fromRlVector3: self renderer cameraTarget.
-		^ (target - pos) safelyNormalize].
-	^ self avatar camera globalTransform localDirToGlobal: Vector3 forward
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:43'
-}
-SRWorld >> viewerPosition [
-	"Return the actual viewer (head/camera) position in world space.
-	 On XR, read from the renderer which has the headset tracking pose.
-	 On flat, read from the avatar camera SRObject."
-	self isXR ifTrue: [
-		^ Vector3 fromRlVector3: self renderer cameraPosition].
-	^ self avatar camera globalTranslation
+	self processKeyInput.
 ]
 
 { #category : #accessing }

@@ -131,14 +131,14 @@ SRAvatar >> menuPlacementPositionForHand: aHand [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:13'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:36'
 }
 SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 	^ contextMenu := SRMenu
 		contextMenuFor: anObject
 		at: aPosition
-		facing: self world viewerPosition
+		facing: self camera globalTranslation
 		in: self world
 ]
 
@@ -165,13 +165,13 @@ SRAvatar >> openMenuForHand: aHand [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:36'
 }
 SRAvatar >> openWorldMenuAt: aPosition [
 
 	^ contextMenu := SRMenu
 		worldMenuAt: aPosition
-		facing: self world viewerPosition
+		facing: self camera globalTranslation
 		in: self world
 ]
 
