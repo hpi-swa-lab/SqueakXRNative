@@ -7,10 +7,6 @@ Data flow mirrors SRMesh:
     v   (lazy materialize on first GPU access)
   RlImage (off-heap pixels) -> RlTexture (GPU handle)
 
-For dynamic textures, mutations via setPixelAt:color: etc. write to the RlImage. shutDown: copies the latest pixels into pixelBytes; startUp: drops external handles so the next render rebuilds.
-
-Set #beTransient if you don't want painted state to persist (texture will be rebuilt from its construction recipe -- factory selector + args).
-
 ivars:
   image        RlImage (transient -- pointer dies on restart)
   texture      RlTexture (transient -- GL handle dies on restart)
@@ -31,7 +27,7 @@ Class {
 		'isUploaded'
 	],
 	#category : #'SqueakXR-Core',
-	#'squeak_changestamp' : '<historical>'
+	#'squeak_changestamp' : 'lege 7/20/2026 15:49'
 }
 
 {
