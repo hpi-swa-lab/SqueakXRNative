@@ -5,7 +5,8 @@ Class {
 		'camera',
 		'leftHand',
 		'rightHand',
-		'contextMenu'
+		'contextMenu',
+		'ghostAvatar'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -38,6 +39,30 @@ SRAvatar >> contextMenu [
 ]
 
 {
+	#category : #'out-of-body',
+	#'squeak_changestamp' : 'lege 7/20/2026 17:47'
+}
+SRAvatar >> enterOutOfBody [
+
+	self assert: ghostAvatar isNil.
+	
+	ghostAvatar := SRGhostAvatar new referenceAvatar: self.
+	self world addChild: ghostAvatar.
+]
+
+{
+	#category : #'out-of-body',
+	#'squeak_changestamp' : 'lege 7/20/2026 17:49'
+}
+SRAvatar >> exitOutOfBody [
+
+	ghostAvatar ifNil: [^ self].
+	
+	ghostAvatar remove.
+	ghostAvatar := nil.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/3/2026 17:26'
 }
@@ -61,6 +86,15 @@ SRAvatar >> initialize [
 	self addChild: leftHand;
 		addChild: rightHand;
 		addChild: camera.
+]
+
+{
+	#category : #'out-of-body',
+	#'squeak_changestamp' : 'lege 7/20/2026 17:50'
+}
+SRAvatar >> isOutOfBody [
+
+	^ ghostAvatar notNil
 ]
 
 {
@@ -148,4 +182,15 @@ SRAvatar >> openWorldMenuAt: aPosition [
 SRAvatar >> rightHand [
 
 	^ rightHand
+]
+
+{
+	#category : #'out-of-body',
+	#'squeak_changestamp' : 'lege 7/20/2026 17:50'
+}
+SRAvatar >> toggleOutOfBody [
+
+	self isOutOfBody
+		ifTrue: [self exitOutOfBody]
+		ifFalse: [self enterOutOfBody]
 ]

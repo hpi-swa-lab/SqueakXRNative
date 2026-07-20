@@ -44,7 +44,10 @@ SRFrame >> initialize [
 	self isOld: false
 ]
 
-{ #category : #initializing }
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:25'
+}
 SRFrame >> initializeObjectLists [
 
 	steppedObjects := self world allDescendantsSelect: #isStepping.

@@ -467,41 +467,6 @@ SRWorld >> completeFrame [
 ]
 
 {
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
-}
-SRWorld >> createGhostAvatar [
-
-	| ghost headAnchor leftAnchor rightAnchor |
-	ghost := SRObject new name: 'GhostAvatar'.
-	
-	headAnchor := SRObject new name: 'GhostHeadAnchor'.
-	headAnchor globalTransform: (frozenAvatar at: #cameraTransform).
-	headAnchor addChild: (SRCube new color: Color gray; scale: 10cm asVector3; name: 'GhostHead').
-	headAnchor addChild: (SRCube new color: Color white; scale: 2cm @ 2cm @ 0.5cm; translation: -2cm @ 1cm @ 5.5cm; name: 'GhostLeftEye').
-	headAnchor addChild: (SRCube new color: Color white; scale: 2cm @ 2cm @ 0.5cm; translation: 2cm @ 1cm @ 5.5cm; name: 'GhostRightEye').
-	headAnchor addChild: (SRCube new color: Color black; scale: 1cm @ 1cm @ 0.25cm; translation: -2cm @ 1cm @ 5.8cm; name: 'GhostLeftPupil').
-	headAnchor addChild: (SRCube new color: Color black; scale: 1cm @ 1cm @ 0.25cm; translation: 2cm @ 1cm @ 5.8cm; name: 'GhostRightPupil').
-	
-	leftAnchor := SRObject new name: 'GhostLeftHandAnchor'.
-	leftAnchor globalTransform: (frozenAvatar at: #leftHandTransform).
-	leftAnchor addChild: (SRCube new color: Color blue; scale: 10cm asVector3; name: 'GhostLeftHand').
-	leftAnchor addChild: (SRCube new color: Color cyan; scale: 1cm @ 1cm @ 10m; translation: 0 @ 0 @ -5m; name: 'GhostLeftRay').
-	
-	rightAnchor := SRObject new name: 'GhostRightHandAnchor'.
-	rightAnchor globalTransform: (frozenAvatar at: #rightHandTransform).
-	rightAnchor addChild: (SRCube new color: Color red; scale: 10cm asVector3; name: 'GhostRightHand').
-	rightAnchor addChild: (SRCube new color: (Color r: 1.0 g: 0.5 b: 0.5); scale: 1cm @ 1cm @ 10m; translation: 0 @ 0 @ -5m; name: 'GhostRightRay').
-	
-	ghost addChild: headAnchor;
-		addChild: leftAnchor;
-		addChild: rightAnchor.
-	
-	ghostAvatar := ghost.
-	self addChild: ghost.
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
 }
@@ -554,62 +519,6 @@ SRWorld >> enterMorphicProject [
 		actionSelector: #stopWorldAndLeaveProject.
 	project world addMorph: stopButton.
 	stopButton position: 100 @ 100.
-]
-
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 18:16'
-}
-SRWorld >> enterOutOfBody [
-
-	| av camTransform |
-	self outOfBodyMode ifTrue: [^ self].
-	av := self avatar.
-	av ifNil: [^ self].
-	
-	"On XR the avatar's camera SRObject is never updated (the head pose
-	 lives only in the Raylib camera struct). Build the transform from the
-	 renderer's camera instead."
-	camTransform := self isXR
-		ifTrue: [
-			| pos target up |
-			pos := Vector3 fromRlVector3: self renderer cameraPosition.
-			target := Vector3 fromRlVector3: self renderer cameraTarget.
-			up := Vector3 fromRlVector3: self renderer cameraUp.
-			Matrix4x4 objectLookAt: target from: pos up: up]
-		ifFalse: [av camera globalTransform copy].
-	
-	frozenAvatar := Dictionary new.
-	frozenAvatar at: #avatarTransform put: av globalTransform copy.
-	frozenAvatar at: #leftHandTransform put: av leftHand globalTransform copy.
-	frozenAvatar at: #rightHandTransform put: av rightHand globalTransform copy.
-	frozenAvatar at: #cameraTransform put: camTransform.
-	
-	self createGhostAvatar.
-	
-	self isXR ifFalse: [
-		| camPos |
-		outOfBodyCamera := SRSimpleAvatarMovementEmulator new.
-		camPos := camTransform translation copy.
-		outOfBodyCamera position: camPos.
-		outOfBodyCamera toggleLookMode].
-	
-	outOfBodyMode := true.
-	Transcript cr; show: 'Out-of-body mode ENABLED'.
-]
-
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
-}
-SRWorld >> exitOutOfBody [
-
-	self outOfBodyMode ifFalse: [^ self].
-	self removeGhostAvatar.
-	outOfBodyCamera := nil.
-	frozenAvatar := nil.
-	outOfBodyMode := false.
-	Transcript cr; show: 'Out-of-body mode DISABLED'.
 ]
 
 {
@@ -797,22 +706,6 @@ SRWorld >> maybeStartMCPServer [
 			nil]
 ]
 
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
-}
-SRWorld >> outOfBodyCamera [
-	^ outOfBodyCamera
-]
-
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:54'
-}
-SRWorld >> outOfBodyMode [
-	^ outOfBodyMode ifNil: [false]
-]
-
 { #category : #'as yet unclassified' }
 SRWorld >> pollActions [
 
@@ -848,16 +741,6 @@ SRWorld >> processKeyInput [
 	
 	keys ifNotEmpty: [
 		keys do: [:k | self handleKeyPress: k]]
-]
-
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:22'
-}
-SRWorld >> removeGhostAvatar [
-
-	ghostAvatar ifNotNil: [ghostAvatar remove].
-	ghostAvatar := nil.
 ]
 
 { #category : #'as yet unclassified' }
@@ -1072,16 +955,6 @@ SRWorld >> stopWorldAndLeaveProject [
 SRWorld >> suspend [
 
 	worldProcess ifNotNil: [worldProcess suspend].
-]
-
-{
-	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:54'
-}
-SRWorld >> toggleOutOfBody [
-	self outOfBodyMode
-		ifTrue: [self exitOutOfBody]
-		ifFalse: [self enterOutOfBody]
 ]
 
 { #category : #'as yet unclassified' }

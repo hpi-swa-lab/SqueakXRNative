@@ -94,7 +94,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:52'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:52'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -121,7 +121,7 @@ SRHand >> actionsUpdated: aSRActionStates [
 	xPressed := aSRActionStates x.
 	xJustPressed := xPressed and: [prevXPressed not].
 	xJustPressed ifTrue: [
-		self world toggleOutOfBody].
+		self avatar toggleOutOfBody].
 	
 	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
 ]

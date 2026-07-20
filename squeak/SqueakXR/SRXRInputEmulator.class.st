@@ -73,7 +73,7 @@ SRXRInputEmulator >> rayCast [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 17:52'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:58'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -83,17 +83,7 @@ SRXRInputEmulator >> step: delta [
 		debugHUD toggleVisibility].
 	
 	(Raylib isKeyPressedKey: RlKeyboardKey keyF3) ifTrue: [
-		self world toggleOutOfBody].
-	
-	"In out-of-body mode, the free camera handles movement instead"
-	self world outOfBodyMode ifTrue: [
-		| oobCam |
-		oobCam := self world outOfBodyCamera.
-		oobCam ifNil: [^ self].
-		(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
-			oobCam toggleLookMode].
-		oobCam update.
-		^ self].
+		self world avatar toggleOutOfBody].
 	
 	emulatedCamera update.
 	

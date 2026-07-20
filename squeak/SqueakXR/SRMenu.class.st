@@ -44,7 +44,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/3/2026 16:33'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:56'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -70,7 +70,7 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		menu
 			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
 			action: (MessageSend receiver: menu selector: #toggleDebugHUD)].
-	menu addItem: (aWorld outOfBodyMode
+	menu addItem: (aWorld avatar isOutOfBody
 			ifTrue: ['Return to Body']
 			ifFalse: ['Out-of-Body Mode'])
 		action: (MessageSend receiver: menu selector: #toggleOutOfBody).
@@ -348,9 +348,9 @@ SRMenu >> toggleMCPLogger [
 
 {
 	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:07'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:52'
 }
 SRMenu >> toggleOutOfBody [
 
-	self world toggleOutOfBody
+	self world avatar toggleOutOfBody
 ]

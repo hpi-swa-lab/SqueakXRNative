@@ -15,7 +15,8 @@ Class {
 		'isRendering',
 		'badStep',
 		'badRender',
-		'grabTarget'
+		'grabTarget',
+		'visible'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -493,7 +494,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
 }
 SRObject >> initialize [
 
@@ -503,6 +504,8 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
+	
+	visible := true.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
@@ -523,11 +526,11 @@ SRObject >> isMorphPanel [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:04'
 }
 SRObject >> isRendering [
 
-	^ isRendering and: [badRender not]
+	^ isRendering and: visible and: [badRender not]
 ]
 
 { #category : #stepping }
@@ -997,6 +1000,25 @@ SRObject >> updateTransformsFromLocalTransform [
 SRObject >> updateTransformsFromParentTransform [
 
 	self updateGlobalTransform
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:02'
+}
+SRObject >> visible [
+
+	^ visible
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:28'
+}
+SRObject >> visible: aBoolean [
+
+	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
+	visible := aBoolean
 ]
 
 { #category : #accessing }
