@@ -94,7 +94,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 17:52'
+	#'squeak_changestamp' : 'lege 7/21/2026 14:55'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -123,7 +123,7 @@ SRHand >> actionsUpdated: aSRActionStates [
 	xJustPressed ifTrue: [
 		self avatar toggleOutOfBody].
 	
-	self handleSqueeze: (aSRActionStates squeeze at: self handIndex)
+	self handleSqueeze: (aSRActionStates squeeze at: self handIndex).
 ]
 
 {
@@ -258,7 +258,7 @@ SRHand >> onWorldChanged: oldWorld [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+	#'squeak_changestamp' : 'lege 7/21/2026 14:57'
 }
 SRHand >> openMenu [
 

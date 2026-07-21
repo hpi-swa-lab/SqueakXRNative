@@ -517,6 +517,51 @@ SRObject >> initialize [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
+}
+SRObject >> isCube [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
+}
+SRObject >> isDebugHUD [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isGizmoPainter [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isMenu [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isMenuItem [
+
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 3/16/2026 16:16'
 }
 SRObject >> isMorphPanel [

@@ -17,33 +17,6 @@ SRRaylibRenderer >> camera [
 	^ camera
 ]
 
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
-}
-SRRaylibRenderer >> cameraPosition [
-
-	^ camera position
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
-}
-SRRaylibRenderer >> cameraTarget [
-
-	^ camera target
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
-}
-SRRaylibRenderer >> cameraUp [
-
-	^ camera up
-]
-
 { #category : #accessing }
 SRRaylibRenderer >> clearColor: aColor [
 

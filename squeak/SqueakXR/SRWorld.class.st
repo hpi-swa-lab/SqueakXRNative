@@ -406,7 +406,7 @@ SRWorld class >> startMCPServer: aBoolean [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 5/28/2026 18:10'
+	#'squeak_changestamp' : 'lege 7/21/2026 15:09'
 }
 SRWorld class >> startUp: resuming [
 

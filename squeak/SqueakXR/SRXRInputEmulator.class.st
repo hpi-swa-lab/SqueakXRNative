@@ -107,7 +107,7 @@ SRXRInputEmulator >> step: delta [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:48'
+	#'squeak_changestamp' : 'lege 7/21/2026 10:53'
 }
 SRXRInputEmulator >> updateLeftHandFromCamera [
 	"Position the left hand at a subtle shoulder offset from the camera,
@@ -116,16 +116,16 @@ SRXRInputEmulator >> updateLeftHandFromCamera [
 	| leftHand camPos camForward camRight camDown handPos target up transform |
 	leftHand := self world avatar leftHand.
 	camPos := self world avatar camera globalTransform translation.
-	camForward := self world avatar backward.
-	camRight := self world avatar right.
-	camDown := self world avatar down.
+	camForward := self world avatar camera backward.
+	camRight := self world avatar camera right.
+	camDown := self world avatar camera down.
 	
 	"Hand position: 20cm left, 20cm down from camera"
 	handPos := camPos - (camRight * 0.2) + (camDown * 0.2).
 	
 	"Aim at the camera's look point 5m ahead"
 	target := camPos + (camForward * 5.0).
-	up := self world renderer cameraUp asVector3.
+	up := self world camera up.
 	
 	"Z-flip so hand's -Z = pointing direction"
 	transform := (Matrix4x4 objectLookAt: target from: handPos up: up).
@@ -135,7 +135,7 @@ SRXRInputEmulator >> updateLeftHandFromCamera [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/3/2026 16:12'
+	#'squeak_changestamp' : 'lege 7/21/2026 10:49'
 }
 SRXRInputEmulator >> updateRightHandFromMouseRay [
 	"Position the right hand at the camera origin, aimed where the mouse points.
@@ -147,7 +147,7 @@ SRXRInputEmulator >> updateRightHandFromMouseRay [
 		camera: self world renderer camera.
 	origin := rlRay position asVector3.
 	direction := rlRay direction asVector3 normalize negated.
-	up := self world renderer cameraUp asVector3.
+	up := self world camera up.
 	target := origin + direction.
 	transform := (Matrix4x4 objectLookAt: target from: origin up: up).
 	rightHand globalTransform: transform.
@@ -156,7 +156,7 @@ SRXRInputEmulator >> updateRightHandFromMouseRay [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/3/2026 16:10'
+	#'squeak_changestamp' : 'lege 7/21/2026 10:49'
 }
 SRXRInputEmulator >> updateRightHandFromScreenCenter [
 	"Position the right hand at the camera origin, aimed at screen center.
@@ -173,7 +173,7 @@ SRXRInputEmulator >> updateRightHandFromScreenCenter [
 		camera: self world renderer camera.
 	origin := rlRay position asVector3.
 	direction := rlRay direction asVector3 normalize negated.
-	up := self world renderer cameraUp asVector3.
+	up := self world camera up.
 	target := origin + direction.
 	transform := (Matrix4x4 objectLookAt: target from: origin up: up).
 	rightHand globalTransform: transform.

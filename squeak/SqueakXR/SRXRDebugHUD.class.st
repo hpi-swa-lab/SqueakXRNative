@@ -36,13 +36,13 @@ SRXRDebugHUD >> isDebugHUD [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:41'
+	#'squeak_changestamp' : 'lege 7/21/2026 10:46'
 }
 SRXRDebugHUD >> step: delta [
 
 	| currentTime deltaMs raylibFPS camera pos dir painter selText selected |
 	currentTime := Time millisecondClockValue.
-	deltaMs := currentTime - lastStepTime.
+	deltaMs := currentTime - lastStepTime.		
 	
 	deltaMs > 0 ifTrue: [
 		measuredFPS := (1000.0 / deltaMs) rounded].
@@ -52,9 +52,9 @@ SRXRDebugHUD >> step: delta [
 	visible ifFalse: [^ self].
 	
 	raylibFPS := Raylib getFPS.
-	camera := self world renderer camera.
-	pos := camera position asVector3.
-	dir := (camera target asVector3 - pos) normalize.
+	camera := self world camera.
+	pos := camera position.
+	dir := camera forward.
 	painter := self gizmoPainter.
 	
 	painter
