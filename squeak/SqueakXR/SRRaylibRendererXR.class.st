@@ -26,20 +26,23 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 10/8/2025 15:52'
+	#'squeak_changestamp' : 'lege 7/23/2026 16:46'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
-	| beginSuccessful |
+	| beginSuccessful forward position target up |
 	Raylib
 		rlOpenXRUpdate;
-		updateCamera: camera mode: RlCameraMode cameraFree;
-		rlOpenXRUpdateCamera: camera;
 		clearBackgroundColor: clearColor.
-	
-	camera position: (cameraTransform translation + (Vector3 fromRlVector3: camera position)) asRlVector.
-	camera target: (cameraTransform translation + (Vector3 fromRlVector3: camera target)) asRlVector.
-	"TODO camera rotation"
+
+	position := cameraTransform translation.
+	forward := cameraTransform localDirToGlobal: Vector3 forward.
+	up := cameraTransform localDirToGlobal: Vector3 up.
+	target := position + forward.
+	camera
+		position: position asRlVector;
+		target: target asRlVector;
+		up: up asRlVector.
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	

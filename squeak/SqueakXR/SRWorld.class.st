@@ -18,7 +18,8 @@ Class {
 		'outOfBodyCamera',
 		'frozenAvatar',
 		'ghostAvatar',
-		'project'
+		'project',
+		'cameraTransform'
 	],
 	#classVars : [
 		'Current',
@@ -406,7 +407,7 @@ SRWorld class >> startMCPServer: aBoolean [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/21/2026 15:09'
+	#'squeak_changestamp' : 'lege 7/23/2026 17:01'
 }
 SRWorld class >> startUp: resuming [
 
@@ -551,7 +552,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:33'
+	#'squeak_changestamp' : 'lege 7/22/2026 18:33'
 }
 SRWorld >> initialize [
 
@@ -563,6 +564,8 @@ SRWorld >> initialize [
 	
 	gizmoPainter := SRGizmoPainter new.
 	self addChild: gizmoPainter.
+	
+	cameraTransform := RlTransform new.
 	
 	self
 		isXR: false;
@@ -711,10 +714,11 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:28'
+	#'squeak_changestamp' : 'lege 7/22/2026 18:27'
 }
 SRWorld >> prepareFrame [
 
+	self isXR ifTrue: [self updateCameraTransform].
 	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]
 
@@ -953,6 +957,16 @@ SRWorld >> updateActions [
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
 	self processKeyInput.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 7/22/2026 18:35'
+}
+SRWorld >> updateCameraTransform [
+
+	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
+	self changed: #cameraTransformUpdated with: cameraTransform.
 ]
 
 { #category : #accessing }

@@ -247,11 +247,12 @@ SRHand >> isRight [
 	^ self handIndex = self class rightIndex
 ]
 
-{ #category : #events }
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 7/21/2026 18:06'
+}
 SRHand >> onWorldChanged: oldWorld [
 
-	super onWorldChanged: oldWorld.
-	
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
 	self world addDependent: self.
 ]

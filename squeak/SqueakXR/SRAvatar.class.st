@@ -73,7 +73,7 @@ SRAvatar >> hands [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+	#'squeak_changestamp' : 'lege 7/21/2026 18:10'
 }
 SRAvatar >> initialize [
 
@@ -81,11 +81,9 @@ SRAvatar >> initialize [
 	
 	leftHand := SRHand left avatar: self.
 	rightHand := SRHand right avatar: self.
-	camera := SRObject new name: 'Camera'.
+	camera := SRAvatarCamera new.
 
-	self addChild: leftHand;
-		addChild: rightHand;
-		addChild: camera.
+	self addChildren: {leftHand. rightHand. camera}.
 ]
 
 {
