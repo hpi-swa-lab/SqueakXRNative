@@ -16,6 +16,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
   text-rendering.cpp
+  helpers.cpp
 )
 
 if(ENABLE_ANDROID)
