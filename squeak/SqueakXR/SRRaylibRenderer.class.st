@@ -10,29 +10,11 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:13'
 }
-SRRaylibRenderer >> cameraPosition [
+SRRaylibRenderer >> camera [
 
-	^ camera position
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
-}
-SRRaylibRenderer >> cameraTarget [
-
-	^ camera target
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/9/2025 17:44'
-}
-SRRaylibRenderer >> cameraUp [
-
-	^ camera up
+	^ camera
 ]
 
 { #category : #accessing }
@@ -81,6 +63,20 @@ SRRaylibRenderer >> prepareFrame: cameraTransform [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'lege 6/26/2026 17:19'
+}
+SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontSize: aNumber [
+
+	Raylib
+		drawText: aString
+		posX: aPoint x
+		posY: aPoint y
+		fontSize: aNumber
+		color: aColor asRlColor
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 4/2/2026 13:20'
 }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
@@ -99,13 +95,31 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 				color: aColor muchDarker asRlColor].
 ]
 
-{ #category : #rendering }
-SRRaylibRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aSRMaterial [
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
+}
+SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMaterial [
 
 	Raylib
-		drawMesh: aMesh
-		material: aSRMaterial internalMaterial
+		drawMesh: aSRMesh internalMesh
+		material: (aSRMaterial internalMaterialFor: self)
 		transform: aMatrix4x4 asRlMatrix
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'lege 7/3/2026 16:57'
+}
+SRRaylibRenderer >> renderPlainCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubePosition: Vector3 zero asRlVector
+				width: 1
+				height: 1
+				length: 1
+				color: aColor asRlColor].
 ]
 
 {
@@ -153,6 +167,21 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 			lineSpacing: 0.1
 			backface: true
 			color: aColor asRlColor].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+}
+SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubeWiresPosition: Vector3 zero asRlVector
+				width: 1
+				height: 1
+				length: 1
+				color: aColor muchDarker asRlColor].
 ]
 
 { #category : #'render-loop' }

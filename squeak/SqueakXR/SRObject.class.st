@@ -14,7 +14,9 @@ Class {
 		'isStepping',
 		'isRendering',
 		'badStep',
-		'badRender'
+		'badRender',
+		'grabTarget',
+		'visible'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -54,6 +56,13 @@ SRObject >> addChild: aSRObject [
 SRObject >> addChildren: aCollection [
 
 	aCollection do: [:obj | self addChild: obj]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/1/2026 16:35'
+}
+SRObject >> addCustomMenuItemsTo: aMenu [
 ]
 
 { #category : #hierarchy }
@@ -134,6 +143,74 @@ SRObject >> cacheInvalidated [
 	self allDo: #onCacheInvalidated.
 ]
 
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayBackward [
+
+	^ self castRayDirection: self backward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:44'
+}
+SRObject >> castRayDirection: aGlobalDirection [
+
+	| ray |
+	self world ifNil: [^ nil].
+	ray := SRRay
+		origin: self globalTranslation
+		forward: aGlobalDirection.
+	^ ray castNearest: self world
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayDown [
+
+	^ self castRayDirection: self down
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:44'
+}
+SRObject >> castRayForward [
+
+	^ self castRayDirection: self forward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayLeft [
+
+	^ self castRayDirection: self left
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayRight [
+
+	^ self castRayDirection: self right
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:45'
+}
+SRObject >> castRayUp [
+
+	^ self castRayDirection: self up
+]
+
 { #category : #hierarchy }
 SRObject >> childCount [
 
@@ -158,10 +235,22 @@ SRObject >> childrenDo: aBlock [
 	self children do: aBlock
 ]
 
-{ #category : #collisions }
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+}
 SRObject >> collisionGeometry [
 
 	^ nil
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+}
+SRObject >> collisionGeometryDo: aBlock [
+
+	^ self collisionGeometry ifNotNil: [:geom | aBlock value: geom]
 ]
 
 {
@@ -365,6 +454,24 @@ SRObject >> globalTranslation: aVector3 [
 	self globalTransformDirty.
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+}
+SRObject >> grabTarget [
+
+	^ grabTarget ifNil: [self]
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'lege 7/16/2026 17:12'
+}
+SRObject >> grabTarget: anObjectOrNil [
+	
+	grabTarget := anObjectOrNil
+]
+
 { #category : #hierarchy }
 SRObject >> hasAncestor: aSRObject [
 
@@ -387,7 +494,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
 }
 SRObject >> initialize [
 
@@ -398,12 +505,59 @@ SRObject >> initialize [
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
 	
+	visible := true.
+	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
 	localRotation := Quaternion identity.
 	localScale := Vector3 one.
 	
 	self transformDirtyFlag: #localTransform.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
+}
+SRObject >> isCube [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
+}
+SRObject >> isDebugHUD [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isGizmoPainter [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isMenu [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
+}
+SRObject >> isMenuItem [
+
+	^ false
 ]
 
 {
@@ -417,11 +571,11 @@ SRObject >> isMorphPanel [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:17'
+	#'squeak_changestamp' : 'lege 7/20/2026 17:04'
 }
 SRObject >> isRendering [
 
-	^ isRendering and: [badRender not]
+	^ isRendering and: visible and: [badRender not]
 ]
 
 { #category : #stepping }
@@ -437,6 +591,15 @@ SRObject >> isStepping [
 SRObject >> isXR [
 
 	^ self world ifNotNil: [:world | world isXR] ifNil: [false]
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
+}
+SRObject >> isXRInputEmulator [
+
+	^ false
 ]
 
 { #category : #events }
@@ -552,6 +715,19 @@ SRObject >> localTranslation: aVector3 [
 	self localComponentDirty.
 ]
 
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'lege 7/2/2026 11:40'
+}
+SRObject >> lookAt: aGlobalVector3 [
+
+	self globalTransform: (
+		Matrix4x4
+			objectLookAt: aGlobalVector3
+			from: self globalTranslation
+			up: Vector3 up)
+]
+
 { #category : #accessing }
 SRObject >> name [
 
@@ -606,7 +782,10 @@ SRObject >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/16/2026 10:07'
+}
 SRObject >> parent: aSRObject [
 
 	self allDo: [:object | object parentTransformDirty].
@@ -639,6 +818,71 @@ SRObject >> position [
 SRObject >> position: aVector3 [
 
 	self translation: aVector3
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayBackward [
+
+	^ self rayForDirection: self backward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayDown [
+
+	^ self rayForDirection: self down
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 7/3/2026 17:43'
+}
+SRObject >> rayForDirection: aNormalizedVector3 [
+
+	^ SRRay
+		origin: self globalTranslation
+		forward: aNormalizedVector3
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayForward [
+
+	^ self rayForDirection: self forward
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayLeft [
+
+	^ self rayForDirection: self left
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayRight [
+
+	^ self rayForDirection: self right
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
+}
+SRObject >> rayUp [
+
+	^ self rayForDirection: self up
 ]
 
 { #category : #hierarchy }
@@ -801,6 +1045,25 @@ SRObject >> updateTransformsFromLocalTransform [
 SRObject >> updateTransformsFromParentTransform [
 
 	self updateGlobalTransform
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:02'
+}
+SRObject >> visible [
+
+	^ visible
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:28'
+}
+SRObject >> visible: aBoolean [
+
+	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
+	visible := aBoolean
 ]
 
 { #category : #accessing }

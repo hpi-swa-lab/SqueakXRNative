@@ -30,6 +30,30 @@ SRShader class >> allShaderSelectors [
 ]
 
 {
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'lege 7/16/2026 18:11'
+}
+SRShader class >> cache: aName source: aSourceDict [
+	self deprecated.
+	"Transpile and cache a single named shader source on demand.
+	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form."
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	ShaderCache ifNil: [ShaderCache := Dictionary new].
+	ShaderCache at: aName asString put: (self transpileSource: aSourceDict).
+	^ aName
+]
+
+{
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+}
+SRShader class >> canTranspile [
+
+	^ (self doesCommandExist: 'glslang')
+		and: [self doesCommandExist: 'spirv-cross']
+]
+
+{
 	#category : #prerequisites,
 	#'squeak_changestamp' : 'lege 5/6/2026 13:09'
 }
@@ -43,7 +67,7 @@ SRShader class >> doesCommandExist: aString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:35'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:22'
 }
 SRShader class >> doesNotUnderstand: aMessage [
 
@@ -54,7 +78,7 @@ SRShader class >> doesNotUnderstand: aMessage [
 
 {
 	#category : #prerequisites,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:09'
 }
 SRShader class >> ensureGlslangAvailable [
 
@@ -70,6 +94,39 @@ SRShader class >> ensureSpirvCrossAvailable [
 
 	self assert: (self doesCommandExist: 'spirv-cross')
 		description: 'command spirv-cross is missing'
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/14/2026 15:44'
+}
+SRShader class >> evaluateCommand: aCommandString [
+
+	|pipeline out err|
+	pipeline := OSProcess evaluate: aCommandString.
+	out := pipeline upToEndOfFile.
+	err := pipeline errorUpToEndOfFile.
+	
+	(pipeline anySatisfy: [:p | p succeeded not]) ifTrue: [
+		Transcript
+			showln: ('An error occurred while evaluting ''{1}''' format: {aCommandString});
+			showln: 'stdout:';
+			showln: out;
+			showln: 'stderr:';
+			showln: err.
+		self error: ('An error occurred while evaluating ''{1}''. See Transcript for details.'
+			format: {aCommandString})].
+	
+	^ out
+]
+
+{
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+}
+SRShader class >> hasCachedShader: aName [
+
+	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
 ]
 
 {
@@ -99,6 +156,57 @@ void main()
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'lege 7/15/2026 12:58'
+}
+SRShader class >> phongSource [
+
+	^ {
+		#vert -> '#version 450
+
+layout(location = 0) in vec3 vertexPosition;
+layout(location = 1) in vec2 vertexTexCoord;
+layout(location = 2) in vec3 vertexNormal;
+layout(location = 3) in vec4 vertexColor;
+
+layout(location = 0) uniform mat4 mvp;
+layout(location = 1) uniform mat4 matNormal;
+
+layout(location = 0) out vec2 fragTexCoord;
+layout(location = 1) out vec4 fragColor;
+layout(location = 2) out vec3 fragNormal;
+
+void main()
+{
+    fragTexCoord = vertexTexCoord;
+    fragColor = vertexColor;
+    fragNormal = normalize(vec3(matNormal*vec4(vertexNormal, 1.0)));
+
+    gl_Position = mvp*vec4(vertexPosition, 1.0);
+}'.
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+layout(location = 2) in vec3 fragNormal;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.25));
+	vec3 diffuse = vec3(max(0.05, dot(normalize(fragNormal), -lightDirection)));
+      finalColor = texelColor * vec4(diffuse, 1.0);
+}'
+} as: Dictionary
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
 }
@@ -121,14 +229,18 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/11/2026 14:59'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:20'
 }
 SRShader class >> sourceFor: shader version: version [
-
+	
 	^ ShaderCache at: shader
 		ifPresent: [:sources |
-			sources at: version
-				ifAbsent: [self error: 'Shader source is missing for ', version]]
+			| versioned |
+			versioned := sources at: version
+				ifAbsent: [self error: 'Shader source is missing for ', version].
+			versioned, (sources at: #uniforms
+				ifPresent: [{#uniforms -> (sources at: #uniforms) }]
+				ifAbsent: [#()])]
 		ifAbsent: [nil]
 ]
 
@@ -143,11 +255,39 @@ SRShader class >> stages [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 12:00'
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:23'
+}
+SRShader class >> stripInputLocationsForES: glslSource [
+	"Strip layout(location=N) from 'in' declarations for GLSL ES 3.0 compatibility."
+
+	| lines stream |
+	glslSource ifNil: [^ nil].
+	lines := glslSource lines collect: [:line |
+		| trimmed rest |
+		trimmed := line withBlanksTrimmed.
+		(trimmed beginsWith: 'layout(location')
+			ifTrue: [
+				rest := trimmed copyAfter: $).
+				rest := rest withBlanksTrimmed.
+				(rest beginsWith: 'in ')
+					ifTrue: [rest]
+					ifFalse: [line]]
+			ifFalse: [line]].
+	stream := WriteStream on: (String new: glslSource size).
+	lines do: [:line | stream nextPutAll: line; lf].
+	^ stream contents
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> transpile300es: source stage: stage [
+	"Transpile to GLSL ES 3.0, stripping input location qualifiers."
 
-	^ self transpile: source stage: stage options: '--version 300 --es'
+	| out |
+	out := self transpile: source stage: stage options: '--version 300 --es'.
+	^ self stripInputLocationsForES: out
 ]
 
 {
@@ -161,7 +301,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:29'
+	#'squeak_changestamp' : 'lege 7/14/2026 15:42'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -172,9 +312,10 @@ SRShader class >> transpile: source stage: stage options: options [
 	shaderFileName := basePath, '/shader.spv'.
 	file := FileStream forceNewFileNamed: 'input.shader'.
 	file nextPutAll: source; close.
-	OSProcess waitForCommand: ('glslang -G -o {1} {2} -S {3}' format: {
+	self evaluateCommand: ('glslang -G -o {1} {2} -S {3}' format: {
 		shaderFileName. inputFileName. stage}).
-	output := OSProcess outputOf: ('spirv-cross {1} {2}' format: {options. shaderFileName})]
+	output := self evaluateCommand: ('spirv-cross {1} {2}' format: {
+		options. shaderFileName})]
 		ensure: [FileDirectory default
 			deleteFileNamed: inputFileName;
 			deleteFileNamed: shaderFileName].
@@ -183,19 +324,49 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:08'
+	#'squeak_changestamp' : 'lege 7/15/2026 11:02'
 }
 SRShader class >> transpileAll [
-	
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
+		transpileAllUnsafe.
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
+}
+SRShader class >> transpileAllUnsafe [
 
 	self resetCache.
+
+	UIManager default informUser: 'Transpiling all shaders...' during: [
+		(self class selectorsInCategory: #'shader sources') do: [:selector |
+			self transpileSingleSourceAtUnsafe: selector]]
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/15/2026 11:00'
+}
+SRShader class >> transpileSingleSourceAt: selector [
+
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
+		transpileSingleSourceAtUnsafe: selector.
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
+}
+SRShader class >> transpileSingleSourceAtUnsafe: selector [
+
+	ShaderCache ifNil: [self resetCache].
 	
-	UIManager default informUser: 'Transpiling...' during: [
-		ShaderCache := (self class selectorsInCategory: #'shader sources') collect: [:selector |
-			UIManager default informUser: selector during: [
-				(selector allButLast: 'Source' size) -> (self transpileSource: (self perform: selector))].
-			] as: Dictionary]
+	UIManager default informUser: 'Transpiling ', selector, '...' during: [
+		ShaderCache
+			at: (selector allButLast: 'Source' size)
+			put: (self transpileSource: (self perform: selector))]
 ]
 
 {
@@ -285,6 +456,18 @@ SRShader >> load [
 	
 	uniformLocs := self uniforms collect: [:uniform |
 		uniform -> Raylib getShaderLocationShader: internalShader uniformName: uniform]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+}
+SRShader >> uniformLocAt: aUniformName [
+
+	uniformLocs ifNil: [^ -1].
+	^ (uniformLocs detect: [:assoc | assoc key = aUniformName] ifNone: [nil])
+		ifNil: [-1]
+		ifNotNil: [:assoc | assoc value]
 ]
 
 {

@@ -69,6 +69,14 @@ SRCollisionPlane >> isBounded [
 	^ self up notNil
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:13'
+}
+SRCollisionPlane >> isCollisionPlane [
+	^ true
+]
+
 { #category : #accessing }
 SRCollisionPlane >> normal [
 
