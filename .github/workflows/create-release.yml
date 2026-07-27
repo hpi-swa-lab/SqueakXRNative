@@ -1,5 +1,5 @@
 name: create-release
-on: workflow_run
+on: workflow_dispatch
   # schedule:
   #   - cron: "15 0 * * *"
   #     timezone: "Europe/Berlin"
