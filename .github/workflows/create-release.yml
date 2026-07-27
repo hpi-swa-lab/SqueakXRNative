@@ -1,8 +1,8 @@
 name: create-release
-on:
-  schedule:
-    - cron: "15 0 * * *"
-      timezone: "Europe/Berlin"
+on: workflow_run
+  # schedule:
+  #   - cron: "15 0 * * *"
+  #     timezone: "Europe/Berlin"
 env:
   RELEASE_TIME: REPLACE-THIS
 jobs:
@@ -55,16 +55,18 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt update && sudo apt install -y libwayland-dev libxkbcommon-dev xorg-dev
-            git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
-            cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
-            sudo cmake --build glfw-build --target install
+            # git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
+            # cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
+            # sudo cmake --build glfw-build --target install
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
-            cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/glfw-install"
-            cmake --build glfw-build --target install --config Release
-            echo "CMAKE_PREFIX_PATH=$RUNNER_TEMP/glfw-install" >> "$GITHUB_ENV"
+            :
+            # git clone --depth 1 --branch 3.4 https://github.com/glfw/glfw.git
+            # cmake -S glfw -B glfw-build -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/glfw-install"
+            # cmake --build glfw-build --target install --config Release
+            # echo "CMAKE_PREFIX_PATH=$RUNNER_TEMP/glfw-install" >> "$GITHUB_ENV"
           elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install glfw
+            :
+            # brew install glfw
           else
             echo "$RUNNER_OS not supported"
             exit 1
