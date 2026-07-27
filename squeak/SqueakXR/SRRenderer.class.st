@@ -12,13 +12,16 @@ Class {
 	#category : #'SqueakXR-Core'
 }
 
-{ #category : #preferences }
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:30'
+}
 SRRenderer class >> clearColor [
 	<preference: 'Clear color'
 		category: 'SqueakXR'
 		description: 'Clear color for the renderer'
 		type: #Color>
-	^ ClearColor ifNil: [ClearColor := Color gray]
+	^ ClearColor ifNil: [ClearColor := Color r: 0.753 g: 0.973 b: 0.977]
 ]
 
 { #category : #preferences }
@@ -154,6 +157,15 @@ SRRenderer >> pollAndroidEvents [
 SRRenderer >> prepareFrame: aCameraTransform [
 ]
 
+{
+	#category : #cache,
+	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
+}
+SRRenderer >> removeAt: aSymbol [
+
+	self cache removeKey: aSymbol ifAbsent: [].
+]
+
 { #category : #rendering }
 SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
@@ -168,6 +180,15 @@ SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 
 { #category : #rendering }
 SRRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+}
+SRRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	self subclassResponsibility
 ]

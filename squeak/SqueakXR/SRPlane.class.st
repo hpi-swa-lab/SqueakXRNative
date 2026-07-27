@@ -3,7 +3,8 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'material',
-		'mesh'
+		'mesh',
+		'meshObject'
 	],
 	#classVars : [
 		'Mesh'
@@ -11,21 +12,15 @@ Class {
 	#category : #'SqueakXR-Objects'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 15:28'
+}
 SRPlane class >> mesh [
 
-	"TODO: Cache mesh without it becoming invalid upon restarting image"
-	"^ Mesh ifNil: [
-		Mesh := Raylib genMeshPlaneWidth: 1 length: 1 resX: 4 resZ: 4]"
-	^ Raylib genMeshPlaneWidth: 1 length: 1 resX: 4 resZ: 4
-]
-
-{ #category : #'as yet unclassified' }
-SRPlane class >> withMaterial: aSRMaterial [
-
-	self basicNew
-		material: aSRMaterial;
-		initialize
+	^ Mesh ifNil: [
+		Mesh := SRMesh withSource: (
+			SRMeshSourceRaylibGen planeWidth: 1 length: 1 widthSections: 4 lengthSections: 4)]
 ]
 
 {
@@ -52,24 +47,34 @@ SRPlane >> height [
 	^ self scale z
 ]
 
-{ #category : #lifecycle }
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'lege 7/15/2026 15:26'
+}
 SRPlane >> initialize [
 
 	super initialize.
 	
-	material := SRMaterial new.
+	meshObject := SRMeshObject withMesh: self class mesh.
+	self addChild: meshObject.
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+}
 SRPlane >> material [
 	
-	^ material
+	^ meshObject material
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+}
 SRPlane >> material: aSRMaterial [
 
-	material := aSRMaterial
+	meshObject material: aSRMaterial
 ]
 
 { #category : #accessing }
@@ -97,12 +102,13 @@ SRPlane >> onCacheInvalidated [
 	mesh := nil
 ]
 
-{ #category : #lifecycle }
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'lege 7/15/2026 15:44'
+}
 SRPlane >> onWorldStarted [
 
 	super onWorldStarted.
-	
-	self material: SRMaterial new.
 ]
 
 {
@@ -112,19 +118,6 @@ SRPlane >> onWorldStarted [
 SRPlane >> planeUp [
 
 	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/17/2026 16:22'
-}
-SRPlane >> renderOn: aSRRenderer [
-
-	aSRRenderer withoutBackfaceCullingDo: [
-		aSRRenderer
-			renderMesh: self mesh
-			transform: self globalTransform
-			material: self material].
 ]
 
 { #category : #accessing }

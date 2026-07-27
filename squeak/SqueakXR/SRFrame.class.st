@@ -44,7 +44,10 @@ SRFrame >> initialize [
 	self isOld: false
 ]
 
-{ #category : #initializing }
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'lege 7/20/2026 17:25'
+}
 SRFrame >> initializeObjectLists [
 
 	steppedObjects := self world allDescendantsSelect: #isStepping.
@@ -84,7 +87,7 @@ SRFrame >> process [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:19'
+	#'squeak_changestamp' : 'lege 7/9/2026 17:22'
 }
 SRFrame >> renderObjects [
 
@@ -94,6 +97,7 @@ SRFrame >> renderObjects [
 		self world render: currentObject]]
 		on: Error
 		do: [:error |
+			"ToolSet default handleError: error."
 			error printVerboseOn: Transcript.
 			currentObject badRender: true.
 			error retry.]
@@ -101,7 +105,7 @@ SRFrame >> renderObjects [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 10/6/2025 14:29'
+	#'squeak_changestamp' : 'lege 7/16/2026 10:08'
 }
 SRFrame >> stepObjects [
 
@@ -109,7 +113,10 @@ SRFrame >> stepObjects [
 	| currentObject |
 	[[steppedObjects notEmpty] whileTrue: [
 		currentObject := steppedObjects removeFirst.
-		currentObject step: deltaTime]]
+		"It's possible that the current object was removed in another step: call in this frame.
+		Thus, we need to check if the object is still in the world before proceeding."
+		currentObject world = self world ifTrue: [
+			currentObject step: deltaTime]]]
 		on: Error
 		do: [:error |
 				"ToolSet default handleError: error."

@@ -27,14 +27,23 @@ SRRay >> cast: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 10/6/2025 16:40'
+	#'squeak_changestamp' : 'lege 7/3/2026 17:22'
 }
 SRRay >> castAll: aSRWorld [
 
+	^ self castAllObjects: aSRWorld allDescendants
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 7/3/2026 17:22'
+}
+SRRay >> castAllObjects: aCollectionOfSRObjects [
+
 	| intersections |
 	intersections := OrderedCollection new.
-	aSRWorld allDo: [:object |
-		object collisionGeometry ifNotNil: [:geometry |
+	aCollectionOfSRObjects do: [:object |
+		object collisionGeometryDo: [:geometry |
 			(geometry rayIntersection: self) ifNotNil: [:result |
 				intersections add: result]]].
 	^ intersections sorted: [:intersectionA :intersectionB | | distA distB |
@@ -45,11 +54,20 @@ SRRay >> castAll: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 10/7/2025 15:45'
+	#'squeak_changestamp' : 'lege 7/3/2026 17:24'
 }
 SRRay >> castNearest: aSRWorld [
 
-	^ (self castAll: aSRWorld)
+	^ self castNearestObjects: aSRWorld allDescendants
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'lege 7/3/2026 17:24'
+}
+SRRay >> castNearestObjects: aCollectionOfSRObjects [
+
+	^ (self castAllObjects: aCollectionOfSRObjects)
 		ifEmpty: [nil]
 		ifNotEmpty: [:results | results first]
 ]

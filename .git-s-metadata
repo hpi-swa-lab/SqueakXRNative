@@ -1,10 +1,10 @@
 GSMetadata {
 	#version : 1,
-	#mappers : [
+	#mappers : OrderedCollection [
 		GSTonelMapper {
 			#version : 1,
 			#package : MCPackage {
-				#name : 'SqueakXR'
+				#name : 'OpenAL'
 			},
 			#path : FSAbsolutePath [
 				'squeak'
@@ -13,7 +13,7 @@ GSMetadata {
 		GSTonelMapper {
 			#version : 1,
 			#package : MCPackage {
-				#name : 'OpenAL'
+				#name : 'SqueakXR'
 			},
 			#path : FSAbsolutePath [
 				'squeak'

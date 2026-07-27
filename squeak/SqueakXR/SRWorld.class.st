@@ -13,15 +13,21 @@ Class {
 		'avatar',
 		'isFramePrepared',
 		'gizmoPainter',
+		'secondStart',
+		'outOfBodyMode',
+		'outOfBodyCamera',
+		'frozenAvatar',
+		'ghostAvatar',
 		'project',
-		'i',
-		'secondStart'
+		'cameraTransform'
 	],
 	#classVars : [
 		'Current',
 		'KeyDict',
 		'RenderFrame',
-		'RunStartScriptInFlat'
+		'RunStartScriptInFlat',
+		'RunStartScriptInXR',
+		'StartMCPServer'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -344,6 +350,27 @@ SRWorld class >> runStartScriptInFlat: aBoolean [
 	RunStartScriptInFlat := aBoolean
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:02'
+}
+SRWorld class >> runStartScriptInXR [
+	<preference: 'Run Start Script in XR'
+		category: 'SqueakXR'
+		description: 'Whether to run the start script in an XR environment'
+		type: #Boolean>
+	^ RunStartScriptInXR ifNil: [RunStartScriptInXR := true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:03'
+}
+SRWorld class >> runStartScriptInXR: aBoolean [
+
+	RunStartScriptInXR := aBoolean
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> shiftValueOffset [
 
@@ -358,8 +385,29 @@ SRWorld class >> shutDown [
 ]
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:23'
+}
+SRWorld class >> startMCPServer [
+	<preference: 'Start MCP Server'
+		category: 'SqueakXR'
+		description: 'Whether the start script should start an SBMCPServer (if available)'
+		type: #Boolean>
+	^ StartMCPServer ifNil: [StartMCPServer := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 6/3/2026 10:23'
+}
+SRWorld class >> startMCPServer: aBoolean [
+
+	StartMCPServer := aBoolean
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/15/2026 14:01'
+	#'squeak_changestamp' : 'lege 7/23/2026 17:01'
 }
 SRWorld class >> startUp: resuming [
 
@@ -379,7 +427,7 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:18'
+	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
 }
 SRWorld >> adjustPreferences [
 
@@ -388,7 +436,7 @@ SRWorld >> adjustPreferences [
 		"Display relativeUiScaleFactor: 1.0."
 		UIManager openToolsAttachedToMouseCursor: false.
 		"Disable the drop shadow, ensures that the size of a Morph texture is not affected by focus"
-		Preferences disable: #menuAppearance3d.]
+		Preferences disable: #menuAppearance3d].
 ]
 
 { #category : #accessing }
@@ -420,6 +468,15 @@ SRWorld >> completeFrame [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+}
+SRWorld >> debugHUD [
+
+	^ self allDescendants detect: [:obj | obj isDebugHUD] ifNone: [nil]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 3/6/2026 14:09'
 }
@@ -444,7 +501,7 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 16:17'
+	#'squeak_changestamp' : 'lege 7/9/2026 18:07'
 }
 SRWorld >> enterMorphicProject [
 
@@ -495,7 +552,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 11/11/2025 18:23'
+	#'squeak_changestamp' : 'lege 7/22/2026 18:33'
 }
 SRWorld >> initialize [
 
@@ -503,11 +560,12 @@ SRWorld >> initialize [
 	
 	running := false.
 	needsSetup := false.
-	ranStartScript := false.
 	isFramePrepared := false.
 	
 	gizmoPainter := SRGizmoPainter new.
 	self addChild: gizmoPainter.
+	
+	cameraTransform := RlTransform new.
 	
 	self
 		isXR: false;
@@ -515,7 +573,10 @@ SRWorld >> initialize [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #startup,
+	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
+}
 SRWorld >> initializeWorldProcess [
 	
 	self log.
@@ -540,14 +601,12 @@ SRWorld >> isRunning [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
 }
 SRWorld >> isRunning: aBoolean [
 
 	running := aBoolean.
-	running
-		ifTrue: [self class current: self]
-		ifFalse: [self class resetCurrent]
+	running ifTrue: [self class current: self]
 ]
 
 { #category : #'as yet unclassified' }
@@ -601,7 +660,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 17:00'
+	#'squeak_changestamp' : 'jl 4/29/2026 18:03'
 }
 SRWorld >> loop [
 
@@ -621,7 +680,29 @@ SRWorld >> loop [
 		on: Error
 		do: [:error |
 			error printVerboseOn: Transcript.
-			error pass]
+			error pass].
+	self class resetCurrent.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+}
+SRWorld >> maybeStartMCPServer [
+
+	| serverClass server |
+	self class startMCPServer ifFalse: [^ self].
+	serverClass := Smalltalk at: #SBMCPServer ifAbsent: [
+		self log: 'SBMCPServer not available, skipping'.
+		^ self].
+	[server := serverClass current.
+	server isRunning ifFalse: [server start].
+	self log: 'MCP server started (singleton)'.
+	server]
+		on: Error
+		do: [:e |
+			self log: 'MCP server failed to start: ', e messageText.
+			nil]
 ]
 
 { #category : #'as yet unclassified' }
@@ -632,21 +713,18 @@ SRWorld >> pollActions [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:05'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 7/22/2026 18:27'
 }
 SRWorld >> prepareFrame [
 
-	isFramePrepared := self renderer prepareFrame: self avatar globalTransform.
-	self avatar
-		cameraPosition: self renderer cameraPosition asVector3
-		target: self renderer cameraTarget asVector3
-		up: self renderer cameraUp asVector3.
+	self isXR ifTrue: [self updateCameraTransform].
+	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/25/2026 16:36'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:32'
 }
 SRWorld >> processKeyInput [
 
@@ -692,14 +770,24 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/26/2026 18:12'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
 }
 SRWorld >> runStartScript [
 
 	self log.
+
+	"Ensure author initials are not empty to avoid dialog in XR.
+	TODO: Users should be able to set this in XR"
+	[Utilities authorInitials]
+		on: ProvideAnswerNotification
+		do: [:n | (n description includesSubstring: 'Please type your initials:') ifTrue: [
+				Utilities setAuthorInitials: 'SqueakXR']].
+
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
-	ranStartScript := true.
-	
+
+	"self maybeStartMCPServer."
+
+	(self isXR and: [self class runStartScriptInXR not]) ifTrue: [^ self].
 	"self log: 'trying yaros...'."
 	"methodMorser := MethodMorser new.
 	methodMorserMorph := methodMorser open.
@@ -715,7 +803,7 @@ SRWorld >> runStartScript [
 		addProjects: (methodMorser spaces first projectsWithAllNames: {#SqueakXR});
 		startAutoSync."
 	"yaros2 := YarosServer new
-		""""connector: (YarosHTTPClientAndServerConnector remoteName: 'localhost' clientPort: 8083 serverPort: 8082);""""
+		""connector: (YarosHTTPClientAndServerConnector remoteName: 'localhost' clientPort: 8083 serverPort: 8082);""
 		connector: (YarosWebSocketClientConnector remoteName: 'localhost' port: 8082)
 		yourself.
 	yaros2 startServer.
@@ -753,8 +841,8 @@ SRWorld >> runStartScript [
 		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
 		extent: 200 @ 100;
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
-		actionSelector: #value))
-	
+		actionSelector: #value)).
+
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new
 		morph: (Morph new
@@ -771,7 +859,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/28/2026 16:15'
+	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
 }
 SRWorld >> start [
 
@@ -786,9 +874,11 @@ SRWorld >> start [
 				self addChild: avatar].
 		self adjustPreferences;
 			initializeWorldProcess;
-			enterMorphicProject";
-			runStartScript".
-		self isXR ifFalse: [self addChild: SRXRInputEmulator new].
+			enterMorphicProject;
+			runStartScript.
+		self isXR ifFalse: [
+			(self allDescendants anySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
+				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
 		self loop.
@@ -801,7 +891,10 @@ SRWorld >> start [
 	self resume.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/15/2026 14:45'
+}
 SRWorld >> startUp: resuming [
 
 	self log.
@@ -819,6 +912,16 @@ SRWorld >> stop [
 
 	self invalidateCache;
 		isRunning: false.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'jl 4/29/2026 18:07'
+}
+SRWorld >> stopAndWait [
+
+	self stop.
+	[self class current] whileNotNil: [Processor yield].
 ]
 
 {
@@ -845,12 +948,25 @@ SRWorld >> suspend [
 	worldProcess ifNotNil: [worldProcess suspend].
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/20/2026 18:35'
+}
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [
 		self changed: #actionsUpdated with: self pollActions].
 	self processKeyInput.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'lege 7/22/2026 18:35'
+}
+SRWorld >> updateCameraTransform [
+
+	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
+	self changed: #cameraTransformUpdated with: cameraTransform.
 ]
 
 { #category : #accessing }

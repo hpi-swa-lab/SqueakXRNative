@@ -61,11 +61,11 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 4/8/2026 17:02'
+	#'squeak_changestamp' : 'MCPServer 5/29/2026 14:29'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
 
-	| normalizedPoint clickPoint point downEvent upEvent thumbstickY |
+	| normalizedPoint clickPoint point downEvent upEvent thumbstickY actionState |
 	self morph ifNil: [^ self].
 	
 	self world keyboardFocus: self.
@@ -75,47 +75,48 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
 	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft.
 	
-	Project current addDeferredUIMessage: [thumbstickY := intersectionResult actionState thumbstickY first.
-	thumbstickY abs > 0.5
-		ifTrue: [ | scrollEvent |
-			scrollEvent := MouseWheelEvent new
-				setType: #mouseWheel
-				position: clickPoint asPoint
-				delta: 0@30 * thumbstickY sign
-				buttons: 0
-				hand: self currentHand
-				stamp: Sensor eventTimeNow.
-			scrollEvent becomeActiveDuring: [
-				self morph processEvent: scrollEvent].]
-		ifFalse: [
-			downEvent := MouseButtonEvent new
-				setType: #mouseDown
-				position: clickPoint asPoint
-				which: MouseButtonEvent redButton
-				buttons: MouseButtonEvent redButton
-				nClicks: 1
-				hand: self currentHand
-				stamp: Sensor eventTimeNow.
-			upEvent := MouseButtonEvent new
-				setType: #mouseUp
-				position: clickPoint asPoint
-				which: MouseButtonEvent redButton
-				buttons: MouseButtonEvent redButton
-				nClicks: 1
-				hand: self currentHand
-				stamp: Sensor eventTimeNow.
-				
-			downEvent becomeActiveDuring: [
-				self morph processEvent: downEvent].
-			upEvent becomeActiveDuring: [
-				self morph processEvent: upEvent]].].
+	Project current addDeferredUIMessage: [
+		actionState := intersectionResult actionState.
+		(actionState notNil and: [(thumbstickY := actionState thumbstickY first) abs > 0.5])
+			ifTrue: [ | scrollEvent |
+				scrollEvent := MouseWheelEvent new
+					setType: #mouseWheel
+					position: clickPoint asPoint
+					delta: 0@30 * thumbstickY sign
+					buttons: 0
+					hand: self currentHand
+					stamp: Sensor eventTimeNow.
+				scrollEvent becomeActiveDuring: [
+					self morph processEvent: scrollEvent].]
+			ifFalse: [
+				downEvent := MouseButtonEvent new
+					setType: #mouseDown
+					position: clickPoint asPoint
+					which: MouseButtonEvent redButton
+					buttons: MouseButtonEvent redButton
+					nClicks: 1
+					hand: self currentHand
+					stamp: Sensor eventTimeNow.
+				upEvent := MouseButtonEvent new
+					setType: #mouseUp
+					position: clickPoint asPoint
+					which: MouseButtonEvent redButton
+					buttons: MouseButtonEvent redButton
+					nClicks: 1
+					hand: self currentHand
+					stamp: Sensor eventTimeNow.
+					
+				downEvent becomeActiveDuring: [
+					self morph processEvent: downEvent].
+				upEvent becomeActiveDuring: [
+					self morph processEvent: upEvent]].].
 	
 	lastClickPosition := clickPoint asPoint.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 3/17/2026 16:14'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
 }
 SRMorphPanel >> initialize [
 
@@ -199,7 +200,7 @@ SRMorphPanel >> morph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
+	#'squeak_changestamp' : 'lege 7/15/2026 16:34'
 }
 SRMorphPanel >> morph: aMorph [
 
@@ -210,7 +211,8 @@ SRMorphPanel >> morph: aMorph [
 		self globalTranslation: position].
 	morph setIsInMorphPanel.
 	texture morph: morph.
-	self updateTexture.
+	self updateTexture;
+		name: (morph knownName ifNil: [morph class asString]).
 ]
 
 {
@@ -240,7 +242,7 @@ SRMorphPanel >> removeMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/16/2026 16:32'
+	#'squeak_changestamp' : 'lege 7/15/2026 13:54'
 }
 SRMorphPanel >> renderOn: aSRRenderer [
 
@@ -263,10 +265,9 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 2/23/2026 11:37'
+	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
 }
 SRMorphPanel >> updateTexture [
 
-	plane material texture: texture update.
-	
+	plane material internalTexture: texture update.
 ]

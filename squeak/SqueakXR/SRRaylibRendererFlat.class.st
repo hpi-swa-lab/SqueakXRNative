@@ -6,7 +6,9 @@ Class {
 		'reticleColor'
 	],
 	#classVars : [
-		'HighDpiEnabled'
+		'HighDpiEnabled',
+		'WindowHeight',
+		'WindowWidth'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -33,13 +35,56 @@ SRRaylibRendererFlat class >> highDpiEnabled: aBoolean [
 ]
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'lege 7/16/2026 17:45'
+}
+SRRaylibRendererFlat class >> windowHeight [
+	<preference: 'Height of the Raylib renderer window'
+		category: 'SqueakXR'
+		description: 'Height of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
+		type: #Number>
+	^ WindowHeight ifNil: [720]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowHeight: aNumber [
+	WindowHeight := aNumber
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'lege 7/16/2026 17:44'
+}
+SRRaylibRendererFlat class >> windowWidth [
+	<preference: 'Width of the Raylib renderer window'
+		category: 'SqueakXR'
+		description: 'Width of the Raylib renderer window in pixels. Requires restart of renderer to take effect.'
+		type: #Number>
+	^ WindowWidth ifNil: [1280]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
+}
+SRRaylibRendererFlat class >> windowWidth: aNumber [
+	WindowWidth := aNumber
+]
+
+{
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/2/2026 11:27'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:47'
 }
 SRRaylibRendererFlat >> completeFrame [
 
 	Raylib endMode3D.
 	self drawReticle.
+	
+	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
+	
 	Raylib endDrawing.
 	
 	1 milliSecond wait.
@@ -77,7 +122,7 @@ SRRaylibRendererFlat >> initReticle [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:30'
+	#'squeak_changestamp' : 'lege 7/16/2026 17:49'
 }
 SRRaylibRendererFlat >> initialize [
 
@@ -88,17 +133,24 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/1/2026 16:16'
+	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
+	| position forward up target |
+	position := cameraTransform translation.
+	forward := cameraTransform localDirToGlobal: Vector3 forward.
+	up := cameraTransform localDirToGlobal: Vector3 up.
+	target := position + forward.
+	camera
+		position: position asRlVector;
+		target: target asRlVector;
+		up: up asRlVector.
 	Raylib
-		updateCamera: camera mode: RlCameraMode cameraFree;
 		beginDrawing;
 		clearBackgroundColor: clearColor;
 		beginMode3DCamera: camera;
 		drawGridSlices: 10 spacing: 1.
-	
 	^ true
 ]
 
@@ -113,7 +165,7 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 4/2/2026 10:19'
+	#'squeak_changestamp' : 'jl 4/27/2026 14:41'
 }
 SRRaylibRendererFlat >> setup [
 
@@ -126,7 +178,7 @@ SRRaylibRendererFlat >> setup [
 			ifFalse: [self class startMonitor]).
 	
 	camera := RlCamera3D new
-		position: (10 @ 10 @ 10) asRlVector;
+		position: 10 asVector3 asRlVector;
 		target: Vector3 zero asRlVector;
 		up: Vector3 up asRlVector;
 		fovy: 45;
@@ -154,18 +206,18 @@ SRRaylibRendererFlat >> shutdown [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
 }
 SRRaylibRendererFlat >> windowHeight [
 
-	^ 450
+	^ self class windowHeight
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
 }
 SRRaylibRendererFlat >> windowWidth [
 
-	^ 800
+	^ self class windowWidth
 ]
