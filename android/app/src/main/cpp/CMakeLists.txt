@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project("squeakxrnative")
 
+set(CMAKE_CXX_STANDARD 20)
+
 set(ENABLE_RLOPENXR ON CACHE BOOL "Whether to compile with rlOpenXR")
 set(ENABLE_ANDROID ON CACHE BOOL "Whether to compile for Android")
 
