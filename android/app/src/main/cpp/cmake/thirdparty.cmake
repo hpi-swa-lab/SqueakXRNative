@@ -60,7 +60,11 @@ if(ENABLE_ANDROID)
   endif()
 else()
   target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW)
-  find_package(glfw3 REQUIRED)
+  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+  set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
+  add_subdirectory(${RAYLIB_SOURCE_DIR}/external/glfw ${CMAKE_BINARY_DIR}/glfw)
 endif()
 
 # Link required libraries to raylib
