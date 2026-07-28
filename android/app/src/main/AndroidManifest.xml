@@ -28,7 +28,6 @@
             android:name=".ManageImagesActivity"
             android:exported="false">
 
-            <!-- Match MainActivity so the panel does not resize when switching. -->
             <layout
                 android:defaultHeight="640dp"
                 android:defaultWidth="1200dp"

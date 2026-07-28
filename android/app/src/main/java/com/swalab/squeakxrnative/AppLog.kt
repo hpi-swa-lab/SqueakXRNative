@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-/** Launcher log, shown in MainActivity and mirrored to logcat under [TAG]. */
 object AppLog {
     private const val TAG = "SqueakXRLauncher"
     private const val MAX_LINES = 300

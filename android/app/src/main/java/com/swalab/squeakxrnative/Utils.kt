@@ -17,7 +17,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicLong
 
-/** [lastModified] is epoch millis, 0 if unknown; [sizeBytes] is -1 if unknown. */
 data class RemoteImage(
     val name: String,
     val lastModified: Long,
@@ -49,14 +48,12 @@ class Utils {
 
         private val HREF_REGEX = Regex("""href\s*=\s*["']([^"']+)["']""", RegexOption.IGNORE_CASE)
 
-        /** Fallback for non-HTML listings. */
         private val BARE_NAME_REGEX = Regex("""[^\s"'<>]+\.image""", RegexOption.IGNORE_CASE)
 
         private const val LISTING_CONNECT_TIMEOUT_MS = 5000
         private const val LISTING_READ_TIMEOUT_MS = 10000
         private const val LISTING_MAX_BYTES = 4 * 1024 * 1024
 
-        /** HEAD probes in flight at once; the headset link is one adb tunnel. */
         private const val PROBE_BATCH_SIZE = 8
         private const val PROBE_CONNECT_TIMEOUT_MS = 5000
         private const val PROBE_READ_TIMEOUT_MS = 5000
@@ -68,10 +65,6 @@ class Utils {
             return externalFiles.filter { file -> file.endsWith(".image" )}
         }
 
-        /**
-         * Scrapes the server's directory index for *.image, then HEADs each one
-         * for its date and size. Newest first. Empty on any failure.
-         */
         suspend fun listRemoteImages(fetchUrl: String): List<RemoteImage> {
             val body = fetchRemoteText(fetchUrl) ?: return emptyList()
 
@@ -109,7 +102,6 @@ class Utils {
             )
         }
 
-        /** Null if the server will not serve it, e.g. a dangling symlink. */
         private fun probeRemoteImage(baseUrl: String, name: String): RemoteImage? {
             val urlString = "$baseUrl/${Uri.encode(name)}"
             val connection = try {
@@ -137,7 +129,6 @@ class Utils {
             }
         }
 
-        /** Strips any query string and directory prefix, and percent-decodes. */
         private fun toFileName(href: String): String {
             val withoutQuery = href.substringBefore('?').substringBefore('#')
             val decoded = try {
@@ -166,7 +157,6 @@ class Utils {
                     return null
                 }
                 return BufferedInputStream(connection.inputStream).use { stream ->
-                    // Bounded: the URL is user supplied and may not be an index.
                     val body = ByteArrayOutputStream()
                     val chunk = ByteArray(8192)
                     while (body.size() < LISTING_MAX_BYTES) {
@@ -184,7 +174,6 @@ class Utils {
             }
         }
 
-        /** [onProgress] reports combined bytes across the image and its changes file. */
         suspend fun fetchImageFromRemote(
             fetchUrl: String,
             remoteImageName: String,
@@ -200,7 +189,6 @@ class Utils {
             val total = AtomicLong()
             val lastReportMs = AtomicLong()
 
-            // Throttled: an image is ~1 GB, so per-chunk updates would flood the UI thread.
             fun report(force: Boolean) {
                 if (onProgress == null) return
                 val now = System.currentTimeMillis()
@@ -260,7 +248,6 @@ class Utils {
                 val externalFile = File(externalFiles, filename)
                 val outStream = FileOutputStream(externalFile)
                 var bytes = 0L
-                // Not copyTo(), so download progress can be reported.
                 inStream.use { input ->
                     outStream.use { output ->
                         val buffer = ByteArray(64 * 1024)

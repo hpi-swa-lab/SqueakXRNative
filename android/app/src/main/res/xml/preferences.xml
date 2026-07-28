@@ -14,7 +14,12 @@
         <SwitchPreferenceCompat
             app:key="fetch_image_on_launch"
             app:title="Fetch image from remote on launch"/>
-<!--        fetch_image_url is edited in ManageImagesActivity, not here. -->
+<!--        <EditTextPreference-->
+<!--            app:key="fetch_image_url"-->
+<!--            app:title="Fetch image URL"-->
+<!--            app:defaultValue="http://localhost:8080"-->
+<!--            app:dependency="fetch_image_on_launch"-->
+<!--            app:useSimpleSummaryProvider="true"/>-->
 <!--        <EditTextPreference-->
 <!--            app:key="fetch_image_name"-->
 <!--            app:title="Fetch image name"-->

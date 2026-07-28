@@ -117,7 +117,6 @@ class ManageImagesActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         fetchUrl.setText(preferences.getString(Utils.PREF_FETCH_URL, Utils.DEFAULT_FETCH_URL))
 
-        // Prefill with the selected image; fall back to the layout's default.
         val selectedImage = preferences.getString("selected_image", "")!!
         if (selectedImage.isNotEmpty()) {
             fetchName.setText(selectedImage)
@@ -174,14 +173,12 @@ class ManageImagesActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        // This field is the editor for the shared fetch URL preference.
         PreferenceManager.getDefaultSharedPreferences(this).edit()
             .putString(Utils.PREF_FETCH_URL, fetchUrl.text.toString().trim())
             .apply()
         super.onPause()
     }
 
-    /** Offers the server's *.image files newest first, and puts the chosen one in the name field. */
     private fun showRemoteImagePicker(images: List<RemoteImage>) {
         if (images.isEmpty()) {
             Toast.makeText(this, getString(R.string.no_remote_images_found), Toast.LENGTH_SHORT).show()

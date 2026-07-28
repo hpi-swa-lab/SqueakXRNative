@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 
-/** The download progress bar and byte counter, as used by both activities. */
 class FetchProgress(private val bar: ProgressBar, private val text: TextView) {
 
     fun show(visible: Boolean) {
@@ -17,7 +16,6 @@ class FetchProgress(private val bar: ProgressBar, private val text: TextView) {
         }
     }
 
-    /** Determinate once the server has told us a total. */
     fun update(downloaded: Long, total: Long) {
         val mib = 1024 * 1024
         if (total > 0) {

@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        // Images may have changed in ManageImagesActivity.
         updateImageInfo()
 
         AppLog.setListener { showLog() }
