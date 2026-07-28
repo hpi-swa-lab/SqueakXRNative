@@ -9,38 +9,96 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="8dp">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Launch" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/manage_images_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manage Images" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Launch" />
 
-        <TextView
-            android:id="@+id/textImageStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <Button
+                android:id="@+id/manage_images_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage Images" />
 
-        <Button
-            android:id="@+id/buttonResetImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset image" />
+            <TextView
+                android:id="@+id/textImageStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/preferenceContainerView"
-            android:name="com.swalab.squeakxrnative.SettingsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/buttonResetImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset image" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/preferenceContainerView"
+                android:name="com.swalab.squeakxrnative.SettingsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Log"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonClearLog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear" />
+
+            </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/logScroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:id="@+id/textLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text=""
+                    android:textIsSelectable="true"
+                    android:textSize="11sp" />
+
+            </ScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
 

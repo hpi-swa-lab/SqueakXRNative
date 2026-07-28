@@ -2,4 +2,6 @@
     <string name="app_name">SqueakXRNative</string>
     <string name="fetching_images_failed">Fetching images failed!</string>
     <string name="no_image_selected">No image selected</string>
+    <string name="select_remote_image">Images on server</string>
+    <string name="no_remote_images_found">No .image files found on the server</string>
 </resources>
