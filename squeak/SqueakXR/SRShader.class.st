@@ -98,16 +98,17 @@ SRShader class >> ensureSpirvCrossAvailable [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/14/2026 15:44'
+	#'squeak_changestamp' : 'lege 7/27/2026 14:09'
 }
 SRShader class >> evaluateCommand: aCommandString [
 
 	|pipeline out err|
 	pipeline := OSProcess evaluate: aCommandString.
+	pipeline waitForAllToComplete.
 	out := pipeline upToEndOfFile.
 	err := pipeline errorUpToEndOfFile.
 	
-	(pipeline anySatisfy: [:p | p succeeded not]) ifTrue: [
+	pipeline succeeded not ifTrue: [
 		Transcript
 			showln: ('An error occurred while evaluting ''{1}''' format: {aCommandString});
 			showln: 'stdout:';

@@ -79,9 +79,8 @@ Compile the library:
 
 ```
 mkdir build
-cd build
-cmake -DENABLE_RLOPENXR=OFF -DENABLE_ANDROID=OFF ../android/app/src/main/cpp/CMakeLists.txt
-cmake --build .
+cmake -DENABLE_RLOPENXR=OFF -DENABLE_ANDROID=OFF -S ../android/app/src/main/cpp/ -B build
+cmake --build build
 ```
 
 Ensure that the library is available to Squeak by copying it to the correct location.

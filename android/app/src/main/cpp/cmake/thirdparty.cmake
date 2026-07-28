@@ -60,8 +60,6 @@ if(ENABLE_ANDROID)
   endif()
 else()
   target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW)
-  # Use the GLFW (3.4) bundled with the raylib fork instead of the system one,
-  # which may be too old (the fork needs GLFW 3.4 APIs).
   set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
