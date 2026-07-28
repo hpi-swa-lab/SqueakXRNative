@@ -22,6 +22,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
         externalNativeBuild {
             cmake {
                 cppFlags += "-std=c++17"
@@ -60,9 +63,13 @@ android {
     ndkVersion = "27.1.12297006"
 }
 
-tasks.preBuild {
-    exec {
-        commandLine("../run-setup.sh")
+// adb port forwarding is only needed when deploying to a device, not for building.
+// Hook it to the install tasks so plain builds (e.g. CI, no headset) don't require adb.
+tasks.matching { it.name.startsWith("install") }.configureEach {
+    doFirst {
+        exec {
+            commandLine("../run-setup.sh")
+        }
     }
 }
 

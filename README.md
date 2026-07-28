@@ -48,6 +48,28 @@ Metacello new
 3. Connect your headset and select it.
 4. Run the app.
 
+##### Command line (Linux)
+
+Requires JDK 17 and an Android SDK with the NDK and CMake installed. Point Gradle at the SDK via `android/local.properties` (`sdk.dir=/path/to/Android/Sdk`). Then, from `android/`:
+
+```
+./gradlew assembleDebug   # build only (no device/adb needed; safe for CI)
+./gradlew installDebug    # build and deploy to a connected headset
+```
+
+The build only targets `arm64-v8a` (the Quest ABI). Building never touches `adb`; only `installDebug` does, via `run-setup.sh` (`adb reverse tcp:8080 tcp:8080`), which needs a single device connected and `adb` on `PATH`.
+
+###### WSL
+
+On WSL the headset is attached to Windows over USB, so the Linux `adb` cannot see it, and Gradle's own `installDebug` (which uses the Linux `adb`) will not deploy. Use the Windows `adb.exe` instead. With `adb.exe` on `PATH`, run:
+
+```
+./install-wsl.sh    # build and install
+./run-setup.sh      # set up the runtime port forward (adb reverse), when needed
+```
+
+`install-wsl.sh` only builds and installs. The port forward is a separate, runtime concern handled by `run-setup.sh`, which auto-detects WSL and uses `adb.exe`.
+
 #### Launch SqueakXR
 
 1. Launch the SqueakXR app on the headset.
