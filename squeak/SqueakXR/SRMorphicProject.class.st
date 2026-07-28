@@ -59,12 +59,14 @@ SRMorphicProject >> signalStart [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 7/27/2026 12:40'
+	#'squeak_changestamp' : 'jl 7/28/2026 16:19'
 }
 SRMorphicProject >> subProjects [
-	"#HACK workaround nil world... "
 	
-	world ifNil: [^ Array new].
+	
+	
+	"#TODO find the real issue. "
+	"world ifNil: [^ Array new]."
 	
 	^ super subProjects
 ]
