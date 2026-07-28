@@ -9,8 +9,8 @@
     tools:context=".ManageImagesActivity">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="0dp"
         android:orientation="vertical"
         android:padding="8dp"
@@ -19,10 +19,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Button
+            android:id="@+id/backButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="120dp"
+            android:minHeight="56dp"
+            android:text="&lt; Back"
+            android:textColor="@android:color/darker_gray"
+            app:strokeColor="@android:color/darker_gray" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="Manage Images"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -39,24 +51,53 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:ems="10"
-            android:hint="Name"
-            android:inputType="text"
-            android:text="http://localhost:8080" />
+            android:hint="Server URL"
+            android:inputType="textUri" />
 
-        <EditText
-            android:id="@+id/fetchName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:ems="10"
-            android:hint="Image name"
-            android:inputType="text"
-            android:text="Squeak6.0-22148-64bit.image" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/fetchName"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Image name"
+                android:inputType="text"
+                android:text="Squeak6.0-22148-64bit.image" />
+
+            <Button
+                android:id="@+id/selectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Select..." />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/fetchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fetch" />
+
+        <ProgressBar
+            android:id="@+id/fetchProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/fetchProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <Space
             android:layout_width="match_parent"
@@ -72,7 +113,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/manageImagesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <androidx.constraintlayout.widget.Guideline
