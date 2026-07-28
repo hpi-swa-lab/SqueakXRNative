@@ -21,12 +21,14 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fetchProgress: FetchProgress
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        fetchProgress = FetchProgress(binding.fetchProgress, binding.fetchProgressText)
 
         AppLog.info(
             "Launcher started, ${Utils.getImageFiles(this).size} image(s) in ${getExternalFilesDir(null)}"
@@ -100,6 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val fetchImageOnLaunch = preferences.getBoolean("fetch_image_on_launch", false)
+        val fetchUrl = preferences.getString(Utils.PREF_FETCH_URL, Utils.DEFAULT_FETCH_URL)!!
         var selectedImage: String
 
 
@@ -112,11 +115,17 @@ class MainActivity : AppCompatActivity() {
         }
         AppLog.info("Selected image: $selectedImage")
 
+        val handler = Handler(Looper.getMainLooper())
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
+        if (fetchImageOnLaunch) fetchProgress.show(true)
         GlobalScope.launch {
             var setupSuccessful = true
             if (fetchImageOnLaunch) {
-                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", selectedImage, true, getExternalFilesDir(null)!!)
+                val fetchResult = Utils.fetchImageFromRemote(
+                    fetchUrl, selectedImage, true, getExternalFilesDir(null)!!
+                ) { downloaded, total ->
+                    handler.post { fetchProgress.update(downloaded, total) }
+                }
                 if (!fetchResult.first) {
                     setupSuccessful = false
                     AppLog.error(getString(R.string.fetching_images_failed))
@@ -128,7 +137,8 @@ class MainActivity : AppCompatActivity() {
                 delay(1000)
                 startXr(selectedImage)
             } else {
-                Handler(Looper.getMainLooper()).post {
+                handler.post {
+                    fetchProgress.show(false)
                     setButtonEnabled(true)
                 }
             }

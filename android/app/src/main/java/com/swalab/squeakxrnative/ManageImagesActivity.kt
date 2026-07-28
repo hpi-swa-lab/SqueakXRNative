@@ -81,6 +81,7 @@ class ManageImagesActivity : AppCompatActivity() {
     lateinit var fetchName: EditText
     lateinit var fetchButton: Button
     lateinit var selectButton: Button
+    lateinit var fetchProgress: FetchProgress
     lateinit var imageFiles: MutableList<ImageInfo>
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -111,10 +112,13 @@ class ManageImagesActivity : AppCompatActivity() {
         fetchName = findViewById(R.id.fetchName)
         fetchButton = findViewById(R.id.fetchButton)
         selectButton = findViewById(R.id.selectButton)
+        fetchProgress = FetchProgress(findViewById(R.id.fetchProgress), findViewById(R.id.fetchProgressText))
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        fetchUrl.setText(preferences.getString(Utils.PREF_FETCH_URL, Utils.DEFAULT_FETCH_URL))
 
         // Prefill with the selected image; fall back to the layout's default.
-        val selectedImage = PreferenceManager.getDefaultSharedPreferences(this)
-            .getString("selected_image", "")!!
+        val selectedImage = preferences.getString("selected_image", "")!!
         if (selectedImage.isNotEmpty()) {
             fetchName.setText(selectedImage)
         }
@@ -136,9 +140,15 @@ class ManageImagesActivity : AppCompatActivity() {
         fetchButton.setOnClickListener {
             fetchButton.isEnabled = false
             fetchButton.isClickable = false
+            fetchProgress.show(true)
+            val handler = Handler(Looper.getMainLooper())
             val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
             GlobalScope.launch {
-                val (success, fetchedImageName) = Utils.fetchImageFromRemote(fetchUrl.text.toString(), fetchName.text.toString(), false, getExternalFilesDir(null)!!)
+                val (success, fetchedImageName) = Utils.fetchImageFromRemote(
+                    fetchUrl.text.toString(), fetchName.text.toString(), false, getExternalFilesDir(null)!!
+                ) { downloaded, total ->
+                    handler.post { fetchProgress.update(downloaded, total) }
+                }
                 if (success) {
                     AppLog.info("Fetch complete: $fetchedImageName")
                     imageFiles.add(ImageInfo(fetchedImageName))
@@ -146,15 +156,29 @@ class ManageImagesActivity : AppCompatActivity() {
                     AppLog.error(getString(R.string.fetching_images_failed))
                     fetchImagesFailedToast.show()
                 }
-                Handler(Looper.getMainLooper()).post {
+                handler.post {
                     if (success) {
                         recyclerView.adapter?.notifyItemInserted(imageFiles.size - 1)
+                        Toast.makeText(
+                            this@ManageImagesActivity,
+                            getString(R.string.fetch_complete, fetchedImageName),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
+                    fetchProgress.show(false)
                     fetchButton.isEnabled = true
                     fetchButton.isClickable = true
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        // This field is the editor for the shared fetch URL preference.
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+            .putString(Utils.PREF_FETCH_URL, fetchUrl.text.toString().trim())
+            .apply()
+        super.onPause()
     }
 
     /** Offers the server's *.image files newest first, and puts the chosen one in the name field. */

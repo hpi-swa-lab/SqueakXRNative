@@ -4,4 +4,6 @@
     <string name="no_image_selected">No image selected</string>
     <string name="select_remote_image">Images on server</string>
     <string name="no_remote_images_found">No .image files found on the server</string>
+    <string name="fetch_starting">Connecting…</string>
+    <string name="fetch_complete">Fetched %1$s</string>
 </resources>

@@ -19,32 +19,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <Button
+            android:id="@+id/backButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="120dp"
+            android:minHeight="56dp"
+            android:text="&lt; Back"
+            android:textColor="@android:color/darker_gray"
+            app:strokeColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="120dp"
-                android:minHeight="56dp"
-                android:text="&lt; Back" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="0dp"
-                android:text="Manage Images"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+            android:layout_marginTop="12dp"
+            android:text="Manage Images"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView2"
@@ -59,8 +52,7 @@
             android:layout_height="48dp"
             android:ems="10"
             android:hint="Server URL"
-            android:inputType="textUri"
-            android:text="http://localhost:8080" />
+            android:inputType="textUri" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,6 +83,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fetch" />
+
+        <ProgressBar
+            android:id="@+id/fetchProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/fetchProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <Space
             android:layout_width="match_parent"

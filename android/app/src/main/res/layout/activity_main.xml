@@ -24,6 +24,21 @@
                 android:layout_height="wrap_content"
                 android:text="Launch" />
 
+            <ProgressBar
+                android:id="@+id/fetchProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fetchProgressText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/manage_images_button"
                 android:layout_width="wrap_content"

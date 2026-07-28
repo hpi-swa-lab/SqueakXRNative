@@ -15,6 +15,7 @@ import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicLong
 
 /** [lastModified] is epoch millis, 0 if unknown; [sizeBytes] is -1 if unknown. */
 data class RemoteImage(
@@ -43,6 +44,9 @@ data class RemoteImage(
 
 class Utils {
     companion object {
+        const val PREF_FETCH_URL = "fetch_image_url"
+        const val DEFAULT_FETCH_URL = "http://localhost:8080"
+
         private val HREF_REGEX = Regex("""href\s*=\s*["']([^"']+)["']""", RegexOption.IGNORE_CASE)
 
         /** Fallback for non-HTML listings. */
@@ -56,6 +60,7 @@ class Utils {
         private const val PROBE_BATCH_SIZE = 8
         private const val PROBE_CONNECT_TIMEOUT_MS = 5000
         private const val PROBE_READ_TIMEOUT_MS = 5000
+        private const val PROGRESS_INTERVAL_MS = 200
 
         fun getImageFiles(context: Context): List<String> {
             val externalFilesDir = context.getExternalFilesDir(null)
@@ -179,19 +184,46 @@ class Utils {
             }
         }
 
-        suspend fun fetchImageFromRemote(fetchUrl: String, remoteImageName: String, forceOverwrite: Boolean, externalFiles: File): Pair<Boolean, String> {
+        /** [onProgress] reports combined bytes across the image and its changes file. */
+        suspend fun fetchImageFromRemote(
+            fetchUrl: String,
+            remoteImageName: String,
+            forceOverwrite: Boolean,
+            externalFiles: File,
+            onProgress: ((downloaded: Long, total: Long) -> Unit)? = null
+        ): Pair<Boolean, String> {
             val localImageName = if (forceOverwrite) remoteImageName else getNextFileName(remoteImageName, externalFiles)
             val remoteChangesName = remoteImageName.removeSuffix(".image") + ".changes"
             val localChangesName = localImageName.removeSuffix(".image") + ".changes"
 
+            val downloaded = AtomicLong()
+            val total = AtomicLong()
+            val lastReportMs = AtomicLong()
+
+            // Throttled: an image is ~1 GB, so per-chunk updates would flood the UI thread.
+            fun report(force: Boolean) {
+                if (onProgress == null) return
+                val now = System.currentTimeMillis()
+                val last = lastReportMs.get()
+                if (force || now - last >= PROGRESS_INTERVAL_MS) {
+                    lastReportMs.set(now)
+                    onProgress(downloaded.get(), total.get())
+                }
+            }
+
             val baseUrl = fetchUrl.trimEnd('/')
             val results = coroutineScope {
                 awaitAll(async {
-                    fetchRemoteFile("$baseUrl/${Uri.encode(remoteImageName)}", localImageName, externalFiles)
+                    fetchRemoteFile("$baseUrl/${Uri.encode(remoteImageName)}", localImageName, externalFiles,
+                        onTotalKnown = { total.addAndGet(it); report(true) },
+                        onBytes = { downloaded.addAndGet(it); report(false) })
                 }, async {
-                    fetchRemoteFile("$baseUrl/${Uri.encode(remoteChangesName)}", localChangesName, externalFiles)
+                    fetchRemoteFile("$baseUrl/${Uri.encode(remoteChangesName)}", localChangesName, externalFiles,
+                        onTotalKnown = { total.addAndGet(it); report(true) },
+                        onBytes = { downloaded.addAndGet(it); report(false) })
                 })
             }
+            report(true)
 
             return Pair(results.all { it }, localImageName)
         }
@@ -209,18 +241,36 @@ class Utils {
                 filenameBase + " (${version + 1}).image"
         }
 
-        private fun fetchRemoteFile(urlString: String, filename: String, externalFiles: File): Boolean {
+        private fun fetchRemoteFile(
+            urlString: String,
+            filename: String,
+            externalFiles: File,
+            onTotalKnown: (Long) -> Unit = {},
+            onBytes: (Long) -> Unit = {}
+        ): Boolean {
             AppLog.info("Fetching $urlString -> $filename")
             var success = false;
             val url = URL(urlString)
             val connection = url.openConnection() as HttpURLConnection
             try {
+                val contentLength = connection.contentLengthLong
+                if (contentLength > 0) onTotalKnown(contentLength)
+
                 val inStream = BufferedInputStream(connection.inputStream)
                 val externalFile = File(externalFiles, filename)
                 val outStream = FileOutputStream(externalFile)
-                val bytes = inStream.use {
-                    outStream.use {
-                        inStream.copyTo(outStream)
+                var bytes = 0L
+                // Not copyTo(), so download progress can be reported.
+                inStream.use { input ->
+                    outStream.use { output ->
+                        val buffer = ByteArray(64 * 1024)
+                        while (true) {
+                            val read = input.read(buffer)
+                            if (read < 0) break
+                            output.write(buffer, 0, read)
+                            bytes += read
+                            onBytes(read.toLong())
+                        }
                     }
                 }
                 AppLog.info("Fetched $filename (${bytes / 1024} KiB)")
