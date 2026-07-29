@@ -6,11 +6,13 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
-	(aMorph shouldBeInMorphPanel and: [aMorph isInMorphPanel not]) ifTrue: [ | transform |
+	(SRIsAddingMorphsToWorldVariable value
+		and: [aMorph shouldBeInMorphPanel]
+		and: [aMorph isInMorphPanel not]) ifTrue: [ | transform |
 		"place the panel in front of the user"
 		transform := self currentXRWorld camera globalTransform
 			* (Matrix4x4 withOffset: Vector3 forward * 1.25).
