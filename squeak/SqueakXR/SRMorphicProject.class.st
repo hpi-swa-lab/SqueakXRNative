@@ -59,6 +59,20 @@ SRMorphicProject >> signalStart [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'jl 7/28/2026 16:19'
+}
+SRMorphicProject >> subProjects [
+	
+	
+	
+	"#TODO find the real issue. "
+	"world ifNil: [^ Array new]."
+	
+	^ super subProjects
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 2/19/2026 12:56'
 }
 SRMorphicProject >> waitForStart [

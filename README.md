@@ -48,12 +48,34 @@ Metacello new
 3. Connect your headset and select it.
 4. Run the app.
 
+##### Command line (Linux)
+
+Requires JDK 17 or 21 (newer JDKs fail with a `jlink` / `JdkImageTransform` error) and an Android SDK with the NDK and CMake installed. Point Gradle at the SDK via `android/local.properties` (`sdk.dir=/path/to/Android/Sdk`). Then, from `android/`:
+
+```
+./gradlew assembleDebug   # build only (no device/adb needed; safe for CI)
+./gradlew installDebug    # build and deploy to a connected headset
+```
+
+The build only targets `arm64-v8a` (the Quest ABI). Building never touches `adb`; only `installDebug` does, via `run-setup.sh` (`adb reverse tcp:8080 tcp:8080`), which needs a single device connected and `adb` on `PATH`.
+
+###### WSL
+
+On WSL the headset is attached to Windows over USB, so the Linux `adb` cannot see it, and Gradle's own `installDebug` (which uses the Linux `adb`) will not deploy. Use the Windows `adb.exe` instead. With `adb.exe` on `PATH`, run:
+
+```
+./install-wsl.sh    # build and install
+./run-setup.sh      # set up the runtime port forward (adb reverse), when needed
+```
+
+`install-wsl.sh` only builds and installs. The port forward is a separate, runtime concern handled by `run-setup.sh`, which auto-detects WSL and uses `adb.exe`.
+
 #### Launch SqueakXR
 
 1. Launch the SqueakXR app on the headset.
-2. If no image is available, load one in the 'Manage Images' menu. By default, you can serve images over http from a connected device on port 8080. Make sure that the endpoint is visible on the headset; you may have to reverse forward the port with `adb reverse tcp:8080 tcp:8080`. Also see 'Automatically fetching images' below.
+2. If no image is available, load one in the 'Manage Images' menu; 'Select...' lists the images the server offers, newest first. By default, you can serve images over http from a connected device on port 8080. Make sure that the endpoint is visible on the headset; you may have to reverse forward the port with `adb reverse tcp:8080 tcp:8080`. Also see 'Automatically fetching images' below.
 3. Select the image in the main screen.
-4. Click the 'Reset images' button. You only have to do this once after installing the app.
+4. Click the 'Reset image' button. You only have to do this once after installing the app.
 5. Hit launch.
 
 ##### Automatically fetching images
@@ -175,6 +197,7 @@ If you do not want to fetch an image on launch, disable the 'Fetch image from re
 
 If you do want to fetch an image on launch, ensure that the endpoint is visible on the device.
 You may have to reverse forward the port by running e.g. `adb reverse tcp:8080 tcp:8080` for port 8080.
+The log pane on the launch screen shows the underlying error.
 
 ### The app will not launch from Android Studio at all
 
@@ -188,7 +211,7 @@ Also make sure that adb is in your PATH.
 
 Take a look at the logcat output.
 
-If it cannot find `SqueakV60.sources`, you need to click the 'Reset images' button once in the launch screen.
+If it cannot find `SqueakV60.sources`, you need to click the 'Reset image' button once in the launch screen.
 
 If it does not say 'Starting new XR world', make sure that there is no SRWorld running in the image you are trying to launch (`SRWorld allInstancesDo: #stop`).
 

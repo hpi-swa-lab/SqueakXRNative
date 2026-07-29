@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.swalab.squeakxrnative.databinding.ActivityMainBinding
@@ -20,12 +21,18 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fetchProgress: FetchProgress
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        fetchProgress = FetchProgress(binding.fetchProgress, binding.fetchProgressText)
+
+        AppLog.info(
+            "Launcher started, ${Utils.getImageFiles(this).size} image(s) in ${getExternalFilesDir(null)}"
+        )
 
         binding.button.setOnClickListener {
             launchXrCoroutine()
@@ -36,22 +43,51 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
-        updateImageInfo()
+        binding.buttonClearLog.setOnClickListener {
+            AppLog.clear()
+        }
 
         binding.buttonResetImage.setOnClickListener {
             for (filename in squeakImageFiles.values) {
-                val inStream = assets.open(filename, AssetManager.ACCESS_BUFFER)
-                val externalFile = File(getExternalFilesDir(null)!!, filename)
-                println("Copying $filename to ${externalFile.absolutePath}")
-                val outStream = FileOutputStream(externalFile)
-                inStream.copyTo(outStream)
-                inStream.close()
-                outStream.close()
+                try {
+                    val inStream = assets.open(filename, AssetManager.ACCESS_BUFFER)
+                    val externalFile = File(getExternalFilesDir(null)!!, filename)
+                    AppLog.info("Copying $filename to ${externalFile.absolutePath}")
+                    val outStream = FileOutputStream(externalFile)
+                    inStream.copyTo(outStream)
+                    inStream.close()
+                    outStream.close()
+                } catch (e: Exception) {
+                    AppLog.error("Copying $filename failed: $e")
+                }
             }
+            updateImageInfo()
         }
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("launch_into_xr", false)) {
+            AppLog.info("launch_into_xr is set, launching immediately")
             launchXrCoroutine()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateImageInfo()
+
+        AppLog.setListener { showLog() }
+        showLog()
+    }
+
+    override fun onPause() {
+        AppLog.setListener(null)
+        super.onPause()
+    }
+
+    private fun showLog() {
+        binding.textLog.text = AppLog.contents()
+        binding.logScroll.post {
+            binding.logScroll.fullScroll(View.FOCUS_DOWN)
         }
     }
 
@@ -65,25 +101,33 @@ class MainActivity : AppCompatActivity() {
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val fetchImageOnLaunch = preferences.getBoolean("fetch_image_on_launch", false)
+        val fetchUrl = preferences.getString(Utils.PREF_FETCH_URL, Utils.DEFAULT_FETCH_URL)!!
         var selectedImage: String
 
 
         selectedImage = preferences.getString("selected_image", "")!!
         if (selectedImage.isEmpty()) {
-            System.err.println(getString(R.string.no_image_selected))
+            AppLog.error(getString(R.string.no_image_selected) + " - pick one under Images, or fetch one via Manage Images")
             Toast.makeText(this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show()
             setButtonEnabled(true)
             return
         }
+        AppLog.info("Selected image: $selectedImage")
 
+        val handler = Handler(Looper.getMainLooper())
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
+        if (fetchImageOnLaunch) fetchProgress.show(true)
         GlobalScope.launch {
             var setupSuccessful = true
             if (fetchImageOnLaunch) {
-                val fetchResult = Utils.fetchImageFromRemote("http://localhost:8080", selectedImage, true, getExternalFilesDir(null)!!)
+                val fetchResult = Utils.fetchImageFromRemote(
+                    fetchUrl, selectedImage, true, getExternalFilesDir(null)!!
+                ) { downloaded, total ->
+                    handler.post { fetchProgress.update(downloaded, total) }
+                }
                 if (!fetchResult.first) {
                     setupSuccessful = false
-                    System.err.println(getString(R.string.fetching_images_failed))
+                    AppLog.error(getString(R.string.fetching_images_failed))
                     fetchImagesFailedToast.show()
                 }
             }
@@ -92,7 +136,8 @@ class MainActivity : AppCompatActivity() {
                 delay(1000)
                 startXr(selectedImage)
             } else {
-                Handler(Looper.getMainLooper()).post {
+                handler.post {
+                    fetchProgress.show(false)
                     setButtonEnabled(true)
                 }
             }
@@ -100,7 +145,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startXr(imageFileName: String) {
-        storeImagePath(getExternalFilesDir(null)!!.absolutePath + "/" + imageFileName)
+        val imagePath = getExternalFilesDir(null)!!.absolutePath + "/" + imageFileName
+        AppLog.info("Starting XR with $imagePath")
+        storeImagePath(imagePath)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         storeStartScript(preferences.getString("start_script", "")!!)
 

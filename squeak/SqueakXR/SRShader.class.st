@@ -230,7 +230,7 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 16:20'
+	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:42'
 }
 SRShader class >> sourceFor: shader version: version [
 	
@@ -240,7 +240,7 @@ SRShader class >> sourceFor: shader version: version [
 			versioned := sources at: version
 				ifAbsent: [self error: 'Shader source is missing for ', version].
 			versioned, (sources at: #uniforms
-				ifPresent: [{#uniforms -> (sources at: #uniforms) }]
+				ifPresent: [:uniforms | {#uniforms -> uniforms}]
 				ifAbsent: [#()])]
 		ifAbsent: [nil]
 ]
@@ -449,14 +449,14 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:59'
+	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:44'
 }
 SRShader >> load [
 
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |
-		uniform -> Raylib getShaderLocationShader: internalShader uniformName: uniform]
+		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)]
 ]
 
 {

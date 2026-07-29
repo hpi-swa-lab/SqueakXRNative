@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -66,7 +67,7 @@ class ManageImagesActivity : AppCompatActivity() {
 
             holder.imageNameView.text = image.fileName
             holder.removeButton.setOnClickListener {
-                println("removing $position ${image.fileName}")
+                AppLog.info("Removing ${image.fileName} (and ${image.changesFile()})")
                 File(externalFiles.absolutePath + "/" + image.fileName).delete()
                 File(externalFiles.absolutePath + "/" + image.changesFile()).delete()
                 images.removeAt(position)
@@ -79,6 +80,8 @@ class ManageImagesActivity : AppCompatActivity() {
     lateinit var fetchUrl: EditText
     lateinit var fetchName: EditText
     lateinit var fetchButton: Button
+    lateinit var selectButton: Button
+    lateinit var fetchProgress: FetchProgress
     lateinit var imageFiles: MutableList<ImageInfo>
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -101,29 +104,94 @@ class ManageImagesActivity : AppCompatActivity() {
         recyclerView.adapter = ImageInfoAdapter(imageFiles, getExternalFilesDir(null)!!)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        findViewById<Button>(R.id.backButton).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         fetchUrl = findViewById(R.id.fetchUrl)
         fetchName = findViewById(R.id.fetchName)
         fetchButton = findViewById(R.id.fetchButton)
+        selectButton = findViewById(R.id.selectButton)
+        fetchProgress = FetchProgress(findViewById(R.id.fetchProgress), findViewById(R.id.fetchProgressText))
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        fetchUrl.setText(preferences.getString(Utils.PREF_FETCH_URL, Utils.DEFAULT_FETCH_URL))
+
+        val selectedImage = preferences.getString("selected_image", "")!!
+        if (selectedImage.isNotEmpty()) {
+            fetchName.setText(selectedImage)
+        }
+
+        selectButton.setOnClickListener {
+            selectButton.isEnabled = false
+            selectButton.isClickable = false
+            val url = fetchUrl.text.toString().trim()
+            GlobalScope.launch {
+                val images = Utils.listRemoteImages(url)
+                Handler(Looper.getMainLooper()).post {
+                    selectButton.isEnabled = true
+                    selectButton.isClickable = true
+                    showRemoteImagePicker(images)
+                }
+            }
+        }
 
         fetchButton.setOnClickListener {
             fetchButton.isEnabled = false
             fetchButton.isClickable = false
+            fetchProgress.show(true)
+            val handler = Handler(Looper.getMainLooper())
             val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
             GlobalScope.launch {
-                val (success, fetchedImageName) = Utils.fetchImageFromRemote(fetchUrl.text.toString(), fetchName.text.toString(), false, getExternalFilesDir(null)!!)
+                val (success, fetchedImageName) = Utils.fetchImageFromRemote(
+                    fetchUrl.text.toString(), fetchName.text.toString(), false, getExternalFilesDir(null)!!
+                ) { downloaded, total ->
+                    handler.post { fetchProgress.update(downloaded, total) }
+                }
                 if (success) {
+                    AppLog.info("Fetch complete: $fetchedImageName")
                     imageFiles.add(ImageInfo(fetchedImageName))
                 } else {
+                    AppLog.error(getString(R.string.fetching_images_failed))
                     fetchImagesFailedToast.show()
                 }
-                Handler(Looper.getMainLooper()).post {
+                handler.post {
                     if (success) {
-                        recyclerView.adapter?.notifyItemChanged(imageFiles.size - 1)
+                        recyclerView.adapter?.notifyItemInserted(imageFiles.size - 1)
+                        Toast.makeText(
+                            this@ManageImagesActivity,
+                            getString(R.string.fetch_complete, fetchedImageName),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
+                    fetchProgress.show(false)
                     fetchButton.isEnabled = true
                     fetchButton.isClickable = true
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+            .putString(Utils.PREF_FETCH_URL, fetchUrl.text.toString().trim())
+            .apply()
+        super.onPause()
+    }
+
+    private fun showRemoteImagePicker(images: List<RemoteImage>) {
+        if (images.isEmpty()) {
+            Toast.makeText(this, getString(R.string.no_remote_images_found), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val labels = images.map { it.label() }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_remote_image))
+            .setItems(labels) { _, which ->
+                AppLog.info("Selected ${images[which].name} from server")
+                fetchName.setText(images[which].name)
+            }
+            .show()
     }
 }
