@@ -6,7 +6,8 @@ Class {
 		'texture',
 		'extent',
 		'update',
-		'updateRects'
+		'updateRects',
+		'canvas'
 	],
 	#category : #'SqueakXR-Morphic'
 }
@@ -32,6 +33,23 @@ SRMorphTexture >> createTexture [
 	^ texture := form createTexture
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/29/2026 14:53'
+}
+SRMorphTexture >> drawMorphIntoForm: rect [
+
+	"Adapated from Morph>>#imageForm:forRectangle:
+	This implementation only allocates a new form when the morph's size changes."
+	
+	extent := self morph extent.
+	self morph extent = canvas extent
+		ifFalse: [canvas setForm: (Form extent: extent depth: canvas depth)].
+	canvas translateBy: rect topLeft negated
+		during:[:tempCanvas| tempCanvas fullDrawMorph: self morph].
+	^ canvas form offset: rect topLeft
+]
+
 { #category : #'as yet unclassified' }
 SRMorphTexture >> extent [
 
@@ -55,11 +73,12 @@ SRMorphTexture >> fullUpdate [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 2/23/2026 11:39'
+	#'squeak_changestamp' : 'lege 7/29/2026 14:41'
 }
 SRMorphTexture >> initialize [
 
 	updateRects := OrderedCollection new.
+	canvas := Display defaultCanvasClass extent: 100 @ 100 depth: Display depth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -142,7 +161,7 @@ SRMorphTexture >> update: aSymbol with: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/16/2026 17:29'
+	#'squeak_changestamp' : 'lege 7/29/2026 14:27'
 }
 SRMorphTexture >> updateTexture [
 
@@ -154,7 +173,7 @@ SRMorphTexture >> updateTexture [
 		[#full] -> [self morph bounds].
 		[#partial] -> [Rectangle merging: updateRects]}.
 	
-	(self morph imageFormForRectangle: updateRect)
+	(self drawMorphIntoForm: updateRect)
 		updateTexture: texture
 		in: (updateRect relativeTo: self morph bounds).
 	
