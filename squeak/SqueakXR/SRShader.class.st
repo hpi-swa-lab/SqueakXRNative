@@ -132,7 +132,7 @@ SRShader class >> hasCachedShader: aName [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:45'
+	#'squeak_changestamp' : 'lege 7/29/2026 16:41'
 }
 SRShader class >> morphicPanelSource [
 
@@ -151,7 +151,7 @@ layout(location = 0) out vec4 finalColor;
 void main()
 {
       vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-      finalColor = texelColor.gbar;
+      finalColor = texelColor.bgra;
 }'
 } as: Dictionary
 ]

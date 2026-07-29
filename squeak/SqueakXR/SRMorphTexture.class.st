@@ -73,7 +73,7 @@ SRMorphTexture >> fullUpdate [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/29/2026 14:41'
+	#'squeak_changestamp' : 'lege 7/29/2026 16:54'
 }
 SRMorphTexture >> initialize [
 
@@ -161,7 +161,7 @@ SRMorphTexture >> update: aSymbol with: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/29/2026 14:27'
+	#'squeak_changestamp' : 'lege 7/29/2026 16:54'
 }
 SRMorphTexture >> updateTexture [
 
