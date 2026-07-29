@@ -6,19 +6,24 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:57'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
+	| camera |
 	(SRIsAddingMorphsToWorldVariable value
 		and: [aMorph shouldBeInMorphPanel]
 		and: [aMorph isInMorphPanel not]) ifTrue: [ | transform |
 		"place the panel in front of the user"
-		transform := self currentXRWorld camera globalTransform
-			* (Matrix4x4 withOffset: Vector3 forward * 1.25).
-		self currentXRWorld addChild: (SRMorphPanel new
-			morph: aMorph;
-			transform: transform)].
+		camera := self currentXRWorld camera.
+		transform := Matrix4x4
+			objectLookAt: camera globalTranslation
+			from: camera globalTranslation + (camera forward * 1.25)
+			up: Vector3 up.
+		self currentXRWorld addChild: (
+			SRMorphPanel new
+				morph: aMorph;
+				globalTransform: transform)].
 ]
 
 {
