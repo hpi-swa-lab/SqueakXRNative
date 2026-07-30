@@ -21,7 +21,7 @@ Class {
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:25'
 }
 SRMenu class >> buildRegistry [
 	"Scan the image for <xrMenu: #(path) label: 'x' priority: n> on class side methods.
@@ -38,7 +38,7 @@ SRMenu class >> buildRegistry [
 						p arguments size >= 3 ifTrue: [p argumentAt: 3] ifFalse: [500].
 						p methodClass theNonMetaClass.
 						p selector}]]]].
-	^ Registry := found asArray sort: [:a :b |
+	^ found asArray sort: [:a :b |
 		(self pathString: a first) = (self pathString: b first)
 			ifTrue: [a third = b third
 				ifTrue: [a second asString <= b second asString]
@@ -98,10 +98,18 @@ SRMenu class >> pathString: aPath [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:29'
 }
 SRMenu class >> registry [
-	^ Registry ifNil: [self buildRegistry]
+	^ Registry ifNil: [self updateRegistry]
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:27'
+}
+SRMenu class >> updateRegistry [
+	^ Registry := self buildRegistry
 ]
 
 {
