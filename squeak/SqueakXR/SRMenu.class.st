@@ -106,15 +106,12 @@ SRMenu class >> registry [
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:53'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
 	| menu |
 	menu := self new.
-	menu
-		addItem: 'Scene Tree'
-		action: (MessageSend receiver: menu selector: #openSceneTreeInspector).
 	aWorld debugHUD ifNotNil: [
 		menu
 			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
@@ -257,15 +254,6 @@ SRMenu >> labelFor: entry under: aPrefix target: anObjectOrNil [
 SRMenu >> openBrowser [
 
 	Browser open
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:00'
-}
-SRMenu >> openSceneTreeInspector [
-
-	SRSceneTreeInspector openOn: self world
 ]
 
 {
