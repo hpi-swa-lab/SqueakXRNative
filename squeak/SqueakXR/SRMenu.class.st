@@ -359,55 +359,6 @@ SRMenu >> setTransformAt: aPosition facingViewer: aViewerPosition [
 ]
 
 {
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 17:51'
-}
-SRMenu >> spawnCube: aVector3 [
-
-	self world addChild: (
-		SRCube new
-			position: aVector3;
-			scale: 30cm asVector3)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:02'
-}
-SRMenu >> spawnFrameTimeGraph: aVector3 [
-
-	self world addChild: (
-		SRFrameTimeGraph new
-			position: aVector3;
-			yourself)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 17:54'
-}
-SRMenu >> spawnSWACube: aVector3 [
-
-	self world addChild: (
-		SWAGameCube new
-			position: aVector3;
-			scale: 10cm asVector3;
-			color: Color green)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:00'
-}
-SRMenu >> spawnSWAGame: aVector3 [
-
-	| game |
-	game := SWAGameXR new position: aVector3.
-	self world addChild: game.
-	game generateWorld.
-]
-
-{
 	#category : #stepping,
 	#'squeak_changestamp' : 'lege 7/3/2026 18:08'
 }

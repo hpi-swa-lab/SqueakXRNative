@@ -17,6 +17,15 @@ SRSceneTreeInspector class >> openOn: aSRObject [
 		build
 ]
 
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:13'
+}
+SRSceneTreeInspector class >> srMenuOpenOnTarget: aContext [
+	<srMenu: #(object) label: 'Scene Tree' priority: 200>
+	^ self openOn: (aContext at: #target)
+]
+
 { #category : #toolbuilder }
 SRSceneTreeInspector >> build [
 
