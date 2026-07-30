@@ -12,39 +12,9 @@ Class {
 		'slabSize',
 		'needsRebuild'
 	],
-	#classVars : [
-		'Registry'
-	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
-
-{
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:25'
-}
-SRMenu class >> buildRegistry [
-	"Scan the image for <xrMenu: #(path) label: 'x' priority: n> on class side methods.
-	Call this at world start, or again after loading new code."
-	| found |
-	found := OrderedCollection new.
-	Smalltalk allClassesDo: [:aClass |
-		aClass class methodsDo: [:method |
-			method pragmasDo: [:p |
-				(#(#xrMenu:label: #xrMenu:label:priority:) includes: p keyword) ifTrue: [
-					found add: {
-						(p argumentAt: 1) asArray.
-						p argumentAt: 2.
-						p arguments size >= 3 ifTrue: [p argumentAt: 3] ifFalse: [500].
-						p methodClass theNonMetaClass.
-						p selector}]]]].
-	^ found asArray sort: [:a :b |
-		(self pathString: a first) = (self pathString: b first)
-			ifTrue: [a third = b third
-				ifTrue: [a second asString <= b second asString]
-				ifFalse: [a third < b third]]
-			ifFalse: [(self pathString: a first) <= (self pathString: b first)]]
-]
 
 {
 	#category : #'instance creation',
@@ -73,43 +43,6 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		addItemsUnder: {anObject class name asSymbol} target: anObject.
 	
 	^ menu.
-]
-
-{
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
-}
-SRMenu class >> itemsUnder: aPrefix [
-	| prefix |
-	prefix := aPrefix asArray.
-	^ self registry select: [:each |
-		prefix size <= each first size
-			and: [(each first first: prefix size) = prefix]]
-]
-
-{
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
-}
-SRMenu class >> pathString: aPath [
-	^ String streamContents: [:s |
-		aPath do: [:each | s nextPutAll: each asString] separatedBy: [s nextPut: $/]]
-]
-
-{
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:29'
-}
-SRMenu class >> registry [
-	^ Registry ifNil: [self updateRegistry]
-]
-
-{
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:27'
-}
-SRMenu class >> updateRegistry [
-	^ Registry := self buildRegistry
 ]
 
 {
@@ -164,13 +97,13 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:37'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
-	(self class itemsUnder: aPrefix) do: [:entry |
+	(SRMenuRegistry itemsUnder: aPrefix) do: [:entry |
 		self
 			addItem: (self labelFor: entry under: aPrefix target: anObjectOrNil)
-			action: [entry fourth perform: entry fifth withEnoughArguments: {self. anObjectOrNil}]]
+			action: [entry activateIn: self target: anObjectOrNil]]
 ]
 
 {
@@ -240,19 +173,14 @@ SRMenu >> isOpen [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:37'
 }
-SRMenu >> labelFor: entry under: aPrefix target: anObjectOrNil [
-	"Symbol labels are computed by the provider, for toggles. Groups are flattened
-	into a label prefix until SRMenu has real submenus."
-	| label |
-	label := entry second isSymbol
-		ifTrue: [(entry fourth perform: entry second withEnoughArguments: {self. anObjectOrNil}) asString]
-		ifFalse: [entry second asString].
+SRMenu >> labelFor: anEntry under: aPrefix target: anObjectOrNil [
+	"Groups are flattened into a label prefix until SRMenu has real submenus."
 	^ String streamContents: [:s |
-		(entry first allButFirst: aPrefix size) do: [:each |
+		(anEntry pathUnder: aPrefix) do: [:each |
 			s nextPutAll: each asString capitalized; nextPutAll: ': '].
-		s nextPutAll: label]
+		s nextPutAll: (anEntry labelIn: self target: anObjectOrNil)]
 ]
 
 {

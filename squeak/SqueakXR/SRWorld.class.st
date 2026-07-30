@@ -882,7 +882,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:27'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
 }
 SRWorld >> start [
 
@@ -895,7 +895,7 @@ SRWorld >> start [
 		self avatar ifNil: [
 				avatar := SRAvatar new.
 				self addChild: avatar].
-		SRMenu updateRegistry.
+		SRMenuRegistry updateRegistry.
 		self adjustPreferences;
 			initializeWorldProcess;
 			enterMorphicProject;
