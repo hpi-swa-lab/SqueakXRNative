@@ -47,25 +47,12 @@ SRMenu class >> buildRegistry [
 ]
 
 {
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
-}
-SRMenu class >> contextIn: aWorld at: aPosition facing: aViewerPosition target: anObjectOrNil [
-	^ Dictionary new
-		at: #world put: aWorld;
-		at: #position put: aPosition;
-		at: #viewer put: aViewerPosition;
-		at: #target put: anObjectOrNil;
-		yourself
-]
-
-{
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:38'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
-	| menu ctx |
+	| menu |
 	menu := self new.
 	
 	menu
@@ -79,13 +66,11 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		
 	anObject addCustomMenuItemsTo: menu.
 
-	ctx := self contextIn: aWorld at: aPosition facing: aViewerPosition target: anObject.
-	menu
-		addItemsUnder: #(object) context: ctx;
-		addItemsUnder: {anObject class name asSymbol} context: ctx.
-	
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
+	menu
+		addItemsUnder: #(object) target: anObject;
+		addItemsUnder: {anObject class name asSymbol} target: anObject.
 	
 	^ menu.
 ]
@@ -121,11 +106,11 @@ SRMenu class >> registry [
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
-	| menu ctx |
+	| menu |
 	menu := self new.
 	menu
 		addItem: 'Scene Tree'
@@ -155,11 +140,9 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		addItem: 'System Browser'
 		action: (MessageSend receiver: menu selector: #openBrowser).
 		
-	ctx := self contextIn: aWorld at: aPosition facing: aViewerPosition target: nil.
-	menu addItemsUnder: #(world) context: ctx.
-
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
+	menu addItemsUnder: #(world) target: nil.
 	
 	^ menu.
 ]
@@ -176,13 +159,13 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
 }
-SRMenu >> addItemsUnder: aPrefix context: aContext [
+SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	(self class itemsUnder: aPrefix) do: [:entry |
 		self
-			addItem: (self labelFor: entry under: aPrefix context: aContext)
-			action: [entry fourth perform: entry fifth withEnoughArguments: {aContext}]]
+			addItem: (self labelFor: entry under: aPrefix target: anObjectOrNil)
+			action: [entry fourth perform: entry fifth withEnoughArguments: {self. anObjectOrNil}]]
 ]
 
 {
@@ -252,14 +235,14 @@ SRMenu >> isOpen [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:38'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
 }
-SRMenu >> labelFor: entry under: aPrefix context: aContext [
+SRMenu >> labelFor: entry under: aPrefix target: anObjectOrNil [
 	"Symbol labels are computed by the provider, for toggles. Groups are flattened
 	into a label prefix until SRMenu has real submenus."
 	| label |
 	label := entry second isSymbol
-		ifTrue: [(entry fourth perform: entry second withEnoughArguments: {aContext}) asString]
+		ifTrue: [(entry fourth perform: entry second withEnoughArguments: {self. anObjectOrNil}) asString]
 		ifFalse: [entry second asString].
 	^ String streamContents: [:s |
 		(entry first allButFirst: aPrefix size) do: [:each |

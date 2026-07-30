@@ -9,16 +9,16 @@ Class {
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:45'
 }
-SRCube class >> srMenuSpawn: aContext [
+SRCube class >> srMenuSpawn: aMenu [
 	<srMenu: #(world) label: 'Spawn Cube' priority: 110>
 	| cube |
 	cube := self new
-		position: (aContext at: #position);
+		position: aMenu position;
 		scale: 30cm asVector3;
 		yourself.
-	(aContext at: #world) addChild: cube.
+	aMenu world addChild: cube.
 	^ cube
 ]
 
