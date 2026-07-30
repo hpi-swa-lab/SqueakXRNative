@@ -18,11 +18,11 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:25'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 13:39'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
-	| menu |
+	| menu ctx |
 	menu := self new.
 	
 	menu
@@ -34,7 +34,23 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		action: (MessageSend receiver: menu selector: #remove: argument: anObject);
 		yourself.
 		
+	"Instance-state items stay with the object itself..."
 	anObject addCustomMenuItemsTo: menu.
+
+	"...while tools register declaratively. #(object) is every object's menu; a path
+	rooted at a class name, e.g. #(SWAGameXR tools), is that class's menu only."
+	SRMenuRegistry current
+		addItemsUnder: #(object)
+		to: menu
+		context: (ctx := (SRMenuContext
+			world: aWorld
+			position: aPosition
+			viewer: aViewerPosition
+			target: anObject) menu: menu; yourself).
+	SRMenuRegistry current
+		addItemsUnder: {anObject class name asSymbol}
+		to: menu
+		context: ctx.
 	
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
@@ -44,11 +60,11 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/20/2026 17:56'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 13:39'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
-	| menu |
+	| menu ctx |
 	menu := self new.
 	menu
 		addItem: 'Spawn Cube'
@@ -91,6 +107,14 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		addItem: 'System Browser'
 		action: (MessageSend receiver: menu selector: #openBrowser).
 		
+	"Anything in the image that declares <srMenu: #(world ...) label: ...> shows up here."
+	ctx := (SRMenuContext
+		world: aWorld
+		position: aPosition
+		viewer: aViewerPosition
+		target: nil) menu: menu; yourself.
+	SRMenuRegistry current addItemsUnder: #(world) to: menu context: ctx.
+
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
 	
