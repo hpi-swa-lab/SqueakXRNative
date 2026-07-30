@@ -12,13 +12,56 @@ Class {
 		'slabSize',
 		'needsRebuild'
 	],
+	#classVars : [
+		'Registry'
+	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu class >> buildRegistry [
+	"Scan the image for <srMenu: #(path) label: 'x' priority: n> on class side methods.
+	Call this at world start, or again after loading new code."
+	| found |
+	found := OrderedCollection new.
+	Smalltalk allClassesDo: [:aClass |
+		aClass class methodsDo: [:method |
+			method pragmasDo: [:p |
+				(#(#srMenu:label: #srMenu:label:priority:) includes: p keyword) ifTrue: [
+					found add: {
+						(p argumentAt: 1) asArray.
+						p argumentAt: 2.
+						p arguments size >= 3 ifTrue: [p argumentAt: 3] ifFalse: [500].
+						p methodClass theNonMetaClass.
+						p selector}]]]].
+	^ Registry := found asArray sort: [:a :b |
+		(self pathString: a first) = (self pathString: b first)
+			ifTrue: [a third = b third
+				ifTrue: [a second asString <= b second asString]
+				ifFalse: [a third < b third]]
+			ifFalse: [(self pathString: a first) <= (self pathString: b first)]]
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu class >> contextIn: aWorld at: aPosition facing: aViewerPosition target: anObjectOrNil [
+	^ Dictionary new
+		at: #world put: aWorld;
+		at: #position put: aPosition;
+		at: #viewer put: aViewerPosition;
+		at: #target put: anObjectOrNil;
+		yourself
+]
+
+{
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 13:39'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:38'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -34,23 +77,12 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		action: (MessageSend receiver: menu selector: #remove: argument: anObject);
 		yourself.
 		
-	"Instance-state items stay with the object itself..."
 	anObject addCustomMenuItemsTo: menu.
 
-	"...while tools register declaratively. #(object) is every object's menu; a path
-	rooted at a class name, e.g. #(SWAGameXR tools), is that class's menu only."
-	SRMenuRegistry current
-		addItemsUnder: #(object)
-		to: menu
-		context: (ctx := (SRMenuContext
-			world: aWorld
-			position: aPosition
-			viewer: aViewerPosition
-			target: anObject) menu: menu; yourself).
-	SRMenuRegistry current
-		addItemsUnder: {anObject class name asSymbol}
-		to: menu
-		context: ctx.
+	ctx := self contextIn: aWorld at: aPosition facing: aViewerPosition target: anObject.
+	menu
+		addItemsUnder: #(object) context: ctx;
+		addItemsUnder: {anObject class name asSymbol} context: ctx.
 	
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
@@ -59,29 +91,45 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 ]
 
 {
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu class >> itemsUnder: aPrefix [
+	| prefix |
+	prefix := aPrefix asArray.
+	^ self registry select: [:each |
+		prefix size <= each first size
+			and: [(each first first: prefix size) = prefix]]
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu class >> pathString: aPath [
+	^ String streamContents: [:s |
+		aPath do: [:each | s nextPutAll: each asString] separatedBy: [s nextPut: $/]]
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu class >> registry [
+	^ Registry ifNil: [self buildRegistry]
+]
+
+{
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 13:39'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:49'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
 	| menu ctx |
 	menu := self new.
 	menu
-		addItem: 'Spawn Cube'
-		action: (MessageSend receiver: menu selector: #spawnCube: argument: aPosition).
-	(Smalltalk hasClassNamed: #SWAGameCube) ifTrue: [
-		menu
-			addItem: 'Spawn SWACube'
-			action: (MessageSend receiver: menu selector: #spawnSWACube: argument: aPosition)].
-	(Smalltalk hasClassNamed: #SWAGameXR) ifTrue: [
-		menu
-			addItem: 'Spawn SWAGame'
-			action: (MessageSend receiver: menu selector: #spawnSWAGame: argument: aPosition)].
-	menu
 		addItem: 'Scene Tree'
-		action: (MessageSend receiver: menu selector: #openSceneTreeInspector);
-		addItem: 'Frame Time Graph'
-		action: (MessageSend receiver: menu selector: #spawnFrameTimeGraph: argument: aPosition).
+		action: (MessageSend receiver: menu selector: #openSceneTreeInspector).
 	aWorld debugHUD ifNotNil: [
 		menu
 			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
@@ -107,13 +155,8 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		addItem: 'System Browser'
 		action: (MessageSend receiver: menu selector: #openBrowser).
 		
-	"Anything in the image that declares <srMenu: #(world ...) label: ...> shows up here."
-	ctx := (SRMenuContext
-		world: aWorld
-		position: aPosition
-		viewer: aViewerPosition
-		target: nil) menu: menu; yourself.
-	SRMenuRegistry current addItemsUnder: #(world) to: menu context: ctx.
+	ctx := self contextIn: aWorld at: aPosition facing: aViewerPosition target: nil.
+	menu addItemsUnder: #(world) context: ctx.
 
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
@@ -129,6 +172,17 @@ SRMenu >> addItem: aString action: aBlock [
 
 	items add: (Association key: aString value: aBlock).
 	needsRebuild := true.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+}
+SRMenu >> addItemsUnder: aPrefix context: aContext [
+	(self class itemsUnder: aPrefix) do: [:entry |
+		self
+			addItem: (self labelFor: entry under: aPrefix context: aContext)
+			action: [entry fourth perform: entry fifth withEnoughArguments: {aContext}]]
 ]
 
 {
@@ -194,6 +248,23 @@ SRMenu >> isMenu [
 SRMenu >> isOpen [
 
 	^ self parent notNil
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:38'
+}
+SRMenu >> labelFor: entry under: aPrefix context: aContext [
+	"Symbol labels are computed by the provider, for toggles. Groups are flattened
+	into a label prefix until SRMenu has real submenus."
+	| label |
+	label := entry second isSymbol
+		ifTrue: [(entry fourth perform: entry second withEnoughArguments: {aContext}) asString]
+		ifFalse: [entry second asString].
+	^ String streamContents: [:s |
+		(entry first allButFirst: aPrefix size) do: [:each |
+			s nextPutAll: each asString capitalized; nextPutAll: ': '].
+		s nextPutAll: label]
 ]
 
 {
