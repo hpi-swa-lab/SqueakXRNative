@@ -19,19 +19,19 @@ SRSceneTreeInspector class >> openOn: aSRObject [
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:45'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
 }
-SRSceneTreeInspector class >> srMenuOpenOn: aMenu target: anObject [
-	<srMenu: #(object) label: 'Scene Tree' priority: 200>
+SRSceneTreeInspector class >> xrMenuOpenOn: aMenu target: anObject [
+	<xrMenu: #(object) label: 'Scene Tree' priority: 200>
 	^ self openOn: anObject
 ]
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:53'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
 }
-SRSceneTreeInspector class >> srMenuOpenOnWorld: aMenu [
-	<srMenu: #(world) label: 'Scene Tree' priority: 140>
+SRSceneTreeInspector class >> xrMenuOpenOnWorld: aMenu [
+	<xrMenu: #(world) label: 'Scene Tree' priority: 140>
 	^ self openOn: aMenu world
 ]
 

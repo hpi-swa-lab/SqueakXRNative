@@ -9,10 +9,10 @@ Class {
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:45'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
 }
-SRCube class >> srMenuSpawn: aMenu [
-	<srMenu: #(world) label: 'Spawn Cube' priority: 110>
+SRCube class >> xrMenuSpawn: aMenu [
+	<xrMenu: #(world) label: 'Spawn Cube' priority: 110>
 	| cube |
 	cube := self new
 		position: aMenu position;

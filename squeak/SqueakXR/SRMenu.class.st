@@ -21,17 +21,17 @@ Class {
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
 }
 SRMenu class >> buildRegistry [
-	"Scan the image for <srMenu: #(path) label: 'x' priority: n> on class side methods.
+	"Scan the image for <xrMenu: #(path) label: 'x' priority: n> on class side methods.
 	Call this at world start, or again after loading new code."
 	| found |
 	found := OrderedCollection new.
 	Smalltalk allClassesDo: [:aClass |
 		aClass class methodsDo: [:method |
 			method pragmasDo: [:p |
-				(#(#srMenu:label: #srMenu:label:priority:) includes: p keyword) ifTrue: [
+				(#(#xrMenu:label: #xrMenu:label:priority:) includes: p keyword) ifTrue: [
 					found add: {
 						(p argumentAt: 1) asArray.
 						p argumentAt: 2.
