@@ -1,6 +1,28 @@
 Extension { #name : #Morph }
 
 {
+	#category : #'*SqueakXR-dropping/grabbing-override',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 13:41'
+}
+Morph >> aboutToBeGrabbedBy: aHand [
+	"The receiver is being grabbed by a hand.
+	Perform necessary adjustments (if any) and return the actual morph
+	that should be added to the hand."
+	| extentToHandToHand cmd |
+	(self world ifNil: [true] ifNotNil: [:w | w allowsMorphGrabbing])
+		ifFalse: [^nil].
+	self formerOwner: owner.
+	self formerPosition: self position.
+	cmd := self undoGrabCommand.
+	cmd ifNotNil:[self setProperty: #undoGrabCommand toValue: cmd].
+	(extentToHandToHand := self valueOfProperty: #expandedExtent)
+			ifNotNil:
+				[self removeProperty: #expandedExtent.
+				self extent: extentToHandToHand].
+	^self "Grab me"
+]
+
+{
 	#category : #'*SqueakXR-morphic',
 	#'squeak_changestamp' : 'lege 2/17/2026 18:45'
 }
