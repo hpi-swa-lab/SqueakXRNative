@@ -208,6 +208,28 @@ void main()
 ]
 
 {
+	#category : #'app shaders',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
+}
+SRShader class >> reregisterAppShaders [
+	"Re-run the app-side registration protocol after resetCache, which also
+	 drops shaders registered through cache:source:. Those sources live outside
+	 this class and cannot be enumerated here. One failing app must not abort
+	 the others, so errors are reported rather than signalled."
+	(SystemNavigation default allImplementorsOf: #registerShaders)
+		select: [:methodRef | methodRef actualClass isMeta]
+		thenDo: [:methodRef |
+			| appClass |
+			appClass := methodRef actualClass theNonMetaClass.
+			[appClass registerShaders]
+				on: Error
+				do: [:e |
+					Transcript cr; show: '** ', appClass name,
+						' registerShaders failed: ', e class name, ' ',
+						e messageText printString, ' **']]
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
 }
@@ -335,7 +357,7 @@ SRShader class >> transpileAll [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:17'
 }
 SRShader class >> transpileAllUnsafe [
 
@@ -343,7 +365,8 @@ SRShader class >> transpileAllUnsafe [
 
 	UIManager default informUser: 'Transpiling all shaders...' during: [
 		(self class selectorsInCategory: #'shader sources') do: [:selector |
-			self transpileSingleSourceAtUnsafe: selector]]
+			self transpileSingleSourceAtUnsafe: selector].
+		self reregisterAppShaders]
 ]
 
 {
@@ -391,6 +414,67 @@ SRShader class >> transpileSource: sourceDict [
 	sources addAll: (sourceDict associationsSelect: [:assoc | (self stages includes: assoc key) not]).
 	
 	^ sources
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
+}
+SRShader class >> verifyCache [
+	"Check every cached shader against both render targets. Run before shipping
+	 the image to a device that cannot transpile.
+
+	 SRShader verifyCache
+	"
+	| out clean |
+	out := WriteStream on: String new.
+	clean := true.
+	#(#'300es' #'330') do: [:version |
+		| complaints |
+		complaints := self verifyCacheFor: version.
+		complaints isEmpty ifFalse: [
+			clean := false.
+			out nextPutAll: version; nextPutAll: ':'; cr.
+			complaints do: [:c | out tab; nextPutAll: c; cr]]].
+	clean ifTrue: [
+		^ 'ShaderCache OK (', ShaderCache size printString, ' shaders: ',
+			((ShaderCache keys asSortedCollection) inject: '' into: [:a :b |
+				a isEmpty ifTrue: [b] ifFalse: [a, ', ', b]]), ')'].
+	^ out contents
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
+}
+SRShader class >> verifyCacheFor: version [
+	"Answer complaints about cache entries unusable for version (#'300es' or
+	 #'330'); empty means safe to ship. An absent stage is legal, so only
+	 present stages are checked."
+	| complaints expected |
+	complaints := OrderedCollection new.
+	ShaderCache ifNil: [^ complaints add: 'ShaderCache is nil'; yourself].
+	expected := version = #'300es'
+		ifTrue: ['#version 300 es']
+		ifFalse: ['#version ', version].
+	ShaderCache keysAndValuesDo: [:name :versions |
+		| entry present |
+		entry := versions at: version ifAbsent: [nil].
+		entry
+			ifNil: [complaints add: name, ': no ', version, ' entry at all']
+			ifNotNil: [
+				present := self stages select: [:stage |
+					(entry at: stage ifAbsent: [nil]) notNil].
+				present isEmpty
+					ifTrue: [complaints add: name, ': ', version, ' entry has no stages']
+					ifFalse: [present do: [:stage |
+						| src firstLine |
+						src := entry at: stage.
+						firstLine := (src readStream upTo: Character lf) withBlanksTrimmed.
+						(firstLine beginsWith: expected) ifFalse: [
+							complaints add: name, '/', stage, ': expected ', expected printString,
+								' but found ', firstLine printString]]]]].
+	^ complaints
 ]
 
 {
