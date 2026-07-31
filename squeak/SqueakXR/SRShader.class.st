@@ -21,30 +21,7 @@ Class {
 }
 
 {
-	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 11:41'
-}
-SRShader class >> allShaderSelectors [
-
-	self class selectorsInCategory: #shaders
-]
-
-{
-	#category : #'app shaders',
-	#'squeak_changestamp' : 'lege 7/16/2026 18:11'
-}
-SRShader class >> cache: aName source: aSourceDict [
-	self deprecated.
-	"Transpile and cache a single named shader source on demand.
-	 aSourceDict is a {#vert. #frag. #uniforms} dictionary in #version 450 form."
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
-	ShaderCache ifNil: [ShaderCache := Dictionary new].
-	ShaderCache at: aName asString put: (self transpileSource: aSourceDict).
-	^ aName
-]
-
-{
-	#category : #'app shaders',
+	#category : #prerequisites,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> canTranspile [
@@ -122,7 +99,7 @@ SRShader class >> evaluateCommand: aCommandString [
 ]
 
 {
-	#category : #'app shaders',
+	#category : #shaders,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
 }
 SRShader class >> hasCachedShader: aName [
@@ -132,9 +109,10 @@ SRShader class >> hasCachedShader: aName [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 7/29/2026 16:41'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> morphicPanelSource [
+	<shaderSource: #morphicPanel>
 
 	^ {
 		#frag -> '
@@ -158,9 +136,10 @@ void main()
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 7/15/2026 12:58'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> phongSource [
+	<shaderSource: #phong>
 
 	^ {
 		#vert -> '#version 450
@@ -208,28 +187,6 @@ void main()
 ]
 
 {
-	#category : #'app shaders',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
-}
-SRShader class >> reregisterAppShaders [
-	"Re-run the app-side registration protocol after resetCache, which also
-	 drops shaders registered through cache:source:. Those sources live outside
-	 this class and cannot be enumerated here. One failing app must not abort
-	 the others, so errors are reported rather than signalled."
-	(SystemNavigation default allImplementorsOf: #registerShaders)
-		select: [:methodRef | methodRef actualClass isMeta]
-		thenDo: [:methodRef |
-			| appClass |
-			appClass := methodRef actualClass theNonMetaClass.
-			[appClass registerShaders]
-				on: Error
-				do: [:e |
-					Transcript cr; show: '** ', appClass name,
-						' registerShaders failed: ', e class name, ' ',
-						e messageText printString, ' **']]
-]
-
-{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
 }
@@ -248,6 +205,61 @@ SRShader class >> shaderFromDict: aDictionary [
 		vertexSource: (aDictionary at: #vert);
 		fragmentSource: (aDictionary at: #frag);
 		uniforms: (aDictionary at: #uniforms ifAbsent: [#()])
+]
+
+{
+	#category : #discovery,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+}
+SRShader class >> shaderNames [
+	"Answer the cache keys every shader in the system declares, as Strings
+	 (ShaderCache is keyed by String; doesNotUnderstand: looks up by Symbol,
+	 and Symbol = String holds in Squeak).
+
+		SRShader shaderNames
+	"
+	^ (self shaderSourcePragmas collect: [:p | p arguments first asString]) asArray
+]
+
+{
+	#category : #discovery,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+}
+SRShader class >> shaderSourcePragmaKeyword [
+	"Class-side methods answering a {#vert. #frag. #uniforms} source dictionary
+	 mark themselves with
+
+		<shaderSource: #myShaderName>
+
+	 The argument is the cache key, i.e. the name that resolves through
+	 SRShader class>>doesNotUnderstand:."
+	^ #shaderSource:
+]
+
+{
+	#category : #discovery,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+}
+SRShader class >> shaderSourcePragmas [
+	"Answer every <shaderSource: #name> pragma in the system, sorted by name.
+
+	 This is the whole app-shader protocol. Any package may contribute a shader
+	 by tagging a class-side method; nothing has to be registered imperatively
+	 and nothing can be forgotten, which is exactly how swagameVoxelOutline went
+	 missing under the old registerShaders scheme (2026-07-31).
+
+	 Deliberately not cached: transpileAll is rare and dominated by two external
+	 processes per shader, and a stale registry is the failure mode we are
+	 removing (cf. SRMenuRegistry needing updateRegistry)."
+	| keyword found |
+	keyword := self shaderSourcePragmaKeyword.
+	found := OrderedCollection new.
+	Smalltalk allClassesDo: [:aClass |
+		aClass class methodsDo: [:method |
+			method pragmasDo: [:pragma |
+				pragma keyword = keyword ifTrue: [found add: pragma]]]].
+	^ found asArray sort: [:a :b |
+		a arguments first asString <= b arguments first asString]
 ]
 
 {
@@ -347,50 +359,78 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 11:02'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> transpileAll [
+	"Rebuild the ShaderCache from every <shaderSource: #name> method in the
+	 system. Answer the verifyCache report, so the caller sees what shipped.
 
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
-		transpileAllUnsafe.
+		SRShader transpileAll
+	"
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	^ self transpileAllUnsafe
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:17'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> transpileAllUnsafe [
+	"Rebuild the whole cache from every <shaderSource: #name> method in the
+	 system, framework and application alike. Answer the verifyCache report.
 
+	 resetCache first is safe now precisely because discovery is complete: the
+	 old version reset the cache and rebuilt only SRShader's own #'shader sources'
+	 category, which silently deleted every app shader and could not heal on a
+	 device that cannot transpile (2026-07-31)."
+	| pragmas names |
+	pragmas := self shaderSourcePragmas.
+	names := pragmas collect: [:pragma | pragma arguments first asString].
+	names size = names asSet size ifFalse: [
+		"Two methods claiming one name means one silently overwrites the other,
+		 so refuse before spending two external processes per shader."
+		^ self error: 'Duplicate <shaderSource:> names: ',
+			(names asSet asArray select: [:name |
+				(names occurrencesOf: name) > 1]) printString].
 	self resetCache.
-
-	UIManager default informUser: 'Transpiling all shaders...' during: [
-		(self class selectorsInCategory: #'shader sources') do: [:selector |
-			self transpileSingleSourceAtUnsafe: selector].
-		self reregisterAppShaders]
+	pragmas do: [:pragma | self transpilePragma: pragma].
+	^ self verifyCache
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 11:00'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
-SRShader class >> transpileSingleSourceAt: selector [
-
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable;
-		transpileSingleSourceAtUnsafe: selector.
-]
-
-{
-	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:09'
-}
-SRShader class >> transpileSingleSourceAtUnsafe: selector [
-
+SRShader class >> transpilePragma: aPragma [
+	"Transpile the source dict answered by one <shaderSource: #name> method and
+	 store it under that name. Answer the name."
+	| name |
+	name := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].
-	
-	UIManager default informUser: 'Transpiling ', selector, '...' during: [
+	UIManager default informUser: 'Transpiling ', name, '...' during: [
 		ShaderCache
-			at: (selector allButLast: 'Source' size)
-			put: (self transpileSource: (self perform: selector))]
+			at: name
+			put: (self transpileSource:
+				(aPragma methodClass theNonMetaClass perform: aPragma selector))].
+	^ name
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+}
+SRShader class >> transpileShaderNamed: aName [
+	"Re-transpile one shader by its <shaderSource:> name, leaving the rest of
+	 the cache alone. Use after editing a single shader source.
+
+		SRShader transpileShaderNamed: #swagameVoxelOutline
+	"
+	| pragma |
+	pragma := self shaderSourcePragmas
+		detect: [:each | each arguments first asString = aName asString]
+		ifNone: [^ self error: 'No method is marked <shaderSource: #', aName asString, '>'].
+	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	^ self transpilePragma: pragma
 ]
 
 {
@@ -418,17 +458,30 @@ SRShader class >> transpileSource: sourceDict [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> verifyCache [
-	"Check every cached shader against both render targets. Run before shipping
-	 the image to a device that cannot transpile.
+	"Check the cache against both render targets AND against the set of shaders
+	 declared in the system. Run before shipping the image to a device that
+	 cannot transpile.
 
-	 SRShader verifyCache
+	 The declared-set check is the point: the previous version only validated
+	 entries that were present, so a cache that had lost swagameVoxelOutline
+	 entirely still answered 'OK' (2026-07-31).
+
+		SRShader verifyCache
 	"
-	| out clean |
+	| out clean declared cached |
 	out := WriteStream on: String new.
 	clean := true.
+	declared := self shaderNames asSet.
+	cached := (ShaderCache ifNil: [Dictionary new]) keys asSet.
+	(declared difference: cached) asSortedCollection do: [:name |
+		clean := false.
+		out nextPutAll: 'declared <shaderSource: #', name, '> but not in the cache'; cr].
+	(cached difference: declared) asSortedCollection do: [:name |
+		clean := false.
+		out nextPutAll: 'cached but no method declares <shaderSource: #', name, '> (stale)'; cr].
 	#(#'300es' #'330') do: [:version |
 		| complaints |
 		complaints := self verifyCacheFor: version.
@@ -437,8 +490,8 @@ SRShader class >> verifyCache [
 			out nextPutAll: version; nextPutAll: ':'; cr.
 			complaints do: [:c | out tab; nextPutAll: c; cr]]].
 	clean ifTrue: [
-		^ 'ShaderCache OK (', ShaderCache size printString, ' shaders: ',
-			((ShaderCache keys asSortedCollection) inject: '' into: [:a :b |
+		^ 'ShaderCache OK (', cached size printString, ' shaders: ',
+			((cached asSortedCollection) inject: '' into: [:a :b |
 				a isEmpty ifTrue: [b] ifFalse: [a, ', ', b]]), ')'].
 	^ out contents
 ]
@@ -479,9 +532,10 @@ SRShader class >> verifyCacheFor: version [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:52'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
 }
 SRShader class >> waterShaderSource [
+	<shaderSource: #waterShader>
 
 	^ {
 		#uniforms -> #(time).
