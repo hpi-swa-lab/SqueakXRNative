@@ -21,32 +21,44 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 2/23/2026 16:28'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:35'
 }
 SRMorphPanel class >> systemBrowser [
 
-	^ self new
-		morph: SystemBrowser default open dependents first
+	^ self withoutAddingToWorldDo: [
+		self new morph: SystemBrowser default open dependents first]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 2/23/2026 16:28'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:35'
 }
 SRMorphPanel class >> transcript [
 
-	^ self new
-		morph: Transcript open dependents first
+	^ self withoutAddingToWorldDo: [
+		self new morph: Transcript open dependents first]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/13/2026 14:54'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:34'
+}
+SRMorphPanel class >> withoutAddingToWorldDo: aBlock [
+
+	"This prevents Morphs like SystemWindows and the like
+	from being added to the SRWorld just because they are opened in the Morphic world."
+	
+	^ SRIsAddingMorphsToWorldVariable value: false during: aBlock
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/29/2026 17:34'
 }
 SRMorphPanel class >> workspace [
 
-	^ self new
-		morph: Workspace open dependents first
+	^ self withoutAddingToWorldDo: [
+		self new morph: Workspace open dependents first]
 ]
 
 {
@@ -116,7 +128,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
 }
 SRMorphPanel >> initialize [
 
