@@ -27,6 +27,17 @@ SRPasteUpMorph >> addedMorph: aMorph [
 ]
 
 {
+	#category : #'dropping/grabbing',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 13:41'
+}
+SRPasteUpMorph >> allowsMorphGrabbing [
+	"No. Grabbing removes the morph from this world, which fires removedMorph:
+	and tears down the SRMorphPanel rendering it. Dragging in 3D has its own
+	mechanism."
+	^false
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 2/16/2026 17:34'
 }
