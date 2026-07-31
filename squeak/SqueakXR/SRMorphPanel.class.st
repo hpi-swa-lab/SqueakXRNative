@@ -229,6 +229,23 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 11:28'
+}
+SRMorphPanel >> remove [
+	"Closing the panel closes the window it shows. Without this the morph stays
+	in the Morphic world, invisible but still stepping. SRPasteUpMorph>>removedMorph:
+	covers the opposite direction, and removeMorph must run before the delete:
+	it clears the morph's isInMorphPanel property, which is exactly the guard
+	removedMorph: tests, so the delete cannot bounce back into here."
+	| shown |
+	shown := morph.
+	self removeMorph.
+	super remove.
+	shown ifNotNil: [shown delete]
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
 SRMorphPanel >> removeMorph [
