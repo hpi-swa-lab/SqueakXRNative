@@ -20,6 +20,35 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 ]
 
 {
+	#category : #refreshing,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:26'
+}
+SRMorphPanel class >> refreshAll [
+	"Force every SRMorphPanel in the running world to re-measure its plane and fully
+	repaint its texture. Answers how many panels were refreshed.
+
+	The repair hatch for a panel that has gone stale: SRMorphTexture repaints from
+	Morphic damage rects, and the plane size is only recomputed in
+	#fullTextureUpdate -- so a morph that resized, or damage that never reached the
+	texture, leaves a panel showing the wrong thing at the wrong size until
+	something forces a full update.
+
+	Runs inside SRWorld>>runBetweenFrames:, so it cannot mutate plane scales while
+	a frame is mid-render. Discovered by walking the live scene graph rather than
+	via #allInstances, so panels of a torn-down world are not touched."
+	| world |
+	world := SRWorld current.
+	world ifNil: [^ 0].
+	^ world runBetweenFrames: [
+		| n |
+		n := 0.
+		world
+			allDescendantsSelect: [:obj | obj isMorphPanel]
+			thenDo: [:panel | panel fullTextureUpdate. n := n + 1].
+		n]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/29/2026 17:35'
 }
@@ -62,10 +91,54 @@ SRMorphPanel class >> workspace [
 ]
 
 {
+	#category : #refreshing,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:26'
+}
+SRMorphPanel class >> xrMenuRefreshAll: aMenu [
+	"Refresh every morph panel in the world (plane size + full texture repaint).
+	The pragma is only ever scanned by SRMenuRegistry."
+	<xrMenu: #(world) label: 'Refresh Morph Panels' priority: 160>
+	^ self refreshAll
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:35'
+}
+SRMorphPanel >> addCustomMenuItemsTo: aMenu [
+	"Panel-specific context-menu items. This menu is reached at all only because the
+	panel's plane delegates its #grabTarget to the panel (see #initialize) -- the
+	hand ray hits the plane, and without that delegation these items would be
+	offered on an SRPlane instead.
+
+	'Refresh Texture' is the single-panel twin of SRMorphPanel class>>refreshAll:
+	SRMorphTexture repaints from Morphic damage rects, and the plane size is only
+	recomputed in #fullTextureUpdate -- so a panel whose morph resized, or whose
+	damage never reached the texture, stays stale until something forces a full
+	update.
+
+	Deferred through #runBetweenFrames: rather than run inline: a menu action fires
+	from inside a frame, and #fullTextureUpdate rescales the plane."
+	super addCustomMenuItemsTo: aMenu.
+	aMenu
+		addItem: 'Refresh Texture'
+		action: [self world
+			ifNil: [self fullTextureUpdate]
+			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]]
+]
+
+{
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 2/23/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:36'
 }
 SRMorphPanel >> fullTextureUpdate [
+
+	"No morph, nothing to size or paint. Reachable for real: #removeMorph nils morph
+	while the panel is still a child of the world (SRPasteUpMorph>>removedMorph:
+	removes the morph before the panel), and both the Refresh Texture menu item and
+	SRMorphPanel class>>refreshAll walk live panels. Without this,
+	#setSizeFromPixelsPerMeter: fails with UndefinedObject>>width."
+	morph ifNil: [^ self].
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
 	texture fullUpdate.
@@ -128,7 +201,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:32'
 }
 SRMorphPanel >> initialize [
 
@@ -142,7 +215,16 @@ SRMorphPanel >> initialize [
 	lastClickPosition := nil.
 
 	plane material shader: texture shader.
-	
+
+	"The plane is what a hand ray actually hits, but it is an implementation
+	detail -- grabbing or opening a context menu on it must act on the PANEL.
+	SRHand>>startGrabbing resolves the hit through #grabTarget, and the result
+	is what SRAvatar>>openMenuForHand: passes to SRMenu class>>contextMenuFor:...,
+	so this one line fixes both the grab and the menu. Same delegation
+	SWAGameBasePlate does, but set per instance: SRPlane is generic, and plain
+	planes must keep answering themselves."
+	plane grabTarget: self.
+
 	self addChild: plane.
 ]
 
@@ -241,23 +323,6 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 11:28'
-}
-SRMorphPanel >> remove [
-	"Closing the panel closes the window it shows. Without this the morph stays
-	in the Morphic world, invisible but still stepping. SRPasteUpMorph>>removedMorph:
-	covers the opposite direction, and removeMorph must run before the delete:
-	it clears the morph's isInMorphPanel property, which is exactly the guard
-	removedMorph: tests, so the delete cannot bounce back into here."
-	| shown |
-	shown := morph.
-	self removeMorph.
-	super remove.
-	shown ifNotNil: [shown delete]
-]
-
-{
-	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
 SRMorphPanel >> removeMorph [
@@ -267,6 +332,22 @@ SRMorphPanel >> removeMorph [
 		morph lastPanelPosition: self globalTranslation.
 		morph := nil.
 		texture removeMorph].
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 16:00'
+}
+SRMorphPanel >> removedChild: aSRObject [
+	"The plane is the only thing of me a raycast can hit, so it is the plane the
+	context menu's Remove reaches, not me. Losing it makes me an invisible shell
+	holding a Morph that is still in the Morphic world and still stepping, so
+	take the whole panel down instead. self remove clears the morph too."
+
+	aSRObject == plane ifFalse: [^ self].
+	self parent
+		ifNil: [self wasRemoved]
+		ifNotNil: [self remove]
 ]
 
 {
@@ -299,4 +380,22 @@ SRMorphPanel >> update: aSymbol with: anObject [
 SRMorphPanel >> updateTexture [
 
 	plane material internalTexture: texture update.
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 16:00'
+}
+SRMorphPanel >> wasRemoved [
+	"Losing my place in the scene graph takes the Morph with me, whichever route
+	detached me. Without this the Morph stays in the Morphic world, invisible but
+	still stepping. SRPasteUpMorph>>removedMorph: covers the opposite direction,
+	and removeMorph must run before the delete: it clears the Morph's
+	isInMorphPanel property, which is exactly the guard removedMorph: tests, so
+	the delete cannot bounce back into here."
+
+	| shown |
+	shown := morph.
+	self removeMorph.
+	shown ifNotNil: [shown delete]
 ]

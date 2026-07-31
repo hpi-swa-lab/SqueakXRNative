@@ -33,7 +33,10 @@ SRObject class >> toolIcon [
 	^ #srobject
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+}
 SRObject >> addChild: aSRObject [
 	
 	| childWorld |
@@ -44,7 +47,7 @@ SRObject >> addChild: aSRObject [
 		self error: 'Cannot add ancestor of SRObject as child'].
 	
 	aSRObject parent ifNotNil: [:parent |
-		parent removeChild: aSRObject].
+		parent privateRemoveChild: aSRObject].
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
@@ -821,6 +824,18 @@ SRObject >> position: aVector3 [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+}
+SRObject >> privateRemoveChild: aSRObject [
+	"Detach without firing the removal notifications. Reparenting is not removal,
+	so addChild: uses this to steal a child from its previous parent."
+
+	self children remove: aSRObject ifAbsent: [^ self].
+	aSRObject parent: nil
+]
+
+{
 	#category : #raycast,
 	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
 }
@@ -891,11 +906,30 @@ SRObject >> remove [
 	self parent ifNotNil: [:parent | parent removeChild: self]
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+}
 SRObject >> removeChild: aSRObject [
 
-	self children remove: aSRObject ifAbsent: [^ self].
-	aSRObject parent: nil.
+	"Both hooks fire here rather than in remove, because remove is only one of
+	the ways a child leaves: senders reach for removeChild: directly too, and an
+	override of remove does not catch those."
+
+	(self children includes: aSRObject) ifFalse: [^ self].
+	self privateRemoveChild: aSRObject.
+	self removedChild: aSRObject.
+	aSRObject wasRemoved
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:57'
+}
+SRObject >> removedChild: aSRObject [
+	"Notification hook: aSRObject was just detached from me. The Morphic
+	counterpart is Morph>>removedMorph:. Composite objects override this to
+	tear themselves down when a part they depend on is taken away."
 ]
 
 { #category : #rendering }
@@ -1064,6 +1098,17 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+}
+SRObject >> wasRemoved [
+	"Notification hook: I was just detached from my parent, by whatever route.
+	Objects that own resources outside the scene graph -- a Morph in the Morphic
+	world, say -- release them here rather than in remove, so that removeChild:
+	sent directly by someone else cannot bypass the cleanup."
 ]
 
 { #category : #accessing }

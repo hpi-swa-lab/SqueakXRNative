@@ -25,6 +25,7 @@ Class {
 		'Current',
 		'KeyDict',
 		'LogFPS',
+		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -500,11 +501,17 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 09:57'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
+	"Between-frame work runs HERE, before anything of this frame starts, so it can
+	never be interleaved with rendering (see #runBetweenFrames:). Deliberately here
+	rather than in #loop: #loop is one long-running activation, so recompiling it
+	would not affect a world that is already running, while #doOneCycle is entered
+	fresh every iteration and picks the change up at once."
+	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
@@ -683,7 +690,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/29/2026 18:03'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
 }
 SRWorld >> loop [
 
@@ -726,6 +733,20 @@ SRWorld >> maybeStartMCPServer [
 		do: [:e |
 			self log: 'MCP server failed to start: ', e messageText.
 			nil]
+]
+
+{
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
+}
+SRWorld >> pendingFrameActions [
+	"The queue of blocks waiting to run BETWEEN two frames. See #runBetweenFrames:.
+
+	A class variable rather than an instance variable on purpose: adding an ivar
+	reshapes every SRWorld instance, and this class is normally edited while one of
+	its instances is being executed by a live render loop. There is one current
+	world (SRWorld class>>current) anyway."
+	^ PendingFrameActions ifNil: [PendingFrameActions := OrderedCollection new]
 ]
 
 { #category : #'as yet unclassified' }
@@ -789,6 +810,69 @@ SRWorld >> resume [
 			needsSetup := false.
 			self initializeWorldProcess].
 		worldProcess resume].
+]
+
+{
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
+}
+SRWorld >> runBetweenFrames: aBlock [
+	"Evaluate aBlock in the WORLD PROCESS, at a frame boundary, with the render loop
+	blocked for the whole of it, and answer its value.
+
+	This is the only way to do something that must not be interleaved with
+	rendering, because both obvious alternatives fail:
+
+	  - Doing it from another process does not work. The world process runs at
+	    priority 40 (Processor userSchedulingPriority); the tool processes -- MCP
+	    server, profilers -- sit at 30, BELOW it. A long computation there is
+	    preempted by frame after frame. That is exactly how a 'profile one frame'
+	    run ends up containing a few hundred of them.
+
+	  - #stopAndWait is not a pause, it is a teardown: once #loop returns, #start's
+	    block continues into `self renderer shutdown` (Raylib closeWindow), and
+	    #start is a cold start -- new process, avatar, registry, start script.
+
+	Re-entrancy: called FROM the world process (an XR menu action runs inside a
+	frame, see SRMenuEntry>>activateIn:target:) waiting here would deadlock on
+	ourselves, so aBlock is deferred to the next boundary and nil is answered
+	immediately. Callers that must work from both sides should therefore do their
+	whole job inside aBlock rather than relying on the answer.
+
+	With no world running, aBlock is simply evaluated here."
+	| done result |
+	self isRunning ifFalse: [^ aBlock value].
+	Processor activeProcess == worldProcess ifTrue: [
+		self pendingFrameActions add: aBlock.
+		^ nil].
+	done := Semaphore new.
+	self pendingFrameActions add: [
+		[result := aBlock value] ensure: [done signal]].
+	done wait.
+	^ result
+]
+
+{
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
+}
+SRWorld >> runPendingBetweenFrameActions [
+	"Drain the between-frame queue. Called once per iteration of #loop, BEFORE
+	#doOneCycle, so an action runs with no frame in flight and with the loop
+	unable to proceed until it returns.
+
+	The queue is swapped out before draining, so an action that enqueues another
+	one runs it on the NEXT boundary rather than in this drain. Each action is
+	protected: a failing one must not take the render loop down with it."
+	| due |
+	(PendingFrameActions isNil or: [PendingFrameActions isEmpty]) ifTrue: [^ self].
+	due := PendingFrameActions.
+	PendingFrameActions := OrderedCollection new.
+	due do: [:each |
+		each ifNotNil: [
+			[each value]
+				on: Error
+				do: [:e | self log: 'between-frame action failed: ', e description]]]
 ]
 
 {
