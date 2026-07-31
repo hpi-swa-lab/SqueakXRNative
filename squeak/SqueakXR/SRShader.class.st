@@ -209,48 +209,30 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> shaderNames [
-	"Answer the cache keys every shader in the system declares, as Strings
-	 (ShaderCache is keyed by String; doesNotUnderstand: looks up by Symbol,
-	 and Symbol = String holds in Squeak).
-
-		SRShader shaderNames
-	"
+	"The declared cache keys, as Strings (ShaderCache is String-keyed)."
 	^ (self shaderSourcePragmas collect: [:p | p arguments first asString]) asArray
 ]
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> shaderSourcePragmaKeyword [
-	"Class-side methods answering a {#vert. #frag. #uniforms} source dictionary
-	 mark themselves with
-
-		<shaderSource: #myShaderName>
-
-	 The argument is the cache key, i.e. the name that resolves through
-	 SRShader class>>doesNotUnderstand:."
+	"Class-side methods answering a {#vert. #frag. #uniforms} dict tag themselves
+	 <shaderSource: #name>. The argument is the cache key."
 	^ #shaderSource:
 ]
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:05'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> shaderSourcePragmas [
-	"Answer every <shaderSource: #name> pragma in the system, sorted by name.
-
-	 This is the whole app-shader protocol. Any package may contribute a shader
-	 by tagging a class-side method; nothing has to be registered imperatively
-	 and nothing can be forgotten, which is exactly how swagameVoxelOutline went
-	 missing under the old registerShaders scheme (2026-07-31).
-
-	 Deliberately not cached: transpileAll is rare and dominated by two external
-	 processes per shader, and a stale registry is the failure mode we are
-	 removing (cf. SRMenuRegistry needing updateRegistry)."
+	"Every <shaderSource: #name> pragma in the system, sorted by name.
+	 Not cached on purpose: a stale registry is the failure mode this replaces."
 	| keyword found |
 	keyword := self shaderSourcePragmaKeyword.
 	found := OrderedCollection new.
@@ -359,36 +341,26 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> transpileAll [
-	"Rebuild the ShaderCache from every <shaderSource: #name> method in the
-	 system. Answer the verifyCache report, so the caller sees what shipped.
-
-		SRShader transpileAll
-	"
+	"Rebuild the cache from every <shaderSource:> method. Answer the verifyCache report.
+		SRShader transpileAll"
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 	^ self transpileAllUnsafe
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> transpileAllUnsafe [
-	"Rebuild the whole cache from every <shaderSource: #name> method in the
-	 system, framework and application alike. Answer the verifyCache report.
-
-	 resetCache first is safe now precisely because discovery is complete: the
-	 old version reset the cache and rebuilt only SRShader's own #'shader sources'
-	 category, which silently deleted every app shader and could not heal on a
-	 device that cannot transpile (2026-07-31)."
+	"Rebuild the whole cache, app shaders included. Answer the verifyCache report."
 	| pragmas names |
 	pragmas := self shaderSourcePragmas.
 	names := pragmas collect: [:pragma | pragma arguments first asString].
 	names size = names asSet size ifFalse: [
-		"Two methods claiming one name means one silently overwrites the other,
-		 so refuse before spending two external processes per shader."
+		"One name would silently overwrite the other."
 		^ self error: 'Duplicate <shaderSource:> names: ',
 			(names asSet asArray select: [:name |
 				(names occurrencesOf: name) > 1]) printString].
@@ -399,11 +371,10 @@ SRShader class >> transpileAllUnsafe [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> transpilePragma: aPragma [
-	"Transpile the source dict answered by one <shaderSource: #name> method and
-	 store it under that name. Answer the name."
+	"Transpile one <shaderSource:> method's dict into the cache. Answer the name."
 	| name |
 	name := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].
@@ -417,14 +388,11 @@ SRShader class >> transpilePragma: aPragma [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> transpileShaderNamed: aName [
-	"Re-transpile one shader by its <shaderSource:> name, leaving the rest of
-	 the cache alone. Use after editing a single shader source.
-
-		SRShader transpileShaderNamed: #swagameVoxelOutline
-	"
+	"Re-transpile one shader, leaving the rest of the cache alone.
+		SRShader transpileShaderNamed: #swagameVoxelOutline"
 	| pragma |
 	pragma := self shaderSourcePragmas
 		detect: [:each | each arguments first asString = aName asString]
@@ -458,19 +426,12 @@ SRShader class >> transpileSource: sourceDict [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
 }
 SRShader class >> verifyCache [
-	"Check the cache against both render targets AND against the set of shaders
-	 declared in the system. Run before shipping the image to a device that
-	 cannot transpile.
-
-	 The declared-set check is the point: the previous version only validated
-	 entries that were present, so a cache that had lost swagameVoxelOutline
-	 entirely still answered 'OK' (2026-07-31).
-
-		SRShader verifyCache
-	"
+	"Check the cache against both render targets and against the declared shader
+	 set. Run before shipping to a device that cannot transpile.
+		SRShader verifyCache"
 	| out clean declared cached |
 	out := WriteStream on: String new.
 	clean := true.
