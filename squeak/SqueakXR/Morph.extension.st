@@ -1,28 +1,6 @@
 Extension { #name : #Morph }
 
 {
-	#category : #'*SqueakXR-dropping/grabbing-override',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 13:41'
-}
-Morph >> aboutToBeGrabbedBy: aHand [
-	"The receiver is being grabbed by a hand.
-	Perform necessary adjustments (if any) and return the actual morph
-	that should be added to the hand."
-	| extentToHandToHand cmd |
-	(self world ifNil: [true] ifNotNil: [:w | w allowsMorphGrabbing])
-		ifFalse: [^nil].
-	self formerOwner: owner.
-	self formerPosition: self position.
-	cmd := self undoGrabCommand.
-	cmd ifNotNil:[self setProperty: #undoGrabCommand toValue: cmd].
-	(extentToHandToHand := self valueOfProperty: #expandedExtent)
-			ifNotNil:
-				[self removeProperty: #expandedExtent.
-				self extent: extentToHandToHand].
-	^self "Grab me"
-]
-
-{
 	#category : #'*SqueakXR-morphic',
 	#'squeak_changestamp' : 'lege 2/17/2026 18:45'
 }
@@ -60,10 +38,20 @@ Morph >> openInXRWorld [
 
 {
 	#category : #'*SqueakXR-morphic',
-	#'squeak_changestamp' : 'lege 3/16/2026 17:24'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:44'
 }
 Morph >> setInMorphPanel: aBoolean [
+	"Sticky for as long as I am shown in a panel. #isSticky is Morphic's own
+	'do not pick me up' flag and every grab initiator honours it --
+	SystemWindow>>startDragFromLabel:, PasteUpMorph>>mouseDown:,
+	MenuMorph>>mouseDown:, BooklikeMorph>>move -- so this needs no override of
+	any base method. Being grabbed would pull me out of the XR world into the
+	hand, firing removedMorph: and tearing down the SRMorphPanel that renders me.
+	Moving happens in 3D instead, by dragging the panel.
 
+	Paired: SRMorphPanel>>morph: sets it, SRMorphPanel>>removeMorph clears it."
+
+	self sticky: aBoolean.
 	^ self setProperty: #isInMorphPanel toValue: aBoolean
 ]
 
