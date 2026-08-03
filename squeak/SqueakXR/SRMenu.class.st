@@ -97,10 +97,10 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:37'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
-	(SRMenuRegistry itemsUnder: aPrefix) do: [:entry |
+	(SRMenuRegistry current itemsUnder: aPrefix) do: [:entry |
 		self
 			addItem: (self labelFor: entry under: aPrefix target: anObjectOrNil)
 			action: [entry activateIn: self target: anObjectOrNil]]

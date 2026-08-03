@@ -1,4 +1,6 @@
 "
+The registry of XR menu entries. A singleton: SRMenuRegistry current.
+
 Finds every class side method declared with
 
 	<xrMenu: #(world apps) label: 'GC Stats' priority: 300>
@@ -6,28 +8,50 @@ Finds every class side method declared with
 
 and answers them as SRMenuEntries filtered by path prefix, so a call site picks its menu:
 
-	SRMenuRegistry itemsUnder: #(world)
-	SRMenuRegistry itemsUnder: #(object)
-	SRMenuRegistry itemsUnder: #(gamexr)
+	SRMenuRegistry current itemsUnder: #(world)
+	SRMenuRegistry current itemsUnder: #(object)
+	SRMenuRegistry current itemsUnder: #(gamexr)
 
 A method may carry several xrMenu pragmas and so appear in several menus.
-Scanning is explicit: SRWorld>>start calls updateRegistry. Call it again after loading code.
+Scanning is explicit: SRWorld>>start calls ""SRMenuRegistry current updateRegistry"".
+Call it again after loading code.
 "
 Class {
 	#name : #SRMenuRegistry,
 	#superclass : #Object,
+	#instVars : [
+		'entries'
+	],
 	#classVars : [
-		'Registry'
+		'Current'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
-	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
 }
-SRMenuRegistry class >> buildRegistry [
+SRMenuRegistry class >> current [
+	^ Current ifNil: [Current := self new]
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+}
+SRMenuRegistry class >> reset [
+	"Throw away the singleton; the next #current builds a fresh one."
+
+	Current := nil
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
+}
+SRMenuRegistry >> buildRegistry [
 	| found |
 	found := OrderedCollection new.
 	Smalltalk allClassesDo: [:aClass |
@@ -45,32 +69,34 @@ SRMenuRegistry class >> buildRegistry [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
 }
-SRMenuRegistry class >> itemsUnder: aPrefix [
+SRMenuRegistry >> itemsUnder: aPrefix [
 	^ self registry select: [:each | each isUnder: aPrefix]
 ]
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
 }
-SRMenuRegistry class >> pragmaKeywords [
+SRMenuRegistry >> pragmaKeywords [
 	^ #(#xrMenu:label: #xrMenu:label:priority:)
 ]
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
 }
-SRMenuRegistry class >> registry [
-	^ Registry ifNil: [self updateRegistry]
+SRMenuRegistry >> registry [
+	^ entries ifNil: [self updateRegistry]
 ]
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
 }
-SRMenuRegistry class >> updateRegistry [
-	^ Registry := self buildRegistry
+SRMenuRegistry >> updateRegistry [
+	"Rescan the system for xrMenu pragmas. Call after loading code."
+
+	^ entries := self buildRegistry
 ]
