@@ -7,6 +7,21 @@ Class {
 	#category : #'SqueakXR-Objects'
 }
 
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
+}
+SRCube class >> xrMenuSpawn: aMenu [
+	<xrMenu: #(world) label: 'Spawn Cube' priority: 110>
+	| cube |
+	cube := self new
+		position: aMenu position;
+		scale: 30cm asVector3;
+		yourself.
+	aMenu world addChild: cube.
+	^ cube
+]
+
 { #category : #accessing }
 SRCube >> color [
 
