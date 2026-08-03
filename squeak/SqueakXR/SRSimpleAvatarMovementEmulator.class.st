@@ -11,7 +11,8 @@ Class {
 		'moveSpeed',
 		'lookSpeed',
 		'lookModeEnabled',
-		'avatar'
+		'avatar',
+		'isUpdatingEnabled'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -62,7 +63,7 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
+	#'squeak_changestamp' : 'lege 7/27/2026 18:01'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
@@ -72,7 +73,8 @@ SRSimpleAvatarMovementEmulator >> initialize [
 	pitch := 0.0.
 	moveSpeed := 0.05.
 	lookSpeed := 0.15.
-	lookModeEnabled := false
+	lookModeEnabled := false.
+	isUpdatingEnabled := true.
 ]
 
 {
@@ -115,11 +117,15 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+	#'squeak_changestamp' : 'lege 7/27/2026 18:00'
 }
 SRSimpleAvatarMovementEmulator >> update [
 
 	| forward right movement |
+	(Raylib isKeyPressedKey: RlKeyboardKey keyGrave) ifTrue: [
+		isUpdatingEnabled := isUpdatingEnabled not].
+	isUpdatingEnabled ifFalse: [^ self].
+	
 	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
 	right := (forward cross: Vector3 up) normalize.
 	movement := Vector3 zero.

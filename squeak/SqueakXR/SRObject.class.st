@@ -35,11 +35,11 @@ SRObject class >> toolIcon [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:53'
 }
 SRObject >> addChild: aSRObject [
 	
-	| childWorld |
+	| childWorld world |
 	childWorld := aSRObject world.
 	
 	(self hasChild: aSRObject) ifTrue: [^ self].
@@ -51,8 +51,12 @@ SRObject >> addChild: aSRObject [
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
-	childWorld = self world ifFalse: [
-		aSRObject worldChanged: childWorld]
+	world := self world.
+	childWorld = world ifFalse: [
+		aSRObject worldChanged: childWorld].
+	
+	self changed: #childAdded with: self.
+	world ifNotNil: [world notifyObjectAdded: aSRObject].
 ]
 
 { #category : #hierarchy }
@@ -99,6 +103,20 @@ SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
 	self childrenDo: [:child | child allDo: aBlock].
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 8/3/2026 15:48'
+}
+SRObject >> ancestorChain [
+
+	| current |
+	current := self.
+	^ (Array streamContents: [:stream |
+		[current notNil] whileTrue: [
+			stream nextPut: current.
+			current := current parent]])
 ]
 
 {
@@ -907,17 +925,20 @@ SRObject >> remove [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:57'
 }
 SRObject >> removeChild: aSRObject [
-
 	"Both hooks fire here, not in #remove: senders reach for #removeChild: directly
 	too, and an override of #remove does not catch those."
 
 	(self children includes: aSRObject) ifFalse: [^ self].
 	self privateRemoveChild: aSRObject.
 	self removedChild: aSRObject.
-	aSRObject wasRemoved
+
+	aSRObject wasRemoved.
+	self changed: #childRemoved with: {aSRObject. self}.
+	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+
 ]
 
 {

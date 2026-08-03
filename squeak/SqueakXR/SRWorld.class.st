@@ -733,6 +733,24 @@ SRWorld >> maybeStartMCPServer [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
+}
+SRWorld >> notifyObjectAdded: aSRObject [
+
+	self changed: #descendantAdded with: aSRObject
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
+}
+SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
+
+	self changed: #descendantRemoved with: {aSRObject. oldParent}.
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:53'
 }

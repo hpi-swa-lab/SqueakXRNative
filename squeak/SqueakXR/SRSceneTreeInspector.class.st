@@ -18,6 +18,15 @@ SRSceneTreeInspector class >> openOn: aSRObject [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/31/2026 15:01'
+}
+SRSceneTreeInspector class >> openOnCurrentWorld [
+
+	^ self openOn: self currentXRWorld
+]
+
+{
 	#category : #'xr menu',
 	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
 }
@@ -103,7 +112,7 @@ SRSceneTreeInspector >> buildListSpecWith: aBuilder [
 
 {
 	#category : #toolbuilder,
-	#'squeak_changestamp' : 'lege 9/29/2025 18:21'
+	#'squeak_changestamp' : 'lege 8/3/2026 15:48'
 }
 SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 
@@ -111,8 +120,8 @@ SRSceneTreeInspector >> buildTreeSpecWith: aBuilder [
 	treeSpec := aBuilder pluggableTreeSpec new.
 	treeSpec
 		model: self;
-		getSelected: #currentSelection;
-		setSelected: #currentSelection:;
+		getSelectedPath: #currentSelectedPath;
+		setSelectedPath: #currentSelectedPath:;
 		getChildren: #childrenOf:;
 		roots: #roots;
 		label: #labelOf:;
@@ -174,29 +183,30 @@ SRSceneTreeInspector >> currentSelectedPath [
 	^ currentSelection
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 14:48'
+}
 SRSceneTreeInspector >> currentSelectedPath: aSRObjectPath [
 
-	currentSelection := aSRObjectPath.
-	self changed: #propertiesOfCurrentSelection.
-	self changed: #currentSelection
+	| reverseObjectPath |
+	reverseObjectPath := aSRObjectPath ifNotNil: [aSRObjectPath reverse].
+	currentSelection = reverseObjectPath ifTrue: [^ self].
+	
+	currentSelection := reverseObjectPath.
+	self changed: #propertiesOfCurrentSelection;
+		changed: #currentSelectedPath.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/31/2026 17:06'
+}
 SRSceneTreeInspector >> currentSelection [
 
 	^ currentSelection
-		ifNil: [self root]
+		ifNil: [{self root}]
 		ifNotNil: [currentSelection]
-]
-
-{ #category : #'as yet unclassified' }
-SRSceneTreeInspector >> currentSelection: aSRObject [
-
-	self currentSelection = aSRObject ifTrue: [^ self].
-	currentSelection := aSRObject.
-	self changed: #currentSelection;
-		changed: #propertiesOfCurrentSelection
 ]
 
 {
@@ -210,11 +220,13 @@ SRSceneTreeInspector >> doItContext [
 
 {
 	#category : #toolbuilder,
-	#'squeak_changestamp' : 'lege 9/29/2025 18:42'
+	#'squeak_changestamp' : 'lege 8/3/2026 13:45'
 }
 SRSceneTreeInspector >> doItReceiver [
 
 	^ self currentSelection
+		ifEmpty: [nil]
+		ifNotEmpty: [:selection | selection last]
 ]
 
 {
@@ -235,13 +247,26 @@ SRSceneTreeInspector >> expression: aString [
 	expression := aString.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/31/2026 17:33'
+}
+SRSceneTreeInspector >> hasSelection [
+
+	^ currentSelection notNil and: [currentSelection notEmpty]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/31/2026 15:07'
+}
 SRSceneTreeInspector >> key: aChar from: view event: event [
 
 	event anyModifierKeyPressed ifFalse: [^ false].
 
 	aChar == $i ifTrue: [self currentSelection inspect. ^ true].
 	aChar == $I ifTrue: [self currentSelection explore. ^ true].
+	aChar = $b ifTrue: [ToolSet browseClass: self currentSelection class. ^ true].
 	
 	^ false
 ]
@@ -257,12 +282,14 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 10/8/2025 12:34'
+	#'squeak_changestamp' : 'lege 7/31/2026 17:10'
 }
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
 	| selection |
-	selection := self currentSelection.
+	self hasSelection ifFalse: [^ {}].
+	
+	selection := self currentSelection first.
 	^ {
 		selection name.
 		'Children: {1}' format: {selection childCount}.
@@ -297,20 +324,62 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 	}
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 15:46'
+}
+SRSceneTreeInspector >> restoreSelection [
+
+	(currentSelection isNil or: [currentSelection isEmpty]) ifTrue: [^ self].
+	self selectionPathIsLive ifFalse: [
+		currentSelection := nil.
+		self changed: #propertiesOfCurrentSelection].
+	self changed: #currentSelectedPath.
+]
+
 { #category : #'as yet unclassified' }
 SRSceneTreeInspector >> root [
 
 	^ root
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 7/31/2026 15:02'
+}
 SRSceneTreeInspector >> root: aSRObject [
 
-	root := aSRObject
+	root ifNotNil: [root removeDependent: self].
+	root := aSRObject.
+	root addDependent: self.
 ]
 
 { #category : #'as yet unclassified' }
 SRSceneTreeInspector >> roots [
 
 	^ { self root }
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 15:42'
+}
+SRSceneTreeInspector >> selectionPathIsLive [
+
+	| leaf |
+	leaf := self currentSelectedPath last.
+	^ self roots anySatisfy: [:ea | leaf hasAncestor: ea]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 15:45'
+}
+SRSceneTreeInspector >> update: aSymbol with: info [
+
+	(#(descendantAdded descendantRemoved childAdded childRemoved) includes: aSymbol)
+		ifFalse: [^ self].
+
+	self changed: #roots.
+	self restoreSelection.
 ]

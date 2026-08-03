@@ -2,7 +2,7 @@ Extension { #name : #Form }
 
 {
 	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'lege 7/29/2026 16:42'
+	#'squeak_changestamp' : 'lege 7/30/2026 18:57'
 }
 Form >> createTexture [
 	
