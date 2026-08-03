@@ -2,14 +2,14 @@ Extension { #name : #Form }
 
 {
 	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
+	#'squeak_changestamp' : 'lege 7/29/2026 16:42'
 }
 Form >> createTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
 	| tex |
 	tex := RlTexture new
-		id: (Raylib rlLoadTextureData: self getTextureData
+		id: (Raylib rlLoadTextureData: self bits
 			width: self width
 			height: self height
 			format: RlPixelFormat pixelformatUncompressedR8g8b8a8
@@ -25,38 +25,7 @@ Form >> createTexture [
 
 {
 	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'lege 2/18/2026 16:12'
-}
-Form >> getTextureData [
-	
-	| data |
-	self assert: (self width > 0 and: [self height > 0]) description: 'Form width and height must be greater than zero'.
-
-	data := ExternalType byte allocate: self bitsSize * 4.
-	data replaceFrom: 1 to: self bitsSize * 4 with: self bits asRGBAByteArray startingAt: 1.
-	^ data
-]
-
-{
-	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
-}
-Form >> updateTexture: aTexture [
-	
-	"Adapted from Raylib's LoadTextureFromImage"
-	Raylib rlUpdateTextureId: aTexture id
-		offsetX: 0
-		offsetY: 0
-		width: self width
-		height: self height
-		format: RlPixelFormat pixelformatUncompressedR8g8b8a8
-		data: self getTextureData;
-		genTextureMipmapsTexture: aTexture
-]
-
-{
-	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'lege 2/23/2026 15:35'
+	#'squeak_changestamp' : 'lege 7/29/2026 16:54'
 }
 Form >> updateTexture: aTexture in: aRectangle [
 	
@@ -67,6 +36,6 @@ Form >> updateTexture: aTexture in: aRectangle [
 		width: aRectangle width
 		height: aRectangle height
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8
-		data: self getTextureData;
+		data: self bits;
 		genTextureMipmapsTexture: aTexture
 ]
