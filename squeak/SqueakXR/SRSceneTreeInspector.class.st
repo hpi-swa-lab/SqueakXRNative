@@ -28,10 +28,10 @@ SRSceneTreeInspector class >> xrMenuOpenOn: aMenu target: anObject [
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:38'
 }
 SRSceneTreeInspector class >> xrMenuOpenOnWorld: aMenu [
-	<xrMenu: #(world) label: 'Scene Tree' priority: 140>
+	<xrMenu: #(world tools) label: 'Scene Tree' priority: 210>
 	^ self openOn: aMenu world
 ]
 

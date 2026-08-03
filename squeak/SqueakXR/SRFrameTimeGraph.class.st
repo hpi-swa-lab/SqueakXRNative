@@ -23,10 +23,10 @@ Class {
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:21'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:59'
 }
 SRFrameTimeGraph class >> xrMenuSpawn: aMenu [
-	<xrMenu: #(world) label: 'Frame Time Graph' priority: 150>
+	<xrMenu: #(world debug) label: 'Frame Time Graph' priority: 430>
 	| graph |
 	graph := self new
 		position: aMenu position;

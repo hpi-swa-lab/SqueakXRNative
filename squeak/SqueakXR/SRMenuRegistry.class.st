@@ -69,6 +69,47 @@ SRMenuRegistry >> buildRegistry [
 
 {
 	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenuRegistry >> directItemsUnder: aPrefix [
+	"Deeper entries go into submenus, see #groupsUnder:."
+
+	| prefix |
+	prefix := aPrefix asArray.
+	^ self registry select: [:each | each path = prefix]
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:41'
+}
+SRMenuRegistry >> entries: aCollection [
+	entries := aCollection
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenuRegistry >> groupsUnder: aPrefix [
+	"Ordered by the lowest priority in the group, then alphabetically."
+
+	| prefix priorities |
+	prefix := aPrefix asArray.
+	priorities := Dictionary new.
+	self registry do: [:each | | key |
+		((each isUnder: prefix) and: [each path size > prefix size]) ifTrue: [
+			key := each path at: prefix size + 1.
+			priorities at: key put: ((priorities at: key ifAbsent: [each priority]) min: each priority)]].
+	^ (priorities associations asArray sort: [:a :b |
+		a value = b value
+			ifTrue: [a key <= b key]
+			ifFalse: [a value < b value]])
+				collect: [:assoc | assoc key]
+]
+
+{
+	#category : #registry,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
 }
 SRMenuRegistry >> itemsUnder: aPrefix [

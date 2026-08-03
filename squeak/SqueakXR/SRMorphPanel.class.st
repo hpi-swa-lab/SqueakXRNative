@@ -92,12 +92,12 @@ SRMorphPanel class >> workspace [
 
 {
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:26'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:38'
 }
 SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 	"Refresh every morph panel in the world (plane size + full texture repaint).
 	The pragma is only ever scanned by SRMenuRegistry."
-	<xrMenu: #(world) label: 'Refresh Morph Panels' priority: 160>
+	<xrMenu: #(world debug) label: 'Refresh Morph Panels' priority: 420>
 	^ self refreshAll
 ]
 
