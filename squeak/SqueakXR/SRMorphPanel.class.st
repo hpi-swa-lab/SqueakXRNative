@@ -201,7 +201,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:32'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:20'
 }
 SRMorphPanel >> initialize [
 

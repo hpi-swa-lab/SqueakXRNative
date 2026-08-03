@@ -109,7 +109,7 @@ SRShader class >> hasCachedShader: aName [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:20'
 }
 SRShader class >> morphicPanelSource [
 	<shaderSource: #morphicPanel>
