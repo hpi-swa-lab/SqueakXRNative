@@ -116,11 +116,10 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
-	"anAction takes the activated SRMenuItem as optional argument. Items that keep
-	the menu open do not dismiss the cascade when picked."
+	"anAction takes the activated SRMenuItem as an optional argument."
 
 	items add: (Array with: aString with: anAction with: aBoolean).
 	needsRebuild := true.

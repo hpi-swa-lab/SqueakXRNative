@@ -24,11 +24,9 @@ SRXRDebugHUD class >> xrMenuToggle: aMenu [
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRXRDebugHUD class >> xrMenuToggleLabel: aMenu [
-	"Computed label for #xrMenuToggle:."
-
 	^ aMenu world debugHUD
 		ifNil: ['Debug HUD: none']
 		ifNotNil: [:hud | hud visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF']]

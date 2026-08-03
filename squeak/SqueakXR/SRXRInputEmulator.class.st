@@ -35,11 +35,9 @@ SRXRInputEmulator class >> handOffset [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:24'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRXRInputEmulator class >> leftHandOffset [
-	"#handOffset mirrored to the left."
-
 	^ Vector3
 		x: self handOffset x negated
 		y: self handOffset y
@@ -48,11 +46,9 @@ SRXRInputEmulator class >> leftHandOffset [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:24'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRXRInputEmulator class >> rightHandOffset [
-	"#handOffset as measured, i.e. to the right."
-
 	^ self handOffset
 ]
 

@@ -825,11 +825,10 @@ SRObject >> position: aVector3 [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRObject >> privateRemoveChild: aSRObject [
-	"Detach without firing the removal notifications. Reparenting is not removal,
-	so addChild: uses this to steal a child from its previous parent."
+	"Detach without the removal notifications: reparenting is not removal."
 
 	self children remove: aSRObject ifAbsent: [^ self].
 	aSRObject parent: nil
@@ -908,13 +907,12 @@ SRObject >> remove [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRObject >> removeChild: aSRObject [
 
-	"Both hooks fire here rather than in remove, because remove is only one of
-	the ways a child leaves: senders reach for removeChild: directly too, and an
-	override of remove does not catch those."
+	"Both hooks fire here, not in #remove: senders reach for #removeChild: directly
+	too, and an override of #remove does not catch those."
 
 	(self children includes: aSRObject) ifFalse: [^ self].
 	self privateRemoveChild: aSRObject.
@@ -924,12 +922,10 @@ SRObject >> removeChild: aSRObject [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:57'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRObject >> removedChild: aSRObject [
-	"Notification hook: aSRObject was just detached from me. The Morphic
-	counterpart is Morph>>removedMorph:. Composite objects override this to
-	tear themselves down when a part they depend on is taken away."
+	"Hook: aSRObject was detached from me. Morphic counterpart: Morph>>removedMorph:."
 ]
 
 { #category : #rendering }
@@ -1102,13 +1098,11 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRObject >> wasRemoved [
-	"Notification hook: I was just detached from my parent, by whatever route.
-	Objects that own resources outside the scene graph -- a Morph in the Morphic
-	world, say -- release them here rather than in remove, so that removeChild:
-	sent directly by someone else cannot bypass the cleanup."
+	"Hook: I was detached from my parent, by whatever route. Release resources outside
+	the scene graph here rather than in #remove, which #removeChild: bypasses."
 ]
 
 { #category : #accessing }

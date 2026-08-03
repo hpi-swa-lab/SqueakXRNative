@@ -228,11 +228,10 @@ SRShader class >> shaderSourcePragmaKeyword [
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRShader class >> shaderSourcePragmas [
-	"Every <shaderSource: #name> pragma in the system, sorted by name.
-	 Not cached on purpose: a stale registry is the failure mode this replaces."
+	"Not cached on purpose: a stale registry is the failure mode this replaces."
 	| keyword found |
 	keyword := self shaderSourcePragmaKeyword.
 	found := OrderedCollection new.
@@ -371,10 +370,9 @@ SRShader class >> transpileAllUnsafe [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRShader class >> transpilePragma: aPragma [
-	"Transpile one <shaderSource:> method's dict into the cache. Answer the name."
 	| name |
 	name := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].

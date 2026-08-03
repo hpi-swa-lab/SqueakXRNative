@@ -64,26 +64,15 @@ SRPasteUpMorph >> invalidRect: damageRect from: aMorph [
 
 {
 	#category : #'dropping/grabbing',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:45'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRPasteUpMorph >> morphToGrab: event [
-	"Answer nil, so nothing is picked up out of this world.
+	"Nothing is picked up out of this world; it would tear down the SRMorphPanel
+	rendering the morph. PasteUpMorph>>mouseDown: is the only sender, and it is where
+	a morph handling no mouse events of its own gets grabbed.
 
-	PasteUpMorph>>mouseDown: is the only sender, and it is exactly where a plain
-	morph -- one that handles no mouse events of its own -- gets grabbed: the
-	mouseDown finds no handler on the way down, bubbles all the way up, the world
-	becomes the handler, and #mouseDown: hands whatever #morphToGrab: answers to
-	HandMorph>>grabMorph:. Stopping here is upstream of #aboutToBeGrabbedBy:,
-	which is a notification, not a veto point.
-
-	Grabbing would take the morph out of this world, firing #removedMorph: and
-	tearing down the SRMorphPanel rendering it. Dragging in 3D has its own
-	mechanism.
-
-	This covers only the world-initiated grab. Morphs that grab themselves --
-	SystemWindow>>startDragFromLabel:, list drag sources, halos -- call
-	HandMorph>>grabMorph: directly and never ask me. Those are stopped by
-	#isSticky instead, see Morph>>setInMorphPanel:."
+	Morphs that grab themselves (SystemWindow>>startDragFromLabel:, halos) never ask
+	me; #isSticky stops those, see Morph>>setInMorphPanel:."
 
 	^ self allowsMorphGrabbing
 		ifTrue: [super morphToGrab: event]
@@ -92,7 +81,7 @@ SRPasteUpMorph >> morphToGrab: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:45'
+	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
 }
 SRPasteUpMorph >> removedMorph: aMorph [
 

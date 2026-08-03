@@ -39,11 +39,9 @@ SRMenuRegistry class >> current [
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRMenuRegistry class >> reset [
-	"Throw away the singleton; the next #current builds a fresh one."
-
 	Current := nil
 ]
 
@@ -134,10 +132,10 @@ SRMenuRegistry >> registry [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRMenuRegistry >> updateRegistry [
-	"Rescan the system for xrMenu pragmas. Call after loading code."
+	"Call after loading code."
 
 	^ entries := self buildRegistry
 ]

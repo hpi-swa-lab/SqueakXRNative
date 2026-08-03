@@ -21,21 +21,15 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 
 {
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:26'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel class >> refreshAll [
-	"Force every SRMorphPanel in the running world to re-measure its plane and fully
-	repaint its texture. Answers how many panels were refreshed.
+	"The repair hatch for a stale panel: SRMorphTexture repaints from Morphic damage
+	rects and the plane size is only recomputed in #fullTextureUpdate, so a morph that
+	resized, or damage that never reached the texture, leaves the panel wrong.
 
-	The repair hatch for a panel that has gone stale: SRMorphTexture repaints from
-	Morphic damage rects, and the plane size is only recomputed in
-	#fullTextureUpdate -- so a morph that resized, or damage that never reached the
-	texture, leaves a panel showing the wrong thing at the wrong size until
-	something forces a full update.
-
-	Runs inside SRWorld>>runBetweenFrames:, so it cannot mutate plane scales while
-	a frame is mid-render. Discovered by walking the live scene graph rather than
-	via #allInstances, so panels of a torn-down world are not touched."
+	Walks the live scene graph rather than #allInstances, so panels of a torn-down
+	world are not touched. Answers how many were refreshed."
 	| world |
 	world := SRWorld current.
 	world ifNil: [^ 0].
@@ -92,33 +86,21 @@ SRMorphPanel class >> workspace [
 
 {
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:38'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel class >> xrMenuRefreshAll: aMenu [
-	"Refresh every morph panel in the world (plane size + full texture repaint).
-	The pragma is only ever scanned by SRMenuRegistry."
 	<xrMenu: #(world debug) label: 'Refresh Morph Panels' priority: 420>
 	^ self refreshAll
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:35'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
-	"Panel-specific context-menu items. This menu is reached at all only because the
-	panel's plane delegates its #grabTarget to the panel (see #initialize) -- the
-	hand ray hits the plane, and without that delegation these items would be
-	offered on an SRPlane instead.
-
-	'Refresh Texture' is the single-panel twin of SRMorphPanel class>>refreshAll:
-	SRMorphTexture repaints from Morphic damage rects, and the plane size is only
-	recomputed in #fullTextureUpdate -- so a panel whose morph resized, or whose
-	damage never reached the texture, stays stale until something forces a full
-	update.
-
-	Deferred through #runBetweenFrames: rather than run inline: a menu action fires
-	from inside a frame, and #fullTextureUpdate rescales the plane."
+	"Reached at all only because the plane delegates its #grabTarget to me, see
+	#initialize. Deferred: a menu action fires from inside a frame, and
+	#fullTextureUpdate rescales the plane."
 	super addCustomMenuItemsTo: aMenu.
 	aMenu
 		addItem: 'Refresh Texture'
@@ -129,15 +111,12 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel >> fullTextureUpdate [
 
-	"No morph, nothing to size or paint. Reachable for real: #removeMorph nils morph
-	while the panel is still a child of the world (SRPasteUpMorph>>removedMorph:
-	removes the morph before the panel), and both the Refresh Texture menu item and
-	SRMorphPanel class>>refreshAll walk live panels. Without this,
-	#setSizeFromPixelsPerMeter: fails with UndefinedObject>>width."
+	"#removeMorph nils morph while the panel is still in the world, and the refreshers
+	walk live panels."
 	morph ifNil: [^ self].
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
@@ -201,7 +180,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:20'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel >> initialize [
 
@@ -216,13 +195,8 @@ SRMorphPanel >> initialize [
 
 	plane material shader: texture shader.
 
-	"The plane is what a hand ray actually hits, but it is an implementation
-	detail -- grabbing or opening a context menu on it must act on the PANEL.
-	SRHand>>startGrabbing resolves the hit through #grabTarget, and the result
-	is what SRAvatar>>openMenuForHand: passes to SRMenu class>>contextMenuFor:...,
-	so this one line fixes both the grab and the menu. Same delegation
-	SWAGameBasePlate does, but set per instance: SRPlane is generic, and plain
-	planes must keep answering themselves."
+	"A hand ray hits the plane, but grabs and context menus must act on the panel.
+	Per instance, since plain SRPlanes must keep answering themselves."
 	plane grabTarget: self.
 
 	self addChild: plane.
@@ -336,13 +310,12 @@ SRMorphPanel >> removeMorph [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 16:00'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
 SRMorphPanel >> removedChild: aSRObject [
-	"The plane is the only thing of me a raycast can hit, so it is the plane the
-	context menu's Remove reaches, not me. Losing it makes me an invisible shell
-	holding a Morph that is still in the Morphic world and still stepping, so
-	take the whole panel down instead. self remove clears the morph too."
+	"The plane is the only thing of me a raycast can hit, so the context menu's Remove
+	reaches it, not me. Losing it would leave an invisible shell holding a Morph that
+	is still in the Morphic world and still stepping."
 
 	aSRObject == plane ifFalse: [^ self].
 	self parent
