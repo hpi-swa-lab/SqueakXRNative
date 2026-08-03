@@ -33,10 +33,13 @@ SRObject class >> toolIcon [
 	^ #srobject
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 7/31/2026 14:54'
+}
 SRObject >> addChild: aSRObject [
 	
-	| childWorld |
+	| childWorld world |
 	childWorld := aSRObject world.
 	
 	(self hasChild: aSRObject) ifTrue: [^ self].
@@ -48,8 +51,12 @@ SRObject >> addChild: aSRObject [
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
-	childWorld = self world ifFalse: [
-		aSRObject worldChanged: childWorld]
+	world := self world.
+	childWorld = world ifFalse: [
+		aSRObject worldChanged: childWorld].
+	
+	self changed: #childAdded with: self.
+	world ifNotNil: [world notifyObjectAdded: aSRObject].
 ]
 
 { #category : #hierarchy }
@@ -96,6 +103,20 @@ SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
 	self childrenDo: [:child | child allDo: aBlock].
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 8/3/2026 15:48'
+}
+SRObject >> ancestorChain [
+
+	| current |
+	current := self.
+	^ (Array streamContents: [:stream |
+		[current notNil] whileTrue: [
+			stream nextPut: current.
+			current := current parent]])
 ]
 
 {
@@ -891,11 +912,17 @@ SRObject >> remove [
 	self parent ifNotNil: [:parent | parent removeChild: self]
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'lege 7/31/2026 15:37'
+}
 SRObject >> removeChild: aSRObject [
 
 	self children remove: aSRObject ifAbsent: [^ self].
 	aSRObject parent: nil.
+	
+	self changed: #childRemoved with: {aSRObject. self}.
+	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
 ]
 
 { #category : #rendering }

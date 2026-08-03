@@ -478,7 +478,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 14:09'
+	#'squeak_changestamp' : 'lege 8/3/2026 13:54'
 }
 SRWorld >> doOneCycle [
 
@@ -492,7 +492,7 @@ SRWorld >> doOneCycle [
 	secondDelta := (secondCurrent - secondStart).
 	secondDelta > 10 seconds ifTrue: [
 		secondStart := DateAndTime now.
-		Transcript showln: '=------ FPS: ', Raylib getFPS asString].
+		"Transcript showln: '=------ FPS: ', Raylib getFPS asString"].
 	
 	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
 	frame process.
@@ -703,6 +703,24 @@ SRWorld >> maybeStartMCPServer [
 		do: [:e |
 			self log: 'MCP server failed to start: ', e messageText.
 			nil]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
+}
+SRWorld >> notifyObjectAdded: aSRObject [
+
+	self changed: #descendantAdded with: aSRObject
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
+}
+SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
+
+	self changed: #descendantRemoved with: {aSRObject. oldParent}.
 ]
 
 { #category : #'as yet unclassified' }
