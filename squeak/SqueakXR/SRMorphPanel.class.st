@@ -357,15 +357,11 @@ SRMorphPanel >> updateTexture [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 16:00'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:04'
 }
 SRMorphPanel >> wasRemoved [
-	"Losing my place in the scene graph takes the Morph with me, whichever route
-	detached me. Without this the Morph stays in the Morphic world, invisible but
-	still stepping. SRPasteUpMorph>>removedMorph: covers the opposite direction,
-	and removeMorph must run before the delete: it clears the Morph's
-	isInMorphPanel property, which is exactly the guard removedMorph: tests, so
-	the delete cannot bounce back into here."
+	"#removeMorph first: it clears the flag SRPasteUpMorph>>removedMorph: tests, so
+	the delete cannot bounce back here."
 
 	| shown |
 	shown := morph.
