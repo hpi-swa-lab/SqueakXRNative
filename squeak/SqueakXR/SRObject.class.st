@@ -1118,6 +1118,24 @@ SRObject >> visible: aBoolean [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
+}
+SRObject >> wasGrabbed [
+	"A hand just took hold of me. From here until #wasReleased the hand writes my
+	#globalTransform: every frame. Override to react; the default is to do nothing."
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
+}
+SRObject >> wasReleased [
+	"A hand let go of me. Not called #released: Object>>release already means
+	something else. Override to react; the default is to do nothing."
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }

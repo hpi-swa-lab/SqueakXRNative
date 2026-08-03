@@ -288,7 +288,7 @@ SRHand >> selectedObject [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
 }
 SRHand >> startGrabbing [
 
@@ -303,7 +303,8 @@ SRHand >> startGrabbing [
 		target ifNil: [^ self].
 		grabbedObject := target.
 		selectedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform].
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+		grabbedObject wasGrabbed].
 ]
 
 {
@@ -328,11 +329,15 @@ SRHand >> step: deltaTime [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
 }
 SRHand >> stopGrabbing [
 
+	| released |
+	released := grabbedObject.
+	"Nilled first: a handler asking the hand what it holds must not see a stale grab."
 	grabbedObject := nil.
+	released ifNotNil: [:object | object wasReleased].
 ]
 
 { #category : #'as yet unclassified' }

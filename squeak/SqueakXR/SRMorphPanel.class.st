@@ -95,7 +95,7 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 	"Reached at all only because the plane delegates its #grabTarget to me, see
@@ -106,12 +106,43 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 		addItem: 'Refresh Texture'
 		action: [self world
 			ifNil: [self fullTextureUpdate]
-			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]]
+			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]].
+	aMenu
+		addItem: (self resizers ifEmpty: ['Resize'] ifNotEmpty: [:r | 'Resize (hide handles)'])
+		action: [self world
+			ifNil: [self toggleResizers]
+			ifNotNil: [:w | w runBetweenFrames: [self toggleResizers]]]
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> addResizerAt: aCornerSymbol [
+	"My child, not the plane's: the plane carries the width/height scale and would
+	stretch the handle along with the panel."
+
+	| newResizer |
+	(self resizerAt: aCornerSymbol) ifNotNil: [:existing | ^ existing].
+	newResizer := SRResizer new.
+	self addChild: newResizer.
+	newResizer panel: self; corner: aCornerSymbol.
+	^ newResizer
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> addResizers [
+	"A drag handle on each of my four corners."
+
+	^ SRResizer corners collect: [:each | self addResizerAt: each]
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
 }
 SRMorphPanel >> fullTextureUpdate [
 
@@ -121,6 +152,8 @@ SRMorphPanel >> fullTextureUpdate [
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
 	texture fullUpdate.
+	"The Morph may have been resized by something other than a handle."
+	self snapResizers.
 ]
 
 {
@@ -309,6 +342,15 @@ SRMorphPanel >> removeMorph [
 ]
 
 {
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> removeResizers [
+
+	self resizers do: [:each | each remove]
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
 }
@@ -334,10 +376,53 @@ SRMorphPanel >> renderOn: aSRRenderer [
 	super renderOn: aSRRenderer.
 ]
 
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> resizerAt: aCornerSymbol [
+
+	^ self resizers
+		detect: [:each | each corner = aCornerSymbol]
+		ifNone: [nil]
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> resizers [
+	"My resize handles, however many are showing. Found by search rather than held
+	in an instance variable, so that adding this did not have to migrate live panels."
+
+	^ self children select: [:each | each isKindOf: SRResizer]
+]
+
 { #category : #rendering }
 SRMorphPanel >> setSizeFromPixelsPerMeter: aNumber [
 
 	plane scale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> snapResizers [
+	"All four handles move whenever the extent changes, not just the dragged one."
+
+	self resizers do: [:each | each snapToCorner]
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> toggleResizers [
+
+	self resizers
+		ifEmpty: [self addResizers]
+		ifNotEmpty: [self removeResizers]
 ]
 
 { #category : #rendering }
