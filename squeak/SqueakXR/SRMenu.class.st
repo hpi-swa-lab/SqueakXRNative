@@ -18,7 +18,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:25'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
@@ -35,37 +35,24 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		yourself.
 		
 	anObject addCustomMenuItemsTo: menu.
-	
+
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
+	menu
+		addItemsUnder: #(object) target: anObject;
+		addItemsUnder: {anObject class name asSymbol} target: anObject.
 	
 	^ menu.
 ]
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'lege 7/20/2026 17:56'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:53'
 }
 SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 	"aViewerPosition is the user's head/camera position; the menu will face it."
 	| menu |
 	menu := self new.
-	menu
-		addItem: 'Spawn Cube'
-		action: (MessageSend receiver: menu selector: #spawnCube: argument: aPosition).
-	(Smalltalk hasClassNamed: #SWAGameCube) ifTrue: [
-		menu
-			addItem: 'Spawn SWACube'
-			action: (MessageSend receiver: menu selector: #spawnSWACube: argument: aPosition)].
-	(Smalltalk hasClassNamed: #SWAGameXR) ifTrue: [
-		menu
-			addItem: 'Spawn SWAGame'
-			action: (MessageSend receiver: menu selector: #spawnSWAGame: argument: aPosition)].
-	menu
-		addItem: 'Scene Tree'
-		action: (MessageSend receiver: menu selector: #openSceneTreeInspector);
-		addItem: 'Frame Time Graph'
-		action: (MessageSend receiver: menu selector: #spawnFrameTimeGraph: argument: aPosition).
 	aWorld debugHUD ifNotNil: [
 		menu
 			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
@@ -93,6 +80,7 @@ SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
 		
 	menu setTransformAt: aPosition facingViewer: aViewerPosition.
 	aWorld addChild: menu.
+	menu addItemsUnder: #(world) target: nil.
 	
 	^ menu.
 ]
@@ -105,6 +93,17 @@ SRMenu >> addItem: aString action: aBlock [
 
 	items add: (Association key: aString value: aBlock).
 	needsRebuild := true.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+}
+SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
+	(SRMenuRegistry current itemsUnder: aPrefix) do: [:entry |
+		self
+			addItem: (self labelFor: entry under: aPrefix target: anObjectOrNil)
+			action: [entry activateIn: self target: anObjectOrNil]]
 ]
 
 {
@@ -173,21 +172,24 @@ SRMenu >> isOpen [
 ]
 
 {
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:37'
+}
+SRMenu >> labelFor: anEntry under: aPrefix target: anObjectOrNil [
+	"Groups are flattened into a label prefix until SRMenu has real submenus."
+	^ String streamContents: [:s |
+		(anEntry pathUnder: aPrefix) do: [:each |
+			s nextPutAll: each asString capitalized; nextPutAll: ': '].
+		s nextPutAll: (anEntry labelIn: self target: anObjectOrNil)]
+]
+
+{
 	#category : #'menu-actions',
 	#'squeak_changestamp' : 'lege 7/1/2026 18:11'
 }
 SRMenu >> openBrowser [
 
 	Browser open
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:00'
-}
-SRMenu >> openSceneTreeInspector [
-
-	SRSceneTreeInspector openOn: self world
 ]
 
 {
@@ -261,55 +263,6 @@ SRMenu >> setTransformAt: aPosition facingViewer: aViewerPosition [
 
 	self globalTranslation: aPosition;
 		lookAt: aViewerPosition.
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 17:51'
-}
-SRMenu >> spawnCube: aVector3 [
-
-	self world addChild: (
-		SRCube new
-			position: aVector3;
-			scale: 30cm asVector3)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:02'
-}
-SRMenu >> spawnFrameTimeGraph: aVector3 [
-
-	self world addChild: (
-		SRFrameTimeGraph new
-			position: aVector3;
-			yourself)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 17:54'
-}
-SRMenu >> spawnSWACube: aVector3 [
-
-	self world addChild: (
-		SWAGameCube new
-			position: aVector3;
-			scale: 10cm asVector3;
-			color: Color green)
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:00'
-}
-SRMenu >> spawnSWAGame: aVector3 [
-
-	| game |
-	game := SWAGameXR new position: aVector3.
-	self world addChild: game.
-	game generateWorld.
 ]
 
 {

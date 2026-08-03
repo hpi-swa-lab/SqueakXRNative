@@ -24,6 +24,7 @@ Class {
 	#classVars : [
 		'Current',
 		'KeyDict',
+		'LogFPS',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -327,6 +328,27 @@ SRWorld class >> keyFor: charCode shift: isShiftPressed [
 ]
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 09:57'
+}
+SRWorld class >> logFPS [
+	<preference: 'Log FPS'
+		category: 'SqueakXR'
+		description: 'Whether the render loop should periodically show the current FPS on the Transcript'
+		type: #Boolean>
+	^ LogFPS ifNil: [LogFPS := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 09:57'
+}
+SRWorld class >> logFPS: aBoolean [
+
+	LogFPS := aBoolean
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 4/2/2026 16:43'
 }
@@ -478,7 +500,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/3/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 7/30/2026 09:57'
 }
 SRWorld >> doOneCycle [
 
@@ -487,12 +509,13 @@ SRWorld >> doOneCycle [
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
 	
-	secondStart ifNil: [secondStart := DateAndTime now].
-	secondCurrent := DateAndTime now.
-	secondDelta := (secondCurrent - secondStart).
-	secondDelta > 10 seconds ifTrue: [
-		secondStart := DateAndTime now.
-		"Transcript showln: '=------ FPS: ', Raylib getFPS asString"].
+	self class logFPS ifTrue: [
+		secondStart ifNil: [secondStart := DateAndTime now].
+		secondCurrent := DateAndTime now.
+		secondDelta := (secondCurrent - secondStart).
+		secondDelta > 10 seconds ifTrue: [
+			secondStart := DateAndTime now.
+			Transcript showln: '=------ FPS: ', Raylib getFPS asString]].
 	
 	frame := self class ensureRenderFrame: self deltaTime: deltaTime.
 	frame process.
@@ -877,7 +900,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
 }
 SRWorld >> start [
 
@@ -890,6 +913,7 @@ SRWorld >> start [
 		self avatar ifNil: [
 				avatar := SRAvatar new.
 				self addChild: avatar].
+		SRMenuRegistry current updateRegistry.
 		self adjustPreferences;
 			initializeWorldProcess;
 			enterMorphicProject;
