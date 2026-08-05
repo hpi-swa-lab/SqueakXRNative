@@ -393,6 +393,18 @@ SRWorld class >> runStartScriptInXR: aBoolean [
 	RunStartScriptInXR := aBoolean
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'lege 8/5/2026 11:37'
+}
+SRWorld class >> saveImage: aMenu [
+	<xrMenu: #(world) label: 'Save Image' priority: 10000>
+	
+	"Since the world process is suspended during the startUp/shutDown procedure,
+	we cannot perform said procedure in the world process. Instead, create a new process for it."
+	[Smalltalk snapshot: true andQuit: false] fork
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> shiftValueOffset [
 

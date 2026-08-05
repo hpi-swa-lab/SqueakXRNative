@@ -44,3 +44,18 @@ SRRayIntersectionResult >> point: aVector3 [
 
 	point := aVector3
 ]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/4/2026 11:07'
+}
+SRRayIntersectionResult >> printOn: aStream [
+
+	super printOn: aStream.
+	
+	aStream nextPut: $(.
+	self object printOn: aStream.
+	aStream nextPutAll: ', '.
+	self point printOn: aStream.
+	aStream nextPut: $).
+]
