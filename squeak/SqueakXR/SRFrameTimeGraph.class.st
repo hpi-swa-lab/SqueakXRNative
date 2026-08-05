@@ -2,7 +2,8 @@ Class {
 	#name : #SRFrameTimeGraph,
 	#superclass : #SRObject,
 	#instVars : [
-		'bars',
+		'barMatrices',
+		'barColors',
 		'frameTimes',
 		'maxFrames',
 		'graphWidth',
@@ -51,23 +52,34 @@ SRFrameTimeGraph >> advanceRing [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:43'
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:04'
 }
-SRFrameTimeGraph >> applyBar: bar value: value x: x [
-	"Set the visual properties (height, color, position) of a single bar
-	from a data value and a horizontal position."
+SRFrameTimeGraph >> applyBar: index value: value x: x [
+	"Recompute the local matrix and color for the bar at the given ring
+	slot from a data value and a horizontal position."
 
-	| height color |
+	| height |
 	height := self mode = #frameTime
 		ifTrue: [self heightForFrameTime: value]
 		ifFalse: [self heightForFramesPerSecond: value].
-	color := self mode = #frameTime
+	barColors at: index put: (self mode = #frameTime
 		ifTrue: [self colorForFrameTime: value]
-		ifFalse: [self colorForFramesPerSecond: value].
-	bar
-		color: color;
-		scale: barWidth @ height @ barDepth;
-		translation: x @ (height / 2.0) @ 0.0
+		ifFalse: [self colorForFramesPerSecond: value]).
+	barMatrices at: index put: (self barMatrixAtX: x height: height)
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:11'
+}
+SRFrameTimeGraph >> barMatrixAtX: x height: height [
+	"Build a bar's local-space transform: a unit cube translated to
+	(x, height/2, 0) and scaled to (barWidth, height, barDepth). No
+	rotation, so the scale can be written straight onto the diagonal of
+	the translation matrix."
+
+	^ (Matrix4x4 withOffset: x @ (height / 2.0) @ 0.0)
+		setScale: barWidth @ height @ barDepth
 ]
 
 {
@@ -142,25 +154,25 @@ SRFrameTimeGraph >> colorForSpeedFps: fps [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:44'
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:04'
 }
 SRFrameTimeGraph >> commitDataPoint [
 	"A new data value has just been written into the ring at ringIndex.
 	Update only the youngest bar (the one at ringIndex): recompute its
-	visual properties and move it to the rightmost slot. Every other bar
+	matrix and color and move it to the rightmost slot. Every other bar
 	is simply shifted one bar-width to the left. Finally advance the ring."
 
-	| values youngestBar youngestValue rightX |
+	| values youngestValue rightX shift |
 	values := self mode = #frameTime
 		ifTrue: [frameTimes]
 		ifFalse: [fpsCounts].
 	rightX := rightEdge - (barWidth / 2.0).
-	youngestBar := bars at: ringIndex.
 	youngestValue := values at: ringIndex.
-	bars do: [:bar |
-		bar == youngestBar ifFalse: [
-			bar translation: bar translation - (barWidth @ 0.0 @ 0.0)]].
-	self applyBar: youngestBar value: youngestValue x: rightX.
+	shift := barWidth negated @ 0.0 @ 0.0.
+	1 to: maxFrames do: [:index |
+		index = ringIndex ifFalse: [
+			barMatrices at: index put: ((barMatrices at: index) translatedBy: shift)]].
+	self applyBar: ringIndex value: youngestValue x: rightX.
 	self advanceRing
 ]
 
@@ -362,7 +374,7 @@ SRFrameTimeGraph >> recordFramesPerSecondCount: frameCount [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:51'
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:04'
 }
 SRFrameTimeGraph >> redrawAllBars [
 	"Recompute every bar from the current data ring. Used on configuration
@@ -376,7 +388,21 @@ SRFrameTimeGraph >> redrawAllBars [
 		| age x |
 		age := (ringIndex - index) \\ maxFrames.
 		x := rightEdge - (barWidth / 2.0) - (age * barWidth).
-		self applyBar: (bars at: index) value: (values at: index) x: x]
+		self applyBar: index value: (values at: index) x: x]
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:09'
+}
+SRFrameTimeGraph >> renderOn: aSRRenderer [
+	"Draw all bars in one batch. Establish the graph's global transform
+	once, then render each bar cube using its local-space matrix so the
+	renderer composes global * local for the correct world placement."
+
+	aSRRenderer withTransform: self globalTransform do: [
+		barMatrices with: barColors do: [:matrix :color |
+			aSRRenderer renderCubeTransformed: matrix withColor: color]]
 ]
 
 {
@@ -411,29 +437,24 @@ SRFrameTimeGraph >> resetRing [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:43'
+	#'squeak_changestamp' : 'MCPServer 8/5/2026 15:04'
 }
 SRFrameTimeGraph >> setupBars [
-	"Create the bars and lay them out along the graph. Bars form a ring
+	"Initialize the per-bar local matrices and colors. Bars form a ring
 	parallel to the data ring: bar at ringIndex is the youngest (rightmost),
 	and each step back through the ring is one bar-width to the left."
 
 	barWidth := graphWidth / maxFrames.
 	leftEdge := graphWidth / -2.0.
 	rightEdge := graphWidth / 2.0.
-	bars := OrderedCollection new: maxFrames.
+	barMatrices := OrderedCollection new: maxFrames.
+	barColors := OrderedCollection new: maxFrames.
 	1 to: maxFrames do: [:index |
-		| bar age x |
+		| age x |
 		age := (ringIndex - index) \\ maxFrames.
 		x := rightEdge - (barWidth / 2.0) - (age * barWidth).
-		bar := SRCube new.
-		bar
-			name: 'FrameBar', index asString;
-			color: Color blue;
-			scale: barWidth @ 0.001 @ barDepth;
-			translation: x @ 0.0005 @ 0.
-		self addChild: bar.
-		bars addLast: bar]
+		barMatrices addLast: (self barMatrixAtX: x height: 0.001).
+		barColors addLast: Color blue]
 ]
 
 {
