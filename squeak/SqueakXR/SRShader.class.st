@@ -17,7 +17,7 @@ Class {
 		'Default',
 		'ShaderCache'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics'
 }
 
 {

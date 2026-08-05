@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'generatorMessage'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Mesh'
 }
 
 {

@@ -9,7 +9,7 @@ Class {
 		'RendererClass',
 		'StartMonitor'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
 
 {
