@@ -16,7 +16,8 @@ Class {
 		'actionState',
 		'selectedObject',
 		'hoveredMenuItem',
-		'avatar'
+		'avatar',
+		'inputState'
 	],
 	#classVars : [
 		'EndRate',
@@ -94,12 +95,17 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/21/2026 14:55'
+	#'squeak_changestamp' : 'lege 8/5/2026 17:58'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
-	"TODO: move low handling of inputs to separate class"
 	| aJustPressed prevAPressed prevMenuPressed menuJustPressed prevXPressed xJustPressed |
+	self isRight
+		ifTrue: [inputState updateActionsRight: aSRActionStates]
+		ifFalse: [inputState updateActionsLeft: aSRActionStates].
+		
+	Transcript showln: {self isRight ifTrue: ['right'] ifFalse: ['left']. inputState}.
+	
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates;
 		handleTrigger: (aSRActionStates triggers at: self handIndex).
@@ -217,7 +223,7 @@ SRHand >> handleTrigger: aNumber [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:55'
+	#'squeak_changestamp' : 'lege 8/5/2026 17:55'
 }
 SRHand >> initialize [
 
@@ -228,6 +234,8 @@ SRHand >> initialize [
 	squeezePressed := false.
 	menuPressed := false.
 	xPressed := false.
+	
+	inputState := SRHandInputState new.
 	
 	self addChild: (SRCube new scale: 10cm asVector3);
 		addChild: (SRCube new
