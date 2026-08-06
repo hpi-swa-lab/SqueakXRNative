@@ -771,9 +771,11 @@ SRObject >> notifyTransformChanged [
 SRObject >> onCacheInvalidated [
 ]
 
-{ #category : #events }
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 8/6/2026 16:37'
+}
 SRObject >> onRaycast: aSRRayIntersectionResult [
-
 	self changed: #raycast with: aSRRayIntersectionResult
 ]
 
