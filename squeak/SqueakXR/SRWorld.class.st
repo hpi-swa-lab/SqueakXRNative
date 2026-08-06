@@ -968,7 +968,7 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/4/2026 19:16'
+	#'squeak_changestamp' : 'phkeese 8/6/2026 15:43'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
@@ -976,7 +976,7 @@ SRWorld >> stopWorldAndLeaveProject [
 	[project close]
 		on: ProvideAnswerNotification
 		do: [:noti |
-			(noti messageText beginsWith: 'Do you really want to delete the project')
+			(noti messageText beginsWith: 'Do you really want to delete')
 				ifTrue: [noti resume: true]
 				ifFalse: [noti pass]].
 ]

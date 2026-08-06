@@ -170,11 +170,11 @@ SRSceneTreeInspector >> continueRendering [
 
 {
 	#category : #toolbuilder,
-	#'squeak_changestamp' : 'lege 10/6/2025 13:19'
+	#'squeak_changestamp' : 'phkeese 8/6/2026 15:12'
 }
 SRSceneTreeInspector >> continueStepping [
 
-	self currentSelection ifNotNil: [:object | object continueStepping]
+	self currentSelection ifNotNil: [:object | object last continueStepping]
 ]
 
 { #category : #'as yet unclassified' }
