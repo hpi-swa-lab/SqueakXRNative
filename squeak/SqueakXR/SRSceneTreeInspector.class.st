@@ -170,11 +170,11 @@ SRSceneTreeInspector >> continueRendering [
 
 {
 	#category : #toolbuilder,
-	#'squeak_changestamp' : 'phkeese 8/6/2026 15:12'
+	#'squeak_changestamp' : 'lege 8/4/2026 11:13'
 }
 SRSceneTreeInspector >> continueStepping [
 
-	self currentSelection ifNotNil: [:object | object last continueStepping]
+	self hasSelection ifTrue: [self currentSelection last continueStepping]
 ]
 
 { #category : #'as yet unclassified' }
@@ -282,14 +282,14 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/31/2026 17:10'
+	#'squeak_changestamp' : 'lege 8/4/2026 11:14'
 }
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
 	| selection |
 	self hasSelection ifFalse: [^ {}].
 	
-	selection := self currentSelection first.
+	selection := self currentSelection last.
 	^ {
 		selection name.
 		'Children: {1}' format: {selection childCount}.
