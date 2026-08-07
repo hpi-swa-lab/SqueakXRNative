@@ -42,12 +42,12 @@ SRAvatarFeet >> lastActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/6/2026 16:56'
+	#'squeak_changestamp' : 'phkeese 8/7/2026 14:31'
 }
 SRAvatarFeet >> step: deltaTime [
 	| leftStick |
-	leftStick := self lastActions thumbsticks at: 1.
-	leftCube position: (leftStick asVector3).
+	leftStick := self world avatar leftHand joystick vector.
+	self position: leftStick.
 
 ]
 
