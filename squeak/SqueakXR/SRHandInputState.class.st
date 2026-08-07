@@ -59,22 +59,25 @@ SRHandInputState >> menuButton [
 
 {
 	#category : #printing,
-	#'squeak_changestamp' : 'lege 8/5/2026 18:03'
+	#'squeak_changestamp' : 'lege 8/6/2026 16:36'
 }
 SRHandInputState >> printOn: aStream [
 
+	| joystickVector |
 	super printOn: aStream.
 	
-	aStream
-		nextPut: $(;
-		nextPutAll: ({
-			bottomButton isPressed asString.
-			topButton isPressed asString.
-			menuButton isPressed asString.
-			trigger value asString.
-			squeeze value asString.
-			joystick vector asString} joinSeparatedBy: ', ');
-		nextPut: $).
+	joystickVector := joystick vector.
+	
+	aStream nextPut: $(.
+	{
+		bottomButton isPressed asString.
+		topButton isPressed asString.
+		menuButton isPressed asString.
+		trigger value printShowingDecimalPlaces: 2.
+		squeeze value printShowingDecimalPlaces: 2.
+		(joystickVector x printShowingDecimalPlaces: 2),'@',
+		(joystickVector y printShowingDecimalPlaces: 2)} joinOn: aStream separatedBy: ', '.
+	aStream nextPut: $).
 ]
 
 {
@@ -106,12 +109,10 @@ SRHandInputState >> trigger [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'lege 8/5/2026 17:53'
+	#'squeak_changestamp' : 'lege 8/6/2026 16:27'
 }
 SRHandInputState >> updateActionsCommon: actionStates handIndex: handIndex [
 
-	self updateActionsCommon: actionStates.
-	
 	self trigger updateValue: (actionStates triggers at: handIndex).
 	self squeeze updateValue: (actionStates squeeze at: handIndex).
 	self joystick
