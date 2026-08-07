@@ -9,4 +9,10 @@ else
     ADB=adb
 fi
 
+device=$(adb devices -l | grep -m 1 "\(Quest_\S\+\)" | grep -o "^\S\+")
+if [ -z "$device" ]; then
+  echo "No compatible device found" 1>&2
+  exit -1
+fi
+
 "$ADB" reverse tcp:8080 tcp:8080
