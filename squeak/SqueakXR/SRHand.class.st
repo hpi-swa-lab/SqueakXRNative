@@ -305,7 +305,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:09'
+	#'squeak_changestamp' : 'lege 8/7/2026 11:49'
 }
 SRHand >> performActions [
 
@@ -314,8 +314,10 @@ SRHand >> performActions [
 			ifTrue: [self openMenu]
 			ifFalse: [self rayCast]].
 	
-	(self squeeze isJustPressed and: [self trigger isPressed not])
-		ifTrue: [self startGrabbing].
+	self squeeze isJustPressed ifTrue: [
+		self trigger isPressed
+			ifTrue: [self openMenu]
+			ifFalse: [self startGrabbing]].
 	
 	self squeeze isJustReleased ifTrue: [
 		self stopGrabbing].
