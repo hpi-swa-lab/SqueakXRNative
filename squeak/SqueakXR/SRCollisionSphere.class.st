@@ -20,6 +20,14 @@ SRCollisionSphere >> center: aVector3 [
 	center := aVector3
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:33'
+}
+SRCollisionSphere >> contains: aPoint [
+	^ (self center distanceTo: aPoint) <= self radius
+]
+
 { #category : #accessing }
 SRCollisionSphere >> radius [
 

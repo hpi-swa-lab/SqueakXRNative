@@ -32,6 +32,24 @@ SRCollisionBox >> center: aVector3 [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:19'
+}
+SRCollisionBox >> contains: aPoint [
+	| inverseRotation localOrigin min max|
+	inverseRotation := self rotation inverse.
+	localOrigin := inverseRotation rotateVector: (aPoint - self center).
+	min := self center - self halfExtents.
+	max := self center + self halfExtents.
+	^ ((localOrigin x >= min x) 
+	and: [ localOrigin x <= max x]
+	and: [ localOrigin y >= min y]
+	and: [ localOrigin y <= max y]
+	and: [ localOrigin z >= min z])
+	and: [ localOrigin z <= max z]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:48'
 }

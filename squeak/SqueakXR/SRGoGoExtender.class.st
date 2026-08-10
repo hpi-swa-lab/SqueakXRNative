@@ -10,8 +10,6 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'k',
-		'originCube',
-		'debugCube',
 		'hand',
 		'linearDistance'
 	],
@@ -45,19 +43,13 @@ SRGoGoExtender >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 16:16'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:08'
 }
 SRGoGoExtender >> initialize [ 
 	super initialize.
 	
 	k := 10.
 	linearDistance := 0.3.
-
-	originCube := (SRCube new scale: 10cm asVector3).
-	self addChild: originCube.
-	
-	debugCube := (SRCube new scale: 10cm asVector3).
-	self addChild: debugCube.
 ]
 
 {
@@ -119,7 +111,7 @@ SRGoGoExtender >> scaleFactor [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 15:13'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:08'
 }
 SRGoGoExtender >> step: deltaTime [ 
 	| p |
@@ -127,7 +119,6 @@ SRGoGoExtender >> step: deltaTime [
 	self childrenDo: [:child |
 		child globalTranslation: p
 	].
-	originCube globalTranslation: self origin.
 	
 	
 ]

@@ -15,6 +15,14 @@ SRCollisionGeometry class >> toolIcon [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 16:52'
+}
+SRCollisionGeometry >> contains: aPoint [
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:17'
 }
 SRCollisionGeometry >> ifCollisionGeometry: aBlock [

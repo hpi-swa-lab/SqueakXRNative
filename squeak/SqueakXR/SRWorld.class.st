@@ -823,7 +823,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/10/2026 14:28'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:34'
 }
 SRWorld >> runStartScript [
 
@@ -889,12 +889,15 @@ SRWorld >> runStartScript [
 	
 	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
 	
+	self addChild: (SRSphere new translation: 3@1@0).
+	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
 		label: 'Profile'
 		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
 		extent: 200 @ 100;
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
 		actionSelector: #value)).
+
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new

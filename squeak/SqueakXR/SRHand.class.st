@@ -225,7 +225,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 16:59'
 }
 SRHand >> initialize [
 
@@ -247,7 +247,11 @@ SRHand >> initialize [
 			scale: 10cm asVector3;
 			translation: 0 @ 10cm @ 0);
 		addChild: (SRGoGoExtender new
-			hand: self).
+			hand: self;
+			addChild: (SRPointGrabber new
+				hand: self
+			)
+		).
 ]
 
 {
