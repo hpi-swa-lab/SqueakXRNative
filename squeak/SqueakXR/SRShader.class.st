@@ -129,7 +129,7 @@ SRShader class >> shaderFromDict: aDictionary [
 ]
 
 {
-	#category : #discovery,
+	#category : #'shader sources',
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderNames [
@@ -137,7 +137,7 @@ SRShader class >> shaderNames [
 ]
 
 {
-	#category : #discovery,
+	#category : #'shader sources',
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmaKeyword [
@@ -145,7 +145,7 @@ SRShader class >> shaderSourcePragmaKeyword [
 ]
 
 {
-	#category : #discovery,
+	#category : #'shader sources',
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmas [
