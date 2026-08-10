@@ -823,7 +823,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/6/2026 16:49'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 14:28'
 }
 SRWorld >> runStartScript [
 
@@ -888,8 +888,6 @@ SRWorld >> runStartScript [
 			translation: -1.25 @ 1 @ -1.5)".
 	
 	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
-	
-	self addChild: (SRAvatarFeet new).
 	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
 		label: 'Profile'

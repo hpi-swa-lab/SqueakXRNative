@@ -6,7 +6,9 @@ Class {
 		'leftHand',
 		'rightHand',
 		'contextMenu',
-		'ghostAvatar'
+		'ghostAvatar',
+		'shoulderDepth',
+		'shoulderWidth'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -73,7 +75,7 @@ SRAvatar >> hands [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:10'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 15:29'
 }
 SRAvatar >> initialize [
 
@@ -82,6 +84,8 @@ SRAvatar >> initialize [
 	leftHand := SRHand left avatar: self.
 	rightHand := SRHand right avatar: self.
 	camera := SRAvatarCamera new.
+	shoulderDepth := 0.2.
+	shoulderWidth := 0.17 * 2.
 
 	self addChildren: {leftHand. rightHand. camera}.
 ]
@@ -180,6 +184,38 @@ SRAvatar >> openWorldMenuAt: aPosition [
 SRAvatar >> rightHand [
 
 	^ rightHand
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 14:52'
+}
+SRAvatar >> shoulderDepth [ 
+	^ shoulderDepth 
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 14:52'
+}
+SRAvatar >> shoulderDepth: aFloat [
+	shoulderDepth := aFloat 
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 15:29'
+}
+SRAvatar >> shoulderWidth [
+	^ shoulderWidth
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 15:29'
+}
+SRAvatar >> shoulderWidth: anObject [
+	shoulderWidth := anObject
 ]
 
 {

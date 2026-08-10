@@ -225,7 +225,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/7/2026 16:05'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 15:34'
 }
 SRHand >> initialize [
 
@@ -245,7 +245,9 @@ SRHand >> initialize [
 			translation: 0 @ 0 @ -5m);
 		addChild: (SRInputDebugger new
 			scale: 10cm asVector3;
-			translation: 0 @ 10cm @ 0).
+			translation: 0 @ 10cm @ 0);
+		addChild: (SRGoGoExtender new
+			hand: self).
 ]
 
 {
@@ -357,6 +359,18 @@ SRHand >> selectedObject [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 15:33'
+}
+SRHand >> shoulderPosition [
+	| xoff offset |
+	xoff := self avatar shoulderWidth / 2.
+	self handIndex = 1 ifFalse: [xoff := -1 * xoff].
+	offset := (xoff@(self avatar shoulderDepth)@0).
+	^ self avatar camera position - offset
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
 }
@@ -454,12 +468,12 @@ SRHand >> updateGrabbedObjectTransform [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 17:59'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 11:35'
 }
 SRHand >> updateTransformFromActions: aSRActionStates [
 	
 	| pose |
 	pose := aSRActionStates aimPoses at: self handIndex.
-	self globalTranslation: pose position;
-		globalRotation: pose orientation
+	self position: pose position;
+		rotation: pose orientation
 ]
