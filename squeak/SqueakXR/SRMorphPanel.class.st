@@ -21,6 +21,34 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:17'
+}
+SRMorphPanel class >> morphicPanel [
+	<shaderSource: #morphicPanel>
+	"Samples the Morph texture and swaps to BGRA, which is how Squeak Forms come out."
+
+	^ {
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor.bgra;
+}'
+	} as: Dictionary
+]
+
+{
 	#category : #refreshing,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }

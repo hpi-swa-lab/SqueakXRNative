@@ -34,6 +34,34 @@ SRObject class >> toolIcon [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:23'
+}
+SRObject class >> waterShader [
+	<shaderSource: #waterShader>
+
+	^ {
+		#uniforms -> #(time).
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor;
+}'
+} as: Dictionary
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:53'
 }
