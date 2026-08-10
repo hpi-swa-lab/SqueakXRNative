@@ -5,7 +5,8 @@ Class {
 		'morph',
 		'plane',
 		'texture',
-		'lastClickPosition'
+		'lastClickPosition',
+		'detachedMorph'
 	],
 	#classVars : [
 		'Mesh'
@@ -100,6 +101,16 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 		action: [self world
 			ifNil: [self fullTextureUpdate]
 			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:12'
+}
+SRMorphPanel >> detachedMorph [
+	"The Morph kept across a removal, see #wasRemoved."
+
+	^ detachedMorph
 ]
 
 {
@@ -285,6 +296,37 @@ SRMorphPanel >> onCacheInvalidated [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:12'
+}
+SRMorphPanel >> onWorldChanged: oldWorld [
+
+	super onWorldChanged: oldWorld.
+	self world ifNotNil: [self remountMorph]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:32'
+}
+SRMorphPanel >> remountMorph [
+	"Undo #wasRemoved. #morph: sets the isInMorphPanel flag before the Morph reaches
+	Morphic again, which is what stops SRPasteUpMorph>>addedMorph: from building a
+	second panel for it. Nowhere to put it means stay detached rather than lose it."
+
+	| detached morphicWorld |
+	detachedMorph ifNil: [^ self].
+	morphicWorld := self world ifNotNil: [:world | world morphicWorld].
+	morphicWorld ifNil: [^ self].
+	detached := detachedMorph.
+	detachedMorph := nil.
+	detached lastPanelPosition: self globalTranslation.
+	self morph: detached.
+	morphicWorld addMorph: detached.
+	^ detached
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
@@ -295,21 +337,6 @@ SRMorphPanel >> removeMorph [
 		morph lastPanelPosition: self globalTranslation.
 		morph := nil.
 		texture removeMorph].
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
-}
-SRMorphPanel >> removedChild: aSRObject [
-	"The plane is the only thing of me a raycast can hit, so the context menu's Remove
-	reaches it, not me. Losing it would leave an invisible shell holding a Morph that
-	is still in the Morphic world and still stepping."
-
-	aSRObject == plane ifFalse: [^ self].
-	self parent
-		ifNil: [self wasRemoved]
-		ifNotNil: [self remove]
 ]
 
 {
@@ -346,14 +373,14 @@ SRMorphPanel >> updateTexture [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:04'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:32'
 }
 SRMorphPanel >> wasRemoved [
-	"#removeMorph first: it clears the flag SRPasteUpMorph>>removedMorph: tests, so
-	the delete cannot bounce back here."
+	"Take the Morph out of Morphic, but remember it so #remountMorph can put it back.
+	#removeMorph first: it clears the flag SRPasteUpMorph>>removedMorph: tests, so the
+	delete cannot bounce back here."
 
-	| shown |
-	shown := morph.
+	detachedMorph := morph.
 	self removeMorph.
-	shown ifNotNil: [shown delete]
+	detachedMorph ifNotNil: [:each | each delete]
 ]

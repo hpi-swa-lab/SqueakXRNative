@@ -468,6 +468,15 @@ SRWorld >> avatar [
 	^ avatar
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:14'
+}
+SRWorld >> avatar: aSRAvatar [
+
+	avatar := aSRAvatar
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
@@ -731,6 +740,16 @@ SRWorld >> maybeStartMCPServer [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+}
+SRWorld >> morphicWorld [
+	"The one flat SRPasteUpMorph holding every Morph shown in a panel."
+
+	^ project ifNotNil: [:each | each world]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
 }
@@ -788,6 +807,15 @@ SRWorld >> processKeyInput [
 		keys do: [:k | self handleKeyPress: k]].
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+}
+SRWorld >> project: aProject [
+
+	project := aProject
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> render: aSRObject [
 
@@ -821,13 +849,13 @@ SRWorld >> resume [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 14:40'
+	#'squeak_changestamp' : 'jl 8/10/2026 15:10'
 }
 SRWorld >> runBetweenFrames: aBlock [
 
 	| done result |
 	self isRunning ifFalse: [^ aBlock value].
-	Processor activeProcess == worldProcess ifTrue: [
+	Processor activeProcess = worldProcess ifTrue: [
 		self pendingFrameActions add: aBlock.
 		^ nil].
 	done := Semaphore new.
