@@ -21,11 +21,19 @@ SRInputDualAxisState class >> deadzone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:33'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 11:29'
+}
+SRInputDualAxisState class >> deadzoneSquared [
+	^ self deadzone squared 
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/10/2026 11:28'
 }
 SRInputDualAxisState >> horizontal [
 
-	^ horizontal > self class deadzone
+	^ horizontal squared > self class deadzoneSquared
 		ifTrue: [horizontal]
 		ifFalse: [0]
 ]
@@ -96,20 +104,23 @@ SRInputDualAxisState >> realVertical [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:40'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 11:32'
 }
 SRInputDualAxisState >> vector [
-
-	^ self horizontal @ self vertical
+	| rv |
+	rv := self realVector .
+	^ (rv dotProduct: rv) > self class deadzoneSquared
+		ifTrue: [ rv ]
+		ifFalse: [ 0@0 ]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:38'
+	#'squeak_changestamp' : 'phkeese 8/10/2026 11:29'
 }
 SRInputDualAxisState >> vertical [
 
-	^ vertical > self class deadzone
+	^ vertical squared > self class deadzoneSquared
 		ifTrue: [vertical]
 		ifFalse: [0]
 ]
