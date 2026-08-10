@@ -242,7 +242,7 @@ SRMenu >> isOpen [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
 	"Only one submenu is open at a time; hitting the same row again closes it."
@@ -254,7 +254,6 @@ SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
 	sub := self class new
 		parentMenu: self;
 		yourself.
-	"Attach before building: computed labels may ask the menu for its world."
 	(self parent ifNil: [self world]) ifNotNil: [:container | container addChild: sub].
 	sub addItemsUnder: aPath target: anObjectOrNil.
 	sub rebuild.

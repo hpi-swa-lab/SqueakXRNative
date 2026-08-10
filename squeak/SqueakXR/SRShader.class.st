@@ -209,29 +209,25 @@ SRShader class >> shaderFromDict: aDictionary [
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderNames [
-	"The declared cache keys, as Strings (ShaderCache is String-keyed)."
 	^ (self shaderSourcePragmas collect: [:p | p arguments first asString]) asArray
 ]
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmaKeyword [
-	"Class-side methods answering a {#vert. #frag. #uniforms} dict tag themselves
-	 <shaderSource: #name>. The argument is the cache key."
 	^ #shaderSource:
 ]
 
 {
 	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmas [
-	"Not cached on purpose: a stale registry is the failure mode this replaces."
 	| keyword found |
 	keyword := self shaderSourcePragmaKeyword.
 	found := OrderedCollection new.
@@ -340,21 +336,18 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> transpileAll [
-	"Rebuild the cache from every <shaderSource:> method. Answer the verifyCache report.
-		SRShader transpileAll"
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 	^ self transpileAllUnsafe
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> transpileAllUnsafe [
-	"Rebuild the whole cache, app shaders included. Answer the verifyCache report."
 	| pragmas names |
 	pragmas := self shaderSourcePragmas.
 	names := pragmas collect: [:pragma | pragma arguments first asString].
@@ -386,11 +379,9 @@ SRShader class >> transpilePragma: aPragma [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> transpileShaderNamed: aName [
-	"Re-transpile one shader, leaving the rest of the cache alone.
-		SRShader transpileShaderNamed: #swagameVoxelOutline"
 	| pragma |
 	pragma := self shaderSourcePragmas
 		detect: [:each | each arguments first asString = aName asString]

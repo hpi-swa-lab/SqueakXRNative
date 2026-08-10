@@ -38,13 +38,10 @@ Morph >> openInXRWorld [
 
 {
 	#category : #'*SqueakXR-morphic',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 Morph >> setInMorphPanel: aBoolean [
-	"Sticky while in a panel. #isSticky is the flag every grab initiator honours
-	(SystemWindow>>startDragFromLabel:, PasteUpMorph>>mouseDown: ...), so no base
-	method needs overriding. A grab would pull me out of the XR world into the hand,
-	firing removedMorph: and tearing down the panel; move the panel in 3D instead."
+	"Sticky, so no grab initiator pulls me out of the XR world and tears down the panel."
 
 	self sticky: aBoolean.
 	^ self setProperty: #isInMorphPanel toValue: aBoolean

@@ -21,15 +21,11 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 
 {
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMorphPanel class >> refreshAll [
-	"The repair hatch for a stale panel: SRMorphTexture repaints from Morphic damage
-	rects and the plane size is only recomputed in #fullTextureUpdate, so a morph that
-	resized, or damage that never reached the texture, leaves the panel wrong.
+	"Answer how many panels of the live world were refreshed."
 
-	Walks the live scene graph rather than #allInstances, so panels of a torn-down
-	world are not touched. Answers how many were refreshed."
 	| world |
 	world := SRWorld current.
 	world ifNil: [^ 0].
@@ -95,12 +91,9 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
-	"Reached at all only because the plane delegates its #grabTarget to me, see
-	#initialize. Deferred: a menu action fires from inside a frame, and
-	#fullTextureUpdate rescales the plane."
 	super addCustomMenuItemsTo: aMenu.
 	aMenu
 		addItem: 'Refresh Texture'
@@ -111,12 +104,10 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMorphPanel >> fullTextureUpdate [
 
-	"#removeMorph nils morph while the panel is still in the world, and the refreshers
-	walk live panels."
 	morph ifNil: [^ self].
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
@@ -180,7 +171,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMorphPanel >> initialize [
 
@@ -195,8 +186,6 @@ SRMorphPanel >> initialize [
 
 	plane material shader: texture shader.
 
-	"A hand ray hits the plane, but grabs and context menus must act on the panel.
-	Per instance, since plain SRPlanes must keep answering themselves."
 	plane grabTarget: self.
 
 	self addChild: plane.

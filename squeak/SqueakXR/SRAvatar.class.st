@@ -13,21 +13,17 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRAvatar class >> menuSpawnDistance [
-	"Past the hand, along the viewing direction."
-
 	^ 20cm
 ]
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRAvatar class >> menuSpawnLift [
-	"Above the hand, along world up."
-
 	^ 20cm
 ]
 
