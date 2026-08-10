@@ -21,11 +21,13 @@ SRInputDualAxisState class >> deadzone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/7/2026 16:17'
+	#'squeak_changestamp' : 'lege 8/5/2026 17:33'
 }
 SRInputDualAxisState >> horizontal [
 
-	^ horizontal
+	^ horizontal > self class deadzone
+		ifTrue: [horizontal]
+		ifFalse: [0]
 ]
 
 {
@@ -58,21 +60,58 @@ SRInputDualAxisState >> normalizedVector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/7/2026 16:17'
+	#'squeak_changestamp' : 'lege 8/5/2026 17:39'
 }
-SRInputDualAxisState >> vector [
-	| p |
-	p := horizontal @ vertical.
-	^ p r < self class deadzone ifTrue: [ 0@0 ] ifFalse: [ p ]
+SRInputDualAxisState >> realHorizontal [
+
+	^ horizontal
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/7/2026 16:17'
+	#'squeak_changestamp' : 'lege 8/5/2026 17:39'
+}
+SRInputDualAxisState >> realNormalizedVector [
+
+	^ self realVector normalized
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/5/2026 17:39'
+}
+SRInputDualAxisState >> realVector [
+
+	^ horizontal @ vertical
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/5/2026 17:39'
+}
+SRInputDualAxisState >> realVertical [
+
+	^ vertical
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/5/2026 17:40'
+}
+SRInputDualAxisState >> vector [
+
+	^ self horizontal @ self vertical
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'lege 8/5/2026 17:38'
 }
 SRInputDualAxisState >> vertical [
 
-	^ vertical
+	^ vertical > self class deadzone
+		ifTrue: [vertical]
+		ifFalse: [0]
 ]
 
 {
