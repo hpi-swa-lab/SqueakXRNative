@@ -132,6 +132,33 @@ SRMorphPanelTest >> testRemountingPanelWithoutMorphIsHarmless [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:49'
+}
+SRMorphPanelTest >> testRemovingAncestorDetachesNestedPanelMorph [
+	
+	| window panel group |
+	window := self openWindowInMorphic.
+	panel := self panels first.
+	group := SRObject new.
+	xrWorld addChild: group.
+	group addChild: panel.
+
+	xrWorld removeChild: group.
+
+	self assert: panel parent == group.
+	self assert: panel morph isNil.
+	self assert: panel detachedMorph == window.
+	self deny: (morphicWorld submorphs includes: window).
+
+	xrWorld addChild: group.
+
+	self assert: panel morph == window.
+	self assert: panel detachedMorph isNil.
+	self assert: (morphicWorld submorphs includes: window)
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
 }
 SRMorphPanelTest >> testRemovingPanelInXRRemovesMorphFromMorphic [
@@ -148,4 +175,25 @@ SRMorphPanelTest >> testRemovingPanelInXRRemovesMorphFromMorphic [
 	self assert: window owner isNil.
 	self deny: window isInMorphPanel.
 	self assert: panel detachedMorph == window
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:49'
+}
+SRMorphPanelTest >> testReparentingPanelInsideWorldKeepsMorphInMorphic [
+
+	| window panel group |
+	window := self openWindowInMorphic.
+	panel := self panels first.
+	group := SRObject new.
+	xrWorld addChild: group.
+
+	group addChild: panel.
+
+	self assert: panel parent == group.
+	self assert: panel morph == window.
+	self assert: panel detachedMorph isNil.
+	self assert: (morphicWorld submorphs includes: window).
+	self assert: window owner == morphicWorld
 ]

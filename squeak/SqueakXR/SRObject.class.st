@@ -925,19 +925,18 @@ SRObject >> remove [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:57'
+	#'squeak_changestamp' : 'jl 8/10/2026 17:48'
 }
 SRObject >> removeChild: aSRObject [
-	"Both hooks fire here, not in #remove: senders reach for #removeChild: directly
-	too, and an override of #remove does not catch those."
-
+	| oldWorld |
 	(self children includes: aSRObject) ifFalse: [^ self].
+	oldWorld := self world.
 	self privateRemoveChild: aSRObject.
 	self removedChild: aSRObject.
 
-	aSRObject wasRemoved.
+	oldWorld ifNotNil: [aSRObject worldChanged: oldWorld].
 	self changed: #childRemoved with: {aSRObject. self}.
-	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+	oldWorld ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
 
 ]
 
@@ -1115,15 +1114,6 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
-}
-SRObject >> wasRemoved [
-	"Hook: I was detached from my parent, by whatever route. Release resources outside
-	the scene graph here rather than in #remove, which #removeChild: bypasses."
 ]
 
 { #category : #accessing }

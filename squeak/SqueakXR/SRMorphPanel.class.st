@@ -104,6 +104,18 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> detachMorph [
+
+	morph ifNil: [^ self].
+	detachedMorph := morph.
+	self removeMorph.
+	detachedMorph delete
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:12'
 }
@@ -297,22 +309,21 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:12'
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
 }
 SRMorphPanel >> onWorldChanged: oldWorld [
 
 	super onWorldChanged: oldWorld.
-	self world ifNotNil: [self remountMorph]
+	self world
+		ifNil: [self detachMorph]
+		ifNotNil: [self remountMorph]
 ]
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:32'
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
 }
 SRMorphPanel >> remountMorph [
-	"Undo #wasRemoved. #morph: sets the isInMorphPanel flag before the Morph reaches
-	Morphic again, which is what stops SRPasteUpMorph>>addedMorph: from building a
-	second panel for it. Nowhere to put it means stay detached rather than lose it."
 
 	| detached morphicWorld |
 	detachedMorph ifNil: [^ self].
@@ -369,18 +380,4 @@ SRMorphPanel >> update: aSymbol with: anObject [
 SRMorphPanel >> updateTexture [
 
 	plane material internalTexture: texture update.
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:32'
-}
-SRMorphPanel >> wasRemoved [
-	"Take the Morph out of Morphic, but remember it so #remountMorph can put it back.
-	#removeMorph first: it clears the flag SRPasteUpMorph>>removedMorph: tests, so the
-	delete cannot bounce back here."
-
-	detachedMorph := morph.
-	self removeMorph.
-	detachedMorph ifNotNil: [:each | each delete]
 ]

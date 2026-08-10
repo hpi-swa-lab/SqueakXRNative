@@ -249,12 +249,12 @@ SRHand >> isRight [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
 SRHand >> onWorldChanged: oldWorld [
 
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world addDependent: self.
+	self world ifNotNil: [:each | each addDependent: self].
 ]
 
 {
