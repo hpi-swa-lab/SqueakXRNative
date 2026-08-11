@@ -27,12 +27,11 @@ SRMeshObject class >> fromSource: aSRMeshSource [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:17'
+	#'squeak_changestamp' : 'jl 8/11/2026 16:28'
 }
 SRMeshObject class >> phong [
 	<shaderSource: #phong>
 	"Textured mesh lit by one fixed directional light."
-
 	^ {
 		#vert -> '#version 450
 

@@ -449,6 +449,15 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'jl 8/11/2026 16:27'
+}
+SRWorld >> addDeferredFrameMessage: aBlock [
+	
+	self pendingFrameActions add: aBlock
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
 }
@@ -741,11 +750,9 @@ SRWorld >> maybeStartMCPServer [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
 }
 SRWorld >> morphicWorld [
-	"The one flat SRPasteUpMorph holding every Morph shown in a panel."
-
 	^ project ifNotNil: [:each | each world]
 ]
 
@@ -845,24 +852,6 @@ SRWorld >> resume [
 			needsSetup := false.
 			self initializeWorldProcess].
 		worldProcess resume].
-]
-
-{
-	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'jl 8/10/2026 15:10'
-}
-SRWorld >> runBetweenFrames: aBlock [
-
-	| done result |
-	self isRunning ifFalse: [^ aBlock value].
-	Processor activeProcess = worldProcess ifTrue: [
-		self pendingFrameActions add: aBlock.
-		^ nil].
-	done := Semaphore new.
-	self pendingFrameActions add: [
-		[result := aBlock value] ensure: [done signal]].
-	done wait.
-	^ result
 ]
 
 {

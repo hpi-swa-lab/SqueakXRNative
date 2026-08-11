@@ -22,11 +22,11 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:17'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
 }
 SRMorphPanel class >> morphicPanel [
 	<shaderSource: #morphicPanel>
-	"Samples the Morph texture and swaps to BGRA, which is how Squeak Forms come out."
+	"Squeak Forms come out BGRA."
 
 	^ {
 		#frag -> '
@@ -50,21 +50,17 @@ void main()
 
 {
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
 }
 SRMorphPanel class >> refreshAll [
-	"Answer how many panels of the live world were refreshed."
 
 	| world |
 	world := SRWorld current.
-	world ifNil: [^ 0].
-	^ world runBetweenFrames: [
-		| n |
-		n := 0.
+	world ifNil: [^ self].
+	world addDeferredFrameMessage: [
 		world
 			allDescendantsSelect: [:obj | obj isMorphPanel]
-			thenDo: [:panel | panel fullTextureUpdate. n := n + 1].
-		n]
+			thenDo: [:panel | panel fullTextureUpdate]]
 ]
 
 {
@@ -120,7 +116,7 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:21'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 	super addCustomMenuItemsTo: aMenu.
@@ -128,7 +124,7 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 		addItem: 'Refresh Texture'
 		action: [self world
 			ifNil: [self fullTextureUpdate]
-			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]]
+			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]]
 ]
 
 {
@@ -145,11 +141,9 @@ SRMorphPanel >> detachMorph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:12'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
 }
 SRMorphPanel >> detachedMorph [
-	"The Morph kept across a removal, see #wasRemoved."
-
 	^ detachedMorph
 ]
 
