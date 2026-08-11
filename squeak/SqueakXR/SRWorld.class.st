@@ -823,7 +823,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/10/2026 17:34'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:34'
 }
 SRWorld >> runStartScript [
 
@@ -890,6 +890,8 @@ SRWorld >> runStartScript [
 	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
 	
 	self addChild: (SRSphere new translation: 3@1@0).
+	self addChild: (SRDistPlane new translation: 2@1@2; 
+		scale: 50cm asVector3 ).
 	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
 		label: 'Profile'

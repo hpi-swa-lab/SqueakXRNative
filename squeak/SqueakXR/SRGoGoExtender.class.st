@@ -11,7 +11,8 @@ Class {
 	#instVars : [
 		'k',
 		'hand',
-		'linearDistance'
+		'linearDistance',
+		'shoulderCube'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 8/10/2026 14:19'
@@ -43,13 +44,15 @@ SRGoGoExtender >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 17:08'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:36'
 }
 SRGoGoExtender >> initialize [ 
 	super initialize.
 	
 	k := 10.
 	linearDistance := 0.3.
+	shoulderCube := SRCube new scale: 5cm asVector3.
+	self addChild: shoulderCube.
 ]
 
 {
@@ -111,7 +114,7 @@ SRGoGoExtender >> scaleFactor [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 17:08'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:37'
 }
 SRGoGoExtender >> step: deltaTime [ 
 	| p |
@@ -119,6 +122,7 @@ SRGoGoExtender >> step: deltaTime [
 	self childrenDo: [:child |
 		child globalTranslation: p
 	].
+	shoulderCube globalTranslation: self origin.
 	
 	
 ]

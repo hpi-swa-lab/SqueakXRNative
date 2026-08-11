@@ -45,6 +45,26 @@ SRCollisionPlane class >> point: point normal: normal up: up width: width height
 		height: height
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:31'
+}
+SRCollisionPlane >> distanceTo: aPoint [
+	| b q d min p |
+	d := (self projected: aPoint) distanceTo: aPoint.
+	self isBounded ifFalse: [ ^ d ].
+	
+	p := aPoint - self point.
+	b := ((self width)@(self height)@0) / 2.
+	q := p abs - b.
+	min := (q x max: q y) min: 0.
+	^ ((q max: Vector3 zero) length + min) max: d
+	
+	
+	
+	
+]
+
 { #category : #accessing }
 SRCollisionPlane >> extent [
 
@@ -99,6 +119,17 @@ SRCollisionPlane >> point [
 SRCollisionPlane >> point: aVector3 [
 
 	point := aVector3
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:22'
+}
+SRCollisionPlane >> projected: aPoint [
+	| p2p dist |
+	p2p := aPoint - self point.
+	dist := self normal dot: p2p.
+	^ aPoint - (dist * self normal)
 ]
 
 { #category : #collisions }

@@ -7,7 +7,10 @@ Class {
 	#category : #'SqueakXR-Objects'
 }
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:38'
+}
 SRSphere >> collisionGeometry [
 
 	^ SRCollisionSphere new

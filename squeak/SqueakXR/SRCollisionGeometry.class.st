@@ -15,10 +15,10 @@ SRCollisionGeometry class >> toolIcon [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 16:52'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 10:57'
 }
-SRCollisionGeometry >> contains: aPoint [
-	^ false
+SRCollisionGeometry >> distanceTo: aPoint [
+	^ Float infinity 
 ]
 
 {

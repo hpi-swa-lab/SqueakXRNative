@@ -364,14 +364,12 @@ SRHand >> selectedObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 15:33'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:55'
 }
 SRHand >> shoulderPosition [
-	| xoff offset |
-	xoff := self avatar shoulderWidth / 2.
-	self handIndex = 1 ifFalse: [xoff := -1 * xoff].
-	offset := (xoff@(self avatar shoulderDepth)@0).
-	^ self avatar camera position - offset
+	| offset |
+	offset := 0@(self avatar shoulderDepth)@0.
+	^ self avatar camera globalTranslation - offset
 ]
 
 {
@@ -385,10 +383,10 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:17'
 }
 SRHand >> startGrabbing [
-
+"
 	| ray |
 	ray := SRRay
 		origin: self globalTranslation
@@ -400,7 +398,7 @@ SRHand >> startGrabbing [
 		target ifNil: [^ self].
 		grabbedObject := target.
 		selectedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform].
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform]."
 ]
 
 {

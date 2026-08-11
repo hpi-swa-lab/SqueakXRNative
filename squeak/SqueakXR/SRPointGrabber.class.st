@@ -2,7 +2,9 @@ Class {
 	#name : #SRPointGrabber,
 	#superclass : #SRObject,
 	#instVars : [
-		'hand'
+		'hand',
+		'grabbedObject',
+		'grabbedTransform'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -33,24 +35,61 @@ SRPointGrabber >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 16:58'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:58'
 }
 SRPointGrabber >> initialize [
 	super initialize.
 	self addChild: (SRCube new
-		scale: 1cm asVector3 ).
+		scale: 10cm asVector3;
+		color: (1@0@0@0.5)).
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 17:34'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:20'
+}
+SRPointGrabber >> startGrabbing: anSRObject [
+	Transcript showln: 'Start grabbing ', anSRObject.
+	grabbedObject := anSRObject.
+	grabbedTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:31'
 }
 SRPointGrabber >> step: deltaTime [
+	self updateGrabbing.
+	self hand squeeze isJustPressed
+	ifTrue: [ 'Just squeezed!' ].
+	grabbedObject ifNotNil: [ grabbedObject globalTransform: self globalTransform * grabbedTransform ]
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 11:31'
+}
+SRPointGrabber >> stopGrabbing [
+	grabbedObject ifNotNil: [
+		Transcript showln: 'Stop grabbing'.
+		grabbedObject := nil.
+		grabbedTransform := nil.
+	]
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:38'
+}
+SRPointGrabber >> updateGrabbing [
 	| collisions |
 	collisions := SRCollisionPoint new
 		origin: self globalTranslation;
+		radius: 5cm;
 		cast: self world.
-	collisions isEmpty ifFalse: [
-		Transcript showln: 'Intersecting with ', collisions first
-	]
+	(collisions notEmpty and: [ self hand squeeze isJustPressed ])
+		ifTrue: [ self startGrabbing: collisions first ].
+	
+	(self hand squeeze isJustReleased)
+		ifTrue: [ self stopGrabbing ].
 ]
