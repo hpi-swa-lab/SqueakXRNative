@@ -16,7 +16,8 @@ Class {
 		'badStep',
 		'badRender',
 		'grabTarget',
-		'visible'
+		'visible',
+		'canGrab'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -162,6 +163,22 @@ SRObject >> badStep: aBoolean [
 SRObject >> cacheInvalidated [
 
 	self allDo: #onCacheInvalidated.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
+}
+SRObject >> canGrab [
+	^ canGrab
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
+}
+SRObject >> canGrab: anObject [
+	canGrab := anObject
 ]
 
 {
@@ -515,7 +532,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
 }
 SRObject >> initialize [
 
@@ -527,6 +544,7 @@ SRObject >> initialize [
 	badRender := false.
 	
 	visible := true.
+	canGrab := true.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
