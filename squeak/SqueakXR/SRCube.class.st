@@ -22,6 +22,18 @@ SRCube class >> xrMenuSpawn: aMenu [
 	^ cube
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/11/2026 16:18'
+}
+SRCube >> collisionGeometry [
+	^ SRCollisionBox new
+		center: self globalTranslation;
+		size: self globalScale;
+		rotation: self globalRotation;
+		object: self
+]
+
 { #category : #accessing }
 SRCube >> color [
 

@@ -50,6 +50,20 @@ SRCollisionBox >> contains: aPoint [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 16:20'
+}
+SRCollisionBox >> distanceTo: aPoint [
+	| inverseRotation localPoint b min q |
+	inverseRotation := self rotation inverse.
+	localPoint := inverseRotation rotateVector: (aPoint - self center).
+	b := self halfExtents.
+	q := localPoint abs - b.
+	min := ((q x max: q y) max: q z) min: 0.
+	^ ((q max: Vector3 zero) length + min)
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:48'
 }
