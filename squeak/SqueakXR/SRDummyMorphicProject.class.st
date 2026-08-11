@@ -15,7 +15,7 @@ Class {
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:31'
 }
 SRDummyMorphicProject >> initialize [
 

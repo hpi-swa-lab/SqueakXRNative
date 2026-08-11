@@ -222,7 +222,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:28'
 }
 SRMorphPanel >> initialize [
 
@@ -403,9 +403,10 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+	#'squeak_changestamp' : 'jl 8/11/2026 15:49'
 }
 SRMorphPanel >> updateTexture [
 
-	plane material internalTexture: texture update.
+	texture update ifNotNil: [:each |
+		plane material internalTexture: each].
 ]

@@ -54,6 +54,18 @@ SRShader class >> doesNotUnderstand: aMessage [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'jl 8/11/2026 15:52'
+}
+SRShader class >> duplicateShaderNames [
+
+	| names |
+	names := self shaderNames.
+	^ (names asSet select: [:each | (names occurrencesOf: each) > 1])
+		asSortedCollection asArray
+]
+
+{
 	#category : #prerequisites,
 	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:09'
 }
@@ -266,41 +278,40 @@ SRShader class >> transpileAll [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:45'
 }
 SRShader class >> transpileAllUnsafe [
-	| pragmas names |
+
+	| pragmas duplicates |
 	pragmas := self shaderSourcePragmas.
-	names := pragmas collect: [:pragma | pragma arguments first asString].
-	names size = names asSet size ifFalse: [
-		"One name would silently overwrite the other."
-		^ self error: 'Duplicate <shaderSource:> names: ',
-			(names asSet asArray select: [:name |
-				(names occurrencesOf: name) > 1]) printString].
+	duplicates := self duplicateShaderNames.
+	duplicates ifNotEmpty: [
+		Transcript cr; show: '** Duplicate <shaderSource:> names, only the last of each survives the cache: ', duplicates printString].
 	self resetCache.
-	pragmas do: [:pragma | self transpilePragma: pragma].
+	pragmas do: [:pragma | self transpileShaderDeclaredBy: pragma].
 	^ self verifyCache
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:45'
 }
-SRShader class >> transpilePragma: aPragma [
-	| name |
-	name := aPragma arguments first asString.
+SRShader class >> transpileShaderDeclaredBy: aPragma [
+
+	| shaderName |
+	shaderName := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].
-	UIManager default informUser: 'Transpiling ', name, '...' during: [
-		ShaderCache
-			at: name
-			put: (self transpileSource:
-				(aPragma methodClass theNonMetaClass perform: aPragma selector))].
-	^ name
+	Transcript cr; show: 'Transpiling shader ', shaderName, '...'.
+	ShaderCache
+		at: shaderName
+		put: (self transpileSource:
+			(aPragma methodClass theNonMetaClass perform: aPragma selector)).
+	^ shaderName
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:46'
 }
 SRShader class >> transpileShaderNamed: aName [
 	| pragma |
@@ -308,7 +319,7 @@ SRShader class >> transpileShaderNamed: aName [
 		detect: [:each | each arguments first asString = aName asString]
 		ifNone: [^ self error: 'No method is marked <shaderSource: #', aName asString, '>'].
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
-	^ self transpilePragma: pragma
+	^ self transpileShaderDeclaredBy: pragma
 ]
 
 {
@@ -430,10 +441,11 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:44'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:48'
 }
 SRShader >> load [
 
+	SRRenderer ensureContext.
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |

@@ -33,7 +33,7 @@ SRMorphPanelTest >> panels [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:32'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:02'
 }
 SRMorphPanelTest >> setUp [
 
@@ -42,8 +42,6 @@ SRMorphPanelTest >> setUp [
 	xrWorld := SRWorld new.
 	xrWorld avatar: SRAvatar new.
 	xrWorld addChild: xrWorld avatar.
-	"Never started, so nothing can load a shader: seed the one SRMorphTexture asks for."
-	xrWorld renderer cacheAt: #morphTextureShader ifAbsentPut: [nil].
 	xrWorld project: SRDummyMorphicProject new.
 	SRWorld current: xrWorld.
 	morphicWorld := xrWorld morphicWorld
@@ -63,13 +61,13 @@ SRMorphPanelTest >> tearDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 2/17/2026 18:45'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:31'
 }
 SRMorphPanelTest >> testMorphInPanel [
 
 	| morph panel |
 	morph := Morph new.
-	panel := SRDummyMorphPanel new.
+	panel := SRMorphPanel new.
 	
 	self deny: morph isInMorphPanel.
 	panel morph: morph.
@@ -115,12 +113,12 @@ SRMorphPanelTest >> testRemountingPanelInXRReaddsMorphToMorphic [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:31'
 }
 SRMorphPanelTest >> testRemountingPanelWithoutMorphIsHarmless [
 
 	| panel |
-	panel := SRDummyMorphPanel new.
+	panel := SRMorphPanel new.
 	xrWorld addChild: panel.
 	panel remove.
 

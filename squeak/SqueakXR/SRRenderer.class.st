@@ -36,6 +36,25 @@ SRRenderer class >> default [
 	^ SRRaylibRenderer
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'jl 8/11/2026 15:51'
+}
+SRRenderer class >> ensureContext [
+	"prevent VM crashes here"
+
+	self assert: self hasContext description: 'no GL context: open a renderer window first'
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'jl 8/11/2026 15:51'
+}
+SRRenderer class >> hasContext [
+
+	^ Raylib isWindowReady
+]
+
 { #category : #preferences }
 SRRenderer class >> rendererClass [
 	<preference: 'Renderer'
