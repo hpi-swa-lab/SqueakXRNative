@@ -13,6 +13,16 @@ Class {
 }
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
+}
+SRRenderer class >> assertContext [
+	"Calls into GL without a context do not raise, they take the VM down."
+
+	self assert: self hasContext description: 'no GL context: open a renderer window first'
+]
+
+{
 	#category : #preferences,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:30'
 }
@@ -34,16 +44,6 @@ SRRenderer class >> clearColor: aColor [
 SRRenderer class >> default [
 
 	^ SRRaylibRenderer
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'jl 8/11/2026 15:51'
-}
-SRRenderer class >> ensureContext [
-	"prevent VM crashes here"
-
-	self assert: self hasContext description: 'no GL context: open a renderer window first'
 ]
 
 {

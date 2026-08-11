@@ -2,13 +2,13 @@ Extension { #name : #Form }
 
 {
 	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
 }
 Form >> createTexture [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
 	| tex |
-	SRRenderer ensureContext.
+	SRRenderer assertContext.
 	tex := RlTexture new
 		id: (Raylib rlLoadTextureData: self bits
 			width: self width
@@ -26,12 +26,12 @@ Form >> createTexture [
 
 {
 	#category : #'*SqueakXR-core',
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
 }
 Form >> updateTexture: aTexture in: aRectangle [
 	
 	"Adapted from Raylib's LoadTextureFromImage"
-	SRRenderer ensureContext.
+	SRRenderer assertContext.
 	Raylib rlUpdateTextureId: aTexture id
 		offsetX: aRectangle left
 		offsetY: aRectangle top

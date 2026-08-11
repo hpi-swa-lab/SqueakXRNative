@@ -278,7 +278,7 @@ SRShader class >> transpileAll [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:45'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:09'
 }
 SRShader class >> transpileAllUnsafe [
 
@@ -288,8 +288,7 @@ SRShader class >> transpileAllUnsafe [
 	duplicates ifNotEmpty: [
 		Transcript cr; show: '** Duplicate <shaderSource:> names, only the last of each survives the cache: ', duplicates printString].
 	self resetCache.
-	pragmas do: [:pragma | self transpileShaderDeclaredBy: pragma].
-	^ self verifyCache
+	^ pragmas collect: [:pragma | self transpileShaderDeclaredBy: pragma]
 ]
 
 {
@@ -346,73 +345,6 @@ SRShader class >> transpileSource: sourceDict [
 ]
 
 {
-	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
-}
-SRShader class >> verifyCache [
-	"Check the cache against both render targets and against the declared shader
-	 set. Run before shipping to a device that cannot transpile.
-		SRShader verifyCache"
-	| out clean declared cached |
-	out := WriteStream on: String new.
-	clean := true.
-	declared := self shaderNames asSet.
-	cached := (ShaderCache ifNil: [Dictionary new]) keys asSet.
-	(declared difference: cached) asSortedCollection do: [:name |
-		clean := false.
-		out nextPutAll: 'declared <shaderSource: #', name, '> but not in the cache'; cr].
-	(cached difference: declared) asSortedCollection do: [:name |
-		clean := false.
-		out nextPutAll: 'cached but no method declares <shaderSource: #', name, '> (stale)'; cr].
-	#(#'300es' #'330') do: [:version |
-		| complaints |
-		complaints := self verifyCacheFor: version.
-		complaints isEmpty ifFalse: [
-			clean := false.
-			out nextPutAll: version; nextPutAll: ':'; cr.
-			complaints do: [:c | out tab; nextPutAll: c; cr]]].
-	clean ifTrue: [
-		^ 'ShaderCache OK (', cached size printString, ' shaders: ',
-			((cached asSortedCollection) inject: '' into: [:a :b |
-				a isEmpty ifTrue: [b] ifFalse: [a, ', ', b]]), ')'].
-	^ out contents
-]
-
-{
-	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
-}
-SRShader class >> verifyCacheFor: version [
-	"Answer complaints about cache entries unusable for version (#'300es' or
-	 #'330'); empty means safe to ship. An absent stage is legal, so only
-	 present stages are checked."
-	| complaints expected |
-	complaints := OrderedCollection new.
-	ShaderCache ifNil: [^ complaints add: 'ShaderCache is nil'; yourself].
-	expected := version = #'300es'
-		ifTrue: ['#version 300 es']
-		ifFalse: ['#version ', version].
-	ShaderCache keysAndValuesDo: [:name :versions |
-		| entry present |
-		entry := versions at: version ifAbsent: [nil].
-		entry
-			ifNil: [complaints add: name, ': no ', version, ' entry at all']
-			ifNotNil: [
-				present := self stages select: [:stage |
-					(entry at: stage ifAbsent: [nil]) notNil].
-				present isEmpty
-					ifTrue: [complaints add: name, ': ', version, ' entry has no stages']
-					ifFalse: [present do: [:stage |
-						| src firstLine |
-						src := entry at: stage.
-						firstLine := (src readStream upTo: Character lf) withBlanksTrimmed.
-						(firstLine beginsWith: expected) ifFalse: [
-							complaints add: name, '/', stage, ': expected ', expected printString,
-								' but found ', firstLine printString]]]]].
-	^ complaints
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 3/11/2026 16:48'
 }
@@ -441,11 +373,11 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
 }
 SRShader >> load [
 
-	SRRenderer ensureContext.
+	SRRenderer assertContext.
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |
