@@ -20,10 +20,10 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 14:40'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:47'
 }
 SRGoGoExtender >> color: aColor [
-	self childrenDo: [:c | c color: aColor]
+	shoulderCube color: aColor
 ]
 
 {

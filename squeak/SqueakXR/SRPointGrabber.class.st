@@ -10,14 +10,6 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/10/2026 16:58'
-}
-SRPointGrabber >> color: aColor [
-	self childrenDo: [:c | c color: aColor]
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 8/10/2026 17:00'
 }
@@ -35,13 +27,15 @@ SRPointGrabber >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 11:58'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
 }
 SRPointGrabber >> initialize [
 	super initialize.
-	self addChild: (SRCube new
+	self addChild: (SRSphere  new
 		scale: 10cm asVector3;
-		color: (1@0@0@0.5)).
+		color: (Color black alpha: 0.7);
+		canGrab: false
+	).
 ]
 
 {
