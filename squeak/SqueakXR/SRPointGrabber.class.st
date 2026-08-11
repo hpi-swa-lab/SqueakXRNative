@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'hand',
 		'grabbedObject',
-		'grabbedTransform'
+		'grabbedTransform',
+		'cursor'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -27,15 +28,14 @@ SRPointGrabber >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 15:26'
 }
 SRPointGrabber >> initialize [
 	super initialize.
-	self addChild: (SRSphere  new
+	cursor := SRSphere  new
 		scale: 10cm asVector3;
-		color: (Color black alpha: 0.7);
-		canGrab: false
-	).
+		canGrab: false.
+	self addChild: cursor.
 ]
 
 {
@@ -73,7 +73,7 @@ SRPointGrabber >> stopGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:38'
+	#'squeak_changestamp' : 'phkeese 8/11/2026 15:27'
 }
 SRPointGrabber >> updateGrabbing [
 	| collisions |
@@ -81,6 +81,9 @@ SRPointGrabber >> updateGrabbing [
 		origin: self globalTranslation;
 		radius: 5cm;
 		cast: self world.
+	collisions notEmpty
+		ifTrue: [ cursor color: Color red ]
+		ifFalse: [ cursor color: Color black ].
 	(collisions notEmpty and: [ self hand squeeze isJustPressed ])
 		ifTrue: [ self startGrabbing: collisions first ].
 	
