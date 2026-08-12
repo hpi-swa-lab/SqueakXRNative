@@ -57,7 +57,7 @@ Requires JDK 17 or 21 (newer JDKs fail with a `jlink` / `JdkImageTransform` erro
 ./gradlew installDebug    # build and deploy to a connected headset
 ```
 
-The build only targets `arm64-v8a` (the Quest ABI). Building never touches `adb`; only `installDebug` does, via `run-setup.sh` (`adb reverse tcp:8080 tcp:8080`), which needs a single device connected and `adb` on `PATH`.
+The build only targets `arm64-v8a` (the Quest ABI). Run `run-setup.sh` (`adb reverse tcp:8080 tcp:8080`) before launching the app, either manually or as part of your run configuration; it needs a single device connected and `adb` on `PATH`.
 
 ###### WSL
 
@@ -82,8 +82,7 @@ On WSL the headset is attached to Windows over USB, so the Linux `adb` cannot se
 
 If the option 'Fetch image from remote on launch' is enabled, the launcher will automatically load and replace the currently selected squeak image from the endpoint specified under 'Manage images'.
 By default, it will attempt to load the image from `http://localhost:8080`.
-If you connect the headset to another machine (e.g. your development device), you can serve it from there by running `adb reverse tcp:8080 tcp:8080`.
-Launching the app from Android Studio will automatically perform this for you.
+If you connect the headset to another machine (e.g. your development device), you can serve it from there by running `adb reverse tcp:8080 tcp:8080` (or `run-setup.sh`).
 
 ### Windows, Linux, macOS
 
