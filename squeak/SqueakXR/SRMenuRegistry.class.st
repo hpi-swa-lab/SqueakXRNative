@@ -67,11 +67,9 @@ SRMenuRegistry >> buildRegistry [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMenuRegistry >> directItemsUnder: aPrefix [
-	"Deeper entries go into submenus, see #groupsUnder:."
-
 	| prefix |
 	prefix := aPrefix asArray.
 	^ self registry select: [:each | each path = prefix]

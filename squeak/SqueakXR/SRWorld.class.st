@@ -394,6 +394,18 @@ SRWorld class >> runStartScriptInXR: aBoolean [
 	RunStartScriptInXR := aBoolean
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'lege 8/5/2026 11:37'
+}
+SRWorld class >> saveImage: aMenu [
+	<xrMenu: #(world) label: 'Save Image' priority: 10000>
+	
+	"Since the world process is suspended during the startUp/shutDown procedure,
+	we cannot perform said procedure in the world process. Instead, create a new process for it."
+	[Smalltalk snapshot: true andQuit: false] fork
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> shiftValueOffset [
 
@@ -449,6 +461,15 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'jl 8/11/2026 16:27'
+}
+SRWorld >> addDeferredFrameMessage: aBlock [
+	
+	self pendingFrameActions add: aBlock
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
 }
@@ -466,6 +487,15 @@ SRWorld >> adjustPreferences [
 SRWorld >> avatar [
 
 	^ avatar
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:14'
+}
+SRWorld >> avatar: aSRAvatar [
+
+	avatar := aSRAvatar
 ]
 
 { #category : #'as yet unclassified' }
@@ -501,13 +531,11 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
-	"Not in #loop: that is one long-running activation, so recompiling it would not
-	reach an already running world."
 	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
@@ -733,6 +761,14 @@ SRWorld >> maybeStartMCPServer [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRWorld >> morphicWorld [
+	^ project ifNotNil: [:each | each world]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
 }
@@ -752,11 +788,9 @@ SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRWorld >> pendingFrameActions [
-	"See #runBetweenFrames:. A class variable, not an ivar: adding an ivar reshapes
-	every instance, and this class is edited while a live render loop runs one."
 	^ PendingFrameActions ifNil: [PendingFrameActions := OrderedCollection new]
 ]
 
@@ -792,6 +826,15 @@ SRWorld >> processKeyInput [
 		keys do: [:k | self handleKeyPress: k]].
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+}
+SRWorld >> project: aProject [
+
+	project := aProject
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> render: aSRObject [
 
@@ -825,38 +868,9 @@ SRWorld >> resume [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
-}
-SRWorld >> runBetweenFrames: aBlock [
-	"Evaluate aBlock in the world process at a frame boundary, with the render loop
-	blocked, and answer its value.
-
-	Another process will not do: the world process runs at priority 40, the tool
-	processes (MCP server, profilers) at 30, so a long computation there is preempted
-	by frame after frame. #stopAndWait is not a pause but a teardown.
-
-	Called FROM the world process, waiting would deadlock, so aBlock is deferred to
-	the next boundary and nil is answered at once. Callers that must work from both
-	sides should do their whole job inside aBlock rather than rely on the answer."
-	| done result |
-	self isRunning ifFalse: [^ aBlock value].
-	Processor activeProcess == worldProcess ifTrue: [
-		self pendingFrameActions add: aBlock.
-		^ nil].
-	done := Semaphore new.
-	self pendingFrameActions add: [
-		[result := aBlock value] ensure: [done signal]].
-	done wait.
-	^ result
-]
-
-{
-	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRWorld >> runPendingBetweenFrameActions [
-	"The queue is swapped out before draining, so an action that enqueues another one
-	runs it on the next boundary. A failure must not take the render loop down."
 	| due |
 	(PendingFrameActions isNil or: [PendingFrameActions isEmpty]) ifTrue: [^ self].
 	due := PendingFrameActions.

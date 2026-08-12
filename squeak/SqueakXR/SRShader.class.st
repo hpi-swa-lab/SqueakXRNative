@@ -54,6 +54,18 @@ SRShader class >> doesNotUnderstand: aMessage [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'jl 8/11/2026 15:52'
+}
+SRShader class >> duplicateShaderNames [
+
+	| names |
+	names := self shaderNames.
+	^ (names asSet select: [:each | (names occurrencesOf: each) > 1])
+		asSortedCollection asArray
+]
+
+{
 	#category : #prerequisites,
 	#'squeak_changestamp' : 'MCPServer 6/2/2026 17:09'
 }
@@ -108,85 +120,6 @@ SRShader class >> hasCachedShader: aName [
 ]
 
 {
-	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:20'
-}
-SRShader class >> morphicPanelSource [
-	<shaderSource: #morphicPanel>
-
-	^ {
-		#frag -> '
-#version 450
-
-layout(location = 0) in vec2 fragTexCoord;
-layout(location = 1) in vec4 fragColor;
-
-layout(binding = 0) uniform sampler2D texture0;
-layout(location = 2) uniform vec4 colDiffuse;
-
-layout(location = 0) out vec4 finalColor;
-
-void main()
-{
-      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-      finalColor = texelColor.bgra;
-}'
-} as: Dictionary
-]
-
-{
-	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
-}
-SRShader class >> phongSource [
-	<shaderSource: #phong>
-
-	^ {
-		#vert -> '#version 450
-
-layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec2 vertexTexCoord;
-layout(location = 2) in vec3 vertexNormal;
-layout(location = 3) in vec4 vertexColor;
-
-layout(location = 0) uniform mat4 mvp;
-layout(location = 1) uniform mat4 matNormal;
-
-layout(location = 0) out vec2 fragTexCoord;
-layout(location = 1) out vec4 fragColor;
-layout(location = 2) out vec3 fragNormal;
-
-void main()
-{
-    fragTexCoord = vertexTexCoord;
-    fragColor = vertexColor;
-    fragNormal = normalize(vec3(matNormal*vec4(vertexNormal, 1.0)));
-
-    gl_Position = mvp*vec4(vertexPosition, 1.0);
-}'.
-		#frag -> '
-#version 450
-
-layout(location = 0) in vec2 fragTexCoord;
-layout(location = 1) in vec4 fragColor;
-layout(location = 2) in vec3 fragNormal;
-
-layout(binding = 0) uniform sampler2D texture0;
-layout(location = 2) uniform vec4 colDiffuse;
-
-layout(location = 0) out vec4 finalColor;
-
-void main()
-{
-      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.25));
-	vec3 diffuse = vec3(max(0.05, dot(normalize(fragNormal), -lightDirection)));
-      finalColor = texelColor * vec4(diffuse, 1.0);
-}'
-} as: Dictionary
-]
-
-{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
 }
@@ -208,30 +141,26 @@ SRShader class >> shaderFromDict: aDictionary [
 ]
 
 {
-	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderNames [
-	"The declared cache keys, as Strings (ShaderCache is String-keyed)."
 	^ (self shaderSourcePragmas collect: [:p | p arguments first asString]) asArray
 ]
 
 {
-	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmaKeyword [
-	"Class-side methods answering a {#vert. #frag. #uniforms} dict tag themselves
-	 <shaderSource: #name>. The argument is the cache key."
 	^ #shaderSource:
 ]
 
 {
-	#category : #discovery,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> shaderSourcePragmas [
-	"Not cached on purpose: a stale registry is the failure mode this replaces."
 	| keyword found |
 	keyword := self shaderSourcePragmaKeyword.
 	found := OrderedCollection new.
@@ -340,63 +269,56 @@ SRShader class >> transpile: source stage: stage options: options [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRShader class >> transpileAll [
-	"Rebuild the cache from every <shaderSource:> method. Answer the verifyCache report.
-		SRShader transpileAll"
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
 	^ self transpileAllUnsafe
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:09'
 }
 SRShader class >> transpileAllUnsafe [
-	"Rebuild the whole cache, app shaders included. Answer the verifyCache report."
-	| pragmas names |
+
+	| pragmas duplicates |
 	pragmas := self shaderSourcePragmas.
-	names := pragmas collect: [:pragma | pragma arguments first asString].
-	names size = names asSet size ifFalse: [
-		"One name would silently overwrite the other."
-		^ self error: 'Duplicate <shaderSource:> names: ',
-			(names asSet asArray select: [:name |
-				(names occurrencesOf: name) > 1]) printString].
+	duplicates := self duplicateShaderNames.
+	duplicates ifNotEmpty: [
+		Transcript cr; show: '** Duplicate <shaderSource:> names, only the last of each survives the cache: ', duplicates printString].
 	self resetCache.
-	pragmas do: [:pragma | self transpilePragma: pragma].
-	^ self verifyCache
+	^ pragmas collect: [:pragma | self transpileShaderDeclaredBy: pragma]
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:45'
 }
-SRShader class >> transpilePragma: aPragma [
-	| name |
-	name := aPragma arguments first asString.
+SRShader class >> transpileShaderDeclaredBy: aPragma [
+
+	| shaderName |
+	shaderName := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].
-	UIManager default informUser: 'Transpiling ', name, '...' during: [
-		ShaderCache
-			at: name
-			put: (self transpileSource:
-				(aPragma methodClass theNonMetaClass perform: aPragma selector))].
-	^ name
+	Transcript cr; show: 'Transpiling shader ', shaderName, '...'.
+	ShaderCache
+		at: shaderName
+		put: (self transpileSource:
+			(aPragma methodClass theNonMetaClass perform: aPragma selector)).
+	^ shaderName
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:46'
 }
 SRShader class >> transpileShaderNamed: aName [
-	"Re-transpile one shader, leaving the rest of the cache alone.
-		SRShader transpileShaderNamed: #swagameVoxelOutline"
 	| pragma |
 	pragma := self shaderSourcePragmas
 		detect: [:each | each arguments first asString = aName asString]
 		ifNone: [^ self error: 'No method is marked <shaderSource: #', aName asString, '>'].
 	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
-	^ self transpilePragma: pragma
+	^ self transpileShaderDeclaredBy: pragma
 ]
 
 {
@@ -420,101 +342,6 @@ SRShader class >> transpileSource: sourceDict [
 	sources addAll: (sourceDict associationsSelect: [:assoc | (self stages includes: assoc key) not]).
 	
 	^ sources
-]
-
-{
-	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:15'
-}
-SRShader class >> verifyCache [
-	"Check the cache against both render targets and against the declared shader
-	 set. Run before shipping to a device that cannot transpile.
-		SRShader verifyCache"
-	| out clean declared cached |
-	out := WriteStream on: String new.
-	clean := true.
-	declared := self shaderNames asSet.
-	cached := (ShaderCache ifNil: [Dictionary new]) keys asSet.
-	(declared difference: cached) asSortedCollection do: [:name |
-		clean := false.
-		out nextPutAll: 'declared <shaderSource: #', name, '> but not in the cache'; cr].
-	(cached difference: declared) asSortedCollection do: [:name |
-		clean := false.
-		out nextPutAll: 'cached but no method declares <shaderSource: #', name, '> (stale)'; cr].
-	#(#'300es' #'330') do: [:version |
-		| complaints |
-		complaints := self verifyCacheFor: version.
-		complaints isEmpty ifFalse: [
-			clean := false.
-			out nextPutAll: version; nextPutAll: ':'; cr.
-			complaints do: [:c | out tab; nextPutAll: c; cr]]].
-	clean ifTrue: [
-		^ 'ShaderCache OK (', cached size printString, ' shaders: ',
-			((cached asSortedCollection) inject: '' into: [:a :b |
-				a isEmpty ifTrue: [b] ifFalse: [a, ', ', b]]), ')'].
-	^ out contents
-]
-
-{
-	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 10:27'
-}
-SRShader class >> verifyCacheFor: version [
-	"Answer complaints about cache entries unusable for version (#'300es' or
-	 #'330'); empty means safe to ship. An absent stage is legal, so only
-	 present stages are checked."
-	| complaints expected |
-	complaints := OrderedCollection new.
-	ShaderCache ifNil: [^ complaints add: 'ShaderCache is nil'; yourself].
-	expected := version = #'300es'
-		ifTrue: ['#version 300 es']
-		ifFalse: ['#version ', version].
-	ShaderCache keysAndValuesDo: [:name :versions |
-		| entry present |
-		entry := versions at: version ifAbsent: [nil].
-		entry
-			ifNil: [complaints add: name, ': no ', version, ' entry at all']
-			ifNotNil: [
-				present := self stages select: [:stage |
-					(entry at: stage ifAbsent: [nil]) notNil].
-				present isEmpty
-					ifTrue: [complaints add: name, ': ', version, ' entry has no stages']
-					ifFalse: [present do: [:stage |
-						| src firstLine |
-						src := entry at: stage.
-						firstLine := (src readStream upTo: Character lf) withBlanksTrimmed.
-						(firstLine beginsWith: expected) ifFalse: [
-							complaints add: name, '/', stage, ': expected ', expected printString,
-								' but found ', firstLine printString]]]]].
-	^ complaints
-]
-
-{
-	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 15:06'
-}
-SRShader class >> waterShaderSource [
-	<shaderSource: #waterShader>
-
-	^ {
-		#uniforms -> #(time).
-		#frag -> '
-#version 450
-
-layout(location = 0) in vec2 fragTexCoord;
-layout(location = 1) in vec4 fragColor;
-
-layout(binding = 0) uniform sampler2D texture0;
-layout(location = 2) uniform vec4 colDiffuse;
-
-layout(location = 0) out vec4 finalColor;
-
-void main()
-{
-      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-      finalColor = texelColor;
-}'
-} as: Dictionary
 ]
 
 {
@@ -546,10 +373,11 @@ SRShader >> internalShader [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:44'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
 }
 SRShader >> load [
 
+	SRRenderer assertContext.
 	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
 	
 	uniformLocs := self uniforms collect: [:uniform |

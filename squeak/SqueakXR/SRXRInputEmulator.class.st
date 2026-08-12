@@ -14,34 +14,29 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
 }
 SRXRInputEmulator class >> aimConvergenceDistance [
 	"Fallback aim distance when the ray meets nothing."
 
-	^ 5.0
+	^ 5m
 ]
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'jl 8/10/2026 14:49'
 }
 SRXRInputEmulator class >> handOffset [
-	"(right, up, ahead) in metres, in a yaw-only head frame. Averaged from a seated
-	Quest measurement with the hands in the lap."
-
-	^ Vector3 x: 0.34 y: -0.57 z: 0.47
+	"(right, up, ahead) in a yaw-only head frame. "
+	^  34cm @ -57cm @ 47cm
 ]
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
 }
 SRXRInputEmulator class >> leftHandOffset [
-	^ Vector3
-		x: self handOffset x negated
-		y: self handOffset y
-		z: self handOffset z
+	^ self handOffset * (-1 @ 1 @ 1)
 ]
 
 {
@@ -54,12 +49,9 @@ SRXRInputEmulator class >> rightHandOffset [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:19'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
-	"A hand points along its backward axis, see SRHand>>rayBackward, so the look
-	target is mirrored through the hand position."
-
 	| direction |
 	direction := aTarget - aPosition.
 	direction isZero ifTrue: [^ aHand].
@@ -202,12 +194,9 @@ SRXRInputEmulator >> updateLeftHandFromCamera [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
 }
 SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
-	"Aims the offset hand at whatever is under aScreenPosition, so picking still
-	matches the screen. Costs one scene raycast per frame."
-
 	| hand handPos rlRay origin direction hit target |
 	hand := self world avatar rightHand.
 	handPos := self handPositionFor: self class rightHandOffset.

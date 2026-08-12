@@ -5,7 +5,8 @@ Class {
 		'morph',
 		'plane',
 		'texture',
-		'lastClickPosition'
+		'lastClickPosition',
+		'detachedMorph'
 	],
 	#classVars : [
 		'Mesh'
@@ -20,26 +21,46 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRMorphPanel class >> morphicPanel [
+	<shaderSource: #morphicPanel>
+	"Squeak Forms come out BGRA."
+
+	^ {
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor.bgra;
+}'
+	} as: Dictionary
+]
+
+{
 	#category : #refreshing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
 }
 SRMorphPanel class >> refreshAll [
-	"The repair hatch for a stale panel: SRMorphTexture repaints from Morphic damage
-	rects and the plane size is only recomputed in #fullTextureUpdate, so a morph that
-	resized, or damage that never reached the texture, leaves the panel wrong.
 
-	Walks the live scene graph rather than #allInstances, so panels of a torn-down
-	world are not touched. Answers how many were refreshed."
 	| world |
 	world := SRWorld current.
-	world ifNil: [^ 0].
-	^ world runBetweenFrames: [
-		| n |
-		n := 0.
+	world ifNil: [^ self].
+	world addDeferredFrameMessage: [
 		world
 			allDescendantsSelect: [:obj | obj isMorphPanel]
-			thenDo: [:panel | panel fullTextureUpdate. n := n + 1].
-		n]
+			thenDo: [:panel | panel fullTextureUpdate]]
 ]
 
 {
@@ -95,23 +116,20 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'jl 8/12/2026 13:54'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
-	"Reached at all only because the plane delegates its #grabTarget to me, see
-	#initialize. Deferred: a menu action fires from inside a frame, and
-	#fullTextureUpdate rescales the plane."
 	super addCustomMenuItemsTo: aMenu.
 	aMenu
 		addItem: 'Refresh Texture'
 		action: [self world
-			ifNil: [self fullTextureUpdate]
-			ifNotNil: [:w | w runBetweenFrames: [self fullTextureUpdate]]].
+			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]].
 	aMenu
 		addItem: (self resizers ifEmpty: ['Resize'] ifNotEmpty: [:r | 'Resize (hide handles)'])
 		action: [self world
 			ifNil: [self toggleResizers]
-			ifNotNil: [:w | w runBetweenFrames: [self toggleResizers]]]
+			ifNotNil: [:w | w addDeferredFrameMessage: [self toggleResizers]]]
+
 ]
 
 {
@@ -141,13 +159,31 @@ SRMorphPanel >> addResizers [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> detachMorph [
+
+	morph ifNil: [^ self].
+	detachedMorph := morph.
+	self removeMorph.
+	detachedMorph delete
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRMorphPanel >> detachedMorph [
+	^ detachedMorph
+]
+
+{
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'jl 8/12/2026 13:54'
 }
 SRMorphPanel >> fullTextureUpdate [
 
-	"#removeMorph nils morph while the panel is still in the world, and the refreshers
-	walk live panels."
 	morph ifNil: [^ self].
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
@@ -213,7 +249,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:28'
 }
 SRMorphPanel >> initialize [
 
@@ -228,8 +264,6 @@ SRMorphPanel >> initialize [
 
 	plane material shader: texture shader.
 
-	"A hand ray hits the plane, but grabs and context menus must act on the panel.
-	Per instance, since plain SRPlanes must keep answering themselves."
 	plane grabTarget: self.
 
 	self addChild: plane.
@@ -329,6 +363,36 @@ SRMorphPanel >> onCacheInvalidated [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> onWorldChanged: oldWorld [
+
+	super onWorldChanged: oldWorld.
+	self world
+		ifNil: [self detachMorph]
+		ifNotNil: [self remountMorph]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> remountMorph [
+
+	| detached morphicWorld |
+	detachedMorph ifNil: [^ self].
+	morphicWorld := self world ifNotNil: [:world | world morphicWorld].
+	morphicWorld ifNil: [^ self].
+	detached := detachedMorph.
+	detachedMorph := nil.
+	detached lastPanelPosition: self globalTranslation.
+	self morph: detached.
+	morphicWorld addMorph: detached.
+	^ detached
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
@@ -348,21 +412,6 @@ SRMorphPanel >> removeMorph [
 SRMorphPanel >> removeResizers [
 
 	self resizers do: [:each | each remove]
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
-}
-SRMorphPanel >> removedChild: aSRObject [
-	"The plane is the only thing of me a raycast can hit, so the context menu's Remove
-	reaches it, not me. Losing it would leave an invisible shell holding a Morph that
-	is still in the Morphic world and still stepping."
-
-	aSRObject == plane ifFalse: [^ self].
-	self parent
-		ifNil: [self wasRemoved]
-		ifNotNil: [self remove]
 ]
 
 {
@@ -433,23 +482,10 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+	#'squeak_changestamp' : 'jl 8/11/2026 15:49'
 }
 SRMorphPanel >> updateTexture [
 
-	plane material internalTexture: texture update.
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:04'
-}
-SRMorphPanel >> wasRemoved [
-	"#removeMorph first: it clears the flag SRPasteUpMorph>>removedMorph: tests, so
-	the delete cannot bounce back here."
-
-	| shown |
-	shown := morph.
-	self removeMorph.
-	shown ifNotNil: [shown delete]
+	texture update ifNotNil: [:each |
+		plane material internalTexture: each].
 ]

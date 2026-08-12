@@ -28,12 +28,9 @@ SRPasteUpMorph >> addedMorph: aMorph [
 
 {
 	#category : #'dropping/grabbing',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:23'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRPasteUpMorph >> allowsMorphGrabbing [
-	"No. Grabbing removes the morph from this world, which fires removedMorph:
-	and tears down the SRMorphPanel rendering it. Dragging in 3D has its own
-	mechanism. Consulted by #morphToGrab:."
 	^false
 ]
 
@@ -64,16 +61,9 @@ SRPasteUpMorph >> invalidRect: damageRect from: aMorph [
 
 {
 	#category : #'dropping/grabbing',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRPasteUpMorph >> morphToGrab: event [
-	"Nothing is picked up out of this world; it would tear down the SRMorphPanel
-	rendering the morph. PasteUpMorph>>mouseDown: is the only sender, and it is where
-	a morph handling no mouse events of its own gets grabbed.
-
-	Morphs that grab themselves (SystemWindow>>startDragFromLabel:, halos) never ask
-	me; #isSticky stops those, see Morph>>setInMorphPanel:."
-
 	^ self allowsMorphGrabbing
 		ifTrue: [super morphToGrab: event]
 		ifFalse: [nil]

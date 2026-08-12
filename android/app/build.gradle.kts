@@ -63,16 +63,6 @@ android {
     ndkVersion = "27.1.12297006"
 }
 
-// adb port forwarding is only needed when deploying to a device, not for building.
-// Hook it to the install tasks so plain builds (e.g. CI, no headset) don't require adb.
-tasks.matching { it.name.startsWith("install") }.configureEach {
-    doFirst {
-        exec {
-            commandLine("../run-setup.sh")
-        }
-    }
-}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)

@@ -16,7 +16,8 @@ Class {
 		'actionState',
 		'selectedObject',
 		'hoveredMenuItem',
-		'avatar'
+		'avatar',
+		'inputState'
 	],
 	#classVars : [
 		'EndRate',
@@ -93,37 +94,18 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/21/2026 14:55'
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 18:58'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
-	"TODO: move low handling of inputs to separate class"
-	| aJustPressed prevAPressed prevMenuPressed menuJustPressed prevXPressed xJustPressed |
+	self isRight
+		ifTrue: [self inputState updateActionsRight: aSRActionStates]
+		ifFalse: [self inputState updateActionsLeft: aSRActionStates].
+	
 	actionState := aSRActionStates.
-	self updateTransformFromActions: aSRActionStates;
-		handleTrigger: (aSRActionStates triggers at: self handIndex).
-	(actionState thumbstickY at: self handIndex) abs > 0.5 ifTrue: [self rayCast].
 	
-	prevAPressed := aPressed.
-	aPressed := aSRActionStates a.
-	aJustPressed := aPressed and: prevAPressed not.
-	(self isRight and: aJustPressed) ifTrue: [
-		self teleport].
-	
-	prevMenuPressed := menuPressed.
-	menuPressed := aSRActionStates menu.
-	menuJustPressed := menuPressed and: [prevMenuPressed not].
-	menuJustPressed ifTrue: [
-		self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
-	
-	prevXPressed := xPressed.
-	xPressed := aSRActionStates x.
-	xJustPressed := xPressed and: [prevXPressed not].
-	xJustPressed ifTrue: [
-		self avatar toggleOutOfBody].
-	
-	self handleSqueeze: (aSRActionStates squeeze at: self handIndex).
+	self updateTransformFromActions: aSRActionStates.
 ]
 
 {
@@ -142,6 +124,15 @@ SRHand >> avatar [
 SRHand >> avatar: anSRAvatar [
 
 	avatar := anSRAvatar
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
+}
+SRHand >> bottomButton [
+
+	^ self inputState bottomButton
 ]
 
 {
@@ -176,7 +167,7 @@ SRHand >> handIndex: anInteger [
 ]
 
 {
-	#category : #grabbing,
+	#category : #input,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
 }
 SRHand >> handleSqueeze: aNumber [
@@ -197,7 +188,7 @@ SRHand >> handleSqueeze: aNumber [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #input,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:35'
 }
 SRHand >> handleTrigger: aNumber [
@@ -216,8 +207,25 @@ SRHand >> handleTrigger: aNumber [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:55'
+	#category : #stepping,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+}
+SRHand >> highlightSelectedObject [
+
+	| painter |
+	selectedObject ifNotNil: [
+		painter := self gizmoPainter.
+		painter ifNotNil: [
+			selectedObject collisionGeometryDo: [:geom |
+				geom isCollisionBox ifTrue: [
+					painter gizmoWireBox: geom color: Color green].
+				geom isCollisionPlane ifTrue: [
+					painter gizmoWirePlane: geom color: Color green]]]].
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'lege 8/5/2026 17:55'
 }
 SRHand >> initialize [
 
@@ -229,10 +237,21 @@ SRHand >> initialize [
 	menuPressed := false.
 	xPressed := false.
 	
+	inputState := SRHandInputState new.
+	
 	self addChild: (SRCube new scale: 10cm asVector3);
 		addChild: (SRCube new
 			scale: 1cm @ 1cm @ 10m;
 			translation: 0 @ 0 @ -5m).
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'lege 8/6/2026 16:47'
+}
+SRHand >> inputState [
+
+	^ inputState
 ]
 
 { #category : #testing }
@@ -248,17 +267,35 @@ SRHand >> isRight [
 ]
 
 {
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:06'
+}
+SRHand >> joystick [
+
+	^ self inputState joystick
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
+}
+SRHand >> menuButton [
+
+	^ self inputState menuButton
+]
+
+{
 	#category : #events,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
 SRHand >> onWorldChanged: oldWorld [
 
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world addDependent: self.
+	self world ifNotNil: [:each | each addDependent: self].
 ]
 
 {
-	#category : #menu,
+	#category : #actions,
 	#'squeak_changestamp' : 'lege 7/21/2026 14:57'
 }
 SRHand >> openMenu [
@@ -267,7 +304,37 @@ SRHand >> openMenu [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #stepping,
+	#'squeak_changestamp' : 'lege 8/7/2026 11:49'
+}
+SRHand >> performActions [
+
+	self trigger isJustPressed ifTrue: [
+		self squeeze isPressed
+			ifTrue: [self openMenu]
+			ifFalse: [self rayCast]].
+	
+	self squeeze isJustPressed ifTrue: [
+		self trigger isPressed
+			ifTrue: [self openMenu]
+			ifFalse: [self startGrabbing]].
+	
+	self squeeze isJustReleased ifTrue: [
+		self stopGrabbing].
+	
+	self isRight ifTrue: [
+		self bottomButton isJustPressed ifTrue: [
+			self teleport]].
+	
+	self isLeft ifTrue: [
+		self menuButton isJustPressed ifTrue: [
+			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
+		self bottomButton isJustPressed ifTrue: [
+			self avatar toggleOutOfBody]].
+]
+
+{
+	#category : #actions,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
 }
 SRHand >> rayCast [
@@ -287,7 +354,16 @@ SRHand >> selectedObject [
 ]
 
 {
-	#category : #grabbing,
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
+}
+SRHand >> squeeze [
+
+	^ self inputState squeeze
+]
+
+{
+	#category : #actions,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
 }
 SRHand >> startGrabbing [
@@ -308,27 +384,18 @@ SRHand >> startGrabbing [
 ]
 
 {
-	#category : #grabbing,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:27'
+	#category : #stepping,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
 }
 SRHand >> step: deltaTime [
 
-	| painter |
-	grabbedObject ifNotNil: [
-		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
-	
-	selectedObject ifNotNil: [
-		painter := self gizmoPainter.
-		painter ifNotNil: [
-			selectedObject collisionGeometryDo: [:geom |
-				geom isCollisionBox ifTrue: [
-					painter gizmoWireBox: geom color: Color green].
-				geom isCollisionPlane ifTrue: [
-					painter gizmoWirePlane: geom color: Color green]]]].
+	self performActions;
+		updateGrabbedObjectTransform;
+		highlightSelectedObject.
 ]
 
 {
-	#category : #grabbing,
+	#category : #actions,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
 }
 SRHand >> stopGrabbing [
@@ -340,7 +407,7 @@ SRHand >> stopGrabbing [
 	released ifNotNil: [:object | object wasReleased].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 SRHand >> teleport [
 
 	| forward groundPoint t translation |
@@ -353,14 +420,42 @@ SRHand >> teleport [
 	self world avatar translation: groundPoint.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:06'
+}
+SRHand >> topButton [
+
+	^ self inputState topButton
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
+}
+SRHand >> trigger [
+
+	^ self inputState trigger
+]
+
+{ #category : #updating }
 SRHand >> update: aSymbol with: anObject [
 
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
 ]
 
 {
-	#category : #'xr-input',
+	#category : #stepping,
+	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+}
+SRHand >> updateGrabbedObjectTransform [
+
+	grabbedObject ifNotNil: [
+		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+]
+
+{
+	#category : #input,
 	#'squeak_changestamp' : 'SqueakXR 6/25/2026 17:59'
 }
 SRHand >> updateTransformFromActions: aSRActionStates [

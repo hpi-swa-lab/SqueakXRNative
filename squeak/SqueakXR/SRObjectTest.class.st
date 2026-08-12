@@ -449,6 +449,47 @@ SRObjectTest >> testRemoveNonChild [
 	self assert: child parent = trueParent.
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:34'
+}
+SRObjectTest >> testRemovingNotifiesWorldChanged [
+
+	| world mock |
+	world := SRWorld new.
+	mock := SRMockObject new.
+	world addChild: mock.
+	self assert: mock onWorldChangedCount = 1.
+
+	world removeChild: mock.
+
+	self assert: mock onWorldChangedCount = 2.
+	self assert: mock previousWorld = world.
+	self assert: mock world isNil
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:49'
+}
+SRObjectTest >> testReparentingInsideWorldDoesNotNotifyWorldChanged [
+
+	| world o1 o2 mock |
+	world := SRWorld new.
+	o1 := SRObject new.
+	o2 := SRObject new.
+	mock := SRMockObject new.
+	world addChild: o1.
+	world addChild: o2.
+	o1 addChild: mock.
+	self assert: mock onWorldChangedCount = 1.
+
+	o2 addChild: mock.
+
+	self assert: mock parent == o2.
+	self assert: mock onWorldChangedCount = 1
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testWorld [
 

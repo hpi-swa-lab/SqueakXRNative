@@ -34,6 +34,34 @@ SRObject class >> toolIcon [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:23'
+}
+SRObject class >> waterShader [
+	<shaderSource: #waterShader>
+
+	^ {
+		#uniforms -> #(time).
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor;
+}'
+} as: Dictionary
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:53'
 }
@@ -925,19 +953,18 @@ SRObject >> remove [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 16:57'
+	#'squeak_changestamp' : 'jl 8/10/2026 17:48'
 }
 SRObject >> removeChild: aSRObject [
-	"Both hooks fire here, not in #remove: senders reach for #removeChild: directly
-	too, and an override of #remove does not catch those."
-
+	| oldWorld |
 	(self children includes: aSRObject) ifFalse: [^ self].
+	oldWorld := self world.
 	self privateRemoveChild: aSRObject.
 	self removedChild: aSRObject.
 
-	aSRObject wasRemoved.
+	oldWorld ifNotNil: [aSRObject worldChanged: oldWorld].
 	self changed: #childRemoved with: {aSRObject. self}.
-	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+	oldWorld ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
 
 ]
 
@@ -1133,15 +1160,6 @@ SRObject >> wasGrabbed [
 SRObject >> wasReleased [
 	"A hand let go of me. Not called #released: Object>>release already means
 	something else. Override to react; the default is to do nothing."
-]
-
-{
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
-}
-SRObject >> wasRemoved [
-	"Hook: I was detached from my parent, by whatever route. Release resources outside
-	the scene graph here rather than in #remove, which #removeChild: bypasses."
 ]
 
 { #category : #accessing }
