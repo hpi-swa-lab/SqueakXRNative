@@ -1,11 +1,5 @@
 "
-A drag handle on one corner of an SRMorphPanel, added and removed through SRMorphPanel>>addResizers / removeResizers or the panel's 'Resize' menu item.
-
-SRHand writes my #globalTransform: once per frame while it holds me, and that is the only notification of the drag I get; I intercept it and resize the Morph instead of moving.
-
-The corner opposite mine is pinned in #wasGrabbed and the new size solved against it. Measuring the span from the panel's origin and correcting the origin afterwards does NOT converge, it oscillates with period two.
-
-I deliberately do not set #grabTarget: to my panel: that would move the panel instead of resizing it.
+A drag handle on one corner of an SRMorphPanel
 "
 Class {
 	#name : #SRResizer,
@@ -18,7 +12,7 @@ Class {
 		'anchor'
 	],
 	#category : #'SqueakXR-Morphic',
-	#'squeak_changestamp' : '<historical>'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:24'
 }
 
 {
@@ -60,11 +54,10 @@ SRResizer >> anchorPosition [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:25'
 }
 SRResizer >> collisionGeometry [
-	"Without this a hand ray passes straight through me and I can never be grabbed."
-
+	
 	^ SRCollisionBox new
 		center: self globalTranslation;
 		halfExtents: self globalScale / 2.0;
@@ -101,12 +94,10 @@ SRResizer >> corner [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:59'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:12'
 }
 SRResizer >> corner: aSymbol [
 
-	(self class corners includes: aSymbol)
-		ifFalse: [^ self error: 'Not a corner: ', aSymbol printString].
 	corner := aSymbol.
 	self name: 'Resizer ', aSymbol.
 	self snapToCorner
@@ -114,11 +105,11 @@ SRResizer >> corner: aSymbol [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:11'
 }
 SRResizer >> cornerSign [
 	"+y is the morph's TOP: the plane is rotated 90 degrees about X, which flips the
-	morph's downwards into the panel's +y."
+	MorphPanel's downwards into the panel's +y."
 
 	^ corner caseOf: {
 		[#topLeft] -> [-1 @ 1].
@@ -281,11 +272,10 @@ SRResizer >> resizeToSpan: aVector3 [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:27'
 }
 SRResizer >> snapToCorner [
-	"The plane's mesh corner (0.5, 0, 0.5) is the morph's bottom right, see
-	#handleRaycast:."
+	
 
 	(panel isNil or: [panel morph isNil or: [corner isNil]]) ifTrue: [^ self].
 	self position: (self localPositionForSign: self cornerSign)

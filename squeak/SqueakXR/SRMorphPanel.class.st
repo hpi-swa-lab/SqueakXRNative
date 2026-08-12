@@ -134,11 +134,9 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
 }
 SRMorphPanel >> addResizerAt: aCornerSymbol [
-	"My child, not the plane's: the plane carries the width/height scale and would
-	stretch the handle along with the panel."
 
 	| newResizer |
 	(self resizerAt: aCornerSymbol) ifNotNil: [:existing | ^ existing].

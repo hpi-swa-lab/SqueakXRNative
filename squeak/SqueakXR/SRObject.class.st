@@ -1146,18 +1146,18 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:11'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
 }
 SRObject >> wasGrabbed [
-	"Until #wasReleased the hand writes my #globalTransform: every frame."
+	
 ]
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:11'
+	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
 }
 SRObject >> wasReleased [
-	"Not #released: Object>>release already means something else."
+	
 ]
 
 { #category : #accessing }
