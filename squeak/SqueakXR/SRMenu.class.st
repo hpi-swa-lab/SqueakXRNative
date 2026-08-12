@@ -10,7 +10,10 @@ Class {
 		'wireColor',
 		'rowSpacing',
 		'slabSize',
-		'needsRebuild'
+		'needsRebuild',
+		'parentMenu',
+		'submenu',
+		'submenuItem'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -18,10 +21,9 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
-SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition in: aWorld [
-	"aViewerPosition is the user's head/camera position; the menu will face it."
+SRMenu class >> contextMenuFor: anObject at: aPosition facingCamera: aCamera in: aWorld [
 	| menu |
 	menu := self new.
 	
@@ -36,74 +38,121 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facing: aViewerPosition i
 		
 	anObject addCustomMenuItemsTo: menu.
 
-	menu setTransformAt: aPosition facingViewer: aViewerPosition.
+	menu setTransformAt: aPosition facingCamera: aCamera.
 	aWorld addChild: menu.
 	menu
 		addItemsUnder: #(object) target: anObject;
 		addItemsUnder: {anObject class name asSymbol} target: anObject.
 	
-	^ menu.
+	^ menu
 ]
 
 {
-	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 16:53'
+	#category : #layout,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
-SRMenu class >> worldMenuAt: aPosition facing: aViewerPosition in: aWorld [
-	"aViewerPosition is the user's head/camera position; the menu will face it."
-	| menu |
-	menu := self new.
-	aWorld debugHUD ifNotNil: [
-		menu
-			addItem: (aWorld debugHUD visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF'])
-			action: (MessageSend receiver: menu selector: #toggleDebugHUD)].
-	menu addItem: (aWorld avatar isOutOfBody
-			ifTrue: ['Return to Body']
-			ifFalse: ['Out-of-Body Mode'])
-		action: (MessageSend receiver: menu selector: #toggleOutOfBody).
-	"(Smalltalk hasClassNamed: #SBMCPServer) ifTrue: [
-		| mcp label |
-		mcp := Smalltalk at: #SBMCPServer.
-		label := (mcp current notNil and: [mcp current isRunning])
-			ifTrue: ['MCP Server: ON']
-			ifFalse: ['MCP Server: OFF'].
-		menu addItem: label action: [mcp toggle]]."
-	(Smalltalk hasClassNamed: #MCPLogger) ifTrue: [
-		menu
-			addItem: 'Open MCP Log'
-			action: (MessageSend receiver: menu selector: #toggleMCPLogger)].
-	menu
-		addItem: 'Workspace'
-		action: (MessageSend receiver: menu selector: #openWorkspace);
-		addItem: 'System Browser'
-		action: (MessageSend receiver: menu selector: #openBrowser).
-		
-	menu setTransformAt: aPosition facingViewer: aViewerPosition.
-	aWorld addChild: menu.
-	menu addItemsUnder: #(world) target: nil.
-	
-	^ menu.
+SRMenu class >> submenuForwardOffset [
+	^ 3cm
 ]
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:40'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
+}
+SRMenu class >> submenuLabelFor: aSegment [
+	^ aSegment asString capitalized , ' >'
+]
+
+{
+	#category : #layout,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu class >> submenuSideOffset [
+	"To the left of the opening menu, as a fraction of the menu width."
+
+	^ 0.65
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenu class >> worldMenuAt: aPosition facingCamera: aCamera in: aWorld [
+	"Rows come from the #xrMenu: registry, see SRMenuRegistry."
+	| menu |
+	menu := self new.
+	menu setTransformAt: aPosition facingCamera: aCamera.
+	aWorld addChild: menu.
+	menu addItemsUnder: #(world) target: nil.
+	^ menu
+]
+
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu class >> xrMenuOpenBrowser: aMenu [
+	<xrMenu: #(world tools) label: 'System Browser' priority: 220>
+	^ Browser open
+]
+
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu class >> xrMenuOpenWorkspace: aMenu [
+	<xrMenu: #(world tools) label: 'Workspace' priority: 200>
+	^ Workspace open
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
 }
 SRMenu >> addItem: aString action: aBlock [
 
-	items add: (Association key: aString value: aBlock).
+	self addItem: aString action: aBlock keepOpen: false.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+}
+SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
+	"anAction takes the activated SRMenuItem as an optional argument."
+
+	items add: (Array with: aString with: anAction with: aBoolean).
 	needsRebuild := true.
 ]
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
-	(SRMenuRegistry current itemsUnder: aPrefix) do: [:entry |
+	"Entries at aPrefix become rows, deeper paths one submenu row per group."
+
+	| registry |
+	registry := SRMenuRegistry current.
+	(registry directItemsUnder: aPrefix) do: [:entry |
 		self
-			addItem: (self labelFor: entry under: aPrefix target: anObjectOrNil)
-			action: [entry activateIn: self target: anObjectOrNil]]
+			addItem: (entry labelIn: self target: anObjectOrNil)
+			action: [entry activateIn: self target: anObjectOrNil]].
+	(registry groupsUnder: aPrefix) do: [:segment |
+		self addSubmenuItemFor: segment under: aPrefix target: anObjectOrNil]
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenu >> addSubmenuItemFor: aSegment under: aPrefix target: anObjectOrNil [
+	| subPath |
+	subPath := aPrefix asArray copyWith: aSegment.
+	self
+		addItem: (self class submenuLabelFor: aSegment)
+		action: [:item | self openSubmenuFor: subPath target: anObjectOrNil fromItem: item]
+		keepOpen: true.
 ]
 
 {
@@ -116,6 +165,26 @@ SRMenu >> clone: anSRObject [
 	clone := anSRObject veryDeepCopy.
 	clone position: anSRObject position + (30cm @ 0 @ 0).
 	anSRObject parent addChild: clone
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu >> closeCascade [
+	self rootMenu remove.
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu >> closeSubmenu [
+	| sub |
+	sub := submenu.
+	submenu := nil.
+	submenuItem := nil.
+	sub ifNotNil: [sub remove].
 ]
 
 {
@@ -172,38 +241,64 @@ SRMenu >> isOpen [
 ]
 
 {
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+}
+SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
+	"Only one submenu is open at a time; hitting the same row again closes it."
+
+	| sub reopening |
+	reopening := submenu notNil and: [submenuItem == anItemOrNil].
+	self closeSubmenu.
+	reopening ifTrue: [^ nil].
+	sub := self class new
+		parentMenu: self;
+		yourself.
+	(self parent ifNil: [self world]) ifNotNil: [:container | container addChild: sub].
+	sub addItemsUnder: aPath target: anObjectOrNil.
+	sub rebuild.
+	sub placeNextTo: self atItem: anItemOrNil.
+	submenu := sub.
+	submenuItem := anItemOrNil.
+	^ sub
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenu >> parentMenu [
+	^ parentMenu
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:28'
+}
+SRMenu >> parentMenu: aSRMenuOrNil [
+	parentMenu := aSRMenuOrNil.
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
+	"Offsets are in aMenu's own frame, so the submenu inherits its orientation."
+
+	| topY offset |
+	topY := anItemOrNil
+		ifNil: [aMenu slabHeight / 2]
+		ifNotNil: [:item | item localPosition y + (aMenu rowSpacing / 2)].
+	offset := (aMenu slabWidth * self class submenuSideOffset) negated
+		@ (topY - (self slabHeight / 2))
+		@ self class submenuForwardOffset.
+	self globalTransform: aMenu globalTransform * (Matrix4x4 withOffset: offset).
+]
+
+{
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:37'
-}
-SRMenu >> labelFor: anEntry under: aPrefix target: anObjectOrNil [
-	"Groups are flattened into a label prefix until SRMenu has real submenus."
-	^ String streamContents: [:s |
-		(anEntry pathUnder: aPrefix) do: [:each |
-			s nextPutAll: each asString capitalized; nextPutAll: ': '].
-		s nextPutAll: (anEntry labelIn: self target: anObjectOrNil)]
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:11'
-}
-SRMenu >> openBrowser [
-
-	Browser open
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:10'
-}
-SRMenu >> openWorkspace [
-
-	Workspace open
-]
-
-{
-	#category : #building,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -216,10 +311,11 @@ SRMenu >> rebuild [
 	
 	rowY := totalHeight / 2 - (rowSpacing * 0.75).
 	
-	items do: [:assoc |
+	items do: [:spec |
 		| menuItem |
 		menuItem := SRMenuItem new
-			label: assoc key action: assoc value;
+			label: spec first action: spec second;
+			keepsMenuOpen: spec third;
 			width: slabSize x - 0.01 height: rowSpacing * 0.85;
 			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
@@ -227,6 +323,16 @@ SRMenu >> rebuild [
 		rowY := rowY - rowSpacing].
 	
 	needsRebuild := false.
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu >> remove [
+	self closeSubmenu.
+	parentMenu ifNotNil: [:p | parentMenu := nil. p submenuWasRemoved: self].
+	super remove.
 ]
 
 {
@@ -256,18 +362,60 @@ SRMenu >> renderOn: aSRRenderer [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'lege 7/3/2026 15:54'
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
 }
-SRMenu >> setTransformAt: aPosition facingViewer: aViewerPosition [
+SRMenu >> rootMenu [
+	^ parentMenu ifNil: [self] ifNotNil: [:p | p rootMenu]
+]
 
-	self globalTranslation: aPosition;
-		lookAt: aViewerPosition.
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:28'
+}
+SRMenu >> rowSpacing [
+	^ rowSpacing
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenu >> setTransformAt: aPosition facingCamera: aCamera [
+	"Adopts the camera's viewing direction rather than turning towards the camera."
+
+	| direction up |
+	direction := aCamera forward.
+	up := (direction dot: Vector3 up) abs > 0.99
+		ifTrue: [aCamera up]	"looking straight up or down"
+		ifFalse: [Vector3 up].
+	self globalTransform: (Matrix4x4
+		objectLookAt: aPosition - direction
+		from: aPosition
+		up: up)
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenu >> slabHeight [
+	"Only valid after #rebuild."
+
+	^ slabSize y
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:28'
+}
+SRMenu >> slabWidth [
+	^ slabSize x
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:08'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:31'
 }
 SRMenu >> step: deltaTime [
 	"Update hover highlight on our own items by casting rays from each hand."
@@ -278,32 +426,21 @@ SRMenu >> step: deltaTime [
 		
 		self childrenDo: [:item |
 			item isMenuItem ifTrue: [
-				item hovered: (item == nearest)]]].
+				item hovered: (item == nearest or: [item == submenuItem])]]].
 ]
 
 {
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/3/2026 16:34'
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
-SRMenu >> toggleDebugHUD [
-
-	self world debugHUD toggleVisibility.
+SRMenu >> submenu [
+	^ submenu
 ]
 
 {
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/1/2026 18:09'
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:31'
 }
-SRMenu >> toggleMCPLogger [
-
-	(Smalltalk at: #MCPLogger) openLog
-]
-
-{
-	#category : #'menu-actions',
-	#'squeak_changestamp' : 'lege 7/20/2026 17:52'
-}
-SRMenu >> toggleOutOfBody [
-
-	self world avatar toggleOutOfBody
+SRMenu >> submenuWasRemoved: aMenu [
+	submenu == aMenu ifTrue: [submenu := nil. submenuItem := nil].
 ]

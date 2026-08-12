@@ -34,8 +34,36 @@ SRObject class >> toolIcon [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 18:23'
+}
+SRObject class >> waterShader [
+	<shaderSource: #waterShader>
+
+	^ {
+		#uniforms -> #(time).
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor;
+}'
+} as: Dictionary
+]
+
+{
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'lege 8/7/2026 18:17'
+	#'squeak_changestamp' : 'leo 8/12/2026 14:50'
 }
 SRObject >> addChild: aSRObject [
 	
@@ -49,7 +77,7 @@ SRObject >> addChild: aSRObject [
 		self error: 'Cannot add ancestor of SRObject as child'].
 	
 	aSRObject parent ifNotNil: [:parent |
-		parent removeChild: aSRObject].
+		parent privateRemoveChild: aSRObject].
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
@@ -858,6 +886,17 @@ SRObject >> position: aVector3 [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+}
+SRObject >> privateRemoveChild: aSRObject [
+	"Detach without the removal notifications: reparenting is not removal."
+
+	self children remove: aSRObject ifAbsent: [^ self].
+	aSRObject parent: nil
+]
+
+{
 	#category : #raycast,
 	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
 }
@@ -930,15 +969,27 @@ SRObject >> remove [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'lege 7/31/2026 15:37'
+	#'squeak_changestamp' : 'jl 8/10/2026 17:48'
 }
 SRObject >> removeChild: aSRObject [
+	| oldWorld |
+	(self children includes: aSRObject) ifFalse: [^ self].
+	oldWorld := self world.
+	self privateRemoveChild: aSRObject.
+	self removedChild: aSRObject.
 
-	self children remove: aSRObject ifAbsent: [^ self].
-	aSRObject parent: nil.
-	
+	oldWorld ifNotNil: [aSRObject worldChanged: oldWorld].
 	self changed: #childRemoved with: {aSRObject. self}.
-	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+	oldWorld ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+}
+SRObject >> removedChild: aSRObject [
+	"Hook: aSRObject was detached from me. Morphic counterpart: Morph>>removedMorph:."
 ]
 
 { #category : #rendering }
