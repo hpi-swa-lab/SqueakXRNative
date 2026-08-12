@@ -168,6 +168,18 @@ SRObjectTest >> testChildrenDo [
 	self assert: count = 3.
 ]
 
+{
+	#category : #'tests - children',
+	#'squeak_changestamp' : 'lege 8/7/2026 18:16'
+}
+SRObjectTest >> testDoNotAddSelf [
+
+	| object |
+	object := SRObject new.
+	
+	self should: [object add: object] raise: Error.
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testDoubleAddChild [
 
