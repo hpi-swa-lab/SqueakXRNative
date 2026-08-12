@@ -94,13 +94,12 @@ SRResizer >> corner [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
 }
 SRResizer >> corner: aSymbol [
 
 	corner := aSymbol.
 	self name: 'Resizer ', aSymbol.
-	self snapToCorner.
 ]
 
 {
@@ -147,7 +146,7 @@ SRResizer >> finishResize [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:03'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
 }
 SRResizer >> initialize [
 
@@ -156,7 +155,8 @@ SRResizer >> initialize [
 	dragging := false.
 	anchor := nil.
 	self scale: self class handleSize asVector3.
-	self corner: #bottomRight.
+	corner := #bottomRight.
+	self name: 'Resizer ', corner.
 ]
 
 {
@@ -213,12 +213,11 @@ SRResizer >> panel [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
 }
 SRResizer >> panel: aSRMorphPanel [
 
 	panel := aSRMorphPanel.
-	self snapToCorner.
 ]
 
 {
@@ -254,12 +253,11 @@ SRResizer >> resizeToSpan: aVector3 [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
 }
 SRResizer >> snapToCorner [
 	
 
-	(panel isNil or: [panel morph isNil or: [corner isNil]]) ifTrue: [^ self].
 	self position: (self localPositionForSign: self cornerSign).
 ]
 

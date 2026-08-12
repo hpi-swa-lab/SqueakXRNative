@@ -135,7 +135,7 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
 }
 SRMorphPanel >> addResizerAt: aCornerSymbol [
 
@@ -144,6 +144,7 @@ SRMorphPanel >> addResizerAt: aCornerSymbol [
 	newResizer := SRResizer new.
 	self addChild: newResizer.
 	newResizer panel: self; corner: aCornerSymbol.
+	newResizer snapToCorner.
 	resizers add: newResizer.
 	^ newResizer
 ]
