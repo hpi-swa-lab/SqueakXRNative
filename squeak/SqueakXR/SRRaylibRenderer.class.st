@@ -5,7 +5,7 @@ Class {
 		'clearColor',
 		'camera'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
 
 {

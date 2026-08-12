@@ -26,7 +26,7 @@ Class {
 		'height',
 		'isUploaded'
 	],
-	#category : #'SqueakXR-Core',
+	#category : #'SqueakXR-Graphics-Texture',
 	#'squeak_changestamp' : 'lege 7/20/2026 15:49'
 }
 

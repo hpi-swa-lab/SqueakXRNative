@@ -364,7 +364,7 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'lege 8/7/2026 18:01'
+	#'squeak_changestamp' : 'jl 8/12/2026 18:32'
 }
 SRHand >> startGrabbing [
 
@@ -396,7 +396,7 @@ SRHand >> step: deltaTime [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'lege 8/7/2026 18:01'
+	#'squeak_changestamp' : 'jl 8/12/2026 18:33'
 }
 SRHand >> stopGrabbing [
 
@@ -443,12 +443,12 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
 }
 SRHand >> updateGrabbedObjectTransform [
 
 	grabbedObject ifNotNil: [
-		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform].
 ]
 
 {

@@ -8,7 +8,7 @@ Class {
 		'internalMesh',
 		'source'
 	],
-	#category : #'SqueakXR-Core',
+	#category : #'SqueakXR-Graphics-Mesh',
 	#'squeak_changestamp' : '<historical>'
 }
 

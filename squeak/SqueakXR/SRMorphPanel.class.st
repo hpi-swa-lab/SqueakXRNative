@@ -6,7 +6,8 @@ Class {
 		'plane',
 		'texture',
 		'lastClickPosition',
-		'detachedMorph'
+		'detachedMorph',
+		'resizers'
 	],
 	#classVars : [
 		'Mesh'
@@ -116,15 +117,44 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:21'
+	#'squeak_changestamp' : 'jl 8/12/2026 13:54'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 	super addCustomMenuItemsTo: aMenu.
 	aMenu
 		addItem: 'Refresh Texture'
 		action: [self world
-			ifNil: [self fullTextureUpdate]
-			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]]
+			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]].
+	aMenu
+		addItem: (self resizers ifEmpty: ['Resize'] ifNotEmpty: [:r | 'Resize (hide handles)'])
+		action: [self world
+			ifNil: [self toggleResizers]
+			ifNotNil: [:w | w addDeferredFrameMessage: [self toggleResizers]]]
+
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
+}
+SRMorphPanel >> addResizerAt: aCornerSymbol [
+
+	| newResizer |
+	(self resizerAt: aCornerSymbol) ifNotNil: [:existing | ^ existing].
+	newResizer := SRResizer new.
+	self addChild: newResizer.
+	newResizer panel: self; corner: aCornerSymbol.
+	newResizer snapToCorner.
+	resizers add: newResizer.
+	^ newResizer
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+}
+SRMorphPanel >> addResizers [
+	^ SRResizer corners collect: [:each | self addResizerAt: each]
 ]
 
 {
@@ -149,14 +179,16 @@ SRMorphPanel >> detachedMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:24'
 }
 SRMorphPanel >> fullTextureUpdate [
 
 	morph ifNil: [^ self].
 
-	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
+	self updatePlaneSize.
 	texture fullUpdate.
+	"The Morph may have been resized by something other than a handle."
+	self snapResizers.
 ]
 
 {
@@ -216,7 +248,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 8/12/2026 14:50'
+	#'squeak_changestamp' : 'jl 8/12/2026 18:31'
 }
 SRMorphPanel >> initialize [
 
@@ -229,6 +261,7 @@ SRMorphPanel >> initialize [
 		yourself.
 	texture := SRMorphTexture new.
 	lastClickPosition := nil.
+	resizers := OrderedCollection new.
 
 	plane material shader: texture shader.
 
@@ -343,6 +376,15 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:21'
+}
+SRMorphPanel >> pixelsPerMeter [
+
+	^ self class defaultPixelsPerMeter
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
 }
@@ -374,6 +416,16 @@ SRMorphPanel >> removeMorph [
 ]
 
 {
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
+}
+SRMorphPanel >> removeResizers [
+
+	resizers do: [:each | each remove].
+	resizers := OrderedCollection new.
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 7/15/2026 13:54'
 }
@@ -384,16 +436,60 @@ SRMorphPanel >> renderOn: aSRRenderer [
 	super renderOn: aSRRenderer.
 ]
 
-{ #category : #rendering }
-SRMorphPanel >> setSizeFromPixelsPerMeter: aNumber [
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> resizerAt: aCornerSymbol [
 
-	plane scale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
+	^ self resizers
+		detect: [:each | each corner = aCornerSymbol]
+		ifNone: [nil]
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
+}
+SRMorphPanel >> resizers [
+
+	^ resizers
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+}
+SRMorphPanel >> snapResizers [
+	self resizers do: [:each | each snapToCorner]
+]
+
+{
+	#category : #resizing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+}
+SRMorphPanel >> toggleResizers [
+
+	self resizers
+		ifEmpty: [self addResizers]
+		ifNotEmpty: [self removeResizers]
 ]
 
 { #category : #rendering }
 SRMorphPanel >> update: aSymbol with: anObject [
 
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject]
+]
+
+{
+	#category : #geometry,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
+}
+SRMorphPanel >> updatePlaneSize [
+
+	| ppm |
+	ppm := self pixelsPerMeter.
+	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm).
 ]
 
 {
