@@ -35,11 +35,13 @@ SRObject class >> toolIcon [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'lege 7/31/2026 14:54'
+	#'squeak_changestamp' : 'lege 8/7/2026 18:17'
 }
 SRObject >> addChild: aSRObject [
 	
 	| childWorld world |
+	self assert: aSRObject ~= self.
+	
 	childWorld := aSRObject world.
 	
 	(self hasChild: aSRObject) ifTrue: [^ self].
@@ -771,6 +773,20 @@ SRObject >> notifyTransformChanged [
 SRObject >> onCacheInvalidated [
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
+}
+SRObject >> onGrabStarted: aHand [
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 8/7/2026 18:01'
+}
+SRObject >> onGrabStopped: aHand [
+]
+
 { #category : #events }
 SRObject >> onRaycast: aSRRayIntersectionResult [
 
@@ -987,8 +1003,28 @@ SRObject >> setLocalTransformFromComponents [
 		* (Matrix4x4 withScale: localScale)
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
+}
+SRObject >> startGrabbing: aHand [
+
+	self update: #grabStarted with: aHand.
+	self onGrabStarted: aHand.
+]
+
 { #category : #stepping }
 SRObject >> step: deltaTime [
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
+}
+SRObject >> stopGrabbing: aHand [
+
+	self update: #grabStopped with: aHand.
+	self onGrabStopped: aHand.
 ]
 
 { #category : #transforms }

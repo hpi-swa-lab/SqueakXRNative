@@ -128,7 +128,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
+	#'squeak_changestamp' : 'lege 8/7/2026 17:40'
 }
 SRMorphPanel >> initialize [
 
@@ -137,6 +137,7 @@ SRMorphPanel >> initialize [
 	plane := SRPlane new
 		rotation: (Quaternion angle: 90 axis: Vector3 right);
 		addDependent: self;
+		grabTarget: self;
 		yourself.
 	texture := SRMorphTexture new.
 	lastClickPosition := nil.
