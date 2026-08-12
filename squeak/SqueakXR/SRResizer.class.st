@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'panel',
 		'corner',
-		'color',
 		'dragging',
-		'anchor'
+		'anchor',
+		'cube'
 	],
 	#category : #'SqueakXR-Morphic',
 	#'squeak_changestamp' : 'jl 8/12/2026 16:24'
@@ -67,20 +67,20 @@ SRResizer >> collisionGeometry [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:01'
 }
 SRResizer >> color [
 
-	^ color
+	^ cube color
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:02'
 }
 SRResizer >> color: aColor [
 
-	color := aColor.
+	cube color: aColor.
 ]
 
 {
@@ -146,15 +146,18 @@ SRResizer >> finishResize [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:01'
 }
 SRResizer >> initialize [
 
 	super initialize.
-	color := Color orange.
 	dragging := false.
 	anchor := nil.
 	self scale: self class handleSize asVector3.
+	cube := SRCube new
+		color: Color orange;
+		yourself.
+	self addChild: cube.
 	corner := #bottomRight.
 	self name: 'Resizer ', corner.
 ]
@@ -218,15 +221,6 @@ SRResizer >> panel [
 SRResizer >> panel: aSRMorphPanel [
 
 	panel := aSRMorphPanel.
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
-}
-SRResizer >> renderOn: aSRRenderer [
-
-	aSRRenderer renderCubeTransformed: self globalTransform withColor: self color.
 ]
 
 {
