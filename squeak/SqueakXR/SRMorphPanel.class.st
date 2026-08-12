@@ -179,7 +179,7 @@ SRMorphPanel >> detachedMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:22'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:24'
 }
 SRMorphPanel >> fullTextureUpdate [
 
