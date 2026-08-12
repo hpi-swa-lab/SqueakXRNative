@@ -76,11 +76,11 @@ SRResizer >> color [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> color: aColor [
 
-	color := aColor
+	color := aColor.
 ]
 
 {
@@ -94,13 +94,13 @@ SRResizer >> corner [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl 8/12/2026 16:12'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> corner: aSymbol [
 
 	corner := aSymbol.
 	self name: 'Resizer ', aSymbol.
-	self snapToCorner
+	self snapToCorner.
 ]
 
 {
@@ -135,14 +135,14 @@ SRResizer >> dragTo: aMatrix4x4 [
 
 {
 	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> finishResize [
 	"A full texture rebuild is too expensive to do per frame."
 
 	panel ifNil: [^ self].
 	panel fullTextureUpdate.
-	self snapToCorner
+	self snapToCorner.
 ]
 
 {
@@ -170,7 +170,7 @@ SRResizer >> isDragging [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> keepAnchorFixed [
 	"Idempotent: re-running with an unchanged extent leaves the panel where it is."
@@ -179,7 +179,7 @@ SRResizer >> keepAnchorFixed [
 	anchor ifNil: [^ self].
 	offset := panel globalTransform localDirToGlobal:
 		(self localPositionForSign: self oppositeCornerSign).
-	panel globalTranslation: anchor - offset
+	panel globalTranslation: anchor - offset.
 ]
 
 {
@@ -213,21 +213,21 @@ SRResizer >> panel [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> panel: aSRMorphPanel [
 
 	panel := aSRMorphPanel.
-	self snapToCorner
+	self snapToCorner.
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> renderOn: aSRRenderer [
 
-	aSRRenderer renderCubeTransformed: self globalTransform withColor: self color
+	aSRRenderer renderCubeTransformed: self globalTransform withColor: self color.
 ]
 
 {
@@ -254,18 +254,18 @@ SRResizer >> resizeToSpan: aVector3 [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'jl 8/12/2026 16:27'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> snapToCorner [
 	
 
 	(panel isNil or: [panel morph isNil or: [corner isNil]]) ifTrue: [^ self].
-	self position: (self localPositionForSign: self cornerSign)
+	self position: (self localPositionForSign: self cornerSign).
 ]
 
 {
 	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizer >> wasGrabbed [
 
@@ -273,7 +273,7 @@ SRResizer >> wasGrabbed [
 	anchor := (panel notNil and: [panel morph notNil])
 		ifTrue: [self anchorPosition]
 		ifFalse: [nil].
-	dragging := true
+	dragging := true.
 ]
 
 {

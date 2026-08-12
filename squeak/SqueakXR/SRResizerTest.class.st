@@ -21,7 +21,7 @@ SRResizerTest >> resizerOn: anExtent [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:09'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:33'
 }
 SRResizerTest >> testDragKeepsOppositeCornerFixed [
 	"Solving against the anchor rather than the panel origin is what keeps a drag
@@ -34,12 +34,12 @@ SRResizerTest >> testDragKeepsOppositeCornerFixed [
 	resizer resizeToSpan: 1.2 @ -0.8 @ 0.
 	self assert: anchor equals: resizer anchorPosition.
 	resizer resizeToSpan: 1.2 @ -0.8 @ 0.
-	self assert: anchor equals: resizer anchorPosition
+	self assert: anchor equals: resizer anchorPosition.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:09'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizerTest >> testDragResizesMorph [
 
@@ -47,12 +47,12 @@ SRResizerTest >> testDragResizesMorph [
 	resizer := self resizerOn: 400@300.
 	resizer wasGrabbed.
 	resizer resizeToSpan: 1.2 @ -0.8 @ 0.
-	self assert: 600@400 equals: resizer panel morph extent
+	self assert: 600@400 equals: resizer panel morph extent.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:09'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizerTest >> testDragStopsAtMinimumExtent [
 
@@ -60,12 +60,12 @@ SRResizerTest >> testDragStopsAtMinimumExtent [
 	resizer := self resizerOn: 400@300.
 	resizer wasGrabbed.
 	resizer resizeToSpan: 0.001 @ -0.001 @ 0.
-	self assert: SRResizer minimumExtent equals: resizer panel morph extent
+	self assert: SRResizer minimumExtent equals: resizer panel morph extent.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:59'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRResizerTest >> testReleaseStopsDragging [
 
@@ -73,5 +73,5 @@ SRResizerTest >> testReleaseStopsDragging [
 	resizer := self resizerOn: 400@300.
 	resizer wasGrabbed.
 	resizer wasReleased.
-	self deny: resizer isDragging
+	self deny: resizer isDragging.
 ]

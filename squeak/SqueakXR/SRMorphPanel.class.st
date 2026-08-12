@@ -481,13 +481,13 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:22'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }
 SRMorphPanel >> updatePlaneSize [
 
 	| ppm |
 	ppm := self pixelsPerMeter.
-	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm)
+	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm).
 ]
 
 {
