@@ -1189,22 +1189,6 @@ SRObject >> visible: aBoolean [
 	visible := aBoolean
 ]
 
-{
-	#category : #collisions,
-	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
-}
-SRObject >> wasGrabbed [
-	
-]
-
-{
-	#category : #collisions,
-	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
-}
-SRObject >> wasReleased [
-	
-]
-
 { #category : #accessing }
 SRObject >> world [
 

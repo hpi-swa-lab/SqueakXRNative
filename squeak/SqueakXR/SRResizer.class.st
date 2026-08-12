@@ -197,6 +197,34 @@ SRResizer >> localPositionForSign: aPoint [
 ]
 
 {
+	#category : #dragging,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:36'
+}
+SRResizer >> onGrabStarted: aHand [
+
+	"Pinned once: recomputing per frame would make the anchor chase the panel."
+	anchor := (panel notNil and: [panel morph notNil])
+		ifTrue: [self anchorPosition]
+		ifFalse: [nil].
+	dragging := true.
+]
+
+{
+	#category : #dragging,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:36'
+}
+SRResizer >> onGrabStopped: aHand [
+	"The release is handled inside a frame and #fullTextureUpdate rescales the plane."
+
+	dragging ifFalse: [^ self].
+	dragging := false.
+	anchor := nil.
+	self world
+		ifNil: [self finishResize]
+		ifNotNil: [:aWorld | aWorld addDeferredFrameMessage: [self finishResize]].
+]
+
+{
 	#category : #geometry,
 	#'squeak_changestamp' : 'jl 8/12/2026 17:28'
 }
@@ -253,32 +281,4 @@ SRResizer >> snapToCorner [
 	
 
 	self position: (self localPositionForSign: self cornerSign).
-]
-
-{
-	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
-}
-SRResizer >> wasGrabbed [
-
-	"Pinned once: recomputing per frame would make the anchor chase the panel."
-	anchor := (panel notNil and: [panel morph notNil])
-		ifTrue: [self anchorPosition]
-		ifFalse: [nil].
-	dragging := true.
-]
-
-{
-	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
-}
-SRResizer >> wasReleased [
-	"The release is handled inside a frame and #fullTextureUpdate rescales the plane."
-
-	dragging ifFalse: [^ self].
-	dragging := false.
-	anchor := nil.
-	self world
-		ifNil: [self finishResize]
-		ifNotNil: [:aWorld | aWorld addDeferredFrameMessage: [self finishResize]]
 ]
