@@ -5,7 +5,8 @@ Class {
 		'morph',
 		'plane',
 		'texture',
-		'lastClickPosition'
+		'lastClickPosition',
+		'detachedMorph'
 	],
 	#classVars : [
 		'Mesh'
@@ -17,6 +18,49 @@ Class {
 SRMorphPanel class >> defaultPixelsPerMeter [
 
 	^ 500
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRMorphPanel class >> morphicPanel [
+	<shaderSource: #morphicPanel>
+	"Squeak Forms come out BGRA."
+
+	^ {
+		#frag -> '
+#version 450
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+      finalColor = texelColor.bgra;
+}'
+	} as: Dictionary
+]
+
+{
+	#category : #refreshing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRMorphPanel class >> refreshAll [
+
+	| world |
+	world := SRWorld current.
+	world ifNil: [^ self].
+	world addDeferredFrameMessage: [
+		world
+			allDescendantsSelect: [:obj | obj isMorphPanel]
+			thenDo: [:panel | panel fullTextureUpdate]]
 ]
 
 {
@@ -62,10 +106,54 @@ SRMorphPanel class >> workspace [
 ]
 
 {
+	#category : #refreshing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:54'
+}
+SRMorphPanel class >> xrMenuRefreshAll: aMenu [
+	<xrMenu: #(world debug) label: 'Refresh Morph Panels' priority: 420>
+	^ self refreshAll
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:21'
+}
+SRMorphPanel >> addCustomMenuItemsTo: aMenu [
+	super addCustomMenuItemsTo: aMenu.
+	aMenu
+		addItem: 'Refresh Texture'
+		action: [self world
+			ifNil: [self fullTextureUpdate]
+			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> detachMorph [
+
+	morph ifNil: [^ self].
+	detachedMorph := morph.
+	self removeMorph.
+	detachedMorph delete
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRMorphPanel >> detachedMorph [
+	^ detachedMorph
+]
+
+{
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 2/23/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 SRMorphPanel >> fullTextureUpdate [
+
+	morph ifNil: [^ self].
 
 	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
 	texture fullUpdate.
@@ -128,7 +216,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/29/2026 17:38'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:28'
 }
 SRMorphPanel >> initialize [
 
@@ -142,7 +230,9 @@ SRMorphPanel >> initialize [
 	lastClickPosition := nil.
 
 	plane material shader: texture shader.
-	
+
+	plane grabTarget: self.
+
 	self addChild: plane.
 ]
 
@@ -240,6 +330,36 @@ SRMorphPanel >> onCacheInvalidated [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> onWorldChanged: oldWorld [
+
+	super onWorldChanged: oldWorld.
+	self world
+		ifNil: [self detachMorph]
+		ifNotNil: [self remountMorph]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+}
+SRMorphPanel >> remountMorph [
+
+	| detached morphicWorld |
+	detachedMorph ifNil: [^ self].
+	morphicWorld := self world ifNotNil: [:world | world morphicWorld].
+	morphicWorld ifNil: [^ self].
+	detached := detachedMorph.
+	detachedMorph := nil.
+	detached lastPanelPosition: self globalTranslation.
+	self morph: detached.
+	morphicWorld addMorph: detached.
+	^ detached
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
 }
@@ -277,9 +397,10 @@ SRMorphPanel >> update: aSymbol with: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:13'
+	#'squeak_changestamp' : 'jl 8/11/2026 15:49'
 }
 SRMorphPanel >> updateTexture [
 
-	plane material internalTexture: texture update.
+	texture update ifNotNil: [:each |
+		plane material internalTexture: each].
 ]

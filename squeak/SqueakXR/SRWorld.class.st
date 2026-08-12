@@ -25,6 +25,7 @@ Class {
 		'Current',
 		'KeyDict',
 		'LogFPS',
+		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -460,6 +461,15 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'jl 8/11/2026 16:27'
+}
+SRWorld >> addDeferredFrameMessage: aBlock [
+	
+	self pendingFrameActions add: aBlock
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
 }
@@ -477,6 +487,15 @@ SRWorld >> adjustPreferences [
 SRWorld >> avatar [
 
 	^ avatar
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:14'
+}
+SRWorld >> avatar: aSRAvatar [
+
+	avatar := aSRAvatar
 ]
 
 { #category : #'as yet unclassified' }
@@ -512,11 +531,12 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 09:57'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
+	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
@@ -695,7 +715,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/29/2026 18:03'
+	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
 }
 SRWorld >> loop [
 
@@ -741,6 +761,14 @@ SRWorld >> maybeStartMCPServer [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+}
+SRWorld >> morphicWorld [
+	^ project ifNotNil: [:each | each world]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
 }
@@ -756,6 +784,14 @@ SRWorld >> notifyObjectAdded: aSRObject [
 SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
 
 	self changed: #descendantRemoved with: {aSRObject. oldParent}.
+]
+
+{
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+}
+SRWorld >> pendingFrameActions [
+	^ PendingFrameActions ifNil: [PendingFrameActions := OrderedCollection new]
 ]
 
 { #category : #'as yet unclassified' }
@@ -790,6 +826,15 @@ SRWorld >> processKeyInput [
 		keys do: [:k | self handleKeyPress: k]].
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:31'
+}
+SRWorld >> project: aProject [
+
+	project := aProject
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> render: aSRObject [
 
@@ -819,6 +864,22 @@ SRWorld >> resume [
 			needsSetup := false.
 			self initializeWorldProcess].
 		worldProcess resume].
+]
+
+{
+	#category : #'between-frame actions',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+}
+SRWorld >> runPendingBetweenFrameActions [
+	| due |
+	(PendingFrameActions isNil or: [PendingFrameActions isEmpty]) ifTrue: [^ self].
+	due := PendingFrameActions.
+	PendingFrameActions := OrderedCollection new.
+	due do: [:each |
+		each ifNotNil: [
+			[each value]
+				on: Error
+				do: [:e | self log: 'between-frame action failed: ', e description]]]
 ]
 
 {

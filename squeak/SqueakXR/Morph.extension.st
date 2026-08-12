@@ -38,10 +38,12 @@ Morph >> openInXRWorld [
 
 {
 	#category : #'*SqueakXR-morphic',
-	#'squeak_changestamp' : 'lege 3/16/2026 17:24'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
 }
 Morph >> setInMorphPanel: aBoolean [
+	"Sticky, so no grab initiator pulls me out of the XR world and tears down the panel."
 
+	self sticky: aBoolean.
 	^ self setProperty: #isInMorphPanel toValue: aBoolean
 ]
 

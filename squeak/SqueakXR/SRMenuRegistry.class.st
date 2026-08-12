@@ -39,11 +39,9 @@ SRMenuRegistry class >> current [
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRMenuRegistry class >> reset [
-	"Throw away the singleton; the next #current builds a fresh one."
-
 	Current := nil
 ]
 
@@ -65,6 +63,45 @@ SRMenuRegistry >> buildRegistry [
 				ifTrue: [a selector <= b selector]
 				ifFalse: [a priority < b priority]]
 			ifFalse: [a pathString <= b pathString]]
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+}
+SRMenuRegistry >> directItemsUnder: aPrefix [
+	| prefix |
+	prefix := aPrefix asArray.
+	^ self registry select: [:each | each path = prefix]
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:41'
+}
+SRMenuRegistry >> entries: aCollection [
+	entries := aCollection
+]
+
+{
+	#category : #registry,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+}
+SRMenuRegistry >> groupsUnder: aPrefix [
+	"Ordered by the lowest priority in the group, then alphabetically."
+
+	| prefix priorities |
+	prefix := aPrefix asArray.
+	priorities := Dictionary new.
+	self registry do: [:each | | key |
+		((each isUnder: prefix) and: [each path size > prefix size]) ifTrue: [
+			key := each path at: prefix size + 1.
+			priorities at: key put: ((priorities at: key ifAbsent: [each priority]) min: each priority)]].
+	^ (priorities associations asArray sort: [:a :b |
+		a value = b value
+			ifTrue: [a key <= b key]
+			ifFalse: [a value < b value]])
+				collect: [:assoc | assoc key]
 ]
 
 {
@@ -93,10 +130,10 @@ SRMenuRegistry >> registry [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
 }
 SRMenuRegistry >> updateRegistry [
-	"Rescan the system for xrMenu pragmas. Call after loading code."
+	"Call after loading code."
 
 	^ entries := self buildRegistry
 ]

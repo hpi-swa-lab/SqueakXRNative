@@ -27,6 +27,14 @@ SRPasteUpMorph >> addedMorph: aMorph [
 ]
 
 {
+	#category : #'dropping/grabbing',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+}
+SRPasteUpMorph >> allowsMorphGrabbing [
+	^false
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 2/16/2026 17:34'
 }
@@ -49,6 +57,16 @@ SRPasteUpMorph >> invalidRect: damageRect from: aMorph [
 	self isWorldMorph
 		ifTrue: [worldState recordDamagedRect: damageRect from: aMorph].
 	^super invalidRect: damageRect from: aMorph
+]
+
+{
+	#category : #'dropping/grabbing',
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+}
+SRPasteUpMorph >> morphToGrab: event [
+	^ self allowsMorphGrabbing
+		ifTrue: [super morphToGrab: event]
+		ifFalse: [nil]
 ]
 
 {
