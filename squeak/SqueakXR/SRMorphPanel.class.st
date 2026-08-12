@@ -178,13 +178,13 @@ SRMorphPanel >> detachedMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'jl 8/12/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:22'
 }
 SRMorphPanel >> fullTextureUpdate [
 
 	morph ifNil: [^ self].
 
-	self setSizeFromPixelsPerMeter: self class defaultPixelsPerMeter.
+	self updatePlaneSize.
 	texture fullUpdate.
 	"The Morph may have been resized by something other than a handle."
 	self snapResizers.
@@ -374,6 +374,15 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:21'
+}
+SRMorphPanel >> pixelsPerMeter [
+
+	^ self class defaultPixelsPerMeter
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
 }
@@ -445,12 +454,6 @@ SRMorphPanel >> resizers [
 	^ resizers
 ]
 
-{ #category : #rendering }
-SRMorphPanel >> setSizeFromPixelsPerMeter: aNumber [
-
-	plane scale: (self morph width / aNumber) @ 1 @ (self morph height / aNumber)
-]
-
 {
 	#category : #resizing,
 	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
@@ -474,6 +477,17 @@ SRMorphPanel >> toggleResizers [
 SRMorphPanel >> update: aSymbol with: anObject [
 
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject]
+]
+
+{
+	#category : #geometry,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:22'
+}
+SRMorphPanel >> updatePlaneSize [
+
+	| ppm |
+	ppm := self pixelsPerMeter.
+	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm)
 ]
 
 {

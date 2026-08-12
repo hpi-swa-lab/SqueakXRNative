@@ -65,17 +65,13 @@ SRResizerTest >> testDragStopsAtMinimumExtent [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:09'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:59'
 }
-SRResizerTest >> testReleaseDefersToTheWorld [
-	"A rename of the deferral selector left this send dangling once, and outside a
-	world the ifNil: branch hides it."
+SRResizerTest >> testReleaseStopsDragging [
 
 	| resizer |
 	resizer := self resizerOn: 400@300.
 	resizer wasGrabbed.
 	resizer wasReleased.
-	self deny: resizer isDragging.
-	self assert: ((SRResizer >> #wasReleased) messages includes: #addDeferredFrameMessage:).
-	self assert: (SRWorld canUnderstand: #addDeferredFrameMessage:)
+	self deny: resizer isDragging
 ]

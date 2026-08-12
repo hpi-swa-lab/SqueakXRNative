@@ -33,10 +33,10 @@ SRResizer class >> handleSize [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
+	#'squeak_changestamp' : 'jl 8/12/2026 17:29'
 }
 SRResizer class >> minimumExtent [
-	"Below this a dragged-to-nothing panel becomes impossible to grab again."
+	"just an arbitrary minimal extent"
 
 	^ 120 @ 80
 ]
@@ -147,17 +147,15 @@ SRResizer >> finishResize [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:59'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:03'
 }
 SRResizer >> initialize [
 
-	| size |
 	super initialize.
 	color := Color orange.
 	dragging := false.
 	anchor := nil.
-	size := self class handleSize.
-	self scale: size @ size @ size.
+	self scale: self class handleSize asVector3.
 	self corner: #bottomRight.
 ]
 
@@ -186,23 +184,22 @@ SRResizer >> keepAnchorFixed [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'jl 8/12/2026 17:25'
 }
 SRResizer >> localPositionForSign: aPoint [
 	| morph ppm |
 	morph := panel morph.
-	ppm := self pixelsPerMeter.
+	ppm := panel pixelsPerMeter.
 	^ (aPoint x * morph width / ppm / 2) @ (aPoint y * morph height / ppm / 2) @ 0
 ]
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'jl 8/12/2026 17:28'
 }
 SRResizer >> oppositeCornerSign [
-	| sign |
-	sign := self cornerSign.
-	^ sign x negated @ sign y negated
+	
+	^  self cornerSign negated
 ]
 
 {
@@ -225,15 +222,6 @@ SRResizer >> panel: aSRMorphPanel [
 ]
 
 {
-	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
-}
-SRResizer >> pixelsPerMeter [
-
-	^ SRMorphPanel defaultPixelsPerMeter
-]
-
-{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:43'
 }
@@ -244,26 +232,22 @@ SRResizer >> renderOn: aSRRenderer [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'jl 8/12/2026 17:25'
 }
 SRResizer >> resizeToSpan: aVector3 [
 	"aVector3 runs from the pinned corner to the hand, in the panel's local frame, so
 	it spans the whole panel. Measuring from the origin instead would oscillate."
 
-	| morph ppm sign minimum extent |
+	| morph extent |
 	panel ifNil: [^ self].
 	morph := panel morph.
 	morph ifNil: [^ self].
-	ppm := self pixelsPerMeter.
-	sign := self cornerSign.
-	minimum := self class minimumExtent.
-	extent := (sign x * aVector3 x * ppm) rounded @ (sign y * aVector3 y * ppm) rounded.
-	extent := (extent x max: minimum x) @ (extent y max: minimum y).
+	extent := (aVector3 asPoint * self cornerSign * panel pixelsPerMeter) rounded max: self class minimumExtent.
 
 	extent = morph extent ifFalse: [
 		morph extent: extent.
 		"The Morph may refuse the exact extent; everything below reads back what it took."
-		panel setSizeFromPixelsPerMeter: ppm].
+		panel updatePlaneSize].
 	self keepAnchorFixed.
 	panel snapResizers
 ]
