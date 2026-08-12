@@ -120,6 +120,21 @@ SRResizer >> cornerSign [
 
 {
 	#category : #dragging,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
+}
+SRResizer >> dragTo: aMatrix4x4 [
+
+	| span |
+	(dragging and: [anchor notNil]) ifFalse: [^ super dragTo: aMatrix4x4].
+
+	"Measured from the anchor, not from the panel origin, so that moving the panel
+	below cannot disturb the next frame's measurement."
+	span := panel globalTransform globalDirToLocal: aMatrix4x4 translation - anchor.
+	self resizeToSpan: span.
+]
+
+{
+	#category : #dragging,
 	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
 SRResizer >> finishResize [
@@ -128,23 +143,6 @@ SRResizer >> finishResize [
 	panel ifNil: [^ self].
 	panel fullTextureUpdate.
 	self snapToCorner
-]
-
-{
-	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
-}
-SRResizer >> globalTransform: aMatrix4x4 [
-	"SRHand>>step: writes this every frame while it holds me, and it is the only
-	notification of the drag I get."
-
-	| span |
-	(dragging and: [anchor notNil]) ifFalse: [^ super globalTransform: aMatrix4x4].
-
-	"Measured from the anchor, not from the panel origin, so that moving the panel
-	below cannot disturb the next frame's measurement."
-	span := panel globalTransform globalDirToLocal: aMatrix4x4 translation - anchor.
-	self resizeToSpan: span
 ]
 
 {

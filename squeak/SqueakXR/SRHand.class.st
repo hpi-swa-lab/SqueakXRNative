@@ -446,12 +446,12 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
 }
 SRHand >> updateGrabbedObjectTransform [
 
 	grabbedObject ifNotNil: [
-		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform].
 ]
 
 {

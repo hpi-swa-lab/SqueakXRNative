@@ -329,6 +329,15 @@ SRObject >> down [
 	^ (self globalTransform localDirToGlobal: Vector3 down) normalize
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
+}
+SRObject >> dragTo: aMatrix4x4 [
+
+	self globalTransform: aMatrix4x4.
+]
+
 { #category : #transforms }
 SRObject >> ensureTransformClean [
 
