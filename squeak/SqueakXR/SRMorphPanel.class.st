@@ -6,7 +6,8 @@ Class {
 		'plane',
 		'texture',
 		'lastClickPosition',
-		'detachedMorph'
+		'detachedMorph',
+		'resizers'
 	],
 	#classVars : [
 		'Mesh'
@@ -134,7 +135,7 @@ SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'jl 8/12/2026 16:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
 }
 SRMorphPanel >> addResizerAt: aCornerSymbol [
 
@@ -143,6 +144,7 @@ SRMorphPanel >> addResizerAt: aCornerSymbol [
 	newResizer := SRResizer new.
 	self addChild: newResizer.
 	newResizer panel: self; corner: aCornerSymbol.
+	resizers add: newResizer.
 	^ newResizer
 ]
 
@@ -245,7 +247,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
 }
 SRMorphPanel >> initialize [
 
@@ -257,6 +259,7 @@ SRMorphPanel >> initialize [
 		yourself.
 	texture := SRMorphTexture new.
 	lastClickPosition := nil.
+	resizers := OrderedCollection new.
 
 	plane material shader: texture shader.
 
@@ -403,11 +406,12 @@ SRMorphPanel >> removeMorph [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
 }
 SRMorphPanel >> removeResizers [
 
-	self resizers do: [:each | each remove]
+	resizers do: [:each | each remove].
+	resizers := OrderedCollection new.
 ]
 
 {
@@ -434,12 +438,11 @@ SRMorphPanel >> resizerAt: aCornerSymbol [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
 }
 SRMorphPanel >> resizers [
-	"Searched rather than held in an ivar, so adding this did not reshape live panels."
 
-	^ self children select: [:each | each isKindOf: SRResizer]
+	^ resizers
 ]
 
 { #category : #rendering }
