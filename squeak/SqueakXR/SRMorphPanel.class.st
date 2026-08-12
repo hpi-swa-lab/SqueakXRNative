@@ -150,11 +150,9 @@ SRMorphPanel >> addResizerAt: aCornerSymbol [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
 SRMorphPanel >> addResizers [
-	"A drag handle on each of my four corners."
-
 	^ SRResizer corners collect: [:each | self addResizerAt: each]
 ]
 
@@ -438,11 +436,10 @@ SRMorphPanel >> resizerAt: aCornerSymbol [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
 SRMorphPanel >> resizers [
-	"My resize handles, however many are showing. Found by search rather than held
-	in an instance variable, so that adding this did not have to migrate live panels."
+	"Searched rather than held in an ivar, so adding this did not reshape live panels."
 
 	^ self children select: [:each | each isKindOf: SRResizer]
 ]
@@ -455,11 +452,9 @@ SRMorphPanel >> setSizeFromPixelsPerMeter: aNumber [
 
 {
 	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
 SRMorphPanel >> snapResizers [
-	"All four handles move whenever the extent changes, not just the dragged one."
-
 	self resizers do: [:each | each snapToCorner]
 ]
 

@@ -1146,20 +1146,18 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:11'
 }
 SRObject >> wasGrabbed [
-	"A hand just took hold of me. From here until #wasReleased the hand writes my
-	#globalTransform: every frame. Override to react; the default is to do nothing."
+	"Until #wasReleased the hand writes my #globalTransform: every frame."
 ]
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 17:42'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:11'
 }
 SRObject >> wasReleased [
-	"A hand let go of me. Not called #released: Object>>release already means
-	something else. Override to react; the default is to do nothing."
+	"Not #released: Object>>release already means something else."
 ]
 
 { #category : #accessing }
