@@ -307,7 +307,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:13'
+	#'squeak_changestamp' : 'MCPServer 8/13/2026 16:38'
 }
 SRHand >> performActions [
 
@@ -324,7 +324,9 @@ SRHand >> performActions [
 	
 	self isRight ifTrue: [
 		self bottomButton isJustPressed ifTrue: [
-			self teleport]].
+			self teleport].
+		self topButton isJustPressed ifTrue: [
+			self openMenu]].
 	
 	self isLeft ifTrue: [
 		self menuButton isJustPressed ifTrue: [
