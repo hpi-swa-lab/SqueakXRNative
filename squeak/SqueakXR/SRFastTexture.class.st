@@ -38,7 +38,7 @@ SRFastTexture class >> width: w height: h [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 8/13/2026 16:32'
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 15:40'
 }
 SRFastTexture >> ensureGpu [
 	"Build the persistent GPU texture once from the whole pixel buffer. Point
@@ -60,7 +60,7 @@ SRFastTexture >> ensureGpu [
 		height: source height;
 		format: RlPixelFormat pixelformatUncompressedR8g8b8a8;
 		mipmaps: 1.
-	Raylib setTextureFilterTexture: rlTexture filter: RlTextureFilter textureFilterPoint.
+	Raylib setTextureFilterTexture: rlTexture filter: RlTextureFilter textureFilterBilinear.
 	source clearDirty.
 	^ rlTexture
 ]

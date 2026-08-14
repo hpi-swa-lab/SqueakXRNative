@@ -99,6 +99,27 @@ SRTextureSource >> drawForm: aForm at: aPoint extent: anExtent [
 
 {
 	#category : #editing,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 15:41'
+}
+SRTextureSource >> drawForm: aForm at: aPoint scale: anInteger [
+	"Blit aForm onto the backing Form at aPoint, magnified by anInteger. Used to
+	compose 1x graphs into a supersampled (2x) texture; the GPU's bilinear filter then
+	minifies it back down, anti-aliasing the edges."
+
+	| dstExtent |
+	dstExtent := (aForm width * anInteger) @ (aForm height * anInteger).
+	(WarpBlt toForm: form)
+		sourceForm: aForm;
+		colorMap: nil;
+		cellSize: 2;
+		combinationRule: Form over;
+		copyQuad: aForm boundingBox innerCorners
+		toRect: (aPoint extent: dstExtent).
+	self markDirty: (aPoint extent: dstExtent)
+]
+
+{
+	#category : #editing,
 	#'squeak_changestamp' : 'MCPServer 8/13/2026 15:18'
 }
 SRTextureSource >> drawString: aString at: aPoint color: aColor [
@@ -147,6 +168,26 @@ SRTextureSource >> drawString: aString at: aPoint color: aColor on: bgColor font
 	canvas fillRectangle: (aPoint extent: w @ h) color: bgColor.
 	canvas drawString: aString at: aPoint font: aFont color: aColor.
 	self markDirty: (aPoint extent: w @ h)
+]
+
+{
+	#category : #editing,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 15:40'
+}
+SRTextureSource >> drawString: aString at: aPoint color: aColor on: bgColor font: aFont scale: anInteger [
+	"Render the string once at native font size into a scratch Form, then blit it
+	magnified by anInteger into the supersampled backing Form."
+
+	| w h scratch |
+	anInteger = 1 ifTrue: [
+		^ self drawString: aString at: aPoint color: aColor on: bgColor font: aFont].
+	w := (aFont widthOfString: aString) max: 1.
+	h := aFont height.
+	scratch := Form extent: w @ h depth: 32.
+	scratch getCanvas
+		fillRectangle: (0 @ 0 extent: w @ h) color: bgColor;
+		drawString: aString at: 0 @ 0 font: aFont color: aColor.
+	self drawForm: scratch at: aPoint scale: anInteger
 ]
 
 {

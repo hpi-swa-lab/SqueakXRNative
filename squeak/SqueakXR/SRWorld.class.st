@@ -23,6 +23,8 @@ Class {
 	],
 	#classVars : [
 		'Current',
+		'FrameBoundaryGC',
+		'FrameBoundaryGCPercent',
 		'KeyDict',
 		'LogFPS',
 		'PendingFrameActions',
@@ -298,6 +300,49 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 			RenderFrame isOld: true]
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:17'
+}
+SRWorld class >> frameBoundaryGC [
+	"When on, scavenge young space at each frame boundary once eden is past
+	#frameBoundaryGCPercent full. This drains eden while it is mostly the frame's dead
+	temporaries (cheap), so an involuntary scavenge does not fire mid-render (expensive)."
+
+	<preference: 'Frame-boundary GC'
+		category: 'SqueakXR'
+		description: 'Scavenge young space at frame boundaries to avoid mid-render scavenge hitches'
+		type: #Boolean>
+	^ FrameBoundaryGC ifNil: [FrameBoundaryGC := true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:01'
+}
+SRWorld class >> frameBoundaryGC: aBoolean [
+	FrameBoundaryGC := aBoolean
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:01'
+}
+SRWorld class >> frameBoundaryGCPercent [
+	"Eden fullness (percent) above which the frame-boundary scavenge fires. Below this,
+	skip it -- eden has room for another frame, so paying for a scavenge would waste time."
+
+	^ FrameBoundaryGCPercent ifNil: [FrameBoundaryGCPercent := 50]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:01'
+}
+SRWorld class >> frameBoundaryGCPercent: anInteger [
+	FrameBoundaryGCPercent := anInteger
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> initialize [
 
@@ -531,7 +576,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 18:19'
 }
 SRWorld >> doOneCycle [
 
@@ -963,6 +1008,18 @@ SRWorld >> runStartScript [
 			extent: 50 asPoint;
 			color: col);
 		translation: i * 0.2 + 9 @ 9.5 @ 9.5)]"
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:17'
+}
+SRWorld >> scavengeAtFrameBoundary [
+	"At the frame boundary the frame's temporaries are dead, so scavenge here every frame
+	while eden holds only this frame's garbage -- cheap, and it means an involuntary
+	scavenge never fires mid-render."
+
+	self class frameBoundaryGC ifTrue: [Smalltalk garbageCollectMost]
 ]
 
 { #category : #'as yet unclassified' }
