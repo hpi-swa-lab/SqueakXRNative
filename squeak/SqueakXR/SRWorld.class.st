@@ -302,7 +302,7 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 8/14/2026 17:17'
+	#'squeak_changestamp' : 'MCPServer 8/18/2026 11:41'
 }
 SRWorld class >> frameBoundaryGC [
 	"When on, scavenge young space at each frame boundary once eden is past
@@ -313,7 +313,7 @@ SRWorld class >> frameBoundaryGC [
 		category: 'SqueakXR'
 		description: 'Scavenge young space at frame boundaries to avoid mid-render scavenge hitches'
 		type: #Boolean>
-	^ FrameBoundaryGC ifNil: [FrameBoundaryGC := true]
+	^ FrameBoundaryGC ifNil: [FrameBoundaryGC := false]
 ]
 
 {
@@ -631,10 +631,15 @@ SRWorld >> gizmoPainter [
 	^ gizmoPainter
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+}
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
-	
+
+	charCode = RlKeyboardKey keyKbMenu ifTrue: [^ self openHandMenu].
+
 	self keyboardFocus ifNil: [^ self].
 	
 	isShiftDown := ((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
@@ -829,6 +834,16 @@ SRWorld >> notifyObjectAdded: aSRObject [
 SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
 
 	self changed: #descendantRemoved with: {aSRObject. oldParent}.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+}
+SRWorld >> openHandMenu [
+	| av |
+	av := self avatar ifNil: [^ self].
+	av openMenuForHand: av rightHand
 ]
 
 {
