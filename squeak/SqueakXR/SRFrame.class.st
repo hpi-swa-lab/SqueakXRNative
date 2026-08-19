@@ -74,7 +74,7 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'MCPServer 8/19/2026 10:50'
+	#'squeak_changestamp' : 'MCPServer 8/19/2026 13:14'
 }
 SRFrame >> process [
 
@@ -83,10 +83,6 @@ SRFrame >> process [
 		prepareFrame;
 		renderObjects;
 		completeFrame.
-
-	"On the other side of the render: the frame is presented and its temporaries are
-	dead, so scavenge here before the next frame allocates."
-	world scavengeAtFrameBoundary.
 ]
 
 {
