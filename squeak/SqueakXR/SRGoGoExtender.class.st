@@ -44,14 +44,14 @@ SRGoGoExtender >> hand: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 15:06'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:46'
 }
 SRGoGoExtender >> initialize [ 
 	super initialize.
 	
 	k := 15.
 	linearDistance := 0.2.
-	shoulderCube := SRCube new scale: 5cm asVector3.
+	shoulderCube := SRCube new scale: 5cm asVector3; wantsHalo: false.
 	self addChild: shoulderCube.
 ]
 

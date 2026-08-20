@@ -225,7 +225,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/10/2026 16:59'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:46'
 }
 SRHand >> initialize [
 
@@ -239,13 +239,11 @@ SRHand >> initialize [
 	
 	inputState := SRHandInputState new.
 	
-	self addChild: (SRCube new scale: 10cm asVector3);
+	self addChild: (SRCube new scale: 10cm asVector3; wantsHalo: false);
 		addChild: (SRCube new
 			scale: 1cm @ 1cm @ 10m;
-			translation: 0 @ 0 @ -5m);
-		addChild: (SRInputDebugger new
-			scale: 10cm asVector3;
-			translation: 0 @ 10cm @ 0);
+			translation: 0 @ 0 @ -5m;
+			wantsHalo: false);
 		addChild: (SRGoGoExtender new
 			hand: self;
 			addChild: (SRPointGrabber new

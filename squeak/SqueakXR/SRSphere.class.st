@@ -7,6 +7,18 @@ Class {
 	#category : #'SqueakXR-Objects'
 }
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 13:41'
+}
+SRSphere >> collisionGeometry [
+	^ SRCollisionSphere new
+		object: self;
+		center: self globalTranslation;
+		radius: self globalScale x / 2;
+		yourself
+]
+
 { #category : #accessing }
 SRSphere >> color [
 

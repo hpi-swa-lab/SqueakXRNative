@@ -166,6 +166,20 @@ SRCollisionPlane >> rayIntersection: aRay [
 			object: self object]
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/20/2026 16:49'
+}
+SRCollisionPlane >> renderOn: aRenderer [
+	self isBounded ifTrue: [ | T R S |
+		T := Matrix4x4 withOffset: self point.
+		R := Matrix4x4 at: self normal up: self up.
+		S := Matrix4x4 withScale: (self width)@(self height)@0.
+		aRenderer renderWireCubeTransformed: T * R * S withColor: Color black.
+	]
+
+]
+
 { #category : #accessing }
 SRCollisionPlane >> side [
 

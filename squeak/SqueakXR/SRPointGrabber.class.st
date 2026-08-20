@@ -5,10 +5,29 @@ Class {
 		'hand',
 		'grabbedObject',
 		'grabbedTransform',
-		'cursor'
+		'cursor',
+		'hovered'
 	],
 	#category : #'SqueakXR-Halo'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:43'
+}
+SRPointGrabber >> findRootFor: aSpec [
+	"Hovering just the closest collider may be too specific, so we walk up the tree to select the uppermost object not yet selected."
+	| rootSpec |
+	Transcript showln: 'Finding root for ', aSpec target.
+	rootSpec := aSpec.
+	[ rootSpec target isWorldObject not and: (rootSpec target ~= self hovered)] whileTrue: [ | nextUp |
+		nextUp := rootSpec target parent haloSpec.
+		nextUp ifNil: [ ^ rootSpec ].
+		rootSpec := nextUp.
+	].
+	^rootSpec
+	
+]
 
 {
 	#category : #accessing,
@@ -27,15 +46,41 @@ SRPointGrabber >> hand: anObject [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:01'
+}
+SRPointGrabber >> hovered [
+	^ hovered
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:01'
+}
+SRPointGrabber >> hovered: anObject [
+	hovered := anObject
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 15:26'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:36'
 }
 SRPointGrabber >> initialize [
 	super initialize.
 	cursor := SRSphere  new
 		scale: 10cm asVector3;
-		canGrab: false.
+		wantsHalo: false.
 	self addChild: cursor.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:44'
+}
+SRPointGrabber >> renderOn: aRenderer [
+	self hovered ifNotNil: [:target |
+		target haloSpec collision renderOn: aRenderer
+	]
 ]
 
 {
@@ -50,9 +95,10 @@ SRPointGrabber >> startGrabbing: anSRObject [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 11:31'
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:01'
 }
 SRPointGrabber >> step: deltaTime [
+	self updateHovered.
 	self updateGrabbing.
 	self hand squeeze isJustPressed
 	ifTrue: [ 'Just squeezed!' ].
@@ -73,20 +119,35 @@ SRPointGrabber >> stopGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 15:27'
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:22'
 }
 SRPointGrabber >> updateGrabbing [
-	| collisions |
-	collisions := SRCollisionPoint new
-		origin: self globalTranslation;
-		radius: 5cm;
-		cast: self world.
-	collisions notEmpty
-		ifTrue: [ cursor color: Color red ]
-		ifFalse: [ cursor color: Color black ].
-	(collisions notEmpty and: [ self hand squeeze isJustPressed ])
-		ifTrue: [ self startGrabbing: collisions first ].
-	
+	self hovered
+		ifNil: [ cursor color: Color black ]
+		ifNotNil: [ cursor color: Color red ].
+	self hand squeeze isJustPressed ifTrue: [
+		self hovered ifNotNil: [ self startGrabbing: self hovered ]
+	].
 	(self hand squeeze isJustReleased)
 		ifTrue: [ self stopGrabbing ].
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 17:43'
+}
+SRPointGrabber >> updateHovered [
+	| dist here closest |
+	here := self globalTranslation.
+	dist := Float infinity.
+	(SRHalo specsIn: self world) do: [:spec |
+		spec collision ifNotNil: [:geom | | d |
+			d := geom distanceTo: here.
+			((d < 5cm) and: (d < dist)) ifTrue: [ dist := d. closest := spec.]
+		]
+	].
+	closest ifNotNil: [
+		self hovered: (self findRootFor: closest) target.
+	]
+	
 ]

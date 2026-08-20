@@ -184,6 +184,22 @@ SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 				color: aColor muchDarker asRlColor].
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 16:58'
+}
+SRRaylibRenderer >> renderWireSphereTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawSphereWiresCenterPos: Vector3 zero asRlVector
+				radius: 1
+				rings: 8
+				slices: 4 
+				color: aColor muchDarker asRlColor].
+
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> setup [
 

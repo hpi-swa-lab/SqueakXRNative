@@ -34,13 +34,13 @@ SRCollisionPoint >> castAll: aSRWorld [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:54'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:35'
 }
 SRCollisionPoint >> castAllObjects: aCollectionOfSRObjects [
 	| intersections |
 	intersections := OrderedCollection new.
 	aCollectionOfSRObjects do: [:object |
-		object canGrab ifTrue: [
+		object wantsHalo ifTrue: [
 			object collisionGeometryDo: [:geometry |
 				((geometry distanceTo: self origin) < self radius) 
 					ifTrue: [intersections add: object]

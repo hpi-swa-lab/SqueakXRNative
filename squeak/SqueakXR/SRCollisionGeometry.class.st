@@ -80,3 +80,11 @@ SRCollisionGeometry >> rayIntersection: aRay [
 
 	^ self subclassResponsibility
 ]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 16:03'
+}
+SRCollisionGeometry >> renderOn: aRenderer [
+	"For debugging, subclasses should do this but it is optional."
+]

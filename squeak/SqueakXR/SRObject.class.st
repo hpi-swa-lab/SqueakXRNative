@@ -17,7 +17,7 @@ Class {
 		'badRender',
 		'grabTarget',
 		'visible',
-		'canGrab'
+		'wantsHalo'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -159,26 +159,22 @@ SRObject >> badStep: aBoolean [
 	badStep := aBoolean
 ]
 
+{
+	#category : #halo,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 13:39'
+}
+SRObject >> buildHaloSpec [
+	"Get actual SRHaloSpec for this object or nil, if we never want one."
+	^ SRHaloSpec new
+		target: self;
+		collision: self collisionGeometry;
+		yourself 
+]
+
 { #category : #events }
 SRObject >> cacheInvalidated [
 
 	self allDo: #onCacheInvalidated.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
-}
-SRObject >> canGrab [
-	^ canGrab
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
-}
-SRObject >> canGrab: anObject [
-	canGrab := anObject
 ]
 
 {
@@ -275,7 +271,7 @@ SRObject >> childrenDo: aBlock [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:44'
 }
 SRObject >> collisionGeometry [
 
@@ -510,6 +506,17 @@ SRObject >> grabTarget: anObjectOrNil [
 	grabTarget := anObjectOrNil
 ]
 
+{
+	#category : #halo,
+	#'squeak_changestamp' : 'phkeese 8/20/2026 13:33'
+}
+SRObject >> haloSpec [
+	"Get an SRHaloSpec for this object."
+	^ self wantsHalo 
+		ifTrue: [ self buildHaloSpec ]
+		ifFalse: [ nil ]
+]
+
 { #category : #hierarchy }
 SRObject >> hasAncestor: aSRObject [
 
@@ -532,7 +539,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:53'
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:34'
 }
 SRObject >> initialize [
 
@@ -544,7 +551,7 @@ SRObject >> initialize [
 	badRender := false.
 	
 	visible := true.
-	canGrab := true.
+	wantsHalo := true.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
@@ -1111,6 +1118,22 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:35'
+}
+SRObject >> wantsHalo [
+	^ wantsHalo
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/19/2026 15:36'
+}
+SRObject >> wantsHalo: aBool [
+	wantsHalo := aBool
 ]
 
 { #category : #accessing }
