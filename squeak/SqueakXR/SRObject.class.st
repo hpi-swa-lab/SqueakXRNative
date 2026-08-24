@@ -17,7 +17,8 @@ Class {
 		'badRender',
 		'grabTarget',
 		'visible',
-		'wantsHalo'
+		'wantsHalo',
+		'renderLayer'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -539,7 +540,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/19/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:27'
 }
 SRObject >> initialize [
 
@@ -552,6 +553,7 @@ SRObject >> initialize [
 	
 	visible := true.
 	wantsHalo := true.
+	renderLayer := #opaque.
 	
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
@@ -950,6 +952,22 @@ SRObject >> removeChild: aSRObject [
 	
 	self changed: #childRemoved with: {aSRObject. self}.
 	self world ifNotNil: [:world | world notifyObjectRemoved: aSRObject oldParent: self].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:27'
+}
+SRObject >> renderLayer [
+	^ renderLayer
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:27'
+}
+SRObject >> renderLayer: anObject [
+	renderLayer := anObject
 ]
 
 { #category : #rendering }

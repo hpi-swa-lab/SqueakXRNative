@@ -5,8 +5,9 @@ Class {
 		'world',
 		'deltaTime',
 		'steppedObjects',
-		'renderedObjects',
-		'isOld'
+		'isOld',
+		'overlayObjects',
+		'opaqueObjects'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -46,12 +47,15 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:25'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:49'
 }
 SRFrame >> initializeObjectLists [
 
+	| allRenderedObjects |
 	steppedObjects := self world allDescendantsSelect: #isStepping.
-	renderedObjects := self world allDescendantsSelect: #isRendering.
+	allRenderedObjects := self world allDescendantsSelect: #isRendering.
+	opaqueObjects := allRenderedObjects select: [:object | object renderLayer = #opaque].	
+	overlayObjects := allRenderedObjects select: [:object | object renderLayer = #overlay].
 ]
 
 { #category : #accessing }
@@ -87,13 +91,12 @@ SRFrame >> process [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 7/9/2026 17:22'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:40'
 }
-SRFrame >> renderObjects [
-
+SRFrame >> render: anObjectList [
 	| currentObject |
-	[[renderedObjects notEmpty] whileTrue: [
-		currentObject := renderedObjects removeFirst.
+	[[anObjectList notEmpty] whileTrue: [
+		currentObject := anObjectList removeFirst.
 		self world render: currentObject]]
 		on: Error
 		do: [:error |
@@ -101,6 +104,17 @@ SRFrame >> renderObjects [
 			error printVerboseOn: Transcript.
 			currentObject badRender: true.
 			error retry.]
+
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 13:31'
+}
+SRFrame >> renderObjects [
+
+	self render: opaqueObjects.
+	self render: overlayObjects.
 ]
 
 {
