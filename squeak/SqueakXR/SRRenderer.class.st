@@ -118,8 +118,11 @@ SRRenderer >> clearCache [
 	self cache removeAll
 ]
 
-{ #category : #'render-loop' }
-SRRenderer >> completeFrame [
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+}
+SRRenderer >> completePass [
 ]
 
 {
@@ -153,8 +156,11 @@ SRRenderer >> pollAndroidEvents [
 	^ self externalCallFailed
 ]
 
-{ #category : #'render-loop' }
-SRRenderer >> prepareFrame: aCameraTransform [
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:47'
+}
+SRRenderer >> preparePass: aCameraTransform named: aName [
 ]
 
 {

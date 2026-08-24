@@ -6,9 +6,9 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 6/9/2026 09:55'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
 }
-SRRaylibRendererXR >> completeFrame [
+SRRaylibRendererXR >> completePass [
 
 	Raylib
 		endMode3D.
@@ -26,9 +26,9 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/23/2026 16:46'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:47'
 }
-SRRaylibRendererXR >> prepareFrame: cameraTransform [
+SRRaylibRendererXR >> preparePass: cameraTransform named: aName [
 
 	| beginSuccessful forward position target up |
 	Raylib

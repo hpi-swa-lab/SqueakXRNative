@@ -23,8 +23,11 @@ SRRaylibRenderer >> clearColor: aColor [
 	clearColor := aColor asRlColor
 ]
 
-{ #category : #'render-loop' }
-SRRaylibRenderer >> completeFrame [
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+}
+SRRaylibRenderer >> completePass [
 
 	self subclassResponsibility
 ]
@@ -55,8 +58,11 @@ SRRaylibRenderer >> initialize [
 	self clearColor: self class clearColor.
 ]
 
-{ #category : #'render-loop' }
-SRRaylibRenderer >> prepareFrame: cameraTransform [
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:47'
+}
+SRRaylibRenderer >> preparePass: cameraTransform named: aName [
 
 	self subclassResponsibility
 ]

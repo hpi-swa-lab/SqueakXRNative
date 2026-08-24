@@ -21,10 +21,13 @@ SRFrame class >> world: world deltaTime: deltaTime [
 		initializeObjectLists
 ]
 
-{ #category : #processing }
-SRFrame >> completeFrame [
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+}
+SRFrame >> completePass [
 
-	self world completeFrame
+	self world completePass
 ]
 
 { #category : #accessing }
@@ -70,23 +73,26 @@ SRFrame >> isOld: aBoolean [
 	isOld := aBoolean
 ]
 
-{ #category : #processing }
-SRFrame >> prepareFrame [
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
+}
+SRFrame >> preparePassNamed: anObject [
 
-	self isOld ifFalse: [self world prepareFrame]
+	self isOld ifFalse: [self world preparePassNamed: #opaque]
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 4/1/2026 17:00'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
 }
 SRFrame >> process [
-
-	self updateActions;
+	self
+		updateActions;
 		stepObjects;
-		prepareFrame;
+		preparePassNamed: #opaque;
 		renderObjects;
-		completeFrame
+		completePass
 ]
 
 {

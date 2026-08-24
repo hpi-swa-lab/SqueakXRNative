@@ -494,11 +494,14 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
-{ #category : #'as yet unclassified' }
-SRWorld >> completeFrame [
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+}
+SRWorld >> completePass [
 
 	isFramePrepared ifTrue: [
-		self renderer completeFrame]
+		self renderer completePass]
 ]
 
 {
@@ -767,12 +770,12 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/22/2026 18:27'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
 }
-SRWorld >> prepareFrame [
+SRWorld >> preparePassNamed: anObject [
 
 	self isXR ifTrue: [self updateCameraTransform].
-	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
+	isFramePrepared := self renderer preparePass: self avatar camera globalTransform named: #opaque.
 ]
 
 {

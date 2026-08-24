@@ -76,9 +76,9 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/16/2026 17:47'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
 }
-SRRaylibRendererFlat >> completeFrame [
+SRRaylibRendererFlat >> completePass [
 
 	Raylib endMode3D.
 	self drawReticle.
@@ -133,9 +133,9 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 15:47'
 }
-SRRaylibRendererFlat >> prepareFrame: cameraTransform [
+SRRaylibRendererFlat >> preparePass: cameraTransform named: aName [
 
 	| position forward up target |
 	position := cameraTransform translation.
