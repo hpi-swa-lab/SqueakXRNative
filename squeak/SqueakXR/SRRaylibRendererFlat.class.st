@@ -3,7 +3,8 @@ Class {
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
 		'reticleLines',
-		'reticleColor'
+		'reticleColor',
+		'renderTarget'
 	],
 	#classVars : [
 		'HighDpiEnabled',
@@ -76,12 +77,13 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 20:37'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:20'
 }
 SRRaylibRendererFlat >> completeFrame [ 
 
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
+	self drawReticle.
 	Raylib endDrawing.
 	
 	1 milliSecond wait.
@@ -89,12 +91,19 @@ SRRaylibRendererFlat >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 20:37'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:20'
 }
 SRRaylibRendererFlat >> completePass [
 
-	Raylib endMode3D.
-	self drawReticle.
+	Raylib 
+		endMode3D;
+		endTextureMode;
+		drawTextureRecTexture: renderTarget texture
+			source: (RlRectangle new
+				width: self windowWidth;
+				height: 0 - self windowHeight) 
+			position: (0@0) asVector asRlVector
+			tint: Color white asRlColor.
 	
 ]
 
@@ -162,11 +171,13 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 20:46'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:10'
 }
 SRRaylibRendererFlat >> preparePass: aName [
 	
 	Raylib
+		beginTextureModeTarget: renderTarget;
+		clearBackgroundColor: Color transparent asRlColor;
 		beginMode3DCamera: camera;
 		drawGridSlices: 10 spacing: 1.
 	
@@ -183,7 +194,7 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 4/27/2026 14:41'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:07'
 }
 SRRaylibRendererFlat >> setup [
 
@@ -194,6 +205,8 @@ SRRaylibRendererFlat >> setup [
 		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
 			ifTrue: [0]
 			ifFalse: [self class startMonitor]).
+	
+	renderTarget := Raylib loadRenderTextureWidth: self windowWidth height: self windowHeight.
 	
 	camera := RlCamera3D new
 		position: 10 asVector3 asRlVector;

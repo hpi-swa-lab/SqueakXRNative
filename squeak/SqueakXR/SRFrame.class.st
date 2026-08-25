@@ -99,7 +99,7 @@ SRFrame >> preparePass: aName [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 8/24/2026 20:43'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:21'
 }
 SRFrame >> process [
 	self
@@ -107,6 +107,7 @@ SRFrame >> process [
 		stepObjects;
 		prepareFrame;
 		renderPass: #opaque;
+		renderPass: #overlay;
 		completeFrame
 ]
 

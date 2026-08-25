@@ -847,7 +847,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 16:19'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:24'
 }
 SRWorld >> runStartScript [
 
@@ -924,10 +924,18 @@ SRWorld >> runStartScript [
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
 		actionSelector: #value)).
 		
+	"Some transparent cubes to demonstrate the sorting problem."
 	self addChild: (SRCube new color: (Color blue alpha: 0.5)).
 	self addChild: (SRCube new 
 		translation: 1@0@0;
 		color: (Color green alpha: 0.5)).
+		
+	"An overlay cube to show multiple pass rendering."
+	self addChild: (SRCube new 
+		color: Color aluminum; 
+		renderLayer: #overlay;
+		scale: 10cm asVector3
+	).
 
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
