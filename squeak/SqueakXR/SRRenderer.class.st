@@ -120,6 +120,14 @@ SRRenderer >> clearCache [
 
 {
 	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:34'
+}
+SRRenderer >> completeFrame [
+	"Finish a single frame of rendering, after all passes have been completed."
+]
+
+{
+	#category : #'render-loop',
 	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
 }
 SRRenderer >> completePass [
@@ -154,6 +162,23 @@ SRRenderer >> pollAndroidEvents [
 
 	<cdecl: void 'pollAndroidEvents' () module: 'squeakxrnative'>
 	^ self externalCallFailed
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:33'
+}
+SRRenderer >> prepareFrame: aCameraTransform [
+	"Prepare the renderer for a single frame of multiple passes."
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:57'
+}
+SRRenderer >> preparePass: aName [
+	"Prepare to render a named pass."
+
 ]
 
 {

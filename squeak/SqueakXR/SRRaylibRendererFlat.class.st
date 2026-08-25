@@ -76,18 +76,26 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:37'
+}
+SRRaylibRendererFlat >> completeFrame [ 
+
+	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
+	
+	Raylib endDrawing.
+	
+	1 milliSecond wait.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:37'
 }
 SRRaylibRendererFlat >> completePass [
 
 	Raylib endMode3D.
 	self drawReticle.
 	
-	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
-	
-	Raylib endDrawing.
-	
-	1 milliSecond wait.
 ]
 
 {
@@ -133,9 +141,9 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:47'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:36'
 }
-SRRaylibRendererFlat >> preparePass: cameraTransform named: aName [
+SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
 	| position forward up target |
 	position := cameraTransform translation.
@@ -148,10 +156,20 @@ SRRaylibRendererFlat >> preparePass: cameraTransform named: aName [
 		up: up asRlVector.
 	Raylib
 		beginDrawing;
-		clearBackgroundColor: clearColor;
+		clearBackgroundColor: clearColor.
+	^ true
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:46'
+}
+SRRaylibRendererFlat >> preparePass: aName [
+	
+	Raylib
 		beginMode3DCamera: camera;
 		drawGridSlices: 10 spacing: 1.
-	^ true
+	
 ]
 
 {

@@ -5,9 +5,8 @@ Class {
 		'world',
 		'deltaTime',
 		'steppedObjects',
-		'isOld',
-		'overlayObjects',
-		'opaqueObjects'
+		'renderedObjects',
+		'isOld'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -19,6 +18,15 @@ SRFrame class >> world: world deltaTime: deltaTime [
 		world: world;
 		deltaTime: deltaTime;
 		initializeObjectLists
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:44'
+}
+SRFrame >> completeFrame [  
+
+	self isOld ifFalse: [self world completeFrame]
 ]
 
 {
@@ -50,15 +58,13 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'phkeese 8/24/2026 13:49'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:55'
 }
 SRFrame >> initializeObjectLists [
 
-	| allRenderedObjects |
 	steppedObjects := self world allDescendantsSelect: #isStepping.
-	allRenderedObjects := self world allDescendantsSelect: #isRendering.
-	opaqueObjects := allRenderedObjects select: [:object | object renderLayer = #opaque].	
-	overlayObjects := allRenderedObjects select: [:object | object renderLayer = #overlay].
+	renderedObjects := self world allDescendantsSelect: #isRendering.
+
 ]
 
 { #category : #accessing }
@@ -75,24 +81,33 @@ SRFrame >> isOld: aBoolean [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:39'
 }
-SRFrame >> preparePassNamed: anObject [
+SRFrame >> prepareFrame [ 
 
-	self isOld ifFalse: [self world preparePassNamed: #opaque]
+	self isOld ifFalse: [self world prepareFrame]
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:42'
+}
+SRFrame >> preparePass: aName [
+
+	self isOld ifFalse: [self world preparePass: #opaque]
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:43'
 }
 SRFrame >> process [
 	self
 		updateActions;
 		stepObjects;
-		preparePassNamed: #opaque;
-		renderObjects;
-		completePass
+		prepareFrame;
+		renderPass: #opaque;
+		completeFrame
 ]
 
 {
@@ -121,6 +136,19 @@ SRFrame >> renderObjects [
 
 	self render: opaqueObjects.
 	self render: overlayObjects.
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:53'
+}
+SRFrame >> renderPass: aName [
+	
+	self isOld ifFalse: [
+		self world preparePass: aName.
+		self render: (renderedObjects select: [:object | object renderLayer = aName]).
+		self world completePass.
+	]
 ]
 
 {

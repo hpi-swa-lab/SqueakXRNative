@@ -25,6 +25,15 @@ SRRaylibRenderer >> clearColor: aColor [
 
 {
 	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:35'
+}
+SRRaylibRenderer >> completeFrame [ 
+	
+	^self subclassResponsibility 
+]
+
+{
+	#category : #'render-loop',
 	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
 }
 SRRaylibRenderer >> completePass [
@@ -56,6 +65,24 @@ SRRaylibRenderer >> initialize [
 	super initialize.
 	
 	self clearColor: self class clearColor.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:35'
+}
+SRRaylibRenderer >> prepareFrame: aCameraTransform [
+	
+	^self subclassResponsibility 
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:45'
+}
+SRRaylibRenderer >> preparePass: aName [
+	
+	^self subclassResponsibility 
 ]
 
 {

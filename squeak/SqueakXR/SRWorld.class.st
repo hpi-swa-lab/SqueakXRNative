@@ -495,13 +495,25 @@ SRWorld >> camera [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:46'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:51'
 }
-SRWorld >> completePass [
+SRWorld >> completeFrame [
 
 	isFramePrepared ifTrue: [
-		self renderer completePass]
+		self renderer completeFrame 
+	]
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:51'
+}
+SRWorld >> completePass [ 
+
+	isFramePrepared ifTrue: [
+		self renderer completePass 
+	]
 ]
 
 {
@@ -770,12 +782,21 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 8/24/2026 15:48'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:40'
 }
-SRWorld >> preparePassNamed: anObject [
+SRWorld >> prepareFrame [ 
 
 	self isXR ifTrue: [self updateCameraTransform].
-	isFramePrepared := self renderer preparePass: self avatar camera globalTransform named: #opaque.
+	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 8/24/2026 20:41'
+}
+SRWorld >> preparePass: aName [
+	
+	self renderer preparePass: aName.
 ]
 
 {
@@ -826,7 +847,7 @@ SRWorld >> resume [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:34'
+	#'squeak_changestamp' : 'phkeese 8/24/2026 16:19'
 }
 SRWorld >> runStartScript [
 
@@ -902,6 +923,11 @@ SRWorld >> runStartScript [
 		extent: 200 @ 100;
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
 		actionSelector: #value)).
+		
+	self addChild: (SRCube new color: (Color blue alpha: 0.5)).
+	self addChild: (SRCube new 
+		translation: 1@0@0;
+		color: (Color green alpha: 0.5)).
 
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
