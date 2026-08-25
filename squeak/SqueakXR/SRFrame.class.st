@@ -81,11 +81,18 @@ SRFrame >> isOld: aBoolean [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 8/24/2026 20:39'
+	#'squeak_changestamp' : 'phkeese 8/25/2026 08:35'
 }
 SRFrame >> prepareFrame [ 
 
-	self isOld ifFalse: [self world prepareFrame]
+	self isOld ifFalse: [ | camPos |
+		self world prepareFrame.
+		camPos := self world camera globalTranslation.
+		renderedObjects sort: [:a :b | 
+			(a globalTranslation - camPos) squaredLength
+			> (b globalTranslation - camPos) squaredLength 
+		]
+	]
 ]
 
 {
