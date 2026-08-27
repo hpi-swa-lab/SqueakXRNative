@@ -232,12 +232,15 @@ SRRenderer >> setup [
 SRRenderer >> shutdown [
 ]
 
-{ #category : #experiments }
+{
+	#category : #experiments,
+	#'squeak_changestamp' : 'phkeese 8/27/2026 16:13'
+}
 SRRenderer >> simpleDrawLoop [
 
 	"adapted from https://github.com/FireFlyForLife/rlOpenXR/blob/main/examples/1_hello_vr.c"
 	
-	| cam blue red white i |
+	| cam blue red white i tgt img |
 	Raylib initWindowWidth: 1200 height: 900 title: 'SqueakXR'.
 	
 	cam := RlCamera3D externalNew
@@ -246,9 +249,11 @@ SRRenderer >> simpleDrawLoop [
 		up: (RlVector3 new x: 0; y: 1; z: 0);
 		fovy: 45;
 		projection: RlCameraProjection cameraPerspective.
-	white := RlColor externalNew r: 255; g: 255; b: 255; a: 255.
-	blue := RlColor externalNew r: 100; g: 100; b: 0; a: 255.
-	red := RlColor externalNew r: 255; g: 0; b: 0; a: 128.
+	white := Color white asRlColor.
+	blue := Color blue asRlColor.
+	red := Color red asRlColor.
+	img := Raylib genImageCheckedWidth: 1200 height: 900 checksX: 30 checksY: 30 col1: red col2: blue.
+	tgt := Raylib loadRenderTextureWidth: 512 height: 512.
 	
 	[
 	Raylib
@@ -274,12 +279,12 @@ SRRenderer >> simpleDrawLoop [
 			rlOpenXRUpdate;
 			updateCamera: cam mode: RlCameraMode cameraFree;
 			rlOpenXRUpdateCamera: cam.
-		
-		"Draw"
-		Raylib clearBackgroundColor: white.
-		Raylib rlOpenXRBegin ifTrue: [
+
+		Transcript showln: 'Rendering to texture...'.
 			Raylib
-				clearBackgroundColor: blue;
+				beginTextureModeTarget: tgt.
+			Raylib
+				clearBackgroundColor: Color transparent asRlColor;
 				beginMode3DCamera: cam;
 				drawCubePosition: (RlVector3 new x: -3; y: 0; z: ((DateAndTime now asDuration asMilliSeconds * 0.01) sin))
 					width: 2
@@ -288,8 +293,20 @@ SRRenderer >> simpleDrawLoop [
 					color: red;
 				drawGridSlices: 10 spacing: 1;
 				endMode3D;
-				rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
-					keep_aspect_ratio: true].
+				drawRectanglePosX: 100 posY: 100 width: 300 height: 300 color: white;
+				endTextureMode.
+		
+		Raylib rlOpenXRBegin ifTrue: [
+			Transcript showln: 'Drawing texture to screen...'.
+			Raylib
+				clearBackgroundColor: Color green darker asRlColor;
+				beginMode3DCamera: cam;
+					drawBillboardCamera: cam
+					texture: tgt texture
+					position: Vector3 zero asRlVector
+					scale: 1
+					tint: white;
+				endMode3D].
 		Raylib rlOpenXREnd.
 		1 milliSecond wait].
 	
