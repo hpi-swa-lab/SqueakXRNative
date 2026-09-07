@@ -24,12 +24,12 @@ SRAvatarCamera >> cameraTransformUpdated: cameraTransform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/21/2026 18:09'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
 SRAvatarCamera >> onWorldChanged: oldWorld [
 
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world addDependent: self.
+	self world ifNotNil: [:each | each addDependent: self].
 ]
 
 {

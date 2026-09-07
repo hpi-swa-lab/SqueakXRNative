@@ -1,7 +1,7 @@
 Class {
 	#name : #SRRaylibRendererXR,
 	#superclass : #SRRaylibRenderer,
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
 
 {

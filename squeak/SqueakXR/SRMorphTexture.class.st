@@ -131,19 +131,22 @@ SRMorphTexture >> resetTexture [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
+	#'squeak_changestamp' : 'jl 8/11/2026 15:50'
 }
 SRMorphTexture >> shader [
 
-	^ self currentXRWorld cacheAt: #morphTextureShader ifAbsentPut: [self class shader load]
+	SRRenderer hasContext ifFalse: [^ nil].
+	^ self currentXRWorld ifNotNil: [:world |
+		world cacheAt: #morphTextureShader ifAbsentPut: [self class shader load]]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 12:03'
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:28'
 }
 SRMorphTexture >> update [
 
+	SRRenderer hasContext ifFalse: [^ nil].
 	^ (texture isNil or: [self extent ~= self morph extent])
 		ifTrue: [self createTexture]
 		ifFalse: [self updateTexture]

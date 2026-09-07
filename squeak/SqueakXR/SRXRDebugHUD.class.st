@@ -14,6 +14,25 @@ Class {
 }
 
 {
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRXRDebugHUD class >> xrMenuToggle: aMenu [
+	<xrMenu: #(world debug) label: #xrMenuToggleLabel: priority: 400>
+	^ aMenu world debugHUD ifNotNil: [:hud | hud toggleVisibility]
+]
+
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+}
+SRXRDebugHUD class >> xrMenuToggleLabel: aMenu [
+	^ aMenu world debugHUD
+		ifNil: ['Debug HUD: none']
+		ifNotNil: [:hud | hud visible ifTrue: ['Debug HUD: ON'] ifFalse: ['Debug HUD: OFF']]
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:38'
 }

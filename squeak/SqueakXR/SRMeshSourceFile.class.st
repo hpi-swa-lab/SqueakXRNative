@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'path'
 	],
-	#category : #'SqueakXR-Core',
+	#category : #'SqueakXR-Graphics-Mesh',
 	#'squeak_changestamp' : 'lege 7/6/2026 18:33'
 }
 

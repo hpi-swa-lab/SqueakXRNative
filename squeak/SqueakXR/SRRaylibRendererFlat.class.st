@@ -10,7 +10,7 @@ Class {
 		'WindowHeight',
 		'WindowWidth'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
 
 {

@@ -13,6 +13,57 @@ Class {
 }
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
+}
+SRXRInputEmulator class >> aimConvergenceDistance [
+	"Fallback aim distance when the ray meets nothing."
+
+	^ 5m
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'jl 8/10/2026 14:49'
+}
+SRXRInputEmulator class >> handOffset [
+	"(right, up, ahead) in a yaw-only head frame. "
+	^  34cm @ -57cm @ 47cm
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
+}
+SRXRInputEmulator class >> leftHandOffset [
+	^ self handOffset * (-1 @ 1 @ 1)
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+}
+SRXRInputEmulator class >> rightHandOffset [
+	^ self handOffset
+]
+
+{
+	#category : #hands,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+}
+SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
+	| direction |
+	direction := aTarget - aPosition.
+	direction isZero ifTrue: [^ aHand].
+	direction := direction normalized.
+	aHand globalTransform: (Matrix4x4
+		objectLookAt: aPosition - direction
+		from: aPosition
+		up: self world camera up).
+	^ aHand
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
 }
@@ -28,6 +79,25 @@ SRXRInputEmulator >> debugHUD [
 SRXRInputEmulator >> emulatedCamera [
 
 	^ emulatedCamera
+]
+
+{
+	#category : #hands,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRXRInputEmulator >> handPositionFor: anOffset [
+	"Yaw-only head frame, so the hands stay put when the head pitches."
+
+	| camera ahead right |
+	camera := self world avatar camera.
+	ahead := camera forward.
+	ahead := Vector3 x: ahead x y: 0 z: ahead z.
+	ahead := ahead isZero ifTrue: [Vector3 forward] ifFalse: [ahead normalized].
+	right := Vector3 x: ahead z negated y: 0 z: ahead x.
+	^ camera globalTranslation
+		+ (right * anOffset x)
+		+ (Vector3 up * anOffset y)
+		+ (ahead * anOffset z)
 ]
 
 {
@@ -107,75 +177,60 @@ SRXRInputEmulator >> step: delta [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/21/2026 10:53'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRXRInputEmulator >> updateLeftHandFromCamera [
-	"Position the left hand at a subtle shoulder offset from the camera,
-	aimed at the same point the camera is looking at (convergence at ~5m).
-	Kept close (20cm) so the ray still aligns well with the camera for aiming."
-	| leftHand camPos camForward camRight camDown handPos target up transform |
-	leftHand := self world avatar leftHand.
-	camPos := self world avatar camera globalTransform translation.
-	camForward := self world avatar camera backward.
-	camRight := self world avatar camera right.
-	camDown := self world avatar camera down.
-	
-	"Hand position: 20cm left, 20cm down from camera"
-	handPos := camPos - (camRight * 0.2) + (camDown * 0.2).
-	
-	"Aim at the camera's look point 5m ahead"
-	target := camPos + (camForward * 5.0).
-	up := self world camera up.
-	
-	"Z-flip so hand's -Z = pointing direction"
-	transform := (Matrix4x4 objectLookAt: target from: handPos up: up).
-	leftHand globalTransform: transform.
-	^ leftHand
+	"Aimed where the head looks."
+
+	| camera target |
+	camera := self world avatar camera.
+	target := camera globalTranslation
+		+ (camera forward * self class aimConvergenceDistance).
+	^ self
+		aimHand: self world avatar leftHand
+		from: (self handPositionFor: self class leftHandOffset)
+		at: target
+]
+
+{
+	#category : #hands,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
+}
+SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
+	| hand handPos rlRay origin direction hit target |
+	hand := self world avatar rightHand.
+	handPos := self handPositionFor: self class rightHandOffset.
+	rlRay := Raylib
+		getScreenToWorldRayPosition: aScreenPosition
+		camera: self world renderer camera.
+	origin := rlRay position asVector3.
+	direction := rlRay direction asVector3 normalized.
+	hit := (SRRay origin: origin forward: direction) castNearest: self world.
+	target := hit
+		ifNil: [origin + (direction * self class aimConvergenceDistance)]
+		ifNotNil: [:result | result point].
+	^ self aimHand: hand from: handPos at: target
 ]
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/21/2026 10:49'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRXRInputEmulator >> updateRightHandFromMouseRay [
-	"Position the right hand at the camera origin, aimed where the mouse points.
-	Kept at camera origin so the ray exactly matches what you click on."
-	| rightHand rlRay origin direction up target transform |
-	rightHand := self world avatar rightHand.
-	rlRay := Raylib
-		getScreenToWorldRayPosition: Raylib getMousePosition
-		camera: self world renderer camera.
-	origin := rlRay position asVector3.
-	direction := rlRay direction asVector3 normalize negated.
-	up := self world camera up.
-	target := origin + direction.
-	transform := (Matrix4x4 objectLookAt: target from: origin up: up).
-	rightHand globalTransform: transform.
-	^ rightHand
+	^ self updateRightHandAimingAt: Raylib getMousePosition
 ]
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'lege 7/21/2026 10:49'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRXRInputEmulator >> updateRightHandFromScreenCenter [
-	"Position the right hand at the camera origin, aimed at screen center.
-	Kept at camera origin so the ray exactly matches what you see."
-	| rightHand rlRay origin direction up target transform screenCenter rlScreenCenter |
-	rightHand := self world avatar rightHand.
-	screenCenter := (Raylib getScreenWidth // 2) @ (Raylib getScreenHeight // 2).
+	"Look mode."
+
+	| rlScreenCenter |
 	rlScreenCenter := RlVector2 new
-		x: screenCenter x asFloat;
-		y: screenCenter y asFloat;
+		x: (Raylib getScreenWidth // 2) asFloat;
+		y: (Raylib getScreenHeight // 2) asFloat;
 		yourself.
-	rlRay := Raylib
-		getScreenToWorldRayPosition: rlScreenCenter
-		camera: self world renderer camera.
-	origin := rlRay position asVector3.
-	direction := rlRay direction asVector3 normalize negated.
-	up := self world camera up.
-	target := origin + direction.
-	transform := (Matrix4x4 objectLookAt: target from: origin up: up).
-	rightHand globalTransform: transform.
-	^ rightHand
+	^ self updateRightHandAimingAt: rlScreenCenter
 ]
