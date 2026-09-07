@@ -40,11 +40,29 @@ SRRaylibRenderer >> disableBackfaceCulling [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:05'
+}
+SRRaylibRenderer >> disableDepthTesting [ 
+
+	Raylib rlDisableDepthTest
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
 
 	Raylib rlEnableBackfaceCulling.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:05'
+}
+SRRaylibRenderer >> enableDepthTesting [ 
+
+	Raylib rlEnableDepthTest 
 ]
 
 { #category : #initializing }

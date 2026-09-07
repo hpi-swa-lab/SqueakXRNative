@@ -3,10 +3,10 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'hand',
-		'grabbedObject',
 		'grabbedTransform',
 		'cursor',
-		'hovered'
+		'hovered',
+		'grabbed'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -27,6 +27,14 @@ SRPointGrabber >> findRootFor: aSpec [
 	].
 	^rootSpec
 	
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:12'
+}
+SRPointGrabber >> grabbed [
+	^ grabbed
 ]
 
 {
@@ -63,11 +71,11 @@ SRPointGrabber >> hovered: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/19/2026 15:36'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:10'
 }
 SRPointGrabber >> initialize [
 	super initialize.
-	cursor := SRSphere  new
+	cursor := SROverlayCube new
 		scale: 10cm asVector3;
 		wantsHalo: false.
 	self addChild: cursor.
@@ -75,44 +83,55 @@ SRPointGrabber >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 14:21'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:07'
 }
 SRPointGrabber >> renderOn: aRenderer [
+	
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:13'
+}
+SRPointGrabber >> renderOverlayOn: aRenderer [
 	self hovered ifNotNil: [:target |
 		target haloSpec renderOn: aRenderer
-	]
+	].
+	self grabbed ifNotNil: [:target |
+		target haloSpec renderOn: aRenderer
+	].
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 11:20'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:12'
 }
 SRPointGrabber >> startGrabbing: anSRObject [
 	Transcript showln: 'Start grabbing ', anSRObject.
-	grabbedObject := anSRObject.
-	grabbedTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+	grabbed := anSRObject.
+	grabbedTransform := self globalTransform inverseTransformation * grabbed globalTransform.
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 17:01'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:12'
 }
 SRPointGrabber >> step: deltaTime [
 	self updateHovered.
 	self updateGrabbing.
 	self hand squeeze isJustPressed
 	ifTrue: [ 'Just squeezed!' ].
-	grabbedObject ifNotNil: [ grabbedObject globalTransform: self globalTransform * grabbedTransform ]
+	grabbed ifNotNil: [ grabbed globalTransform: self globalTransform * grabbedTransform ]
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 11:31'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 16:12'
 }
 SRPointGrabber >> stopGrabbing [
-	grabbedObject ifNotNil: [
+	grabbed ifNotNil: [
 		Transcript showln: 'Stop grabbing'.
-		grabbedObject := nil.
+		grabbed := nil.
 		grabbedTransform := nil.
 	]
 ]

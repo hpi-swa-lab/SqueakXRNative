@@ -13,6 +13,7 @@ Class {
 		'name',
 		'isStepping',
 		'isRendering',
+		'isOverlay',
 		'badStep',
 		'badRender',
 		'grabTarget',
@@ -582,7 +583,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 8/19/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 15:54'
 }
 SRObject >> initialize [
 
@@ -592,10 +593,11 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
+	isOverlay := (self class selectorDefinedByBase: #renderOverlayOn:) not.
 	
 	visible := true.
 	wantsHalo := true.
-	
+		
 	localTransform := Matrix4x4 identity.
 	localTranslation := Vector3 zero.
 	localRotation := Quaternion identity.
@@ -656,6 +658,14 @@ SRObject >> isMenuItem [
 SRObject >> isMorphPanel [
 
 	^ false
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 15:42'
+}
+SRObject >> isOverlay [
+	^ isOverlay and: self isRendering
 ]
 
 {
@@ -1034,6 +1044,15 @@ SRObject >> removedChild: aSRObject [
 
 { #category : #rendering }
 SRObject >> renderOn: aRenderer [
+
+	"children should override this"
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/7/2026 15:56'
+}
+SRObject >> renderOverlayOn: aRenderer [
 
 	"children should override this"
 ]
