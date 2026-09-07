@@ -33,6 +33,14 @@ SRHaloSpec >> collision: anObject [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/7/2026 14:22'
+}
+SRHaloSpec >> renderOn: aRenderer [
+	self collision renderOn: aRenderer
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 8/20/2026 13:39'
 }

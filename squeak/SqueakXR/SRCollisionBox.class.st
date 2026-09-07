@@ -145,16 +145,14 @@ SRCollisionBox >> rayIntersectionAABB: aLocalRay [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 16:57'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 15:07'
 }
 SRCollisionBox >> renderOn: aRenderer [
-	| xform |
-	xform := (Matrix4x4 
-		fromQuaternion: self rotation)
-		scaling: self halfExtents;
-		translation: self center;
-		yourself.
-	aRenderer renderWireCubeTransformed: xform withColor: Color black.
+	| T R S |
+	T := Matrix4x4 withOffset: self center.
+	R := Matrix4x4 fromQuaternion: self rotation.
+	S := Matrix4x4 withScale: self halfExtents.
+	aRenderer renderWireCubeTransformed: T * R * S withColor: Color black.
 ]
 
 {

@@ -75,11 +75,11 @@ SRPointGrabber >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 17:44'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 14:21'
 }
 SRPointGrabber >> renderOn: aRenderer [
 	self hovered ifNotNil: [:target |
-		target haloSpec collision renderOn: aRenderer
+		target haloSpec renderOn: aRenderer
 	]
 ]
 
@@ -134,7 +134,7 @@ SRPointGrabber >> updateGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 17:43'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 15:00'
 }
 SRPointGrabber >> updateHovered [
 	| dist here closest |
@@ -146,8 +146,8 @@ SRPointGrabber >> updateHovered [
 			((d < 5cm) and: (d < dist)) ifTrue: [ dist := d. closest := spec.]
 		]
 	].
-	closest ifNotNil: [
-		self hovered: (self findRootFor: closest) target.
-	]
+	closest 
+		ifNil: [ self hovered: nil ]
+		ifNotNil: [ self hovered: closest target.	]
 	
 ]

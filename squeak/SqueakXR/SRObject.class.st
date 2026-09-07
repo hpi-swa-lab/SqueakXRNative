@@ -191,14 +191,18 @@ SRObject >> badStep: aBoolean [
 
 {
 	#category : #halo,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 13:39'
+	#'squeak_changestamp' : 'phkeese 9/7/2026 14:20'
 }
 SRObject >> buildHaloSpec [
 	"Get actual SRHaloSpec for this object or nil, if we never want one."
+	| collider |
+	collider := self collisionGeometry.
+	collider ifNil: [ ^nil ].
 	^ SRHaloSpec new
 		target: self;
-		collision: self collisionGeometry;
-		yourself 
+		collision: collider;
+		yourself
+	
 ]
 
 { #category : #events }
