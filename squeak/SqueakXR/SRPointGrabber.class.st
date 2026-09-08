@@ -207,13 +207,11 @@ SRPointGrabber >> startGrabbing: anSRObject [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:12'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:36'
 }
 SRPointGrabber >> step: deltaTime [
 	self updateHovered.
 	self updateGrabbing.
-	self hand squeeze isJustPressed
-	ifTrue: [ 'Just squeezed!' ].
 	grabbed ifNotNil: [ grabbed globalTransform: self globalTransform * grabbedTransform ]
 ]
 
@@ -231,12 +229,12 @@ SRPointGrabber >> stopGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 17:22'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:36'
 }
 SRPointGrabber >> updateGrabbing [
-	self hovered
+"	self hovered
 		ifNil: [ cursor color: Color black ]
-		ifNotNil: [ cursor color: Color red ].
+		ifNotNil: [ cursor color: Color red ]."
 	self hand squeeze isJustPressed ifTrue: [
 		self hovered ifNotNil: [ self startGrabbing: self hovered ]
 	].
