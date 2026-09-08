@@ -9,13 +9,13 @@ Class {
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 8/20/2026 13:41'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 15:28'
 }
 SRSphere >> collisionGeometry [
 	^ SRCollisionSphere new
 		object: self;
 		center: self globalTranslation;
-		radius: self globalScale x / 2;
+		radius: self globalScale x;
 		yourself
 ]
 
@@ -39,7 +39,10 @@ SRSphere >> initialize [
 	self color: Color red.
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 10:46'
+}
 SRSphere >> renderOn: aSRRenderer [
 
 	aSRRenderer renderSphereTransformed: self globalTransform withColor: self color.

@@ -34,10 +34,18 @@ SRHaloSpec >> collision: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/7/2026 14:22'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 15:46'
 }
 SRHaloSpec >> renderOn: aRenderer [
 	self collision renderOn: aRenderer
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 15:45'
+}
+SRHaloSpec >> renderOn: aRenderer withColor: aColor [
+	self collision renderOn: aRenderer withColor: aColor
 ]
 
 {

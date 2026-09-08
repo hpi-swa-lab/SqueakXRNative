@@ -145,14 +145,14 @@ SRCollisionBox >> rayIntersectionAABB: aLocalRay [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:07'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 15:26'
 }
-SRCollisionBox >> renderOn: aRenderer [
+SRCollisionBox >> renderOn: aRenderer withColor: aColor [
 	| T R S |
 	T := Matrix4x4 withOffset: self center.
 	R := Matrix4x4 fromQuaternion: self rotation.
 	S := Matrix4x4 withScale: self halfExtents.
-	aRenderer renderWireCubeTransformed: T * R * S withColor: Color black.
+	aRenderer renderWireCubeTransformed: T * R * S withColor: aColor
 ]
 
 {

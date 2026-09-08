@@ -5,11 +5,60 @@ Class {
 		'hand',
 		'grabbedTransform',
 		'cursor',
+		'approached',
 		'hovered',
-		'grabbed'
+		'grabbed',
+		'approachColor',
+		'hoverColor',
+		'grabColor'
 	],
 	#category : #'SqueakXR-Halo'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:29'
+}
+SRPointGrabber class >> approachDistance [
+
+	^ 1
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:32'
+}
+SRPointGrabber class >> hoverDistance [ 
+
+	^ 10cm
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:21'
+}
+SRPointGrabber >> approachColor [
+	^ approachColor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:21'
+}
+SRPointGrabber >> approachColor: anObject [
+	approachColor := anObject
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:21'
+}
+SRPointGrabber >> approachColorAt: aDistance [
+	"Blend in approach color based on distance"
+	| t |
+	t := (aDistance / self class approachDistance) clampLow: 0 high: 1.
+	^ (Color transparent) alphaMixed: t with: self approachColor
+]
 
 {
 	#category : #'as yet unclassified',
@@ -27,6 +76,22 @@ SRPointGrabber >> findRootFor: aSpec [
 	].
 	^rootSpec
 	
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:22'
+}
+SRPointGrabber >> grabColor [
+	^ grabColor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:22'
+}
+SRPointGrabber >> grabColor: anObject [
+	grabColor := anObject
 ]
 
 {
@@ -55,6 +120,22 @@ SRPointGrabber >> hand: anObject [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:21'
+}
+SRPointGrabber >> hoverColor [
+	^ hoverColor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:21'
+}
+SRPointGrabber >> hoverColor: anObject [
+	hoverColor := anObject
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 8/20/2026 17:01'
 }
 SRPointGrabber >> hovered [
@@ -71,13 +152,18 @@ SRPointGrabber >> hovered: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:10'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:22'
 }
 SRPointGrabber >> initialize [
 	super initialize.
 	cursor := SROverlayCube new
 		scale: 10cm asVector3;
 		wantsHalo: false.
+	
+	approachColor := Color black.
+	hoverColor := Color green.
+	grabColor := Color green darker.
+	
 	self addChild: cursor.
 ]
 
@@ -91,15 +177,22 @@ SRPointGrabber >> renderOn: aRenderer [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:13'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:30'
 }
 SRPointGrabber >> renderOverlayOn: aRenderer [
-	self hovered ifNotNil: [:target |
-		target haloSpec renderOn: aRenderer
+	approached do: [:info | | d target |
+		target := info at: 1.
+		d := info at: 2.
+		target haloSpec renderOn: aRenderer withColor: (self approachColorAt: d).
 	].
-	self grabbed ifNotNil: [:target |
-		target haloSpec renderOn: aRenderer
-	].
+	
+	self grabbed ifNotNil: [:grabbed |
+		grabbed haloSpec renderOn: aRenderer withColor: self grabColor.
+	] ifNil: [
+		self hovered ifNotNil: [:hovered |
+			hovered haloSpec renderOn: aRenderer withColor: self hoverColor
+		]
+	]	
 ]
 
 {
@@ -153,16 +246,22 @@ SRPointGrabber >> updateGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:00'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:32'
 }
 SRPointGrabber >> updateHovered [
 	| dist here closest |
+	approached := OrderedCollection new.
 	here := self globalTranslation.
 	dist := Float infinity.
 	(SRHalo specsIn: self world) do: [:spec |
 		spec collision ifNotNil: [:geom | | d |
 			d := geom distanceTo: here.
-			((d < 5cm) and: (d < dist)) ifTrue: [ dist := d. closest := spec.]
+			(d < self class approachDistance) ifTrue: [
+				approached add: {spec target. d}.
+			].
+			((d < self class hoverDistance) and: (d < dist)) ifTrue: [
+				dist := d. closest := spec.
+			]
 		]
 	].
 	closest 

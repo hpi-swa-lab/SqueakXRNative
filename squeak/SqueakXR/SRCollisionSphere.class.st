@@ -71,10 +71,10 @@ SRCollisionSphere >> rayIntersection: aRay [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 8/20/2026 16:58'
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:29'
 }
-SRCollisionSphere >> renderOn: aRenderer [
+SRCollisionSphere >> renderOn: aRenderer withColor: aColor [
 	| xform |
-	xform := (Matrix4x4 withOffset: self center) scaling: self radius asVector3.
-	aRenderer renderWireSphereTransformed: xform withColor: Color black.
+	xform := (Matrix4x4 withOffset: self center) scaling: self radius / 2 asVector3.
+	aRenderer renderWireSphereTransformed: xform withColor: aColor
 ]
