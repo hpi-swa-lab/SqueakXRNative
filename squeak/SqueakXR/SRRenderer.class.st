@@ -152,9 +152,27 @@ SRRenderer >> disableBackfaceCulling [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/7/2026 14:02'
+}
+SRRenderer >> disableDepthTest [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRenderer >> enableBackfaceCulling [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/7/2026 14:02'
+}
+SRRenderer >> enableDepthTest [
 
 	self subclassResponsibility
 ]
@@ -320,4 +338,15 @@ SRRenderer >> withoutBackfaceCullingDo: aBlock [
 	self disableBackfaceCulling.
 	aBlock value.
 	self enableBackfaceCulling.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/8/2026 18:10'
+}
+SRRenderer >> withoutDepthTestDo: aBlock [
+
+	self disableDepthTest.
+	aBlock value.
+	self enableDepthTest.
 ]
