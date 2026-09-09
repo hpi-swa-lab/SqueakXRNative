@@ -142,12 +142,13 @@ SRMeshObject >> onCacheInvalidated [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/15/2026 14:08'
+	#'squeak_changestamp' : 'leo 9/8/2026 18:04'
 }
 SRMeshObject >> renderOn: aSRRenderer [
 
 	mesh ifNil: [^ self].
 	material ifNil: [^ self].
+	"TODO: backface culling should not be on by default, but only in some cases; e.g. SRMorphPanel"
 	aSRRenderer withoutBackfaceCullingDo: [
 		aSRRenderer
 			renderMesh: self mesh

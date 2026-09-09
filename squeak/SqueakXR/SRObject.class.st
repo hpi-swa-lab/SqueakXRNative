@@ -1042,6 +1042,15 @@ SRObject >> removedChild: aSRObject [
 	"Hook: aSRObject was detached from me. Morphic counterpart: Morph>>removedMorph:."
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 9/7/2026 14:28'
+}
+SRObject >> renderInSecondPass [
+
+	^ false
+]
+
 { #category : #rendering }
 SRObject >> renderOn: aRenderer [
 
