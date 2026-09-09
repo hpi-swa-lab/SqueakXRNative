@@ -93,12 +93,14 @@ SRFrame >> process [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:22'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:56'
 }
 SRFrame >> renderObjects [
 
-	self renderObjects: firstPassRenderedObjects;
-		renderObjects: secondPassRenderedObjects.
+	self renderObjects: firstPassRenderedObjects.
+	self world renderer withoutDepthTestDo: [
+		self renderObjects: secondPassRenderedObjects
+	].
 ]
 
 {
