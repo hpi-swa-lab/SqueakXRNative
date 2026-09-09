@@ -161,15 +161,6 @@ SRRenderer >> disableDepthTest [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:04'
-}
-SRRenderer >> disableDepthTesting [
-
-	^ self subclassResponsibility 
-]
-
-{
-	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRenderer >> enableBackfaceCulling [
@@ -184,15 +175,6 @@ SRRenderer >> enableBackfaceCulling [
 SRRenderer >> enableDepthTest [
 
 	self subclassResponsibility
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:04'
-}
-SRRenderer >> enableDepthTesting [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #rendering }

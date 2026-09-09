@@ -583,7 +583,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:54'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:52'
 }
 SRObject >> initialize [
 
@@ -593,7 +593,6 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
-	isOverlay := (self class selectorDefinedByBase: #renderOverlayOn:) not.
 	
 	visible := true.
 	wantsHalo := true.
@@ -1053,15 +1052,6 @@ SRObject >> renderInSecondPass [
 
 { #category : #rendering }
 SRObject >> renderOn: aRenderer [
-
-	"children should override this"
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:56'
-}
-SRObject >> renderOverlayOn: aRenderer [
 
 	"children should override this"
 ]

@@ -152,11 +152,11 @@ SRPointGrabber >> hovered: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/8/2026 16:22'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:50'
 }
 SRPointGrabber >> initialize [
 	super initialize.
-	cursor := SROverlayCube new
+	cursor := SRCube new
 		scale: 10cm asVector3;
 		wantsHalo: false.
 	
@@ -169,17 +169,18 @@ SRPointGrabber >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:07'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:52'
 }
-SRPointGrabber >> renderOn: aRenderer [
-	
+SRPointGrabber >> renderInSecondPass [ 
+
+	^ true
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/8/2026 16:30'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:52'
 }
-SRPointGrabber >> renderOverlayOn: aRenderer [
+SRPointGrabber >> renderOn: aRenderer [
 	approached do: [:info | | d target |
 		target := info at: 1.
 		d := info at: 2.

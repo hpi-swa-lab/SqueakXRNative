@@ -837,22 +837,11 @@ SRWorld >> project: aProject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:05'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:49'
 }
 SRWorld >> render: aSRObject [
 
-	self renderer enableDepthTesting.
 	aSRObject renderOn: self renderer
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:05'
-}
-SRWorld >> renderOverlay: aSRObject [
-
-	self renderer disableDepthTesting.
-	aSRObject renderOverlayOn: self renderer
 ]
 
 { #category : #accessing }
@@ -898,7 +887,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:59'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:50'
 }
 SRWorld >> runStartScript [
 
@@ -967,7 +956,7 @@ SRWorld >> runStartScript [
 	self addChild: (SRSphere new translation: 3@1@0).
 	self addChild: (SRDistPlane new translation: 2@1@2; 
 		scale: 50cm asVector3).
-	self addChild: (SROverlayCube new translation: 3@2@0).
+	self addChild: (SRCube new translation: 3@2@0).
 	
 	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
 		label: 'Profile'

@@ -282,7 +282,7 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/7/2026 15:50'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:51'
 }
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
@@ -295,7 +295,6 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 		'Children: {1}' format: {selection childCount}.
 		'Is Stepping: ', selection isStepping.
 		'Is Rendering: ', selection isRendering.
-		'Is Overlay: ', selection isOverlay.
 		'Local translation'.
 		'    x: ', selection localTranslation x.
 		'    y: ', selection localTranslation y.

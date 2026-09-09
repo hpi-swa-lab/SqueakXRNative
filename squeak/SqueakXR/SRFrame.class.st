@@ -80,7 +80,7 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 9/9/2026 14:16'
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:49'
 }
 SRFrame >> process [
 
@@ -88,7 +88,6 @@ SRFrame >> process [
 		stepObjects;
 		prepareFrame;
 		renderObjects;
-		renderOverlays;
 		completeFrame
 ]
 
@@ -118,24 +117,6 @@ SRFrame >> renderObjects: anOrderedCollection [
 			error printVerboseOn: Transcript.
 			currentObject badRender: true.
 			error retry.].
-]
-
-{
-	#category : #processing,
-	#'squeak_changestamp' : 'phkeese 9/7/2026 16:02'
-}
-SRFrame >> renderOverlays [
-
-	| currentObject |
-	[[overlayObjects notEmpty] whileTrue: [
-		currentObject := overlayObjects removeFirst.
-		self world renderOverlay: currentObject]]
-		on: Error
-		do: [:error |
-			"ToolSet default handleError: error."
-			error printVerboseOn: Transcript.
-			currentObject badRender: true.
-			error retry.]
 ]
 
 {
