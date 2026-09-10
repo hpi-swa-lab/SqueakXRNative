@@ -5,7 +5,8 @@ Class {
 		'internalMaterial',
 		'shader',
 		'texture',
-		'isDirty'
+		'isDirty',
+		'colDiffuse'
 	],
 	#category : #'SqueakXR-Graphics-Material'
 }
@@ -20,16 +21,41 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:43'
+	#'squeak_changestamp' : 'phkeese 9/10/2026 16:44'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
-
 	internalMaterial := Raylib loadMaterialDefault.
 	texture ifNotNil: [
 		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
+	"
+	TODO: Support more than just albedo (the first index in the maps table)
+	Example code to access at index:
+	((ExternalData fromHandle: material maps getHandle type: (material maps externalType asNonPointerType asArrayType: 12)) at: index) 
+	"
+	colDiffuse ifNotNil: [
+		internalMaterial maps color: colDiffuse asRlColor 
+		].
+	
 	shader ifNotNil: [
 		internalMaterial shader: shader load internalShader].
 	^ internalMaterial
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/10/2026 16:33'
+}
+SRMaterial >> colDiffuse [
+	^ colDiffuse
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/10/2026 16:33'
+}
+SRMaterial >> colDiffuse: anObject [
+	colDiffuse := anObject.
+	isDirty := true
 ]
 
 {

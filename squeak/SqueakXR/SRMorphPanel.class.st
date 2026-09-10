@@ -23,7 +23,7 @@ SRMorphPanel class >> defaultPixelsPerMeter [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:23'
+	#'squeak_changestamp' : 'phkeese 9/10/2026 16:47'
 }
 SRMorphPanel class >> morphicPanel [
 	<shaderSource: #morphicPanel>
@@ -43,8 +43,8 @@ layout(location = 0) out vec4 finalColor;
 
 void main()
 {
-      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-      finalColor = texelColor.bgra;
+      vec4 texelColor = texture(texture0, fragTexCoord).bgra * colDiffuse * fragColor;
+      finalColor = texelColor;
 }'
 	} as: Dictionary
 ]
