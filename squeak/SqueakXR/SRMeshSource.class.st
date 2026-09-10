@@ -4,7 +4,7 @@ A SRMeshSource provides a unified interface to mesh data, abstracting away the u
 Class {
 	#name : #SRMeshSource,
 	#superclass : #Object,
-	#category : #'SqueakXR-Core',
+	#category : #'SqueakXR-Graphics-Mesh',
 	#'squeak_changestamp' : 'lege 7/6/2026 18:32'
 }
 

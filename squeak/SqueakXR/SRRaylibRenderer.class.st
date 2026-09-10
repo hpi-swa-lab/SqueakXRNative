@@ -5,7 +5,7 @@ Class {
 		'clearColor',
 		'camera'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
 
 {
@@ -40,11 +40,35 @@ SRRaylibRenderer >> disableBackfaceCulling [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/8/2026 18:16'
+}
+SRRaylibRenderer >> disableDepthTest [
+
+	"Render batch must be flushed so previous geometry is rendered correctly."
+	Raylib
+		rlDrawRenderBatchActive;
+		rlDisableDepthTest.
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
 
 	Raylib rlEnableBackfaceCulling.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/8/2026 18:15'
+}
+SRRaylibRenderer >> enableDepthTest [
+
+	"Render batch must be flushed so previous geometry is rendered correctly."
+	Raylib
+		rlDrawRenderBatchActive;
+		rlEnableDepthTest.
 ]
 
 { #category : #initializing }

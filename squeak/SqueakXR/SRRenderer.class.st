@@ -9,8 +9,18 @@ Class {
 		'RendererClass',
 		'StartMonitor'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Renderer'
 }
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
+}
+SRRenderer class >> assertContext [
+	"Calls into GL without a context do not raise, they take the VM down."
+
+	self assert: self hasContext description: 'no GL context: open a renderer window first'
+]
 
 {
 	#category : #preferences,
@@ -34,6 +44,15 @@ SRRenderer class >> clearColor: aColor [
 SRRenderer class >> default [
 
 	^ SRRaylibRenderer
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'jl 8/11/2026 15:51'
+}
+SRRenderer class >> hasContext [
+
+	^ Raylib isWindowReady
 ]
 
 { #category : #preferences }
@@ -133,9 +152,27 @@ SRRenderer >> disableBackfaceCulling [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/7/2026 14:02'
+}
+SRRenderer >> disableDepthTest [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRenderer >> enableBackfaceCulling [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/7/2026 14:02'
+}
+SRRenderer >> enableDepthTest [
 
 	self subclassResponsibility
 ]
@@ -301,4 +338,15 @@ SRRenderer >> withoutBackfaceCullingDo: aBlock [
 	self disableBackfaceCulling.
 	aBlock value.
 	self enableBackfaceCulling.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo 9/8/2026 18:10'
+}
+SRRenderer >> withoutDepthTestDo: aBlock [
+
+	self disableDepthTest.
+	aBlock value.
+	self enableDepthTest.
 ]

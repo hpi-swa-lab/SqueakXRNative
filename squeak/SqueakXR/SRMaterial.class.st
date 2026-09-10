@@ -7,7 +7,7 @@ Class {
 		'texture',
 		'isDirty'
 	],
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Graphics-Material'
 }
 
 {

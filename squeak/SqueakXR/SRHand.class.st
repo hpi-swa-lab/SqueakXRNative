@@ -168,11 +168,12 @@ SRHand >> handIndex: anInteger [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:36'
+	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
 }
 SRHand >> handleSqueeze: aNumber [
 
 	| prevSqueezePressed threshold |
+	self flag: #deprecated.
 	prevSqueezePressed := squeezePressed.
 	threshold := squeezePressed
 		ifTrue: [0.8]
@@ -189,11 +190,12 @@ SRHand >> handleSqueeze: aNumber [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 13:35'
+	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
 }
 SRHand >> handleTrigger: aNumber [
 
 	| prevTriggerPressed threshold |
+	self flag: #deprecated.
 	prevTriggerPressed := triggerPressed.
 	threshold := triggerPressed
 		ifTrue: [0.8]
@@ -286,12 +288,12 @@ SRHand >> menuButton [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
 SRHand >> onWorldChanged: oldWorld [
 
 	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world addDependent: self.
+	self world ifNotNil: [:each | each addDependent: self].
 ]
 
 {
@@ -305,17 +307,17 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:09'
+	#'squeak_changestamp' : 'lege 8/7/2026 13:13'
 }
 SRHand >> performActions [
 
 	self trigger isJustPressed ifTrue: [
 		self squeeze isPressed
-			ifTrue: [self openMenu]
 			ifFalse: [self rayCast]].
 	
-	(self squeeze isJustPressed and: [self trigger isPressed not])
-		ifTrue: [self startGrabbing].
+	self squeeze isJustPressed ifTrue: [
+		self trigger isPressed
+			ifFalse: [self startGrabbing]].
 	
 	self squeeze isJustReleased ifTrue: [
 		self stopGrabbing].
@@ -326,7 +328,7 @@ SRHand >> performActions [
 	
 	self isLeft ifTrue: [
 		self menuButton isJustPressed ifTrue: [
-			self world debugHUD ifNotNil: [:hud | hud toggleVisibility]].
+			self openMenu].
 		self bottomButton isJustPressed ifTrue: [
 			self avatar toggleOutOfBody]].
 ]
@@ -362,7 +364,7 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:07'
+	#'squeak_changestamp' : 'jl 8/12/2026 18:32'
 }
 SRHand >> startGrabbing [
 
@@ -377,7 +379,8 @@ SRHand >> startGrabbing [
 		target ifNil: [^ self].
 		grabbedObject := target.
 		selectedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform].
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+		grabbedObject startGrabbing: self].
 ]
 
 {
@@ -393,10 +396,11 @@ SRHand >> step: deltaTime [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:24'
+	#'squeak_changestamp' : 'jl 8/12/2026 18:33'
 }
 SRHand >> stopGrabbing [
 
+	grabbedObject ifNotNil: [grabbedObject stopGrabbing: self].
 	grabbedObject := nil.
 ]
 
@@ -439,22 +443,22 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
 }
 SRHand >> updateGrabbedObjectTransform [
 
 	grabbedObject ifNotNil: [
-		grabbedObject globalTransform: self globalTransform * grabbedRelativeTransform].
+		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform].
 ]
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 17:59'
+	#'squeak_changestamp' : 'lege 8/10/2026 11:09'
 }
 SRHand >> updateTransformFromActions: aSRActionStates [
 	
 	| pose |
 	pose := aSRActionStates aimPoses at: self handIndex.
-	self globalTranslation: pose position;
-		globalRotation: pose orientation
+	self translation: pose position;
+		rotation: pose orientation
 ]

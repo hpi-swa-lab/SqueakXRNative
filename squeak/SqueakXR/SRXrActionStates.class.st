@@ -1,7 +1,7 @@
 Class {
 	#name : #SRXrActionStates,
 	#superclass : #ExternalStructure,
-	#category : #'SqueakXR-Core'
+	#category : #'SqueakXR-Input'
 }
 
 { #category : #'as yet unclassified' }

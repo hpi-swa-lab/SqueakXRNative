@@ -12,6 +12,41 @@ Class {
 }
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+}
+SRAvatar class >> menuSpawnDistance [
+	^ 20cm
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+}
+SRAvatar class >> menuSpawnLift [
+	^ 20cm
+]
+
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRAvatar class >> xrMenuOutOfBodyLabel: aMenu [
+	^ aMenu world avatar isOutOfBody
+		ifTrue: ['Return to Body']
+		ifFalse: ['Out-of-Body Mode']
+]
+
+{
+	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
+	<xrMenu: #(world debug) label: #xrMenuOutOfBodyLabel: priority: 410>
+	^ aMenu world avatar toggleOutOfBody
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/8/2025 17:49'
 }
@@ -106,37 +141,26 @@ SRAvatar >> leftHand [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:46'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRAvatar >> menuPlacementPositionForHand: aHand [
-	"Place the menu in front of the camera, avoiding objects via a raycast from the hand."
+	"Orientation comes from the camera, see SRMenu>>setTransformAt:facingCamera:."
 
-	| viewer forward preferredDistance margin minDistance hit distance |
-	viewer := camera globalTranslation.
-	forward := (camera globalTransform localDirToGlobal: Vector3 forward) normalize.
-	preferredDistance := 0.5.
-	margin := 0.05.
-	minDistance := 0.25.
-	hit := aHand castRayBackward.
-	distance := preferredDistance.
-	hit ifNotNil: [
-		| hitDistance |
-		hitDistance := hit point distanceTo: viewer.
-		distance := (hitDistance - margin) min: preferredDistance].
-	distance := distance max: minDistance.
-	^ viewer + (forward * distance)
+	^ aHand globalTranslation
+		+ (camera forward * self class menuSpawnDistance)
+		+ (Vector3 up * self class menuSpawnLift)
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:48'
 }
 SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 	^ contextMenu := SRMenu
 		contextMenuFor: anObject
 		at: aPosition
-		facing: self camera globalTranslation
+		facingCamera: self camera
 		in: self world
 ]
 
@@ -163,13 +187,13 @@ SRAvatar >> openMenuForHand: aHand [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:36'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:48'
 }
 SRAvatar >> openWorldMenuAt: aPosition [
 
 	^ contextMenu := SRMenu
 		worldMenuAt: aPosition
-		facing: self camera globalTranslation
+		facingCamera: self camera
 		in: self world
 ]
 

@@ -10,7 +10,8 @@ Class {
 		'textField',
 		'highlightColor',
 		'hovered',
-		'size'
+		'size',
+		'keepsMenuOpen'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -147,6 +148,22 @@ SRMenuItem >> isMenuItem [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+}
+SRMenuItem >> keepsMenuOpen [
+	^ keepsMenuOpen ifNil: [false]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:28'
+}
+SRMenuItem >> keepsMenuOpen: aBoolean [
+	keepsMenuOpen := aBoolean.
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 11:25'
 }
 SRMenuItem >> label [
@@ -174,11 +191,14 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 7/2/2026 11:35'
+	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
-	action ifNotNil: [action value].
-	self menu ifNotNil: [:m | m remove].
+	"Actions may take the activated item as an optional argument."
+
+	action ifNotNil: [action valueWithEnoughArguments: (Array with: self)].
+	self keepsMenuOpen ifFalse: [
+		self menu ifNotNil: [:m | m closeCascade]].
 ]
 
 {

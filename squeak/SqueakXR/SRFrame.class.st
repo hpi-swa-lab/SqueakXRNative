@@ -5,8 +5,9 @@ Class {
 		'world',
 		'deltaTime',
 		'steppedObjects',
-		'renderedObjects',
-		'isOld'
+		'isOld',
+		'firstPassRenderedObjects',
+		'secondPassRenderedObjects'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -46,12 +47,17 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:25'
+	#'squeak_changestamp' : 'leo 9/8/2026 18:20'
 }
 SRFrame >> initializeObjectLists [
 
 	steppedObjects := self world allDescendantsSelect: #isStepping.
-	renderedObjects := self world allDescendantsSelect: #isRendering.
+	
+	firstPassRenderedObjects := OrderedCollection new.
+	secondPassRenderedObjects := OrderedCollection new.
+	self world allDescendantsSelect: #isRendering thenDo: [:obj |
+		(obj renderInSecondPass ifTrue: [secondPassRenderedObjects] ifFalse: [firstPassRenderedObjects])
+			add: obj]
 ]
 
 { #category : #accessing }
@@ -74,7 +80,7 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 4/1/2026 17:00'
+	#'squeak_changestamp' : 'leo 9/7/2026 14:37'
 }
 SRFrame >> process [
 
@@ -87,20 +93,30 @@ SRFrame >> process [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 7/9/2026 17:22'
+	#'squeak_changestamp' : 'leo 9/8/2026 18:22'
 }
 SRFrame >> renderObjects [
 
+	self renderObjects: firstPassRenderedObjects;
+		renderObjects: secondPassRenderedObjects.
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo 9/8/2026 18:21'
+}
+SRFrame >> renderObjects: anOrderedCollection [
+
 	| currentObject |
-	[[renderedObjects notEmpty] whileTrue: [
-		currentObject := renderedObjects removeFirst.
+	[[anOrderedCollection notEmpty] whileTrue: [
+		currentObject := anOrderedCollection removeFirst.
 		self world render: currentObject]]
 		on: Error
 		do: [:error |
 			"ToolSet default handleError: error."
 			error printVerboseOn: Transcript.
 			currentObject badRender: true.
-			error retry.]
+			error retry.].
 ]
 
 {
