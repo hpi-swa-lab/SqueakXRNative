@@ -21,6 +21,8 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
   helpers.cpp
 )
 
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 if(ENABLE_ANDROID)
   target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     android.cpp
