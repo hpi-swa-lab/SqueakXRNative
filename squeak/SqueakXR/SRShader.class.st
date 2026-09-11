@@ -15,6 +15,7 @@ Class {
 	],
 	#classVars : [
 		'Default',
+		'PythonName',
 		'ShaderCache'
 	],
 	#category : #'SqueakXR-Graphics'
@@ -117,6 +118,28 @@ SRShader class >> evaluateCommand: aCommandString [
 SRShader class >> hasCachedShader: aName [
 
 	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'leo 9/11/2026 12:53'
+}
+SRShader class >> pythonName [
+
+	<preference: 'Python Name'
+		category: 'SqueakXR'
+		description: 'The name under which python can be accessed on this system'
+		type: #String>
+	^ PythonName ifNil: [PythonName := 'python3']
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'leo 9/11/2026 12:53'
+}
+SRShader class >> pythonName: aString [
+
+	^ PythonName := aString
 ]
 
 {
@@ -317,7 +340,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'MCPServer 9/11/2026 12:38'
+	#'squeak_changestamp' : 'leo 9/11/2026 12:54'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -325,7 +348,8 @@ SRShader class >> transpile: source stage: stage options: options [
 	basePath := Smalltalk imagePath.
 	outputFileName := basePath, '/output.shader'.
 	[
-	self evaluateCommand: ('python3 -c {1} {2} {3} {4}' format: {
+	self evaluateCommand: ('{1} -c {2} {3} {4} {5}' format: {
+		self pythonName.
 		self shellQuote: self pythonTranspileSource.
 		self shellQuote: source asString.
 		self shellQuote: stage asString.
