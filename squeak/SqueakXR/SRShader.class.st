@@ -120,6 +120,60 @@ SRShader class >> hasCachedShader: aName [
 ]
 
 {
+	#category : #transpiling,
+	#'squeak_changestamp' : 'leo 9/11/2026 12:36'
+}
+SRShader class >> pythonTranspileSource [
+
+	^ '
+#!/usr/bin/env python3
+import sys
+import os
+import subprocess
+
+def evaluate_command(command):
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    if result.returncode != 0:
+        sys.stderr.write(
+            "An error occurred while evaluating ''{0}''\nstdout:\n{1}\nstderr:\n{2}\n".format(
+                command, result.stdout, result.stderr))
+        raise RuntimeError("An error occurred while evaluating ''{0}''.".format(command))
+    return result.stdout
+
+def main():
+    source = sys.argv[1]
+    stage = sys.argv[2]
+    options = sys.argv[3]
+
+    base_path = os.getcwd()
+    input_file_name = os.path.join(base_path, "input.shader")
+    shader_file_name = os.path.join(base_path, "shader.spv")
+    output_file_name = os.path.join(base_path, "output.shader")
+
+    output = ""
+    try:
+        with open(input_file_name, "w") as f:
+            f.write(source)
+        evaluate_command("glslang -G -o {0} {1} -S {2}".format(
+            shader_file_name, input_file_name, stage))
+        output = evaluate_command("spirv-cross {0} {1}".format(
+            options, shader_file_name))
+    finally:
+        for path in (input_file_name, shader_file_name):
+            try:
+                os.remove(path)
+            except OSError as e:
+                sys.stderr.write("Failed to remove ''{0}'': {1}\n".format(path, e))
+
+    with open(output_file_name, "w") as f:
+        f.write(output)
+
+if __name__ == "__main__":
+    main()
+'
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
 }
@@ -170,6 +224,23 @@ SRShader class >> shaderSourcePragmas [
 				pragma keyword = keyword ifTrue: [found add: pragma]]]].
 	^ found asArray sort: [:a :b |
 		a arguments first asString <= b arguments first asString]
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer 9/11/2026 12:37'
+}
+SRShader class >> shellQuote: aString [
+	"Wrap aString in POSIX shell single quotes, escaping any embedded
+	 single quotes so the result is safe to pass as one shell argument."
+
+	^ String streamContents: [:s |
+		s nextPut: $'.
+		aString asString do: [:ch |
+			ch = $'
+				ifTrue: [s nextPutAll: '''\''''']
+				ifFalse: [s nextPut: ch]].
+		s nextPut: $']
 ]
 
 {
@@ -245,40 +316,38 @@ SRShader class >> transpile330: source stage: stage [
 ]
 
 {
-	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/14/2026 15:42'
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer 9/11/2026 12:38'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
-	| file output basePath inputFileName shaderFileName |
-	[
+	| basePath outputFileName output |
 	basePath := Smalltalk imagePath.
-	inputFileName := basePath, '/input.shader'.
-	shaderFileName := basePath, '/shader.spv'.
-	file := FileStream forceNewFileNamed: 'input.shader'.
-	file nextPutAll: source; close.
-	self evaluateCommand: ('glslang -G -o {1} {2} -S {3}' format: {
-		shaderFileName. inputFileName. stage}).
-	output := self evaluateCommand: ('spirv-cross {1} {2}' format: {
-		options. shaderFileName})]
-		ensure: [FileDirectory default
-			deleteFileNamed: inputFileName;
-			deleteFileNamed: shaderFileName].
+	outputFileName := basePath, '/output.shader'.
+	[
+	self evaluateCommand: ('python3 -c {1} {2} {3} {4}' format: {
+		self shellQuote: self pythonTranspileSource.
+		self shellQuote: source asString.
+		self shellQuote: stage asString.
+		self shellQuote: options asString}).
+	output := (FileStream readOnlyFileNamed: outputFileName) contentsOfEntireFile]
+		ensure: [FileDirectory default deleteFileNamed: outputFileName].
 	^ output
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'leo 9/11/2026 12:45'
 }
 SRShader class >> transpileAll [
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+
+	"self ensureSpirvCrossAvailable; ensureGlslangAvailable."
 	^ self transpileAllUnsafe
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:09'
+	#'squeak_changestamp' : 'leo 9/11/2026 12:41'
 }
 SRShader class >> transpileAllUnsafe [
 
@@ -288,36 +357,37 @@ SRShader class >> transpileAllUnsafe [
 	duplicates ifNotEmpty: [
 		Transcript cr; show: '** Duplicate <shaderSource:> names, only the last of each survives the cache: ', duplicates printString].
 	self resetCache.
-	^ pragmas collect: [:pragma | self transpileShaderDeclaredBy: pragma]
+	UIManager default informUser: 'Transpiling all shaders...' during: [
+		^ pragmas collect: [:pragma | self transpileShaderDeclaredBy: pragma]]
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:45'
+	#'squeak_changestamp' : 'leo 9/11/2026 12:41'
 }
 SRShader class >> transpileShaderDeclaredBy: aPragma [
 
 	| shaderName |
 	shaderName := aPragma arguments first asString.
 	ShaderCache ifNil: [self resetCache].
-	Transcript cr; show: 'Transpiling shader ', shaderName, '...'.
-	ShaderCache
-		at: shaderName
-		put: (self transpileSource:
-			(aPragma methodClass theNonMetaClass perform: aPragma selector)).
-	^ shaderName
+	UIManager default informUser: 'Transpiling ', shaderName during: [
+		ShaderCache
+			at: shaderName
+			put: (self transpileSource:
+				(aPragma methodClass theNonMetaClass perform: aPragma selector)).
+		^ shaderName]
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 10:46'
+	#'squeak_changestamp' : 'leo 9/11/2026 12:44'
 }
 SRShader class >> transpileShaderNamed: aName [
 	| pragma |
 	pragma := self shaderSourcePragmas
 		detect: [:each | each arguments first asString = aName asString]
 		ifNone: [^ self error: 'No method is marked <shaderSource: #', aName asString, '>'].
-	self ensureSpirvCrossAvailable; ensureGlslangAvailable.
+	"self ensureSpirvCrossAvailable; ensureGlslangAvailable."
 	^ self transpileShaderDeclaredBy: pragma
 ]
 
