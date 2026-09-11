@@ -88,27 +88,11 @@ SRShader class >> ensureSpirvCrossAvailable [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/27/2026 14:09'
+	#'squeak_changestamp' : 'leo 9/11/2026 13:39'
 }
 SRShader class >> evaluateCommand: aCommandString [
 
-	|pipeline out err|
-	pipeline := OSProcess evaluate: aCommandString.
-	pipeline waitForAllToComplete.
-	out := pipeline upToEndOfFile.
-	err := pipeline errorUpToEndOfFile.
-	
-	pipeline succeeded not ifTrue: [
-		Transcript
-			showln: ('An error occurred while evaluting ''{1}''' format: {aCommandString});
-			showln: 'stdout:';
-			showln: out;
-			showln: 'stderr:';
-			showln: err.
-		self error: ('An error occurred while evaluating ''{1}''. See Transcript for details.'
-			format: {aCommandString})].
-	
-	^ out
+	OSProcess waitForCommand: aCommandString
 ]
 
 {
@@ -144,7 +128,7 @@ SRShader class >> pythonName: aString [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'leo 9/11/2026 12:36'
+	#'squeak_changestamp' : 'leo 9/11/2026 13:40'
 }
 SRShader class >> pythonTranspileSource [
 
@@ -152,23 +136,28 @@ SRShader class >> pythonTranspileSource [
 #!/usr/bin/env python3
 import sys
 import os
+import shlex
 import subprocess
 
-def evaluate_command(command):
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+def evaluate_command(command_args):
+    result = subprocess.run(command_args, capture_output=True, text=True)
     if result.returncode != 0:
+        printed = " ".join(command_args)
         sys.stderr.write(
             "An error occurred while evaluating ''{0}''\nstdout:\n{1}\nstderr:\n{2}\n".format(
-                command, result.stdout, result.stderr))
-        raise RuntimeError("An error occurred while evaluating ''{0}''.".format(command))
+                printed, result.stdout, result.stderr))
+        raise RuntimeError("An error occurred while evaluating ''{0}''.".format(printed))
     return result.stdout
 
 def main():
-    source = sys.argv[1]
+    source_file = sys.argv[1]
     stage = sys.argv[2]
     options = sys.argv[3]
+    base_path = sys.argv[4]
 
-    base_path = os.getcwd()
+    with open(source_file, "r") as f:
+        source = f.read()
+
     input_file_name = os.path.join(base_path, "input.shader")
     shader_file_name = os.path.join(base_path, "shader.spv")
     output_file_name = os.path.join(base_path, "output.shader")
@@ -177,10 +166,8 @@ def main():
     try:
         with open(input_file_name, "w") as f:
             f.write(source)
-        evaluate_command("glslang -G -o {0} {1} -S {2}".format(
-            shader_file_name, input_file_name, stage))
-        output = evaluate_command("spirv-cross {0} {1}".format(
-            options, shader_file_name))
+        evaluate_command(["glslang", "-G", "-o", shader_file_name, input_file_name, "-S", stage])
+        output = evaluate_command(["spirv-cross"] + shlex.split(options) + [shader_file_name])
     finally:
         for path in (input_file_name, shader_file_name):
             try:
@@ -340,22 +327,33 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'leo 9/11/2026 12:54'
+	#'squeak_changestamp' : 'MCPServer 9/11/2026 13:38'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
-	| basePath outputFileName output |
+	| basePath scriptFileName sourceFileName outputFileName output |
 	basePath := Smalltalk imagePath.
+	scriptFileName := basePath, '/transpile.py'.
+	sourceFileName := basePath, '/source.shader'.
 	outputFileName := basePath, '/output.shader'.
 	[
-	self evaluateCommand: ('{1} -c {2} {3} {4} {5}' format: {
-		self pythonName.
-		self shellQuote: self pythonTranspileSource.
-		self shellQuote: source asString.
+	(FileStream forceNewFileNamed: scriptFileName)
+		nextPutAll: self pythonTranspileSource;
+		close.
+	(FileStream forceNewFileNamed: sourceFileName)
+		nextPutAll: source asString;
+		close.
+	self evaluateCommand: ('python3 {1} {2} {3} {4} {5}' format: {
+		self shellQuote: scriptFileName.
+		self shellQuote: sourceFileName.
 		self shellQuote: stage asString.
-		self shellQuote: options asString}).
+		self shellQuote: options asString.
+		self shellQuote: basePath}).
 	output := (FileStream readOnlyFileNamed: outputFileName) contentsOfEntireFile]
-		ensure: [FileDirectory default deleteFileNamed: outputFileName].
+		ensure: [FileDirectory default
+			deleteFileNamed: scriptFileName;
+			deleteFileNamed: sourceFileName;
+			deleteFileNamed: outputFileName].
 	^ output
 ]
 
