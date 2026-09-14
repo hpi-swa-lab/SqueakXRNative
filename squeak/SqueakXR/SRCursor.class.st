@@ -22,7 +22,7 @@ SRCursor >> hand [
 ]
 
 {
-	#category : #events,
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 16:12'
 }
 SRCursor >> onInputsChanged: anInputState [

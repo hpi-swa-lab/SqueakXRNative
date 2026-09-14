@@ -22,11 +22,13 @@ SRRaycastCursor >> initialize [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:05'
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:31'
 }
 SRRaycastCursor >> onInputsChanged: anInputState [
-	self updateTarget.
+
+	self updateHover.
+	
 	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button | 
 		| state |
 		state := anInputState perform: button.
@@ -91,10 +93,25 @@ SRRaycastCursor >> target [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:19'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:31'
 }
-SRRaycastCursor >> updateRaycast [
+SRRaycastCursor >> updateHover [
 
-	rayhit := self castRayBackward
+	| newHit newTarget oldTarget |
+	newHit := self castRayBackward.
+	oldTarget := self target.
+	newTarget := newHit ifNotNil: [ newHit object ].
+
+	(oldTarget ~= newTarget) ifTrue: [
+		self targetDo: [:target | target onInput: (SRInputEventCursorLeave new setFrom: self)].
+	].
+	
+	rayhit := newHit.
+	
+	(oldTarget ~= newTarget) ifTrue: [
+		self targetDo: [:target | target onInput: (SRInputEventCursorEnter new setFrom: self)].
+	].
+
+	"self targetDo: [:target | target onInput: (SRInputEventCursorMove new setFrom: self)]."
 
 ]
