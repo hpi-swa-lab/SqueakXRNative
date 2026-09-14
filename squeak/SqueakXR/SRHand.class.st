@@ -95,7 +95,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'lege 8/6/2026 18:58'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 16:24'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -104,8 +104,9 @@ SRHand >> actionsUpdated: aSRActionStates [
 		ifFalse: [self inputState updateActionsLeft: aSRActionStates].
 	
 	actionState := aSRActionStates.
-	
 	self updateTransformFromActions: aSRActionStates.
+	
+	self changed: #inputsChanged with: self inputState.
 ]
 
 {
@@ -152,7 +153,7 @@ SRHand >> handIndex [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:26'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 16:21'
 }
 SRHand >> handIndex: anInteger [
 
@@ -163,7 +164,9 @@ SRHand >> handIndex: anInteger [
 		[self class rightIndex] -> ['Right Hand']}).
 	
 	handColor := self isLeft ifTrue: [Color blue] ifFalse: [Color red].
-	self children do: [:child | child color: handColor].
+	self children do: [:child |
+		(child respondsTo: #color:) ifTrue: [ child color: handColor ]
+	]
 ]
 
 {
@@ -227,7 +230,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 8/5/2026 17:55'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 16:13'
 }
 SRHand >> initialize [
 
@@ -241,10 +244,7 @@ SRHand >> initialize [
 	
 	inputState := SRHandInputState new.
 	
-	self addChild: (SRCube new scale: 10cm asVector3);
-		addChild: (SRCube new
-			scale: 1cm @ 1cm @ 10m;
-			translation: 0 @ 0 @ -5m).
+	self addChild: SRRaycastCursor new.
 ]
 
 {
@@ -307,11 +307,11 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:13'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 15:37'
 }
 SRHand >> performActions [
 
-	self trigger isJustPressed ifTrue: [
+	"self trigger isJustPressed ifTrue: [
 		self squeeze isPressed
 			ifFalse: [self rayCast]].
 	
@@ -330,7 +330,7 @@ SRHand >> performActions [
 		self menuButton isJustPressed ifTrue: [
 			self openMenu].
 		self bottomButton isJustPressed ifTrue: [
-			self avatar toggleOutOfBody]].
+			self avatar toggleOutOfBody]]."
 ]
 
 {
