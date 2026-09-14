@@ -2,7 +2,6 @@ Class {
 	#name : #SRInputDualAxisState,
 	#superclass : #Object,
 	#instVars : [
-		'value',
 		'buttonState',
 		'vertical',
 		'horizontal'
@@ -17,6 +16,15 @@ Class {
 SRInputDualAxisState class >> deadzone [
 
 	^ 0.1
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:15'
+}
+SRInputDualAxisState class >> deadzoneSquared [ 
+
+	^ self deadzone squared
 ]
 
 {
@@ -41,12 +49,13 @@ SRInputDualAxisState >> horizontal: aNumber [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:35'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 17:49'
 }
 SRInputDualAxisState >> initialize [
 
 	horizontal := 0.
 	vertical := 0.
+	dirty := false.
 ]
 
 {
@@ -96,11 +105,26 @@ SRInputDualAxisState >> realVertical [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:40'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:56'
+}
+SRInputDualAxisState >> value [
+
+	self vector
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:16'
 }
 SRInputDualAxisState >> vector [
 
-	^ self horizontal @ self vertical
+	| v |
+	"Need to build raw vector to have deadzone in the center and not along both axes."
+	v := self realVector.
+	^((v squaredDistanceTo: 0@0) < self class deadzoneSquared) 
+		ifTrue: [ 0@0 ]
+		ifFalse: [ v ]
+
 ]
 
 {

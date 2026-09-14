@@ -57,3 +57,12 @@ SRInputButtonState >> isPressed: aBoolean [
 	isJustReleased := aBoolean not and: isPressed.
 	isPressed := aBoolean.
 ]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:06'
+}
+SRInputButtonState >> value [
+
+	^ isPressed
+]
