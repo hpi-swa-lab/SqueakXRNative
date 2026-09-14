@@ -1,5 +1,5 @@
 Class {
-	#name : #SRInputEventClick,
+	#name : #SRInputEventButton,
 	#superclass : #SRInputEvent,
 	#instVars : [
 		'button',
@@ -12,7 +12,7 @@ Class {
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 17:18'
 }
-SRInputEventClick >> button [
+SRInputEventButton >> button [
 	^ button
 ]
 
@@ -20,15 +20,15 @@ SRInputEventClick >> button [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 17:18'
 }
-SRInputEventClick >> button: anObject [
+SRInputEventButton >> button: anObject [
 	button := anObject
 ]
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:35'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:34'
 }
-SRInputEventClick >> isClickEvent [ 
+SRInputEventButton >> isButtonEvent [ 
 
 	^true
 ]
@@ -37,7 +37,7 @@ SRInputEventClick >> isClickEvent [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 17:18'
 }
-SRInputEventClick >> pressed [
+SRInputEventButton >> pressed [
 	^ pressed
 ]
 
@@ -45,6 +45,6 @@ SRInputEventClick >> pressed [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 17:18'
 }
-SRInputEventClick >> pressed: anObject [
+SRInputEventButton >> pressed: anObject [
 	pressed := anObject
 ]

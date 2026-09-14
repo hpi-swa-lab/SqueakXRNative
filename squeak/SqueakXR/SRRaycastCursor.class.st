@@ -23,7 +23,7 @@ SRRaycastCursor >> initialize [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:31'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:38'
 }
 SRRaycastCursor >> onInputsChanged: anInputState [
 
@@ -32,8 +32,8 @@ SRRaycastCursor >> onInputsChanged: anInputState [
 	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button | 
 		| state |
 		state := anInputState perform: button.
-		state isJustPressed ifTrue: [ self sendClickValue: true for: button ].
-		state isJustReleased ifTrue: [ self sendClickValue: false for: button ].
+		state isJustPressed ifTrue: [ self sendButtonValue: true for: button ].
+		state isJustReleased ifTrue: [ self sendButtonValue: false for: button ].
 	].
 	#(#joystick #trigger #squeeze) do: [ :axis | 
 		| value |
@@ -69,12 +69,12 @@ SRRaycastCursor >> sendAnalogValue: aValue for: anAxis [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:03'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:38'
 }
-SRRaycastCursor >> sendClickValue: aBool for: aButton [
+SRRaycastCursor >> sendButtonValue: aBool for: aButton [
 
 	self targetDo: [:target |
-		target onInput: (SRInputEventClick new setFrom: self;
+		target onInput: (SRInputEventButton new setFrom: self;
 			button: aButton;
 			pressed: aBool
 		)

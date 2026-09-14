@@ -34,10 +34,42 @@ SRInputEvent >> hand: anObject [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:36'
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:34'
 }
-SRInputEvent >> isInputEvent [ 
-	^true
+SRInputEvent >> isAnalogEvent [
+	^false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:35'
+}
+SRInputEvent >> isButtonEvent [ 
+	^false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:35'
+}
+SRInputEvent >> isCursorEnterEvent [
+	^false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:35'
+}
+SRInputEvent >> isCursorLeaveEvent [
+	^false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:35'
+}
+SRInputEvent >> isCursorMoveEvent [
+	^false
 ]
 
 {

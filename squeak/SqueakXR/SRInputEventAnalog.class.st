@@ -25,6 +25,14 @@ SRInputEventAnalog >> axis: anObject [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:35'
+}
+SRInputEventAnalog >> isAnalogEvent [ 
+	^true
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 19:59'
 }
