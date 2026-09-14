@@ -2,13 +2,13 @@ Class {
 	#name : #SRRaycastCursor,
 	#superclass : #SRCursor,
 	#instVars : [
-		'helpers'
+		'rayhit'
 	],
 	#category : #'SqueakXR-Input'
 }
 
 {
-	#category : #'initialize-release',
+	#category : #initialize,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 16:02'
 }
 SRRaycastCursor >> initialize [ 
@@ -22,10 +22,79 @@ SRRaycastCursor >> initialize [
 ]
 
 {
-	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:26'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:05'
 }
 SRRaycastCursor >> onInputsChanged: anInputState [
+	self updateTarget.
+	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button | 
+		| state |
+		state := anInputState perform: button.
+		state isJustPressed ifTrue: [ self sendClickValue: true for: button ].
+		state isJustReleased ifTrue: [ self sendClickValue: false for: button ].
+	].
+	#(#joystick #trigger #squeeze) do: [ :axis | 
+		| value |
+		value := (anInputState perform: axis) value.
+		self sendAnalogValue: value for: axis 
+	]
+]
 
-	anInputState trigger isJustPressed ifTrue: [ self castRay ].
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:40'
+}
+SRRaycastCursor >> point [
+
+	^ rayhit ifNotNil: [ rayhit point ]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:01'
+}
+SRRaycastCursor >> sendAnalogValue: aValue for: anAxis [
+
+	self targetDo: [:target |
+		aValue isZero ifFalse: [
+			target onInput: (SRInputEventAnalog new setFrom: self;
+				axis: anAxis;
+				value: aValue
+			)
+		]
+	]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 20:03'
+}
+SRRaycastCursor >> sendClickValue: aBool for: aButton [
+
+	self targetDo: [:target |
+		target onInput: (SRInputEventClick new setFrom: self;
+			button: aButton;
+			pressed: aBool
+		)
+	]
+
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:40'
+}
+SRRaycastCursor >> target [
+
+	^ rayhit ifNotNil: [ rayhit object ]
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:19'
+}
+SRRaycastCursor >> updateRaycast [
+
+	rayhit := self castRayBackward
+
 ]

@@ -12,7 +12,17 @@ Class {
 }
 
 {
-	#category : #input,
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
+}
+SRCursor >> hand [
+
+	"Hand object I belong to."
+	^ self parent
+]
+
+{
+	#category : #events,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 16:12'
 }
 SRCursor >> onInputsChanged: anInputState [
@@ -29,6 +39,34 @@ SRCursor >> parent: anSRObject [
 	self parent ifNotNil: [ :parent | parent removeDependent: self ].
 	super parent: anSRObject.
 	self parent ifNotNil: [ :parent | parent addDependent: self ].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
+}
+SRCursor >> point [
+	
+	"Hit position in the world, if it exists."
+	^ self subclassResponsibility 
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
+}
+SRCursor >> target [
+	
+	"Object I am pointing at, if it exists."
+	^ self subclassResponsibility 
+]
+
+{
+	#category : #'apply primitives',
+	#'squeak_changestamp' : 'phkeese 9/14/2026 19:47'
+}
+SRCursor >> targetDo: aBlock [
+	^ self target ifNotNil: aBlock value
 ]
 
 {

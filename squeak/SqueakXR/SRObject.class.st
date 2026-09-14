@@ -824,6 +824,15 @@ SRObject >> onGrabStarted: aHand [
 SRObject >> onGrabStopped: aHand [
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/14/2026 17:45'
+}
+SRObject >> onInput: anSRInputEvent [
+
+	Transcript showln: '', self, ' received ', anSRInputEvent
+]
+
 { #category : #events }
 SRObject >> onRaycast: aSRRayIntersectionResult [
 
