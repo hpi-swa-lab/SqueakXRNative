@@ -95,7 +95,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:24'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:23'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -106,7 +106,7 @@ SRHand >> actionsUpdated: aSRActionStates [
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates.
 	
-	self changed: #inputsChanged with: self inputState.
+	self emitInputEvents
 ]
 
 {
@@ -134,6 +134,56 @@ SRHand >> avatar: anSRAvatar [
 SRHand >> bottomButton [
 
 	^ self inputState bottomButton
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:33'
+}
+SRHand >> emitAnalogEventValue: aValue for: anAxis [
+
+	self changed: #analogInput with: (SRInputEventAnalog new
+		hand: self;
+		axis: anAxis;
+		value: aValue
+	)
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:32'
+}
+SRHand >> emitButtonEventPressed: aBool for: aButton [
+	
+	self changed: #buttonInput with: (SRInputEventButton new
+		hand: self;
+		button: aButton;
+		pressed: aBool
+	)
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:32'
+}
+SRHand >> emitInputEvents [ 
+
+	"Send out events based on changes in input"
+	self changed: #actionsUpdated.
+	
+	"Send button updates"
+	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button |
+		| state |
+		state := self inputState perform: button.
+		state isJustPressed ifTrue: [ self emitButtonEventPressed: true for: button ].
+		state isJustReleased ifTrue: [ self emitButtonEventPressed: false for: button ].
+	].
+
+	#(#joystick #trigger #squeeze) do: [ :axis | 
+		| value |
+		value := (self inputState perform: axis) value.
+		value isZero ifFalse: [ self emitAnalogEventValue: value for: axis. ]
+	].
 ]
 
 {

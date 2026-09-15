@@ -23,22 +23,36 @@ SRRaycastCursor >> initialize [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:38'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:34'
 }
-SRRaycastCursor >> onInputsChanged: anInputState [
+SRRaycastCursor >> onActionsUpdated [ 
 
-	self updateHover.
+	self updateHover
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:40'
+}
+SRRaycastCursor >> onAnalogInput: anAnalogEvent [
 	
-	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button | 
-		| state |
-		state := anInputState perform: button.
-		state isJustPressed ifTrue: [ self sendButtonValue: true for: button ].
-		state isJustReleased ifTrue: [ self sendButtonValue: false for: button ].
-	].
-	#(#joystick #trigger #squeeze) do: [ :axis | 
-		| value |
-		value := (anInputState perform: axis) value.
-		self sendAnalogValue: value for: axis 
+	anAnalogEvent handled ifTrue: [ ^ self ].
+	self targetDo: [:target | 
+		anAnalogEvent setFrom: self.
+		target onInput: anAnalogEvent
+	]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:40'
+}
+SRRaycastCursor >> onButtonInput: aButtonEvent [
+
+	aButtonEvent handled ifTrue: [ ^ self ].
+	self targetDo: [:target | 
+		aButtonEvent setFrom: self.
+		target onInput: aButtonEvent
 	]
 ]
 
@@ -52,37 +66,6 @@ SRRaycastCursor >> point [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:01'
-}
-SRRaycastCursor >> sendAnalogValue: aValue for: anAxis [
-
-	self targetDo: [:target |
-		aValue isZero ifFalse: [
-			target onInput: (SRInputEventAnalog new setFrom: self;
-				axis: anAxis;
-				value: aValue
-			)
-		]
-	]
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:38'
-}
-SRRaycastCursor >> sendButtonValue: aBool for: aButton [
-
-	self targetDo: [:target |
-		target onInput: (SRInputEventButton new setFrom: self;
-			button: aButton;
-			pressed: aBool
-		)
-	]
-
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/14/2026 19:40'
 }
@@ -93,7 +76,7 @@ SRRaycastCursor >> target [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 20:31'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:45'
 }
 SRRaycastCursor >> updateHover [
 
@@ -112,6 +95,6 @@ SRRaycastCursor >> updateHover [
 		self targetDo: [:target | target onInput: (SRInputEventCursorEnter new setFrom: self)].
 	].
 
-	"self targetDo: [:target | target onInput: (SRInputEventCursorMove new setFrom: self)]."
+	self targetDo: [:target | target onInput: (SRInputEventCursorMove new setFrom: self)].
 
 ]

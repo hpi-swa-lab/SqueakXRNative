@@ -105,11 +105,11 @@ SRInputDualAxisState >> realVertical [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:56'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:16'
 }
 SRInputDualAxisState >> value [
 
-	self vector
+	^ self vector
 ]
 
 {

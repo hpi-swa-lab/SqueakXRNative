@@ -10,7 +10,8 @@ Class {
 	#instVars : [
 		'target',
 		'point',
-		'hand'
+		'hand',
+		'handled'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 9/14/2026 17:16'
@@ -30,6 +31,31 @@ SRInputEvent >> hand [
 }
 SRInputEvent >> hand: anObject [
 	hand := anObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:38'
+}
+SRInputEvent >> handled [
+	^ handled
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:38'
+}
+SRInputEvent >> handled: anObject [
+	handled := anObject
+]
+
+{
+	#category : #initialize,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:38'
+}
+SRInputEvent >> initialize [ 
+
+	handled := false
 ]
 
 {
@@ -108,11 +134,10 @@ SRInputEvent >> printOn: aStream [
 
 {
 	#category : #initialize,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:27'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:37'
 }
 SRInputEvent >> setFrom: anSRCursor [
 
-	hand := anSRCursor hand.
 	point := anSRCursor point.
 	target := anSRCursor target.
 ]

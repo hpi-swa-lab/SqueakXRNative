@@ -23,11 +23,25 @@ SRCursor >> hand [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:12'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:26'
 }
-SRCursor >> onInputsChanged: anInputState [
+SRCursor >> onActionsUpdated [
 
-	"Called when my hand's inputs change"
+	"Called when my hand's actions have been updated but before it emits input events"
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
+}
+SRCursor >> onAnalogInput: anAnalogEvent [
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
+}
+SRCursor >> onButtonInput: aButtonEvent [
 ]
 
 {
@@ -63,17 +77,27 @@ SRCursor >> target [
 
 {
 	#category : #'apply primitives',
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:47'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:14'
 }
 SRCursor >> targetDo: aBlock [
-	^ self target ifNotNil: aBlock value
+	^ self target ifNotNil: [:target | aBlock value: target ]
 ]
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 15:35'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:35'
+}
+SRCursor >> update: anAspect [
+
+	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated ].
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
 }
 SRCursor >> update: anAspect with: anObject [
 
-	anAspect = #inputsChanged ifTrue: [ self onInputsChanged: anObject ].
+	anAspect = #buttonInput ifTrue: [ self onButtonInput: anObject ].
+	anAspect = #analogInput ifTrue: [ self onAnalogInput: anObject ].
 ]
