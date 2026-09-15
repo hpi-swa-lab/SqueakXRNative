@@ -2,32 +2,38 @@ Class {
 	#name : #SRRaycastCursor,
 	#superclass : #SRCursor,
 	#instVars : [
-		'rayhit'
+		'rayhit',
+		'raycube'
 	],
 	#category : #'SqueakXR-Input'
 }
 
 {
 	#category : #initialize,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:02'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:57'
 }
 SRRaycastCursor >> initialize [ 
 
 	super initialize.
+	
+	raycube := (SRCube new
+		scale: 1cm @ 1cm @ 10m
+	).
+	
 	self 
 		addChild: (SRCube new scale: 10cm asVector3);
-		addChild: (SRCube new
-			scale: 1cm @ 1cm @ 10m;
-			translation: 0 @ 0 @ -5m).
+		addChild: raycube.
 ]
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:58'
 }
 SRRaycastCursor >> onActionsUpdated [ 
 
-	self updateHover
+	self 
+		updateHover;
+		updateLaser
 ]
 
 {
@@ -97,4 +103,19 @@ SRRaycastCursor >> updateHover [
 
 	self targetDo: [:target | target handleInput: (SRInputEventCursorMove new setFrom: self)].
 
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:06'
+}
+SRRaycastCursor >> updateLaser [
+
+	| length |
+	length := (self point 
+		ifNotNil: [:point | point distanceTo: self globalTranslation ]
+		ifNil: [ 10 ]).
+	raycube 
+		scale: 1cm @ 1cm @ length;
+		translation: 0 @ 0 @ (length negated / 2).
 ]
