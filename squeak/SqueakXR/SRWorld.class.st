@@ -884,7 +884,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:53'
 }
 SRWorld >> runStartScript [
 
@@ -956,6 +956,10 @@ SRWorld >> runStartScript [
 		extent: 200 @ 100;
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
 		actionSelector: #value)).
+
+	self addChild: (SRInputDebugger new
+		translation: 0@3@(-1)
+	).
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new

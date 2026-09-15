@@ -45,14 +45,13 @@ SRCursor >> onButtonInput: aButtonEvent [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:12'
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/15/2026 15:47'
 }
-SRCursor >> parent: anSRObject [
+SRCursor >> onWorldStarted [ 
 
-	self parent ifNotNil: [ :parent | parent removeDependent: self ].
-	super parent: anSRObject.
-	self parent ifNotNil: [ :parent | parent addDependent: self ].
+	"Register ourlselves with our hand to receive its input events."
+	self hand addDependent: self
 ]
 
 {
