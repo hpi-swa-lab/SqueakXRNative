@@ -32,27 +32,27 @@ SRRaycastCursor >> onActionsUpdated [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:40'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }
 SRRaycastCursor >> onAnalogInput: anAnalogEvent [
 	
 	anAnalogEvent handled ifTrue: [ ^ self ].
 	self targetDo: [:target | 
 		anAnalogEvent setFrom: self.
-		target onInput: anAnalogEvent
+		target handleInput: anAnalogEvent
 	]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:40'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }
 SRRaycastCursor >> onButtonInput: aButtonEvent [
 
 	aButtonEvent handled ifTrue: [ ^ self ].
 	self targetDo: [:target | 
 		aButtonEvent setFrom: self.
-		target onInput: aButtonEvent
+		target handleInput: aButtonEvent
 	]
 ]
 
@@ -76,7 +76,7 @@ SRRaycastCursor >> target [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:45'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }
 SRRaycastCursor >> updateHover [
 
@@ -86,15 +86,15 @@ SRRaycastCursor >> updateHover [
 	newTarget := newHit ifNotNil: [ newHit object ].
 
 	(oldTarget ~= newTarget) ifTrue: [
-		self targetDo: [:target | target onInput: (SRInputEventCursorLeave new setFrom: self)].
+		self targetDo: [:target | target handleInput: (SRInputEventCursorLeave new setFrom: self)].
 	].
 	
 	rayhit := newHit.
 	
 	(oldTarget ~= newTarget) ifTrue: [
-		self targetDo: [:target | target onInput: (SRInputEventCursorEnter new setFrom: self)].
+		self targetDo: [:target | target handleInput: (SRInputEventCursorEnter new setFrom: self)].
 	].
 
-	self targetDo: [:target | target onInput: (SRInputEventCursorMove new setFrom: self)].
+	self targetDo: [:target | target handleInput: (SRInputEventCursorMove new setFrom: self)].
 
 ]

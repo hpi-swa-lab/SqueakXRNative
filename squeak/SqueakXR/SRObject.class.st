@@ -532,6 +532,19 @@ SRObject >> grabTarget: anObjectOrNil [
 	grabTarget := anObjectOrNil
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
+}
+SRObject >> handleInput: anSRInputEvent [
+
+	"
+	Called by SRCursor when this object is targeted.
+	Forwards the event by default to allow parents to listen on child object events.
+	"
+	self changed: #inputReceived with: anSRInputEvent
+]
+
 { #category : #hierarchy }
 SRObject >> hasAncestor: aSRObject [
 
@@ -822,15 +835,6 @@ SRObject >> onGrabStarted: aHand [
 	#'squeak_changestamp' : 'lege 8/7/2026 18:01'
 }
 SRObject >> onGrabStopped: aHand [
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:45'
-}
-SRObject >> onInput: anSRInputEvent [
-
-	"Called when this object receives an input event from an SRCursor"
 ]
 
 { #category : #events }

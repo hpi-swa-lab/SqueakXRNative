@@ -134,10 +134,11 @@ SRInputEvent >> printOn: aStream [
 
 {
 	#category : #initialize,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:37'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:29'
 }
 SRInputEvent >> setFrom: anSRCursor [
 
+	hand := anSRCursor hand.
 	point := anSRCursor point.
 	target := anSRCursor target.
 ]
