@@ -16,7 +16,8 @@ Class {
 		'badStep',
 		'badRender',
 		'grabTarget',
-		'visible'
+		'visible',
+		'wantsCursor'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -567,7 +568,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:13'
 }
 SRObject >> initialize [
 
@@ -577,6 +578,7 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
+	wantsCursor := true.
 	
 	visible := true.
 	
@@ -1209,6 +1211,22 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:16'
+}
+SRObject >> wantsCursor [
+	^ wantsCursor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:16'
+}
+SRObject >> wantsCursor: anObject [
+	wantsCursor := anObject
 ]
 
 { #category : #accessing }

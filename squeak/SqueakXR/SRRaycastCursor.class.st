@@ -9,6 +9,24 @@ Class {
 }
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:19'
+}
+SRRaycastCursor >> castRay [
+	
+	"Cast ray into scene but filter out any objects that don't want a cursor"
+	| ray targets |
+	self world ifNil: [ ^ nil ].
+	targets := self world allDescendantsSelect: [:object | object wantsCursor ].
+	ray := SRRay
+		origin: self globalTranslation
+		forward: self backward.
+	^ (ray castAllObjects: targets)
+		ifEmpty: [ nil ]
+		ifNotEmpty: [: results | results first ]
+]
+
+{
 	#category : #initialize,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 16:57'
 }
@@ -82,12 +100,12 @@ SRRaycastCursor >> target [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:19'
 }
 SRRaycastCursor >> updateHover [
 
 	| newHit newTarget oldTarget |
-	newHit := self castRayBackward.
+	newHit := self castRay.
 	oldTarget := self target.
 	newTarget := newHit ifNotNil: [ newHit object ].
 
