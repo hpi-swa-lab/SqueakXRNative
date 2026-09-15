@@ -75,6 +75,15 @@ SRCollisionGeometry >> object: aSRObject [
 	object := aSRObject
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:47'
+}
+SRCollisionGeometry >> pointIntersection: aCollisionPoint [
+
+	^ nil
+]
+
 { #category : #collisions }
 SRCollisionGeometry >> rayIntersection: aRay [
 

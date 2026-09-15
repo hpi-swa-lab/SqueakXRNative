@@ -83,6 +83,16 @@ SRCursor >> targetDo: aBlock [
 ]
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:33'
+}
+SRCursor >> targetsIn: aWorld [
+	
+	"Find objects in aWorld which want a cursor"
+	^ self world allDescendantsSelect: [ :object | object wantsCursor ]
+]
+
+{
 	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 15:35'
 }

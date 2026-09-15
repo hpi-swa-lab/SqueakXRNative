@@ -9,21 +9,17 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:19'
+	#category : #helpers,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:34'
 }
 SRRaycastCursor >> castRay [
-	
 	"Cast ray into scene but filter out any objects that don't want a cursor"
+
 	| ray targets |
 	self world ifNil: [ ^ nil ].
-	targets := self world allDescendantsSelect: [:object | object wantsCursor ].
-	ray := SRRay
-		origin: self globalTranslation
-		forward: self backward.
-	^ (ray castAllObjects: targets)
-		ifEmpty: [ nil ]
-		ifNotEmpty: [: results | results first ]
+	targets := self targetsIn: self world.
+	ray := SRRay origin: self globalTranslation forward: self backward.
+	^ (ray castAllObjects: targets) ifEmpty: [ nil ] ifNotEmpty: [ :results | results first ]
 ]
 
 {
@@ -55,7 +51,7 @@ SRRaycastCursor >> onActionsUpdated [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }
 SRRaycastCursor >> onAnalogInput: anAnalogEvent [
@@ -68,7 +64,7 @@ SRRaycastCursor >> onAnalogInput: anAnalogEvent [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }
 SRRaycastCursor >> onButtonInput: aButtonEvent [

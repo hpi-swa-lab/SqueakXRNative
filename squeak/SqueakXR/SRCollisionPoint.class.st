@@ -17,18 +17,20 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:23'
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:51'
 }
 SRCollisionPoint >> castAllObjects: aCollectionOfSRObjects [
 	| intersections |
 	intersections := OrderedCollection new.
 	aCollectionOfSRObjects do: [:object |
 		object collisionGeometryDo: [:geometry |
-			((geometry distanceTo: self origin) < self radius) 
-				ifTrue: [intersections add: object]
+			(geometry pointIntersection: self) ifNotNil: [:result |
+				intersections add: result]
 		]
 	].
-	^ intersections
+	^ intersections sorted: [:a :b |
+		a distance abs < b distance abs
+	]
 ]
 
 {

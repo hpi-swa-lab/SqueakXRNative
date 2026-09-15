@@ -126,6 +126,27 @@ SRCollisionPlane >> point: aVector3 [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 17:53'
+}
+SRCollisionPlane >> pointIntersection: aCollisionPoint [
+
+	| d |
+	d := self distanceTo: aCollisionPoint origin.
+	
+	^ (d < (aCollisionPoint radius))
+		ifFalse: [ nil ]
+		ifTrue: [ SRPointIntersectionResult new
+			point: (self projected: aCollisionPoint origin);
+			object: self object;
+			distance: d
+		]
+	
+	
+	
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 8/11/2026 14:22'
 }
