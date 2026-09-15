@@ -193,6 +193,63 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:35'
+}
+SRMorphPanel >> handleInput: anInputEvent [
+
+	| clickPoint normalizedPoint point isClick isScroll isMouseButton |
+	self morph ifNil: [ ^ self ].
+	
+	isMouseButton := anInputEvent isButtonEvent 
+		and: [ anInputEvent button = #trigger ].
+	isClick := isMouseButton
+		and: [ anInputEvent pressed ].
+	isScroll := anInputEvent isAnalogEvent
+		and: [ anInputEvent axis = #joystick ].	
+
+	isClick ifTrue: [
+		self world keyboardFocus: self.
+		self morph isSystemWindow ifTrue: [ self morph beKeyWindow ].
+	].
+	
+	point := plane globalTransform globalPointToLocal: anInputEvent point.
+	normalizedPoint := point xz asPoint + 0.5 asPoint.
+	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft. 
+	
+	Project current addDeferredUIMessage: [
+		isScroll ifTrue: [ | scrollEvent thumbstickY |
+			thumbstickY := anInputEvent value y.
+			scrollEvent := MouseWheelEvent new
+				setType: #mouseWheel
+				position: clickPoint asPoint
+				delta: 0@30 * thumbstickY sign
+				buttons: 0
+				hand: self currentHand
+				stamp: Sensor eventTimeNow.
+			scrollEvent becomeActiveDuring: [
+				self morph processEvent: scrollEvent].
+		].
+		isMouseButton ifTrue: [ | eventType mouseEvent | 
+			eventType := isClick ifTrue: [ #mouseDown ] ifFalse: [ #mouseUp ].
+			mouseEvent := MouseButtonEvent new
+				setType: eventType
+				position: clickPoint asPoint
+				which: MouseButtonEvent redButton
+				buttons: MouseButtonEvent redButton
+				nClicks: 1
+				hand: self currentHand
+				stamp: Sensor eventTimeNow.
+			mouseEvent becomeActiveDuring: [ 
+				self morph processEvent: mouseEvent 
+			].
+		]
+	].
+
+	lastClickPosition := clickPoint asPoint.
+]
+
+{
+	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 5/29/2026 14:29'
 }
 SRMorphPanel >> handleRaycast: intersectionResult [
@@ -475,10 +532,14 @@ SRMorphPanel >> toggleResizers [
 		ifNotEmpty: [self removeResizers]
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
+}
 SRMorphPanel >> update: aSymbol with: anObject [
 
-	aSymbol = #raycast ifTrue: [self handleRaycast: anObject]
+	aSymbol = #raycast ifTrue: [self handleRaycast: anObject].
+	aSymbol = #inputReceived ifTrue: [ self handleInput: anObject ].
 ]
 
 {
