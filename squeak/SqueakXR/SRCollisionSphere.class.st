@@ -20,6 +20,14 @@ SRCollisionSphere >> center: aVector3 [
 	center := aVector3
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 15:29'
+}
+SRCollisionSphere >> distanceTo: aPoint [
+	^ (self center distanceTo: aPoint) - (self radius / 2)
+]
+
 { #category : #accessing }
 SRCollisionSphere >> radius [
 
@@ -32,7 +40,7 @@ SRCollisionSphere >> radius: aNumber [
 	radius := aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #collisions }
 SRCollisionSphere >> rayIntersection: aRay [
 	"adapted from
 	https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection.html"
@@ -59,4 +67,14 @@ SRCollisionSphere >> rayIntersection: aRay [
 		object: self object;
 		point: (aRay project: t0)
 	
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 16:29'
+}
+SRCollisionSphere >> renderOn: aRenderer withColor: aColor [
+	| xform |
+	xform := (Matrix4x4 withOffset: self center) scaling: self radius / 2 asVector3.
+	aRenderer renderWireSphereTransformed: xform withColor: aColor
 ]

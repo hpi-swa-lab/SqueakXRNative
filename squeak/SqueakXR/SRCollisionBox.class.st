@@ -32,6 +32,38 @@ SRCollisionBox >> center: aVector3 [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 8/10/2026 17:19'
+}
+SRCollisionBox >> contains: aPoint [
+	| inverseRotation localOrigin min max|
+	inverseRotation := self rotation inverse.
+	localOrigin := inverseRotation rotateVector: (aPoint - self center).
+	min := self center - self halfExtents.
+	max := self center + self halfExtents.
+	^ ((localOrigin x >= min x) 
+	and: [ localOrigin x <= max x]
+	and: [ localOrigin y >= min y]
+	and: [ localOrigin y <= max y]
+	and: [ localOrigin z >= min z])
+	and: [ localOrigin z <= max z]
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 16:20'
+}
+SRCollisionBox >> distanceTo: aPoint [
+	| inverseRotation localPoint b min q |
+	inverseRotation := self rotation inverse.
+	localPoint := inverseRotation rotateVector: (aPoint - self center).
+	b := self halfExtents.
+	q := localPoint abs - b.
+	min := ((q x max: q y) max: q z) min: 0.
+	^ ((q max: Vector3 zero) length + min)
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:48'
 }
@@ -109,6 +141,18 @@ SRCollisionBox >> rayIntersectionAABB: aLocalRay [
 				tmax < tmin ifTrue: [^ nil]]].
 	tmax < 0 ifTrue: [^ nil].
 	^ tmin < 0 ifTrue: [tmax] ifFalse: [tmin]
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'phkeese 9/9/2026 15:57'
+}
+SRCollisionBox >> renderOn: aRenderer withColor: aColor [
+	| T R S |
+	T := Matrix4x4 withOffset: self center.
+	R := Matrix4x4 fromQuaternion: self rotation.
+	S := Matrix4x4 withScale: self halfExtents * 2.
+	aRenderer renderWireCubeTransformed: T * R * S withColor: aColor
 ]
 
 {

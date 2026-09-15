@@ -45,6 +45,30 @@ SRCollisionPlane class >> point: point normal: normal up: up width: width height
 		height: height
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 16:04'
+}
+SRCollisionPlane >> distanceTo: aPoint [
+	| d localPoint b min q v |
+	d := (self projected: aPoint) distanceTo: aPoint.
+	self isBounded ifFalse: [ ^d ].
+	
+	v := aPoint - self point.
+	localPoint := Vector3 
+		x: (v dot: self side)
+		y: (v dot: self up)
+		z: (v dot: self normal).
+	
+	b := ((self width)@(self height)@0) / 2.
+	q := localPoint abs - b.
+	min := ((q x max: q y) max: q z) min: 0.
+	^ (((q max: Vector3 zero) length + min) max: d)
+	
+	
+	
+]
+
 { #category : #accessing }
 SRCollisionPlane >> extent [
 
@@ -101,6 +125,17 @@ SRCollisionPlane >> point: aVector3 [
 	point := aVector3
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 8/11/2026 14:22'
+}
+SRCollisionPlane >> projected: aPoint [
+	| p2p dist |
+	p2p := aPoint - self point.
+	dist := self normal dot: p2p.
+	^ aPoint - (dist * self normal)
+]
+
 { #category : #collisions }
 SRCollisionPlane >> rayIntersection: aRay [
 	"adapted from
@@ -129,6 +164,20 @@ SRCollisionPlane >> rayIntersection: aRay [
 		^ SRRayIntersectionResult new
 			point: intersection;
 			object: self object]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/8/2026 15:26'
+}
+SRCollisionPlane >> renderOn: aRenderer withColor: aColor [
+	self isBounded ifTrue: [ | T R S |
+		T := Matrix4x4 withOffset: self point.
+		R := Matrix4x4 at: self normal up: self up.
+		S := Matrix4x4 withScale: (self width)@(self height)@0.
+		aRenderer renderWireCubeTransformed: T * R * S withColor: aColor
+	]
+
 ]
 
 { #category : #accessing }
