@@ -18,6 +18,15 @@ Class {
 }
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:17'
+}
+SRCursor >> grabTransformBase [ 
+
+	^ self globalTransform
+]
+
+{
 	#category : #grabbing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
 }
@@ -146,13 +155,13 @@ SRCursor >> renderOn: aRenderer [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:04'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:21'
 }
 SRCursor >> startGrabbing [
 	
 	self targetDo: [:target |
 		grabbedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+		grabbedRelativeTransform := self grabTransformBase inverseTransformation * grabbedObject globalTransform.
 		grabbedObject startGrabbing: self hand.
 	]
 ]
@@ -250,12 +259,12 @@ SRCursor >> update: anAspect with: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:08'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:18'
 }
 SRCursor >> updateGrabbedObjectTransform [ 
 
 	grabbedObject ifNotNil: [
-		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform
+		grabbedObject dragTo: self grabTransformBase * grabbedRelativeTransform
 	]
 ]
 

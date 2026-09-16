@@ -3,14 +3,15 @@ Class {
 	#superclass : #SRCursor,
 	#instVars : [
 		'radius',
-		'hit'
+		'hit',
+		'gogo'
 	],
 	#category : #'SqueakXR-Input'
 }
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:36'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:17'
 }
 SRPointCursor >> findClosest [
 
@@ -18,20 +19,31 @@ SRPointCursor >> findClosest [
 	self world ifNil: [ ^ nil ].
 	targets := self targetsIn: self world.
 	point := SRCollisionPoint new
-		origin: self globalTranslation;
+		origin: gogo globalTranslation;
 		radius: self radius.
 	^ (point castAllObjects: targets) ifEmpty: [ nil ] ifNotEmpty: [ :results | results first ]
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:20'
+}
+SRPointCursor >> grabTransformBase [ 
+
+	^ gogo globalTransform
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:50'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:16'
 }
 SRPointCursor >> initialize [ 
 
 	super initialize.
 	
 	radius := 5cm.
+	gogo := SRGoGoExtender new.
+	self addChild: gogo.
 ]
 
 {
@@ -72,7 +84,7 @@ SRPointCursor >> radius: aFloat [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:31'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:17'
 }
 SRPointCursor >> renderOn: aRenderer [
 
@@ -80,7 +92,7 @@ SRPointCursor >> renderOn: aRenderer [
 	super renderOn: aRenderer.
 	
 	local := Matrix4x4 identity scaledBy: self radius * 2 asVector3.
-	xform := self globalTransform * local.
+	xform := gogo globalTransform * local.
 	aRenderer renderWireSphereTransformed: xform withColor: Color black.
 ]
 
