@@ -61,16 +61,17 @@ SRCursor >> hand [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:07'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:31'
 }
 SRCursor >> hand: anSRHand [
 	
+	| oldHand |
 	(hand = anSRHand) ifTrue: [ ^ self ].
-	hand ifNotNil: [:h | h removeDependent: self ].
+	oldHand := hand.
+	hand ifNotNil: [ hand removeDependent: self ].
 	hand := anSRHand.
-	hand ifNotNil: [:h | h addDependent: self ].
-	hand cursor: self.
-
+	hand ifNotNil: [ hand addDependent: self ].
+	self onHandChanged: oldHand
 ]
 
 {
@@ -130,6 +131,19 @@ SRCursor >> onButtonInput: aButtonEvent [
 		aButtonEvent setFrom: self.
 		target handleInput: aButtonEvent
 	]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:30'
+}
+SRCursor >> onHandChanged: oldHand [
+
+	"
+	Called when we change our hand. 
+	Children should call this in their own impls to automatically handle grabbing and releasing.
+	"
+	oldHand ifNotNil: [ self stopGrabbing ]
 ]
 
 {

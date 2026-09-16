@@ -94,7 +94,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:23'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:47'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -104,6 +104,19 @@ SRHand >> actionsUpdated: aSRActionStates [
 	
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates.
+	
+	self inputState topButton isJustPressed ifTrue: [ | cursorClasses index nextClass |
+		cursorClasses := SRCursor subclasses.
+		index := cursorClasses indexOf: (cursor class).
+		cursorClasses := SRCursor subclasses.
+		index := cursorClasses indexOf: (cursor class).
+		(cursor class) = (cursorClasses last) 
+			ifTrue: [ index := 1 ] 
+			ifFalse: [ index := index + 1 ].
+		nextClass := cursorClasses at: index.
+		self cursor: nextClass new.
+		^ self.
+	].
 	
 	self emitInputEvents
 ]
@@ -145,10 +158,20 @@ SRHand >> cursor [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:26'
 }
-SRHand >> cursor: anObject [
-	cursor := anObject
+SRHand >> cursor: anSRCursor [
+	
+	(cursor = anSRCursor) ifTrue: [ ^self ].
+	cursor ifNotNil: [
+		self removeChild: cursor.
+		cursor hand: nil.
+	].
+	cursor := anSRCursor.
+	cursor ifNotNil: [
+		cursor hand: self.
+		self addChild: cursor.
+	].
 ]
 
 {
@@ -295,7 +318,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:18'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 16:23'
 }
 SRHand >> initialize [
 
@@ -309,9 +332,7 @@ SRHand >> initialize [
 	
 	inputState := SRHandInputState new.
 	
-	self addChild: (SRPointCursor new
-		hand: self
-	).
+	self cursor: (SRPointCursor new).
 	
 ]
 
