@@ -2,7 +2,6 @@ Class {
 	#name : #SRPointCursor,
 	#superclass : #SRCursor,
 	#instVars : [
-		'sphere',
 		'radius',
 		'hit'
 	],
@@ -26,29 +25,23 @@ SRPointCursor >> findClosest [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:29'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:50'
 }
 SRPointCursor >> initialize [ 
 
 	super initialize.
 	
 	radius := 5cm.
-	sphere := (SRSphere new
-		scale: self radius asVector3 
-	).
-	self addChild: sphere.
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 18:01'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:00'
 }
 SRPointCursor >> onActionsUpdated [ 
 
-	self globalTranslation: self hand globalTranslation * 2.
 	self 
-		updateHover;
-		updateSphere
+		updateHover
 ]
 
 {
@@ -70,12 +63,25 @@ SRPointCursor >> radius [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:54'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:50'
 }
 SRPointCursor >> radius: aFloat [
 
-	radius := aFloat.
-	sphere scale: aFloat asVector3
+	radius := aFloat
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:31'
+}
+SRPointCursor >> renderOn: aRenderer [
+
+	| xform local |
+	super renderOn: aRenderer.
+	
+	local := Matrix4x4 identity scaledBy: self radius * 2 asVector3.
+	xform := self globalTransform * local.
+	aRenderer renderWireSphereTransformed: xform withColor: Color black.
 ]
 
 {
@@ -110,11 +116,4 @@ SRPointCursor >> updateHover [
 	].
 	
 	self targetDo: [:target | target handleInput: (SRInputEventCursorMove new setFrom: self)].
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 18:01'
-}
-SRPointCursor >> updateSphere [ 
 ]

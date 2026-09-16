@@ -207,6 +207,15 @@ SRAvatar >> rightHand [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:39'
+}
+SRAvatar >> shoulderPosition [
+
+	^ self camera globalTranslation - (0@0.3@0)
+]
+
+{
 	#category : #'out-of-body',
 	#'squeak_changestamp' : 'lege 7/20/2026 17:50'
 }

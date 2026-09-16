@@ -32,6 +32,32 @@ SRCollisionBox >> center: aVector3 [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:20'
+}
+SRCollisionBox >> closestOnSurfaceTo: aPoint [
+
+	| inverseRotation localPoint bMax bMin onSurface |
+	inverseRotation := self rotation inverse.
+	localPoint := inverseRotation rotateVector: (aPoint - self center).
+	bMax := self halfExtents.
+	bMin := bMax negated.
+	onSurface := bMin max: (bMax min: localPoint).
+	^ (self rotation rotateVector: onSurface) + self center
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:25'
+}
+SRCollisionBox >> closestPointTo: aPoint [
+
+	^(self contains: aPoint) 
+		ifTrue: aPoint
+		ifFalse: [ self closestOnSurfaceTo: aPoint ]
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'phkeese 8/10/2026 17:19'
 }
@@ -87,6 +113,25 @@ SRCollisionBox >> halfExtents: aVector3 [
 }
 SRCollisionBox >> isCollisionBox [
 	^ true.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:29'
+}
+SRCollisionBox >> pointIntersection: aCollisionPoint [
+
+	| closestPoint d |
+	closestPoint := self closestPointTo: aCollisionPoint origin.
+	d := closestPoint distanceTo: aCollisionPoint origin.
+	^ (d < (aCollisionPoint radius))
+		ifFalse: nil
+		ifTrue: [ SRPointIntersectionResult new
+			point: closestPoint;
+			object: self object;
+			distance: d
+	]
+	
 ]
 
 {

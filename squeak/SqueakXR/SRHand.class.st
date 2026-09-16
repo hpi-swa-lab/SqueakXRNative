@@ -295,7 +295,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:07'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:44'
 }
 SRHand >> initialize [
 
@@ -309,8 +309,13 @@ SRHand >> initialize [
 	
 	inputState := SRHandInputState new.
 	
-	self addChild: (SRRaycastCursor new
-		hand: self).
+	self addChild: (SRGoGoExtender new
+		addChild: (SRPointCursor new
+			hand: self
+		);
+		yourself
+	).
+	
 ]
 
 {

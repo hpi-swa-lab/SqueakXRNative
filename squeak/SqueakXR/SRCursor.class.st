@@ -134,6 +134,17 @@ SRCursor >> point [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 15:32'
+}
+SRCursor >> renderOn: aRenderer [
+
+	grabbedObject ifNotNil: [:grabbed | 
+		grabbed collisionGeometryDo: [:col | col renderOn: aRenderer ]
+	]
+]
+
+{
 	#category : #grabbing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 14:04'
 }
