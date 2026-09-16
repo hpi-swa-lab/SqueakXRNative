@@ -10,7 +10,7 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 17:36'
 }
 SRPointCursor >> findClosest [
@@ -25,7 +25,7 @@ SRPointCursor >> findClosest [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #initialization,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 17:29'
 }
 SRPointCursor >> initialize [ 
@@ -40,7 +40,7 @@ SRPointCursor >> initialize [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #events,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 18:01'
 }
 SRPointCursor >> onActionsUpdated [ 
@@ -88,7 +88,7 @@ SRPointCursor >> target [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 18:08'
 }
 SRPointCursor >> updateHover [ 
@@ -113,7 +113,7 @@ SRPointCursor >> updateHover [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 18:01'
 }
 SRPointCursor >> updateSphere [ 

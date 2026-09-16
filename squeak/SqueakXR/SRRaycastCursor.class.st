@@ -9,7 +9,15 @@ Class {
 }
 
 {
-	#category : #helpers,
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:19'
+}
+SRRaycastCursor class >> laserWidth [
+	^ 0.5cm
+]
+
+{
+	#category : #updating,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 17:34'
 }
 SRRaycastCursor >> castRay [
@@ -24,15 +32,14 @@ SRRaycastCursor >> castRay [
 
 {
 	#category : #initialize,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:57'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:31'
 }
 SRRaycastCursor >> initialize [ 
 
 	super initialize.
 	
-	raycube := (SRCube new
-		scale: 1cm @ 1cm @ 10m
-	).
+	raycube := SRCube new
+		color: (Color red alpha: 0.5).
 	
 	self 
 		addChild: (SRCube new scale: 10cm asVector3);
@@ -40,40 +47,12 @@ SRRaycastCursor >> initialize [
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:58'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:23'
 }
 SRRaycastCursor >> onActionsUpdated [ 
 
-	self 
-		updateHover;
-		updateLaser
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
-}
-SRRaycastCursor >> onAnalogInput: anAnalogEvent [
-	
-	anAnalogEvent handled ifTrue: [ ^ self ].
-	self targetDo: [:target | 
-		anAnalogEvent setFrom: self.
-		target handleInput: anAnalogEvent
-	]
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
-}
-SRRaycastCursor >> onButtonInput: aButtonEvent [
-
-	aButtonEvent handled ifTrue: [ ^ self ].
-	self targetDo: [:target | 
-		aButtonEvent setFrom: self.
-		target handleInput: aButtonEvent
-	]
+	self updateHover
 ]
 
 {
@@ -121,15 +100,17 @@ SRRaycastCursor >> updateHover [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:06'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:26'
 }
-SRRaycastCursor >> updateLaser [
+SRRaycastCursor >> updateVisuals [
 
-	| length |
+	| length width |
+	super updateVisuals.
+	width := self class laserWidth.
 	length := (self point 
 		ifNotNil: [:point | point distanceTo: self globalTranslation ]
 		ifNil: [ 10 ]).
 	raycube 
-		scale: 1cm @ 1cm @ length;
+		scale: width @ width @ length;
 		translation: 0 @ 0 @ (length negated / 2).
 ]

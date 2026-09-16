@@ -7,51 +7,85 @@ hand - SRHand this cursor belongs to
 Class {
 	#name : #SRCursor,
 	#superclass : #SRObject,
+	#instVars : [
+		'hand',
+		'pointCube'
+	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 9/14/2026 14:55'
 }
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 10:57'
 }
 SRCursor >> hand [
-
-	"Hand object I belong to."
-	^ self parent
+	^ hand
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:26'
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:13'
+}
+SRCursor >> hand: anSRHand [
+	
+	(hand = anSRHand) ifTrue: [ ^ self ].
+	hand ifNotNil: [:h | h removeDependent: self ].
+	hand := anSRHand.
+	hand ifNotNil: [:h | h addDependent: self ].
+
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:17'
+}
+SRCursor >> initialize [ 
+
+	super initialize .
+	pointCube := (SRCube new
+		scale: 1cm asVector3;
+		color: Color red
+	).
+	self addChild: pointCube.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:00'
 }
 SRCursor >> onActionsUpdated [
 
-	"Called when my hand's actions have been updated but before it emits input events"
+	"
+	Called when my hand's actions have been updated but before it emits input events.
+	Useful for performing e.g. raycasts and update targeting.
+	"
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:03'
 }
 SRCursor >> onAnalogInput: anAnalogEvent [
+
+	anAnalogEvent handled ifTrue: [ ^ self ].
+	self targetDo: [:target | 
+		anAnalogEvent setFrom: self.
+		target handleInput: anAnalogEvent
+	]
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:04'
 }
 SRCursor >> onButtonInput: aButtonEvent [
-]
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:47'
-}
-SRCursor >> onWorldStarted [ 
-
-	"Register ourlselves with our hand to receive its input events."
-	self hand addDependent: self
+	aButtonEvent handled ifTrue: [ ^ self ].
+	self targetDo: [:target | 
+		aButtonEvent setFrom: self.
+		target handleInput: aButtonEvent
+	]
 ]
 
 {
@@ -93,20 +127,44 @@ SRCursor >> targetsIn: aWorld [
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:35'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:27'
 }
 SRCursor >> update: anAspect [
 
-	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated ].
+	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated; updateVisuals ].
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:36'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:04'
 }
 SRCursor >> update: anAspect with: anObject [
 
+	"
+	By default, we pass any unhandled input events along to our current target.
+	See on{Button,Analog}Input: 
+	"
 	anAspect = #buttonInput ifTrue: [ self onButtonInput: anObject ].
 	anAspect = #analogInput ifTrue: [ self onAnalogInput: anObject ].
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 11:29'
+}
+SRCursor >> updateVisuals [
+
+	"
+	Method for updating the cursor's own visuals, called after onActionsUpdated.
+	By default, this moves the cursor's hit cube to the current point or hides it if not aiming at anything.
+	Subclasses should call this method in their overrides.
+	"
+	self point 
+		ifNotNil: [:point | 
+			pointCube
+				visible: true; 
+				globalTranslation: point
+		]
+		ifNil: [ pointCube visible: false ]
 ]
