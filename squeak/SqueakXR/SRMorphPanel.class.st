@@ -193,59 +193,20 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:35'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 13:07'
 }
 SRMorphPanel >> handleInput: anInputEvent [
 
-	| clickPoint normalizedPoint point isClick isScroll isMouseButton |
+	| clickPoint normalizedPoint point |
 	self morph ifNil: [ ^ self ].
-	
-	isMouseButton := anInputEvent isButtonEvent 
-		and: [ anInputEvent button = #trigger ].
-	isClick := isMouseButton
-		and: [ anInputEvent pressed ].
-	isScroll := anInputEvent isAnalogEvent
-		and: [ anInputEvent axis = #joystick ].	
-
-	isClick ifTrue: [
-		self world keyboardFocus: self.
-		self morph isSystemWindow ifTrue: [ self morph beKeyWindow ].
-	].
 	
 	point := plane globalTransform globalPointToLocal: anInputEvent point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
 	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft. 
 	
-	Project current addDeferredUIMessage: [
-		isScroll ifTrue: [ | scrollEvent thumbstickY |
-			thumbstickY := anInputEvent value y.
-			scrollEvent := MouseWheelEvent new
-				setType: #mouseWheel
-				position: clickPoint asPoint
-				delta: 0@30 * thumbstickY sign
-				buttons: 0
-				hand: self currentHand
-				stamp: Sensor eventTimeNow.
-			scrollEvent becomeActiveDuring: [
-				self morph processEvent: scrollEvent].
-		].
-		isMouseButton ifTrue: [ | eventType mouseEvent | 
-			eventType := isClick ifTrue: [ #mouseDown ] ifFalse: [ #mouseUp ].
-			mouseEvent := MouseButtonEvent new
-				setType: eventType
-				position: clickPoint asPoint
-				which: MouseButtonEvent redButton
-				buttons: MouseButtonEvent redButton
-				nClicks: 1
-				hand: self currentHand
-				stamp: Sensor eventTimeNow.
-			mouseEvent becomeActiveDuring: [ 
-				self morph processEvent: mouseEvent 
-			].
-		]
-	].
-
-	lastClickPosition := clickPoint asPoint.
+	anInputEvent isButtonEvent ifTrue: [ self performClick: anInputEvent at: clickPoint ].
+	(anInputEvent isAnalogEvent and: [ anInputEvent axis = #joystick ]) 
+		ifTrue: [ self performScroll: anInputEvent at: clickPoint ].
 ]
 
 {
@@ -305,7 +266,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'jl 8/12/2026 18:31'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 13:48'
 }
 SRMorphPanel >> initialize [
 
@@ -430,6 +391,70 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 	self world
 		ifNil: [self detachMorph]
 		ifNotNil: [self remountMorph]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 12:50'
+}
+SRMorphPanel >> performClick: anInputEvent at: aPoint [
+
+	| button buttonMap buttonName |
+
+	anInputEvent pressed ifFalse: [ ^self ].
+	buttonMap := Dictionary new 
+		add: #trigger->#redButton; 
+		add: #bottomButton->#yellowButton;
+		yourself.
+	buttonName := buttonMap at: anInputEvent button ifAbsent: [ ^ self ].
+	button := MouseButtonEvent perform: buttonName.
+
+	self world keyboardFocus: self.
+	self morph isSystemWindow ifTrue: [ self morph beKeyWindow ].
+	
+	Project current addDeferredUIMessage: [
+		| downEvent upEvent | 
+		downEvent := MouseButtonEvent new
+			setType: #mouseDown
+			position: aPoint
+			which: button
+			buttons: button
+			nClicks: 1
+			hand: self currentHand
+			stamp: Sensor eventTimeNow.
+		downEvent becomeActiveDuring: [ self morph processEvent: downEvent ].
+		upEvent := MouseButtonEvent new
+			setType: #mouseUp
+			position: aPoint
+			which: button
+			buttons: button
+			nClicks: 1
+			hand: self currentHand
+			stamp: Sensor eventTimeNow.
+		upEvent becomeActiveDuring: [ self morph processEvent: upEvent ].
+	].
+
+	lastClickPosition := aPoint
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 13:16'
+}
+SRMorphPanel >> performScroll: anAnalogEvent at: aPoint [
+
+	Project current addDeferredUIMessage: [ | scrollEvent thumbstickY |
+		thumbstickY := anAnalogEvent value y.
+		scrollEvent := MouseWheelEvent new
+			setType: #mouseWheel
+			position: aPoint
+			delta: 0@30 * thumbstickY sign
+			buttons: 0
+			hand: self currentHand
+			stamp: Sensor eventTimeNow.
+		scrollEvent becomeActiveDuring: [
+			self morph processEvent: scrollEvent].
+	].
 ]
 
 {
