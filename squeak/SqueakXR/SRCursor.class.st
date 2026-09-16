@@ -9,11 +9,38 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'hand',
-		'pointCube'
+		'pointCube',
+		'grabbedObject',
+		'grabbedRelativeTransform'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 9/14/2026 14:55'
 }
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
+}
+SRCursor >> grabbedObject [ 
+
+	^ grabbedObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:18'
+}
+SRCursor >> grabbedRelativeTransform [
+	^ grabbedRelativeTransform
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:18'
+}
+SRCursor >> grabbedRelativeTransform: anObject [
+	grabbedRelativeTransform := anObject
+]
 
 {
 	#category : #accessing,
@@ -25,7 +52,7 @@ SRCursor >> hand [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:13'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:07'
 }
 SRCursor >> hand: anSRHand [
 	
@@ -33,6 +60,7 @@ SRCursor >> hand: anSRHand [
 	hand ifNotNil: [:h | h removeDependent: self ].
 	hand := anSRHand.
 	hand ifNotNil: [:h | h addDependent: self ].
+	hand cursor: self.
 
 ]
 
@@ -77,11 +105,18 @@ SRCursor >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:04'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:11'
 }
 SRCursor >> onButtonInput: aButtonEvent [
 
 	aButtonEvent handled ifTrue: [ ^ self ].
+	aButtonEvent button = #squeeze ifTrue: [
+		aButtonEvent pressed 
+		ifTrue: [ self startGrabbing ]
+		ifFalse: [ self stopGrabbing ].
+		aButtonEvent handled: true.
+		^ self
+	].
 	self targetDo: [:target | 
 		aButtonEvent setFrom: self.
 		target handleInput: aButtonEvent
@@ -96,6 +131,29 @@ SRCursor >> point [
 	
 	"Hit position in the world, if it exists."
 	^ self subclassResponsibility 
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:04'
+}
+SRCursor >> startGrabbing [
+	
+	self targetDo: [:target |
+		grabbedObject := target.
+		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
+		grabbedObject startGrabbing: self hand.
+	]
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:05'
+}
+SRCursor >> stopGrabbing [ 
+	
+	grabbedObject ifNotNil: [ grabbedObject stopGrabbing: self hand ].
+	grabbedObject := nil.
 ]
 
 {
@@ -128,11 +186,15 @@ SRCursor >> targetsIn: aWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:27'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:07'
 }
 SRCursor >> update: anAspect [
 
-	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated; updateVisuals ].
+	anAspect = #actionsUpdated ifTrue: [ self 
+		onActionsUpdated;
+		updateVisuals;
+		updateGrabbedObjectTransform
+	].
 ]
 
 {
@@ -147,6 +209,17 @@ SRCursor >> update: anAspect with: anObject [
 	"
 	anAspect = #buttonInput ifTrue: [ self onButtonInput: anObject ].
 	anAspect = #analogInput ifTrue: [ self onAnalogInput: anObject ].
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:08'
+}
+SRCursor >> updateGrabbedObjectTransform [ 
+
+	grabbedObject ifNotNil: [
+		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform
+	]
 ]
 
 {

@@ -11,13 +11,12 @@ Class {
 		'aPressed',
 		'menuPressed',
 		'xPressed',
-		'grabbedObject',
-		'grabbedRelativeTransform',
 		'actionState',
 		'selectedObject',
 		'hoveredMenuItem',
 		'avatar',
-		'inputState'
+		'inputState',
+		'cursor'
 	],
 	#classVars : [
 		'EndRate',
@@ -137,6 +136,22 @@ SRHand >> bottomButton [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
+}
+SRHand >> cursor [
+	^ cursor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
+}
+SRHand >> cursor: anObject [
+	cursor := anObject
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 15:33'
 }
@@ -188,11 +203,11 @@ SRHand >> emitInputEvents [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
 }
 SRHand >> grabbedObject [
 
-	^ grabbedObject
+	^ self cursor grabbedObject
 ]
 
 { #category : #accessing }
@@ -414,45 +429,13 @@ SRHand >> squeeze [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'jl 8/12/2026 18:32'
-}
-SRHand >> startGrabbing [
-
-	| ray |
-	ray := SRRay
-		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
-	
-	(ray castNearest: self world) ifNotNil: [:collision |
-		| target |
-		target := collision object grabTarget.
-		target ifNil: [^ self].
-		grabbedObject := target.
-		selectedObject := target.
-		grabbedRelativeTransform := self globalTransform inverseTransformation * grabbedObject globalTransform.
-		grabbedObject startGrabbing: self].
-]
-
-{
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+	#'squeak_changestamp' : 'phkeese 9/16/2026 14:09'
 }
 SRHand >> step: deltaTime [
 
 	self performActions;
-		updateGrabbedObjectTransform;
 		highlightSelectedObject.
-]
-
-{
-	#category : #actions,
-	#'squeak_changestamp' : 'jl 8/12/2026 18:33'
-}
-SRHand >> stopGrabbing [
-
-	grabbedObject ifNotNil: [grabbedObject stopGrabbing: self].
-	grabbedObject := nil.
 ]
 
 { #category : #actions }
@@ -490,16 +473,6 @@ SRHand >> trigger [
 SRHand >> update: aSymbol with: anObject [
 
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
-]
-
-{
-	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
-}
-SRHand >> updateGrabbedObjectTransform [
-
-	grabbedObject ifNotNil: [
-		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform].
 ]
 
 {
