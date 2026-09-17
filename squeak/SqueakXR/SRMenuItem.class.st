@@ -172,13 +172,23 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/16/2026 10:01'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
-	textField text: aString;
-		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ (size z / 2 + 1mm).
+	textField text: aString.
+	self layoutLabel.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
+}
+SRMenuItem >> layoutLabel [
+	"Sent from both #label:action: and #width:height: so the cascade order in
+	SRMenu>>rebuild cannot leave the text positioned for a stale width."
+	textField position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ (size z / 2 + 1mm).
 ]
 
 {
@@ -224,10 +234,11 @@ SRMenuItem >> renderOn: aSRRenderer [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
 }
 SRMenuItem >> width: w height: h [
 
 	size x: w.
 	size y: h.
+	self layoutLabel.
 ]

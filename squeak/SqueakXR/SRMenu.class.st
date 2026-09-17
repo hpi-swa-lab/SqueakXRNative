@@ -202,12 +202,12 @@ SRMenu >> collisionGeometry [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:56'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:50'
 }
 SRMenu >> initialize [
 	super initialize.
 	items := OrderedCollection new.
-	slabSize := 15cm @ 0 @ 5mm.
+	slabSize := 30cm @ 0 @ 5mm.
 	slabColor := Color r: 0.05 g: 0.05 b: 0.1.
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
 	rowSpacing := 2.5cm.
@@ -298,7 +298,7 @@ SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:48'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -314,9 +314,9 @@ SRMenu >> rebuild [
 	items do: [:spec |
 		| menuItem |
 		menuItem := SRMenuItem new
+			width: slabSize x - 0.01 height: rowSpacing * 0.85;
 			label: spec first action: spec second;
 			keepsMenuOpen: spec third;
-			width: slabSize x - 0.01 height: rowSpacing * 0.85;
 			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
 		self addChild: menuItem.
