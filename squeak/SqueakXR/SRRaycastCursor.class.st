@@ -48,11 +48,13 @@ SRRaycastCursor >> initialize [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:23'
+	#'squeak_changestamp' : 'phkeese 9/17/2026 14:32'
 }
 SRRaycastCursor >> onActionsUpdated [ 
 
-	self updateHover
+	self
+		updateHover;
+		updateLaser
 ]
 
 {
@@ -100,12 +102,11 @@ SRRaycastCursor >> updateHover [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:26'
+	#'squeak_changestamp' : 'phkeese 9/17/2026 14:33'
 }
-SRRaycastCursor >> updateVisuals [
+SRRaycastCursor >> updateLaser [
 
 	| length width |
-	super updateVisuals.
 	width := self class laserWidth.
 	length := (self point 
 		ifNotNil: [:point | point distanceTo: self globalTranslation ]

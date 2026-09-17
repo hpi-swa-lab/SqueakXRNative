@@ -48,12 +48,11 @@ SRPointCursor >> initialize [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:00'
+	#'squeak_changestamp' : 'phkeese 9/17/2026 14:31'
 }
 SRPointCursor >> onActionsUpdated [ 
 
-	self 
-		updateHover
+	self updateHover.
 ]
 
 {

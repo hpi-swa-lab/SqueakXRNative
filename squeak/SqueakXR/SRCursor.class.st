@@ -157,17 +157,6 @@ SRCursor >> point [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:48'
-}
-SRCursor >> renderOn: aRenderer [
-
-	"grabbedObject ifNotNil: [:grabbed | 
-		grabbed collisionGeometryDo: [:col | col renderOn: aRenderer ]
-	]"
-]
-
-{
 	#category : #grabbing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 16:21'
 }
@@ -178,23 +167,6 @@ SRCursor >> startGrabbing [
 		grabbedRelativeTransform := self grabTransformBase inverseTransformation * grabbedObject globalTransform.
 		grabbedObject startGrabbing: self hand.
 	]
-]
-
-{
-	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:49'
-}
-SRCursor >> step: deltaTime [ 
-
-	"| painter |
-	grabbedObject ifNotNil: [
-		painter := self gizmoPainter.
-		painter ifNotNil: [
-			grabbedObject collisionGeometryDo: [:geom |
-				geom isCollisionBox ifTrue: [
-					painter gizmoWireBox: geom color: Color green].
-				geom isCollisionPlane ifTrue: [
-					painter gizmoWirePlane: geom color: Color green]]]]."
 ]
 
 {
@@ -237,23 +209,14 @@ SRCursor >> targetsIn: aWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:49'
+	#'squeak_changestamp' : 'phkeese 9/17/2026 14:32'
 }
 SRCursor >> update: anAspect [
 
 	anAspect = #actionsUpdated ifTrue: [ self 
-		onActionsUpdated;
-		updateVisuals;
-		updateGrabbedObjectTransform.
-		
-		grabbedObject ifNotNil: [ | painter |
-			painter := self gizmoPainter.
-			painter ifNotNil: [
-				grabbedObject collisionGeometryDo: [:geom |
-					geom isCollisionBox ifTrue: [
-						painter gizmoWireBox: geom color: Color green].
-					geom isCollisionPlane ifTrue: [
-						painter gizmoWirePlane: geom color: Color green]]]].
+		updateGrabbedObjectTransform;
+		updateHitPoint;
+		onActionsUpdated
 	].
 ]
 
@@ -284,15 +247,10 @@ SRCursor >> updateGrabbedObjectTransform [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:29'
+	#'squeak_changestamp' : 'phkeese 9/17/2026 14:31'
 }
-SRCursor >> updateVisuals [
+SRCursor >> updateHitPoint [
 
-	"
-	Method for updating the cursor's own visuals, called after onActionsUpdated.
-	By default, this moves the cursor's hit cube to the current point or hides it if not aiming at anything.
-	Subclasses should call this method in their overrides.
-	"
 	self point 
 		ifNotNil: [:point | 
 			pointCube
