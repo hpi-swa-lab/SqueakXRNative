@@ -584,11 +584,11 @@ SRWorld >> completeFrame [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }
 SRWorld >> debugHUD [
 
-	^ self allDescendants detect: [:obj | obj isDebugHUD] ifNone: [nil]
+	^ self allDescendantsDetect: [:obj | obj isDebugHUD] ifNone: [nil]
 ]
 
 {
@@ -1076,7 +1076,7 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }
 SRWorld >> start [
 
@@ -1095,7 +1095,7 @@ SRWorld >> start [
 			enterMorphicProject;
 			runStartScript.
 		self isXR ifFalse: [
-			(self allDescendants anySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
+			(self allDescendantsAnySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
 				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.

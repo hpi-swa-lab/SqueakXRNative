@@ -128,11 +128,36 @@ SRObject >> addChildren: aCollection [
 SRObject >> addCustomMenuItemsTo: aMenu [
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
 SRObject >> allDescendants [
 
-	"TODO: define order"
-	^ {self. self children collect: [:child | child allDescendants]} flatten
+	"Materializes the whole subtree. Nothing on the frame path may call this;
+	use #allDo:, #allDescendantsSelect: or #allDescendantsDetect:ifNone:."
+
+	^ self allDescendantsSelect: [:each | true]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
+SRObject >> allDescendantsAnySatisfy: aBlock [
+
+	^ (self allDescendantsDetect: aBlock ifNone: [nil]) notNil
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
+SRObject >> allDescendantsDetect: aBlock ifNone: aNoneBlock [
+
+	self allDo: [:object |
+		(aBlock value: object) ifTrue: [^ object]].
+	^ aNoneBlock value
 ]
 
 { #category : #hierarchy }
