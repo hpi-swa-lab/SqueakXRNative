@@ -18,6 +18,9 @@ Class {
 		'grabTarget',
 		'visible'
 	],
+	#classVars : [
+		'UseIterativeTraversal'
+	],
 	#category : #'SqueakXR-Objects'
 }
 
@@ -31,6 +34,29 @@ SRObject class >> selectorDefinedByBase: aSymbol [
 SRObject class >> toolIcon [
 
 	^ #srobject
+]
+
+{
+	#category : #traversal,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:04'
+}
+SRObject class >> useIterativeTraversal [
+	<preference: 'Iterative object tree traversal'
+		category: 'SqueakXR'
+		description: 'Whether #allDo: walks the object tree with an explicit stack instead of recursing. The iterative walk creates no block closure per node; see SRTreeTraversalBenchmark.'
+		type: #Boolean>
+	^ UseIterativeTraversal ifNil: [UseIterativeTraversal := false].
+]
+
+{
+	#category : #traversal,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject class >> useIterativeTraversal: aBoolean [
+	"Which implementation #allDo: uses, so the two can be measured against each
+	other in a live world without recompiling."
+
+	UseIterativeTraversal := aBoolean.
 ]
 
 {
@@ -128,11 +154,15 @@ SRObject >> allDescendantsSelect: aSelectBlock thenDo: aDoBlock [
 	(self allDescendantsSelect: aSelectBlock) do: aDoBlock
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
 SRObject >> allDo: aBlock [
 
-	aBlock cull: self.
-	self childrenDo: [:child | child allDo: aBlock].
+	^ SRObject useIterativeTraversal
+		ifTrue: [self withAllObjectsDo: aBlock]
+		ifFalse: [self recursiveAllDo: aBlock].
 ]
 
 {
@@ -970,6 +1000,16 @@ SRObject >> rayUp [
 	^ self rayForDirection: self up
 ]
 
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject >> recursiveAllDo: aBlock [
+
+	aBlock cull: self.
+	self childrenDo: [:child | child recursiveAllDo: aBlock].
+]
+
 { #category : #hierarchy }
 SRObject >> remove [
 
@@ -1187,6 +1227,34 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject >> withAllObjectsDo: aBlock [
+	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack.
+	The recursive version creates one block closure per node; this one allocates
+	a single Array per traversal, and cannot overflow the Smalltalk stack."
+
+	| stack size node kids index |
+	stack := Array new: 64.
+	size := 1.
+	stack at: 1 put: self.
+	[size > 0] whileTrue: [
+		node := stack at: size.
+		stack at: size put: nil.
+		size := size - 1.
+		aBlock cull: node.
+		kids := node children.
+		index := kids size.
+		size + index > stack size ifTrue: [
+			stack := stack grownBy: (size + index max: stack size)].
+		[index > 0] whileTrue: [
+			size := size + 1.
+			stack at: size put: (kids at: index).
+			index := index - 1]].
 ]
 
 { #category : #accessing }

@@ -101,6 +101,16 @@ SRMenuItem >> collisionGeometry [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
+SRMenuItem >> grabTarget [
+	"A row is not something you can move on its own, so grabbing one drags the menu."
+
+	^ self menu ifNil: [super grabTarget].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
 }
@@ -201,14 +211,17 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 	"Actions may take the activated item as an optional argument."
 
 	action ifNotNil: [action valueWithEnoughArguments: (Array with: self)].
-	self keepsMenuOpen ifFalse: [
-		self menu ifNotNil: [:m | m closeCascade]].
+	self keepsMenuOpen ifTrue: [^ self].
+	self menu ifNotNil: [:m |
+		m isSticky
+			ifTrue: [m labelsChanged]
+			ifFalse: [m closeCascade]].
 ]
 
 {

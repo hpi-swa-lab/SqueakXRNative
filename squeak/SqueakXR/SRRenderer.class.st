@@ -191,6 +191,14 @@ SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	self subclassResponsibility
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:40'
+}
+SRRenderer >> renderFastCube: anSRFastCube [
+	self subclassResponsibility
+]
+
 { #category : #rendering }
 SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 

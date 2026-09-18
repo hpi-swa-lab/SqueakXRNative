@@ -28,6 +28,14 @@ SRCubeRenderBenchmark class >> xrMenuRun: aMenu [
 ]
 
 {
+	#category : #configuring,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:40'
+}
+SRCubeRenderBenchmark >> cubeClass [
+	^ SRCube.
+]
+
+{
 	#category : #reporting,
 	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:32'
 }
@@ -52,14 +60,14 @@ SRCubeRenderBenchmark >> framesFor: aParameter [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:25'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:40'
 }
 SRCubeRenderBenchmark >> installFixture: aParameter [
 	| side cubes |
 	container := SRObject new name: 'BenchCubes'; yourself.
 	side := aParameter asFloat sqrt ceiling max: 1.
 	cubes := (1 to: aParameter) collect: [:i |
-		SRCube new
+		self cubeClass new
 			color: (Color h: i * 360 / aParameter s: 0.7 v: 0.9);
 			position: (i - 1 \\ side - (side / 2)) * 30cm
 					@ ((i - 1 // side \\ side) * 30cm)

@@ -9,51 +9,18 @@ mechanism SRMenuItem already uses and it is two methods.
 "
 Class {
 	#name : #SRBenchmarkStopSign,
-	#superclass : #SRObject,
-	#instVars : [
-		'size',
-		'textField'
-	],
+	#superclass : #SRActionSign,
 	#category : #'SqueakXR-Benchmarks',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:28'
-}
-SRBenchmarkStopSign >> collisionGeometry [
-	^ SRCollisionBox new
-		center: self globalTranslation;
-		halfExtents: self globalScale * size / 2;
-		rotation: self globalRotation;
-		object: self.
-]
-
-{
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:27'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:10'
 }
 SRBenchmarkStopSign >> initialize [
 	super initialize.
-	size := 80cm @ 12cm @ 2cm.
-	textField := SRTextField new
-		text: 'STOP';
-		color: Color white;
-		scale: 0.012 asVector3;
-		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
-		yourself.
-	self addChild: textField.
 	self label: 'STOP'.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:27'
-}
-SRBenchmarkStopSign >> label: aString [
-	textField text: aString.
-	textField position: size x / -2 + 2cm @ (size y / 2 - 1cm) @ (size z / 2 + 1mm).
 ]
 
 {
@@ -70,16 +37,4 @@ SRBenchmarkStopSign >> onRaycast: aSRRayIntersectionResult [
 	SRBenchmark forgetStopButton.
 	world := self world.
 	world ifNotNil: [world addDeferredFrameMessage: [world removeChild: self]].
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:28'
-}
-SRBenchmarkStopSign >> renderOn: aSRRenderer [
-	| transform |
-	transform := self globalTransform * (Matrix4x4 withScale: size).
-	aSRRenderer
-		renderPlainCubeTransformed: transform withColor: (Color r: 0.5 g: 0.05 b: 0.05);
-		renderWireCubeTransformed: transform withColor: Color white.
 ]

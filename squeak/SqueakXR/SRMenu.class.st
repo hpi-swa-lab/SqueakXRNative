@@ -13,7 +13,8 @@ Class {
 		'needsRebuild',
 		'parentMenu',
 		'submenu',
-		'submenuItem'
+		'submenuItem',
+		'sticky'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -106,6 +107,21 @@ SRMenu class >> xrMenuOpenWorkspace: aMenu [
 ]
 
 {
+	#category : #sticky,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:45'
+}
+SRMenu >> addCloseButton [
+	"Above the slab rather than in it: the rows fill the slab exactly, and a sticky
+	menu is the only one that cannot be dismissed by picking something."
+
+	self addChild: (SRMenuItem new
+		width: 3cm height: 2cm;
+		label: 'X' action: [self remove];
+		position: slabSize x / 2 - 2cm @ (slabSize y / 2 + 1.5cm) @ (slabSize z / 2 + 0.002);
+		yourself).
+]
+
+{
 	#category : #building,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
 }
@@ -127,7 +143,7 @@ SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	"Entries at aPrefix become rows, deeper paths one submenu row per group."
@@ -136,7 +152,7 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	registry := SRMenuRegistry current.
 	(registry directItemsUnder: aPrefix) do: [:entry |
 		self
-			addItem: (entry labelIn: self target: anObjectOrNil)
+			addItem: [entry labelIn: self target: anObjectOrNil]
 			action: [entry activateIn: self target: anObjectOrNil]].
 	(registry groupsUnder: aPrefix) do: [:segment |
 		self addSubmenuItemFor: segment under: aPrefix target: anObjectOrNil]
@@ -169,10 +185,15 @@ SRMenu >> clone: anSRObject [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
 }
 SRMenu >> closeCascade [
-	self rootMenu remove.
+	"Closing stops at the nearest sticky menu, which keeps its place and loses only
+	whatever it had open below it."
+
+	sticky ifTrue: [^ self closeSubmenu].
+	parentMenu ifNil: [^ self remove].
+	^ parentMenu closeCascade.
 ]
 
 {
@@ -201,8 +222,22 @@ SRMenu >> collisionGeometry [
 ]
 
 {
+	#category : #sticky,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
+}
+SRMenu >> detachFromCascade [
+	"Unlink first, so closing the parents does not take this menu down with them."
+
+	| p |
+	p := parentMenu ifNil: [^ self].
+	parentMenu := nil.
+	p submenuWasRemoved: self.
+	p closeCascade.
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:50'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:35'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -212,6 +247,7 @@ SRMenu >> initialize [
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
 	rowSpacing := 2.5cm.
 	needsRebuild := false.
+	sticky := false.
 ]
 
 {
@@ -238,6 +274,46 @@ SRMenu >> isMenu [
 SRMenu >> isOpen [
 
 	^ self parent notNil
+]
+
+{
+	#category : #sticky,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
+}
+SRMenu >> isSticky [
+	^ sticky.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+}
+SRMenu >> labelFrom: aStringOrBlock [
+	"Registry rows keep their label as a block, so a toggle row in a sticky menu
+	shows its new state without the menu having to be reopened."
+
+	^ aStringOrBlock isString
+		ifTrue: [aStringOrBlock]
+		ifFalse: [aStringOrBlock value].
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+}
+SRMenu >> labelsChanged [
+	needsRebuild := true.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
+}
+SRMenu >> onGrabStarted: aHand [
+	"Anyone who bothers to move a menu wants that menu and nothing above it."
+
+	self sticky: true.
+	self detachFromCascade.
 ]
 
 {
@@ -298,7 +374,7 @@ SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:48'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight |
@@ -315,13 +391,14 @@ SRMenu >> rebuild [
 		| menuItem |
 		menuItem := SRMenuItem new
 			width: slabSize x - 0.01 height: rowSpacing * 0.85;
-			label: spec first action: spec second;
+			label: (self labelFrom: spec first) action: spec second;
 			keepsMenuOpen: spec third;
 			position: 0 @ rowY @ (slabSize z / 2 + 0.002);
 			yourself.
 		self addChild: menuItem.
 		rowY := rowY - rowSpacing].
 	
+	sticky ifTrue: [self addCloseButton].
 	needsRebuild := false.
 ]
 
@@ -359,14 +436,6 @@ SRMenu >> renderOn: aSRRenderer [
 	aSRRenderer
 		renderPlainCubeTransformed: transform withColor: slabColor;
 		renderWireCubeTransformed: transform withColor: wireColor.
-]
-
-{
-	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:29'
-}
-SRMenu >> rootMenu [
-	^ parentMenu ifNil: [self] ifNotNil: [:p | p rootMenu]
 ]
 
 {
@@ -427,6 +496,16 @@ SRMenu >> step: deltaTime [
 		self childrenDo: [:item |
 			item isMenuItem ifTrue: [
 				item hovered: (item == nearest or: [item == submenuItem])]]].
+]
+
+{
+	#category : #sticky,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:35'
+}
+SRMenu >> sticky: aBoolean [
+	sticky = aBoolean ifTrue: [^ self].
+	sticky := aBoolean.
+	needsRebuild := true.
 ]
 
 {
