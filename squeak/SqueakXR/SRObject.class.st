@@ -870,6 +870,15 @@ SRObject >> onWorldStarted [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
+}
+SRObject >> onWorldStopped [
+	"Symmetric to #onWorldStarted. The place to release anything the object registered
+	outside the tree, because a stopped world is abandoned, not emptied."
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'lege 4/2/2026 16:37'
 }
@@ -1010,9 +1019,15 @@ SRObject >> recursiveAllDo: aBlock [
 	self childrenDo: [:child | child recursiveAllDo: aBlock].
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
+}
 SRObject >> remove [
 
+	"Before unparenting, while #world can still be reached: the avatar and its hands hold
+	the last grabbed, selected and menu object, and would retain this whole subtree."
+	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
 	self parent ifNotNil: [:parent | parent removeChild: self]
 ]
 

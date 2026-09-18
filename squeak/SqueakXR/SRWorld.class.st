@@ -23,12 +23,15 @@ Class {
 	],
 	#classVars : [
 		'Current',
+		'ForcedScavenges',
+		'FrameStartEdenPercent',
 		'KeyDict',
 		'LogFPS',
 		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
+		'ScavengeAtFrameStart',
 		'StartMCPServer'
 	],
 	#category : #'SqueakXR-Objects'
@@ -298,6 +301,37 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 			RenderFrame isOld: true]
 ]
 
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> forcedScavenges [
+	"How many scavenges the frame-start check has caused, for telling an experiment
+	that worked from one that simply did not fire."
+
+	^ ForcedScavenges ifNil: [ForcedScavenges := 0].
+]
+
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> frameStartEdenPercent [
+	<preference: 'Scavenge at frame start: eden percent'
+		category: 'SqueakXR'
+		description: 'How full eden must be, in percent, before a frame start scavenges. Lower means more frequent, cheaper scavenges; 100 disables the early scavenge without disabling the check.'
+		type: #Number>
+	^ FrameStartEdenPercent ifNil: [FrameStartEdenPercent := 50].
+]
+
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> frameStartEdenPercent: aNumber [
+	FrameStartEdenPercent := (aNumber max: 1) min: 100.
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> initialize [
 
@@ -358,6 +392,14 @@ SRWorld class >> resetCurrent [
 	Current := nil
 ]
 
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> resetForcedScavenges [
+	ForcedScavenges := 0.
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> runStartScriptInFlat [
 	<preference: 'Run Start Script in Flat'
@@ -404,6 +446,26 @@ SRWorld class >> saveImage: aMenu [
 	"Since the world process is suspended during the startUp/shutDown procedure,
 	we cannot perform said procedure in the world process. Instead, create a new process for it."
 	[Smalltalk snapshot: true andQuit: false] fork
+]
+
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> scavengeAtFrameStart [
+	<preference: 'Scavenge at frame start'
+		category: 'SqueakXR'
+		description: 'Whether the render loop scavenges at the start of a frame once eden is more than #frameStartEdenPercent full, instead of letting the scavenge fall wherever eden happens to run out. A frame boundary is where the frame has no half-built objects live, so fewer of them survive.'
+		type: #Boolean>
+	^ ScavengeAtFrameStart ifNil: [ScavengeAtFrameStart := false].
+]
+
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld class >> scavengeAtFrameStart: aBoolean [
+	ScavengeAtFrameStart := aBoolean.
 ]
 
 { #category : #'as yet unclassified' }
@@ -531,7 +593,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/14/2026 18:19'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:09'
 }
 SRWorld >> doOneCycle [
 
@@ -720,7 +782,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:09'
 }
 SRWorld >> loop [
 
@@ -734,7 +796,11 @@ SRWorld >> loop [
 	Transcript showln: '================= PROFILING COMPLETE'."
 	
 	[self isRunning] whileTrue: [
-		self doOneCycle. Processor yield]
+		"Here, not inside #doOneCycle: this is the shallowest point in the loop, with the
+		previous frame finished and released and nothing of the next one built yet."
+		self scavengeIfEdenFull.
+		self doOneCycle.
+		Processor yield]
 	
 	]
 		on: Error
@@ -980,6 +1046,28 @@ SRWorld >> runStartScript [
 		translation: i * 0.2 + 9 @ 9.5 @ 9.5)]"
 ]
 
+{
+	#category : #gc,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+}
+SRWorld >> scavengeIfEdenFull [
+	"Scavenge here, where the previous frame is finished and the next has not started,
+	rather than wherever eden happens to run out mid-frame. Objects half-built by a
+	frame are live roots at the moment the scavenge looks at them; at a frame boundary
+	there are none, so fewer survive and get tenured.
+
+	p2 is young space in use, p44 is the eden capacity."
+
+	| eden |
+	SRWorld scavengeAtFrameStart ifFalse: [^ self].
+	eden := Smalltalk vmParameterAt: 44.
+	eden ifNil: [^ self].
+	(Smalltalk vmParameterAt: 2) * 100 < (eden * SRWorld frameStartEdenPercent)
+		ifTrue: [^ self].
+	Smalltalk garbageCollectMost.
+	ForcedScavenges := SRWorld forcedScavenges + 1.
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> shutDown [
 	
@@ -1036,12 +1124,13 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 16:59'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
 }
 SRWorld >> stop [
 
 	self invalidateCache;
-		isRunning: false.
+		isRunning: false;
+		allDo: #onWorldStopped.
 ]
 
 {
