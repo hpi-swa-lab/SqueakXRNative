@@ -884,10 +884,11 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/22/2026 18:27'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
 }
 SRWorld >> prepareFrame [
 
+	self renderer pollEventsAndWaitForFrame.
 	self isXR ifTrue: [self updateCameraTransform].
 	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]

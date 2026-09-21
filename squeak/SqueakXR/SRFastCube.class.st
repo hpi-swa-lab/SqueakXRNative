@@ -76,13 +76,15 @@ SRFastCube >> drawWires: aBoolean [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:21'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 14:46'
 }
 SRFastCube >> ensureMatrixCurrent [
 	"SRObject>>updateGlobalTransform assigns a fresh Matrix4x4, so identity is an
 	exact dirty test: same object means the transform was not recomputed."
 
 	| m |
+	
+	
 	m := self globalTransform.
 	m == cachedGlobalTransform ifTrue: [^ self].
 	cachedGlobalTransform := m.
@@ -93,12 +95,13 @@ SRFastCube >> ensureMatrixCurrent [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:21'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 14:49'
 }
 SRFastCube >> glMatrix [
 	"Transposed, which is what rlMultMatrixf wants."
 
 	self ensureMatrixCurrent.
+
 	^ glMatrix.
 ]
 

@@ -28,14 +28,24 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/23/2026 16:46'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+}
+SRRaylibRendererXR >> pollEventsAndWaitForFrame [
+	"Session state changes and xrWaitFrame. The wait latches predictedDisplayTime,
+	which rlOpenXRGetTime then hands to everything locating a pose, so nothing may
+	sample a pose before this."
+
+	Raylib rlOpenXRUpdate.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:10'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 	| beginSuccessful forward position target up |
-	Raylib
-		rlOpenXRUpdate;
-		clearBackgroundColor: clearColor.
+	Raylib clearBackgroundColor: clearColor.
 
 	position := cameraTransform translation.
 	forward := cameraTransform localDirToGlobal: Vector3 forward.

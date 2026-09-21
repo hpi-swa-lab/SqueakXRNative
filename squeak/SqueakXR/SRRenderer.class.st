@@ -172,6 +172,15 @@ SRRenderer >> pollAndroidEvents [
 	^ self externalCallFailed
 ]
 
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+}
+SRRenderer >> pollEventsAndWaitForFrame [
+	"First half of #prepareFrame:, split off so the camera pose can be sampled in
+	between: it must be located for the display time this call establishes."
+]
+
 { #category : #'render-loop' }
 SRRenderer >> prepareFrame: aCameraTransform [
 ]
