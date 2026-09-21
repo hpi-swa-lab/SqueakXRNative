@@ -95,13 +95,12 @@ SRFastCube >> ensureMatrixCurrent [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 14:49'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:32'
 }
 SRFastCube >> glMatrix [
 	"Transposed, which is what rlMultMatrixf wants."
 
 	self ensureMatrixCurrent.
-
 	^ glMatrix.
 ]
 
