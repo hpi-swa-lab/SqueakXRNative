@@ -24,7 +24,6 @@ Class {
 		'frameMicros',
 		'frameBytes',
 		'frameScavenges',
-		'frameGCMillis',
 		'sampleIndex',
 		'frameLimit',
 		'installMicros',
@@ -203,12 +202,12 @@ SRFrameSamplingBenchmark >> needsWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:40'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFrameSamplingBenchmark >> performStep [
 	state == #nextParameter ifTrue: [^ self stepNextParameter].
 	state == #setUp ifTrue: [^ self stepSetUp].
-	state == #sampleStill ifTrue: [^ self stepSample: #sampleChanging].
+	state == #sampleStill ifTrue: [^ self stepSample].
 	state == #startChanging ifTrue: [^ self stepStartChanging].
 	state == #sampleChanging ifTrue: [^ self stepSampleChanging].
 	state == #finishPoint ifTrue: [^ self stepFinishPoint].
@@ -253,19 +252,19 @@ SRFrameSamplingBenchmark >> reportColumns [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:41'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFrameSamplingBenchmark >> sampleFrame [
-	"Four VM reads and four stores, no allocation. Called once per frame by
-	#stepSample:, which is itself the frame's deferred action, so one sample is one
-	frame by construction rather than by hoping a re-post lands."
+	"Reads and stores only, so sampling does not show up in the allocation figures
+	it is taking. One sample is one frame by construction: the caller is itself the
+	frame's deferred action."
+
 	| i |
 	i := sampleIndex + 1.
 	i > frameLimit ifTrue: [^ self].
 	frameMicros at: i put: Time utcMicrosecondClock.
 	frameBytes at: i put: (Smalltalk vmParameterAt: 34).
 	frameScavenges at: i put: (Smalltalk vmParameterAt: 9).
-	frameGCMillis at: i put: (Smalltalk vmParameterAt: 10).
 	sampleIndex := i.
 ]
 
@@ -368,20 +367,21 @@ SRFrameSamplingBenchmark >> stepNextParameter [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:40'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
-SRFrameSamplingBenchmark >> stepSample: nextState [
+SRFrameSamplingBenchmark >> stepSample [
 	self sampleFrame.
 	sampleIndex < frameLimit ifTrue: [^ self].
 	stillStats ifNil: [stillStats := self statsFromSamples] ifNotNil: [changingStats := self statsFromSamples].
 	state := (self mutatesFixture and: [changingStats isNil])
 		ifTrue: [#startChanging]
 		ifFalse: [#finishPoint].
+
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:40'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFrameSamplingBenchmark >> stepSampleChanging [
 	| now |
@@ -389,12 +389,12 @@ SRFrameSamplingBenchmark >> stepSampleChanging [
 	now - lastMutationMicros >= (self mutationInterval * 1000) ifTrue: [
 		lastMutationMicros := now.
 		self mutateFixture: currentParameter].
-	self stepSample: nil.
+	self stepSample.
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:40'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFrameSamplingBenchmark >> stepSetUp [
 	enteredMicros := Time utcMicrosecondClock.
@@ -402,7 +402,6 @@ SRFrameSamplingBenchmark >> stepSetUp [
 	frameMicros := Array new: frameLimit withAll: 0.
 	frameBytes := Array new: frameLimit withAll: 0.
 	frameScavenges := Array new: frameLimit withAll: 0.
-	frameGCMillis := Array new: frameLimit withAll: 0.
 	sampleIndex := 0.
 	stillStats := changingStats := nil.
 	installMicros := Time utcMicrosecondClock.

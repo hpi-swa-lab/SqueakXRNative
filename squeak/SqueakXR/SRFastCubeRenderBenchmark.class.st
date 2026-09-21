@@ -29,13 +29,13 @@ SRFastCubeRenderBenchmark >> cubeClass [
 
 {
 	#category : #reporting,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRFastCubeRenderBenchmark >> description [
 	^ 'Frame cost of N SRFastCubes, the same sweep as Cube rendering so the two
 tables line up row by row.
-SRFastCube keeps its RlColor and RlMatrix and mutates them, and draws from one
-shared GenMeshCube, so a still frame allocates nothing per cube.
+SRFastCube keeps its RlColor and its transposed matrix and mutates them in
+place, so a still frame allocates nothing per cube.
 The prediction is that alloc KB/frame stops rising with cubes and frames/scav
 goes back above 1.'
 ]

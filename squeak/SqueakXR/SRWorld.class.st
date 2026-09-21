@@ -593,12 +593,15 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 10:23'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:25'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
-	self runPendingBetweenFrameActions. "#TODO maybe move into render wait time!"
+	"First, before anything of this frame is built: whatever the previous frame
+	allocated is dead by now, so a scavenge here keeps fewer survivors."
+	self scavengeIfEdenFull.
+	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.
@@ -782,7 +785,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:25'
 }
 SRWorld >> loop [
 
@@ -796,9 +799,6 @@ SRWorld >> loop [
 	Transcript showln: '================= PROFILING COMPLETE'."
 	
 	[self isRunning] whileTrue: [
-		"Here, not inside #doOneCycle: this is the shallowest point in the loop, with the
-		previous frame finished and released and nothing of the next one built yet."
-		self scavengeIfEdenFull.
 		self doOneCycle.
 		Processor yield]
 	
@@ -1049,24 +1049,23 @@ SRWorld >> runStartScript [
 
 {
 	#category : #gc,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 14:48'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:25'
 }
 SRWorld >> scavengeIfEdenFull [
-	"Scavenge here, where the previous frame is finished and the next has not started,
-	rather than wherever eden happens to run out mid-frame. Objects half-built by a
-	frame are live roots at the moment the scavenge looks at them; at a frame boundary
-	there are none, so fewer survive and get tenured.
+	"Objects half-built by a frame are live roots at the moment a scavenge looks at
+	them, so one that falls wherever eden runs out mid-frame keeps more than one taken
+	at a frame boundary. Called first in #doOneCycle for that reason.
 
 	p2 is young space in use, p44 is the eden capacity."
 
 	| eden |
-	SRWorld scavengeAtFrameStart ifFalse: [^ self].
+	self class scavengeAtFrameStart ifFalse: [^ self].
 	eden := Smalltalk vmParameterAt: 44.
 	eden ifNil: [^ self].
-	(Smalltalk vmParameterAt: 2) * 100 < (eden * SRWorld frameStartEdenPercent)
+	(Smalltalk vmParameterAt: 2) * 100 < (eden * self class frameStartEdenPercent)
 		ifTrue: [^ self].
 	Smalltalk garbageCollectMost.
-	ForcedScavenges := SRWorld forcedScavenges + 1.
+	ForcedScavenges := self class forcedScavenges + 1.
 ]
 
 { #category : #'as yet unclassified' }

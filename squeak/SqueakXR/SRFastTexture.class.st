@@ -1,11 +1,12 @@
 "
-A thin GPU-handle cache over an SRTextureSource. Analog of SRMesh over SRMeshSource.
+A long-lived GPU handle over an SRTextureSource, the analog of SRMesh over SRMeshSource.
 
-Holds a persistent RlTexture (rlTexture) built once from the source's pixelBytes via rlLoadTexture, mipmaps disabled. #syncToGpu pushes only the source's dirtyRect back to that same texture id with one rlUpdateTexture call -- no RlImage, no realloc, no loadTextureFromImage, no genTextureMipmaps -- so a per-frame update costs one FFI call over pinned bytes.
-
-Unlike SRTexture this is not held in the renderer's per-frame cache and rebuilt on invalidation; the handle is long-lived and updated in place. SRMaterial reaches it through #internalTextureFor:, which just ensures the handle exists; the owner (e.g. SRGCStats) calls #syncToGpu each frame before drawing.
-
-filter is point/nearest with a single mipmap level: for a small scrolling stats texture that keeps per-frame cost flat and avoids a full-texture mipmap pass on every update.
+Unlike SRTexture it is not held in the renderer's per-frame cache and rebuilt on
+invalidation. The RlTexture is built once and updated in place, so a per-frame
+update is one rlUpdateTexture over the source's pinned bytes: no RlImage, no
+reallocation, no mipmap pass. SRMaterial reaches the handle through
+#internalTextureFor:; the owner (e.g. SRGCStats) calls #syncToGpu each frame
+before drawing.
 "
 Class {
 	#name : #SRFastTexture,
@@ -38,11 +39,10 @@ SRFastTexture class >> width: w height: h [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 8/14/2026 15:40'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRFastTexture >> ensureGpu [
-	"Build the persistent GPU texture once from the whole pixel buffer. Point
-	filter, single mipmap level: cheap and flat per-frame, no mipmap pass."
+	"One mipmap level, so an update costs no mipmap regeneration pass."
 
 	| bytes id |
 	rlTexture ifNotNil: [^ rlTexture].
@@ -67,12 +67,12 @@ SRFastTexture >> ensureGpu [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 8/13/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFastTexture >> internalTextureFor: aSRRenderer [
-	"The material caches its RlMaterial (and thus this handle) once. We keep the same
-	handle alive and update it in place via #syncToGpu, so we ignore the renderer cache
-	and just ensure the handle exists."
+	"The renderer's per-frame cache is deliberately ignored: SRMaterial caches the
+	RlMaterial and thus this handle once, and the handle stays valid because
+	#syncToGpu updates it in place."
 
 	^ self ensureGpu
 ]
@@ -119,13 +119,12 @@ SRFastTexture >> source: anSRTextureSource [
 
 {
 	#category : #gpu,
-	#'squeak_changestamp' : 'MCPServer 8/13/2026 16:32'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:17'
 }
 SRFastTexture >> syncToGpu [
-	"If the source changed since the last sync, push the whole buffer to the existing
-	texture id with one rlUpdateTexture over the pinned bytes -- zero allocation, no
-	slice, no mipmap regen. Whole-buffer (offset 0) avoids pointer arithmetic on the
-	ByteArray; at stats-texture sizes it is a few tens of KB per changed frame."
+	"Uploads the whole buffer rather than the dirty rows: a slice would need pointer
+	arithmetic on the ByteArray, and at stats-texture sizes the whole thing is a few
+	tens of KB."
 
 	| bytes |
 	self ensureGpu.
@@ -146,11 +145,9 @@ SRFastTexture >> syncToGpu [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer 8/13/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRFastTexture >> update: aSymbol [
-	"Source change notification. The dirty region is already recorded on the source;
-	#syncToGpu (driven by the owner each frame) does the upload."
-
-	"nothing eager -- upload is pulled by syncToGpu"
+	"Nothing eager: the source has already recorded the dirty region, and the owner
+	pulls the upload with #syncToGpu once per frame."
 ]

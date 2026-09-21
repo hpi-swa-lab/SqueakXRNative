@@ -133,12 +133,12 @@ SRMaterial >> texture [
 
 {
 	#category : #textures,
-	#'squeak_changestamp' : 'MCPServer 8/21/2026 12:49'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRMaterial >> texture: anSRTexture [
 
 	texture := anSRTexture.
-	isDirty := true. "#TODO write a test for it... to make sure it actualll is needed" 
+	isDirty := true.
 	^ self
 ]
 

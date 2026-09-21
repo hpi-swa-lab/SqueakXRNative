@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:38'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRRaylibRendererXR >> completeFrame [
 
@@ -15,8 +15,7 @@ SRRaylibRendererXR >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
-	1 milliSecond wait.	
-	"Smalltalk garbageCollectMost. " "we have much time in the waiting for rendering loop"
+	1 milliSecond wait.
 	
 	Raylib
 		endDrawing;

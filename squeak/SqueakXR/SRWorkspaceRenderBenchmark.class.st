@@ -87,14 +87,14 @@ SRWorkspaceRenderBenchmark >> installFixture: aParameter [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:06'
 }
 SRWorkspaceRenderBenchmark >> mutateFixture: aParameter [
 	"One character each: the cheapest edit a Workspace can take, so what this costs
 	is the damage and the panel texture re-upload, not the text."
 	workspaces do: [:window |
 		window allMorphs
-			detect: [:each | each isKindOf: TextMorph]
+			detect: [:each | each isTextMorph]
 			ifFound: [:text | text contents: text text asString , 'x']
 			ifNone: []].
 ]

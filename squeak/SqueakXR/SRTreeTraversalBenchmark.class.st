@@ -140,19 +140,29 @@ SRTreeTraversalBenchmark >> reportColumns [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:01'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:07'
 }
 SRTreeTraversalBenchmark >> runParameter: aParameter [
+	"The two select rows run the same code on purpose: what differs is the
+	SRObject class switch, which #setUpParameter: has already flipped."
+
 	aParameter caseOf: {
 		[#recursiveAllDo] -> [self repeats timesRepeat: [
 			root recursiveAllDo: [:each | visited := visited + 1]]].
 		[#withAllObjectsDo] -> [self repeats timesRepeat: [
 			root withAllObjectsDo: [:each | visited := visited + 1]]].
-		[#recursiveSelect] -> [self repeats timesRepeat: [
-			root allDescendantsSelect: #isRendering]].
-		[#iterativeSelect] -> [self repeats timesRepeat: [
-			root allDescendantsSelect: #isRendering]] }.
+		[#recursiveSelect] -> [self runSelectPass].
+		[#iterativeSelect] -> [self runSelectPass] }.
 	^ nil.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:07'
+}
+SRTreeTraversalBenchmark >> runSelectPass [
+	self repeats timesRepeat: [root allDescendantsSelect: #isRendering].
+
 ]
 
 {

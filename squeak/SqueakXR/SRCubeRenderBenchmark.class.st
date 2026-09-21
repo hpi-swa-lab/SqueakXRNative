@@ -78,22 +78,6 @@ SRCubeRenderBenchmark >> installFixture: aParameter [
 ]
 
 {
-	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:25'
-}
-SRCubeRenderBenchmark >> mutateFixture: aParameter [
-	container children do: [:each | each position: each position + (0 @ 1cm @ 0)].
-]
-
-{
-	#category : #configuring,
-	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:13'
-}
-SRCubeRenderBenchmark >> mutatesFixture [
-	^ false
-]
-
-{
 	#category : #configuring,
 	#'squeak_changestamp' : 'MCPServer 9/17/2026 18:05'
 }

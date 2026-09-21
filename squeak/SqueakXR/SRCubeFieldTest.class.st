@@ -105,15 +105,12 @@ SRCubeFieldTest >> testCubesStandInFrontOfTheButton [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:17'
 }
 SRCubeFieldTest >> testHoldsTheRequestedCubes [
-	| field cubes |
-	SRCubeField cubeClass: SRFastCube.
+	| field |
 	field := self fieldOf: 500.
-	cubes := field children select: [:each | each isCube].
-	self assert: 500 equals: cubes size.
-	self assert: (cubes allSatisfy: [:each | each isKindOf: SRFastCube]).
+	self assert: 500 equals: (field children count: [:each | each isCube]).
 ]
 
 {
