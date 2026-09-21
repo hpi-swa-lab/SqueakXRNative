@@ -101,6 +101,16 @@ SRMenuItem >> collisionGeometry [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
+SRMenuItem >> grabTarget [
+	"A row is not something you can move on its own, so grabbing one drags the menu."
+
+	^ self menu ifNil: [super grabTarget].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
 }
@@ -172,13 +182,23 @@ SRMenuItem >> label [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/16/2026 10:01'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
 }
 SRMenuItem >> label: aString action: aBlock [
 	label := aString.
 	action := aBlock.
-	textField text: aString;
-		position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ (size z / 2 + 1mm).
+	textField text: aString.
+	self layoutLabel.
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
+}
+SRMenuItem >> layoutLabel [
+	"Sent from both #label:action: and #width:height: so the cascade order in
+	SRMenu>>rebuild cannot leave the text positioned for a stale width."
+	textField position: size x / -2 + 0.005 @ (size y / 2 - 0.002) @ (size z / 2 + 1mm).
 ]
 
 {
@@ -191,14 +211,17 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
 	"Actions may take the activated item as an optional argument."
 
 	action ifNotNil: [action valueWithEnoughArguments: (Array with: self)].
-	self keepsMenuOpen ifFalse: [
-		self menu ifNotNil: [:m | m closeCascade]].
+	self keepsMenuOpen ifTrue: [^ self].
+	self menu ifNotNil: [:m |
+		m isSticky
+			ifTrue: [m labelsChanged]
+			ifFalse: [m closeCascade]].
 ]
 
 {
@@ -224,10 +247,11 @@ SRMenuItem >> renderOn: aSRRenderer [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:24'
+	#'squeak_changestamp' : 'MCPServer 9/17/2026 17:49'
 }
 SRMenuItem >> width: w height: h [
 
 	size x: w.
 	size y: h.
+	self layoutLabel.
 ]

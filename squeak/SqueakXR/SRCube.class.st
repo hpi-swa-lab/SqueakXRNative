@@ -2,7 +2,8 @@ Class {
 	#name : #SRCube,
 	#superclass : #SRObject,
 	#instVars : [
-		'color'
+		'color',
+		'drawWires'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -34,11 +35,31 @@ SRCube >> color: aColor [
 	color := aColor
 ]
 
-{ #category : #initializing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
+SRCube >> drawWires [
+	^ drawWires.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
+SRCube >> drawWires: aBoolean [
+	drawWires := aBoolean.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
 SRCube >> initialize [
 
 	super initialize.
 	
+	drawWires := true.
 	self color: Color red.
 ]
 
@@ -50,8 +71,13 @@ SRCube >> isCube [
 	^ true.
 ]
 
-{ #category : #rendering }
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+}
 SRCube >> renderOn: aSRRenderer [
 
-	aSRRenderer renderCubeTransformed: self globalTransform withColor: self color.
+	drawWires
+		ifTrue: [aSRRenderer renderCubeTransformed: self globalTransform withColor: self color]
+		ifFalse: [aSRRenderer renderPlainCubeTransformed: self globalTransform withColor: self color].
 ]

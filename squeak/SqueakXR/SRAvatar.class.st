@@ -98,6 +98,15 @@ SRAvatar >> exitOutOfBody [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
+}
+SRAvatar >> forget: anSRObject [
+	contextMenu == anSRObject ifTrue: [contextMenu := nil].
+	self hands do: [:each | each ifNotNil: [each forget: anSRObject]].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/3/2026 17:26'
 }

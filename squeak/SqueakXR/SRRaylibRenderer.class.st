@@ -121,6 +121,31 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:20'
+}
+SRRaylibRenderer >> renderFastCube: anSRFastCube [
+	"The same calls as #renderCubeTransformed:withColor:, but every argument is
+	state of the cube, so the draw allocates nothing."
+
+	Raylib rlPushMatrix;
+		rlMultMatrixfMatf: anSRFastCube glMatrix;
+		drawCubePosition: SRFastCube sharedZero
+			width: 1
+			height: 1
+			length: 1
+			color: anSRFastCube rlColor.
+	anSRFastCube drawWires ifTrue: [
+		Raylib
+			drawCubeWiresPosition: SRFastCube sharedZero
+			width: 1
+			height: 1
+			length: 1
+			color: anSRFastCube rlWireColor].
+	Raylib rlPopMatrix.
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
 }
 SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMaterial [

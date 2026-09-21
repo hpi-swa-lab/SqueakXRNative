@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 6/9/2026 09:55'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRRaylibRendererXR >> completeFrame [
 
@@ -15,25 +15,36 @@ SRRaylibRendererXR >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
+	1 milliSecond wait.
+	
 	Raylib
 		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
 		rlOpenXREnd.
 	
-	1 milliSecond wait.
 ]
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/23/2026 16:46'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+}
+SRRaylibRendererXR >> pollEventsAndWaitForFrame [
+	"Session state changes and xrWaitFrame. The wait latches predictedDisplayTime,
+	which rlOpenXRGetTime then hands to everything locating a pose, so nothing may
+	sample a pose before this."
+
+	Raylib rlOpenXRUpdate.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:10'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 	| beginSuccessful forward position target up |
-	Raylib
-		rlOpenXRUpdate;
-		clearBackgroundColor: clearColor.
+	Raylib clearBackgroundColor: clearColor.
 
 	position := cameraTransform translation.
 	forward := cameraTransform localDirToGlobal: Vector3 forward.
