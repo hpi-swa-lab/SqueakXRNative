@@ -593,12 +593,12 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 10:23'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
-	self runPendingBetweenFrameActions.
+	self runPendingBetweenFrameActions. "#TODO maybe move into render wait time!"
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
 	lastFrameTime := startTime.

@@ -20,7 +20,6 @@ Class {
 	#classVars : [
 		'Animating',
 		'CubeClass',
-		'Current',
 		'DrawWires'
 	],
 	#category : #'SqueakXR-Benchmarks',
@@ -37,11 +36,11 @@ SRCubeField class >> animating [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:27'
 }
 SRCubeField class >> animating: aBoolean [
 	Animating := aBoolean.
-	Current ifNotNil: [:field | field animating: aBoolean].
+	self current ifNotNil: [:field | field animating: aBoolean].
 ]
 
 {
@@ -62,10 +61,13 @@ SRCubeField class >> cubeClass: aClass [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:10'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:26'
 }
 SRCubeField class >> current [
-	^ Current.
+	"No singleton: the running world owns the field, so a stopped world takes it with it."
+
+	^ SRWorld current ifNotNil: [:world |
+		world allDescendantsDetect: [:each | each isCubeField] ifNone: [nil]]
 ]
 
 {
@@ -78,35 +80,33 @@ SRCubeField class >> drawWires [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:27'
 }
 SRCubeField class >> drawWires: aBoolean [
 	DrawWires := aBoolean.
-	Current ifNotNil: [:field | field drawWires: aBoolean].
+	self current ifNotNil: [:field | field drawWires: aBoolean].
 ]
 
 {
 	#category : #showing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:10'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:27'
 }
 SRCubeField class >> removeCurrent [
 	| field world |
-	field := Current ifNil: [^ self].
-	Current := nil.
+	field := self current ifNil: [^ self].
 	world := field world ifNil: [^ self].
 	world addDeferredFrameMessage: [world removeChild: field].
 ]
 
 {
 	#category : #showing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:10'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:27'
 }
 SRCubeField class >> show: aCount [
 	| world field |
 	world := SRWorld current ifNil: [^ nil].
 	self removeCurrent.
 	field := self new setCount: aCount cubeClass: self cubeClass.
-	Current := field.
 	world addDeferredFrameMessage: [world addChild: field].
 	^ field.
 ]
@@ -138,92 +138,173 @@ SRCubeField class >> xrMenuRemove: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow10000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '10000' priority: 30>
+	<xrMenu: #(world profile benchmarks cubes) label: '10000' priority: 39>
 	^ self show: 10000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow1000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '1000' priority: 21>
+	<xrMenu: #(world profile benchmarks cubes) label: '1000' priority: 30>
 	^ self show: 1000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow100: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '100' priority: 21>
+	^ self show: 100
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow2000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '2000' priority: 22>
+	<xrMenu: #(world profile benchmarks cubes) label: '2000' priority: 31>
 	^ self show: 2000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow200: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '200' priority: 22>
+	^ self show: 200
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow3000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '3000' priority: 23>
+	<xrMenu: #(world profile benchmarks cubes) label: '3000' priority: 32>
 	^ self show: 3000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow300: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '300' priority: 23>
+	^ self show: 300
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow4000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '4000' priority: 24>
+	<xrMenu: #(world profile benchmarks cubes) label: '4000' priority: 33>
 	^ self show: 4000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow400: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '400' priority: 24>
+	^ self show: 400
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow5000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '5000' priority: 25>
+	<xrMenu: #(world profile benchmarks cubes) label: '5000' priority: 34>
 	^ self show: 5000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow500: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '500' priority: 25>
+	^ self show: 500
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow6000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '6000' priority: 26>
+	<xrMenu: #(world profile benchmarks cubes) label: '6000' priority: 35>
 	^ self show: 6000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow600: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '600' priority: 26>
+	^ self show: 600
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow7000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '7000' priority: 27>
+	<xrMenu: #(world profile benchmarks cubes) label: '7000' priority: 36>
 	^ self show: 7000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow700: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '700' priority: 27>
+	^ self show: 700
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow8000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '8000' priority: 28>
+	<xrMenu: #(world profile benchmarks cubes) label: '8000' priority: 37>
 	^ self show: 8000
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:11'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow800: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '800' priority: 28>
+	^ self show: 800
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
 }
 SRCubeField class >> xrMenuShow9000: aMenu [
-	<xrMenu: #(world profile benchmarks cubes) label: '9000' priority: 29>
+	<xrMenu: #(world profile benchmarks cubes) label: '9000' priority: 38>
 	^ self show: 9000
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:53'
+}
+SRCubeField class >> xrMenuShow900: aMenu [
+	<xrMenu: #(world profile benchmarks cubes) label: '900' priority: 29>
+	^ self show: 900
 ]
 
 {
@@ -355,6 +436,15 @@ SRCubeField >> initialize [
 	animating := false.
 	angle := 0.
 	axis := (Vector3 x: 0.3 y: 1 z: 0.2) normalized.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:26'
+}
+SRCubeField >> isCubeField [
+
+	^ true
 ]
 
 {

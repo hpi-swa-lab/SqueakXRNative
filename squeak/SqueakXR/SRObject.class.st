@@ -641,6 +641,15 @@ SRObject >> isCube [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:26'
+}
+SRObject >> isCubeField [
+
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
 }
 SRObject >> isDebugHUD [
@@ -686,11 +695,14 @@ SRObject >> isMorphPanel [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:04'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:24'
 }
 SRObject >> isRendering [
 
-	^ isRendering and: visible and: [badRender not]
+	"#and:and: takes real blocks, so it cannot be inlined and costs a closure per call.
+	This runs once per object per select pass, twice a frame."
+
+	^ isRendering and: [visible and: [badRender not]]
 ]
 
 { #category : #stepping }

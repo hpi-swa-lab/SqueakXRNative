@@ -76,7 +76,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/16/2026 17:47'
+	#'squeak_changestamp' : 'jl 9/21/2026 11:00'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -85,9 +85,13 @@ SRRaylibRendererFlat >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
+
+	1 milliSecond wait.	
+	"Smalltalk garbageCollectMost. " "#TODO we have much time in the waiting for rendering loop, but we should only do it if need, and we have a problem when the survivors mount up... and gc takes up a long time"
+	
 	Raylib endDrawing.
 	
-	1 milliSecond wait.
+	
 ]
 
 {
