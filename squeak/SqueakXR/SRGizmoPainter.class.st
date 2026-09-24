@@ -175,6 +175,15 @@ SRGizmoPainter >> render2DOn: aSRRenderer [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/22/2026 11:11'
+}
+SRGizmoPainter >> renderInSecondPass [
+
+	^ true
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [

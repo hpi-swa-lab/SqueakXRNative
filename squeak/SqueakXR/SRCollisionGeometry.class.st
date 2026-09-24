@@ -22,6 +22,15 @@ SRCollisionGeometry >> distanceTo: aPoint [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:01'
+}
+SRCollisionGeometry >> drawGizmoOn: aGizmoPainter colored: aColor [
+	
+	^self subclassResponsibility
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:17'
 }
@@ -88,20 +97,4 @@ SRCollisionGeometry >> pointIntersection: aCollisionPoint [
 SRCollisionGeometry >> rayIntersection: aRay [
 
 	^ self subclassResponsibility
-]
-
-{
-	#category : #debugging,
-	#'squeak_changestamp' : 'phkeese 9/8/2026 15:26'
-}
-SRCollisionGeometry >> renderOn: aRenderer [
-	self renderOn: aRenderer withColor: Color black
-]
-
-{
-	#category : #debugging,
-	#'squeak_changestamp' : 'phkeese 9/8/2026 15:26'
-}
-SRCollisionGeometry >> renderOn: aRenderer withColor: aColor [
-	"For debugging, subclasses should do this but it is optional."
 ]

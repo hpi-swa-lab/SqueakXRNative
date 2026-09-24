@@ -150,6 +150,14 @@ SRHand >> bottomButton [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/24/2026 14:31'
+}
+SRHand >> color [
+	^ self isLeft ifTrue: [ Color blue ] ifFalse: [ Color red ].
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
 }
 SRHand >> cursor [
@@ -241,7 +249,7 @@ SRHand >> handIndex [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 16:21'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 14:30'
 }
 SRHand >> handIndex: anInteger [
 
@@ -251,7 +259,7 @@ SRHand >> handIndex: anInteger [
 		[self class leftIndex] -> ['Left Hand'].
 		[self class rightIndex] -> ['Right Hand']}).
 	
-	handColor := self isLeft ifTrue: [Color blue] ifFalse: [Color red].
+	handColor := self color.
 	self children do: [:child |
 		(child respondsTo: #color:) ifTrue: [ child color: handColor ]
 	]

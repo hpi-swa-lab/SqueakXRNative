@@ -195,7 +195,7 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 14:36'
 }
 SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 
@@ -205,7 +205,7 @@ SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 				width: 1
 				height: 1
 				length: 1
-				color: aColor muchDarker asRlColor].
+				color: aColor asRlColor].
 ]
 
 {

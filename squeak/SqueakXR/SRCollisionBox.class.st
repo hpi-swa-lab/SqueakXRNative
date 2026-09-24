@@ -48,12 +48,12 @@ SRCollisionBox >> closestOnSurfaceTo: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:25'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 14:03'
 }
 SRCollisionBox >> closestPointTo: aPoint [
 
 	^(self contains: aPoint) 
-		ifTrue: aPoint
+		ifTrue: [ aPoint ]
 		ifFalse: [ self closestOnSurfaceTo: aPoint ]
 ]
 
@@ -90,6 +90,15 @@ SRCollisionBox >> distanceTo: aPoint [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:02'
+}
+SRCollisionBox >> drawGizmoOn: aGizmoPainter colored: aColor [
+
+	aGizmoPainter gizmoWireBox: self color: aColor
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 4/30/2026 11:48'
 }
@@ -117,7 +126,7 @@ SRCollisionBox >> isCollisionBox [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 15:29'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 14:19'
 }
 SRCollisionBox >> pointIntersection: aCollisionPoint [
 
@@ -186,18 +195,6 @@ SRCollisionBox >> rayIntersectionAABB: aLocalRay [
 				tmax < tmin ifTrue: [^ nil]]].
 	tmax < 0 ifTrue: [^ nil].
 	^ tmin < 0 ifTrue: [tmax] ifFalse: [tmin]
-]
-
-{
-	#category : #debugging,
-	#'squeak_changestamp' : 'phkeese 9/9/2026 15:57'
-}
-SRCollisionBox >> renderOn: aRenderer withColor: aColor [
-	| T R S |
-	T := Matrix4x4 withOffset: self center.
-	R := Matrix4x4 fromQuaternion: self rotation.
-	S := Matrix4x4 withScale: self halfExtents * 2.
-	aRenderer renderWireCubeTransformed: T * R * S withColor: aColor
 ]
 
 {

@@ -69,6 +69,15 @@ SRCollisionPlane >> distanceTo: aPoint [
 	
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:02'
+}
+SRCollisionPlane >> drawGizmoOn: aGizmoPainter colored: aColor [
+
+	aGizmoPainter gizmoWirePlane: self color: aColor
+]
+
 { #category : #accessing }
 SRCollisionPlane >> extent [
 
@@ -185,20 +194,6 @@ SRCollisionPlane >> rayIntersection: aRay [
 		^ SRRayIntersectionResult new
 			point: intersection;
 			object: self object]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/8/2026 15:26'
-}
-SRCollisionPlane >> renderOn: aRenderer withColor: aColor [
-	self isBounded ifTrue: [ | T R S |
-		T := Matrix4x4 withOffset: self point.
-		R := Matrix4x4 at: self normal up: self up.
-		S := Matrix4x4 withScale: (self width)@(self height)@0.
-		aRenderer renderWireCubeTransformed: T * R * S withColor: aColor
-	]
-
 ]
 
 { #category : #accessing }

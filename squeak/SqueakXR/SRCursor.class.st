@@ -19,6 +19,15 @@ Class {
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/24/2026 15:16'
+}
+SRCursor >> color [
+
+	^ self hand ifNotNil: [:hand | hand color ] ifNil: [ Color black ]
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 16:17'
 }
 SRCursor >> grabTransformBase [ 
@@ -72,6 +81,15 @@ SRCursor >> hand: anSRHand [
 	hand := anSRHand.
 	hand ifNotNil: [ hand addDependent: self ].
 	self onHandChanged: oldHand
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/24/2026 15:25'
+}
+SRCursor >> highlightTarget [ 
+
+	self targetDo: [:target | self haloState addOutlineFor: target colored: self color ]
 ]
 
 {
@@ -209,14 +227,15 @@ SRCursor >> targetsIn: aWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/17/2026 14:32'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 15:24'
 }
 SRCursor >> update: anAspect [
 
 	anAspect = #actionsUpdated ifTrue: [ self 
+		onActionsUpdated;
 		updateGrabbedObjectTransform;
 		updateHitPoint;
-		onActionsUpdated
+		highlightTarget
 	].
 ]
 

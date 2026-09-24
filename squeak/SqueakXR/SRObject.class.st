@@ -534,6 +534,15 @@ SRObject >> grabTarget: anObjectOrNil [
 ]
 
 {
+	#category : #gizmos,
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:08'
+}
+SRObject >> haloState [
+
+	^ self world ifNotNil: [:world | world haloState]
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
 }

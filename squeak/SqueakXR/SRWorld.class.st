@@ -12,6 +12,7 @@ Class {
 		'ranStartScript',
 		'avatar',
 		'isFramePrepared',
+		'haloState',
 		'gizmoPainter',
 		'secondStart',
 		'outOfBodyMode',
@@ -586,6 +587,15 @@ SRWorld >> gizmoPainter [
 	^ gizmoPainter
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:08'
+}
+SRWorld >> haloState [ 
+
+	^ haloState
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
@@ -607,7 +617,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/22/2026 18:33'
+	#'squeak_changestamp' : 'phkeese 9/24/2026 13:04'
 }
 SRWorld >> initialize [
 
@@ -619,6 +629,8 @@ SRWorld >> initialize [
 	
 	gizmoPainter := SRGizmoPainter new.
 	self addChild: gizmoPainter.
+	haloState := SRHaloState new.
+	self addChild: haloState.
 	
 	cameraTransform := RlTransform new.
 	
