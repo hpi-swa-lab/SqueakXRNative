@@ -8,11 +8,33 @@ Class {
 	#name : #SRHaloState,
 	#superclass : #SRObject,
 	#instVars : [
-		'outlines'
+		'outlines',
+		'highlights',
+		'haloSpecies',
+		'activeHalo'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/22/2026 15:09'
 }
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/28/2026 15:46'
+}
+SRHaloState >> activeHalo [
+	^ activeHalo
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:04'
+}
+SRHaloState >> activeHalo: anObject [
+	
+	activeHalo ifNotNil: [ self removeChild: activeHalo ]. 
+	activeHalo := anObject.
+	activeHalo ifNotNil: [ self addChild: activeHalo ].
+]
 
 {
 	#category : #'as yet unclassified',
@@ -26,39 +48,68 @@ SRHaloState >> addOutlineFor: anSRObject colored: aColor [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
+}
+SRHaloState >> haloSpecies [
+	^ haloSpecies
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
+}
+SRHaloState >> haloSpecies: anObject [
+	haloSpecies := anObject
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 13:00'
+	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
 }
 SRHaloState >> initialize [ 
 
 	super initialize.
 	outlines := Dictionary new.
+	highlights := Dictionary new.
+	haloSpecies := SRMenuHalo.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 15:20'
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:17'
 }
 SRHaloState >> mixColors: aCollection [
 
-	| final count |
-	final := Color transparent.
-	count := 0.
-	aCollection do: [:color | | t |
-		t := count / (count + 1).
-		final := final alphaMixed: count with: color.
-		count := count + 1.
- 	].
-	^ final
+	^aCollection last
 	
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 15:27'
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:03'
+}
+SRHaloState >> openHaloOn: anObject with: aHand [
+
+	| halo |
+	halo := anObject ifNotNil: [ self haloSpecies new
+		hand: aHand;
+		target: anObject
+	].
+	self activeHalo: halo.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:16'
 }
 SRHaloState >> renderOn: anSRRenderer [
 
+	self activeHalo ifNotNil: [:halo |
+		halo target ifNotNil: [:target |
+			self addOutlineFor: target colored: Color green
+		]
+	].
 	outlines keysAndValuesDo: [:object :colors | | effectiveColor |
 		effectiveColor := self mixColors: colors.
 		object collisionGeometryDo: [:geom |
@@ -67,4 +118,5 @@ SRHaloState >> renderOn: anSRRenderer [
 	].
 	
 	outlines removeAll.
+	highlights removeAll.
 ]

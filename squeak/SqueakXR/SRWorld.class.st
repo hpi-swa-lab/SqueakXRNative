@@ -896,7 +896,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:53'
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:12'
 }
 SRWorld >> runStartScript [
 
@@ -971,6 +971,10 @@ SRWorld >> runStartScript [
 
 	self addChild: (SRInputDebugger new
 		translation: 0@3@(-1)
+	).
+	
+	self addChild: (SRHaloButton new
+		text: 'Test'
 	).
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |

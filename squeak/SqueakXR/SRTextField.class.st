@@ -65,3 +65,13 @@ SRTextField >> text: aString [
 
 	text := aString
 ]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/28/2026 16:51'
+}
+SRTextField >> textWidth [
+
+	"Best-effort estimate of our text size in parent-local space."
+	^ (Raylib measureText: self text fontSize: self scale x) * 0.003
+]

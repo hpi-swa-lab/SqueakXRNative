@@ -133,7 +133,7 @@ SRCursor >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:11'
+	#'squeak_changestamp' : 'phkeese 9/28/2026 15:58'
 }
 SRCursor >> onButtonInput: aButtonEvent [
 
@@ -144,6 +144,12 @@ SRCursor >> onButtonInput: aButtonEvent [
 		ifFalse: [ self stopGrabbing ].
 		aButtonEvent handled: true.
 		^ self
+	].
+	aButtonEvent button = #bottomButton ifTrue: [
+		aButtonEvent pressed ifTrue: [
+			self world haloState openHaloOn: self target with: self hand
+		].
+		^ self.
 	].
 	self targetDo: [:target | 
 		aButtonEvent setFrom: self.
