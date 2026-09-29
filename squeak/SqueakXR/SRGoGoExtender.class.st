@@ -21,9 +21,18 @@ SRGoGoExtender >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:48'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 15:09'
 }
 SRGoGoExtender >> step: deltaTime [ 
+
+	self updatePosition
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 15:09'
+}
+SRGoGoExtender >> updatePosition [
 
 	| fromShoulder rr d k rv shoulder |
 	shoulder := self world avatar shoulderPosition.
