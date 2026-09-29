@@ -1,12 +1,48 @@
+"
+A SRHalo is xxxxxxxxx.
+
+Instance Variables
+	center:		<Object>
+	hand:		<Object>
+	target:		<Object>
+
+center
+	- position this halo is invoked at
+
+hand
+	- hand invoking this halo
+
+target
+	- target object
+
+"
 Class {
 	#name : #SRHalo,
 	#superclass : #SRObject,
 	#instVars : [
 		'hand',
-		'target'
+		'target',
+		'center'
 	],
-	#category : #'SqueakXR-Halo'
+	#category : #'SqueakXR-Halo',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
 }
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
+}
+SRHalo >> center [
+	^ center
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
+}
+SRHalo >> center: anObject [
+	center := anObject
+]
 
 {
 	#category : #accessing,
@@ -26,11 +62,13 @@ SRHalo >> hand: anObject [
 ]
 
 {
-	#category : #halo,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:34'
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 09:51'
 }
-SRHalo >> openOn: anObject [
+SRHalo >> open [
 
+	"Trigger the halo to open. 
+	In this moment, hand and target should have been set and the halo must be part of the world tree."
 	^self subclassResponsibility 
 ]
 

@@ -87,16 +87,39 @@ SRHaloState >> mixColors: aCollection [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/28/2026 16:03'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 09:56'
+}
+SRHaloState >> openHaloOn: anObject [
+
+	self openHaloOn: anObject with: self world avatar rightHand
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
+}
+SRHaloState >> openHaloOn: anObject at: aVector3 with: aHand [
+
+	| halo |
+	anObject ifNotNil: [ 
+		halo := self haloSpecies new
+		hand: aHand;
+		target: anObject;
+		center: aVector3.
+		self activeHalo: halo.
+		halo open.
+	]
+
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 11:35'
 }
 SRHaloState >> openHaloOn: anObject with: aHand [
 
-	| halo |
-	halo := anObject ifNotNil: [ self haloSpecies new
-		hand: aHand;
-		target: anObject
-	].
-	self activeHalo: halo.
+	self openHaloOn: anObject at: anObject globalTranslation with: aHand
+
 ]
 
 {

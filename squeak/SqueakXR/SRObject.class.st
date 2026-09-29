@@ -864,6 +864,24 @@ SRObject >> onWorldStarted [
 ]
 
 {
+	#category : #halo,
+	#'squeak_changestamp' : 'phkeese 9/29/2026 10:00'
+}
+SRObject >> openHalo [
+
+	self world haloState openHaloOn: self
+]
+
+{
+	#category : #halo,
+	#'squeak_changestamp' : 'phkeese 9/29/2026 10:00'
+}
+SRObject >> openHaloWith: aHand [
+
+	self world haloState openHaloOn: self with: aHand
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'lege 4/2/2026 16:37'
 }

@@ -7,23 +7,32 @@ Instance Variables
 Class {
 	#name : #SRMenuHalo,
 	#superclass : #SRHalo,
+	#instVars : [
+		'menu'
+	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:33'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/28/2026 16:09'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 11:20'
+}
+SRMenuHalo >> buildMenu [ 
+
+	"Start building the actual menu for this"
+	menu addItem: 'Inspect' action: [ target inspect ].
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 09:59'
 }
 SRMenuHalo >> initialize [ 
 
 	super initialize.
-	self addChild: (SRHaloButton new
-		text: 'Test Button').
-	self addChild: (SRCube new
-		scale: 5cm asVector3;
-		color: Color green
-	).
+	menu := SRMenu new.
+	self addChild: menu.
 ]
 
 {
@@ -37,19 +46,37 @@ SRMenuHalo >> lookAtUser [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/28/2026 16:01'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:47'
 }
-SRMenuHalo >> moveToTarget [ 
+SRMenuHalo >> moveToCenter [ 
 
-	self target ifNotNil: [:target | self globalTranslation: target globalTranslation ]. 
+	"Place ourselves in the view path between the camera and our center."
+	| camPos toCenter |
+	camPos := self world avatar camera globalTranslation.
+	"Clamp our distance from the camera to 0.5m to avoid being too far away."
+	toCenter := self center - camPos.
+	toCenter length: (toCenter length min: 0.5).
+	self globalTranslation: camPos + toCenter.
+
+	
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/28/2026 16:15'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 14:39'
 }
-SRMenuHalo >> step: deltaTime [ 
+SRMenuHalo >> open [ 
+	self 
+		moveToCenter;
+		lookAtUser;
+		buildMenu.
+]
 
-	self moveToTarget;
-		lookAtUser.
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 9/29/2026 11:02'
+}
+SRMenuHalo >> renderOn: aRenderer [
+	
+	menu renderOn: aRenderer
 ]
