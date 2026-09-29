@@ -193,12 +193,14 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 13:07'
+	#'squeak_changestamp' : 'phkeese 9/29/2026 15:17'
 }
 SRMorphPanel >> handleInput: anInputEvent [
 
 	| clickPoint normalizedPoint point |
 	self morph ifNil: [ ^ self ].
+	"TODO: Once we support enter/leave events, point may be nil."
+	anInputEvent point ifNil: [ ^self ].
 	
 	point := plane globalTransform globalPointToLocal: anInputEvent point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
