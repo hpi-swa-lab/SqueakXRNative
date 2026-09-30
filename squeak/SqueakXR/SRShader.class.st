@@ -194,6 +194,24 @@ SRShader class >> resetCache [
 
 {
 	#category : #shaders,
+	#'squeak_changestamp' : 'leo 9/14/2026 16:49'
+}
+SRShader class >> setShaderCacheFromJson: aJsonString [
+
+	ShaderCache := Json readFromString: aJsonString
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'leo 9/14/2026 16:43'
+}
+SRShader class >> shaderCacheAsJson [
+
+	^ Json render: ShaderCache
+]
+
+{
+	#category : #shaders,
 	#'squeak_changestamp' : 'lege 4/2/2026 17:56'
 }
 SRShader class >> shaderFromDict: aDictionary [
