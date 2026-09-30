@@ -11,7 +11,8 @@ Class {
 		'hand',
 		'pointCube',
 		'grabbedObject',
-		'grabbedRelativeTransform'
+		'grabbedRelativeTransform',
+		'label'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 9/14/2026 14:55'
@@ -94,7 +95,7 @@ SRCursor >> highlightTarget [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:17'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 16:42'
 }
 SRCursor >> initialize [ 
 
@@ -104,6 +105,42 @@ SRCursor >> initialize [
 		color: Color red
 	).
 	self addChild: pointCube.
+	
+	label := SRTextField new
+		text: self class name asString;
+		color: self color;
+		scale: 0.015 asVector3;
+		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
+		yourself.
+	self addChild: label.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:53'
+}
+SRCursor >> label [
+	
+	label text
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:53'
+}
+SRCursor >> label: aValue [
+	
+	label text: aValue asString
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 16:04'
+}
+SRCursor >> labelPosition [
+
+	"Get the global position of our label"
+	^ self globalTranslation
 ]
 
 {
@@ -163,7 +200,7 @@ SRCursor >> onButtonInput: aButtonEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:30'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 16:44'
 }
 SRCursor >> onHandChanged: oldHand [
 
@@ -171,7 +208,9 @@ SRCursor >> onHandChanged: oldHand [
 	Called when we change our hand. 
 	Children should call this in their own impls to automatically handle grabbing and releasing.
 	"
-	oldHand ifNotNil: [ self stopGrabbing ]
+	oldHand ifNotNil: [ self stopGrabbing ].
+	pointCube color: self color.
+	label color: self color.
 ]
 
 {
@@ -237,7 +276,7 @@ SRCursor >> targetsIn: aWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/24/2026 15:24'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:52'
 }
 SRCursor >> update: anAspect [
 
@@ -245,7 +284,8 @@ SRCursor >> update: anAspect [
 		onActionsUpdated;
 		updateGrabbedObjectTransform;
 		updateHitPoint;
-		highlightTarget
+		highlightTarget;
+		updateLabel
 	].
 ]
 
@@ -276,7 +316,7 @@ SRCursor >> updateGrabbedObjectTransform [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/17/2026 14:31'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:35'
 }
 SRCursor >> updateHitPoint [
 
@@ -284,7 +324,17 @@ SRCursor >> updateHitPoint [
 		ifNotNil: [:point | 
 			pointCube
 				visible: true; 
-				globalTranslation: point
+				globalTranslation: point.
+			self gizmoPainter gizmoObject: pointCube.
 		]
 		ifNil: [ pointCube visible: false ]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 16:09'
+}
+SRCursor >> updateLabel [
+
+	label globalTranslation: self labelPosition.
 ]

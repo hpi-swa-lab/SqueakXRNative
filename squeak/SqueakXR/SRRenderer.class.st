@@ -209,6 +209,15 @@ SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 	self subclassResponsibility
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:24'
+}
+SRRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [
+
+	self subclassResponsibility
+]
+
 { #category : #rendering }
 SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 

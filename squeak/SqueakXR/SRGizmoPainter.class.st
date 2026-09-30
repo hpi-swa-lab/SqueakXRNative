@@ -18,6 +18,34 @@ SRGizmoPainter >> commands2D [
 ]
 
 {
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:26'
+}
+SRGizmoPainter >> drawLine: command renderer: aSRRenderer [
+	"Slightly expand the wireframe so it pokes through any solid surface."
+	| color end start |
+	start := command second.
+	end := command third.
+	color := command fourth.
+	aSRRenderer
+		renderLineFrom: start to: end color: color
+]
+
+{
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:36'
+}
+SRGizmoPainter >> drawObject: command renderer: aSRRenderer [
+
+	| object |
+	object := command second.
+	object isRendering ifTrue: [
+		object renderOn: aSRRenderer
+	]
+
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 11/11/2025 14:33'
 }
@@ -115,6 +143,27 @@ SRGizmoPainter >> gizmo2DText: aString at: aPoint fontSize: anInteger color: aCo
 ]
 
 {
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:27'
+}
+SRGizmoPainter >> gizmoLine: aStartPoint to: anEndPoint color: aColor [
+
+	commands add: {#line. aStartPoint. anEndPoint. aColor}.
+	
+]
+
+{
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:34'
+}
+SRGizmoPainter >> gizmoObject: anSRObject [
+
+	"Add an entire object to the second pass manually for this frame"	
+	commands add: {#object. anSRObject}.
+	
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 11/11/2025 14:24'
 }
@@ -184,7 +233,7 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:34'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -192,6 +241,9 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 		command first caseOf: {
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
-			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer]}].
+			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
+			[#line] -> [self drawLine: command renderer: aSRRenderer].
+			[#object] -> [self drawObject: command renderer: aSRRenderer].
+		}].
 	commands removeAll.
 ]

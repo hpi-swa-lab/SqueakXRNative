@@ -3,7 +3,6 @@ Class {
 	#superclass : #SRCursor,
 	#instVars : [
 		'gogo',
-		'raycube',
 		'hit'
 	],
 	#category : #'SqueakXR-Input'
@@ -54,16 +53,13 @@ SRPointRayCursor >> grabTransformBase [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:06'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:29'
 }
 SRPointRayCursor >> initialize [ 
 
 	super initialize.
 	
 	gogo := SRGoGoExtender new.
-	raycube := SRCube new
-		color: (Color red alpha: 0.5).
-	gogo addChild: raycube.
 	self addChild: gogo.
 	
 	
@@ -79,17 +75,6 @@ SRPointRayCursor >> onActionsUpdated [
 		updateGoGo;
 		updateHover;
 		updateLaser.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:33'
-}
-SRPointRayCursor >> onHandChanged: oldHand [
-
-	raycube color: (self color alpha: 0.5).
-	^ super onHandChanged: oldHand.
-	
 ]
 
 {
@@ -166,16 +151,11 @@ SRPointRayCursor >> updateHover [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:09'
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:28'
 }
 SRPointRayCursor >> updateLaser [
 
-	| length width |
-	width := self class laserWidth.
-	length := (self point 
-		ifNotNil: [:point | point distanceTo: gogo globalTranslation ]
-		ifNil: [ 10 ]).
-	raycube 
-		scale: width @ width @ length;
-		translation: 0 @ 0 @ (length negated / 2).
+	| end |
+	end := self point ifNil: [ gogo globalTransform localPointToGlobal: (Vector3 backward * 10) ].
+	self gizmoPainter gizmoLine: gogo globalTranslation to: end color: self color. 
 ]

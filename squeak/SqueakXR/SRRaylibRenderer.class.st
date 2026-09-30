@@ -121,6 +121,15 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 9/30/2026 15:25'
+}
+SRRaylibRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [
+	
+	Raylib drawLine3DStartPos: aPoint asRlVector endPos: anEndPoint asRlVector color: aColor asRlColor
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
 }
 SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMaterial [
