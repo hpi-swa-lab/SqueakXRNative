@@ -19,7 +19,8 @@ Class {
 		'frozenAvatar',
 		'ghostAvatar',
 		'project',
-		'cameraTransform'
+		'cameraTransform',
+		'cycleSemaphore'
 	],
 	#classVars : [
 		'Current',
@@ -785,7 +786,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:25'
+	#'squeak_changestamp' : 'leo 9/30/2026 19:12'
 }
 SRWorld >> loop [
 
@@ -798,9 +799,10 @@ SRWorld >> loop [
 		self doOneCycle. Processor yield]].
 	Transcript showln: '================= PROFILING COMPLETE'."
 	
+	cycleSemaphore := Semaphore forMutualExclusion.
+	
 	[self isRunning] whileTrue: [
-		self doOneCycle.
-		Processor yield]
+		cycleSemaphore critical: [self doOneCycle]]
 	
 	]
 		on: Error
@@ -1068,10 +1070,18 @@ SRWorld >> scavengeIfEdenFull [
 	ForcedScavenges := self class forcedScavenges + 1.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 9/30/2026 19:14'
+}
 SRWorld >> shutDown [
 	
-	self suspend
+	cycleSemaphore
+		ifNotNil: [
+			"We need to wait for the world to finish the current loop"
+			cycleSemaphore critical: [self suspend]]
+		ifNil: [
+			self suspend]
 ]
 
 {
