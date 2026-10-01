@@ -225,11 +225,12 @@ SRCursor >> point [
 
 {
 	#category : #grabbing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:21'
+	#'squeak_changestamp' : 'phkeese 10/1/2026 13:47'
 }
 SRCursor >> startGrabbing [
 	
 	self targetDo: [:target |
+		target canGrab ifFalse: [^self].
 		grabbedObject := target.
 		grabbedRelativeTransform := self grabTransformBase inverseTransformation * grabbedObject globalTransform.
 		grabbedObject startGrabbing: self hand.

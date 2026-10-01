@@ -16,6 +16,7 @@ Class {
 		'badStep',
 		'badRender',
 		'grabTarget',
+		'grabber',
 		'visible',
 		'wantsCursor'
 	],
@@ -193,6 +194,14 @@ SRObject >> badStep: aBoolean [
 SRObject >> cacheInvalidated [
 
 	self allDo: #onCacheInvalidated.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/1/2026 13:25'
+}
+SRObject >> canGrab [
+	^ self grabbingHand isNil
 ]
 
 {
@@ -531,6 +540,15 @@ SRObject >> grabTarget [
 SRObject >> grabTarget: anObjectOrNil [
 	
 	grabTarget := anObjectOrNil
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/1/2026 13:21'
+}
+SRObject >> grabbingHand [
+	"Get the hand currently grabbing me, if there is one."
+	^ grabber
 ]
 
 {
@@ -1116,12 +1134,13 @@ SRObject >> setLocalTransformFromComponents [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
+	#'squeak_changestamp' : 'phkeese 10/1/2026 13:21'
 }
 SRObject >> startGrabbing: aHand [
 
 	self update: #grabStarted with: aHand.
 	self onGrabStarted: aHand.
+	grabber := aHand.
 ]
 
 { #category : #stepping }
@@ -1130,12 +1149,13 @@ SRObject >> step: deltaTime [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
+	#'squeak_changestamp' : 'phkeese 10/1/2026 13:21'
 }
 SRObject >> stopGrabbing: aHand [
 
 	self update: #grabStopped with: aHand.
 	self onGrabStopped: aHand.
+	grabber := nil.
 ]
 
 { #category : #transforms }
