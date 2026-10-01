@@ -352,11 +352,11 @@ SRObject >> collisionGeometry [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+	#'squeak_changestamp' : 'leo 9/29/2026 16:50'
 }
 SRObject >> collisionGeometryDo: aBlock [
 
-	^ self collisionGeometry ifNotNil: [:geom | aBlock value: geom]
+	^ self safeCollisionGeometry ifNotNil: [:geom | aBlock value: geom]
 ]
 
 {
@@ -601,6 +601,15 @@ SRObject >> hasChild: aSRObject [
 	^ self children includes: aSRObject
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:56'
+}
+SRObject >> hasGoodCollisionGeometry [
+
+	^ self isCollisionGeometryGood: self collisionGeometry
+]
+
 { #category : #hierarchy }
 SRObject >> hasParent [
 
@@ -628,6 +637,15 @@ SRObject >> initialize [
 	localScale := Vector3 one.
 	
 	self transformDirtyFlag: #localTransform.
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:55'
+}
+SRObject >> isCollisionGeometryGood: geometry [
+
+	^ geometry isNil or: geometry isCollisionGeometry
 ]
 
 {
@@ -1134,6 +1152,26 @@ SRObject >> rotation [
 SRObject >> rotation: aQuaternion [
 
 	self localRotation: aQuaternion
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:55'
+}
+SRObject >> safeCollisionGeometry [
+
+	"Collision geometry is often queried in contexts that do not originate from the object that provides the geometry.
+	If an object then provides a bad object, the resulting error would cause the error handler to be triggered for
+	the object that the context actually belongs to (e.g. the object whose step: method is being executed).
+	This is counterproductive, since the fault does not lie there.
+	You can use this method to avoid fetching bad geometry from an object."
+	| geo |
+	geo := self collisionGeometry.
+	^ (self isCollisionGeometryGood: geo)
+		ifTrue: [geo]
+		ifFalse: [
+			"Transcript showln: 'Bad collision geometry for ', self asString."
+			nil]
 ]
 
 { #category : #transforms }
