@@ -94,6 +94,26 @@ SRObjectTest >> testAllDescendants [
 	self assert: o1 allDescendants size = 5.
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:08'
+}
+SRObjectTest >> testAllDescendantsDetect [
+
+	| root child grandchild |
+	root := SRObject new name: 'root'; yourself.
+	child := SRObject new name: 'child'; yourself.
+	grandchild := SRObject new name: 'grandchild'; yourself.
+	root addChild: child.
+	child addChild: grandchild.
+
+	self assert: (root allDescendantsDetect: [:each | each name = 'grandchild'] ifNone: [nil]) == grandchild.
+	self assert: (root allDescendantsDetect: [:each | each name = 'root'] ifNone: [nil]) == root.
+	self assert: (root allDescendantsDetect: [:each | each name = 'nobody'] ifNone: [nil]) isNil.
+	self assert: (root allDescendantsAnySatisfy: [:each | each name = 'child']).
+	self deny: (root allDescendantsAnySatisfy: [:each | each name = 'nobody']).
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testAllDescendantsSelect [
 

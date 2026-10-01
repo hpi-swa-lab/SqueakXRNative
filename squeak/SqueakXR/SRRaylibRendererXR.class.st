@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 6/9/2026 09:55'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRRaylibRendererXR >> completeFrame [
 
@@ -15,34 +15,45 @@ SRRaylibRendererXR >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
+	1 milliSecond wait.
+	
 	Raylib
 		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
 		rlOpenXREnd.
 	
-	1 milliSecond wait.
 ]
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/23/2026 16:46'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+}
+SRRaylibRendererXR >> pollEventsAndWaitForFrame [
+	"Session state changes and xrWaitFrame. The wait latches predictedDisplayTime,
+	which rlOpenXRGetTime then hands to everything locating a pose, so nothing may
+	sample a pose before this."
+
+	Raylib rlOpenXRUpdate.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 	| beginSuccessful forward position target up |
-	Raylib
-		rlOpenXRUpdate;
-		clearBackgroundColor: clearColor.
+	Raylib clearBackgroundColor: clearColor.
 
 	position := cameraTransform translation.
 	forward := cameraTransform localDirToGlobal: Vector3 forward.
 	up := cameraTransform localDirToGlobal: Vector3 up.
 	target := position + forward.
 	camera
-		position: position asRlVector;
-		target: target asRlVector;
-		up: up asRlVector.
+		position: (self class rlVector3For_1: position);
+		target: (self class rlVector3For_2: target);
+		up: (self class rlVector3For_3: up).
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
@@ -52,15 +63,7 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 				beginMode3DCamera: camera;
 				drawGridSlices: 10 spacing: 1].
 	
-	"Orthographic projection -- for posterity, do not use
-	mat := ((Matrix4x4 ortho: (Rectangle exactCenter: 0 asPoint extent: 2 asPoint) near: 0.1 far: 100) scaledBy: 1 @ -1 @ 1) asRlMatrix.
-	offset := (Matrix4x4 withOffset: 1 @ 0 @ 0) asRlMatrix.
-	offset2 := (Matrix4x4 withOffset: -1 @ 0 @ 0) asRlMatrix.
-	Raylib rlSetMatrixProjectionStereoRight: mat left: mat;
-	rlSetMatrixViewOffsetStereoRight: offset left: offset2."
-	
 	^ beginSuccessful
-		
 ]
 
 { #category : #'render-loop' }

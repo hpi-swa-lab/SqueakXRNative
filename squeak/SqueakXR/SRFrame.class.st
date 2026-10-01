@@ -80,7 +80,7 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/7/2026 14:37'
+	#'squeak_changestamp' : 'jl 9/21/2026 17:31'
 }
 SRFrame >> process [
 
@@ -88,7 +88,7 @@ SRFrame >> process [
 		stepObjects;
 		prepareFrame;
 		renderObjects;
-		completeFrame
+		completeFrame.
 ]
 
 {

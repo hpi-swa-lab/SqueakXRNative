@@ -15,6 +15,15 @@ Object >> currentXRWorld [
 	^ SRWorld current
 ]
 
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'leo 9/29/2026 16:42'
+}
+Object >> isCollisionGeometry [
+
+	^ false
+]
+
 { #category : #'*SqueakXR-core' }
 Object >> isWorldObject [
 

@@ -133,11 +133,12 @@ SRMaterial >> texture [
 
 {
 	#category : #textures,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:42'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRMaterial >> texture: anSRTexture [
 
 	texture := anSRTexture.
+	isDirty := true.
 	^ self
 ]
 

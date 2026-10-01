@@ -2,8 +2,7 @@ Class {
 	#name : #SRRaylibRendererFlat,
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
-		'reticleLines',
-		'reticleColor'
+		'reticleLines'
 	],
 	#classVars : [
 		'HighDpiEnabled',
@@ -76,7 +75,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/16/2026 17:47'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -85,14 +84,15 @@ SRRaylibRendererFlat >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
-	Raylib endDrawing.
-	
 	1 milliSecond wait.
+	
+	Raylib endDrawing.
+
 ]
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 3/25/2026 15:48'
+	#'squeak_changestamp' : 'leo 9/29/2026 15:34'
 }
 SRRaylibRendererFlat >> drawReticle [
 
@@ -101,12 +101,12 @@ SRRaylibRendererFlat >> drawReticle [
 			startPosY: line first y
 			endPosX: line second x
 			endPosY: line second y
-			color: reticleColor].
+			color: (self class rlColorFor_1: Color red)].
 ]
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:45'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:33'
 }
 SRRaylibRendererFlat >> initReticle [
 
@@ -117,7 +117,6 @@ SRRaylibRendererFlat >> initReticle [
 		{horiLineStart. horiLineStart + (self reticleSize @ 0)}.
 		{vertLineStart. vertLineStart + (0 @ self reticleSize)}.
 	}.
-	reticleColor := Color red asRaylibObject.
 ]
 
 {
@@ -133,7 +132,7 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:59'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
@@ -143,9 +142,9 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 	up := cameraTransform localDirToGlobal: Vector3 up.
 	target := position + forward.
 	camera
-		position: position asRlVector;
-		target: target asRlVector;
-		up: up asRlVector.
+		position: (self class rlVector3For_1: position);
+		target: (self class rlVector3For_2: target);
+		up: (self class rlVector3For_3: up).
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
@@ -165,7 +164,7 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'jl 4/27/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRendererFlat >> setup [
 
@@ -178,9 +177,9 @@ SRRaylibRendererFlat >> setup [
 			ifFalse: [self class startMonitor]).
 	
 	camera := RlCamera3D new
-		position: 10 asVector3 asRlVector;
-		target: Vector3 zero asRlVector;
-		up: Vector3 up asRlVector;
+		position: (self class rlVector3For_1: 10 asVector3);
+		target: self class rlVectorZero;
+		up: (self class rlVector3For_2: Vector3 up);
 		fovy: 45;
 		projection: RlCameraProjection cameraPerspective.
 	
