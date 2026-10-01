@@ -120,7 +120,7 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/16/2026 09:55'
+	#'squeak_changestamp' : 'phkeese 10/1/2026 14:19'
 }
 SRMenuItem >> initialize [
 
@@ -133,7 +133,6 @@ SRMenuItem >> initialize [
 		text: label;
 		color: self class textColorNormal;
 		scale: 0.015 asVector3;
-		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
 		yourself.
 	self addChild: textField.
 ]
