@@ -19,6 +19,40 @@ Class {
 }
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 15:26'
+}
+SRCursor >> castRayOn: targets from: anOrigin toward: aDirection [
+	
+	"
+	Casts a ray among the specified objects and returns a hit.
+	Subclasses should use this unless they need special collision handling.
+	Returns a list of all objects along the ray, sorted by their distance from the origin.
+	"
+	| ray |
+	ray := SRRay origin: anOrigin forward: aDirection.
+	^ (ray castAllObjects: targets asOrderedCollection)
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 16:53'
+}
+SRCursor >> castSphereOn: targets from: anOrigin radius: aNumber [
+	
+	"
+	Casts a sphere among the specified objects and returns a list of hits, 
+	sorted by their distance to the origin.
+	Subclasses should use this unless they need special collision handling.
+	"
+	| point |
+	point := SRCollisionPoint new
+		origin: anOrigin;
+		radius: aNumber.
+	^ point castAllObjects: targets asOrderedCollection
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/24/2026 15:16'
 }
@@ -267,12 +301,18 @@ SRCursor >> targetDo: aBlock [
 
 {
 	#category : #helpers,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:33'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 15:12'
 }
-SRCursor >> targetsIn: aWorld [
+SRCursor >> targetsInWorld [
 	
-	"Find objects in aWorld which want a cursor"
-	^ self world allDescendantsSelect: [ :object | object wantsCursor ]
+	"Find all objects in my world which want a cursor."
+	^ self world
+		ifNil: [ {} ]
+		ifNotNil: [:world | 
+			world allDescendantsSelect: [:object |
+				object wantsCursor 
+			]
+		]
 ]
 
 {

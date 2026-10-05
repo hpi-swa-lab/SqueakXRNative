@@ -38,18 +38,15 @@ SRPointCursor >> approachStrengthAt: aDistance [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/24/2026 13:15'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 16:53'
 }
 SRPointCursor >> findApproached [
 
 	"Find objects this cursor is currently approaching"
-	| targets point |
-	self world ifNil: [ ^ nil ].
-	targets := self targetsIn: self world.
-	point := SRCollisionPoint new
-		origin: gogo globalTranslation;
+	^ self 
+		castSphereOn: self targetsInWorld 
+		from: gogo globalTranslation
 		radius: self approachRadius.
-	^ point castAllObjects: targets
 ]
 
 {

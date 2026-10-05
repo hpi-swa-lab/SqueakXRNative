@@ -18,16 +18,14 @@ SRRaycastCursor class >> laserWidth [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 9/17/2026 15:17'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 15:24'
 }
 SRRaycastCursor >> castRay [
 	"Cast ray into scene but filter out any objects that don't want a cursor"
 
-	| ray targets |
-	self world ifNil: [ ^ nil ].
-	targets := grabbedObject ifNotNil: [{ grabbedObject }] ifNil: (self targetsIn: self world).
-	ray := SRRay origin: self globalTranslation forward: self backward.
-	^ (ray castAllObjects: targets) ifEmpty: [ nil ] ifNotEmpty: [ :results | results first ]
+	^ (self castRayOn: self targetsInWorld from: self globalTranslation toward: self backward)
+		ifNotEmpty: [:r | r first]
+		ifEmpty: [ nil ]
 ]
 
 {
