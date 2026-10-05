@@ -552,6 +552,16 @@ SRObject >> grabbingHand [
 ]
 
 {
+	#category : #halo,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:56'
+}
+SRObject >> haloSpec [
+
+	"Return an SRHaloSpec if I want a Halo and nothing otherwise."
+	^ SRHaloSpec new
+]
+
+{
 	#category : #gizmos,
 	#'squeak_changestamp' : 'phkeese 9/24/2026 13:08'
 }
@@ -585,6 +595,21 @@ SRObject >> hasAncestor: aSRObject [
 SRObject >> hasChild: aSRObject [
 
 	^ self children includes: aSRObject
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:10'
+}
+SRObject >> hasHalo [
+	
+	"Does this object currently have a Halo openend on it?"
+	^ self haloState activeHalo 
+		ifNotNil: [:halo |
+			halo target = self
+		] ifNil: [
+			false
+		]
 ]
 
 { #category : #hierarchy }
@@ -1265,6 +1290,16 @@ SRObject >> wantsCursor [
 }
 SRObject >> wantsCursor: anObject [
 	wantsCursor := anObject
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:11'
+}
+SRObject >> wantsHalo [
+	
+	"Does this object want a Halo?"
+	^ self haloSpec isNil not
 ]
 
 { #category : #accessing }

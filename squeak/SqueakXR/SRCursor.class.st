@@ -204,7 +204,7 @@ SRCursor >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 17:30'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:58'
 }
 SRCursor >> onButtonInput: aButtonEvent [
 
@@ -228,11 +228,7 @@ SRCursor >> onButtonInput: aButtonEvent [
 	"Open a Halo with the bottom button or ignore the event."
 	aButtonEvent button = #bottomButton ifTrue: [
 		aButtonEvent pressed ifTrue: [
-			self target ifNotNil: [:target | 
-				self haloState openHaloOn: target at: self point with: self hand
-			] ifNil: [
-				self haloState closeHalo.
-			].
+			self tryOpenHalo.
 			aButtonEvent handled: true.
 			^ self.
 		]
@@ -326,6 +322,16 @@ SRCursor >> targetsInWorld [
 				object wantsCursor 
 			]
 		]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:57'
+}
+SRCursor >> tryOpenHalo [
+	self target
+		ifNotNil: [ :target | self haloState openHaloOn: target at: self point with: self hand ]
+		ifNil: [ self haloState closeHalo ]
 ]
 
 {

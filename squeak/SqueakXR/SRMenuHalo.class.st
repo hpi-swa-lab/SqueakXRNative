@@ -26,7 +26,7 @@ SRMenuHalo >> buildMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 09:59'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:32'
 }
 SRMenuHalo >> initialize [ 
 

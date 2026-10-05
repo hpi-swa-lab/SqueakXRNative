@@ -22,7 +22,8 @@ Class {
 	#instVars : [
 		'hand',
 		'target',
-		'center'
+		'center',
+		'spec'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
@@ -55,6 +56,16 @@ SRHalo >> close [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:02'
+}
+SRHalo >> haloSpec [ 
+
+	"Halos don't want a Halo themselves."
+	^ nil
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:27'
 }
 SRHalo >> hand [
@@ -77,6 +88,22 @@ SRHalo >> hand: anObject [
 SRHalo >> open [
 
 	"Called by SRHaloState just after adding this halo to the world tree."
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:01'
+}
+SRHalo >> spec [
+	^ spec
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:01'
+}
+SRHalo >> spec: anObject [
+	spec := anObject
 ]
 
 {

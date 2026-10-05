@@ -52,6 +52,31 @@ SRHaloState >> closeHalo [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:34'
+}
+SRHaloState >> findTarget: start [
+
+	"Find the appropriate object to open a Halo on, starting at start and traversing the tree."
+	| here |
+	Transcript showln: 'Finding target on ', start.
+	start ifNil: [ ^ nil ].
+	here := start.
+	[true] whileTrue: [ | p |
+		Transcript showln: 'here = ', here.
+		p := here parent.
+		p ifNotNil: [
+			(p hasHalo not and: [ p wantsHalo ])
+			ifTrue: [
+				here := p
+			] ifFalse: [ 
+				^ here
+			]
+		]
+	]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
 }
@@ -100,19 +125,23 @@ SRHaloState >> openHaloOn: anObject [
 
 {
 	#category : #'halo lifecycle',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 17:38'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:08'
 }
 SRHaloState >> openHaloOn: anObject at: aVector3 with: aHand [
 
-	| halo |
+	| halo spec target |
 	self closeHalo.
+	target := self findTarget: anObject.
+	spec := target haloSpec.
+	spec ifNil: [ ^ self ].
 	halo := self haloSpecies new
 		hand: aHand;
-		target: anObject;
-		center: aVector3.
+		target: target;
+		center: aVector3;
+		spec: spec.
 	self addChild: halo.
 	activeHalo := halo.
-	halo open.
+	halo open
 
 ]
 

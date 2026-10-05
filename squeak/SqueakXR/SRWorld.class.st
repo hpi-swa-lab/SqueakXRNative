@@ -588,6 +588,15 @@ SRWorld >> gizmoPainter [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/5/2026 18:07'
+}
+SRWorld >> haloSpec [ 
+
+	^ nil
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/24/2026 13:08'
 }
