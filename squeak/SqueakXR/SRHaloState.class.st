@@ -26,17 +26,6 @@ SRHaloState >> activeHalo [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 16:04'
-}
-SRHaloState >> activeHalo: anObject [
-	
-	activeHalo ifNotNil: [ self removeChild: activeHalo ]. 
-	activeHalo := anObject.
-	activeHalo ifNotNil: [ self addChild: activeHalo ].
-]
-
-{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 9/24/2026 15:08'
 }
@@ -44,6 +33,21 @@ SRHaloState >> addOutlineFor: anSRObject colored: aColor [
 	outlines at: anSRObject 
 		ifPresent: [:list | list add: aColor ]
 		ifAbsentPut: [ OrderedCollection new add: aColor; yourself ]
+	
+]
+
+{
+	#category : #'halo lifecycle',
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:39'
+}
+SRHaloState >> closeHalo [ 
+
+	"Close the currently active halo, if there is one."
+	activeHalo ifNotNil: [
+		activeHalo close.
+		self removeChild: activeHalo.
+	].
+	activeHalo := nil.
 	
 ]
 
@@ -86,7 +90,7 @@ SRHaloState >> mixColors: aCollection [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #'halo lifecycle',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 09:56'
 }
 SRHaloState >> openHaloOn: anObject [
@@ -95,25 +99,25 @@ SRHaloState >> openHaloOn: anObject [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
+	#category : #'halo lifecycle',
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:38'
 }
 SRHaloState >> openHaloOn: anObject at: aVector3 with: aHand [
 
 	| halo |
-	anObject ifNotNil: [ 
-		halo := self haloSpecies new
+	self closeHalo.
+	halo := self haloSpecies new
 		hand: aHand;
 		target: anObject;
 		center: aVector3.
-		self activeHalo: halo.
-		halo open.
-	]
+	self addChild: halo.
+	activeHalo := halo.
+	halo open.
 
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #'halo lifecycle',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 11:35'
 }
 SRHaloState >> openHaloOn: anObject with: aHand [

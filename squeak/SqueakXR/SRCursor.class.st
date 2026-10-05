@@ -204,11 +204,13 @@ SRCursor >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/29/2026 14:34'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:30'
 }
 SRCursor >> onButtonInput: aButtonEvent [
 
 	aButtonEvent handled ifTrue: [ ^ self ].
+	
+	"Grab objects with the squeeze button".
 	aButtonEvent button = #squeeze ifTrue: [
 		aButtonEvent pressed 
 		ifTrue: [ self startGrabbing ]
@@ -216,16 +218,27 @@ SRCursor >> onButtonInput: aButtonEvent [
 		aButtonEvent handled: true.
 		^ self
 	].
+	
+	"Ignore input while grabbing something."
+	self grabbedObject ifNotNil: [ 
+		aButtonEvent handled: true.
+		^ self
+	].	
+
+	"Open a Halo with the bottom button or ignore the event."
 	aButtonEvent button = #bottomButton ifTrue: [
 		aButtonEvent pressed ifTrue: [
-			self targetDo: [:target |
-				self world haloState openHaloOn: target
-					at: self point
-					with: self hand
+			self target ifNotNil: [:target | 
+				self haloState openHaloOn: target at: self point with: self hand
+			] ifNil: [
+				self haloState closeHalo.
 			].
-		].
-		^ self.
+			aButtonEvent handled: true.
+			^ self.
+		]
 	].
+
+	"Forward any other events to the target"
 	self targetDo: [:target | 
 		aButtonEvent setFrom: self.
 		target handleInput: aButtonEvent
@@ -332,12 +345,12 @@ SRCursor >> update: anAspect [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:04'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:17'
 }
 SRCursor >> update: anAspect with: anObject [
 
 	"
-	By default, we pass any unhandled input events along to our current target.
+	By default, we pass any unhandled input events along to our current target, as long as we are not grabbing something.
 	See on{Button,Analog}Input: 
 	"
 	anAspect = #buttonInput ifTrue: [ self onButtonInput: anObject ].

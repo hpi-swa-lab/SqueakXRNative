@@ -45,6 +45,15 @@ SRHalo >> center: anObject [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:36'
+}
+SRHalo >> close [
+
+	"Called by SRHaloState when this halo is closed, but before being removed from the tree."
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:27'
 }
@@ -63,13 +72,11 @@ SRHalo >> hand: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 09:51'
+	#'squeak_changestamp' : 'phkeese 10/5/2026 17:37'
 }
 SRHalo >> open [
 
-	"Trigger the halo to open. 
-	In this moment, hand and target should have been set and the halo must be part of the world tree."
-	^self subclassResponsibility 
+	"Called by SRHaloState just after adding this halo to the world tree."
 ]
 
 {
