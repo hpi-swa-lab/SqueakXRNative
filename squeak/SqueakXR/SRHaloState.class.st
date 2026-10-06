@@ -53,27 +53,28 @@ SRHaloState >> closeHalo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 18:34'
+	#'squeak_changestamp' : 'phkeese 10/6/2026 10:50'
 }
 SRHaloState >> findTarget: start [
 
-	"Find the appropriate object to open a Halo on, starting at start and traversing the tree."
-	| here |
-	Transcript showln: 'Finding target on ', start.
-	start ifNil: [ ^ nil ].
+	"Find the appropriate object to open a Halo on, starting at start taversing upward until...
+	1. A Halo is found (abort and return nil)
+	2. Something with wantsHalo = false or with a halo is found, in which case the highest node along the path is chosen.
+	"
+	| here target |
+	target := nil.
 	here := start.
-	[true] whileTrue: [ | p |
-		Transcript showln: 'here = ', here.
-		p := here parent.
-		p ifNotNil: [
-			(p hasHalo not and: [ p wantsHalo ])
-			ifTrue: [
-				here := p
-			] ifFalse: [ 
-				^ here
-			]
+	[ here 
+		ifNil: [ false ]
+		ifNotNil: [
+			here isHalo ifTrue: [ ^ nil ].
+			here hasHalo not and: here wantsHalo 
 		]
-	]
+	] whileTrue: [ 
+		target := here.
+		here := here parent
+	].
+	^ target
 ]
 
 {
@@ -125,13 +126,15 @@ SRHaloState >> openHaloOn: anObject [
 
 {
 	#category : #'halo lifecycle',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 18:08'
+	#'squeak_changestamp' : 'phkeese 10/6/2026 10:42'
 }
 SRHaloState >> openHaloOn: anObject at: aVector3 with: aHand [
 
 	| halo spec target |
-	self closeHalo.
+	"Need to do it in this order in case the user tries to open a halo on the halo itself."
 	target := self findTarget: anObject.
+	self closeHalo.
+	target ifNil: [ ^ self ].
 	spec := target haloSpec.
 	spec ifNil: [ ^ self ].
 	halo := self haloSpecies new

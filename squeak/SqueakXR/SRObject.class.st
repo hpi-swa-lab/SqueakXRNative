@@ -670,6 +670,15 @@ SRObject >> isGizmoPainter [
 ]
 
 {
+	#category : #transforms,
+	#'squeak_changestamp' : 'phkeese 10/6/2026 10:51'
+}
+SRObject >> isHalo [ 
+
+	^false
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
 }

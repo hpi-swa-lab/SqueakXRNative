@@ -82,6 +82,14 @@ SRHalo >> hand: anObject [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/6/2026 10:51'
+}
+SRHalo >> isHalo [ 
+	^true
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/5/2026 17:37'
 }
