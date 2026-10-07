@@ -174,11 +174,15 @@ SRPointRayCursor >> updateHover [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:28'
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:44'
 }
 SRPointRayCursor >> updateLaser [
 
 	| end |
+	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
+	self gizmoPainter gizmoLine: gogo globalTranslation to: end color: Color gray.
 	end := self point ifNil: [ gogo globalTransform localPointToGlobal: (Vector3 backward * 10) ].
-	self gizmoPainter gizmoLine: gogo globalTranslation to: end color: self color. 
+	self point ifNotNil: [:point |
+		self gizmoPainter gizmoLine: gogo globalTranslation to: point color: self color 
+	]
 ]
