@@ -1,6 +1,9 @@
 Class {
 	#name : #SRCubeHalo,
 	#superclass : #SRHalo,
+	#instVars : [
+		'relativeTransform'
+	],
 	#category : #'SqueakXR-Halo'
 }
 
@@ -29,13 +32,24 @@ SRCubeHalo >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 14:28'
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:57'
 }
 SRCubeHalo >> open [
 	
 	"Place ourselves along the line from the user's hand to the center."
 	| toCenter |
+	Transcript showln: 'Opening halo on ', self target.
 	toCenter := (self center - self hand globalTranslation) normalized.
 	self globalTranslation: self center + (toCenter * 0.5).
 	self lookAt: self hand globalTranslation.
+	relativeTransform := self target globalTransform inverseTransformation * self globalTransform 
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/7/2026 16:12'
+}
+SRCubeHalo >> step: deltaTime [ 
+
+	self globalTransform: self target globalTransform * relativeTransform
 ]
