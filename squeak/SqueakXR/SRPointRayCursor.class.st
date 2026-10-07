@@ -26,15 +26,24 @@ SRPointRayCursor class >> laserWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 16:53'
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:39'
 }
 SRPointRayCursor >> castCollision [
-	"Cast ray into scene but filter out any objects that don't want a cursor"
-
-	| targets |
-	"Ignore others while we have something grabbed."
-	targets := self grabbedObject ifNil: [ self targetsInWorld ].
 	
+	"Cast ray into scene but filter out any objects that don't want a cursor"
+	
+	^ self 
+		castCollisionOn: (self haloState activeHalo ifNotNil: [:halo | self targetsIn: halo ] ifNil: [ {} ])
+		then: (self grabbedObject ifNil: [ self targetsInWorld ]) 
+	
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:35'
+}
+SRPointRayCursor >> castCollisionOn: targets [
+
 	"Prefer collisions with our sphere over raycast."
 	(self 
 		castSphereOn: targets 
@@ -45,6 +54,16 @@ SRPointRayCursor >> castCollision [
 	"...then try and find something along the ray"
 	^ (self castRayOn: targets from: gogo globalTranslation toward: gogo backward)
 		ifEmpty: [ nil ] ifNotEmpty: [:r | r first ]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:38'
+}
+SRPointRayCursor >> castCollisionOn: firstList then: secondList [
+
+	^ (self castCollisionOn: firstList)
+		ifNil: [ self castCollisionOn: secondList ]
 ]
 
 {

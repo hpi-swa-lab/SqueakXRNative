@@ -310,18 +310,26 @@ SRCursor >> targetDo: aBlock [
 
 {
 	#category : #helpers,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 15:12'
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:41'
+}
+SRCursor >> targetsIn: aSubTree [
+	
+	"Find all objects in a subtree which want a cursor."
+	^ aSubTree allDescendantsSelect: [:object |
+		object wantsCursor 
+	]
+]
+
+{
+	#category : #helpers,
+	#'squeak_changestamp' : 'phkeese 10/7/2026 15:41'
 }
 SRCursor >> targetsInWorld [
 	
 	"Find all objects in my world which want a cursor."
 	^ self world
 		ifNil: [ {} ]
-		ifNotNil: [:world | 
-			world allDescendantsSelect: [:object |
-				object wantsCursor 
-			]
-		]
+		ifNotNil: [:world | self targetsIn: world ]
 ]
 
 {
