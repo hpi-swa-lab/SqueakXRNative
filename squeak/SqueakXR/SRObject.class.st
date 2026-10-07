@@ -1088,11 +1088,11 @@ SRObject >> removedChild: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 9/7/2026 14:28'
+	#'squeak_changestamp' : 'phkeese 10/7/2026 14:31'
 }
 SRObject >> renderInSecondPass [
 
-	^ false
+	^ self parent ifNotNil: [ parent renderInSecondPass ] ifNil: [ false ]
 ]
 
 { #category : #rendering }
