@@ -100,6 +100,15 @@ SRHalo >> open [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/7/2026 14:29'
+}
+SRHalo >> renderInSecondPass [ 
+
+	^true
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/5/2026 18:01'
 }
 SRHalo >> spec [
