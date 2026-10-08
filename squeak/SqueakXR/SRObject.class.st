@@ -18,7 +18,7 @@ Class {
 		'grabTarget',
 		'grabber',
 		'visible',
-		'wantsCursor'
+		'cursorMode'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -333,6 +333,22 @@ SRObject >> continueStepping [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:51'
+}
+SRObject >> cursorMode [
+	^ cursorMode
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:56'
+}
+SRObject >> cursorMode: anSRCursorMode [
+	cursorMode := anSRCursorMode
+]
+
+{
 	#category : #directions,
 	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
 }
@@ -620,7 +636,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:13'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:55'
 }
 SRObject >> initialize [
 
@@ -630,7 +646,7 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
-	wantsCursor := true.
+	cursorMode := SRCursorMode inherit.
 	
 	visible := true.
 	
@@ -1287,21 +1303,14 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:30'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:58'
 }
 SRObject >> wantsCursor [
-	^ wantsCursor and: [ self parent 
-		ifNotNil: [:parent | parent wantsCursor ]
-		ifNil: [ true ]
-	]
-]
 
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:16'
-}
-SRObject >> wantsCursor: anObject [
-	wantsCursor := anObject
+	^ self cursorMode caseOf: {
+		[SRCursorMode ignore] -> [false].
+		[SRCursorMode inherit] -> [self parent ifNil: [true] ifNotNil: [:p | p wantsCursor]].
+	}
 ]
 
 {
