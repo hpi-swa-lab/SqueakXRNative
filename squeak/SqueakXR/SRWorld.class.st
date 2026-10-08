@@ -905,7 +905,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 09:54'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:41'
 }
 SRWorld >> runStartScript [
 
@@ -980,6 +980,10 @@ SRWorld >> runStartScript [
 
 	self addChild: (SRInputDebugger new
 		translation: 0@3@(-1)
+	).
+		
+	self addChild: (SRCubeTower new
+		translation: (1@1@0)
 	).
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |

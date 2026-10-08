@@ -1287,10 +1287,13 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:16'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:30'
 }
 SRObject >> wantsCursor [
-	^ wantsCursor
+	^ wantsCursor and: [ self parent 
+		ifNotNil: [:parent | parent wantsCursor ]
+		ifNil: [ true ]
+	]
 ]
 
 {

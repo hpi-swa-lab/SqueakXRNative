@@ -129,11 +129,14 @@ SRCursor >> highlightTarget [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 16:42'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:31'
 }
 SRCursor >> initialize [ 
 
-	super initialize .
+	super initialize.
+	
+	self wantsCursor: false.
+	
 	pointCube := (SRCube new
 		scale: 1cm asVector3;
 		color: Color red

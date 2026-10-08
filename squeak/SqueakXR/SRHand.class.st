@@ -94,7 +94,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:47'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:20'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -105,17 +105,9 @@ SRHand >> actionsUpdated: aSRActionStates [
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates.
 	
-	self inputState topButton isJustPressed ifTrue: [ | cursorClasses index nextClass |
-		cursorClasses := SRCursor subclasses.
-		index := cursorClasses indexOf: (cursor class).
-		cursorClasses := SRCursor subclasses.
-		index := cursorClasses indexOf: (cursor class).
-		(cursor class) = (cursorClasses last) 
-			ifTrue: [ index := 1 ] 
-			ifFalse: [ index := index + 1 ].
-		nextClass := cursorClasses at: index.
-		self cursor: nextClass new.
-		^ self.
+	self inputState topButton isJustPressed ifTrue: [ 
+		self cycleCursor.
+		^ self
 	].
 	
 	self emitInputEvents
@@ -180,6 +172,23 @@ SRHand >> cursor: anSRCursor [
 		cursor hand: self.
 		self addChild: cursor.
 	].
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:20'
+}
+SRHand >> cycleCursor [
+	| index cursorClasses nextClass |
+	cursorClasses := SRCursor subclasses.
+	index := cursorClasses indexOf: cursor class.
+	cursorClasses := SRCursor subclasses.
+	index := cursorClasses indexOf: cursor class.
+	cursor class = cursorClasses last
+		ifTrue: [ index := 1 ]
+		ifFalse: [ index := index + 1 ].
+	nextClass := cursorClasses at: index.
+	self cursor: nextClass new
 ]
 
 {
@@ -326,7 +335,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:23'
+	#'squeak_changestamp' : 'phkeese 10/8/2026 17:26'
 }
 SRHand >> initialize [
 
@@ -340,7 +349,7 @@ SRHand >> initialize [
 	
 	inputState := SRHandInputState new.
 	
-	self cursor: (SRPointCursor new).
+	self cursor: (SRPointRayCursor new).
 	
 ]
 
