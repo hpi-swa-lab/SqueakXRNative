@@ -327,16 +327,6 @@ SRCursor >> targetsInWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 17:57'
-}
-SRCursor >> tryOpenHalo [
-	self target
-		ifNotNil: [ :target | self haloState openHaloOn: target at: self point with: self hand ]
-		ifNil: [ self haloState closeHalo ]
-]
-
-{
-	#category : #events,
 	#'squeak_changestamp' : 'phkeese 9/30/2026 15:52'
 }
 SRCursor >> update: anAspect [

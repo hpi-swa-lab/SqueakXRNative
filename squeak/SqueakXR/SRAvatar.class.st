@@ -108,7 +108,7 @@ SRAvatar >> hands [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:10'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:19'
 }
 SRAvatar >> initialize [
 
@@ -118,6 +118,7 @@ SRAvatar >> initialize [
 	rightHand := SRHand right avatar: self.
 	camera := SRAvatarCamera new.
 
+	self haloMode: SRHaloMode forbid.
 	self addChildren: {leftHand. rightHand. camera}.
 ]
 

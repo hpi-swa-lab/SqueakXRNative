@@ -16,7 +16,8 @@ Class {
 		'hoveredMenuItem',
 		'avatar',
 		'inputState',
-		'cursor'
+		'cursor',
+		'halo'
 	],
 	#classVars : [
 		'EndRate',
@@ -248,6 +249,22 @@ SRHand >> emitInputEvents [
 SRHand >> grabbedObject [
 
 	^ self cursor grabbedObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:45'
+}
+SRHand >> halo [
+	^ halo
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:45'
+}
+SRHand >> halo: anObject [
+	halo := anObject
 ]
 
 { #category : #accessing }

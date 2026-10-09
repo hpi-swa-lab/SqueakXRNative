@@ -20,38 +20,24 @@ Class {
 	#name : #SRHalo,
 	#superclass : #SRObject,
 	#instVars : [
-		'hand',
 		'target',
-		'center',
-		'spec'
+		'positionOffset'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
 }
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
-}
-SRHalo >> center [
-	^ center
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
-}
-SRHalo >> center: anObject [
-	center := anObject
-]
-
-{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 17:36'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:47'
 }
 SRHalo >> close [
 
-	"Called by SRHaloState when this halo is closed, but before being removed from the tree."
+	self isOpen ifTrue: [
+		self haloState activeHalo: nil.
+		self parent removeChild: self.
+		self hand halo: nil.
+	]
 ]
 
 {
@@ -65,20 +51,13 @@ SRHalo >> haloSpec [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:27'
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:33'
 }
-SRHalo >> hand [
-	"The hand this halo was triggered by"
-	^ hand
-]
+SRHalo >> initialize [ 
 
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:27'
-}
-SRHalo >> hand: anObject [
-	hand := anObject
+	super initialize.
+	self haloMode: SRHaloMode forbid.
 ]
 
 {
@@ -90,37 +69,89 @@ SRHalo >> isHalo [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:00'
+}
+SRHalo >> isOpen [
+
+	^ self world isNil not
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:52'
+}
+SRHalo >> popUpFor: anSRObject [ 
+		
+	^ self 
+		popUpFor: anSRObject
+		hand: (anSRObject world avatar rightHand)
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:57'
+}
+SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
+
+	"Remove any other halos."
+	aHand haloState activeHalo ifNotNil: [:oldHalo | oldHalo close].
+	aHand haloState activeHalo: self.
+	
+	self target: anSRObject.
+	aHand halo: self.
+	aHand world addChild: self.
+	
+	self positionOffset: (anSRObject globalTransform globalPointToLocal: aPoint).
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:39'
+}
+SRHalo >> popUpFor: anSRObject event: event [
+
+	^ self
+		popUpFor: anSRObject
+		at: event point
+		hand: event hand
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:53'
+}
+SRHalo >> popUpFor: anSRObject hand: aHand [
+		
+	^ self 
+		popUpFor: anSRObject
+		at: (aHand globalTranslation)
+		hand: (anSRObject world avatar rightHand)
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:41'
+}
+SRHalo >> positionOffset [
+	^ positionOffset
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:41'
+}
+SRHalo >> positionOffset: anObject [
+	positionOffset := anObject
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/5/2026 17:37'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:42'
 }
-SRHalo >> open [
+SRHalo >> step: deltaTime [ 
 
-	"Called by SRHaloState just after adding this halo to the world tree."
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/7/2026 14:29'
-}
-SRHalo >> renderInSecondPass [ 
-
-	^true
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 18:01'
-}
-SRHalo >> spec [
-	^ spec
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 18:01'
-}
-SRHalo >> spec: anObject [
-	spec := anObject
+	self globalTranslation: (self target globalTransform localPointToGlobal: self positionOffset)
 ]
 
 {
@@ -133,8 +164,9 @@ SRHalo >> target [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:55'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:07'
 }
 SRHalo >> target: anObject [
-	target := anObject
+
+	target := anObject.
 ]

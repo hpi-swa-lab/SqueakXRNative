@@ -193,9 +193,9 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:17'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:44'
 }
-SRMorphPanel >> handleInput: anInputEvent [
+SRMorphPanel >> handleMorphInput: anInputEvent [
 
 	| clickPoint normalizedPoint point |
 	self morph ifNil: [ ^ self ].
@@ -397,7 +397,7 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 12:50'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:45'
 }
 SRMorphPanel >> performClick: anInputEvent at: aPoint [
 
@@ -406,7 +406,8 @@ SRMorphPanel >> performClick: anInputEvent at: aPoint [
 	anInputEvent pressed ifFalse: [ ^self ].
 	buttonMap := Dictionary new 
 		add: #trigger->#redButton; 
-		add: #bottomButton->#yellowButton;
+		"TODO: allow right-clicking"
+		"add: #bottomButton->#yellowButton;"
 		yourself.
 	buttonName := buttonMap at: anInputEvent button ifAbsent: [ ^ self ].
 	button := MouseButtonEvent perform: buttonName.
@@ -436,12 +437,13 @@ SRMorphPanel >> performClick: anInputEvent at: aPoint [
 		upEvent becomeActiveDuring: [ self morph processEvent: upEvent ].
 	].
 
-	lastClickPosition := aPoint
+	lastClickPosition := aPoint.
+	anInputEvent handled: true.
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 13:16'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:45'
 }
 SRMorphPanel >> performScroll: anAnalogEvent at: aPoint [
 
@@ -457,6 +459,7 @@ SRMorphPanel >> performScroll: anAnalogEvent at: aPoint [
 		scrollEvent becomeActiveDuring: [
 			self morph processEvent: scrollEvent].
 	].
+	anAnalogEvent handled: true.
 ]
 
 {
@@ -561,12 +564,12 @@ SRMorphPanel >> toggleResizers [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:44'
 }
 SRMorphPanel >> update: aSymbol with: anObject [
 
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject].
-	aSymbol = #inputReceived ifTrue: [ self handleInput: anObject ].
+	aSymbol = #inputReceived ifTrue: [ self handleMorphInput: anObject ].
 ]
 
 {

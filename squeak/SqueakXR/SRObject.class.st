@@ -18,7 +18,8 @@ Class {
 		'grabTarget',
 		'grabber',
 		'visible',
-		'cursorMode'
+		'cursorMode',
+		'haloMode'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -104,6 +105,29 @@ SRObject >> addChildren: aCollection [
 SRObject >> addCustomMenuItemsTo: aMenu [
 ]
 
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:37'
+}
+SRObject >> addHalo [
+	
+	^ self createHalo
+		popUpFor: self;
+		yourself
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:38'
+}
+SRObject >> addHalo: anInputEvent [
+	
+	^ self createHalo
+		popUpFor: self event: anInputEvent;
+		yourself
+	
+]
+
 { #category : #hierarchy }
 SRObject >> allDescendants [
 
@@ -135,6 +159,18 @@ SRObject >> allDo: aBlock [
 
 	aBlock cull: self.
 	self childrenDo: [:child | child allDo: aBlock].
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:14'
+}
+SRObject >> allowsHalo [
+	
+	"Can my children have a halo?"
+	self haloMode = SRHaloMode forbid ifTrue: [ ^ false ].
+	
+	^ self parent ifNil: [true] ifNotNil: [:p | p allowsHalo]
 ]
 
 {
@@ -333,14 +369,13 @@ SRObject >> continueStepping [
 ]
 
 {
-	#category : #hierarchy,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:48'
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 13:19'
 }
-SRObject >> createHaloHand: aHand [
+SRObject >> createHalo [
 
 	"Create a new Halo for this object."
-	Transcript showln: 'This is where I would create my halo'.
-	^ self haloState haloSpecies new
+	^ (self haloState haloSpecies ifNil: [SRDummyHalo]) new
 ]
 
 {
@@ -391,6 +426,29 @@ SRObject >> ensureTransformClean [
 		[#globalTransform] -> [self updateTransformsFromGlobalTransform].
 	}.
 	self transformDirtyFlag: nil.
+]
+
+{
+	#category : #'*SqueakXR-core',
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:41'
+}
+SRObject >> findHaloTarget [
+
+	"Find a suitable halo target along the path to the top node.
+	Suitable nodes are ones that want a Halo and are not part of a subtree which disallows them."
+	| here target |
+	target := nil.
+	here := self.
+	[ here isNil ] whileFalse: [
+		"No halo allowed in this subtree!"
+		here allowsHalo ifFalse: [ ^ nil ].
+		here hasHalo ifTrue: [ ^ target ].
+		here wantsHalo ifTrue: [ target := here ].
+		here := here parent.
+	].
+	^ target
+	
+	
 ]
 
 {
@@ -579,6 +637,22 @@ SRObject >> grabbingHand [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:06'
+}
+SRObject >> haloMode [
+	^ haloMode
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:06'
+}
+SRObject >> haloMode: anObject [
+	haloMode := anObject
+]
+
+{
 	#category : #halo,
 	#'squeak_changestamp' : 'phkeese 10/5/2026 17:56'
 }
@@ -599,7 +673,7 @@ SRObject >> haloState [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:58'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:32'
 }
 SRObject >> handleInput: anInputEvent [
 
@@ -608,6 +682,7 @@ SRObject >> handleInput: anInputEvent [
 	Forwards the event by default to allow parents to listen on child object events.
 	"
 	self changed: #inputReceived with: anInputEvent.
+	anInputEvent handled ifTrue: [ ^ self ].
 	anInputEvent isButtonEvent ifTrue: [ anInputEvent pressed 
 		ifTrue: [self onButtonPress: anInputEvent]
 		ifFalse: [self onButtonRelease: anInputEvent]
@@ -655,7 +730,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:55'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:08'
 }
 SRObject >> initialize [
 
@@ -666,6 +741,7 @@ SRObject >> initialize [
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
 	cursorMode := SRCursorMode inherit.
+	haloMode := SRHaloMode want.
 	
 	visible := true.
 	
@@ -928,12 +1004,16 @@ SRObject >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:48'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:23'
 }
 SRObject >> onButtonPress: aButtonEvent [
 
 	"Called when a cursor is aiming at this and the user presses a button."
-	aButtonEvent button = #bottomButton ifTrue: [ (self createHaloHand: aButtonEvent hand) open ].
+	aButtonEvent button = #bottomButton ifTrue: [
+		self findHaloTarget ifNotNil: [:target |
+			target addHalo: aButtonEvent
+		]
+	]
 ]
 
 {
@@ -1003,15 +1083,6 @@ SRObject >> onWorldChanged: oldWorld [
 { #category : #events }
 SRObject >> onWorldStarted [
 
-]
-
-{
-	#category : #halo,
-	#'squeak_changestamp' : 'phkeese 9/29/2026 10:00'
-}
-SRObject >> openHalo [
-
-	self world haloState openHaloOn: self
 ]
 
 {
@@ -1389,12 +1460,16 @@ SRObject >> wantsCursor [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'phkeese 10/5/2026 18:11'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:41'
 }
 SRObject >> wantsHalo [
 	
 	"Does this object want a Halo?"
-	^ self haloSpec isNil not
+	^ self haloMode caseOf: {
+		[SRHaloMode want] -> [self parent ifNil: [false] ifNotNil: [:p | p allowsHalo]].
+		[SRHaloMode ignore] -> [false].
+		[SRHaloMode forbid] -> [false].
+	}
 ]
 
 { #category : #accessing }
