@@ -10,6 +10,7 @@ Class {
 		'localScale',
 		'parent',
 		'transformDirtyFlag',
+		'transformVersion',
 		'name',
 		'isStepping',
 		'isRendering',
@@ -537,11 +538,13 @@ SRObject >> globalTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
 }
 SRObject >> globalTransform: aMatrix4x4 [
+	"Copied, not adopted: the receiver mutates its own matrix in place, so adopting
+	the argument would couple it to whoever else holds it."
 
-	globalTransform := aMatrix4x4.
+	globalTransform loadFrom: aMatrix4x4.
 	self globalTransformDirty.
 ]
 
@@ -609,7 +612,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
 }
 SRObject >> initialize [
 
@@ -623,6 +626,8 @@ SRObject >> initialize [
 	visible := true.
 	
 	localTransform := Matrix4x4 identity.
+	globalTransform := Matrix4x4 identity.
+	transformVersion := 0.
 	localTranslation := Vector3 zero.
 	localRotation := Quaternion identity.
 	localScale := Vector3 one.
@@ -810,11 +815,12 @@ SRObject >> localTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:11'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
 }
 SRObject >> localTransform: aMatrix4x4 [
+	"Copied, not adopted: see #globalTransform:."
 
-	localTransform := aMatrix4x4.
+	localTransform loadFrom: aMatrix4x4.
 	self localTransformDirty.
 ]
 
@@ -867,10 +873,16 @@ SRObject >> name: aString [
 	name := aString
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:41'
+}
 SRObject >> notifyTransformChanged [
+	"Indexed, not childrenDo:. Called once per moved object per frame, and passing a
+	real block reifies this context on the heap: 224 bytes even with no children."
 
-	self childrenDo: [:object | object parentTransformDirty].
+	1 to: children size do: [:index |
+		(children at: index) parentTransformDirty].
 ]
 
 { #category : #events }
@@ -1156,12 +1168,16 @@ SRObject >> setLocalComponentsFrom: aMatrix4x4 [
 	localScale := aMatrix4x4 scale.
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
 SRObject >> setLocalTransformFromComponents [
 
-	localTransform := (Matrix4x4 withOffset: localTranslation)
-		* (Matrix4x4 fromQuaternion: localRotation)
-		* (Matrix4x4 withScale: localScale)
+	localTransform
+		setTranslation: localTranslation
+		rotation: localRotation
+		scale: localScale.
 ]
 
 {
@@ -1215,6 +1231,17 @@ SRObject >> transformDirtyFlag: flag [
 	transformDirtyFlag := flag
 ]
 
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
+SRObject >> transformVersion [
+	"Bumped whenever globalTransform is recomputed. It is mutated in place, so its
+	identity is no longer a dirty test."
+
+	^ transformVersion
+]
+
 { #category : #transforms }
 SRObject >> translation [
 
@@ -1236,19 +1263,35 @@ SRObject >> up [
 	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
 SRObject >> updateGlobalTransform [
+	"In place: a scene graph is mostly old objects, so assigning a fresh Matrix4x4
+	here puts one young object per node into the remembered set every frame, where
+	no scavenge can reclaim it and the tenure threshold eventually promotes it."
 
-	globalTransform := self parentGlobalTransform * localTransform
+	self hasParent
+		ifTrue: [globalTransform
+			privateTransformMatrix: self parent globalTransform
+			with: localTransform
+			into: globalTransform]
+		ifFalse: [globalTransform loadFrom: localTransform].
+	transformVersion := transformVersion + 1.
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
 SRObject >> updateTransformsFromGlobalTransform [
 
-	| transform |
-	transform := self parentGlobalTransform inverseTransformation * globalTransform.
-	localTransform := transform.
-	self setLocalComponentsFrom: transform
+	localTransform
+		privateTransformMatrix: self parentGlobalTransform inverseTransformation
+		with: globalTransform
+		into: localTransform.
+	self setLocalComponentsFrom: localTransform.
 ]
 
 { #category : #'transforms - internal' }
@@ -1292,29 +1335,35 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
 }
 SRObject >> withAllObjectsDo: aBlock [
-	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack.
-	The recursive version creates one block closure per node; this one allocates
-	a single Array per traversal, and cannot overflow the Smalltalk stack."
+	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack that cannot
+	overflow the Smalltalk one. The recursive version creates one closure per node."
 
-	| stack size node kids index |
-	stack := Array new: 64.
-	size := 1.
-	stack at: 1 put: self.
-	[size > 0] whileTrue: [
-		node := stack at: size.
-		stack at: size put: nil.
-		size := size - 1.
+	self withAllObjectsDo: aBlock usingStack: (OrderedCollection new: 64).
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
+}
+SRObject >> withAllObjectsDo: aBlock usingStack: aStack [
+	"aStack is an OrderedCollection so it keeps its capacity across walks and its
+	identity across a grow, which is why nothing has to be answered.
+	Children are pushed back to front, so the first is popped first.
+	#removeLast nils the slot, so a kept stack retains nothing."
+
+	| node kids index |
+	aStack reset.
+	aStack addLast: self.
+	[aStack isEmpty] whileFalse: [
+		node := aStack removeLast.
 		aBlock cull: node.
 		kids := node children.
 		index := kids size.
-		size + index > stack size ifTrue: [
-			stack := stack grownBy: (size + index max: stack size)].
 		[index > 0] whileTrue: [
-			size := size + 1.
-			stack at: size put: (kids at: index).
+			aStack addLast: (kids at: index).
 			index := index - 1]].
 ]
 

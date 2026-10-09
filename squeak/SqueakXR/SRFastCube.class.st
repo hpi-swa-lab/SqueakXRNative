@@ -20,7 +20,7 @@ Class {
 		'rlColor',
 		'rlWireColor',
 		'glMatrix',
-		'cachedGlobalTransform',
+		'cachedTransformVersion',
 		'drawWires'
 	],
 	#classVars : [
@@ -76,16 +76,15 @@ SRFastCube >> drawWires: aBoolean [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
 }
 SRFastCube >> ensureMatrixCurrent [
-	"SRObject>>updateGlobalTransform assigns a fresh Matrix4x4, so identity is an
-	exact dirty test: same object means the transform was not recomputed."
+	"Read the transform first: that is the call that recomputes it and bumps the version."
 
 	| m |
 	m := self globalTransform.
-	m == cachedGlobalTransform ifTrue: [^ self].
-	cachedGlobalTransform := m.
+	transformVersion = cachedTransformVersion ifTrue: [^ self].
+	cachedTransformVersion := transformVersion.
 	1 to: 4 do: [:row |
 		1 to: 4 do: [:col |
 			glMatrix at: col - 1 * 4 + row put: (m at: row - 1 * 4 + col)]].

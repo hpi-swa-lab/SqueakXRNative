@@ -47,13 +47,13 @@ SRCubeFieldTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:04'
 }
 SRCubeFieldTest >> testAnimationLeavesTheButtonAlone [
 	| field |
 	field := self fieldOf: 20.
 	field animating: true.
-	field step: 0.1.
+	field step: 16.
 	self assert: Quaternion identity equals: field button localRotation.
 ]
 
@@ -172,7 +172,7 @@ SRCubeFieldTest >> testOneStepForTheWholeField [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:04'
 }
 SRCubeFieldTest >> testStepRotatesEveryCubeWhenAnimating [
 	| field cubes before |
@@ -180,11 +180,26 @@ SRCubeFieldTest >> testStepRotatesEveryCubeWhenAnimating [
 	cubes := field children select: [:each | each isCube].
 	before := cubes collect: [:each | each localRotation].
 	field animating: false.
-	field step: 0.1.
+	field step: 16.
 	self assert: before equals: (cubes collect: [:each | each localRotation]).
 	field animating: true.
-	field step: 0.1.
+	field step: 16.
 	self assert: (cubes allSatisfy: [:each | each localRotation ~= Quaternion identity]).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:04'
+}
+SRCubeFieldTest >> testStepTakesMilliseconds [
+	"Reading deltaTime as seconds spun the field two full turns per frame, which
+	aliased into a judder rather than an animation."
+
+	| field |
+	field := self fieldOf: 1.
+	field animating: true.
+	10 timesRepeat: [field step: 100].
+	self assert: (field angle - SRCubeField radiansPerSecond) abs < 1.0e-9.
 ]
 
 {

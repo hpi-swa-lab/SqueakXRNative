@@ -19,7 +19,12 @@ Class {
 		'frozenAvatar',
 		'ghostAvatar',
 		'project',
-		'cameraTransform'
+		'cameraTransform',
+		'steppedObjectsBuffer',
+		'firstPassRenderBuffer',
+		'secondPassRenderBuffer',
+		'traversalStack',
+		'pendingFrameActions'
 	],
 	#classVars : [
 		'Current',
@@ -27,7 +32,6 @@ Class {
 		'FrameStartEdenPercent',
 		'KeyDict',
 		'LogFPS',
-		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -643,6 +647,19 @@ SRWorld >> enterMorphicProject [
 ]
 
 {
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+}
+SRWorld >> firstPassRenderBuffer [
+	"Reset per frame rather than rebuilt: at a few thousand nodes the collection grows
+	a 32 KB Array, and Spur puts allocations that size straight into old space, which
+	no scavenge ever visits. SRFrame drains these with removeFirst, so they end each
+	frame empty with their slots nilled."
+
+	^ firstPassRenderBuffer ifNil: [firstPassRenderBuffer := OrderedCollection new: 256]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
 }
@@ -1068,6 +1085,16 @@ SRWorld >> scavengeIfEdenFull [
 	ForcedScavenges := self class forcedScavenges + 1.
 ]
 
+{
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+}
+SRWorld >> secondPassRenderBuffer [
+	"See #firstPassRenderBuffer."
+
+	^ secondPassRenderBuffer ifNil: [secondPassRenderBuffer := OrderedCollection new: 256]
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> shutDown [
 	
@@ -1120,6 +1147,16 @@ SRWorld >> startUp: resuming [
 		self invalidateCache.
 		needsSetup := resuming].
 	self resume
+]
+
+{
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+}
+SRWorld >> steppedObjectsBuffer [
+	"Owned by the world so a stopped world takes it with it. See #firstPassRenderBuffer."
+
+	^ steppedObjectsBuffer ifNil: [steppedObjectsBuffer := OrderedCollection new: 256]
 ]
 
 {
@@ -1186,6 +1223,23 @@ SRWorld >> updateCameraTransform [
 
 	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
 	self changed: #cameraTransformUpdated with: cameraTransform.
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
+}
+SRWorld >> withAllObjectsDo: aBlock [
+	"The world is walked every frame and a large field grows the stack to ~24 KB, big
+	enough for Spur to place it in old space, where no scavenge reaches it.
+	Nilled with no send in between, so a nested or preempting walk gets its own."
+
+	| stack |
+	stack := traversalStack.
+	traversalStack := nil.
+	stack ifNil: [stack := OrderedCollection new: 256].
+	self withAllObjectsDo: aBlock usingStack: stack.
+	traversalStack := stack.
 ]
 
 { #category : #accessing }

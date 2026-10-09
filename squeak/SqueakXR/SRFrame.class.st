@@ -47,17 +47,22 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:20'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
 }
 SRFrame >> initializeObjectLists [
+	"One traversal, three world-owned buffers. The two allDescendantsSelect: passes
+	this replaces walked the tree twice and built three collections per frame, and
+	allDescendantsSelect:thenDo: built a fourth internally."
 
-	steppedObjects := self world allDescendantsSelect: #isStepping.
-	
-	firstPassRenderedObjects := OrderedCollection new.
-	secondPassRenderedObjects := OrderedCollection new.
-	self world allDescendantsSelect: #isRendering thenDo: [:obj |
-		(obj renderInSecondPass ifTrue: [secondPassRenderedObjects] ifFalse: [firstPassRenderedObjects])
-			add: obj]
+	steppedObjects := self world steppedObjectsBuffer reset.
+	firstPassRenderedObjects := self world firstPassRenderBuffer reset.
+	secondPassRenderedObjects := self world secondPassRenderBuffer reset.
+	self world allDo: [:object |
+		object isStepping ifTrue: [steppedObjects add: object].
+		object isRendering ifTrue: [
+			(object renderInSecondPass
+				ifTrue: [secondPassRenderedObjects]
+				ifFalse: [firstPassRenderedObjects]) add: object]].
 ]
 
 { #category : #accessing }
