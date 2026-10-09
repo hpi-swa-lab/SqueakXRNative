@@ -29,14 +29,13 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:47'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 14:51'
 }
 SRHalo >> close [
 
 	self isOpen ifTrue: [
 		self haloState activeHalo: nil.
 		self parent removeChild: self.
-		self hand halo: nil.
 	]
 ]
 
