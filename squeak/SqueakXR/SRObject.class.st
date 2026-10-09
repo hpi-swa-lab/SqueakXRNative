@@ -333,6 +333,17 @@ SRObject >> continueStepping [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:48'
+}
+SRObject >> createHaloHand: aHand [
+
+	"Create a new Halo for this object."
+	Transcript showln: 'This is where I would create my halo'.
+	^ self haloState haloSpecies new
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/8/2026 17:51'
 }
@@ -588,15 +599,23 @@ SRObject >> haloState [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 16:32'
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:58'
 }
-SRObject >> handleInput: anSRInputEvent [
+SRObject >> handleInput: anInputEvent [
 
 	"
 	Called by SRCursor when this object is targeted.
 	Forwards the event by default to allow parents to listen on child object events.
 	"
-	self changed: #inputReceived with: anSRInputEvent
+	self changed: #inputReceived with: anInputEvent.
+	anInputEvent isButtonEvent ifTrue: [ anInputEvent pressed 
+		ifTrue: [self onButtonPress: anInputEvent]
+		ifFalse: [self onButtonRelease: anInputEvent]
+	].
+	anInputEvent isAnalogEvent ifTrue: [self onAnalogInput: anInputEvent].
+	anInputEvent isCursorEnterEvent ifTrue: [self onCursorEnter: anInputEvent].
+	anInputEvent isCursorLeaveEvent ifTrue: [self onCursorLeave: anInputEvent].
+	anInputEvent isCursorMoveEvent ifTrue: [self onCursorMove: anInputEvent].
 ]
 
 { #category : #hierarchy }
@@ -898,8 +917,63 @@ SRObject >> notifyTransformChanged [
 	self childrenDo: [:object | object parentTransformDirty].
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:52'
+}
+SRObject >> onAnalogInput: anAnalogEvent [
+
+	
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:48'
+}
+SRObject >> onButtonPress: aButtonEvent [
+
+	"Called when a cursor is aiming at this and the user presses a button."
+	aButtonEvent button = #bottomButton ifTrue: [ (self createHaloHand: aButtonEvent hand) open ].
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:41'
+}
+SRObject >> onButtonRelease: aButtonEvent [
+
+	"Called when a cursor is aiming at this and the user releases a button."
+]
+
 { #category : #events }
 SRObject >> onCacheInvalidated [
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:59'
+}
+SRObject >> onCursorEnter: aCursorEnterEvent [
+
+	"Called when a cursor starts aiming at this object."
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:59'
+}
+SRObject >> onCursorLeave: aCursorLeaveEvent [
+
+	"Called when a cursor stops aiming at this object."
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 10/9/2026 12:59'
+}
+SRObject >> onCursorMove: aCursorMoveEvent [
+
+	"Called when a cursor moves across this object."
 ]
 
 {
