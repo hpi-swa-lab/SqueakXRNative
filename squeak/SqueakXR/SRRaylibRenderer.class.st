@@ -32,6 +32,21 @@ SRRaylibRenderer class >> fill: anRlColor withColor: aColor [
 
 {
 	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:54'
+}
+SRRaylibRenderer class >> fill: anRlMatrix withMatrix4x4: aMatrix4x4 [
+	"RlMatrix is column-major, Matrix4x4 is row-major."
+
+	^ anRlMatrix
+		m0: aMatrix4x4 a11; m4: aMatrix4x4 a12; m8: aMatrix4x4 a13; m12: aMatrix4x4 a14;
+		m1: aMatrix4x4 a21; m5: aMatrix4x4 a22; m9: aMatrix4x4 a23; m13: aMatrix4x4 a24;
+		m2: aMatrix4x4 a31; m6: aMatrix4x4 a32; m10: aMatrix4x4 a33; m14: aMatrix4x4 a34;
+		m3: aMatrix4x4 a41; m7: aMatrix4x4 a42; m11: aMatrix4x4 a43; m15: aMatrix4x4 a44;
+		yourself
+]
+
+{
+	#category : #'shared rl objects',
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
 }
 SRRaylibRenderer class >> fill: anRlVector3 withVector3: aVector3 [
