@@ -905,7 +905,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:41'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:03'
 }
 SRWorld >> runStartScript [
 
@@ -949,8 +949,7 @@ SRWorld >> runStartScript [
 	"[10 seconds wait. Project current world imageForm writePNGfileNamed: 'world-', DateAndTime now asUnixTime asString, '.png'.
 	Transcript showln: '----------------- WROTE IMAGE'] fork."
 	
-	self isXR ifFalse: [
-		SRSceneTreeInspector openOn: self].
+	SRSceneTreeInspector openOn: self.
 	
 	self log: 'proceeding';
 		"addChild: (SRMorphPanel new
