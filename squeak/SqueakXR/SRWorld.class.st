@@ -905,7 +905,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:30'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 17:25'
 }
 SRWorld >> runStartScript [
 
@@ -980,6 +980,9 @@ SRWorld >> runStartScript [
 	self addChild: (SRInputDebugger new
 		translation: 0@3@(-1)
 	).
+	
+	self addChild: (SRSpinningCube new
+		translation: 0@ 0.5 @0).
 		
 	self addChild: (SRCubeTower new
 		translation: (1@1@0);
