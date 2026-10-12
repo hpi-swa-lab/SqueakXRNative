@@ -128,6 +128,22 @@ SRObject >> addHalo: anInputEvent [
 	
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/12/2026 11:54'
+}
+SRObject >> addHighlight: color [
+
+	"Add a highlight to this object for this frame (using GizmoPainter).
+	By default, this just renders this object's collision geometry and adds highlights to its children.
+	"
+	self collisionGeometryDo: [:geom |
+		geom drawGizmoOn: self gizmoPainter colored: color ].
+	self childrenDo: [:child |
+		child addHighlight: color
+	]
+]
+
 { #category : #hierarchy }
 SRObject >> allDescendants [
 

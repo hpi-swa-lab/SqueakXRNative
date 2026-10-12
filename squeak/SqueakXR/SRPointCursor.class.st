@@ -133,7 +133,7 @@ SRPointCursor >> renderOn: aRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 15:24'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 12:06'
 }
 SRPointCursor >> step: deltaTime [ 
 
@@ -141,7 +141,7 @@ SRPointCursor >> step: deltaTime [
 	approached do: [:hit | | color t |
 		t := self approachStrengthAt: hit distance.
 		color := self color darker alphaMixed: t with: Color transparent.
-		self haloState addOutlineFor: hit object colored: color
+		hit object addHighlight: color.
 	].
 ]
 

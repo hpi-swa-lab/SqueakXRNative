@@ -163,11 +163,11 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 15:25'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 12:01'
 }
 SRCursor >> highlightTarget [ 
 
-	self targetDo: [:target | self haloState addOutlineFor: target colored: self color ]
+	self targetDo: [:target | target addHighlight: self color ]
 ]
 
 {
