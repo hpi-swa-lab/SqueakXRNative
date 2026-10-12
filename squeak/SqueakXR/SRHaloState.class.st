@@ -46,6 +46,16 @@ SRHaloState >> addOutlineFor: anSRObject colored: aColor [
 ]
 
 {
+	#category : #'halo lifecycle',
+	#'squeak_changestamp' : 'phkeese 10/12/2026 11:48'
+}
+SRHaloState >> closeHalo [ 
+
+	"Close any currently active halo, if there is one."
+	self activeHalo ifNotNil: [:halo | halo close ]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
 }

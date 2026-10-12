@@ -76,7 +76,7 @@ SRCursor >> forwardAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:55'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 11:48'
 }
 SRCursor >> forwardButtonInput: aButtonEvent [
 
@@ -97,11 +97,11 @@ SRCursor >> forwardButtonInput: aButtonEvent [
 		^ self
 	].	
 
-	"Forward any other events to the target"
-	self targetDo: [:target | 
+	"Forward any other events to the target or close any active halo."
+	self target ifNotNil: [:target | 
 		aButtonEvent setFrom: self.
 		target handleInput: aButtonEvent
-	]
+	] ifNil: [ self haloState closeHalo ]
 ]
 
 {
