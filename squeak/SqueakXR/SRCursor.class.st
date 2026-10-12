@@ -163,11 +163,13 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 12:01'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 17:02'
 }
 SRCursor >> highlightTarget [ 
 
-	self targetDo: [:target | target addHighlight: self color ]
+	self targetDo: [:target |
+		target addHighlight: self color.
+		target collisionGeometry drawGizmoOn: self gizmoPainter colored: self color ]
 ]
 
 {
