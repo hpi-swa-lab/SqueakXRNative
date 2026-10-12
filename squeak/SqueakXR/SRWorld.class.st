@@ -532,14 +532,14 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 17:10'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
 	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
-	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
+	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000000.
 	lastFrameTime := startTime.
 	
 	self class logFPS ifTrue: [
