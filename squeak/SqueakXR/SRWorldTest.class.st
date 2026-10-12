@@ -26,9 +26,13 @@ SRWorldTest >> setUp [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:17'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:45'
 }
 SRWorldTest >> tearDown [
+	"isRunning: true has no process behind it here, and a world left running breaks
+	SRWorld allInstances select: [:w | w isRunning]."
+
+	world isRunning: false.
 	SRWorld current: previousWorld.
 	super tearDown.
 ]

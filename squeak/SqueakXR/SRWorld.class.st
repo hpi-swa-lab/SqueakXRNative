@@ -33,7 +33,6 @@ Class {
 		'FrameStartEdenPercent',
 		'KeyDict',
 		'LogFPS',
-		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -530,11 +529,14 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'jl 8/11/2026 16:27'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }
 SRWorld >> addDeferredFrameMessage: aBlock [
-	
-	self pendingFrameActions add: aBlock
+	"Refused when not running: there is no next frame to run it in, and the block holds
+	the world and whatever it was going to add until one comes."
+
+	self isRunning ifFalse: [^ self].
+	self pendingFrameActions add: aBlock.
 ]
 
 {
@@ -889,10 +891,14 @@ SRWorld >> openHandMenu [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }
 SRWorld >> pendingFrameActions [
-	^ PendingFrameActions ifNil: [PendingFrameActions := OrderedCollection new]
+	"Per world rather than class-side: the blocks capture the world and whatever they
+	were about to add to it, and a class variable is a GC root that outlives every world
+	that ever posted to it."
+
+	^ pendingFrameActions ifNil: [pendingFrameActions := OrderedCollection new]
 ]
 
 { #category : #'as yet unclassified' }
@@ -970,18 +976,18 @@ SRWorld >> resume [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }
 SRWorld >> runPendingBetweenFrameActions [
 	| due |
-	(PendingFrameActions isNil or: [PendingFrameActions isEmpty]) ifTrue: [^ self].
-	due := PendingFrameActions.
-	PendingFrameActions := OrderedCollection new.
+	(pendingFrameActions isNil or: [pendingFrameActions isEmpty]) ifTrue: [^ self].
+	due := pendingFrameActions.
+	pendingFrameActions := nil.
 	due do: [:each |
 		each ifNotNil: [
 			[each value]
 				on: Error
-				do: [:e | self log: 'between-frame action failed: ', e description]]]
+				do: [:e | self log: 'between-frame action failed: ', e description]]].
 ]
 
 {
@@ -1172,13 +1178,16 @@ SRWorld >> steppedObjectsBuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }
 SRWorld >> stop [
+	"Dropped here rather than left to the next frame: there is no next frame, and the
+	queued blocks hold this world and its children."
 
 	self invalidateCache;
 		isRunning: false;
 		allDo: #onWorldStopped.
+	pendingFrameActions := nil.
 ]
 
 {
