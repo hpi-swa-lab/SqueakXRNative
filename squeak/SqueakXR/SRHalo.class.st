@@ -21,7 +21,7 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'target',
-		'positionOffset'
+		'targetLocalTransform'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
@@ -89,7 +89,7 @@ SRHalo >> popUpFor: anSRObject [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:57'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:12'
 }
 SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 
@@ -101,7 +101,11 @@ SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 	aHand halo: self.
 	aHand world addChild: self.
 	
-	self positionOffset: (anSRObject globalTransform globalPointToLocal: aPoint).
+	self globalTranslation: aPoint.
+	self lookAt: self world camera globalTranslation.
+	
+	self targetLocalTransform: (self target globalTransform inverseTransformation * self globalTransform).
+	
 ]
 
 {
@@ -131,28 +135,12 @@ SRHalo >> popUpFor: anSRObject hand: aHand [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:41'
-}
-SRHalo >> positionOffset [
-	^ positionOffset
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:41'
-}
-SRHalo >> positionOffset: anObject [
-	positionOffset := anObject
-]
-
-{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:42'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:10'
 }
 SRHalo >> step: deltaTime [ 
 
-	self globalTranslation: (self target globalTransform localPointToGlobal: self positionOffset)
+	self globalTransform: self target globalTransform * targetLocalTransform
 ]
 
 {
@@ -165,9 +153,26 @@ SRHalo >> target [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:07'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 15:59'
 }
 SRHalo >> target: anObject [
 
 	target := anObject.
+	Transcript showln: 'Target is ', target.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:06'
+}
+SRHalo >> targetLocalTransform [
+	^ targetLocalTransform
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:06'
+}
+SRHalo >> targetLocalTransform: anObject [
+	targetLocalTransform := anObject
 ]
