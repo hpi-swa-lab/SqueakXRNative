@@ -24,7 +24,8 @@ Class {
 		'firstPassRenderBuffer',
 		'secondPassRenderBuffer',
 		'traversalStack',
-		'pendingFrameActions'
+		'pendingFrameActions',
+		'cycleSemaphore'
 	],
 	#classVars : [
 		'Current',
@@ -32,6 +33,7 @@ Class {
 		'FrameStartEdenPercent',
 		'KeyDict',
 		'LogFPS',
+		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
@@ -802,7 +804,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:25'
+	#'squeak_changestamp' : 'leo 9/30/2026 19:12'
 }
 SRWorld >> loop [
 
@@ -815,9 +817,10 @@ SRWorld >> loop [
 		self doOneCycle. Processor yield]].
 	Transcript showln: '================= PROFILING COMPLETE'."
 	
+	cycleSemaphore := Semaphore forMutualExclusion.
+	
 	[self isRunning] whileTrue: [
-		self doOneCycle.
-		Processor yield]
+		cycleSemaphore critical: [self doOneCycle]]
 	
 	]
 		on: Error
@@ -1095,10 +1098,18 @@ SRWorld >> secondPassRenderBuffer [
 	^ secondPassRenderBuffer ifNil: [secondPassRenderBuffer := OrderedCollection new: 256]
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 9/30/2026 19:14'
+}
 SRWorld >> shutDown [
 	
-	self suspend
+	cycleSemaphore
+		ifNotNil: [
+			"We need to wait for the world to finish the current loop"
+			cycleSemaphore critical: [self suspend]]
+		ifNil: [
+			self suspend]
 ]
 
 {

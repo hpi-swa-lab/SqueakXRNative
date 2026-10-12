@@ -92,14 +92,14 @@ SRRay >> forward: aVector3 [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:09'
+	#'squeak_changestamp' : 'leo 9/29/2026 16:50'
 }
 SRRay >> intersectionWith: anSRObject [
 
 	"Not #collisionGeometryDo: -- a non-inlined block argument costs a closure per
 	object, and this runs over the whole tree on every raycast."
 
-	^ anSRObject collisionGeometry ifNotNil: [:geometry | geometry rayIntersection: self]
+	^ anSRObject safeCollisionGeometry ifNotNil: [:geometry | geometry rayIntersection: self]
 ]
 
 {

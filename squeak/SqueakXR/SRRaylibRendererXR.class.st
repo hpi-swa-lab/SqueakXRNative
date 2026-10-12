@@ -39,7 +39,7 @@ SRRaylibRendererXR >> pollEventsAndWaitForFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
@@ -51,9 +51,9 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 	up := cameraTransform localDirToGlobal: Vector3 up.
 	target := position + forward.
 	camera
-		position: position asRlVector;
-		target: target asRlVector;
-		up: up asRlVector.
+		position: (self class rlVector3For_1: position);
+		target: (self class rlVector3For_2: target);
+		up: (self class rlVector3For_3: up).
 		
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
@@ -63,15 +63,7 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 				beginMode3DCamera: camera;
 				drawGridSlices: 10 spacing: 1].
 	
-	"Orthographic projection -- for posterity, do not use
-	mat := ((Matrix4x4 ortho: (Rectangle exactCenter: 0 asPoint extent: 2 asPoint) near: 0.1 far: 100) scaledBy: 1 @ -1 @ 1) asRlMatrix.
-	offset := (Matrix4x4 withOffset: 1 @ 0 @ 0) asRlMatrix.
-	offset2 := (Matrix4x4 withOffset: -1 @ 0 @ 0) asRlMatrix.
-	Raylib rlSetMatrixProjectionStereoRight: mat left: mat;
-	rlSetMatrixViewOffsetStereoRight: offset left: offset2."
-	
 	^ beginSuccessful
-		
 ]
 
 { #category : #'render-loop' }
