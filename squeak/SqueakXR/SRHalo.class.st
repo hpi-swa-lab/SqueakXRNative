@@ -29,6 +29,15 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:15'
+}
+SRHalo >> addHandles [
+	
+	"Called when this Halo has popped up and should add the necessary buttons now."
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/9/2026 14:51'
 }
 SRHalo >> close [
@@ -89,13 +98,14 @@ SRHalo >> popUpFor: anSRObject [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:12'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:15'
 }
 SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 
 	"Remove any other halos."
-	aHand haloState activeHalo ifNotNil: [:oldHalo | oldHalo close].
-	aHand haloState activeHalo: self.
+	aHand haloState 
+		closeHalo;
+		activeHalo: self.
 	
 	self target: anSRObject.
 	aHand halo: self.
@@ -105,7 +115,7 @@ SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 	self lookAt: self world camera globalTranslation.
 	
 	self targetLocalTransform: (self target globalTransform inverseTransformation * self globalTransform).
-	
+	self addHandles.
 ]
 
 {
