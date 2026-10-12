@@ -130,7 +130,7 @@ SRObject >> addHalo: anInputEvent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 11:54'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 12:12'
 }
 SRObject >> addHighlight: color [
 
@@ -140,7 +140,7 @@ SRObject >> addHighlight: color [
 	self collisionGeometryDo: [:geom |
 		geom drawGizmoOn: self gizmoPainter colored: color ].
 	self childrenDo: [:child |
-		child addHighlight: color
+		child addHighlight: color muchDarker
 	]
 ]
 
@@ -1020,7 +1020,7 @@ SRObject >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:23'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 15:53'
 }
 SRObject >> onButtonPress: aButtonEvent [
 
@@ -1028,6 +1028,8 @@ SRObject >> onButtonPress: aButtonEvent [
 	aButtonEvent button = #bottomButton ifTrue: [
 		self findHaloTarget ifNotNil: [:target |
 			target addHalo: aButtonEvent
+		] ifNil: [
+			self haloState closeHalo.
 		]
 	]
 ]

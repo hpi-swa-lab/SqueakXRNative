@@ -106,13 +106,15 @@ SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:39'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 12:24'
 }
 SRHalo >> popUpFor: anSRObject event: event [
 
+	| point |
+	point := event point interpolateTo: event hand globalTranslation at: 0.5.
 	^ self
 		popUpFor: anSRObject
-		at: event point
+		at: point
 		hand: event hand
 ]
 
