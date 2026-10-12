@@ -130,15 +130,15 @@ SRObject >> addHalo: anInputEvent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 12:12'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:51'
 }
 SRObject >> addHighlight: color [
 
 	"Add a highlight to this object for this frame (using GizmoPainter).
 	By default, this just renders this object's collision geometry and adds highlights to its children.
 	"
-	self collisionGeometryDo: [:geom |
-		geom drawGizmoOn: self gizmoPainter colored: color ].
+	
+	self gizmoPainter gizmoObject: self color: color.
 	self childrenDo: [:child |
 		child addHighlight: color muchDarker
 	]
@@ -1263,6 +1263,13 @@ SRObject >> removeChild: aSRObject [
 }
 SRObject >> removedChild: aSRObject [
 	"Hook: aSRObject was detached from me. Morphic counterpart: Morph>>removedMorph:."
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:50'
+}
+SRObject >> renderGizmoWith: aRenderer color: aColor [
 ]
 
 {

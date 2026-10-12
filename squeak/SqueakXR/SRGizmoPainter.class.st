@@ -33,14 +33,14 @@ SRGizmoPainter >> drawLine: command renderer: aSRRenderer [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:36'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:50'
 }
 SRGizmoPainter >> drawObject: command renderer: aSRRenderer [
 
 	| object |
 	object := command second.
 	object isRendering ifTrue: [
-		object renderOn: aSRRenderer
+		object renderGizmoWith: aSRRenderer color: command third
 	]
 
 ]
@@ -82,14 +82,17 @@ SRGizmoPainter >> drawText2D: command renderer: aSRRenderer [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:37'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:36'
 }
 SRGizmoPainter >> drawWireBox: command renderer: aSRRenderer [
 	"Slightly expand the wireframe so it pokes through any solid surface."
-	| box color transform |
+	| box color transform T R S|
 	box := command second.
 	color := command third.
-	transform := (Matrix4x4 withOffset: box center) * box rotation asMatrix4x4 * (Matrix4x4 withScale: box halfExtents * 2.02).
+	S := Matrix4x4 withScale: box halfExtents * 2.02.
+	R := box rotation asMatrix4x4.
+	T := Matrix4x4 withOffset: box center.
+	transform := T * R * S.
 	aSRRenderer
 		renderWireCubeTransformed: transform withColor: color.
 ]
@@ -154,12 +157,12 @@ SRGizmoPainter >> gizmoLine: aStartPoint to: anEndPoint color: aColor [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:58'
 }
-SRGizmoPainter >> gizmoObject: anSRObject [
+SRGizmoPainter >> gizmoObject: anSRObject color: aColor [
 
-	"Add an entire object to the second pass manually for this frame"	
-	commands add: {#object. anSRObject}.
+	"Call renderGizmo for this object later."
+	commands add: {#object. anSRObject. aColor}.
 	
 ]
 

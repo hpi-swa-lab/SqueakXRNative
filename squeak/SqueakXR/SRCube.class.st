@@ -63,6 +63,15 @@ SRCube >> isCube [
 	^ true.
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:54'
+}
+SRCube >> renderGizmoWith: aRenderer color: aColor [
+
+	aRenderer renderWireCubeTransformed: self globalTransform  withColor: aColor
+]
+
 { #category : #rendering }
 SRCube >> renderOn: aSRRenderer [
 

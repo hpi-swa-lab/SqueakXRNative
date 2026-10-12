@@ -905,7 +905,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:03'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:30'
 }
 SRWorld >> runStartScript [
 
@@ -982,7 +982,8 @@ SRWorld >> runStartScript [
 	).
 		
 	self addChild: (SRCubeTower new
-		translation: (1@1@0)
+		translation: (1@1@0);
+		rotation: (Quaternion angle: 90 axis: Vector3 one normalized) 
 	).
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |

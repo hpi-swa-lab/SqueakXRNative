@@ -367,7 +367,7 @@ SRCursor >> updateGrabbedObjectTransform [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:35'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 16:51'
 }
 SRCursor >> updateHitPoint [
 
@@ -376,7 +376,7 @@ SRCursor >> updateHitPoint [
 			pointCube
 				visible: true; 
 				globalTranslation: point.
-			self gizmoPainter gizmoObject: pointCube.
+			self gizmoPainter gizmoObject: pointCube color: Color white.
 		]
 		ifNil: [ pointCube visible: false ]
 ]
