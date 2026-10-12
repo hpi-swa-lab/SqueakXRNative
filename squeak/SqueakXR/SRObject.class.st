@@ -130,7 +130,7 @@ SRObject >> addHalo: anInputEvent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:51'
+	#'squeak_changestamp' : 'phkeese 10/12/2026 17:28'
 }
 SRObject >> addHighlight: color [
 
@@ -139,6 +139,8 @@ SRObject >> addHighlight: color [
 	"
 	
 	self gizmoPainter gizmoObject: self color: color.
+	self collisionGeometryDo: [:col |
+		col drawGizmoOn: self gizmoPainter colored: color ].
 	self childrenDo: [:child |
 		child addHighlight: color muchDarker
 	]

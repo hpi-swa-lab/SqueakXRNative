@@ -9,6 +9,15 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/12/2026 17:29'
+}
+SRSpinningCube >> collisionGeometry [ 
+
+	^ cube collisionGeometry 
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/12/2026 17:20'
 }
 SRSpinningCube >> initialize [ 
