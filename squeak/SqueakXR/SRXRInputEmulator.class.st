@@ -134,7 +134,7 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 18:17'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
@@ -147,7 +147,7 @@ SRXRInputEmulator >> step: delta [
 	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
 		self world avatar toggleOutOfBody].
 	
-	emulatedCamera update.
+	emulatedCamera update: delta.
 	
 	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].

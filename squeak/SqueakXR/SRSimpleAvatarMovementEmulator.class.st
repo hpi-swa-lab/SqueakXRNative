@@ -63,15 +63,17 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/27/2026 18:01'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 18:46'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
 	super initialize.
-	position := -6m @ 1.8m @ 0m.
-	yaw := 0.0.
-	pitch := 0.0.
-	moveSpeed := 0.05.
+	"Looking down -Z at the origin: that is the frame SWAGameXR's slabs and
+	raylib's 3D text are laid out in, and the OpenXR head convention."
+	position := 0m @ 1.8m @ 2.5m.
+	yaw := -90.0.
+	pitch := -25.0.
+	moveSpeed := 3m.
 	lookSpeed := 0.15.
 	lookModeEnabled := false.
 	isUpdatingEnabled := true.
@@ -117,16 +119,16 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 18:17'
 }
-SRSimpleAvatarMovementEmulator >> update [
-
-	| forward right movement input |
+SRSimpleAvatarMovementEmulator >> update: deltaMillis [
+	| forward right movement input deltaSeconds |
 	input := SRDesktopInputState current.
 	(input isKeyPressed: RlKeyboardKey keyGrave) ifTrue: [
 		isUpdatingEnabled := isUpdatingEnabled not].
 	isUpdatingEnabled ifFalse: [^ self].
 	
+	deltaSeconds := deltaMillis / 1000.0.
 	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
 	right := (forward cross: Vector3 up) normalize.
 	movement := Vector3 zero.
@@ -143,7 +145,7 @@ SRSimpleAvatarMovementEmulator >> update [
 	(input isKeyDown: RlKeyboardKey keyLeftControl) ifTrue: [
 		movement := movement - Vector3 up].
 	movement length > 0 ifTrue: [
-		position := position + (movement normalize * moveSpeed)].
+		position := position + (movement normalize * moveSpeed * deltaSeconds)].
 	lookModeEnabled ifTrue: [
 		self handleMouseDelta: input mouseDelta].
 	self updateAvatarCamera
