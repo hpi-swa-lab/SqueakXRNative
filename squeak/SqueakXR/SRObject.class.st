@@ -130,18 +130,35 @@ SRObject >> addHalo: anInputEvent [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 12:12'
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:12'
 }
 SRObject >> addHighlight: color [
 
 	"Add a highlight to this object for this frame (using GizmoPainter).
 	By default, this just renders this object's collision geometry and adds highlights to its children.
 	"
+	| dirs rot |
 	self collisionGeometryDo: [:geom |
 		geom drawGizmoOn: self gizmoPainter colored: color ].
-	self childrenDo: [:child |
+	
+	"Render my local basis using my transform in gray."
+	dirs := { Vector3 right. Vector3 up. Vector3 forward }.
+	dirs do: [:dir | | end |
+		end := self globalTransform localPointToGlobal: dir.
+		end := (end - self globalTranslation) normalized + self globalTranslation.
+		self gizmoPainter gizmoLine: self globalTranslation to: end color: Color gray
+	].
+
+	"Render it using my global rotation."
+	rot := self globalRotation.
+	dirs do: [:dir | | end |
+		end := self globalTranslation + (rot rotateVector: dir).
+		self gizmoPainter gizmoLine: self globalTranslation to: end color: Color red.
+	].
+	
+	"self childrenDo: [:child |
 		child addHighlight: color muchDarker
-	]
+	]"
 ]
 
 { #category : #hierarchy }
