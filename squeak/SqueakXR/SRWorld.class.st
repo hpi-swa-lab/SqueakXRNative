@@ -1072,10 +1072,12 @@ SRWorld >> scavengeIfEdenFull [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 9/30/2026 19:14'
+	#'squeak_changestamp' : 'leo 10/13/2026 14:45'
 }
 SRWorld >> shutDown [
-	
+
+	self worldProcess isSuspended ifTrue: [^ self].
+
 	cycleSemaphore
 		ifNotNil: [
 			"We need to wait for the world to finish the current loop"
