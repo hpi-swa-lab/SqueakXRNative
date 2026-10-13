@@ -550,11 +550,24 @@ SRObject >> gizmoSphereLocal: localPosition [
 	self gizmoSphere: (self globalTransform localPointToGlobal: localPosition) size: 20cm
 ]
 
-{ #category : #transforms }
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'phkeese 10/13/2026 11:04'
+}
 SRObject >> globalRotation [
 
+	| center forward getAxis right up |
 	self ensureTransformClean.
-	^ self globalTransform rotationQuaternion
+	center := self globalTranslation.
+	getAxis := [:dir | ((self globalTransform localPointToGlobal: dir) - center) normalized ].
+	right := getAxis value: Vector3 right.
+	up := getAxis value: Vector3 up.
+	forward := getAxis value: Vector3 forward.
+	^ (Matrix4x4 identity 
+		column1: right;
+		column2: up;
+		column3: forward;
+		rotationQuaternion)
 ]
 
 {
