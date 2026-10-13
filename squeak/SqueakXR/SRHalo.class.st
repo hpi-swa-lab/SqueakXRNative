@@ -20,8 +20,7 @@ Class {
 	#name : #SRHalo,
 	#superclass : #SRObject,
 	#instVars : [
-		'target',
-		'targetLocalTransform'
+		'target'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
@@ -34,6 +33,16 @@ Class {
 SRHalo >> addHandles [
 	
 	"Called when this Halo has popped up and should add the necessary buttons now."
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:37'
+}
+SRHalo >> center [
+
+	"Position to draw helpers from."
+	^ self globalTranslation
 ]
 
 {
@@ -98,7 +107,7 @@ SRHalo >> popUpFor: anSRObject [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:15'
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:46'
 }
 SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 
@@ -113,8 +122,6 @@ SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 	
 	self globalTranslation: aPoint.
 	self lookAt: self world camera globalTranslation.
-	
-	self targetLocalTransform: (self target globalTransform inverseTransformation * self globalTransform).
 	self addHandles.
 ]
 
@@ -145,15 +152,6 @@ SRHalo >> popUpFor: anSRObject hand: aHand [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:10'
-}
-SRHalo >> step: deltaTime [ 
-
-	self globalTransform: self target globalTransform * targetLocalTransform
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:55'
 }
@@ -169,20 +167,4 @@ SRHalo >> target: anObject [
 
 	target := anObject.
 	Transcript showln: 'Target is ', target.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:06'
-}
-SRHalo >> targetLocalTransform [
-	^ targetLocalTransform
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:06'
-}
-SRHalo >> targetLocalTransform: anObject [
-	targetLocalTransform := anObject
 ]

@@ -95,12 +95,13 @@ SRHaloState >> mixColors: aCollection [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 11:55'
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:37'
 }
 SRHaloState >> renderOn: anSRRenderer [
 
 	self activeHalo ifNotNil: [:halo |
-		halo target addHighlight: Color green
+		halo target addHighlight: Color green.
+		self gizmoPainter gizmoLine: halo center to: halo target globalTranslation color: Color green.
 	].
 	outlines keysAndValuesDo: [:object :colors | | effectiveColor |
 		effectiveColor := self mixColors: colors.

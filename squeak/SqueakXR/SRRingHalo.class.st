@@ -2,7 +2,8 @@ Class {
 	#name : #SRRingHalo,
 	#superclass : #SRHalo,
 	#instVars : [
-		'label'
+		'label',
+		'targetLocalTransform'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -29,15 +30,37 @@ SRRingHalo >> addButtons: aList [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:27'
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:33'
 }
 SRRingHalo >> addHandles [ 
 
 	| buttons |
 	buttons := OrderedCollection new.
-	5 timesRepeat: [ buttons add: (SRCubeButton new
-		text: 'AAAA') ].
+	buttons add: (SRCubeButton new
+		text: 'Inspect';
+		onClick: [ self target inspect. self close ];
+		color: Color gray);
+		add: (SRCubeButton new
+		text: 'Remove';
+		onClick: [ self target remove. self close ];
+		color: Color red).
+	3 timesRepeat: [ buttons add: (SRCubeButton new
+		text: '<Dummy>') ].
 	self addButtons: buttons.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:49'
+}
+SRRingHalo >> collisionGeometry [ 
+
+	"Answer a single box in my center."
+	^ SRCollisionBox new
+		center: self globalTranslation;
+		halfExtents: self globalScale / 20;
+		rotation: self globalRotation;
+		object: self
 ]
 
 {
@@ -53,6 +76,33 @@ SRRingHalo >> initialize [
 		position: (0@ -0.2@0);
 		yourself.
 	self addChild: label.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:53'
+}
+SRRingHalo >> startGrabbing: aHand [
+
+	targetLocalTransform := (self globalTransform inverseTransformation * self target globalTransform)
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:51'
+}
+SRRingHalo >> step: deltaTime [ 
+
+	targetLocalTransform ifNotNil: [:xform | self target dragTo: self globalTransform * xform ]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:53'
+}
+SRRingHalo >> stopGrabbing: aHand [
+
+	targetLocalTransform := nil
 ]
 
 {
