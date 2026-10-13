@@ -33,13 +33,12 @@ SRSpinningCube >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 17:20'
+	#'squeak_changestamp' : 'phkeese 10/13/2026 09:22'
 }
 SRSpinningCube >> step: delta [
 
 	| rot turn dirs grot |
 	turn := (36 * delta) asFloat.
-	Transcript showln: delta asFloat.
 	rot := Quaternion angle: turn axis: Vector3 one normalized.
 	self globalTranslation: (self globalTranslation + (Vector3 right * 0.1 * delta)).
 	self globalTransform: (self globalTransform * rot asMatrix4x4).
