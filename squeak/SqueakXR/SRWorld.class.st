@@ -583,10 +583,18 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:58'
+}
 SRWorld >> completeFrame [
 
 	isFramePrepared ifTrue: [
+		"Last thing before #endDrawing, and that ordering is load-bearing: endDrawing
+		ends with raylib's PollInputEvents, which empties both key queues and collapses
+		every press/release edge. Whatever the OS delivered earlier in this frame has to
+		be read out here or it is gone. See SRDesktopInputState."
+		SRDesktopInputState current sample.
 		self renderer completeFrame]
 ]
 
@@ -674,7 +682,7 @@ SRWorld >> gizmoPainter [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
@@ -683,8 +691,7 @@ SRWorld >> handleKeyPress: charCode [
 
 	self keyboardFocus ifNil: [^ self].
 	
-	isShiftDown := ((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift]).
+	isShiftDown := SRDesktopInputState current isShiftDown.
 	self keyboardFocus keyboardEvent: ((self class keyFor: charCode shift: isShiftDown)
 		ifNil: [^ self])
 ]
@@ -921,17 +928,14 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:32'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRWorld >> processKeyInput [
 
-	| keyValue keys |
-	keys := OrderedCollection new.
-	[(keyValue := Raylib getKeyPressed) = 0] whileFalse: [
-		keys add: keyValue].
-	
-	keys ifNotEmpty: [
-		keys do: [:k | self handleKeyPress: k]].
+	"The queue was drained in #completeFrame, before raylib's poll could discard it."
+
+	SRDesktopInputState current pressedKeyCodes do: [:each |
+		self handleKeyPress: each]
 ]
 
 {

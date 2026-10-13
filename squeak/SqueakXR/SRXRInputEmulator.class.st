@@ -134,21 +134,22 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:43'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRXRInputEmulator >> step: delta [
 	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
-	| rightHand |
+	| rightHand input |
+	input := SRDesktopInputState current.
 	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
+	(input isKeyPressed: RlKeyboardKey keyF2) ifTrue: [
 		debugHUD toggleVisibility].
 	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF3) ifTrue: [
+	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
 		self world avatar toggleOutOfBody].
 	
 	emulatedCamera update.
 	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
+	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
 	
 	"Update left hand to follow camera at a natural offset"
@@ -160,18 +161,18 @@ SRXRInputEmulator >> step: delta [
 		ifFalse: [
 			rightHand := self updateRightHandFromMouseRay].
 	
-	(Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonLeft) ifTrue: [
+	(input isMouseButtonPressed: RlMouseButton mouseButtonLeft) ifTrue: [
 		rightHand handleTrigger: 1.0].
-	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonLeft) ifTrue: [
+	(input isMouseButtonReleased: RlMouseButton mouseButtonLeft) ifTrue: [
 		rightHand handleTrigger: 0.0].
 	
-	((Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonRight) or: [
-		(Raylib isKeyDownKey: RlKeyboardKey keyZ)
-		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
+	((input isMouseButtonPressed: RlMouseButton mouseButtonRight) or: [
+		(input isKeyDown: RlKeyboardKey keyZ)
+		and: [input isKeyDown: RlKeyboardKey keyLeftAlt]]) ifTrue: [
 		rightHand handleSqueeze: 1.0].
-	((Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) or: [
-		(Raylib isKeyUpKey: RlKeyboardKey keyZ)
-		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
+	((input isMouseButtonReleased: RlMouseButton mouseButtonRight) or: [
+		(input isKeyUp: RlKeyboardKey keyZ)
+		and: [input isKeyDown: RlKeyboardKey keyLeftAlt]]) ifTrue: [
 		rightHand handleSqueeze: 0.0].
 ]
 
@@ -214,10 +215,10 @@ SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRXRInputEmulator >> updateRightHandFromMouseRay [
-	^ self updateRightHandAimingAt: Raylib getMousePosition
+	^ self updateRightHandAimingAt: SRDesktopInputState current mousePosition
 ]
 
 {

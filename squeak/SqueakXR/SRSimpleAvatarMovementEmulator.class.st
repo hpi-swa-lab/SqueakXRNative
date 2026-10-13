@@ -117,34 +117,35 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'lege 7/27/2026 18:00'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRSimpleAvatarMovementEmulator >> update [
 
-	| forward right movement |
-	(Raylib isKeyPressedKey: RlKeyboardKey keyGrave) ifTrue: [
+	| forward right movement input |
+	input := SRDesktopInputState current.
+	(input isKeyPressed: RlKeyboardKey keyGrave) ifTrue: [
 		isUpdatingEnabled := isUpdatingEnabled not].
 	isUpdatingEnabled ifFalse: [^ self].
 	
 	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
 	right := (forward cross: Vector3 up) normalize.
 	movement := Vector3 zero.
-	(Raylib isKeyDownKey: RlKeyboardKey keyW) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyW) ifTrue: [
 		movement := movement + forward].
-	(Raylib isKeyDownKey: RlKeyboardKey keyS) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyS) ifTrue: [
 		movement := movement - forward].
-	(Raylib isKeyDownKey: RlKeyboardKey keyD) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyD) ifTrue: [
 		movement := movement + right].
-	(Raylib isKeyDownKey: RlKeyboardKey keyA) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyA) ifTrue: [
 		movement := movement - right].
-	(Raylib isKeyDownKey: RlKeyboardKey keyLeftShift) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyLeftShift) ifTrue: [
 		movement := movement + Vector3 up].
-	(Raylib isKeyDownKey: RlKeyboardKey keyLeftControl) ifTrue: [
+	(input isKeyDown: RlKeyboardKey keyLeftControl) ifTrue: [
 		movement := movement - Vector3 up].
 	movement length > 0 ifTrue: [
 		position := position + (movement normalize * moveSpeed)].
 	lookModeEnabled ifTrue: [
-		self handleMouseDelta: Raylib getMouseDelta].
+		self handleMouseDelta: input mouseDelta].
 	self updateAvatarCamera
 ]
 

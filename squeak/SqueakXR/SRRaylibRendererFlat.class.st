@@ -75,7 +75,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRRaylibRendererFlat >> completeFrame [
 
@@ -84,9 +84,24 @@ SRRaylibRendererFlat >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
-	1 milliSecond wait.
-	
 	Raylib endDrawing.
+	
+	"The loop's only rescheduling point, and it has to sit *after* endDrawing.
+	
+	It used to sit before it, on the idea that the GPU could work on this frame while
+	Morphic runs. It cannot: endDrawing is what submits raylib's draw batch and swaps
+	buffers, so before it nothing has been handed to the GPU at all and the wait
+	overlapped Morphic with nothing.
+	
+	Worse, it cost us most of our input. endDrawing ends with PollInputEvents, which
+	collapses press/release edges and empties the key queues. While we are suspended
+	here the image goes idle and both the VM and Morphic pump the OS event queue -- the
+	same queue raylib's GLFW window feeds from on Win32 and Cocoa -- so OS input landed
+	in raylib's state and was then wiped by the poll that immediately followed, without
+	anybody ever reading it. Measured on Windows: `1 milliSecond wait' really takes
+	~15.3 ms (the 15.6 ms timer tick) out of a ~17 ms frame, i.e. nearly the whole
+	frame was that window. See SRDesktopInputState."
+	1 milliSecond wait.
 
 ]
 
@@ -164,10 +179,12 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRRaylibRendererFlat >> setup [
 
+	SRDesktopInputState reset.
+	
 	self class highDpiEnabled ifTrue: [
 		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
 	

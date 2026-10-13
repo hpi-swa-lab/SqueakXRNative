@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRRaylibRendererXR >> completeFrame [
 
@@ -15,13 +15,16 @@ SRRaylibRendererXR >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
-	1 milliSecond wait.
-	
 	Raylib
 		endDrawing;
 		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
 			keep_aspect_ratio: true;
 		rlOpenXREnd.
+	
+	"After the raylib tail, not before it: endDrawing ends with PollInputEvents, which
+	destroys any input that arrived while we were suspended here. See
+	SRRaylibRendererFlat>>completeFrame and SRDesktopInputState."
+	1 milliSecond wait.
 	
 ]
 
