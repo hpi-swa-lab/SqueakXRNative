@@ -1072,11 +1072,11 @@ SRWorld >> scavengeIfEdenFull [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/13/2026 14:45'
+	#'squeak_changestamp' : 'leo 10/13/2026 15:08'
 }
 SRWorld >> shutDown [
 
-	self worldProcess isSuspended ifTrue: [^ self].
+	(self worldProcess notNil and: [self worldProcess isSuspended]) ifTrue: [^ self].
 
 	cycleSemaphore
 		ifNotNil: [
@@ -1157,7 +1157,7 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/4/2026 19:16'
+	#'squeak_changestamp' : 'leo 9/29/2026 17:01'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
@@ -1165,7 +1165,7 @@ SRWorld >> stopWorldAndLeaveProject [
 	[project close]
 		on: ProvideAnswerNotification
 		do: [:noti |
-			(noti messageText beginsWith: 'Do you really want to delete the project')
+			(noti messageText beginsWith: 'Do you really want to delete this project')
 				ifTrue: [noti resume: true]
 				ifFalse: [noti pass]].
 ]
