@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'point',
-		'object'
+		'object',
+		'distance'
 	],
 	#category : #'SqueakXR-Collisions'
 }
@@ -18,6 +19,22 @@ SRRayIntersectionResult >> asHandRayIntersection: actionState [
 		object: self object;
 		point: self point;
 		actionState: actionState
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:19'
+}
+SRRayIntersectionResult >> distance [
+	^ distance
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:19'
+}
+SRRayIntersectionResult >> distance: anObject [
+	distance := anObject
 ]
 
 { #category : #'as yet unclassified' }

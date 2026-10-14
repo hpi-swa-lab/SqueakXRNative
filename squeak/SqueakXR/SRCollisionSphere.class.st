@@ -40,7 +40,10 @@ SRCollisionSphere >> radius: aNumber [
 	radius := aNumber
 ]
 
-{ #category : #collisions }
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:20'
+}
 SRCollisionSphere >> rayIntersection: aRay [
 	"adapted from
 	https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection.html"
@@ -65,6 +68,7 @@ SRCollisionSphere >> rayIntersection: aRay [
 	
 	^ SRRayIntersectionResult new
 		object: self object;
-		point: (aRay project: t0)
+		point: (aRay project: t0);
+		distance: t0
 	
 ]

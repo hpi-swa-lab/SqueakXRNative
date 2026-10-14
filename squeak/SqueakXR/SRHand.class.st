@@ -143,6 +143,15 @@ SRHand >> bottomButton [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:40'
+}
+SRHand >> collisionGeometry [ 
+
+	^ nil
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/24/2026 14:31'
 }
 SRHand >> color [

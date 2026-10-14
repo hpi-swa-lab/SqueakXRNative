@@ -166,7 +166,10 @@ SRCollisionPlane >> projected: aPoint [
 	^ aPoint - (dist * self normal)
 ]
 
-{ #category : #collisions }
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:38'
+}
 SRCollisionPlane >> rayIntersection: aRay [
 	"adapted from
 	https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-plane-and-ray-disk-intersection.html"
@@ -184,7 +187,8 @@ SRCollisionPlane >> rayIntersection: aRay [
 	self isBounded ifFalse: [
 		^ SRRayIntersectionResult new
 			point: intersection;
-			object: self object].
+			object: self object;
+			distance: t].
 	
 	centerToIntersection := intersection - self point.
 	((centerToIntersection dot: self up) abs <= (self height / 2)
@@ -193,7 +197,8 @@ SRCollisionPlane >> rayIntersection: aRay [
 		ifTrue: [
 		^ SRRayIntersectionResult new
 			point: intersection;
-			object: self object]
+			object: self object;
+			distance: t]
 ]
 
 { #category : #accessing }

@@ -145,7 +145,7 @@ SRCollisionBox >> pointIntersection: aCollisionPoint [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:56'
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:37'
 }
 SRCollisionBox >> rayIntersection: aRay [
 	"OBB ray intersection via transformation to local AABB space."
@@ -162,7 +162,8 @@ SRCollisionBox >> rayIntersection: aRay [
 	localHitPoint := localRay project: hitT.
 	^ SRRayIntersectionResult new
 		object: self object;
-		point: (self rotation rotateVector: localHitPoint) + self center
+		point: (self rotation rotateVector: localHitPoint) + self center;
+		distance: hitT
 ]
 
 {

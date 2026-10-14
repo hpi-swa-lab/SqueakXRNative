@@ -514,6 +514,15 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/14/2026 16:38'
+}
+SRWorld >> collisionGeometry [ 
+
+	^ nil
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> completeFrame [
 
