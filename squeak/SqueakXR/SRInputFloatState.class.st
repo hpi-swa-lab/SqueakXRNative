@@ -3,7 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'value',
-		'buttonState'
+		'buttonState',
+		'pressThreshold',
+		'releaseThreshold'
 	],
 	#category : #'SqueakXR-Input'
 }
@@ -64,8 +66,46 @@ SRInputFloatState >> isPressed [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRInputFloatState >> pressThreshold [
+	"Nil in instances that predate the instance-side thresholds."
+
+	^ pressThreshold ifNil: [self class pressThreshold]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRInputFloatState >> pressThreshold: aNumber [
+
+	pressThreshold := aNumber.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRInputFloatState >> releaseThreshold [
+	"Nil in instances that predate the instance-side thresholds."
+
+	^ releaseThreshold ifNil: [self class releaseThreshold]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRInputFloatState >> releaseThreshold: aNumber [
+
+	releaseThreshold := aNumber.
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:03'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
 }
 SRInputFloatState >> updateValue: aNumber [
 
@@ -73,8 +113,8 @@ SRInputFloatState >> updateValue: aNumber [
 	value := aNumber.
 	
 	threshold := buttonState isPressed
-		ifTrue: [self class releaseThreshold]
-		ifFalse: [self class pressThreshold].
+		ifTrue: [self releaseThreshold]
+		ifFalse: [self pressThreshold].
 	buttonState isPressed: value > threshold.
 ]
 
