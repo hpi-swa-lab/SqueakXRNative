@@ -6,6 +6,11 @@ Class {
 	],
 	#classVars : [
 		'ClearColor',
+		'GridColor',
+		'GridSlices',
+		'GridSpacing',
+		'MirrorMonitor',
+		'MirrorPlaced',
 		'RendererClass',
 		'StartMonitor'
 	],
@@ -47,12 +52,115 @@ SRRenderer class >> default [
 ]
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridColor [
+	<preference: 'Grid color'
+		category: 'SqueakXR'
+		description: 'Color of the floor grid'
+		type: #Color>
+	^ GridColor ifNil: [GridColor := Color r: 0.85 g: 0.65 b: 0.2]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridColor: aColor [
+
+	GridColor := aColor
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSlices [
+	<preference: 'Grid slices'
+		category: 'SqueakXR'
+		description: 'Number of cells across the floor grid'
+		type: #Number>
+	^ GridSlices ifNil: [GridSlices := 24]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSlices: anInteger [
+
+	GridSlices := anInteger
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSpacing [
+	<preference: 'Grid spacing'
+		category: 'SqueakXR'
+		description: 'Edge length of one floor grid cell, in metres'
+		type: #Number>
+	^ GridSpacing ifNil: [GridSpacing := 0.5]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSpacing: aNumber [
+
+	GridSpacing := aNumber
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'jl 8/11/2026 15:51'
 }
 SRRenderer class >> hasContext [
 
 	^ Raylib isWindowReady
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:35'
+}
+SRRenderer class >> mirrorMonitor [
+	<preference: 'Mirror monitor'
+		category: 'SqueakXR'
+		description: 'Index of the monitor the desktop mirror window is placed on'
+		type: #Number>
+	^ MirrorMonitor ifNil: [MirrorMonitor := 0]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:35'
+}
+SRRenderer class >> mirrorMonitor: anInteger [
+
+	MirrorMonitor := anInteger.
+	MirrorPlaced := false.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
+}
+SRRenderer class >> mirrorPlaced [
+
+	^ MirrorPlaced ifNil: [MirrorPlaced := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
+}
+SRRenderer class >> mirrorPlaced: aBoolean [
+
+	MirrorPlaced := aBoolean.
 ]
 
 { #category : #preferences }

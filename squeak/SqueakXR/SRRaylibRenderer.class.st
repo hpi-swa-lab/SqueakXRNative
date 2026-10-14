@@ -175,6 +175,31 @@ SRRaylibRenderer >> disableDepthTest [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRaylibRenderer >> drawGrid [
+	"raylib's DrawGrid hardcodes its own grey, so the lines are drawn one by one."
+
+	| rlColor slices spacing half |
+	rlColor := SRRenderer gridColor asRlColor.
+	slices := SRRenderer gridSlices.
+	spacing := SRRenderer gridSpacing.
+	half := slices / 2.0 * spacing.
+	0 to: slices do: [:i |
+		| offset |
+		offset := i * spacing - half.
+		Raylib
+			drawLine3DStartPos: (offset @ 0 @ half negated) asRlVector
+			endPos: (offset @ 0 @ half) asRlVector
+			color: rlColor.
+		Raylib
+			drawLine3DStartPos: (half negated @ 0 @ offset) asRlVector
+			endPos: (half @ 0 @ offset) asRlVector
+			color: rlColor].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
@@ -194,12 +219,74 @@ SRRaylibRenderer >> enableDepthTest [
 		rlEnableDepthTest.
 ]
 
-{ #category : #initializing }
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:37'
+}
 SRRaylibRenderer >> initialize [
 
 	super initialize.
 	
 	self clearColor: self class clearColor.
+
+	"A new renderer means a new window, so the mirror has to be placed again."
+	SRRenderer mirrorPlaced: false.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:30'
+}
+SRRaylibRenderer >> mirrorAspect [
+	"Width over height of whatever #completeFrame blits into the window."
+
+	^ 16 / 9
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:30'
+}
+SRRaylibRenderer >> moveWindowToMonitor: monitorIndex [
+	"Position first: GLFW clamps the size against the work area of whichever monitor the
+	window is on, so an oversized request then lands as 'fill that monitor'."
+
+	| origin inset extent width height |
+	origin := Raylib getMonitorPositionMonitor: monitorIndex.
+	extent := (Raylib getMonitorWidthMonitor: monitorIndex)
+		@ (Raylib getMonitorHeightMonitor: monitorIndex).
+
+	"Windows shoves the window back onto the neighbouring monitor if the frame around
+	the client area does not fit, so the inset has to cover both axes."
+	inset := 60.
+	height := extent y - (inset * 2).
+	width := (height * self mirrorAspect) rounded.
+	width > (extent x - (inset * 2)) ifTrue: [
+		width := extent x - (inset * 2).
+		height := (width / self mirrorAspect) rounded].
+	Raylib
+		setWindowPositionX: origin x asInteger + (extent x - width // 2)
+			y: origin y asInteger + inset;
+		setWindowSizeWidth: width height: height.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
+}
+SRRaylibRenderer >> placeMirrorWindowOnce [
+	"Not in #setup: #mirrorAspect reads rlgl's framebuffer extent, which raylib only
+	sets to the swapchain somewhere inside rlOpenXRSetup, so the first frame is the
+	earliest point the aspect is known to be right. Deferred rather than immediate:
+	setWindowSize runs raylib's resize callback, which resets rlgl's framebuffer extent,
+	and between rlOpenXRBegin and rlOpenXREnd that extent is what the per-eye viewport
+	split and the mirror blit both read."
+
+	SRRenderer mirrorPlaced ifTrue: [^ self].
+	SRRenderer mirrorPlaced: true.
+	SRWorld current ifNotNil: [:world |
+		world addDeferredFrameMessage: [
+			self moveWindowToMonitor: SRRenderer mirrorMonitor]].
 ]
 
 { #category : #'render-loop' }

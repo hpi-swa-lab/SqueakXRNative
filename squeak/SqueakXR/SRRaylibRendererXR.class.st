@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:27'
 }
 SRRaylibRendererXR >> completeFrame [
 
@@ -15,17 +15,32 @@ SRRaylibRendererXR >> completeFrame [
 	
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
 	
+	"The blit needs rlOpenXR still drawing (it asserts on active_fbo), and endDrawing
+	swaps the window, so a swap before the blit presents the buffer the blit has not
+	written yet."
+	self withMirrorFramebufferExtentDo: [
+		Raylib
+			rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeLeft
+				keep_aspect_ratio: true].
 	Raylib
-		endDrawing;
-		rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeBoth
-			keep_aspect_ratio: true;
-		rlOpenXREnd.
+		rlOpenXREnd;
+		endDrawing.
 	
 	"After the raylib tail, not before it: endDrawing ends with PollInputEvents, which
 	destroys any input that arrived while we were suspended here. See
 	SRRaylibRendererFlat>>completeFrame and SRDesktopInputState."
 	1 milliSecond wait.
 	
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:30'
+}
+SRRaylibRendererXR >> mirrorAspect [
+	"rlgl's framebuffer extent spans both eyes, and the mirror shows one of them."
+
+	^ Raylib rlGetFramebufferWidth / 2.0 / Raylib rlGetFramebufferHeight
 ]
 
 {
@@ -42,7 +57,7 @@ SRRaylibRendererXR >> pollEventsAndWaitForFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
@@ -61,15 +76,19 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 	beginSuccessful := Raylib rlOpenXRBegin.
 	
 	beginSuccessful ifTrue: [
+			self placeMirrorWindowOnce.
 			Raylib
 				clearBackgroundColor: clearColor;
-				beginMode3DCamera: camera;
-				drawGridSlices: 10 spacing: 1].
+				beginMode3DCamera: camera.
+			self drawGrid].
 	
 	^ beginSuccessful
 ]
 
-{ #category : #'render-loop' }
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:20'
+}
 SRRaylibRendererXR >> setup [
 	
 	Raylib
@@ -77,14 +96,18 @@ SRRaylibRendererXR >> setup [
 				RlConfigFlags flagMsaa4xHint.
 				RlConfigFlags flagWindowHighdpi}
 			inject: 0 into: [:allFlags :flag | allFlags bitOr: flag]);"
-		initWindowWidth: 1200 height: 900 title: 'SqueakXR';
+		"The mirror blit in #completeFrame letterboxes against dest.offset {0,0} rather
+		than centring, so the window is sized near one eye's extent to stay readable."
+		initWindowWidth: 2468 height: 2130 title: 'SqueakXR';
 		setTargetFPS: -1.
 	
 	Raylib rlOpenXRSetup
 		ifTrue: [Transcript showln: 'rlOpenXRSetup succeeded']
 		ifFalse: [
+			"Returning leaves the XrInstance null, and the frame loop then calls
+			through null function pointers and takes the VM down."
 			Transcript showln: 'Failed to initialise rlOpenXR!'.
-			^ self].
+			^ self error: 'rlOpenXRSetup failed, see the console for the XrResult'].
 	
 	camera := RlCamera3D new
 		position: (RlVector3 new x: 10; y: 10; z: 10);
@@ -109,4 +132,27 @@ SRRaylibRendererXR >> shutdown [
 	Raylib
 		rlOpenXRShutdown;
 		closeWindow.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:28'
+}
+SRRaylibRendererXR >> withMirrorFramebufferExtentDo: aBlock [
+	"rlOpenXRBlitToWindow takes its destination rect from rlGetFramebufferWidth/Height,
+	which rlOpenXR leaves at the swapchain extent, so the blit lands in a rect far larger
+	than the window and only its lower left corner is visible. rlgl's extent also drives
+	the per-eye viewport split, so it has to go back before the next frame draws."
+
+	| xrExtent |
+	xrExtent := Raylib rlGetFramebufferWidth @ Raylib rlGetFramebufferHeight.
+	"getRenderWidth reports the swapchain extent here, not the window; getScreenWidth
+	still tracks setWindowSize."
+	Raylib
+		rlSetFramebufferWidth: Raylib getScreenWidth;
+		rlSetFramebufferHeight: Raylib getScreenHeight.
+	aBlock ensure: [
+		Raylib
+			rlSetFramebufferWidth: xrExtent x;
+			rlSetFramebufferHeight: xrExtent y].
 ]

@@ -147,7 +147,7 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
@@ -163,8 +163,8 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
-		beginMode3DCamera: camera;
-		drawGridSlices: 10 spacing: 1.
+		beginMode3DCamera: camera.
+	self drawGrid.
 	^ true
 ]
 

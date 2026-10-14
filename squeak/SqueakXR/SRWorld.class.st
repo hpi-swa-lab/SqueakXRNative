@@ -1171,6 +1171,20 @@ SRWorld >> startUp: resuming [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 19:14'
+}
+SRWorld >> startXR [
+	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer
+	must be in place before #start."
+
+	self
+		isXR: true;
+		renderer: SRRaylibRendererXR new;
+		start.
+]
+
+{
 	#category : #'frame buffers',
 	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
 }
