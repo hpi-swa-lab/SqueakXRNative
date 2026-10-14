@@ -250,10 +250,10 @@ SRObject >> cacheInvalidated [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 13:25'
+	#'squeak_changestamp' : 'phkeese 10/14/2026 15:55'
 }
 SRObject >> canGrab [
-	^ self grabbingHand isNil
+	^ self grabbingHand isNil and: self wantsGrab
 ]
 
 {
@@ -1487,6 +1487,15 @@ SRObject >> wantsCursor [
 		[SRCursorMode ignore] -> [false].
 		[SRCursorMode inherit] -> [self parent ifNil: [true] ifNotNil: [:p | p wantsCursor]].
 	}
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'phkeese 10/14/2026 15:55'
+}
+SRObject >> wantsGrab [ 
+
+	^ false
 ]
 
 {

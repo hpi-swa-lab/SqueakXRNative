@@ -168,3 +168,12 @@ SRHalo >> target: anObject [
 	target := anObject.
 	Transcript showln: 'Target is ', target.
 ]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/14/2026 15:55'
+}
+SRHalo >> wantsGrab [ 
+
+	^ true
+]
