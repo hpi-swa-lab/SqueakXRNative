@@ -46,6 +46,19 @@ SRGizmoPainter >> drawObject: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:41'
+}
+SRGizmoPainter >> drawPoint: command renderer: renderer [
+
+	| xform |
+	xform := Matrix4x4 identity scaledBy: 2cm asVector3 .
+	xform := xform translatedBy: command second.
+
+	renderer renderCubeTransformed: xform withColor: command third.
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 11/11/2025 14:33'
 }
@@ -164,6 +177,15 @@ SRGizmoPainter >> gizmoObject: anSRObject [
 ]
 
 {
+	#category : #'3D gizmos',
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:39'
+}
+SRGizmoPainter >> gizmoPoint: aVector color: aColor [
+
+	commands add: {#point. aVector. aColor }
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 11/11/2025 14:24'
 }
@@ -233,7 +255,7 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:34'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:40'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -244,6 +266,7 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].
 			[#object] -> [self drawObject: command renderer: aSRRenderer].
+			[#point] -> [self drawPoint: command renderer: aSRRenderer].
 		}].
 	commands removeAll.
 ]
