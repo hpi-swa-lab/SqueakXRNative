@@ -63,21 +63,21 @@ SRCubeButton >> handleInput: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 15:17'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:06'
 }
 SRCubeButton >> initialize [ 
 	
 	super initialize.
 	
-	cube := SRCube new
-		scale: (30cm@10cm@2cm).
+	cube := SRCube new.
 	self addChild: cube.
 	
 	text := SRTextField new
 		scale: 10cm asVector3;
-		position: Vector3 forward * 2cm;
-		yourself.
+		position: 0@0@2cm;
+		centered: true.
 	self addChild: text.
+	self text: 'Cube Button'.
 ]
 
 {
@@ -123,9 +123,13 @@ SRCubeButton >> text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 14:59'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:07'
 }
 SRCubeButton >> text: aString [
 	
-	text text: aString
+	| cubeScale |
+	text text: aString.
+	cubeScale := text textSize asVector3 * text scale.
+	cubeScale z: 1cm.
+	cube scale: cubeScale.
 ]
