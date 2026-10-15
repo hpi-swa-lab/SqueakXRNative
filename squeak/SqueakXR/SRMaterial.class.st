@@ -20,13 +20,11 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:23'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
 	internalMaterial := Raylib loadMaterialDefault.
-	texture ifNotNil: [
-		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
 	shader ifNotNil: [
 		internalMaterial shader: shader load internalShader].
 	^ internalMaterial
@@ -64,14 +62,17 @@ SRMaterial >> internalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:23'
 }
 SRMaterial >> internalMaterialFor: aSRRenderer [
 
+	| material |
 	isDirty ifTrue: [
 		aSRRenderer removeAt: self.
-		isDirty := false.].
-	^ aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer]
+		isDirty := false].
+	material := aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer].
+	texture ifNotNil: [material maps texture: texture internalTexture].
+	^ material
 ]
 
 {
@@ -96,11 +97,12 @@ SRMaterial >> internalTexture: aRlTexture [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:52'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }
 SRMaterial >> onCacheInvalidated [
 
 	internalMaterial := nil.
+	texture ifNotNil: [texture onCacheInvalidated].
 ]
 
 {
