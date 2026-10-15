@@ -77,19 +77,19 @@ SRTextField >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 16:56'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:29'
 }
 SRTextField >> renderOn: aSRRenderer [
 
 	| faceForward xform |
 	faceForward := (Quaternion new radiansAngle: Float pi / 2 axis:  Vector3 right) asMatrix4x4.
 	xform := self globalTransform * faceForward.
-	self gizmoPainter gizmoPoint: self globalTranslation color: self color.
-	centered ifTrue: [ | size offset |
-		size := self textSize.
-		offset := ((size x negated / 2)@(size y / 2)) asVector3 * self globalScale. 
-		xform := xform translatedBy: offset.
+	centered ifTrue: [ | offset globalOffset |
+		offset := (self textWidth / 2 negated)@(self textHeight / 2)@0.
+		globalOffset := (self globalTransform localPointToGlobal: offset) - self globalTranslation.
+		xform := xform translatedBy: globalOffset.
 	].
+	self gizmoPainter gizmoPoint: self globalTranslation color: self color.
 	
 	aSRRenderer renderString: self text transformed: xform color: self color.
 ]
