@@ -25,11 +25,13 @@ SRRaylibRenderer >> clearColor: aColor [
 
 {
 	#category : #info,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:37'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:47'
 }
 SRRaylibRenderer >> clearDepth [ 
 
-	Raylib glClear: 256
+	Raylib
+		rlDrawRenderBatchActive;
+		glClear: 256
 ]
 
 { #category : #'render-loop' }

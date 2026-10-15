@@ -77,7 +77,7 @@ SRTextField >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:29'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:43'
 }
 SRTextField >> renderOn: aSRRenderer [
 
@@ -89,8 +89,6 @@ SRTextField >> renderOn: aSRRenderer [
 		globalOffset := (self globalTransform localPointToGlobal: offset) - self globalTranslation.
 		xform := xform translatedBy: globalOffset.
 	].
-	self gizmoPainter gizmoPoint: self globalTranslation color: self color.
-	
 	aSRRenderer renderString: self text transformed: xform color: self color.
 ]
 
