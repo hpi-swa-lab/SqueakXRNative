@@ -6,7 +6,7 @@ Class {
 		'text',
 		'color',
 		'billboard',
-		'overlay'
+		'centered'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -29,6 +29,22 @@ SRTextField >> billboard: aBool [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
+}
+SRTextField >> centered [
+	^ centered
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
+}
+SRTextField >> centered: anObject [
+	centered := anObject
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'lege 4/2/2026 13:32'
 }
 SRTextField >> color [
@@ -47,7 +63,7 @@ SRTextField >> color: aColor [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 14:08'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
 }
 SRTextField >> initialize [
 
@@ -56,44 +72,26 @@ SRTextField >> initialize [
 	self text: 'text';
 		color: Color black;
 		billboard: false;
-		overlay: false
-		
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 14:08'
-}
-SRTextField >> overlay [
-	^ overlay
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 15:52'
-}
-SRTextField >> overlay: aBool [
-	overlay := aBool
+		centered: false
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 14:08'
-}
-SRTextField >> renderInSecondPass [ 
-	^overlay
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 15:47'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:56'
 }
 SRTextField >> renderOn: aSRRenderer [
 
 	| faceForward xform |
 	faceForward := (Quaternion new radiansAngle: Float pi / 2 axis:  Vector3 right) asMatrix4x4.
 	xform := self globalTransform * faceForward.
-	aSRRenderer renderString: self text transformed: xform color: self color
+	self gizmoPainter gizmoPoint: self globalTranslation color: self color.
+	centered ifTrue: [ | size offset |
+		size := self textSize.
+		offset := ((size x negated / 2)@(size y / 2)) asVector3 * self globalScale. 
+		xform := xform translatedBy: offset.
+	].
+	
+	aSRRenderer renderString: self text transformed: xform color: self color.
 ]
 
 {
@@ -130,10 +128,28 @@ SRTextField >> text: aString [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 15:02'
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:54'
+}
+SRTextField >> textHeight [
+
+	^ 1.1
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:54'
+}
+SRTextField >> textSize [
+
+	^ (self textWidth)@(self textHeight)
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/15/2026 16:47'
 }
 SRTextField >> textWidth [
 
 	"Best-effort estimate of our text size in parent-local space."
-	^ self scale x * self text size * 0.8
+	^ self text size * 0.8
 ]
