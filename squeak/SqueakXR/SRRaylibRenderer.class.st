@@ -23,6 +23,15 @@ SRRaylibRenderer >> clearColor: aColor [
 	clearColor := aColor asRlColor
 ]
 
+{
+	#category : #info,
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:37'
+}
+SRRaylibRenderer >> clearDepth [ 
+
+	Raylib glClear: 256
+]
+
 { #category : #'render-loop' }
 SRRaylibRenderer >> completeFrame [
 

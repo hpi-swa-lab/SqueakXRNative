@@ -137,6 +137,15 @@ SRRenderer >> clearCache [
 	self cache removeAll
 ]
 
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:32'
+}
+SRRenderer >> clearDepth [
+	
+	^ self subclassResponsibility
+]
+
 { #category : #'render-loop' }
 SRRenderer >> completeFrame [
 ]

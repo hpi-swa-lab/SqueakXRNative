@@ -3895,6 +3895,16 @@ RlFunctions >> getWorldToScreenPosition: position camera: camera [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:35'
+}
+RlFunctions >> glClear: mask [
+	<generated>
+	<cdecl: void 'glClear' (int)>
+	^ self externalCallFailed
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlFunctions >> hideCursor [

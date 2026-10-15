@@ -152,6 +152,15 @@ SRHalo >> popUpFor: anSRObject hand: aHand [
 ]
 
 {
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/15/2026 17:38'
+}
+SRHalo >> renderInSecondPass [ 
+
+	^ true
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/28/2026 15:55'
 }
