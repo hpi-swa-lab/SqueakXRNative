@@ -717,6 +717,17 @@ SRObject >> isMorphPanel [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 13:52'
+}
+SRObject >> isOpen [
+	"Whether the receiver is still in a scene. #remove unparents, so anything
+	holding on to it afterwards is holding a dismissed object."
+
+	^ parent notNil
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:24'
 }
