@@ -6,7 +6,8 @@ Class {
 		'leftHand',
 		'rightHand',
 		'contextMenu',
-		'ghostAvatar'
+		'ghostAvatar',
+		'teleportPreview'
 	],
 	#classVars : [
 		'LocomotionStyle',
@@ -149,6 +150,20 @@ SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+}
+SRAvatar >> aimTeleportFrom: aHand [
+	| arc |
+	self world ifNil: [^ self].
+	arc := SRBallisticArc new
+		origin: aHand globalTranslation direction: aHand backward;
+		castIn: self world;
+		yourself.
+	self teleportPreview showArc: arc
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/8/2025 17:49'
 }
@@ -164,6 +179,28 @@ SRAvatar >> camera [
 SRAvatar >> cameraPosition: position target: target up: up [
 
 	camera globalTransform: (Matrix4x4 objectLookAt: target from: position up: up) 
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+}
+SRAvatar >> cancelTeleportAim [
+	teleportPreview ifNotNil: [:preview | preview hide]
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+}
+SRAvatar >> commitTeleport [
+	"Runs on the frame the stick returns to centre. The preview being hidden is
+	what says no aim was in progress, so this is cheap on every other frame."
+
+	teleportPreview ifNil: [^ self].
+	teleportPreview visible ifFalse: [^ self].
+	teleportPreview landingPoint ifNotNil: [:point | self teleportTo: point].
+	teleportPreview hide
 ]
 
 {
@@ -319,6 +356,20 @@ SRAvatar >> rightHand [
 
 {
 	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:41'
+}
+SRAvatar >> teleportPreview [
+	"A child of the world, not of the rig: it marks a place on the ground, and a
+	child of the rig would be carried along by the teleport it is previewing."
+
+	^ teleportPreview ifNil: [
+		teleportPreview := SRTeleportPreview new.
+		self world ifNotNil: [:w | w addChild: teleportPreview].
+		teleportPreview]
+]
+
+{
+	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
 }
 SRAvatar >> teleportTo: aGlobalPoint [
@@ -345,4 +396,24 @@ SRAvatar >> toggleOutOfBody [
 	self isOutOfBody
 		ifTrue: [self exitOutOfBody]
 		ifFalse: [self enterOutOfBody]
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+}
+SRAvatar >> turnBy: degrees [
+	"About the player's own vertical axis, not the rig origin. The head is
+	metres from the origin after walking the play space, and turning about the
+	origin would swing the player sideways through the room instead of letting
+	them look the other way."
+
+	| spin pivot offset |
+	degrees = 0 ifTrue: [^ self].
+	spin := Quaternion angle: degrees axis: Vector3 up.
+	pivot := camera globalTranslation.
+	offset := self translation - (pivot x @ self translation y @ pivot z).
+	self
+		translation: (pivot x @ self translation y @ pivot z) + (spin rotateVector: offset);
+		rotation: spin * self rotation
 ]

@@ -17,7 +17,8 @@ Class {
 		'selectedObject',
 		'hoveredMenuItem',
 		'avatar',
-		'inputState'
+		'inputState',
+		'turnArmed'
 	],
 	#classVars : [
 		'EndRate',
@@ -319,7 +320,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 8/13/2026 16:38'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
 }
 SRHand >> performActions [
 
@@ -335,12 +336,11 @@ SRHand >> performActions [
 		self stopGrabbing].
 	
 	self isRight ifTrue: [
-		self bottomButton isJustPressed ifTrue: [
-			self teleport].
 		self topButton isJustPressed ifTrue: [
 			self openMenu]].
 	
 	self isLeft ifTrue: [
+		self updateTeleportAim.
 		self menuButton isJustPressed ifTrue: [
 			self openMenu].
 		self bottomButton isJustPressed ifTrue: [
@@ -399,13 +399,15 @@ SRHand >> startGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
 }
 SRHand >> step: deltaTime [
 
 	self performActions;
 		updateGrabbedObjectTransform;
 		highlightSelectedObject.
+	"Here rather than in #performActions: smooth turning needs the frame delta."
+	self isRight ifTrue: [self updateTurn: deltaTime].
 ]
 
 {
@@ -487,6 +489,24 @@ SRHand >> updateGrabbedObjectTransform [
 ]
 
 {
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+}
+SRHand >> updateTeleportAim [
+	"Hold the stick in any direction to aim, let it go to travel, as Half-Life:
+	Alyx does. A hold rather than a click because the runtime exposes no
+	stick-click action, and the same six controls exist on Touch and Index."
+
+	| stick |
+	self avatar ifNil: [^ self].
+	SRAvatar locomotionStyle == #teleport ifFalse: [^ self avatar cancelTeleportAim].
+	stick := self joystick vector.
+	(stick x = 0 and: [stick y = 0])
+		ifTrue: [self avatar commitTeleport]
+		ifFalse: [self avatar aimTeleportFrom: self]
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'lege 8/10/2026 11:09'
 }
@@ -496,4 +516,23 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 	pose := aSRActionStates aimPoses at: self handIndex.
 	self translation: pose position;
 		rotation: pose orientation
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+}
+SRHand >> updateTurn: deltaTime [
+	"Snap waits for the stick to come back to centre before it fires again,
+	otherwise holding it spins the player."
+
+	| push |
+	self avatar ifNil: [^ self].
+	push := self joystick horizontal.
+	SRAvatar turnStyle == #smooth ifTrue: [
+		^ self avatar turnBy: push * SRAvatar smoothTurnSpeed * deltaTime / 1000.0].
+	push = 0 ifTrue: [^ turnArmed := true].
+	turnArmed == false ifTrue: [^ self].
+	turnArmed := false.
+	self avatar turnBy: push sign * SRAvatar snapTurnAngle
 ]

@@ -29,3 +29,36 @@ SRAvatarTest >> testTeleportPutsTheFeetOnTheTargetNotTheRigOrigin [
 		@ avatar camera globalTranslation z.
 	self assert: (feet - target) length < 0.0001.
 ]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:50'
+}
+SRAvatarTest >> testTurningChangesFacingWithoutMovingTheHead [
+	| avatar head facing |
+	avatar := SRAvatar new.
+	avatar translation: 10.0 @ 0.0 @ 10.0.
+	avatar camera translation: -1.5 @ 1.7 @ -2.3.
+	head := avatar camera globalTranslation.
+	facing := avatar camera forward.
+	avatar turnBy: 90.
+	self assert: (avatar camera globalTranslation - head) length < 0.0001.
+	self assert: ((avatar camera forward dot: facing) abs) < 0.0001.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+}
+SRAvatarTest >> testTurningPivotsOnTheHeadNotTheRigOrigin [
+	"Turning about the rig origin swings a player who has walked across the play
+	space sideways through the room instead of turning them on the spot."
+
+	| avatar before |
+	avatar := SRAvatar new.
+	avatar translation: 10.0 @ 0.0 @ 10.0.
+	avatar camera translation: -1.5 @ 1.7 @ -2.3.
+	before := avatar camera globalTranslation.
+	#(45 90 90 90 45) do: [:each | avatar turnBy: each].
+	self assert: ((avatar camera globalTranslation - before) length) < 0.0001.
+]
