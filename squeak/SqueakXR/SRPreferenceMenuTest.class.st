@@ -23,21 +23,23 @@ SRPreferenceMenuTest >> rowNamed: aString [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:59'
 }
 SRPreferenceMenuTest >> setUp [
 	super setUp.
-	savedTurnStyle := SRAvatar turnStyle.
-	savedLocomotionStyle := SRAvatar locomotionStyle.
+	"The class variable, not the getter: nil is the documented 'use the code
+	default' value, and writing the resolved value back would quietly pin it."
+	savedTurnStyle := SRAvatar classPool at: #TurnStyle.
+	savedLocomotionStyle := SRAvatar classPool at: #LocomotionStyle.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:59'
 }
 SRPreferenceMenuTest >> tearDown [
-	SRAvatar turnStyle: savedTurnStyle.
-	SRAvatar locomotionStyle: savedLocomotionStyle.
+	SRAvatar classPool at: #TurnStyle put: savedTurnStyle.
+	SRAvatar classPool at: #LocomotionStyle put: savedLocomotionStyle.
 	super tearDown.
 ]
 

@@ -7,12 +7,14 @@ Class {
 		'rightHand',
 		'contextMenu',
 		'ghostAvatar',
-		'teleportPreview'
+		'teleportPreview',
+		'blinkOverlay'
 	],
 	#classVars : [
 		'LocomotionStyle',
 		'SmoothTurnSpeed',
 		'SnapTurnAngle',
+		'TeleportBlink',
 		'TurnStyle'
 	],
 	#category : #'SqueakXR-Objects'
@@ -104,6 +106,26 @@ SRAvatar class >> snapTurnAngle: aNumber [
 
 {
 	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+}
+SRAvatar class >> teleportBlink [
+	<preference: 'Teleport blink'
+		category: 'SqueakXR'
+		description: 'Fade to black over the moment of arrival. Moving the world under an open eye is the part that makes people sick.'
+		type: #Boolean>
+	^ TeleportBlink ifNil: [true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+}
+SRAvatar class >> teleportBlink: aBoolean [
+	TeleportBlink := aBoolean
+]
+
+{
+	#category : #preferences,
 	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
 }
 SRAvatar class >> turnStyle [
@@ -164,6 +186,20 @@ SRAvatar >> aimTeleportFrom: aHand [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+}
+SRAvatar >> blinkOverlay [
+	"A child of the camera, so it stays in front of the face however the head
+	moves during the blink."
+
+	^ blinkOverlay ifNil: [
+		blinkOverlay := SRBlinkOverlay new.
+		camera addChild: blinkOverlay.
+		blinkOverlay]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/8/2025 17:49'
 }
@@ -191,7 +227,7 @@ SRAvatar >> cancelTeleportAim [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
 }
 SRAvatar >> commitTeleport [
 	"Runs on the frame the stick returns to centre. The preview being hidden is
@@ -199,7 +235,10 @@ SRAvatar >> commitTeleport [
 
 	teleportPreview ifNil: [^ self].
 	teleportPreview visible ifFalse: [^ self].
-	teleportPreview landingPoint ifNotNil: [:point | self teleportTo: point].
+	teleportPreview landingPoint ifNotNil: [:point |
+		self class teleportBlink
+			ifTrue: [self blinkOverlay blinkThen: [self teleportTo: point]]
+			ifFalse: [self teleportTo: point]].
 	teleportPreview hide
 ]
 
