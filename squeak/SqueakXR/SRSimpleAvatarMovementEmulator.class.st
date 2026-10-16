@@ -117,7 +117,7 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'lege 7/27/2026 18:00'
+	#'squeak_changestamp' : 'leo 10/13/2026 13:44'
 }
 SRSimpleAvatarMovementEmulator >> update [
 

@@ -18,6 +18,9 @@ Class {
 		'grabTarget',
 		'visible'
 	],
+	#classVars : [
+		'UseIterativeTraversal'
+	],
 	#category : #'SqueakXR-Objects'
 }
 
@@ -31,6 +34,29 @@ SRObject class >> selectorDefinedByBase: aSymbol [
 SRObject class >> toolIcon [
 
 	^ #srobject
+]
+
+{
+	#category : #traversal,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:04'
+}
+SRObject class >> useIterativeTraversal [
+	<preference: 'Iterative object tree traversal'
+		category: 'SqueakXR'
+		description: 'Whether #allDo: walks the object tree with an explicit stack instead of recursing. The iterative walk creates no block closure per node; see SRTreeTraversalBenchmark.'
+		type: #Boolean>
+	^ UseIterativeTraversal ifNil: [UseIterativeTraversal := false].
+]
+
+{
+	#category : #traversal,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject class >> useIterativeTraversal: aBoolean [
+	"Which implementation #allDo: uses, so the two can be measured against each
+	other in a live world without recompiling."
+
+	UseIterativeTraversal := aBoolean.
 ]
 
 {
@@ -102,11 +128,36 @@ SRObject >> addChildren: aCollection [
 SRObject >> addCustomMenuItemsTo: aMenu [
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
 SRObject >> allDescendants [
 
-	"TODO: define order"
-	^ {self. self children collect: [:child | child allDescendants]} flatten
+	"Materializes the whole subtree. Nothing on the frame path may call this;
+	use #allDo:, #allDescendantsSelect: or #allDescendantsDetect:ifNone:."
+
+	^ self allDescendantsSelect: [:each | true]
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
+SRObject >> allDescendantsAnySatisfy: aBlock [
+
+	^ (self allDescendantsDetect: aBlock ifNone: [nil]) notNil
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+}
+SRObject >> allDescendantsDetect: aBlock ifNone: aNoneBlock [
+
+	self allDo: [:object |
+		(aBlock value: object) ifTrue: [^ object]].
+	^ aNoneBlock value
 ]
 
 { #category : #hierarchy }
@@ -128,11 +179,15 @@ SRObject >> allDescendantsSelect: aSelectBlock thenDo: aDoBlock [
 	(self allDescendantsSelect: aSelectBlock) do: aDoBlock
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
 SRObject >> allDo: aBlock [
 
-	aBlock cull: self.
-	self childrenDo: [:child | child allDo: aBlock].
+	^ SRObject useIterativeTraversal
+		ifTrue: [self withAllObjectsDo: aBlock]
+		ifFalse: [self recursiveAllDo: aBlock].
 ]
 
 {
@@ -297,11 +352,11 @@ SRObject >> collisionGeometry [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:25'
+	#'squeak_changestamp' : 'leo 9/29/2026 16:50'
 }
 SRObject >> collisionGeometryDo: aBlock [
 
-	^ self collisionGeometry ifNotNil: [:geom | aBlock value: geom]
+	^ self safeCollisionGeometry ifNotNil: [:geom | aBlock value: geom]
 ]
 
 {
@@ -546,6 +601,15 @@ SRObject >> hasChild: aSRObject [
 	^ self children includes: aSRObject
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:56'
+}
+SRObject >> hasGoodCollisionGeometry [
+
+	^ self isCollisionGeometryGood: self collisionGeometry
+]
+
 { #category : #hierarchy }
 SRObject >> hasParent [
 
@@ -576,10 +640,28 @@ SRObject >> initialize [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:55'
+}
+SRObject >> isCollisionGeometryGood: geometry [
+
+	^ geometry isNil or: geometry isCollisionGeometry
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
 }
 SRObject >> isCube [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:26'
+}
+SRObject >> isCubeField [
 
 	^ false
 ]
@@ -631,11 +713,14 @@ SRObject >> isMorphPanel [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:04'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:24'
 }
 SRObject >> isRendering [
 
-	^ isRendering and: visible and: [badRender not]
+	"#and:and: takes real blocks, so it cannot be inlined and costs a closure per call.
+	This runs once per object per select pass, twice a frame."
+
+	^ isRendering and: [visible and: [badRender not]]
 ]
 
 { #category : #stepping }
@@ -840,6 +925,15 @@ SRObject >> onWorldStarted [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
+}
+SRObject >> onWorldStopped [
+	"Symmetric to #onWorldStarted. The place to release anything the object registered
+	outside the tree, because a stopped world is abandoned, not emptied."
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'lege 4/2/2026 16:37'
 }
@@ -970,9 +1064,25 @@ SRObject >> rayUp [
 	^ self rayForDirection: self up
 ]
 
-{ #category : #hierarchy }
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject >> recursiveAllDo: aBlock [
+
+	aBlock cull: self.
+	self childrenDo: [:child | child recursiveAllDo: aBlock].
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
+}
 SRObject >> remove [
 
+	"Before unparenting, while #world can still be reached: the avatar and its hands hold
+	the last grabbed, selected and menu object, and would retain this whole subtree."
+	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
 	self parent ifNotNil: [:parent | parent removeChild: self]
 ]
 
@@ -1042,6 +1152,26 @@ SRObject >> rotation [
 SRObject >> rotation: aQuaternion [
 
 	self localRotation: aQuaternion
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:55'
+}
+SRObject >> safeCollisionGeometry [
+
+	"Collision geometry is often queried in contexts that do not originate from the object that provides the geometry.
+	If an object then provides a bad object, the resulting error would cause the error handler to be triggered for
+	the object that the context actually belongs to (e.g. the object whose step: method is being executed).
+	This is counterproductive, since the fault does not lie there.
+	You can use this method to avoid fetching bad geometry from an object."
+	| geo |
+	geo := self collisionGeometry.
+	^ (self isCollisionGeometryGood: geo)
+		ifTrue: [geo]
+		ifFalse: [
+			"Transcript showln: 'Bad collision geometry for ', self asString."
+			nil]
 ]
 
 { #category : #transforms }
@@ -1196,6 +1326,34 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+}
+SRObject >> withAllObjectsDo: aBlock [
+	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack.
+	The recursive version creates one block closure per node; this one allocates
+	a single Array per traversal, and cannot overflow the Smalltalk stack."
+
+	| stack size node kids index |
+	stack := Array new: 64.
+	size := 1.
+	stack at: 1 put: self.
+	[size > 0] whileTrue: [
+		node := stack at: size.
+		stack at: size put: nil.
+		size := size - 1.
+		aBlock cull: node.
+		kids := node children.
+		index := kids size.
+		size + index > stack size ifTrue: [
+			stack := stack grownBy: (size + index max: stack size)].
+		[index > 0] whileTrue: [
+			size := size + 1.
+			stack at: size put: (kids at: index).
+			index := index - 1]].
 ]
 
 { #category : #accessing }

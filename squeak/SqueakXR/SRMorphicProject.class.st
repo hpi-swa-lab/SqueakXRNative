@@ -24,14 +24,14 @@ SRMorphicProject >> initialize [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'lege 7/15/2026 16:16'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:55'
 }
 SRMorphicProject >> openDebuggerWindow: windowOrModel [
 	"In XR mode, do not open debugger windows as they crash the render loop.
 	 Log the error to the Transcript instead."
-	| world label |
-	world := SRWorld allInstances detect: [:w | w isRunning] ifNone: [nil].
-	(world notNil and: [world isXR]) ifTrue: [
+	| xrWorld label |
+	xrWorld := SRWorld allInstances detect: [:w | w isRunning] ifNone: [nil].
+	(xrWorld notNil and: [xrWorld isXR]) ifTrue: [
 		label := [windowOrModel label] on: Error do: ['(unknown error)'].
 		Transcript cr; show: '*** XR error (debugger suppressed): ', label.
 		^ self].
