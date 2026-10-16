@@ -418,8 +418,29 @@ SRHand >> stopGrabbing [
 	grabbedObject := nil.
 ]
 
-{ #category : #actions }
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 09:40'
+}
 SRHand >> teleport [
+
+	"Land on whatever the hand is pointing at. Terrain answers #rayIntersection:
+	like any other collider, so solving for the y = 0 plane put the player inside
+	a hill or in the air above it."
+
+	| hit |
+	hit := self castRayBackward.
+	hit ifNil: [^ self teleportToGroundPlane].
+	self world avatar translation: hit point.
+]
+
+{
+	#category : #interaction,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 09:40'
+}
+SRHand >> teleportToGroundPlane [
+	"Where the hand ray crosses y = 0. Only a fallback: it is the right answer
+	for an empty world and the wrong one anywhere there is terrain."
 
 	| forward groundPoint t translation |
 	"hand points backward, so we need to start with Vector3 backward instead of forward"
