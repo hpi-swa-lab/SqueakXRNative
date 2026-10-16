@@ -216,6 +216,25 @@ SRAvatar >> rightHand [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
+}
+SRAvatar >> teleportTo: aGlobalPoint [
+	"Put the player's feet on the target, not the rig origin. The head stands
+	anywhere inside the play space -- metres away after walking about -- so
+	moving the rig origin to the target lands the player that far off their aim,
+	and drops them if the ground there is lower.
+
+	In STAGE space the floor is the rig's own y plane, which is what makes the
+	feet readable at all."
+
+	| head feet |
+	head := self camera globalTranslation.
+	feet := head x @ self globalTranslation y @ head z.
+	self translation: self translation + (aGlobalPoint - feet)
+]
+
+{
 	#category : #'out-of-body',
 	#'squeak_changestamp' : 'lege 7/20/2026 17:50'
 }

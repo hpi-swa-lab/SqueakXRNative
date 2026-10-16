@@ -420,7 +420,7 @@ SRHand >> stopGrabbing [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 09:40'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
 }
 SRHand >> teleport [
 
@@ -431,12 +431,12 @@ SRHand >> teleport [
 	| hit |
 	hit := self castRayBackward.
 	hit ifNil: [^ self teleportToGroundPlane].
-	self world avatar translation: hit point.
+	self world avatar teleportTo: hit point.
 ]
 
 {
 	#category : #interaction,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 09:40'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
 }
 SRHand >> teleportToGroundPlane [
 	"Where the hand ray crosses y = 0. Only a fallback: it is the right answer
@@ -449,7 +449,7 @@ SRHand >> teleportToGroundPlane [
 	translation := self globalTranslation.
 	t := (translation y / forward y) negated.
 	groundPoint := forward * t + translation.
-	self world avatar translation: groundPoint.
+	self world avatar teleportTo: groundPoint.
 ]
 
 {
