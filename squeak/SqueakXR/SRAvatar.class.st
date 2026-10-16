@@ -8,8 +8,42 @@ Class {
 		'contextMenu',
 		'ghostAvatar'
 	],
+	#classVars : [
+		'LocomotionStyle',
+		'SmoothTurnSpeed',
+		'SnapTurnAngle',
+		'TurnStyle'
+	],
 	#category : #'SqueakXR-Objects'
 }
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+}
+SRAvatar class >> locomotionStyle [
+	<preference: 'Locomotion style'
+		category: 'SqueakXR'
+		description: 'What the left thumbstick does: #teleport aims an arc and goes on release, #continuous walks.'
+		type: #Symbol>
+	^ LocomotionStyle ifNil: [#teleport]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+}
+SRAvatar class >> locomotionStyle: aSymbol [
+	LocomotionStyle := aSymbol
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+}
+SRAvatar class >> locomotionStyleChoices [
+	^ #(#teleport #continuous)
+]
 
 {
 	#category : #constants,
@@ -25,6 +59,74 @@ SRAvatar class >> menuSpawnDistance [
 }
 SRAvatar class >> menuSpawnLift [
 	^ 20cm
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> smoothTurnSpeed [
+	<preference: 'Smooth turn speed'
+		category: 'SqueakXR'
+		description: 'Degrees per second at full stick deflection, when the turn style is #smooth.'
+		type: #Number>
+	^ SmoothTurnSpeed ifNil: [120]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> smoothTurnSpeed: aNumber [
+	SmoothTurnSpeed := aNumber
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> snapTurnAngle [
+	<preference: 'Snap turn angle'
+		category: 'SqueakXR'
+		description: 'Degrees per snap turn.'
+		type: #Number>
+	^ SnapTurnAngle ifNil: [45]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> snapTurnAngle: aNumber [
+	SnapTurnAngle := aNumber
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> turnStyle [
+	<preference: 'Turn style'
+		category: 'SqueakXR'
+		description: 'What the right thumbstick does: #snap jumps by a fixed angle, #smooth rotates continuously and makes most people sick.'
+		type: #Symbol>
+	^ TurnStyle ifNil: [#snap]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> turnStyle: aSymbol [
+	TurnStyle := aSymbol
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+}
+SRAvatar class >> turnStyleChoices [
+	^ #(#snap #smooth)
 ]
 
 {

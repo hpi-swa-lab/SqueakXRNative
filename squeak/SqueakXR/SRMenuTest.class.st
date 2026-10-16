@@ -55,7 +55,7 @@ SRMenuTest >> demoEntries [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 	^ SRMenuEntry new
@@ -63,7 +63,7 @@ SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 		label: aStringOrSymbol
 		priority: anInteger
 		provider: self class
-		selector: #demoAction:target:
+		action: #demoAction:target:
 ]
 
 {
@@ -304,7 +304,7 @@ SRMenuTest >> testStickyMenuStaysOpenWhenPicking [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> toggleEntry [
 	"A Symbol label is recomputed from the provider every time it is resolved."
@@ -314,5 +314,5 @@ SRMenuTest >> toggleEntry [
 		label: #demoToggleLabel
 		priority: 150
 		provider: self class
-		selector: #demoToggle:target:.
+		action: #demoToggle:target:.
 ]

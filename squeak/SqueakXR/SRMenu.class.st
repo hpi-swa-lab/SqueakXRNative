@@ -143,7 +143,7 @@ SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	"Entries at aPrefix become rows, deeper paths one submenu row per group."
@@ -153,7 +153,9 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	(registry directItemsUnder: aPrefix) do: [:entry |
 		self
 			addItem: [entry labelIn: self target: anObjectOrNil]
-			action: [entry activateIn: self target: anObjectOrNil]].
+			action: [entry activateIn: self target: anObjectOrNil.
+				entry keepOpen ifTrue: [self labelsChanged]]
+			keepOpen: entry keepOpen].
 	(registry groupsUnder: aPrefix) do: [:segment |
 		self addSubmenuItemFor: segment under: aPrefix target: anObjectOrNil]
 ]
