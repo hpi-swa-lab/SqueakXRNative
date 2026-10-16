@@ -1219,6 +1219,24 @@ SRObject >> setLocalTransformFromComponents [
 ]
 
 {
+	#category : #transformation,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 10:27'
+}
+SRObject >> setTransformAt: aPosition facingCamera: aCamera [
+	"Adopts the camera's viewing direction rather than turning towards the camera."
+
+	| direction up |
+	direction := aCamera forward.
+	up := (direction dot: Vector3 up) abs > 0.99
+		ifTrue: [aCamera up]	"looking straight up or down"
+		ifFalse: [Vector3 up].
+	self globalTransform: (Matrix4x4
+		objectLookAt: aPosition - direction
+		from: aPosition
+		up: up)
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'lege 8/7/2026 18:02'
 }

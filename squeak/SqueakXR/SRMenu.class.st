@@ -447,24 +447,6 @@ SRMenu >> rowSpacing [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
-}
-SRMenu >> setTransformAt: aPosition facingCamera: aCamera [
-	"Adopts the camera's viewing direction rather than turning towards the camera."
-
-	| direction up |
-	direction := aCamera forward.
-	up := (direction dot: Vector3 up) abs > 0.99
-		ifTrue: [aCamera up]	"looking straight up or down"
-		ifFalse: [Vector3 up].
-	self globalTransform: (Matrix4x4
-		objectLookAt: aPosition - direction
-		from: aPosition
-		up: up)
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
