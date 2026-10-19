@@ -4,9 +4,40 @@ The blink is only worth having if the action happens while the view is actually 
 Class {
 	#name : #SRBlinkOverlayTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'savedFadeIn',
+		'savedFadeOut'
+	],
 	#category : #'SqueakXR-Tests-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:23'
+}
+SRBlinkOverlayTest >> setUp [
+	"These tests step a fixed number of frames, so a fade time tuned in the live
+	world would fail them. Saved from the class variables, not the getters: nil
+	is the documented 'use the code default'."
+
+	super setUp.
+	savedFadeOut := SRBlinkOverlay classPool at: #FadeOutSeconds.
+	savedFadeIn := SRBlinkOverlay classPool at: #FadeInSeconds.
+	SRBlinkOverlay fadeOutSeconds: nil; fadeInSeconds: nil.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:23'
+}
+SRBlinkOverlayTest >> tearDown [
+	"Restored even when a test fails, so running the tests never retunes the
+	live blink."
+
+	SRBlinkOverlay fadeOutSeconds: savedFadeOut; fadeInSeconds: savedFadeIn.
+	super tearDown
+]
 
 {
 	#category : #tests,
@@ -40,6 +71,26 @@ SRBlinkOverlayTest >> testTheActionRunsOnlyWhenTheViewIsFullyBlack [
 	30 timesRepeat: [
 		opacityWhenRun ifNil: [overlay step: 10]].
 	self assert: opacityWhenRun equals: 1.0.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:15'
+}
+SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
+	"setUp nils the class variables, so an unset preference must read as the
+	literal in the code rather than whatever the live world was tuned to."
+
+	| overlay |
+	self assert: SRBlinkOverlay fadeOutSeconds equals: 0.1.
+	self assert: SRBlinkOverlay fadeInSeconds equals: 0.2.
+	SRBlinkOverlay fadeOutSeconds: 2.0.
+	overlay := SRBlinkOverlay new.
+	overlay blinkThen: [].
+	30 timesRepeat: [overlay step: 10].
+	self assert: overlay isBlinking.
+	"Opacity is stored as a Color alpha, which is 8 bit, so 0.15 reads back as 38/255."
+	self assert: (overlay opacity - 0.15) abs < (1 / 255).
 ]
 
 {

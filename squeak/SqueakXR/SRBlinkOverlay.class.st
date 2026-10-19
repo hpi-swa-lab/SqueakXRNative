@@ -12,29 +12,54 @@ Class {
 		'elapsed',
 		'pendingAction'
 	],
+	#classVars : [
+		'FadeInSeconds',
+		'FadeOutSeconds'
+	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:15'
 }
 SRBlinkOverlay class >> fadeInSeconds [
-	"Longer than the fade out: arriving gently reads as having arrived, where a
-	hard cut reads as a glitch."
-
-	^ 0.18
+	<preference: 'Teleport fade in seconds'
+		category: 'SqueakXR'
+		description: 'Arriving gently reads as having arrived, where a hard cut reads as a glitch. Longer than the fade out.'
+		type: #Number>
+	^ FadeInSeconds ifNil: [0.2]
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:56'
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:05'
+}
+SRBlinkOverlay class >> fadeInSeconds: aNumber [
+	FadeInSeconds := aNumber
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:15'
 }
 SRBlinkOverlay class >> fadeOutSeconds [
-	"Short: this is time between asking to go and going."
+	<preference: 'Teleport fade out seconds'
+		category: 'SqueakXR'
+		description: 'Time between asking to go and going. Short, or it reads as lag.'
+		type: #Number>
+	"0.1 is Valve's teleportFadeTime in the SteamVR Interaction System."
 
-	^ 0.08
+	^ FadeOutSeconds ifNil: [0.1]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:05'
+}
+SRBlinkOverlay class >> fadeOutSeconds: aNumber [
+	FadeOutSeconds := aNumber
 ]
 
 {
