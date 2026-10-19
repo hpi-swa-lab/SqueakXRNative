@@ -1,18 +1,15 @@
 Class {
 	#name : #SRSetFocusAction,
 	#superclass : #SRHandAction,
-	#category : #'SqueakXR-Input'
+	#category : #'SqueakXR-Halo'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:16'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:59'
 }
 SRSetFocusAction >> perform: inputState [
 
-	| first |
-	first := self hand cursor firstIntersection.
-	self hand cursor focusPoint: (first ifNotNil: [:inter | inter point ]).
-
+	self hand cursor focusPoint: (self hand cursorPoint).
 	^ true
 ]

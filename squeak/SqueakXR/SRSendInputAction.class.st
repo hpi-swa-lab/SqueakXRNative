@@ -1,7 +1,7 @@
 Class {
 	#name : #SRSendInputAction,
 	#superclass : #SRHandAction,
-	#category : #'SqueakXR-Input'
+	#category : #'SqueakXR-Halo'
 }
 
 {

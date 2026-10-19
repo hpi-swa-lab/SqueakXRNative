@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'hand'
 	],
-	#category : #'SqueakXR-Input',
+	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:27'
 }
 

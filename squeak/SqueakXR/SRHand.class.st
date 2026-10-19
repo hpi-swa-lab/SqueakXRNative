@@ -18,7 +18,8 @@ Class {
 		'inputState',
 		'cursor',
 		'halo',
-		'actions'
+		'actions',
+		'firstIntersection'
 	],
 	#classVars : [
 		'EndRate',
@@ -96,7 +97,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:20'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:54'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -113,6 +114,7 @@ SRHand >> actionsUpdated: aSRActionStates [
 	].
 	
 	self cursor updateActions: aSRActionStates.
+	self updateFirstIntersection.
 	self performActions.
 ]
 
@@ -194,6 +196,26 @@ SRHand >> cursor: anSRCursor [
 		cursor hand: self.
 		self addChild: cursor.
 	].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:59'
+}
+SRHand >> cursorPoint [
+
+	"Answer my cursor's point, if there is one."
+	^ firstIntersection ifNotNil: [:inter | inter point ]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:58'
+}
+SRHand >> cursorTarget [
+
+	"Answer my cursor's target, if there is one."
+	^ firstIntersection ifNotNil: [:inter | inter object ]
 ]
 
 {
@@ -427,6 +449,20 @@ SRHand >> rayCast [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:58'
+}
+SRHand >> selectIntersection: intersections [
+
+	"Select parents over their children."
+	^ (intersections sorted: [:a :b |
+		(a distance < b distance) or: [b object hasAncestor: a object]
+	])
+	ifEmpty: [ nil ]
+	ifNotEmpty: [:sorted | sorted first ]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:32'
 }
@@ -488,6 +524,19 @@ SRHand >> trigger [
 SRHand >> update: aSymbol with: anObject [
 
 	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:56'
+}
+SRHand >> updateFirstIntersection [ 
+
+	"Prefer parents over their children and second-pass objects over the others."
+	| all secondPass |
+	all := self cursor intersections.
+	secondPass := all select: [:inter | inter object renderInSecondPass ].
+	firstIntersection := self selectIntersection: (secondPass ifEmpty: [ all ]).
 ]
 
 {
