@@ -6,17 +6,13 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:19'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:03'
 }
 SRSetFocusAction >> perform: inputState [
 
-	| cursor |
-	cursor := self hand cursor.
-	cursor intersections ifNotEmpty: [:intersections |
-		cursor focusPoint: intersections first point
-	] ifEmpty: [
-		cursor focusPoint: nil.
+	self hand cursor target ifNotNil: [:inter |
+		self hand cursor focusPoint: inter point
 	].
-	
+
 	^ true
 ]

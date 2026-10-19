@@ -30,16 +30,14 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:39'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:02'
 }
 SRSendInputAction >> perform: inputState [ 
 
 	"I send any inputs to the first target."
 	| events target |
 	
-	target := self hand cursor intersections 
-		ifNotEmpty: [:inter | inter first ]
-		ifEmpty: [ ^ true  ].
+	target := self hand cursor target ifNil: [ ^ true ].
 	events := OrderedCollection new.
 	
 	"Button events."

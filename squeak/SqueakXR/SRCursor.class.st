@@ -101,7 +101,7 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:48'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:05'
 }
 SRCursor >> initialize [ 
 
@@ -109,7 +109,8 @@ SRCursor >> initialize [
 	self cursorMode: SRCursorMode ignore.
 	
 	focusCube := (SRCube new
-		scale: 1cm asVector3
+		scale: 1cm asVector3;
+		cursorMode: SRCursorMode ignore
 	).
 	self addChild: focusCube.
 ]
@@ -133,6 +134,16 @@ SRCursor >> intersectionsSelect: aBlock [
 	
 	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
 	^ self intersections select: aBlock
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:01'
+}
+SRCursor >> target [ 
+
+	"Answer the first intersection, if it exists."
+	^ self intersections ifNotEmpty: [:inter | inter first ] ifEmpty: [ nil ]
 ]
 
 {
