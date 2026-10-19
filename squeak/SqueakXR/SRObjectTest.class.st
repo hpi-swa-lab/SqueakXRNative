@@ -425,6 +425,22 @@ SRObjectTest >> testMoveChildBetweenParents [
 	self assert: child parent = parent2.
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+}
+SRObjectTest >> testNothingIsBlockedByItsOwnParts [
+	"The avatar's hands and its open menu are children of the rig and travel with
+	the player. Counting them as scenery walls the player in wherever they stand."
+
+	| scene asker |
+	scene := SRObject new.
+	asker := SRObject new.
+	scene addChild: asker.
+	asker addChild: (SRSphere new scale: 1 @ 1 @ 1; yourself).
+	self deny: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testOnWorldChanged [
 
@@ -520,6 +536,23 @@ SRObjectTest >> testReparentingInsideWorldDoesNotNotifyWorldChanged [
 
 	self assert: mock parent == o2.
 	self assert: mock onWorldChangedCount = 1
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+}
+SRObjectTest >> testTheBoxSweepFindsObjectsOfferingCollisionGeometry [
+	"Searched from #sceneRoot, so the sweep works on a detached tree with no world."
+
+	| scene asker |
+	scene := SRObject new.
+	asker := SRObject new.
+	scene addChild: asker.
+	self deny: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+	scene addChild: (SRSphere new scale: 1 @ 1 @ 1; yourself).
+	self assert: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+	self deny: (asker solidInBoxCenter: 20 @ 0 @ 0 halfExtents: 1 @ 1 @ 1).
 ]
 
 { #category : #'tests - children' }

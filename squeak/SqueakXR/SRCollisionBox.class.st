@@ -50,6 +50,34 @@ SRCollisionBox >> halfExtents: aVector3 [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:40'
+}
+SRCollisionBox >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+	"Separating axes are taken from this box only, not from the query box, so a
+	rotated box can report an overlap a few millimetres before it has one. Erring
+	that way is the direction the superclass requires."
+
+	| delta |
+	delta := aCentre - self center.
+	^ (self
+		overlapsAlong: (self rotation rotateVector: Vector3 right)
+		from: delta
+		half: self halfExtents x
+		query: aHalfExtents)
+		and: [(self
+			overlapsAlong: (self rotation rotateVector: Vector3 up)
+			from: delta
+			half: self halfExtents y
+			query: aHalfExtents)
+			and: [self
+				overlapsAlong: (self rotation rotateVector: Vector3 forward)
+				from: delta
+				half: self halfExtents z
+				query: aHalfExtents]]
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
 }

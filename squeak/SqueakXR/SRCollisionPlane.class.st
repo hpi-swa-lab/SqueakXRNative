@@ -63,6 +63,32 @@ SRCollisionPlane >> height: aNumber [
 	height := aNumber
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:40'
+}
+SRCollisionPlane >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+	"A plane has no thickness, so the box has to straddle it. Standing on one is
+	therefore a box whose bottom face is level with the plane, which the <= in
+	#overlapsAlong:from:half:query: counts as an overlap."
+
+	| delta |
+	delta := aCentre - self point.
+	(self overlapsAlong: self normal from: delta half: 0.0 query: aHalfExtents)
+		ifFalse: [^ false].
+	self isBounded ifFalse: [^ true].
+	^ (self
+		overlapsAlong: self up
+		from: delta
+		half: self height / 2
+		query: aHalfExtents)
+		and: [self
+			overlapsAlong: self side
+			from: delta
+			half: self width / 2
+			query: aHalfExtents]
+]
+
 { #category : #testing }
 SRCollisionPlane >> isBounded [
 

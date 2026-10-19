@@ -746,6 +746,21 @@ SRObject >> isStepping [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+}
+SRObject >> isWithin: anSRObject [
+	"Whether anSRObject is me or one of my ancestors."
+
+	| each |
+	each := self.
+	[each isNil] whileFalse: [
+		each == anSRObject ifTrue: [^ true].
+		each := each parent].
+	^ false
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'lege 3/25/2026 17:24'
 }
@@ -1209,6 +1224,21 @@ SRObject >> scale: aVector3 [
 	self localScale: aVector3
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:42'
+}
+SRObject >> sceneRoot [
+	"The top of the graph, which in a live scene is the world. Unlike #world it
+	answers something for a detached tree, so a scene query can be exercised
+	without one."
+
+	| each |
+	each := self.
+	[each parent isNil] whileFalse: [each := each parent].
+	^ each
+]
+
 { #category : #'transforms - internal' }
 SRObject >> setLocalComponentsFrom: aMatrix4x4 [
 
@@ -1245,6 +1275,30 @@ SRObject >> setTransformAt: aPosition facingCamera: aCamera [
 		objectLookAt: aPosition - direction
 		from: aPosition
 		up: up)
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+}
+SRObject >> solidInBoxCenter: aCentre halfExtents: aHalfExtents [
+	"Whether anything in the scene fills an axis-aligned box in global space. The
+	volume counterpart of SRRay>>castNearest:, and like it it asks every object
+	offering collision geometry: having some is what makes an object solid.
+
+	Searched from #sceneRoot rather than #world, so a detached tree can be swept
+	in a test: in a live scene the two are the same object.
+
+	The receiver and everything under it is skipped. Nothing collides with its own
+	parts, and for the avatar those parts include the hands and an open menu, which
+	travel with the player and would otherwise wall them in."
+
+	self sceneRoot allDo: [:each |
+		(each isWithin: self) ifFalse: [
+			each safeCollisionGeometry ifNotNil: [:geometry |
+				(geometry intersectsBoxCenter: aCentre halfExtents: aHalfExtents)
+					ifTrue: [^ true]]]].
+	^ false
 ]
 
 {

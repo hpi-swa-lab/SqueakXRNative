@@ -399,15 +399,18 @@ SRHand >> startGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:46'
 }
 SRHand >> step: deltaTime [
 
 	self performActions;
 		updateGrabbedObjectTransform;
 		highlightSelectedObject.
-	"Here rather than in #performActions: smooth turning needs the frame delta."
+	"Here rather than in #performActions: both need the frame delta. The avatar
+	owns the movement and is driven from a hand because SRObject decides whether
+	an object steps when it is created, and the running avatar predates this."
 	self isRight ifTrue: [self updateTurn: deltaTime].
+	self isLeft ifTrue: [self avatar ifNotNil: [:a | a updateLocomotion: deltaTime]].
 ]
 
 {
