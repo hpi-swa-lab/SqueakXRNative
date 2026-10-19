@@ -1,12 +1,9 @@
 include(FetchContent)
 
 # ==== local repository overrides ====
-#
-# The Gradle build passes LOCAL_*_SOURCE on the CMake command line, reading them
-# from android/dev.properties (see android/app/build.gradle.kts). When CMake is
-# invoked directly (e.g. the Windows/desktop build) nobody does that, so read the
-# same file here to keep a single source of truth.
-set(DEV_PROPERTIES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../../../dev.properties")
+
+cmake_path(SET DEV_PROPERTIES_FILE NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/../../../../../dev.properties")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${DEV_PROPERTIES_FILE}")
 if(EXISTS "${DEV_PROPERTIES_FILE}")
     file(STRINGS "${DEV_PROPERTIES_FILE}" DEV_PROPERTIES_LINES)
     foreach(line IN LISTS DEV_PROPERTIES_LINES)

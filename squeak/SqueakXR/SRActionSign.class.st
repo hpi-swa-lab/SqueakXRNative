@@ -42,7 +42,7 @@ SRActionSign >> collisionGeometry [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRActionSign >> initialize [
 	super initialize.
@@ -51,7 +51,7 @@ SRActionSign >> initialize [
 	textField := SRTextField new
 		text: '';
 		color: Color white;
-		scale: 0.012 asVector3;
+		scale: 1.2cm asVector3;
 		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
 		yourself.
 	self addChild: textField.

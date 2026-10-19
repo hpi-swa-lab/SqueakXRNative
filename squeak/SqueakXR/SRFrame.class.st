@@ -7,7 +7,8 @@ Class {
 		'steppedObjects',
 		'isOld',
 		'firstPassRenderedObjects',
-		'secondPassRenderedObjects'
+		'secondPassRenderedObjects',
+		'hasRenderingBegun'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -39,9 +40,31 @@ SRFrame >> deltaTime: aNumber [
 	deltaTime := aNumber
 ]
 
-{ #category : #initializing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+}
+SRFrame >> hasRenderingBegun [
+
+	^ hasRenderingBegun
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+}
+SRFrame >> hasRenderingBegun: aBoolean [
+
+	hasRenderingBegun := aBoolean
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+}
 SRFrame >> initialize [
 
+	self hasRenderingBegun: false.
 	self isOld: false
 ]
 
@@ -72,9 +95,13 @@ SRFrame >> isOld: aBoolean [
 	isOld := aBoolean
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+}
 SRFrame >> prepareFrame [
 
+	self hasRenderingBegun: true.
 	self isOld ifFalse: [self world prepareFrame]
 ]
 

@@ -1,10 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
-
-val devPropertiesFile = rootProject.file("dev.properties")
-val devProperties = Properties()
-devProperties.load(FileInputStream(devPropertiesFile))
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -28,9 +21,6 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags += "-std=c++17"
-                arguments += "-DLOCAL_RLOPENXR_SOURCE=" + (devProperties["rlOpenXRRepo"] ?: "OFF")
-                arguments += "-DLOCAL_OPENSMALLTALKVM_SOURCE=" + (devProperties["opensmalltalkvmRepo"] ?: "OFF")
-                arguments += "-DLOCAL_RAYLIB_SOURCE=" + (devProperties["raylibRepo"] ?: "OFF")
             }
         }
     }
