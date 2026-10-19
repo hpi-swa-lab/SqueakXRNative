@@ -1,6 +1,6 @@
 Class {
 	#name : #SRHandRayIntersectionResult,
-	#superclass : #SRRayIntersectionResult,
+	#superclass : #AnObsoleteSRRayIntersectionResult,
 	#instVars : [
 		'actionState'
 	],

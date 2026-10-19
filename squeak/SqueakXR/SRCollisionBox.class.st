@@ -126,7 +126,7 @@ SRCollisionBox >> isCollisionBox [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/24/2026 14:19'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:51'
 }
 SRCollisionBox >> pointIntersection: aCollisionPoint [
 
@@ -134,8 +134,8 @@ SRCollisionBox >> pointIntersection: aCollisionPoint [
 	closestPoint := self closestPointTo: aCollisionPoint origin.
 	d := closestPoint distanceTo: aCollisionPoint origin.
 	^ (d < (aCollisionPoint radius))
-		ifFalse: nil
-		ifTrue: [ SRPointIntersectionResult new
+		ifFalse: [ nil ]
+		ifTrue: [ SRIntersectionResult new
 			point: closestPoint;
 			object: self object;
 			distance: d
@@ -145,7 +145,7 @@ SRCollisionBox >> pointIntersection: aCollisionPoint [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 10/14/2026 16:37'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:51'
 }
 SRCollisionBox >> rayIntersection: aRay [
 	"OBB ray intersection via transformation to local AABB space."
@@ -160,7 +160,7 @@ SRCollisionBox >> rayIntersection: aRay [
 	hitT := self rayIntersectionAABB: localRay.
 	hitT ifNil: [^ nil].
 	localHitPoint := localRay project: hitT.
-	^ SRRayIntersectionResult new
+	^ SRIntersectionResult new
 		object: self object;
 		point: (self rotation rotateVector: localHitPoint) + self center;
 		distance: hitT

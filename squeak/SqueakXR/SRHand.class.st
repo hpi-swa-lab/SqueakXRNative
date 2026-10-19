@@ -467,14 +467,14 @@ SRHand >> performActions [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:52'
 }
 SRHand >> rayCast [
 
 	| result |
 	result := self castRayBackward.
 	result ifNotNil: [
-		result object onRaycast: (result asHandRayIntersection: actionState)]
+		result object onRaycast: (result asHandIntersection: actionState)]
 ]
 
 {

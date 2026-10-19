@@ -42,7 +42,7 @@ SRCollisionSphere >> radius: aNumber [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 10/14/2026 16:20'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:52'
 }
 SRCollisionSphere >> rayIntersection: aRay [
 	"adapted from
@@ -66,7 +66,7 @@ SRCollisionSphere >> rayIntersection: aRay [
 		t0 := t1.
 		t0 < 0 ifTrue: [^ nil]].
 	
-	^ SRRayIntersectionResult new
+	^ SRIntersectionResult new
 		object: self object;
 		point: (aRay project: t0);
 		distance: t0

@@ -136,7 +136,7 @@ SRCollisionPlane >> point: aVector3 [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 17:53'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:51'
 }
 SRCollisionPlane >> pointIntersection: aCollisionPoint [
 
@@ -145,7 +145,7 @@ SRCollisionPlane >> pointIntersection: aCollisionPoint [
 	
 	^ (d < (aCollisionPoint radius))
 		ifFalse: [ nil ]
-		ifTrue: [ SRPointIntersectionResult new
+		ifTrue: [ SRIntersectionResult new
 			point: (self projected: aCollisionPoint origin);
 			object: self object;
 			distance: d
@@ -168,7 +168,7 @@ SRCollisionPlane >> projected: aPoint [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 10/14/2026 16:38'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 12:51'
 }
 SRCollisionPlane >> rayIntersection: aRay [
 	"adapted from
@@ -185,7 +185,7 @@ SRCollisionPlane >> rayIntersection: aRay [
 	intersection := aRay project: t.
 	
 	self isBounded ifFalse: [
-		^ SRRayIntersectionResult new
+		^ SRIntersectionResult new
 			point: intersection;
 			object: self object;
 			distance: t].
@@ -195,7 +195,7 @@ SRCollisionPlane >> rayIntersection: aRay [
 		and: [(centerToIntersection dot: self side) abs <= (self width / 2)])
 		ifFalse: [^ nil]
 		ifTrue: [
-		^ SRRayIntersectionResult new
+		^ SRIntersectionResult new
 			point: intersection;
 			object: self object;
 			distance: t]
