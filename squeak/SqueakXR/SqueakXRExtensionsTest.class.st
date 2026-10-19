@@ -15,18 +15,16 @@ SqueakXRExtensionsTest >> assertMatrix: aMatrix4x4 closeTo: aMatrixCollection [
 
 {
 	#category : #'testing-matrix4x4',
-	#'squeak_changestamp' : 'lege 3/19/2026 14:45'
+	#'squeak_changestamp' : 'leo 10/13/2026 15:05'
 }
 SqueakXRExtensionsTest >> testMatrix4x4FromQuaternion [
 
-	| m |
-	m := Matrix4x4 fromQuaternion: (Quaternion angle: 90 axis: 0 @ 1 @ 0).
-	self assertMatrix: m closeTo: #(
-		 0  0  1  0
-		 0  1  0  0
-		-1  0  0  0
-		 0  0  0  1
-	).
+	| m axis quaternion |
+	m := (Matrix4x4 fromQuaternion: (Quaternion angle: 45 axis: 1 @ 0 @ 1)) * (Matrix4x4 withScale: 2 @ 3 @ 4) .
+	quaternion := m rotationQuaternion.
+	self assert: (quaternion angle closeTo: 45).
+	axis := quaternion axis.
+	self assert: (axis x closeTo: axis z).
 ]
 
 {

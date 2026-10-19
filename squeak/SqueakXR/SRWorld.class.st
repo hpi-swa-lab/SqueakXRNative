@@ -19,7 +19,8 @@ Class {
 		'frozenAvatar',
 		'ghostAvatar',
 		'project',
-		'cameraTransform'
+		'cameraTransform',
+		'cycleSemaphore'
 	],
 	#classVars : [
 		'Current',
@@ -522,20 +523,23 @@ SRWorld >> completeFrame [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:47'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }
 SRWorld >> debugHUD [
 
-	^ self allDescendants detect: [:obj | obj isDebugHUD] ifNone: [nil]
+	^ self allDescendantsDetect: [:obj | obj isDebugHUD] ifNone: [nil]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:09'
 }
 SRWorld >> doOneCycle [
 
 	| deltaTime startTime frame secondCurrent secondDelta |
+	"First, before anything of this frame is built: whatever the previous frame
+	allocated is dead by now, so a scavenge here keeps fewer survivors."
+	SRFrameScavenger scavengeIfEdenFull.
 	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
 	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000.
@@ -586,10 +590,15 @@ SRWorld >> gizmoPainter [
 	^ gizmoPainter
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+}
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
-	
+
+	charCode = RlKeyboardKey keyKbMenu ifTrue: [^ self openHandMenu].
+
 	self keyboardFocus ifNil: [^ self].
 	
 	isShiftDown := ((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
@@ -715,7 +724,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 7/31/2026 17:18'
+	#'squeak_changestamp' : 'leo 9/30/2026 19:12'
 }
 SRWorld >> loop [
 
@@ -728,8 +737,10 @@ SRWorld >> loop [
 		self doOneCycle. Processor yield]].
 	Transcript showln: '================= PROFILING COMPLETE'."
 	
+	cycleSemaphore := Semaphore forMutualExclusion.
+	
 	[self isRunning] whileTrue: [
-		self doOneCycle. Processor yield]
+		cycleSemaphore critical: [self doOneCycle]]
 	
 	]
 		on: Error
@@ -779,11 +790,22 @@ SRWorld >> notifyObjectAdded: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:08'
 }
 SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
 
+	avatar ifNotNil: [avatar forget: aSRObject].
 	self changed: #descendantRemoved with: {aSRObject. oldParent}.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+}
+SRWorld >> openHandMenu [
+	| av |
+	av := self avatar ifNil: [^ self].
+	av openMenuForHand: av rightHand
 ]
 
 {
@@ -803,10 +825,11 @@ SRWorld >> pollActions [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'lege 7/22/2026 18:27'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
 }
 SRWorld >> prepareFrame [
 
+	self renderer pollEventsAndWaitForFrame.
 	self isXR ifTrue: [self updateCameraTransform].
 	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]
@@ -965,15 +988,25 @@ SRWorld >> runStartScript [
 		translation: i * 0.2 + 9 @ 9.5 @ 9.5)]"
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/13/2026 15:08'
+}
 SRWorld >> shutDown [
-	
-	self suspend
+
+	(self worldProcess notNil and: [self worldProcess isSuspended]) ifTrue: [^ self].
+
+	cycleSemaphore
+		ifNotNil: [
+			"We need to wait for the world to finish the current loop"
+			cycleSemaphore critical: [self suspend]]
+		ifNil: [
+			self suspend]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:03'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }
 SRWorld >> start [
 
@@ -992,7 +1025,7 @@ SRWorld >> start [
 			enterMorphicProject;
 			runStartScript.
 		self isXR ifFalse: [
-			(self allDescendants anySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
+			(self allDescendantsAnySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
 				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
@@ -1021,12 +1054,13 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 16:59'
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
 }
 SRWorld >> stop [
 
 	self invalidateCache;
-		isRunning: false.
+		isRunning: false;
+		allDo: #onWorldStopped.
 ]
 
 {
@@ -1041,7 +1075,7 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/4/2026 19:16'
+	#'squeak_changestamp' : 'leo 9/29/2026 17:01'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
@@ -1049,7 +1083,7 @@ SRWorld >> stopWorldAndLeaveProject [
 	[project close]
 		on: ProvideAnswerNotification
 		do: [:noti |
-			(noti messageText beginsWith: 'Do you really want to delete the project')
+			(noti messageText beginsWith: 'Do you really want to delete this project')
 				ifTrue: [noti resume: true]
 				ifFalse: [noti pass]].
 ]

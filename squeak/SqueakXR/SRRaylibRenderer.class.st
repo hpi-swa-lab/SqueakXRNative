@@ -5,8 +5,111 @@ Class {
 		'clearColor',
 		'camera'
 	],
+	#classVars : [
+		'CachedColor1',
+		'CachedColor2',
+		'CachedVector1',
+		'CachedVector2',
+		'CachedVector3',
+		'CachedVectorZero'
+	],
 	#category : #'SqueakXR-Graphics-Renderer'
 }
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> fill: anRlColor withColor: aColor [
+
+	^ anRlColor
+		r: (aColor red * 255) asInteger;
+		g: (aColor green * 255) asInteger;
+		b: (aColor blue * 255) asInteger;
+		a: (aColor alpha * 255) asInteger;
+		yourself
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> fill: anRlVector3 withVector3: aVector3 [
+
+	^ anRlVector3
+		x: aVector3 x;
+		y: aVector3 y;
+		z: aVector3 z;
+		yourself
+]
+
+{
+	#category : #'class initialization',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> initialize [
+
+	CachedVectorZero := RlVector3 new x: 0.0; y: 0.0; z: 0.0; yourself.
+	CachedVector1 := RlVector3 new.
+	CachedVector2 := RlVector3 new.
+	CachedVector3 := RlVector3 new.
+	CachedColor1 := RlColor new.
+	CachedColor2 := RlColor new.
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlColorFor_1: aColor [
+
+	^ self fill: CachedColor1 withColor: aColor
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlColorFor_2: aColor [
+
+	^ self fill: CachedColor2 withColor: aColor
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlVector3For_1: aVector3 [
+
+	^ self fill: CachedVector1 withVector3: aVector3
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlVector3For_2: aVector3 [
+
+	^ self fill: CachedVector2 withVector3: aVector3
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlVector3For_3: aVector3 [
+
+	^ self fill: CachedVector3 withVector3: aVector3
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
+SRRaylibRenderer class >> rlVectorZero [
+
+	^ CachedVectorZero
+]
 
 {
 	#category : #accessing,
@@ -17,10 +120,15 @@ SRRaylibRenderer >> camera [
 	^ camera
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
+}
 SRRaylibRenderer >> clearColor: aColor [
 
-	clearColor := aColor asRlColor
+	clearColor
+		ifNil: [clearColor := RlColor new].
+	self class fill: clearColor withColor: aColor
 ]
 
 { #category : #'render-loop' }
@@ -87,7 +195,7 @@ SRRaylibRenderer >> prepareFrame: cameraTransform [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 6/26/2026 17:19'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontSize: aNumber [
 
@@ -96,27 +204,52 @@ SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontS
 		posX: aPoint x
 		posY: aPoint y
 		fontSize: aNumber
-		color: aColor asRlColor
+		color: (self class rlColorFor_1: aColor)
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 4/2/2026 13:20'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
 }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	self withTransform: aMatrix4x4 do: [
 		Raylib
-			drawCubePosition: Vector3 zero asRlVector
+			drawCubePosition: self class rlVectorZero
 				width: 1
 				height: 1
 				length: 1
-				color: aColor asRlColor;
-			drawCubeWiresPosition: Vector3 zero asRlVector
+				color: (self class rlColorFor_1: aColor);
+			drawCubeWiresPosition: self class rlVectorZero
 				width: 1
 				height: 1
 				length: 1
-				color: aColor muchDarker asRlColor].
+				color: (self class rlColorFor_2: aColor muchDarker)].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:20'
+}
+SRRaylibRenderer >> renderFastCube: anSRFastCube [
+	"The same calls as #renderCubeTransformed:withColor:, but every argument is
+	state of the cube, so the draw allocates nothing."
+
+	Raylib rlPushMatrix;
+		rlMultMatrixfMatf: anSRFastCube glMatrix;
+		drawCubePosition: SRFastCube sharedZero
+			width: 1
+			height: 1
+			length: 1
+			color: anSRFastCube rlColor.
+	anSRFastCube drawWires ifTrue: [
+		Raylib
+			drawCubeWiresPosition: SRFastCube sharedZero
+			width: 1
+			height: 1
+			length: 1
+			color: anSRFastCube rlWireColor].
+	Raylib rlPopMatrix.
 ]
 
 {
@@ -133,37 +266,37 @@ SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMater
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 16:57'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
 }
 SRRaylibRenderer >> renderPlainCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	self withTransform: aMatrix4x4 do: [
 		Raylib
-			drawCubePosition: Vector3 zero asRlVector
+			drawCubePosition: self class rlVectorZero
 				width: 1
 				height: 1
 				length: 1
-				color: aColor asRlColor].
+				color: (self class rlColorFor_1: aColor)].
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 4/2/2026 13:20'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 
 	self withTransform: aMatrix4x4 do: [
 		Raylib
-			drawSphereExCenterPos: Vector3 zero asRlVector
+			drawSphereExCenterPos: self class rlVectorZero
 				radius: 0.5
 				rings: 16
 				slices: 16
-				color: aColor asRlColor;
-			drawSphereWiresCenterPos: Vector3 zero asRlVector
+				color: (self class rlColorFor_1: aColor);
+			drawSphereWiresCenterPos: self class rlVectorZero
 				radius: 0.5
 				rings: 16
 				slices: 16
-				color: aColor thriceDarker asRlColor].
+				color: (self class rlColorFor_2: aColor thriceDarker)].
 ]
 
 {
@@ -177,7 +310,7 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 4/2/2026 13:30'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
 }
 SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor font: aFont [ 
 
@@ -185,27 +318,27 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 		Raylib
 			drawTextWithFont: (aFont ifNil: [Raylib getFontDefault])
 			text: aString
-			position: Vector3 zero asRlVector
+			position: self class rlVectorZero
 			size: 1
 			fontSpacing: 0.1
 			lineSpacing: 0.1
 			backface: true
-			color: aColor asRlColor].
+			color: (self class rlColorFor_1: aColor)].
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:33'
+	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
 }
 SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 
 	self withTransform: aMatrix4x4 do: [
 		Raylib
-			drawCubeWiresPosition: Vector3 zero asRlVector
+			drawCubeWiresPosition: self class rlVectorZero
 				width: 1
 				height: 1
 				length: 1
-				color: aColor muchDarker asRlColor].
+				color: (self class rlColorFor_1: aColor muchDarker)].
 ]
 
 { #category : #'render-loop' }

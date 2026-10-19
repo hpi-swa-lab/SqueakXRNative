@@ -6,12 +6,10 @@ Class {
 		'transpiledSource',
 		'source330',
 		'source300es',
-		'vertexSource',
-		'fragmentSource',
 		'id',
 		'internalShader',
-		'uniforms',
-		'uniformLocs'
+		'uniformLocs',
+		'name'
 	],
 	#classVars : [
 		'Default',
@@ -45,13 +43,13 @@ SRShader class >> doesCommandExist: aString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 7/15/2026 16:22'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
 }
 SRShader class >> doesNotUnderstand: aMessage [
 
-	^ (self sourceFor: aMessage selector version: self currentXRWorld renderer shaderVersion)
-		ifNotNil: [:source | self shaderFromDict: source]
-		ifNil: [super doesNotUnderstand: aMessage]
+	^ (self hasCachedShader: aMessage selector)
+		ifTrue: [self named: aMessage selector]
+		ifFalse: [super doesNotUnderstand: aMessage]
 ]
 
 {
@@ -102,6 +100,15 @@ SRShader class >> evaluateCommand: aCommandString [
 SRShader class >> hasCachedShader: aName [
 
 	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+}
+SRShader class >> named: aSymbol [
+
+	^ self new name: aSymbol; yourself
 ]
 
 {
@@ -208,18 +215,6 @@ SRShader class >> setShaderCacheFromJson: aJsonString [
 SRShader class >> shaderCacheAsJson [
 
 	^ Json render: ShaderCache
-]
-
-{
-	#category : #shaders,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:56'
-}
-SRShader class >> shaderFromDict: aDictionary [
-
-	^ self new
-		vertexSource: (aDictionary at: #vert);
-		fragmentSource: (aDictionary at: #frag);
-		uniforms: (aDictionary at: #uniforms ifAbsent: [#()])
 ]
 
 {
@@ -455,108 +450,89 @@ SRShader class >> transpileSource: sourceDict [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:48'
+	#category : #finalization,
+	#'squeak_changestamp' : 'leo 10/15/2026 15:25'
 }
-SRShader >> fragmentSource [
+SRShader >> finalize [
 
-	^ fragmentSource
+	internalShader ifNotNil: [
+		SRRenderer hasContext ifTrue: [
+			Raylib unloadShader: internalShader]].
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:47'
-}
-SRShader >> fragmentSource: aString [
-
-	fragmentSource := aString
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:49'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
 SRShader >> internalShader [
 
+	internalShader ifNil: [self loadInternalShader].
 	^ internalShader
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 16:04'
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
 }
-SRShader >> load [
+SRShader >> loadInternalShader [
 
+	| sources |
 	SRRenderer assertContext.
-	internalShader := Raylib loadShaderFromMemoryVsCode: self vertexSource fsCode: self fragmentSource.
-	
-	uniformLocs := self uniforms collect: [:uniform |
-		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)]
+	sources := self class sourceFor: name version: self currentXRWorld renderer shaderVersion.
+	internalShader := Raylib loadShaderFromMemoryVsCode: (sources at: #vert) fsCode: (sources at: #frag).
+	uniformLocs := (sources at: #uniforms ifAbsent: [#()]) collect: [:uniform |
+		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)].
+	FinalizationRegistry default add: self.
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+}
+SRShader >> name [
+
+	^ name
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+}
+SRShader >> name: aSymbol [
+
+	name := aSymbol.
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
+}
+SRShader >> onCacheInvalidated [
+
+	self unload.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
 SRShader >> uniformLocAt: aUniformName [
 
-	uniformLocs ifNil: [^ -1].
+	self internalShader.
 	^ (uniformLocs detect: [:assoc | assoc key = aUniformName] ifNone: [nil])
 		ifNil: [-1]
 		ifNotNil: [:assoc | assoc value]
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:55'
-}
-SRShader >> uniforms [
-
-	^ uniforms
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 4/2/2026 17:56'
-}
-SRShader >> uniforms: aSymbolCollection [
-
-	uniforms := aSymbolCollection
-]
-
-{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/11/2026 16:49'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
 }
 SRShader >> unload [
 
-	Raylib unloadShader: internalShader
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:48'
-}
-SRShader >> vertexSource [
-
-	^ vertexSource
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:47'
-}
-SRShader >> vertexSource: aString [
-
-	vertexSource := aString
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:41'
-}
-SRShader >> vertexSource: vertexSource fragmentSource: fragmentSource [
-
-	self vertexSource: vertexSource;
-		fragmentSource: fragmentSource
+	internalShader ifNil: [^ self].
+	FinalizationRegistry default remove: self ifAbsent: [].
+	SRRenderer hasContext ifTrue: [Raylib unloadShader: internalShader].
+	internalShader := nil.
+	uniformLocs := nil.
 ]

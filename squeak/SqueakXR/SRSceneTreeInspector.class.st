@@ -282,7 +282,7 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/4/2026 11:14'
+	#'squeak_changestamp' : 'leo 9/29/2026 16:57'
 }
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
@@ -321,6 +321,9 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 		'    x: ', selection globalScale x.
 		'    y: ', selection globalScale y.
 		'    z: ', selection globalScale z.
+		'Collision geometry: {1} ({2})' format: {
+			selection collisionGeometry asString.
+			selection hasGoodCollisionGeometry ifTrue: ['good'] ifFalse: ['bad']}.
 	}
 ]
 

@@ -39,6 +39,15 @@ SRCollisionGeometry >> isCollisionBox [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'leo 9/29/2026 16:43'
+}
+SRCollisionGeometry >> isCollisionGeometry [
+
+	^ true
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:13'
 }
 SRCollisionGeometry >> isCollisionNull [

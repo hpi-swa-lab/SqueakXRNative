@@ -1,5 +1,33 @@
 include(FetchContent)
 
+# ==== local repository overrides ====
+
+cmake_path(SET DEV_PROPERTIES_FILE NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/../../../../../dev.properties")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${DEV_PROPERTIES_FILE}")
+if(EXISTS "${DEV_PROPERTIES_FILE}")
+    file(STRINGS "${DEV_PROPERTIES_FILE}" DEV_PROPERTIES_LINES)
+    foreach(line IN LISTS DEV_PROPERTIES_LINES)
+        if(line MATCHES "^[ \t]*([A-Za-z0-9_]+)[ \t]*=[ \t]*(.+)$")
+            set(key "${CMAKE_MATCH_1}")
+            string(STRIP "${CMAKE_MATCH_2}" value)
+
+            if(key STREQUAL "rlOpenXRRepo" AND NOT LOCAL_RLOPENXR_SOURCE)
+                set(LOCAL_RLOPENXR_SOURCE "${value}")
+            elseif(key STREQUAL "raylibRepo" AND NOT LOCAL_RAYLIB_SOURCE)
+                set(LOCAL_RAYLIB_SOURCE "${value}")
+            elseif(key STREQUAL "opensmalltalkvmRepo" AND NOT LOCAL_OPENSMALLTALKVM_SOURCE)
+                set(LOCAL_OPENSMALLTALKVM_SOURCE "${value}")
+            endif()
+        endif()
+    endforeach()
+endif()
+
+foreach(dep RLOPENXR RAYLIB OPENSMALLTALKVM)
+    if(LOCAL_${dep}_SOURCE)
+        message(STATUS "Using local source for ${dep}: ${LOCAL_${dep}_SOURCE}")
+    endif()
+endforeach()
+
 # Adapted from https://github.com/Bigfoot71/raymob/blob/5606e6593083fb0ebb1525d8088de4c0156be674/app/src/main/cpp/deps/raylib/CMakeLists.txt
 
 # ==== raylib ====
@@ -59,7 +87,11 @@ if(ENABLE_ANDROID)
       set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfix-cortex-a53-835769")
   endif()
 else()
-  target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW)
+  # SteamVR's OpenGL binding reports min 4.3.0 in xrGetOpenGLGraphicsRequirementsKHR
+  # and its compositor copies the swapchain texture with glCopyImageSubData, core in
+  # 4.3. Without this rlgl defaults to 3.3, every OpenXR call succeeds, and the
+  # headset stays blank while the desktop mirror shows the frame.
+  target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW GRAPHICS_API_OPENGL_43)
   set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
