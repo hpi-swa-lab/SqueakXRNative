@@ -95,6 +95,15 @@ SRCursor >> focusPoint: aPoint [
 ]
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 16:25'
+}
+SRCursor >> grabbingTransform [ 
+
+	^ self globalTransform
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 10:57'
 }

@@ -73,6 +73,15 @@ SRPointRayCursor >> grabTransformBase [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/19/2026 16:25'
+}
+SRPointRayCursor >> grabbingTransform [ 
+
+	^ gogo globalTransform
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 9/30/2026 15:29'
 }
 SRPointRayCursor >> initialize [ 

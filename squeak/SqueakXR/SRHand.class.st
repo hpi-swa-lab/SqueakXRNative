@@ -345,7 +345,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:15'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 16:26'
 }
 SRHand >> initialize [
 
@@ -364,6 +364,7 @@ SRHand >> initialize [
 	
 	self addAction: SRSetFocusAction new.
 	self addAction: SRHighlightTargetsAction new.
+	self addAction: SRGrabAction new.
 	self addAction: SRSendInputAction new.
 ]
 
