@@ -129,6 +129,15 @@ SRHand >> addAction: anSRHandAction [
 ]
 
 {
+	#category : #actions,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 16:32'
+}
+SRHand >> addActions: aList [
+
+	aList do: [:action | self addAction: action ]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }
@@ -345,7 +354,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:26'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 16:32'
 }
 SRHand >> initialize [
 
@@ -362,10 +371,13 @@ SRHand >> initialize [
 	
 	self cursor: SRPointRayCursor new.
 	
-	self addAction: SRSetFocusAction new.
-	self addAction: SRHighlightTargetsAction new.
-	self addAction: SRGrabAction new.
-	self addAction: SRSendInputAction new.
+	self addActions: {
+		SRSetFocusAction new.
+		SRHighlightTargetsAction new.
+		SROpenHaloAction new.
+		SRGrabAction new.
+		SRSendInputAction new.
+	}.
 ]
 
 {
