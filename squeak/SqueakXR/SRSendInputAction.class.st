@@ -30,15 +30,16 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:24'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 14:39'
 }
 SRSendInputAction >> perform: inputState [ 
 
 	"I send any inputs to the first target."
 	| events target |
-	target := self hand cursor intersections ifNotEmpty: [:inter | inter first ].
-	target ifNil: [ ^ true ].
-
+	
+	target := self hand cursor intersections 
+		ifNotEmpty: [:inter | inter first ]
+		ifEmpty: [ ^ true  ].
 	events := OrderedCollection new.
 	
 	"Button events."
@@ -54,7 +55,7 @@ SRSendInputAction >> perform: inputState [
 		value := (inputState perform: axis) value.
 		value isZero ifFalse: [ 
 			events add: (self analogEventValue: value for: axis)
-		]
+		].
 	].
 
 	events do: [:event |
