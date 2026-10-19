@@ -3,7 +3,7 @@ Class {
 	#superclass : #SRCursor,
 	#instVars : [
 		'gogo',
-		'hit'
+		'intersections'
 	],
 	#category : #'SqueakXR-Input'
 }
@@ -26,16 +26,13 @@ SRPointRayCursor class >> laserWidth [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 15:39'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:15'
 }
 SRPointRayCursor >> castCollision [
 	
 	"Cast ray into scene but filter out any objects that don't want a cursor"
 	
-	^ self 
-		castCollisionOn: (self haloState activeHalo ifNotNil: [:halo | self targetsIn: halo ] ifNil: [ {} ])
-		then: (self grabbedObject ifNil: [ self targetsInWorld ]) 
-	
+	^ self castCollisionOn: self targetsInWorld
 ]
 
 {
@@ -89,15 +86,23 @@ SRPointRayCursor >> initialize [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:23'
+}
+SRPointRayCursor >> intersections [ 
+
+	^ intersections
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:09'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:18'
 }
 SRPointRayCursor >> onActionsUpdated [ 
 
-	self
+	self 
 		updateGoGo;
-		updateHover;
-		updateLaser.
+		updateIntersections.
 ]
 
 {
@@ -149,40 +154,28 @@ SRPointRayCursor >> updateGoGo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:25'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:23'
 }
-SRPointRayCursor >> updateHover [
+SRPointRayCursor >> updateIntersections [ 
 
-	| newHit newTarget oldTarget |
-	newHit := self castCollision.
-	oldTarget := self target.
-	newTarget := newHit ifNotNil: [ newHit object ].
-
-	(oldTarget ~= newTarget) ifTrue: [
-		self targetDo: [:target | target handleInput: (SRInputEventCursorLeave new setFrom: self)].
-	].
+	| targets |
+	targets := self targetsInWorld.
+	intersections := OrderedCollection new.
 	
-	hit := newHit.
+	"Prefer objects inside the small sphere."
+	intersections addAll: (
+		self
+			castSphereOn: targets
+			from: gogo globalTranslation
+			radius: self class grabRadius
+	).
 	
-	(oldTarget ~= newTarget) ifTrue: [
-		self targetDo: [:target | target handleInput: (SRInputEventCursorEnter new setFrom: self)].
-	].
-
-	self targetDo: [:target | target handleInput: (SRInputEventCursorMove new setFrom: self)].
-
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 15:44'
-}
-SRPointRayCursor >> updateLaser [
-
-	| end |
-	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
-	self gizmoPainter gizmoLine: gogo globalTranslation to: end color: Color gray.
-	end := self point ifNil: [ gogo globalTransform localPointToGlobal: (Vector3 backward * 10) ].
-	self point ifNotNil: [:point |
-		self gizmoPainter gizmoLine: gogo globalTranslation to: point color: self color 
-	]
+	"Then along the ray."
+	intersections addAll: (
+		self
+			castRayOn: targets
+			from: gogo globalTranslation 
+			toward: gogo backward
+	).
+	
 ]

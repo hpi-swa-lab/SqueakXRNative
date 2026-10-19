@@ -1,5 +1,5 @@
 "
-A SRCursor is an abstract input handler for an SRHand. It receives trigger, grip & face button inputs and selects objects in the world.
+A SRCursor is an abstract way of ""finding something"" in the world.
 
 Instance Variables
 hand - SRHand this cursor belongs to
@@ -8,14 +8,10 @@ Class {
 	#name : #SRCursor,
 	#superclass : #SRObject,
 	#instVars : [
-		'hand',
-		'pointCube',
-		'grabbedObject',
-		'grabbedRelativeTransform',
-		'label'
+		'hand'
 	],
 	#category : #'SqueakXR-Input',
-	#'squeak_changestamp' : 'phkeese 9/14/2026 14:55'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:01'
 }
 
 {
@@ -62,83 +58,6 @@ SRCursor >> color [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:55'
-}
-SRCursor >> forwardAnalogInput: anAnalogEvent [
-
-	anAnalogEvent handled ifTrue: [ ^ self ].
-	self targetDo: [:target | 
-		anAnalogEvent setFrom: self.
-		target handleInput: anAnalogEvent
-	]
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/12/2026 11:48'
-}
-SRCursor >> forwardButtonInput: aButtonEvent [
-
-	aButtonEvent handled ifTrue: [ ^ self ].
-	
-	"Grab objects with the squeeze button".
-	aButtonEvent button = #squeeze ifTrue: [
-		aButtonEvent pressed 
-		ifTrue: [ self startGrabbing ]
-		ifFalse: [ self stopGrabbing ].
-		aButtonEvent handled: true.
-		^ self
-	].
-	
-	"Ignore input while grabbing something."
-	self grabbedObject ifNotNil: [ 
-		aButtonEvent handled: true.
-		^ self
-	].	
-
-	"Forward any other events to the target or close any active halo."
-	self target ifNotNil: [:target | 
-		aButtonEvent setFrom: self.
-		target handleInput: aButtonEvent
-	] ifNil: [ self haloState closeHalo ]
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:17'
-}
-SRCursor >> grabTransformBase [ 
-
-	^ self globalTransform
-]
-
-{
-	#category : #grabbing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
-}
-SRCursor >> grabbedObject [ 
-
-	^ grabbedObject
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:18'
-}
-SRCursor >> grabbedRelativeTransform [
-	^ grabbedRelativeTransform
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:18'
-}
-SRCursor >> grabbedRelativeTransform: anObject [
-	grabbedRelativeTransform := anObject
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 10:57'
 }
@@ -148,7 +67,7 @@ SRCursor >> hand [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:31'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:12'
 }
 SRCursor >> hand: anSRHand [
 	
@@ -158,68 +77,37 @@ SRCursor >> hand: anSRHand [
 	hand ifNotNil: [ hand removeDependent: self ].
 	hand := anSRHand.
 	hand ifNotNil: [ hand addDependent: self ].
-	self onHandChanged: oldHand
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 12:01'
-}
-SRCursor >> highlightTarget [ 
-
-	self targetDo: [:target | target addHighlight: self color ]
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:57'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:11'
 }
 SRCursor >> initialize [ 
 
 	super initialize.
 	self cursorMode: SRCursorMode ignore.
-	
-	pointCube := (SRCube new
-		scale: 1cm asVector3;
-		color: Color red
-	).
-	self addChild: pointCube.
-	
-	label := SRTextField new
-		text: self class name asString;
-		color: self color;
-		scale: 0.015 asVector3;
-		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
-		yourself.
-	self addChild: label.
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:53'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:06'
 }
-SRCursor >> label [
+SRCursor >> intersections [
 	
-	label text
+	"Answer a sorted list of intersections, usually by their distance.
+	The first element should be the 'front' or 'most important' object."
+	^ self subclassResponsibility
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:53'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:06'
 }
-SRCursor >> label: aValue [
+SRCursor >> intersectionsSelect: aBlock [
 	
-	label text: aValue asString
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 16:04'
-}
-SRCursor >> labelPosition [
-
-	"Get the global position of our label"
-	^ self globalTranslation
+	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
+	^ self intersections select: aBlock
 ]
 
 {
@@ -232,73 +120,6 @@ SRCursor >> onActionsUpdated [
 	Called when my hand's actions have been updated but before it emits input events.
 	Useful for performing e.g. raycasts and update targeting.
 	"
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 16:44'
-}
-SRCursor >> onHandChanged: oldHand [
-
-	"
-	Called when we change our hand. 
-	Children should call this in their own impls to automatically handle grabbing and releasing.
-	"
-	oldHand ifNotNil: [ self stopGrabbing ].
-	pointCube color: self color.
-	label color: self color.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
-}
-SRCursor >> point [
-	
-	"Hit position in the world, if it exists."
-	^ self subclassResponsibility 
-]
-
-{
-	#category : #grabbing,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 13:47'
-}
-SRCursor >> startGrabbing [
-	
-	self targetDo: [:target |
-		target canGrab ifFalse: [^self].
-		grabbedObject := target.
-		grabbedRelativeTransform := self grabTransformBase inverseTransformation * grabbedObject globalTransform.
-		grabbedObject startGrabbing: self hand.
-	]
-]
-
-{
-	#category : #grabbing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:05'
-}
-SRCursor >> stopGrabbing [ 
-	
-	grabbedObject ifNotNil: [ grabbedObject stopGrabbing: self hand ].
-	grabbedObject := nil.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 19:29'
-}
-SRCursor >> target [
-	
-	"Object I am pointing at, if it exists."
-	^ self subclassResponsibility 
-]
-
-{
-	#category : #'apply primitives',
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:14'
-}
-SRCursor >> targetDo: aBlock [
-	^ self target ifNotNil: [:target | aBlock value: target ]
 ]
 
 {
@@ -327,65 +148,9 @@ SRCursor >> targetsInWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:52'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:10'
 }
 SRCursor >> update: anAspect [
 
-	anAspect = #actionsUpdated ifTrue: [ self 
-		onActionsUpdated;
-		updateGrabbedObjectTransform;
-		updateHitPoint;
-		highlightTarget;
-		updateLabel
-	].
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 12:51'
-}
-SRCursor >> update: anAspect with: anObject [
-
-	"
-	By default, we pass any unhandled input events along to our current target, as long as we are not grabbing something.
-	See on{Button,Analog}Input: 
-	"
-	anAspect = #buttonInput ifTrue: [ self forwardButtonInput: anObject ].
-	anAspect = #analogInput ifTrue: [ self forwardAnalogInput: anObject ].
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/16/2026 16:18'
-}
-SRCursor >> updateGrabbedObjectTransform [ 
-
-	grabbedObject ifNotNil: [
-		grabbedObject dragTo: self grabTransformBase * grabbedRelativeTransform
-	]
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:35'
-}
-SRCursor >> updateHitPoint [
-
-	self point 
-		ifNotNil: [:point | 
-			pointCube
-				visible: true; 
-				globalTranslation: point.
-			self gizmoPainter gizmoObject: pointCube.
-		]
-		ifNil: [ pointCube visible: false ]
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/30/2026 16:09'
-}
-SRCursor >> updateLabel [
-
-	label globalTranslation: self labelPosition.
+	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated ].
 ]
