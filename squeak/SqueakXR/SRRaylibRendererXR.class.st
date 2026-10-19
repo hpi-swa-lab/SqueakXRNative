@@ -27,12 +27,9 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRaylibRendererXR >> pollEventsAndWaitForFrame [
-	"Session state changes and xrWaitFrame. The wait latches predictedDisplayTime,
-	which rlOpenXRGetTime then hands to everything locating a pose, so nothing may
-	sample a pose before this."
 
 	Raylib rlOpenXRUpdate.
 ]

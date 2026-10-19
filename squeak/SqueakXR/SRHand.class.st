@@ -137,13 +137,11 @@ SRHand >> bottomButton [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:08'
 }
 SRHand >> forget: anSRObject [
-	"anSRObject left the world. A hand that keeps pointing at it keeps the whole thing
-	alive -- for a menu that is its items and their text fields."
 
-	grabbedObject == anSRObject ifTrue: [grabbedObject := nil].
+	grabbedObject == anSRObject ifTrue: [self stopGrabbing].
 	selectedObject == anSRObject ifTrue: [selectedObject := nil].
 ]
 
