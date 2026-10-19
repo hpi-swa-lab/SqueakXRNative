@@ -391,12 +391,12 @@ SRObject >> continueStepping [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:19'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 14:45'
 }
 SRObject >> createHalo [
 
 	"Create a new Halo for this object."
-	^ (self haloState haloSpecies ifNil: [SRDummyHalo]) new
+	^ (self haloState haloSpecies ifNil: [SRRingHalo]) new
 ]
 
 {
