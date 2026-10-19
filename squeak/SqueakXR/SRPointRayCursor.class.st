@@ -116,20 +116,19 @@ SRPointRayCursor >> point [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:20'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:55'
 }
-SRPointRayCursor >> renderInSecondPass [ 
-	^true
-]
+SRPointRayCursor >> step: deltaTime [ 
 
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:29'
-}
-SRPointRayCursor >> renderOn: aRenderer [
-	| xform |
-	xform := gogo globalTransform * (Matrix4x4 identity scaledBy: self class grabRadius * 2 asVector3).
-	aRenderer renderWireSphereTransformed: xform withColor: self color.
+	| end focus start |
+	start := gogo globalTranslation.
+	focus := self focusPoint ifNil: [ gogo globalTranslation ].
+	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
+	self gizmoPainter 
+		gizmoLine: start to: focus color: self color;
+		gizmoLine: focus to: end color: Color gray;
+		gizmoWireSphere: start size: self class grabRadius * 2 color: self color.
+
 ]
 
 {
@@ -141,6 +140,17 @@ SRPointRayCursor >> target [
 		hit ifNotNil: [ hit object 
 		]
 	]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:35'
+}
+SRPointRayCursor >> updateActions: actionState [
+
+	self 
+		updateGoGo;
+		updateIntersections.
 ]
 
 {

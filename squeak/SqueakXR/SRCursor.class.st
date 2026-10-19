@@ -8,7 +8,9 @@ Class {
 	#name : #SRCursor,
 	#superclass : #SRObject,
 	#instVars : [
-		'hand'
+		'hand',
+		'focusPoint',
+		'focusCube'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:01'
@@ -59,6 +61,29 @@ SRCursor >> color [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:40'
+}
+SRCursor >> focusPoint [
+	^ focusPoint
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:42'
+}
+SRCursor >> focusPoint: aPoint [
+
+	focusPoint := aPoint.
+	aPoint ifNil: [
+		focusCube visible: false
+	] ifNotNil: [
+		focusCube globalTranslation: aPoint.
+		focusCube visible: true.
+	]
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 10:57'
 }
 SRCursor >> hand [
@@ -67,26 +92,26 @@ SRCursor >> hand [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:12'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:34'
 }
 SRCursor >> hand: anSRHand [
 	
-	| oldHand |
-	(hand = anSRHand) ifTrue: [ ^ self ].
-	oldHand := hand.
-	hand ifNotNil: [ hand removeDependent: self ].
-	hand := anSRHand.
-	hand ifNotNil: [ hand addDependent: self ].
+	hand := anSRHand
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:11'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:48'
 }
 SRCursor >> initialize [ 
 
 	super initialize.
 	self cursorMode: SRCursorMode ignore.
+	
+	focusCube := (SRCube new
+		scale: 1cm asVector3
+	).
+	self addChild: focusCube.
 ]
 
 {
@@ -108,18 +133,6 @@ SRCursor >> intersectionsSelect: aBlock [
 	
 	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
 	^ self intersections select: aBlock
-]
-
-{
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 11:00'
-}
-SRCursor >> onActionsUpdated [
-
-	"
-	Called when my hand's actions have been updated but before it emits input events.
-	Useful for performing e.g. raycasts and update targeting.
-	"
 ]
 
 {
@@ -148,9 +161,10 @@ SRCursor >> targetsInWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:10'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:34'
 }
-SRCursor >> update: anAspect [
-
-	anAspect = #actionsUpdated ifTrue: [ self onActionsUpdated ].
+SRCursor >> updateActions: actionState [
+	
+	"Called when my hand's actions have been updated.
+	Useful for performing e.g. raycasts and update targeting."
 ]

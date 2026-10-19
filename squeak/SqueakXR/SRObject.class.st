@@ -350,7 +350,7 @@ SRObject >> childrenDo: aBlock [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 10/14/2026 16:26'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:58'
 }
 SRObject >> collisionGeometry [
 
@@ -358,7 +358,8 @@ SRObject >> collisionGeometry [
 	components := self children collect: [:child | child collisionGeometry ].
 	components  := components select: [:geom | geom isNil not ].
 	^ SRCompositeCollision new
-		components: components
+		components: components;
+		object: self
 ]
 
 {

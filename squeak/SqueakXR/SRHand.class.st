@@ -17,7 +17,8 @@ Class {
 		'avatar',
 		'inputState',
 		'cursor',
-		'halo'
+		'halo',
+		'actions'
 	],
 	#classVars : [
 		'EndRate',
@@ -95,7 +96,7 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:20'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 14:20'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -111,7 +112,18 @@ SRHand >> actionsUpdated: aSRActionStates [
 		^ self
 	].
 	
-	self emitInputEvents
+	self cursor updateActions: aSRActionStates.
+	self performActions.
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:32'
+}
+SRHand >> addAction: anSRHandAction [
+
+	anSRHandAction hand: self.
+	actions add: anSRHandAction.
 ]
 
 {
@@ -199,56 +211,6 @@ SRHand >> cycleCursor [
 		ifFalse: [ index := index + 1 ].
 	nextClass := cursorClasses at: index.
 	self cursor: nextClass new
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:33'
-}
-SRHand >> emitAnalogEventValue: aValue for: anAxis [
-
-	self changed: #analogInput with: (SRInputEventAnalog new
-		hand: self;
-		axis: anAxis;
-		value: aValue
-	)
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:32'
-}
-SRHand >> emitButtonEventPressed: aBool for: aButton [
-	
-	self changed: #buttonInput with: (SRInputEventButton new
-		hand: self;
-		button: aButton;
-		pressed: aBool
-	)
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'phkeese 9/15/2026 15:32'
-}
-SRHand >> emitInputEvents [ 
-
-	"Send out events based on changes in input"
-	self changed: #actionsUpdated.
-	
-	"Send button updates"
-	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button |
-		| state |
-		state := self inputState perform: button.
-		state isJustPressed ifTrue: [ self emitButtonEventPressed: true for: button ].
-		state isJustReleased ifTrue: [ self emitButtonEventPressed: false for: button ].
-	].
-
-	#(#joystick #trigger #squeeze) do: [ :axis | 
-		| value |
-		value := (self inputState perform: axis) value.
-		value isZero ifFalse: [ self emitAnalogEventValue: value for: axis. ]
-	].
 ]
 
 {
@@ -361,7 +323,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:26'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 14:15'
 }
 SRHand >> initialize [
 
@@ -374,9 +336,13 @@ SRHand >> initialize [
 	xPressed := false.
 	
 	inputState := SRHandInputState new.
+	actions := OrderedCollection new.
 	
-	self cursor: (SRPointRayCursor new).
+	self cursor: SRPointRayCursor new.
 	
+	self addAction: SRSetFocusAction new.
+	self addAction: SRHighlightTargetsAction new.
+	self addAction: SRSendInputAction new.
 ]
 
 {
@@ -439,30 +405,13 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 9/14/2026 15:37'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 14:20'
 }
 SRHand >> performActions [
 
-	"self trigger isJustPressed ifTrue: [
-		self squeeze isPressed
-			ifFalse: [self rayCast]].
-	
-	self squeeze isJustPressed ifTrue: [
-		self trigger isPressed
-			ifFalse: [self startGrabbing]].
-	
-	self squeeze isJustReleased ifTrue: [
-		self stopGrabbing].
-	
-	self isRight ifTrue: [
-		self bottomButton isJustPressed ifTrue: [
-			self teleport]].
-	
-	self isLeft ifTrue: [
-		self menuButton isJustPressed ifTrue: [
-			self openMenu].
-		self bottomButton isJustPressed ifTrue: [
-			self avatar toggleOutOfBody]]."
+	actions do: [:action |
+		action perform: self inputState 
+	]
 ]
 
 {

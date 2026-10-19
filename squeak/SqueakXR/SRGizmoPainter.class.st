@@ -147,6 +147,23 @@ SRGizmoPainter >> drawWirePlane: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:54'
+}
+SRGizmoPainter >> drawWireSphere: command renderer: aSRRenderer [
+
+	| transform |
+	transform := (Matrix4x4 withOffset: command second) * (Matrix4x4 withScale: command third asVector3).
+	aSRRenderer renderWireSphereTransformed: transform withColor: command fourth.
+	"aSRRenderer
+		drawSphereWiresCenterPos: command second
+		radius: command third
+		rings: 16
+		slices: 16
+		color: command fourth"
+]
+
+{
 	#category : #'2D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
@@ -214,6 +231,15 @@ SRGizmoPainter >> gizmoWirePlane: aSRCollisionPlane color: aColor [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:54'
+}
+SRGizmoPainter >> gizmoWireSphere: globalPosition size: size color: color [
+
+	commands add: {#wireSphere. globalPosition. size. color}
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
 SRGizmoPainter >> initialize [
@@ -255,13 +281,14 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 16:40'
+	#'squeak_changestamp' : 'phkeese 10/19/2026 13:54'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
 	commands do: [:command |
 		command first caseOf: {
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
+			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
 			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].
