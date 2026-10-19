@@ -61,6 +61,18 @@ SRCursor >> color [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/19/2026 15:16'
+}
+SRCursor >> firstIntersection [ 
+
+	"Answer the first intersection, if it exists."
+	^ self intersections
+		ifNotEmpty: [:inter | inter first ] 
+		ifEmpty: [ nil ]
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:40'
 }
 SRCursor >> focusPoint [
@@ -134,16 +146,6 @@ SRCursor >> intersectionsSelect: aBlock [
 	
 	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
 	^ self intersections select: aBlock
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:01'
-}
-SRCursor >> target [ 
-
-	"Answer the first intersection, if it exists."
-	^ self intersections ifNotEmpty: [:inter | inter first ] ifEmpty: [ nil ]
 ]
 
 {
