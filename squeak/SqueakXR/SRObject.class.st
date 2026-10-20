@@ -778,7 +778,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 13:55'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 15:12'
 }
 SRObject >> initialize [
 
@@ -788,7 +788,7 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
-	cursorMode := SRCursorMode stop.
+	cursorMode := SRCursorMode pass.
 	haloMode := SRHaloMode want.
 	
 	visible := true.

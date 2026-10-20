@@ -18,20 +18,14 @@ SROpenHaloAction >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:46'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 15:01'
 }
 SROpenHaloAction >> perform: inputState [ 
 
-	| sinceLast |
 	inputState bottomButton isJustPressed ifFalse: [
 		"We only care about halos."
 		^ true
 	].
-
-	"TODO: Find out why we are performed so fast again, but debounce for now."
-	sinceLast := Sensor eventTimeNow - lastEvent.
-	(sinceLast) < 100 ifTrue: [ ^ true ].
-	lastEvent := Sensor eventTimeNow.
 
 	self hand cursorTarget 
 		ifNil: [ self hand haloState closeHalo ]

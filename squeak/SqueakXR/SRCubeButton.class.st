@@ -12,6 +12,19 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/20/2026 15:08'
+}
+SRCubeButton >> actOnInput: anEvent [
+
+	anEvent isButtonEvent ifFalse: [^false].
+	
+	anEvent button = #trigger ifTrue: [
+		self doClick: anEvent
+	].
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/7/2026 15:30'
 }
 SRCubeButton >> collisionGeometry [
