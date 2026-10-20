@@ -528,6 +528,17 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:43'
+}
+SRWorld >> activeApp [
+	"Derived rather than remembered, so removing the app cannot leave the menu
+	pointing at something no longer in the scene."
+
+	^ children detect: [:each | each isApp] ifNone: [nil]
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }

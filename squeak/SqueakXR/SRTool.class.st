@@ -1,0 +1,30 @@
+"
+What a hand does when the trigger is pulled, held by SRHand.
+
+Not an SRObject: a tool is not in the scene. An application subclasses this and keeps whatever the action needs as state, which is how two hands can hold the same kind of tool set to different things.
+"
+Class {
+	#name : #SRTool,
+	#superclass : #Object,
+	#category : #'SqueakXR-Tools',
+	#'squeak_changestamp' : '<historical>'
+}
+
+{
+	#category : #acting,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:59'
+}
+SRTool >> handleRaycast: aHandRayIntersectionResult [
+	"Answer whether the hit was used up. Declining leaves the object to its own
+	#onRaycast:, which is how menus and panels keep working while a tool is held."
+
+	^ false
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:59'
+}
+SRTool >> label [
+	^ self subclassResponsibility
+]

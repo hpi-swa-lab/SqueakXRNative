@@ -118,6 +118,24 @@ SRMenuTest >> tearDown [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+}
+SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
+	"Most rows take no arguments at all, and a picked row with no hand behind it
+	is a legitimate call."
+
+	| menu ran |
+	ran := false.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Go' action: [ran := true].
+	menu rebuild.
+	(self rowOf: menu labelled: 'Go') onRaycast: nil.
+	self assert: ran.
+]
+
+{
 	#category : #'tests - sticky',
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:45'
 }
@@ -300,6 +318,29 @@ SRMenuTest >> testStickyMenuStaysOpenWhenPicking [
 	menu rebuild.
 	(self rowOf: menu labelled: 'Alpha') onRaycast: nil.
 	self assert: menu isOpen.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+}
+SRMenuTest >> testTheActionReceivesThePickingHand [
+	"Which hand reached for the row is the whole of how a tool reaches one hand
+	rather than the other."
+
+	| menu hand seen result |
+	hand := SRHand new.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Arm' action: [:item :pickingHand | seen := pickingHand].
+	menu rebuild.
+	result := SRRayIntersectionResult new
+		object: menu;
+		point: Vector3 zero;
+		yourself.
+	(self rowOf: menu labelled: 'Arm')
+		onRaycast: (result asHandRayIntersection: nil hand: hand).
+	self assert: hand == seen.
 ]
 
 {

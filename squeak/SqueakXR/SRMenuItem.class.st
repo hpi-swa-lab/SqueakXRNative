@@ -211,12 +211,16 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:47'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
-	"Actions may take the activated item as an optional argument."
+	"Actions may take the activated item and the picking hand as optional
+	arguments. A tool is given to the hand that reached for it, which is the
+	only way the two hands can end up holding different ones."
 
-	action ifNotNil: [action valueWithEnoughArguments: (Array with: self)].
+	action ifNotNil: [
+		action valueWithEnoughArguments:
+			(Array with: self with: (aSRRayIntersectionResult ifNotNil: [:r | r hand]))].
 	self keepsMenuOpen ifTrue: [^ self].
 	self menu ifNotNil: [:m |
 		m isSticky

@@ -18,10 +18,12 @@ Class {
 		'hoveredMenuItem',
 		'avatar',
 		'inputState',
-		'turnArmed'
+		'turnArmed',
+		'tool'
 	],
 	#classVars : [
 		'EndRate',
+		'SharedTool',
 		'StartRate',
 		'TransitionEnd',
 		'TransitionStart'
@@ -95,6 +97,27 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 ]
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand class >> sharedTool [
+	<preference: 'Shared tool in both hands'
+		category: 'SqueakXR'
+		description: 'Picking a tool arms both hands instead of only the hand that reached for it. For one-handed use, or when holding two different tools is more to keep track of than it is worth.'
+		type: #Boolean>
+	^ SharedTool ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand class >> sharedTool: aBoolean [
+
+	SharedTool := aBoolean.
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'lege 8/6/2026 18:58'
 }
@@ -125,6 +148,16 @@ SRHand >> avatar [
 SRHand >> avatar: anSRAvatar [
 
 	avatar := anSRAvatar
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand >> basicTool: aTool [
+	"Arms this hand alone. #tool: is the one that honours the shared preference."
+
+	tool := aTool.
 ]
 
 {
@@ -320,7 +353,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
 }
 SRHand >> performActions [
 
@@ -335,28 +368,29 @@ SRHand >> performActions [
 	self squeeze isJustReleased ifTrue: [
 		self stopGrabbing].
 	
-	self isRight ifTrue: [
-		self topButton isJustPressed ifTrue: [
-			self openMenu]].
+	"B on either hand: open with one hand and pick with the other, so a tool can
+	be given to either. The OpenXR menu button belongs to the runtime."
+	self topButton isJustPressed ifTrue: [
+		self openMenu].
 	
 	self isLeft ifTrue: [
 		self updateTeleportAim.
-		self menuButton isJustPressed ifTrue: [
-			self openMenu].
 		self bottomButton isJustPressed ifTrue: [
 			self avatar toggleOutOfBody]].
 ]
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 18:46'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:59'
 }
 SRHand >> rayCast [
 
-	| result |
+	| result hit |
 	result := self castRayBackward.
-	result ifNotNil: [
-		result object onRaycast: (result asHandRayIntersection: actionState)]
+	result ifNil: [^ self].
+	hit := result asHandRayIntersection: actionState hand: self.
+	(tool notNil and: [tool handleRaycast: hit]) ifTrue: [^ self].
+	result object onRaycast: hit
 ]
 
 {
@@ -455,6 +489,25 @@ SRHand >> teleportToGroundPlane [
 	t := (translation y / forward y) negated.
 	groundPoint := forward * t + translation.
 	self world avatar teleportTo: groundPoint.
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand >> tool [
+	^ tool
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand >> tool: aTool [
+
+	(self class sharedTool and: [avatar notNil])
+		ifTrue: [avatar hands do: [:each | each basicTool: aTool]]
+		ifFalse: [self basicTool: aTool].
 ]
 
 {

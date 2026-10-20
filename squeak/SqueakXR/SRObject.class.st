@@ -645,6 +645,16 @@ SRObject >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:43'
+}
+SRObject >> isApp [
+	"An app owns the menu reached by the B button while nothing is grabbed."
+
+	^ false
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'leo 9/29/2026 16:55'
 }

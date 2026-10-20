@@ -22,6 +22,25 @@ Class {
 
 {
 	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
+}
+SRMenu class >> appMenuFor: anApp at: aPosition facingCamera: aCamera in: aWorld [
+	"The app's own controls, with the world menu reachable from the last row.
+	Inspect/Clone/Remove are left out: those are reached by grabbing the app."
+
+	| menu |
+	menu := self new.
+	anApp addCustomMenuItemsTo: menu.
+	menu setTransformAt: aPosition facingCamera: aCamera.
+	aWorld addChild: menu.
+	menu
+		addItemsUnder: {anApp class name asSymbol} target: anApp;
+		addSubmenuItemFor: #world under: #() target: nil.
+	^ menu
+]
+
+{
+	#category : #'instance creation',
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facingCamera: aCamera in: aWorld [

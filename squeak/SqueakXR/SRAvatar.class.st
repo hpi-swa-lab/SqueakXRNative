@@ -395,6 +395,19 @@ SRAvatar >> menuPlacementPositionForHand: aHand [
 ]
 
 {
+	#category : #menus,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
+}
+SRAvatar >> openAppMenuFor: anApp at: aPosition [
+
+	^ contextMenu := SRMenu
+		appMenuFor: anApp
+		at: aPosition
+		facingCamera: self camera
+		in: self world
+]
+
+{
 	#category : #menu,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:48'
 }
@@ -409,13 +422,11 @@ SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'lege 7/2/2026 11:35'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
 }
 SRAvatar >> openMenuForHand: aHand [
-	"Notified by a hand that a menu should be spawned. If our menu is still open,
-	close it. Otherwise open a context menu for the hand's grabbed object, or the
-	world menu. A menu that was dismissed elsewhere (e.g. by selecting an item)
-	has a nil parent, so it no longer counts as open."
+	"A menu that was dismissed elsewhere (e.g. by selecting an item) has a nil
+	parent, so it no longer counts as open."
 
 	| position |
 	(contextMenu notNil and: [contextMenu isOpen]) ifTrue: [
@@ -425,7 +436,9 @@ SRAvatar >> openMenuForHand: aHand [
 	position := self menuPlacementPositionForHand: aHand.
 	aHand grabbedObject
 		ifNotNil: [:object | self openContextMenuFor: object at: position]
-		ifNil: [self openWorldMenuAt: position].
+		ifNil: [self world activeApp
+			ifNil: [self openWorldMenuAt: position]
+			ifNotNil: [:app | self openAppMenuFor: app at: position]].
 ]
 
 {

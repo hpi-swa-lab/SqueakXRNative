@@ -9,15 +9,16 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/8/2026 15:52'
+	#category : #converting,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:42'
 }
-SRRayIntersectionResult >> asHandRayIntersection: actionState [
+SRRayIntersectionResult >> asHandRayIntersection: actionState hand: aHand [
 
 	^ SRHandRayIntersectionResult new
 		object: self object;
 		point: self point;
-		actionState: actionState
+		actionState: actionState;
+		hand: aHand
 ]
 
 { #category : #'as yet unclassified' }
