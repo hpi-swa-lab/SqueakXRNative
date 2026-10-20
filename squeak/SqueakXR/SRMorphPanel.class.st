@@ -192,23 +192,15 @@ SRMorphPanel >> fullTextureUpdate [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 11:40'
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:19'
 }
-SRMorphPanel >> handleInput: anInputEvent [
+SRMorphPanel >> getClickPoint: anEvent [
 
-	| clickPoint normalizedPoint point |
-	self morph ifNil: [ ^ self ].
-	"TODO: Once we support enter/leave events, point may be nil."
-	anInputEvent point ifNil: [ ^self ].
-	
-	point := plane globalTransform globalPointToLocal: anInputEvent point.
+	| normalizedPoint point |
+	point := plane globalTransform globalPointToLocal: anEvent point.
 	normalizedPoint := point xz asPoint + 0.5 asPoint.
-	clickPoint := (normalizedPoint * (self morph extent)) + self morph topLeft. 
-	
-	anInputEvent isButtonEvent ifTrue: [ self performClick: anInputEvent at: clickPoint ].
-	(anInputEvent isAnalogEvent and: [ anInputEvent axis = #joystick ]) 
-		ifTrue: [ self performScroll: anInputEvent at: clickPoint ].
+	^ (normalizedPoint * (self morph extent)) + self morph topLeft. 
 ]
 
 {
@@ -370,6 +362,31 @@ SRMorphPanel >> morph: aMorph [
 	texture morph: morph.
 	self updateTexture;
 		name: (morph knownName ifNil: [morph class asString]).
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:33'
+}
+SRMorphPanel >> onAnalogInput: anEvent [
+
+	self morph ifNil: [^self].
+	anEvent axis = #joystick ifTrue: [ | clickPoint |
+		clickPoint := self getClickPoint: anEvent.
+		self performScroll: anEvent at: clickPoint.
+	].
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:33'
+}
+SRMorphPanel >> onButtonPress: anEvent [
+	
+	| clickPoint |
+	self morph ifNil: [^self].
+	clickPoint := self getClickPoint: anEvent.
+	self performClick: anEvent at: clickPoint.
 ]
 
 {

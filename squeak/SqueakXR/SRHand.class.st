@@ -451,6 +451,17 @@ SRHand >> performActions [
 
 {
 	#category : #actions,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:45'
+}
+SRHand >> printOn: aStream [
+
+	| side |
+	side := self isLeft ifTrue: [ 'left' ] ifFalse: [ 'right' ].
+	aStream nextPutAll: 'an ', (self class name), '(', side, ')'.
+]
+
+{
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/19/2026 12:52'
 }
 SRHand >> rayCast [
@@ -490,16 +501,6 @@ SRHand >> selectedObject [
 SRHand >> squeeze [
 
 	^ self inputState squeeze
-]
-
-{
-	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:09'
-}
-SRHand >> step: deltaTime [
-
-	self performActions;
-		highlightSelectedObject.
 ]
 
 { #category : #actions }

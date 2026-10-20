@@ -66,7 +66,7 @@ void main()
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:00'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:56'
 }
 SRObject >> actOnInput: anInputEvent [
 
@@ -720,7 +720,7 @@ SRObject >> haloState [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:02'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:17'
 }
 SRObject >> handleInput: anEvent [
 
@@ -728,7 +728,10 @@ SRObject >> handleInput: anEvent [
 	anEvent handled ifTrue: [^ self].
 	self cursorMode caseOf: {
 		[SRCursorMode ignore] -> [self passOnInput: anEvent].
-		[SRCursorMode stop] -> [self actOnInput: anEvent].
+		[SRCursorMode stop] -> [
+			self actOnInput: anEvent.
+			anEvent handled: true.
+		].
 		[SRCursorMode pass] -> [
 			self actOnInput: anEvent.
 			self passOnInput: anEvent.
