@@ -28,3 +28,27 @@ SRTool >> handleRaycast: aHandRayIntersectionResult [
 SRTool >> label [
 	^ self subclassResponsibility
 ]
+
+{
+	#category : #preview,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:56'
+}
+SRTool >> newPreviewObject [
+	"Hangs off the hand, so it must not be pickable: an SRCube has no collision
+	geometry, which keeps it out of every ray cast and out of the body sweep.
+	Answer nil for a tool that should show nothing."
+
+	^ SRCube new
+		color: self previewColor;
+		scale: Vector3 one * 4 cm;
+		translation: 0 @ 4 cm @ 0;
+		yourself
+]
+
+{
+	#category : #preview,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:56'
+}
+SRTool >> previewColor [
+	^ Color gray
+]

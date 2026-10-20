@@ -19,7 +19,8 @@ Class {
 		'avatar',
 		'inputState',
 		'turnArmed',
-		'tool'
+		'tool',
+		'toolPreview'
 	],
 	#classVars : [
 		'EndRate',
@@ -152,12 +153,13 @@ SRHand >> avatar: anSRAvatar [
 
 {
 	#category : #tools,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
 }
 SRHand >> basicTool: aTool [
 	"Arms this hand alone. #tool: is the one that honours the shared preference."
 
 	tool := aTool.
+	self updateToolPreview.
 ]
 
 {
@@ -561,6 +563,20 @@ SRHand >> updateTeleportAim [
 	(stick x = 0 and: [stick y = 0])
 		ifTrue: [self avatar commitTeleport]
 		ifFalse: [self avatar aimTeleportFrom: self]
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
+}
+SRHand >> updateToolPreview [
+
+	toolPreview ifNotNil: [
+		toolPreview remove.
+		toolPreview := nil].
+	tool ifNil: [^ self].
+	toolPreview := tool newPreviewObject.
+	toolPreview ifNotNil: [self addChild: toolPreview].
 ]
 
 {

@@ -34,16 +34,17 @@ SRHandToolTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
 }
 SRHandToolTest >> testAHandOutsideAnAvatarCanStillBeArmed [
 	"The shared case has no second hand to reach, and must not fail trying."
 
-	| hand |
+	| hand dig |
 	hand := SRHand new.
+	dig := SRTool new.
 	SRHand sharedTool: true.
-	hand tool: #dig.
-	self assert: #dig equals: hand tool.
+	hand tool: dig.
+	self assert: dig == hand tool.
 ]
 
 {
@@ -59,42 +60,90 @@ SRHandToolTest >> testAToolDeclinesByDefault [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
 }
 SRHandToolTest >> testArmingOneHandLeavesTheOtherEmpty [
 
 	| avatar |
 	avatar := SRAvatar new.
-	avatar rightHand tool: #dig.
+	avatar rightHand tool: SRTool new.
 	self assert: avatar leftHand tool isNil.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
 }
-SRHandToolTest >> testEachHandHoldsItsOwnTool [
+SRHandToolTest >> testArmingShowsTheToolOnTheHandAndDisarmingTakesItAway [
 
-	| avatar |
-	avatar := SRAvatar new.
-	avatar rightHand tool: #dig.
-	avatar leftHand tool: #place.
-	self assert: #dig equals: avatar rightHand tool.
-	self assert: #place equals: avatar leftHand tool.
+	| hand before |
+	hand := SRHand new.
+	before := hand children size.
+	hand tool: SRTool new.
+	self assert: before + 1 equals: hand children size.
+	hand tool: nil.
+	self assert: before equals: hand children size.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
+}
+SRHandToolTest >> testEachHandHoldsItsOwnTool [
+
+	| avatar dig place |
+	avatar := SRAvatar new.
+	dig := SRTool new.
+	place := SRTool new.
+	avatar rightHand tool: dig.
+	avatar leftHand tool: place.
+	self assert: dig == avatar rightHand tool.
+	self assert: place == avatar leftHand tool.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
+}
+SRHandToolTest >> testSwappingToolsDoesNotStackPreviews [
+	"Six materials picked in a row would otherwise leave six cubes on the hand."
+
+	| hand before |
+	hand := SRHand new.
+	before := hand children size.
+	5 timesRepeat: [hand tool: SRTool new].
+	self assert: before + 1 equals: hand children size.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
+}
+SRHandToolTest >> testThePreviewIsNeitherPickableNorSolid [
+	"It rides on the hand and crosses everything the player points at, so it must
+	not answer a ray or hold the player up."
+
+	| hand preview |
+	hand := SRHand new.
+	hand tool: SRTool new.
+	preview := hand children last.
+	self assert: preview safeCollisionGeometry isNil.
+	self assert: (SRSceneSolids forObject: SRObject new) size isZero.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
 }
 SRHandToolTest >> testTheSharedPreferenceArmsBothHands [
 
-	| avatar |
+	| avatar laser |
 	avatar := SRAvatar new.
+	laser := SRTool new.
 	SRHand sharedTool: true.
-	avatar leftHand tool: #laser.
-	self assert: #laser equals: avatar leftHand tool.
-	self assert: #laser equals: avatar rightHand tool.
+	avatar leftHand tool: laser.
+	self assert: laser == avatar leftHand tool.
+	self assert: laser == avatar rightHand tool.
 ]
 
 {
