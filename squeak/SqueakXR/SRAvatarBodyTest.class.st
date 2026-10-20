@@ -45,6 +45,25 @@ SRAvatarBodyTest >> setUp [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:26'
+}
+SRAvatarBodyTest >> testAStandingBodyDoesNotDrift [
+	"Settling leaves the feet a skin width clear, so a grounded body that falls to
+	find the floor falls exactly that gap, lands, and does it again -- a permanent
+	bounce the desktop showed up once the head stopped moving."
+
+	| resting |
+	self addFloorAtY: 0.
+	body restAt: Vector3 zero.
+	self walk: 0 forFrames: 5.
+	resting := body position.
+	self walk: 0 forFrames: 120.
+	self assert: body onGround.
+	self assert: (body position - resting) length < 1.0e-6.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
 }
 SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
@@ -137,6 +156,34 @@ SRAvatarBodyTest >> testRestingLeavesTheBoxClearOfTheSurface [
 	self assert: bottom > 0.001.
 	self assert: body position y < 0.01.
 	self deny: (body collidesIn: walker).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:27'
+}
+SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
+	"The other half of not falling while grounded: support is asked for every
+	frame, so a floor that disappears is noticed without having to fall first."
+
+	| plane probe restingY |
+	plane := SRPlane new
+		scale: 40 @ 1 @ 40;
+		solid: true;
+		yourself.
+	scene addChild: plane.
+	probe := SRObject new.
+	scene addChild: probe.
+	body restAt: Vector3 zero.
+	"Solids are gathered per frame rather than from the cached fixture, which is
+	the whole point: the floor has to be able to go away."
+	5 timesRepeat: [body applyPhysicsIn: (SRSceneSolids forObject: probe) dt: 0.02].
+	self assert: body onGround.
+	restingY := body position y.
+	plane remove.
+	30 timesRepeat: [body applyPhysicsIn: (SRSceneSolids forObject: probe) dt: 0.02].
+	self deny: body onGround.
+	self assert: body position y < (restingY - 0.1).
 ]
 
 {

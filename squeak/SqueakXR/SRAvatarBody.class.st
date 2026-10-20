@@ -188,18 +188,21 @@ SRAvatarBody >> initialize [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:26'
 }
 SRAvatarBody >> integrateIn: aScene dt: dt [
 	"One axis at a time: resolving all three at once cannot tell being stopped by
-	a wall from being stopped by the floor. Gravity applies unconditionally and
-	onGround is rediscovered by the vertical sweep, so taking the ground out from
-	under the player drops them."
+	a wall from being stopped by the floor. A grounded body is asked whether it is
+	still supported rather than made to fall and find out, so taking the ground
+	out from under the player still drops them."
 
 	| alongX alongZ alongY |
+	onGround := onGround and: [self stillSupportedIn: aScene].
 	velocity := Vector3
 		x: velocity x
-		y: ((velocity y - (self gravity * dt)) max: self maxFallSpeed negated)
+		y: (onGround
+			ifTrue: [0.0]
+			ifFalse: [(velocity y - (self gravity * dt)) max: self maxFallSpeed negated])
 		z: velocity z.
 
 	alongX := Vector3 x: position x + (velocity x * dt) y: position y z: position z.
@@ -212,21 +215,24 @@ SRAvatarBody >> integrateIn: aScene dt: dt [
 		ifTrue: [self climbTo: alongZ in: aScene]
 		ifFalse: [position := alongZ].
 
+	"Only fall when not standing on something. The feet rest #skinWidth clear of
+	the surface, so a supported body never collides at its own position, and
+	running this while grounded answered 'no floor' every frame -- a permanent
+	bounce of exactly that gap."
+	onGround ifTrue: [^ self].
+
 	alongY := Vector3 x: position x y: position y + (velocity y * dt) z: position z.
 	(self collidesAtFeet: alongY in: aScene)
 		ifTrue: [
-			"Settling costs ten sweeps, so it is done on landing only. A body already
-			resting is at the height the last settle found and has nowhere to go."
-			(velocity y <= 0 and: [onGround not]) ifTrue: [
+			"Settling costs ten sweeps, so it is done on landing only."
+			velocity y <= 0 ifTrue: [
 				position := Vector3
 					x: position x
 					y: (self settledYBetween: position y and: alongY y in: aScene)
-					z: position z].
-			velocity y <= 0 ifTrue: [onGround := true].
+					z: position z.
+				onGround := true].
 			velocity := Vector3 x: velocity x y: 0.0 z: velocity z]
-		ifFalse: [
-			position := alongY.
-			onGround := false].
+		ifFalse: [position := alongY].
 ]
 
 {
@@ -316,6 +322,20 @@ SRAvatarBody >> stepUpHeight [
 	scaled to a metre per cell, which is the only scale locomotion runs at."
 
 	^ 1 m
+]
+
+{
+	#category : #physics,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:25'
+}
+SRAvatarBody >> stillSupportedIn: aScene [
+	"Settling leaves the feet #skinWidth clear of the surface, so a grounded body
+	has to be asked whether the floor is still there. Falling to find out means
+	falling exactly that gap, every frame, for ever."
+
+	^ self
+		collidesAtFeet: (Vector3 x: position x y: position y - (self skinWidth * 2) z: position z)
+		in: aScene
 ]
 
 {

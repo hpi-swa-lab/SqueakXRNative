@@ -215,48 +215,6 @@ SRHand >> handIndex: anInteger [
 ]
 
 {
-	#category : #input,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
-}
-SRHand >> handleSqueeze: aNumber [
-
-	| prevSqueezePressed threshold |
-	self flag: #deprecated.
-	prevSqueezePressed := squeezePressed.
-	threshold := squeezePressed
-		ifTrue: [0.8]
-		ifFalse: [0.9].
-	squeezePressed := aNumber > threshold.
-	
-	(squeezePressed and: [prevSqueezePressed not]) ifTrue: [
-		triggerPressed
-			ifTrue: [self openMenu]
-			ifFalse: [self startGrabbing]].
-	(squeezePressed not and: [prevSqueezePressed])
-		ifTrue: [self stopGrabbing].
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
-}
-SRHand >> handleTrigger: aNumber [
-
-	| prevTriggerPressed threshold |
-	self flag: #deprecated.
-	prevTriggerPressed := triggerPressed.
-	threshold := triggerPressed
-		ifTrue: [0.8]
-		ifFalse: [0.9].
-	triggerPressed := aNumber > threshold.
-	
-	(triggerPressed and: [prevTriggerPressed not]) ifTrue: [
-		squeezePressed
-			ifTrue: [self openMenu]
-			ifFalse: [self rayCast]].
-]
-
-{
 	#category : #stepping,
 	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
 }

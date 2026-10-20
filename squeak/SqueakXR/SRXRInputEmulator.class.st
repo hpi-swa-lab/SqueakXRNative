@@ -134,11 +134,13 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 18:17'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:16'
 }
 SRXRInputEmulator >> step: delta [
-	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
-	| rightHand input |
+	"Desktop stand-in for the headset and the controllers: TAB toggles look mode,
+	WASD drives the rig, the mouse aims the right hand."
+
+	| input |
 	input := SRDesktopInputState current.
 	
 	(input isKeyPressed: RlKeyboardKey keyF2) ifTrue: [
@@ -152,28 +154,43 @@ SRXRInputEmulator >> step: delta [
 	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
 	
-	"Update left hand to follow camera at a natural offset"
 	self updateLeftHandFromCamera.
-	
 	emulatedCamera lookModeEnabled
-		ifTrue: [
-			rightHand := self updateRightHandFromScreenCenter]
-		ifFalse: [
-			rightHand := self updateRightHandFromMouseRay].
+		ifTrue: [self updateRightHandFromScreenCenter]
+		ifFalse: [self updateRightHandFromMouseRay].
 	
-	(input isMouseButtonPressed: RlMouseButton mouseButtonLeft) ifTrue: [
-		rightHand handleTrigger: 1.0].
-	(input isMouseButtonReleased: RlMouseButton mouseButtonLeft) ifTrue: [
-		rightHand handleTrigger: 0.0].
-	
-	((input isMouseButtonPressed: RlMouseButton mouseButtonRight) or: [
-		(input isKeyDown: RlKeyboardKey keyZ)
-		and: [input isKeyDown: RlKeyboardKey keyLeftAlt]]) ifTrue: [
-		rightHand handleSqueeze: 1.0].
-	((input isMouseButtonReleased: RlMouseButton mouseButtonRight) or: [
-		(input isKeyUp: RlKeyboardKey keyZ)
-		and: [input isKeyDown: RlKeyboardKey keyLeftAlt]]) ifTrue: [
-		rightHand handleSqueeze: 0.0].
+	self updateHandInput: input.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:20'
+}
+SRXRInputEmulator >> updateHandInput: anInput [
+	"The mouse is the right hand: left button is the trigger, right button the
+	squeeze, B the menu button. B reaches the right hand only -- both would open
+	the menu and close it again in the same frame, since #openMenuForHand: toggles.
+
+	Driving SRHandInputState rather than SRHand directly is what makes
+	#performActions -- and so the tools, the grab and the app menu -- behave the
+	same in flat mode as in XR."
+
+	| avatar squeezing |
+	avatar := self world ifNil: [^ self] ifNotNil: [:w | w avatar].
+	avatar ifNil: [^ self].
+	"Alt+Z holds the grab without holding the mouse down. A grab lasts exactly as
+	long as the squeeze, so grab-then-B is otherwise a two-handed stretch."
+	squeezing := (anInput isMouseButtonDown: RlMouseButton mouseButtonRight)
+		or: [anInput isAltDown and: [anInput isKeyDown: RlKeyboardKey keyZ]].
+	avatar rightHand inputState
+		updateDesktopTrigger: ((anInput isMouseButtonDown: RlMouseButton mouseButtonLeft)
+			ifTrue: [1.0] ifFalse: [0.0])
+		squeeze: (squeezing ifTrue: [1.0] ifFalse: [0.0])
+		topButton: (anInput isKeyDown: RlKeyboardKey keyB).
+	avatar leftHand inputState
+		updateDesktopTrigger: 0.0
+		squeeze: 0.0
+		topButton: false.
 ]
 
 {

@@ -243,12 +243,14 @@ SRAvatar >> camera [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/19/2026 14:50'
+	#category : #camera,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
 }
-SRAvatar >> cameraPosition: position target: target up: up [
+SRAvatar >> cameraLocalPosition: aPosition target: aTarget up: up [
+	"In rig space, so the head travels with the avatar. Writing the global
+	transform instead survives only until it is recomputed from the local one."
 
-	camera globalTransform: (Matrix4x4 objectLookAt: target from: position up: up) 
+	camera localTransform: (Matrix4x4 objectLookAt: aTarget from: aPosition up: up).
 ]
 
 {
@@ -455,6 +457,18 @@ SRAvatar >> openWorldMenuAt: aPosition [
 
 {
 	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:23'
+}
+SRAvatar >> restDeadband [
+	"Below this, a correction with nothing asked of it is the settle epsilon
+	chasing itself rather than movement. Well under #skinWidth, and far above the
+	0.01 mm per frame measured on a standing player."
+
+	^ 1 mm
+]
+
+{
+	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
 }
 SRAvatar >> rigWasMovedExternally [
@@ -630,13 +644,13 @@ SRAvatar >> updateLocomotion: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:24'
 }
 SRAvatar >> walkCorrectionForHead: head floorY: feetY stickMotion: motionOrNil dt: dt [
 	"How far the rig has to move for the player to stand where the scene allows.
 	Separate from #updateLocomotion: so it can be exercised without a camera."
 
-	| feet solids |
+	| feet solids correction |
 	feet := Vector3 x: head x y: feetY z: head z.
 	"Collected once: resolving a step costs a dozen queries, and walking the graph
 	building a geometry object per collider measures 1.7 ms on a 234-object world."

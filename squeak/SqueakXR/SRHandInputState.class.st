@@ -197,3 +197,16 @@ SRHandInputState >> updateActionsRight: actionStates [
 	self topButton isPressed: actionStates b.
 	self bottomButton isPressed: actionStates a.
 ]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:15'
+}
+SRHandInputState >> updateDesktopTrigger: aTrigger squeeze: aSqueeze topButton: aBoolean [
+	"Every frame with the level, never on edges: #isJustPressed is derived from
+	the transition, so a frame that reports nothing reads as a release."
+
+	trigger updateValue: aTrigger.
+	squeeze updateValue: aSqueeze.
+	topButton isPressed: aBoolean.
+]
