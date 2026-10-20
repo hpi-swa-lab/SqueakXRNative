@@ -78,7 +78,7 @@ SRAvatarMovementEmulatorTest >> testTheHeadSitsAtEyeHeightAboveTheRig [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:14'
 }
 SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
 	"With locomotion on, WASD is a request like any thumbstick: the avatar's own
@@ -88,7 +88,9 @@ SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
 	avatar locomotionEnabled: true.
 	rigBefore := avatar translation.
 	emulator moveStrafe: 1 advance: 1 lift: 0 deltaSeconds: 1.0.
-	self assert: 1 equals: avatar leftHand inputState joystick vector x.
+	"Strafe arrives negated: the avatar resolves the stick against #camera right,
+	which is the opposite of the #forward cross: up this emulator flies by."
+	self assert: -1 equals: avatar leftHand inputState joystick vector x.
 	self assert: 1 equals: avatar leftHand inputState joystick vector y.
 	self assert: rigBefore equals: avatar translation.
 ]

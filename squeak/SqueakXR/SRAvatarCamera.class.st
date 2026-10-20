@@ -23,6 +23,15 @@ SRAvatarCamera >> cameraTransformUpdated: cameraTransform [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
+}
+SRAvatarCamera >> debugAxesLength [
+
+	^ 1m
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }

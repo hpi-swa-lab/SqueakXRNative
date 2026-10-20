@@ -1,3 +1,8 @@
+"
+The player: a rig carrying the camera and both hands.
+
+Moving the avatar moves the player; the camera is where their head is, which in XR the headset sets and on the desktop SRSimpleAvatarMovementEmulator does.
+"
 Class {
 	#name : #SRAvatar,
 	#superclass : #SRObject,
@@ -14,34 +19,56 @@ Class {
 		'lastRigTranslation'
 	],
 	#classVars : [
+		'ContinuousLocomotion',
 		'LocomotionStyle',
+		'SmoothTurn',
 		'SmoothTurnSpeed',
 		'SnapTurnAngle',
 		'TeleportBlink',
-		'TurnStyle',
 		'WalkSpeed'
 	],
-	#category : #'SqueakXR-Objects'
+	#category : #'SqueakXR-Objects',
+	#'squeak_changestamp' : '<historical>'
 }
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
 }
-SRAvatar class >> locomotionStyle [
-	<preference: 'Locomotion style'
+SRAvatar class >> continuousLocomotion [
+	<preference: 'Continuous locomotion'
 		category: 'SqueakXR'
-		description: 'What the left thumbstick does: #teleport aims an arc and goes on release, #continuous walks.'
-		type: #Symbol>
-	^ LocomotionStyle ifNil: [#teleport]
+		description: 'The left thumbstick walks instead of aiming a teleport arc that goes on release.'
+		type: #Boolean>
+	^ ContinuousLocomotion ifNil: [false]
 ]
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+}
+SRAvatar class >> continuousLocomotion: aBoolean [
+
+	ContinuousLocomotion := aBoolean.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+}
+SRAvatar class >> locomotionStyle [
+	"The internal vocabulary; see #turnStyle for why the preference is a Boolean."
+
+	^ self continuousLocomotion ifTrue: [#continuous] ifFalse: [#teleport]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
 }
 SRAvatar class >> locomotionStyle: aSymbol [
-	LocomotionStyle := aSymbol
+
+	ContinuousLocomotion := aSymbol == #continuous.
 ]
 
 {
@@ -66,6 +93,27 @@ SRAvatar class >> menuSpawnDistance [
 }
 SRAvatar class >> menuSpawnLift [
 	^ 20cm
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+}
+SRAvatar class >> smoothTurn [
+	<preference: 'Smooth turn'
+		category: 'SqueakXR'
+		description: 'The right thumbstick rotates continuously instead of jumping by a fixed angle. Smooth turning makes most people sick.'
+		type: #Boolean>
+	^ SmoothTurn ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+}
+SRAvatar class >> smoothTurn: aBoolean [
+
+	SmoothTurn := aBoolean.
 ]
 
 {
@@ -130,22 +178,23 @@ SRAvatar class >> teleportBlink: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
 }
 SRAvatar class >> turnStyle [
-	<preference: 'Turn style'
-		category: 'SqueakXR'
-		description: 'What the right thumbstick does: #snap jumps by a fixed angle, #smooth rotates continuously and makes most people sick.'
-		type: #Symbol>
-	^ TurnStyle ifNil: [#snap]
+	"The internal vocabulary. Declared as a Boolean preference rather than a
+	symbol one: Squeak's Preference Browser has no view for #Symbol, and one
+	unsupported type takes the whole browser down, not just its own row."
+
+	^ self smoothTurn ifTrue: [#smooth] ifFalse: [#snap]
 ]
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
 }
 SRAvatar class >> turnStyle: aSymbol [
-	TurnStyle := aSymbol
+
+	SmoothTurn := aSymbol == #smooth.
 ]
 
 {
@@ -289,7 +338,7 @@ SRAvatar >> contextMenu [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'lege 7/20/2026 17:47'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
 }
 SRAvatar >> enterOutOfBody [
 
@@ -297,6 +346,7 @@ SRAvatar >> enterOutOfBody [
 	
 	ghostAvatar := SRGhostAvatar new referenceAvatar: self.
 	self world addChild: ghostAvatar.
+	self world updateDebugAxes.
 ]
 
 {
@@ -318,6 +368,15 @@ SRAvatar >> exitOutOfBody [
 SRAvatar >> forget: anSRObject [
 	contextMenu == anSRObject ifTrue: [contextMenu := nil].
 	self hands do: [:each | each ifNotNil: [each forget: anSRObject]].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+}
+SRAvatar >> ghostAvatar [
+
+	^ ghostAvatar
 ]
 
 {

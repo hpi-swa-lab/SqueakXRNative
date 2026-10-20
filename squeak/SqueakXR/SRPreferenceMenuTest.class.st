@@ -23,23 +23,23 @@ SRPreferenceMenuTest >> rowNamed: aString [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:43'
 }
 SRPreferenceMenuTest >> setUp [
 	super setUp.
 	"The class variable, not the getter: nil is the documented 'use the code
 	default' value, and writing the resolved value back would quietly pin it."
-	savedTurnStyle := SRAvatar classPool at: #TurnStyle.
-	savedLocomotionStyle := SRAvatar classPool at: #LocomotionStyle.
+	savedTurnStyle := SRAvatar classPool at: #SmoothTurn.
+	savedLocomotionStyle := SRAvatar classPool at: #ContinuousLocomotion.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:59'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:43'
 }
 SRPreferenceMenuTest >> tearDown [
-	SRAvatar classPool at: #TurnStyle put: savedTurnStyle.
-	SRAvatar classPool at: #LocomotionStyle put: savedLocomotionStyle.
+	SRAvatar classPool at: #SmoothTurn put: savedTurnStyle.
+	SRAvatar classPool at: #ContinuousLocomotion put: savedLocomotionStyle.
 	super tearDown.
 ]
 
@@ -99,21 +99,22 @@ SRPreferenceMenuTest >> testPreferenceRowsKeepTheMenuOpen [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:43'
 }
-SRPreferenceMenuTest >> testSymbolPreferenceCyclesThroughItsChoices [
-	"Squeak's preference types have no notion of a choice, so the row finds the
-	list next to the preference. Losing that lookup leaves a dead row that still
-	renders."
+SRPreferenceMenuTest >> testTheStyleSymbolsFollowTheirBooleanPreferences [
+	"The styles are symbols everywhere inside, but declared as Boolean
+	preferences: Squeak's Preference Browser has no view for #Symbol and one
+	unsupported type takes the whole browser down."
 
-	| row seen |
+	SRAvatar smoothTurn: false.
+	self assert: #snap equals: SRAvatar turnStyle.
+	SRAvatar smoothTurn: true.
+	self assert: #smooth equals: SRAvatar turnStyle.
+	SRAvatar continuousLocomotion: false.
+	self assert: #teleport equals: SRAvatar locomotionStyle.
+	SRAvatar continuousLocomotion: true.
+	self assert: #continuous equals: SRAvatar locomotionStyle.
+	"The symbol setters still work, because everything inside speaks symbols."
 	SRAvatar turnStyle: #snap.
-	row := self rowNamed: 'Turn style'.
-	seen := OrderedCollection new.
-	SRAvatar turnStyleChoices size timesRepeat: [
-		seen add: SRAvatar turnStyle.
-		row activateIn: nil target: nil].
-	self assert: seen asArray = SRAvatar turnStyleChoices.
-	"A full cycle comes back to where it started."
-	self assert: (row labelIn: nil target: nil) = 'Turn style: snap'.
+	self deny: SRAvatar smoothTurn.
 ]

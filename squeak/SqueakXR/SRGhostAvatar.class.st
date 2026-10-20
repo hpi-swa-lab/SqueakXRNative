@@ -11,6 +11,15 @@ Class {
 }
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+}
+SRGhostAvatar >> anchors [
+
+	^ Array with: headAnchor with: leftAnchor with: rightAnchor
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/20/2026 16:15'
 }

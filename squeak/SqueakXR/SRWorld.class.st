@@ -610,6 +610,33 @@ SRWorld >> completeFrame [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
+}
+SRWorld >> debugAxesLength [
+
+	^ 10m
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+}
+SRWorld >> debugAxesTargets [
+	"Derived rather than remembered, so a ghost that is gone takes its axes with it.
+
+	The ghost's head anchor is here because it is the only visible copy of the camera
+	frame: out of body or not, the live camera sits inside your own head."
+
+	| targets |
+	targets := OrderedCollection with: self.
+	self avatar ifNotNil: [:avatar |
+		targets add: avatar; add: avatar camera.
+		avatar ghostAvatar ifNotNil: [:ghost | targets addAll: ghost anchors]].
+	^ targets
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }
@@ -1272,6 +1299,17 @@ SRWorld >> updateCameraTransform [
 
 	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
 	self changed: #cameraTransformUpdated with: cameraTransform.
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+}
+SRWorld >> updateDebugAxes [
+
+	| show |
+	show := SRAxes showAxes.
+	self debugAxesTargets do: [:each | each showAxes: show].
 ]
 
 {

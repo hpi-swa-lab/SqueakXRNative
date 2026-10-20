@@ -206,6 +206,15 @@ SRObject >> ancestorChain [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> axes [
+
+	^ children detect: [:each | each isAxes] ifNone: [nil]
+]
+
+{
 	#category : #directions,
 	#'squeak_changestamp' : 'lege 11/3/2025 18:04'
 }
@@ -376,6 +385,17 @@ SRObject >> continueRendering [
 SRObject >> continueStepping [
 
 	self badStep: false
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
+}
+SRObject >> debugAxesLength [
+	"Distinct per frame so the world's axes and an avatar standing near the origin
+	do not draw on top of each other."
+
+	^ 2m
 ]
 
 {
@@ -650,6 +670,15 @@ SRObject >> initialize [
 }
 SRObject >> isApp [
 	"An app owns the menu reached by the B button while nothing is grabbed."
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> isAxes [
 
 	^ false
 ]
@@ -1297,6 +1326,17 @@ SRObject >> setTransformAt: aPosition facingCamera: aCamera [
 		objectLookAt: aPosition - direction
 		from: aPosition
 		up: up)
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> showAxes: aBoolean [
+
+	aBoolean
+		ifTrue: [self axes ifNil: [self addChild: (SRAxes length: self debugAxesLength)]]
+		ifFalse: [self axes ifNotNil: [:each | each remove]].
 ]
 
 {
