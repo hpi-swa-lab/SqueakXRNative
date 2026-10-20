@@ -552,11 +552,14 @@ SRWorld >> addDeferredFrameMessage: aBlock [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:45'
 }
 SRWorld >> adjustPreferences [
 
 	self log.
+	"Debug axes are installed per world, so a world started after the preference was
+	set would otherwise come up without them while the preference reads true."
+	self updateDebugAxes.
 	self isXR ifTrue: [
 		"Display relativeUiScaleFactor: 1.0."
 		UIManager openToolsAttachedToMouseCursor: false.

@@ -124,6 +124,22 @@ SRAxesTest >> testGhostAnchorsGetAxesOnEnteringOutOfBody [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:44'
+}
+SRAxesTest >> testLettersAndMetreTicks [
+
+	| axes labelled |
+	axes := SRAxes length: 4m.
+	labelled := [:name | axes children detect: [:each | each name = name]].
+	#(#('LetterX' 'x') #('LetterY' 'y') #('LetterZ' 'z')) do: [:pair |
+		self assert: pair second equals: (labelled value: pair first) text].
+	#('X' 'Y' 'Z') do: [:axis |
+		1 to: 4 do: [:metre |
+			self assert: metre printString equals: (labelled value: axis , metre printString) text]].
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
 }
 SRAxesTest >> testNegativeHalfIsDimmerThanPositive [
@@ -157,16 +173,33 @@ SRAxesTest >> testShowAxesIsIdempotent [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:05'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:44'
 }
 SRAxesTest >> testSixBarsAndAnOrigin [
 
 	| axes |
 	axes := SRAxes length: 1m.
-	self assert: 7 equals: axes childCount.
+	self assert: 7 equals: (axes children count: [:each | each isCube]).
 	#('Origin' '+X' '-X' '+Y' '-Y' '+Z' '-Z') do: [:each |
 		self assert: (axes children anySatisfy: [:bar | bar name = each])
 			description: 'missing bar ', each].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:44'
+}
+SRAxesTest >> testTicksSitOnTheirOwnAxis [
+	"The tick is offset sideways so the bar does not cover it, but its distance along
+	its own axis has to be exactly the metre it names."
+
+	| axes labelled |
+	axes := SRAxes length: 4m.
+	labelled := [:name | axes children detect: [:each | each name = name]].
+	1 to: 4 do: [:metre |
+		self assert: metre equals: (labelled value: 'X' , metre printString) translation x.
+		self assert: metre equals: (labelled value: 'Y' , metre printString) translation y.
+		self assert: metre equals: (labelled value: 'Z' , metre printString) translation z].
 ]
 
 {
