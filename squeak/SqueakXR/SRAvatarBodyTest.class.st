@@ -17,13 +17,14 @@ Class {
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:49'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
 }
 SRAvatarBodyTest >> addFloorAtY: aHeight [
 
 	^ scene addChild: (SRPlane new
 		scale: 40 @ 1 @ 40;
 		translation: 0 @ aHeight @ 0;
+		solid: true;
 		yourself)
 ]
 
@@ -44,7 +45,7 @@ SRAvatarBodyTest >> setUp [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:50'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
 }
 SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
 
@@ -53,6 +54,7 @@ SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
 	scene addChild: (SRPlane new
 		scale: 4 @ 1 @ 4;
 		translation: -3 @ 0.5 @ 0;
+		solid: true;
 		yourself).
 	body restAt: Vector3 zero.
 	self walk: -1.5 forFrames: 120.
@@ -62,7 +64,7 @@ SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:50'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
 }
 SRAvatarBodyTest >> testAWallStopsTheBodyWithoutLiftingIt [
 	"The mobs climb by jumping into whatever they walked into, which makes pressing
@@ -73,6 +75,7 @@ SRAvatarBodyTest >> testAWallStopsTheBodyWithoutLiftingIt [
 		scale: 4 @ 1 @ 4;
 		rotation: (Quaternion angle: 90 axis: Vector3 forward);
 		translation: 2 @ 2 @ 0;
+		solid: true;
 		yourself).
 	body restAt: Vector3 zero.
 	self walk: 1.5 forFrames: 120.

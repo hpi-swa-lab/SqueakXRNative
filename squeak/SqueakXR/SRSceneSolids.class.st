@@ -17,7 +17,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
 }
 SRSceneSolids class >> forObject: anSRObject [
 	"Everything solid in anSRObject's scene except anSRObject's own parts."
@@ -25,7 +25,7 @@ SRSceneSolids class >> forObject: anSRObject [
 	| collected |
 	collected := OrderedCollection new.
 	anSRObject sceneRoot allDo: [:each |
-		(each isWithin: anSRObject) ifFalse: [
+		(each isSolid and: [(each isWithin: anSRObject) not]) ifTrue: [
 			each safeCollisionGeometry ifNotNil: [:geometry |
 				collected add: geometry]]].
 	^ self new setGeometries: collected asArray

@@ -289,6 +289,14 @@ SRMenu >> isMenu [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
+}
+SRMenu >> isSolid [
+	^ false
+]
+
+{
 	#category : #sticky,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
 }
@@ -459,6 +467,18 @@ SRMenu >> rowSpacing [
 ]
 
 {
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+}
+SRMenu >> setHoveredItems: aCollection [
+	"Written once from the whole collection, so one hand cannot clear what
+	another is pointing at."
+
+	self childrenDo: [:item |
+		item isMenuItem ifTrue: [item hovered: (aCollection includes: item)]].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
@@ -478,18 +498,22 @@ SRMenu >> slabWidth [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:31'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
 }
 SRMenu >> step: deltaTime [
-	"Update hover highlight on our own items by casting rays from each hand."
+	"A row lights when either hand points at it. Collected first and written
+	once: setting every item per hand let the second hand clear the row the
+	first was pointing at."
 
-	| nearest |
-	self world avatar hands do: [:hand | | |
-		nearest := (hand rayBackward castNearestObjects: self children) ifNotNil: #object.
-		
-		self childrenDo: [:item |
-			item isMenuItem ifTrue: [
-				item hovered: (item == nearest or: [item == submenuItem])]]].
+	| avatar hovered |
+	avatar := self world ifNotNil: [:w | w avatar].
+	avatar ifNil: [^ self].
+	hovered := IdentitySet new.
+	avatar hands do: [:hand |
+		(hand rayBackward castNearestObjects: self children)
+			ifNotNil: [:result | hovered add: result object]].
+	submenuItem ifNotNil: [hovered add: submenuItem].
+	self setHoveredItems: hovered.
 ]
 
 {

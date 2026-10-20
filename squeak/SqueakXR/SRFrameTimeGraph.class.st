@@ -290,6 +290,14 @@ SRFrameTimeGraph >> interpolatedColorForNormalizedSpeed: normalized [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+}
+SRFrameTimeGraph >> isSolid [
+	^ false
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:51'
 }

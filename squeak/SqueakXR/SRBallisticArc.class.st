@@ -49,7 +49,7 @@ SRBallisticArc >> castIn: aRootObject [
 
 {
 	#category : #casting,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
 }
 SRBallisticArc >> firstHitFrom: from to: to in: aRootObject [
 	"An SRRay is infinite, so a hit beyond the end of this segment belongs to a
@@ -59,7 +59,7 @@ SRBallisticArc >> firstHitFrom: from to: to in: aRootObject [
 	segment := to - from.
 	segment length < 1.0e-6 ifTrue: [^ nil].
 	ray := SRRay origin: from forward: segment normalized.
-	result := ray castNearest: aRootObject.
+	result := ray castNearestSolid: aRootObject.
 	result ifNil: [^ nil].
 	^ (from distanceTo: result point) <= segment length
 		ifTrue: [result]

@@ -14,7 +14,7 @@ Class {
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:44'
 }
 SRAvatarTest >> avatarOnFloorAtY: aHeight [
 	"An avatar standing in a scene with a floor, which is all the locomotion servo
@@ -26,6 +26,7 @@ SRAvatarTest >> avatarOnFloorAtY: aHeight [
 	scene addChild: (SRPlane new
 		scale: 40 @ 1 @ 40;
 		translation: 0 @ aHeight @ 0;
+		solid: true;
 		yourself).
 	avatar := SRAvatar new.
 	scene addChild: avatar.
@@ -87,7 +88,7 @@ SRAvatarTest >> testDuckingDoesNotMoveTheRig [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:44'
 }
 SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 	"Putting your head inside something solid is not a request to be pushed
@@ -100,6 +101,7 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 		scale: 4 @ 1 @ 4;
 		rotation: (Quaternion angle: 90 axis: Vector3 forward);
 		translation: 2 @ 2 @ 0;
+		solid: true;
 		yourself).
 	avatar snapBodyUnderHead: 1.0 @ 1.8 @ 0 floorY: 0.
 	"The head has physically crossed into the wall."

@@ -77,6 +77,18 @@ SRRay >> castNearestObjects: aCollectionOfSRObjects [
 	^ self nearestIntersectionIn: [:aBlock | aCollectionOfSRObjects do: aBlock]
 ]
 
+{
+	#category : #casting,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
+}
+SRRay >> castNearestSolid: anSRObject [
+	"Only things the avatar can stand on. A menu is hittable by a picking ray
+	and is not a place to land."
+
+	^ self nearestIntersectionIn: [:aBlock |
+		anSRObject allDo: [:each | each isSolid ifTrue: [aBlock value: each]]]
+]
+
 { #category : #accessing }
 SRRay >> forward [
 

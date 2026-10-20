@@ -119,6 +119,24 @@ SRMenuTest >> tearDown [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+}
+SRMenuTest >> testAMenuIsNotSomethingToStandOn [
+	"A menu must stay hittable by a ray, so it keeps its collision geometry and
+	is excluded from the body sweep instead."
+
+	| root menu probe |
+	root := SRObject new.
+	menu := self menuUnder: #(demo).
+	probe := SRObject new.
+	root addChild: menu parent.
+	root addChild: probe.
+	self deny: menu safeCollisionGeometry isNil.
+	self assert: 0 equals: (SRSceneSolids forObject: probe) size.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
 }
 SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
@@ -133,6 +151,23 @@ SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
 	menu rebuild.
 	(self rowOf: menu labelled: 'Go') onRaycast: nil.
 	self assert: ran.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+}
+SRMenuTest >> testBothHandsCanHighlightAtOnce [
+	"Two rows lit together is what the per-hand write made impossible."
+
+	| menu rows |
+	menu := self menuUnder: #(demo).
+	rows := menu children select: [:each | each isMenuItem].
+	self assert: rows size >= 2.
+	menu setHoveredItems: (IdentitySet withAll: (rows first: 2)).
+	self assert: rows first hovered.
+	self assert: (rows at: 2) hovered.
+	self deny: rows last hovered.
 ]
 
 {

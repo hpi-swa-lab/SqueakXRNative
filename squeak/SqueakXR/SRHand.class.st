@@ -459,16 +459,17 @@ SRHand >> stopGrabbing [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
 }
 SRHand >> teleport [
 
-	"Land on whatever the hand is pointing at. Terrain answers #rayIntersection:
-	like any other collider, so solving for the y = 0 plane put the player inside
-	a hill or in the air above it."
+	"Land on whatever the hand is pointing at, provided it is something to stand
+	on. Terrain answers #rayIntersection: like any other collider, so solving
+	for the y = 0 plane put the player inside a hill or in the air above it."
 
 	| hit |
-	hit := self castRayBackward.
+	self world ifNil: [^ self].
+	hit := self rayBackward castNearestSolid: self world.
 	hit ifNil: [^ self teleportToGroundPlane].
 	self world avatar teleportTo: hit point.
 ]

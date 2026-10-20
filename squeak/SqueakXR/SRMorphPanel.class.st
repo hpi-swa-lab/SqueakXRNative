@@ -280,6 +280,14 @@ SRMorphPanel >> isMorphPanel [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:42'
+}
+SRMorphPanel >> isSolid [
+	^ false
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }

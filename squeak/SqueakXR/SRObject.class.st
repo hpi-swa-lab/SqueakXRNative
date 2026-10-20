@@ -749,6 +749,18 @@ SRObject >> isRendering [
 	^ isRendering and: [visible and: [badRender not]]
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
+}
+SRObject >> isSolid [
+	"Whether the avatar's body collides with this. Picking, grabbing and the
+	teleport ray go through #collisionGeometry and ignore this: a menu has to be
+	hittable by a ray without being something to stand on."
+
+	^ true
+]
+
 { #category : #stepping }
 SRObject >> isStepping [
 

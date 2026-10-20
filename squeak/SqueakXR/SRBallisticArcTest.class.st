@@ -21,7 +21,7 @@ SRBallisticArcTest >> arcFrom: aPoint direction: aVector [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:38'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
 }
 SRBallisticArcTest >> groundAtY: aNumber [
 	"Scaled up: an SRPlane is bounded, and a default one is a square metre that
@@ -30,6 +30,7 @@ SRBallisticArcTest >> groundAtY: aNumber [
 	^ SRPlane new
 		translation: 0 @ aNumber @ 0;
 		scale: Vector3 one * 100;
+		solid: true;
 		yourself
 ]
 
@@ -80,6 +81,38 @@ SRBallisticArcTest >> testHorizontalThrowFallsToTheGround [
 	"1.6 m of fall at 10 m/s is 5.7 m analytically; forward Euler overshoots."
 	self assert: (arc hit point z + 6.0) abs < 0.5.
 	self assert: arc points last = arc hit point.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:36'
+}
+SRBallisticArcTest >> testTheArcFliesThroughAMenu [
+	"A menu is hittable by a picking ray and is not a place to land, so the arc
+	must pass through it and reach the floor behind."
+
+	| root ground menu arc blocked |
+	ground := self groundAtY: 0.
+	menu := SRMenu new.
+	menu addItem: 'Row' action: [].
+	root := SRObject new.
+	root addChild: ground.
+	root addChild: menu.
+	menu rebuild.
+	menu translation: 0 @ 1.502 @ -2.
+
+	"Not vacuous: an unfiltered cast along the same segment does hit the menu."
+	blocked := (SRRay origin: 0 @ 1.6 @ -1 forward: (0 @ -0.098 @ -1) normalized)
+		castNearest: root.
+	self assert: blocked notNil.
+	self assert: blocked object isMenuItem.
+
+	arc := SRBallisticArc new
+		origin: 0 @ 1.6 @ 0 direction: 0 @ 0 @ -1;
+		castIn: root;
+		yourself.
+	self assert: arc hit notNil.
+	self assert: ground == arc hit object.
 ]
 
 {
