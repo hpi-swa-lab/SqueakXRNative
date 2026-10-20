@@ -1,6 +1,10 @@
 Class {
 	#name : #SRSendInputAction,
 	#superclass : #SRHandAction,
+	#instVars : [
+		'lastTarget',
+		'lastPoint'
+	],
 	#category : #'SqueakXR-Halo'
 }
 
@@ -30,16 +34,25 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:09'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 11:02'
 }
 SRSendInputAction >> perform: inputState [ 
 
 	"I send any inputs to the first target."
 	| events point target |
 	
-	target := self hand cursorTarget ifNil: [ ^ true ].
+	target := self hand cursorTarget.
 	point := self hand cursorPoint.
+	
+	self sendEnterEventsTo: target at: point.
+	target ifNil: [ ^ true ].
+	
 	events := OrderedCollection new.
+	events add: (SRInputEventCursorMove new
+		target: target;
+		point: point;
+		hand: self hand
+	).
 	
 	"Button events."
 	#(#trigger #squeeze #topButton #bottomButton #menuButton) do: [ :button |
@@ -65,4 +78,26 @@ SRSendInputAction >> perform: inputState [
 	].
 	
 	^ true
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/20/2026 11:01'
+}
+SRSendInputAction >> sendEnterEventsTo: target at: point [
+
+	(target = lastTarget) ifTrue: [ ^ self ].
+	
+	lastTarget ifNotNil: [
+		lastTarget handleInput: (SRInputEventCursorLeave new
+			target: lastTarget;
+			point: lastPoint;
+			hand: self hand)].
+	lastTarget := target.
+	lastPoint := point.
+	lastTarget ifNotNil: [
+		lastTarget handleInput: (SRInputEventCursorEnter new
+			target: lastTarget;
+			point: lastPoint;
+			hand: self hand)].
 ]
