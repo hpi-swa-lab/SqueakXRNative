@@ -81,17 +81,11 @@ SRCursor >> focusPoint [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:42'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:11'
 }
 SRCursor >> focusPoint: aPoint [
 
-	focusPoint := aPoint.
-	aPoint ifNil: [
-		focusCube visible: false
-	] ifNotNil: [
-		focusCube globalTranslation: aPoint.
-		focusCube visible: true.
-	]
+	focusPoint := aPoint
 ]
 
 {
@@ -122,18 +116,13 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:05'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:11'
 }
 SRCursor >> initialize [ 
 
 	super initialize.
-	self cursorMode: SRCursorMode ignore.
-	
-	focusCube := (SRCube new
-		scale: 1cm asVector3;
-		cursorMode: SRCursorMode ignore
-	).
-	self addChild: focusCube.
+	self cursorMode: SRCursorMode stop.
+
 ]
 
 {
@@ -158,15 +147,23 @@ SRCursor >> intersectionsSelect: aBlock [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:10'
+}
+SRCursor >> step: deltaTime [ 
+
+	self focusPoint ifNotNil: [:point |
+		self gizmoPainter gizmoSphere: point size: 1cm color: self color
+	]
+]
+
+{
 	#category : #helpers,
-	#'squeak_changestamp' : 'phkeese 10/7/2026 15:41'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 13:57'
 }
 SRCursor >> targetsIn: aSubTree [
 	
-	"Find all objects in a subtree which want a cursor."
-	^ aSubTree allDescendantsSelect: [:object |
-		object wantsCursor 
-	]
+	^ aSubTree allDescendants
 ]
 
 {

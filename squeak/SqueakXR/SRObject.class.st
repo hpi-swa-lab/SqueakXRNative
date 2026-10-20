@@ -66,6 +66,24 @@ void main()
 
 {
 	#category : #hierarchy,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:00'
+}
+SRObject >> actOnInput: anInputEvent [
+
+	self changed: #inputReceived with: anInputEvent.
+	anInputEvent handled ifTrue: [ ^ self ].
+	anInputEvent isButtonEvent ifTrue: [ anInputEvent pressed 
+		ifTrue: [self onButtonPress: anInputEvent]
+		ifFalse: [self onButtonRelease: anInputEvent]
+	].
+	anInputEvent isAnalogEvent ifTrue: [self onAnalogInput: anInputEvent].
+	anInputEvent isCursorEnterEvent ifTrue: [self onCursorEnter: anInputEvent].
+	anInputEvent isCursorLeaveEvent ifTrue: [self onCursorLeave: anInputEvent].
+	anInputEvent isCursorMoveEvent ifTrue: [self onCursorMove: anInputEvent].
+]
+
+{
+	#category : #hierarchy,
 	#'squeak_changestamp' : 'leo 8/12/2026 14:50'
 }
 SRObject >> addChild: aSRObject [
@@ -702,24 +720,22 @@ SRObject >> haloState [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:32'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:02'
 }
-SRObject >> handleInput: anInputEvent [
+SRObject >> handleInput: anEvent [
 
-	"
-	Called by SRCursor when this object is targeted.
-	Forwards the event by default to allow parents to listen on child object events.
-	"
-	self changed: #inputReceived with: anInputEvent.
-	anInputEvent handled ifTrue: [ ^ self ].
-	anInputEvent isButtonEvent ifTrue: [ anInputEvent pressed 
-		ifTrue: [self onButtonPress: anInputEvent]
-		ifFalse: [self onButtonRelease: anInputEvent]
-	].
-	anInputEvent isAnalogEvent ifTrue: [self onAnalogInput: anInputEvent].
-	anInputEvent isCursorEnterEvent ifTrue: [self onCursorEnter: anInputEvent].
-	anInputEvent isCursorLeaveEvent ifTrue: [self onCursorLeave: anInputEvent].
-	anInputEvent isCursorMoveEvent ifTrue: [self onCursorMove: anInputEvent].
+	"Handle an input from the controller, if my mode permits it and the event has not been handled already."
+	anEvent handled ifTrue: [^ self].
+	self cursorMode caseOf: {
+		[SRCursorMode ignore] -> [self passOnInput: anEvent].
+		[SRCursorMode stop] -> [self actOnInput: anEvent].
+		[SRCursorMode pass] -> [
+			self actOnInput: anEvent.
+			self passOnInput: anEvent.
+		].
+	}
+	
+	
 ]
 
 { #category : #hierarchy }
@@ -759,7 +775,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:08'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 13:55'
 }
 SRObject >> initialize [
 
@@ -769,7 +785,7 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
-	cursorMode := SRCursorMode inherit.
+	cursorMode := SRCursorMode stop.
 	haloMode := SRHaloMode want.
 	
 	visible := true.
@@ -1033,18 +1049,11 @@ SRObject >> onAnalogInput: anAnalogEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/12/2026 15:53'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:06'
 }
 SRObject >> onButtonPress: aButtonEvent [
 
 	"Called when a cursor is aiming at this and the user presses a button."
-	aButtonEvent button = #bottomButton ifTrue: [
-		self findHaloTarget ifNotNil: [:target |
-			target addHalo: aButtonEvent
-		] ifNil: [
-			self haloState closeHalo.
-		]
-	]
 ]
 
 {
@@ -1157,6 +1166,17 @@ SRObject >> parentTransformDirty [
 	transformDirtyFlag = #parentTransform ifFalse: [self ensureTransformClean].
 	self transformDirtyFlag: #parentTransform.
 	self notifyTransformChanged.
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:00'
+}
+SRObject >> passOnInput: anEvent [
+
+	self parent ifNotNil: [:p |
+		p handleInput: anEvent
+	]
 ]
 
 { #category : #transforms }
@@ -1475,18 +1495,6 @@ SRObject >> visible: aBoolean [
 
 	self flag: #todo. "setting visible to false only disables the rendering for the object itself, but not for its children. should disable the entire subtree"
 	visible := aBoolean
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:58'
-}
-SRObject >> wantsCursor [
-
-	^ self cursorMode caseOf: {
-		[SRCursorMode ignore] -> [false].
-		[SRCursorMode inherit] -> [self parent ifNil: [true] ifNotNil: [:p | p wantsCursor]].
-	}
 ]
 
 {

@@ -193,9 +193,9 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:44'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 11:40'
 }
-SRMorphPanel >> handleMorphInput: anInputEvent [
+SRMorphPanel >> handleInput: anInputEvent [
 
 	| clickPoint normalizedPoint point |
 	self morph ifNil: [ ^ self ].
@@ -268,7 +268,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 13:48'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 11:40'
 }
 SRMorphPanel >> initialize [
 
@@ -278,6 +278,7 @@ SRMorphPanel >> initialize [
 		rotation: (Quaternion angle: 90 axis: Vector3 right);
 		addDependent: self;
 		grabTarget: self;
+		cursorMode: SRCursorMode ignore;
 		yourself.
 	texture := SRMorphTexture new.
 	lastClickPosition := nil.
@@ -564,12 +565,11 @@ SRMorphPanel >> toggleResizers [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:44'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 13:39'
 }
 SRMorphPanel >> update: aSymbol with: anObject [
 
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject].
-	aSymbol = #inputReceived ifTrue: [ self handleMorphInput: anObject ].
 ]
 
 {

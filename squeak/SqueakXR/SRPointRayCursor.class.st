@@ -105,31 +105,12 @@ SRPointRayCursor >> intersections [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:18'
-}
-SRPointRayCursor >> onActionsUpdated [ 
-
-	self 
-		updateGoGo;
-		updateIntersections.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:11'
-}
-SRPointRayCursor >> point [
-
-	^ hit ifNotNil: [ hit point ]
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:55'
+	#'squeak_changestamp' : 'phkeese 10/20/2026 14:09'
 }
 SRPointRayCursor >> step: deltaTime [ 
 
 	| end focus start |
+	super step: deltaTime.
 	start := gogo globalTranslation.
 	focus := self focusPoint ifNil: [ gogo globalTranslation ].
 	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
