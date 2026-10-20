@@ -41,14 +41,10 @@ SRTextureSource class >> width: w height: h fill: aColor [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/15/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 10:06'
 }
 SRTextureSource >> bits [
-	"BGRA byte order, see the class comment.
-
-	Unhibernated first: saving the image compresses a Form's Bitmap into a
-	ByteArray, and the upload would then push a few hundred compressed bytes to
-	the GPU as if they were pixels."
+	"BGRA byte order, see the class comment."
 
 	form unhibernate ifTrue: [self markAllDirty].
 	^ form bits
