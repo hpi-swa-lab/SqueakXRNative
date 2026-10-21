@@ -914,7 +914,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/20/2026 11:12'
+	#'squeak_changestamp' : 'phkeese 10/21/2026 15:46'
 }
 SRWorld >> runStartScript [
 
@@ -996,6 +996,18 @@ SRWorld >> runStartScript [
 	self addChild: (SRCubeTower new
 		translation: (1@1@0)
 		"rotation: (Quaternion angle: 90 axis: Vector3 one normalized) "
+	).
+	
+	self addChild: (SRHaloHandle new
+		position: -2@1@ -2;
+		text: 'A Handle';
+		color: Color green darker;
+		clickAction: [ Transcript showln: 'Clicked!' ];
+		dragAction: [:mat :orig | | end start | 
+			start := orig translation.
+			end := mat translation.
+			self gizmoPainter gizmoLine: start to: end color: Color blue.
+		 ]
 	).
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
