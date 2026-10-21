@@ -778,7 +778,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 15:12'
+	#'squeak_changestamp' : 'phkeese 10/21/2026 15:57'
 }
 SRObject >> initialize [
 
@@ -788,7 +788,8 @@ SRObject >> initialize [
 	badStep := false.
 	isRendering := (self class selectorDefinedByBase: #renderOn:) not.
 	badRender := false.
-	cursorMode := SRCursorMode pass.
+	"By default, objects with collision handle all inputs on that collision themselves."
+	cursorMode := SRCursorMode stop.
 	haloMode := SRHaloMode want.
 	
 	visible := true.
