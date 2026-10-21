@@ -21,7 +21,7 @@ SRGhostAvatar >> anchors [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 16:15'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:40'
 }
 SRGhostAvatar >> initialize [
 
@@ -33,31 +33,45 @@ SRGhostAvatar >> initialize [
 			color: Color gray;
 			scale: 10cm asVector3;
 			name: 'GhostHead').
+	"On the face, which is -z: the head anchor carries the camera pose and
+	Vector3 forward is -z. These used to read +5.5cm, which worked only while
+	SRAvatarCamera negated the pose's third column."
 	headAnchor addChild: (
 		SRCube new
 			color: Color white;
 			scale: 2cm @ 2cm @ 0.5cm;
-			translation: -2cm @ 1cm @ 5.5cm;
+			translation: -2cm @ 1cm @ -5.5cm;
 			name: 'GhostLeftEye').
 	headAnchor addChild: (
 		SRCube new
 			color: Color white;
 			scale: 2cm @ 2cm @ 0.5cm;
-			translation: 2cm @ 1cm @ 5.5cm;
+			translation: 2cm @ 1cm @ -5.5cm;
 			name: 'GhostRightEye').
 	headAnchor addChild: (
 		SRCube new
 			color: Color black;
 			scale: 1cm @ 1cm @ 0.25cm;
-			translation: -2cm @ 1cm @ 5.8cm;
+			translation: -2cm @ 1cm @ -5.8cm;
 			name: 'GhostLeftPupil').
 	headAnchor addChild: (
 		SRCube new
 			color: Color black;
 			scale: 1cm @ 1cm @ 0.25cm;
-			translation: 2cm @ 1cm @ 5.8cm;
+			translation: 2cm @ 1cm @ -5.8cm;
 			name: 'GhostRightPupil').
 	
+	"Where the head is looking. One bar rather than a full SRAxes: a basis drawn
+	on a 10 cm head is three bars crossing at the eyes, and the only question
+	being asked of a ghost is which way it faces. The hands answer it already
+	with their ray bars."
+	headAnchor addChild: (
+		SRCube new
+			color: Color yellow;
+			scale: 1cm @ 1cm @ 50cm;
+			translation: Vector3 forward * 25cm;
+			name: 'GhostGaze').
+
 	leftAnchor := SRObject new name: 'GhostLeftHandAnchor'.
 	leftAnchor addChild: (
 		SRCube new
@@ -66,9 +80,9 @@ SRGhostAvatar >> initialize [
 			name: 'GhostLeftHand').
 	leftAnchor addChild: (
 		SRCube new
-			color: Color cyan;
+			color: SRHand leftRayColor;
 			scale: 1cm @ 1cm @ 10m;
-			translation: 0 @ 0 @ -5m;
+			translation: Vector3 forward * 5m;
 			name: 'GhostLeftRay').
 	
 	rightAnchor := SRObject new name: 'GhostRightHandAnchor'.
@@ -79,9 +93,10 @@ SRGhostAvatar >> initialize [
 			name: 'GhostRightHand').
 	rightAnchor addChild: (
 		SRCube new
-			color: (Color r: 1.0 g: 0.5 b: 0.5);
+			color: SRHand rightRayColor;
 			scale: 1cm @ 1cm @ 10m;
-			translation: 0 @ 0 @ -5m; name: 'GhostRightRay').
+			translation: Vector3 forward * 5m;
+			name: 'GhostRightRay').
 	
 	self addChild: headAnchor;
 		addChild: leftAnchor;

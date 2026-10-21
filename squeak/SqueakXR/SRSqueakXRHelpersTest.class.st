@@ -21,6 +21,19 @@ SRSqueakXRHelpersTest >> test3DToRaylibVector [
 		ensure: [vec2RlExt ifNotNil: [vec2RlExt free]]
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+}
+SRSqueakXRHelpersTest >> testAxisConstantsAreRightHanded [
+	"raylib and OpenXR are right-handed, and the coordinates go to raylib
+	unconverted. Declaring forward as +z makes #right mean geometric left."
+
+	self assert: Vector3 right equals: (Vector3 forward cross: Vector3 up).
+	self assert: Vector3 up equals: (Vector3 backward cross: Vector3 right).
+	self assert: Vector3 backward equals: (Vector3 right cross: Vector3 up).
+]
+
 { #category : #'as yet unclassified' }
 SRSqueakXRHelpersTest >> testMatrix4x4Scale [
 
@@ -28,6 +41,23 @@ SRSqueakXRHelpersTest >> testMatrix4x4Scale [
 	matrix := (Matrix4x4 withScale: 2 @ 3 @ 4).
 	
 	self assert: matrix scale = (2 @ 3 @ 4).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+}
+SRSqueakXRHelpersTest >> testObjectLookAtAgreesWithTheAxisConstants [
+	"It used to put the look direction on +z, which forces +x to be the object's
+	left and inverted every strafe taken from #right."
+
+	| eye target m |
+	eye := Vector3 x: 3 y: 2 z: 7.
+	target := Vector3 x: 3 y: 2 z: 1.
+	m := Matrix4x4 objectLookAt: target from: eye up: Vector3 up.
+	self assert: ((m localDirToGlobal: Vector3 forward) dot: (eye directionTo: target)) > 0.999.
+	self assert: (m localDirToGlobal: Vector3 right) equals: Vector3 right.
+	self assert: (m localDirToGlobal: Vector3 up) equals: Vector3 up.
 ]
 
 { #category : #'as yet unclassified' }

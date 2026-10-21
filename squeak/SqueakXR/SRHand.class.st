@@ -20,11 +20,14 @@ Class {
 		'inputState',
 		'turnArmed',
 		'tool',
-		'toolPreview'
+		'toolPreview',
+		'inputDebugLabel',
+		'lastInputEvent'
 	],
 	#classVars : [
 		'EndRate',
 		'SharedTool',
+		'ShowInputDebug',
 		'StartRate',
 		'TransitionEnd',
 		'TransitionStart'
@@ -43,6 +46,18 @@ SRHand class >> left [
 SRHand class >> leftIndex [
 
 	^ 1
+]
+
+{
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+}
+SRHand class >> leftRayColor [
+	"Whatever marks what a hand is pointing at is drawn in its hand's colour, so
+	two hands aiming at two things can be told apart. The ghost's ray bars set
+	the convention."
+
+	^ Color cyan
 ]
 
 {
@@ -74,6 +89,14 @@ SRHand class >> right [
 SRHand class >> rightIndex [
 
 	^ 2
+]
+
+{
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+}
+SRHand class >> rightRayColor [
+	^ Color r: 1.0 g: 0.5 b: 0.5
 ]
 
 {
@@ -116,6 +139,26 @@ SRHand class >> sharedTool [
 SRHand class >> sharedTool: aBoolean [
 
 	SharedTool := aBoolean.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+}
+SRHand class >> showInputDebug [
+	<preference: 'Hand input debug labels'
+		category: 'SqueakXR'
+		description: 'Show the live trigger and squeeze values and the last input event as a label at each hand. For telling a controller that is not reporting from an action that is being refused.'
+		type: #Boolean>
+	^ ShowInputDebug ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+}
+SRHand class >> showInputDebug: aBoolean [
+	ShowInputDebug := aBoolean.
 ]
 
 {
@@ -293,6 +336,18 @@ SRHand >> menuButton [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+}
+SRHand >> noteInputEvent: aString [
+	"Why a press did or did not reach an action. Kept even when the labels are
+	off: it is one assignment, and the alternative is reproducing the gesture
+	again after switching them on."
+
+	lastInputEvent := aString.
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
@@ -313,19 +368,28 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
 }
 SRHand >> performActions [
 
+	self updateInputDebugLabel.
+
 	self trigger isJustPressed ifTrue: [
 		self squeeze isPressed
-			ifFalse: [self rayCast]].
+			ifTrue: [self noteInputEvent: 'trigger REFUSED: squeezing']
+			ifFalse: [
+				self noteInputEvent: 'trigger'.
+				self rayCast]].
 	
 	self squeeze isJustPressed ifTrue: [
 		self trigger isPressed
-			ifFalse: [self startGrabbing]].
+			ifTrue: [self noteInputEvent: 'squeeze REFUSED: triggering']
+			ifFalse: [
+				self noteInputEvent: 'squeeze: grab'.
+				self startGrabbing]].
 	
 	self squeeze isJustReleased ifTrue: [
+		self noteInputEvent: 'squeeze released'.
 		self stopGrabbing].
 	
 	"B on either hand: open with one hand and pick with the other, so a tool can
@@ -341,16 +405,30 @@ SRHand >> performActions [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:59'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
 }
 SRHand >> rayCast [
 
 	| result hit |
-	result := self castRayBackward.
-	result ifNil: [^ self].
+	result := self castRayForward.
+	result ifNil: [^ self noteInputEvent: 'ray hit nothing'].
 	hit := result asHandRayIntersection: actionState hand: self.
-	(tool notNil and: [tool handleRaycast: hit]) ifTrue: [^ self].
+	(tool notNil and: [tool handleRaycast: hit]) ifTrue: [
+		^ self noteInputEvent: tool label , ' used'].
+	self noteInputEvent: (tool
+		ifNil: ['bare hand on ' , result object class name]
+		ifNotNil: [:each | each label , ' DECLINED, hit ' , result object class name]).
 	result object onRaycast: hit
+]
+
+{
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+}
+SRHand >> rayColor [
+	^ self isLeft
+		ifTrue: [self class leftRayColor]
+		ifFalse: [self class rightRayColor]
 ]
 
 {
@@ -372,14 +450,14 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'jl 8/12/2026 18:32'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:54'
 }
 SRHand >> startGrabbing [
 
 	| ray |
 	ray := SRRay
 		origin: self globalTranslation
-		forward: (self globalTransform localDirToGlobal: Vector3 backward) normalize.
+		forward: self forward.
 	
 	(ray castNearest: self world) ifNotNil: [:collision |
 		| target |
@@ -419,37 +497,19 @@ SRHand >> stopGrabbing [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:15'
 }
 SRHand >> teleport [
 
 	"Land on whatever the hand is pointing at, provided it is something to stand
-	on. Terrain answers #rayIntersection: like any other collider, so solving
-	for the y = 0 plane put the player inside a hill or in the air above it."
+	on. The world's own floor is the last thing a downward ray can hit, so nil
+	here means the hand was pointing at the sky."
 
 	| hit |
 	self world ifNil: [^ self].
-	hit := self rayBackward castNearestSolid: self world.
-	hit ifNil: [^ self teleportToGroundPlane].
+	hit := self rayForward castNearestSolid: self world.
+	hit ifNil: [^ self].
 	self world avatar teleportTo: hit point.
-]
-
-{
-	#category : #interaction,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
-}
-SRHand >> teleportToGroundPlane [
-	"Where the hand ray crosses y = 0. Only a fallback: it is the right answer
-	for an empty world and the wrong one anywhere there is terrain."
-
-	| forward groundPoint t translation |
-	"hand points backward, so we need to start with Vector3 backward instead of forward"
-	forward := self globalTransform localDirToGlobal: Vector3 backward.
-	forward y > 0 ifTrue: [^ self]. "hand is not pointing at ground"
-	translation := self globalTranslation.
-	t := (translation y / forward y) negated.
-	groundPoint := forward * t + translation.
-	self world avatar teleportTo: groundPoint.
 ]
 
 {
@@ -503,6 +563,38 @@ SRHand >> updateGrabbedObjectTransform [
 
 	grabbedObject ifNotNil: [
 		grabbedObject dragTo: self globalTransform * grabbedRelativeTransform].
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:59'
+}
+SRHand >> updateInputDebugLabel [
+	"Levels and the last event together: a trigger that never reaches
+	#pressThreshold and an action that was refused look identical from outside."
+
+	self class showInputDebug ifFalse: [
+		inputDebugLabel ifNotNil: [
+			inputDebugLabel remove.
+			inputDebugLabel := nil].
+		^ self].
+	inputDebugLabel ifNil: [
+		inputDebugLabel := SRTextField new
+			color: Color white;
+			scale: 0.004 asVector3;
+			"Behind the hand, which is +z, so it reads when you look at your own
+			hand rather than along the ray."
+			translation: -3cm @ 4cm @ 6cm;
+			yourself.
+		self addChild: inputDebugLabel].
+	inputDebugLabel text: (String streamContents: [:out |
+		out nextPutAll: (self isLeft ifTrue: ['L'] ifFalse: ['R']);
+			nextPutAll: ' trig '; nextPutAll: (self trigger value roundTo: 0.01) printString;
+			nextPutAll: (self trigger isPressed ifTrue: ['*'] ifFalse: ['']);
+			nextPutAll: ' sqz '; nextPutAll: (self squeeze value roundTo: 0.01) printString;
+			nextPutAll: (self squeeze isPressed ifTrue: ['*'] ifFalse: ['']);
+			cr;
+			nextPutAll: (lastInputEvent ifNil: ['--'])]).
 ]
 
 {

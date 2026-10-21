@@ -83,7 +83,7 @@ SRAxesTest >> testEachBarSpansItsOwnHalfAxis [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
 }
 SRAxesTest >> testEachFrameGetsItsOwnSize [
 	"Equal lengths would draw the world's axes and an avatar at the origin on top of
@@ -96,30 +96,7 @@ SRAxesTest >> testEachFrameGetsItsOwnSize [
 	SRAxes showAxes: true.
 	self assert: world debugAxesLength equals: world axes length.
 	self assert: avatar debugAxesLength equals: avatar axes length.
-	self assert: avatar camera debugAxesLength equals: avatar camera axes length.
 	self deny: world debugAxesLength = avatar debugAxesLength.
-	self deny: avatar debugAxesLength = avatar camera debugAxesLength.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
-}
-SRAxesTest >> testGhostAnchorsGetAxesOnEnteringOutOfBody [
-	"The ghost's head anchor is the only visible copy of the camera frame, so it is the
-	one that has to carry axes while out of body."
-
-	| avatar |
-	avatar := SRAvatar new.
-	world avatar: avatar.
-	world addChild: avatar.
-	SRAxes showAxes: true.
-	self assert: (world debugAxesTargets noneSatisfy: [:each | each name = 'GhostHeadAnchor']).
-	avatar enterOutOfBody.
-	avatar ghostAvatar anchors do: [:each |
-		self assert: each axes notNil description: each name, ' has no axes'].
-	avatar exitOutOfBody.
-	self assert: 3 equals: world debugAxesTargets size.
 ]
 
 {
@@ -183,6 +160,47 @@ SRAxesTest >> testSixBarsAndAnOrigin [
 	#('Origin' '+X' '-X' '+Y' '-Y' '+Z' '-Z') do: [:each |
 		self assert: (axes children anySatisfy: [:bar | bar name = each])
 			description: 'missing bar ', each].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
+}
+SRAxesTest >> testTheCameraNeverGetsAxes [
+	"Bars on the camera are drawn from inside the player's head and cross the
+	whole view. The ghost's head anchor is the readable copy of that frame."
+
+	| avatar |
+	avatar := SRAvatar new.
+	world avatar: avatar.
+	world addChild: avatar.
+	SRAxes showAxes: true.
+	self assert: avatar camera axes isNil.
+	self deny: (world debugAxesTargets includes: avatar camera).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
+}
+SRAxesTest >> testTheGhostCarriesAForwardBarRatherThanABasis [
+	"A basis on a 10 cm head is three bars crossing at the eyes. The ghost shows
+	which way it faces with one bar, and that bar is part of the ghost rather
+	than something the Debug axes preference switches on."
+
+	| avatar ghost |
+	avatar := SRAvatar new.
+	world avatar: avatar.
+	world addChild: avatar.
+	SRAxes showAxes: true.
+	avatar enterOutOfBody.
+	ghost := avatar ghostAvatar.
+	ghost anchors do: [:each |
+		self assert: each axes isNil description: each name , ' still carries a basis'].
+	self assert: (world debugAxesTargets noneSatisfy: [:each |
+		ghost == each or: [each isWithin: ghost]]).
+	self assert: 2 equals: world debugAxesTargets size.
+	self assert: (ghost allDescendantsDetect: [:each | each name = 'GhostGaze'] ifNone: [nil]) notNil.
 ]
 
 {

@@ -29,6 +29,18 @@ SRAvatarBodyTest >> addFloorAtY: aHeight [
 ]
 
 {
+	#category : #fixtures,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+}
+SRAvatarBodyTest >> holodeckFloor [
+	"What SRWorld>>collisionGeometry hands out. Built here rather than from an
+	SRWorld: instantiating one registers a project and a change set."
+
+	^ SRSceneSolids new setGeometries:
+		{SRCollisionPlane point: Vector3 zero normal: Vector3 up}
+]
+
+{
 	#category : #running,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
 }
@@ -105,7 +117,30 @@ SRAvatarBodyTest >> testAWallStopsTheBodyWithoutLiftingIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+}
+SRAvatarBodyTest >> testAnEmptySceneStillStopsTheBodyAtTheWorldFloor [
+	"Walking has to work in a scene with nothing in it, and a hole in a collider
+	must not be a one-way trip out of the world."
+
+	| floor |
+	floor := self holodeckFloor.
+	body restAt: 0 @ 5 @ 0.
+	80 timesRepeat: [body applyPhysicsIn: floor dt: 0.02].
+	self assert: body position y abs < 0.01.
+	self assert: body onGround.
+	40 timesRepeat: [body applyPhysicsIn: floor dt: 0.02].
+	self assert: body position y abs < 0.01.
+	"Far from the origin, since the holodeck floor is unbounded."
+	body restAt: 400 @ 5 @ -400.
+	80 timesRepeat: [body applyPhysicsIn: floor dt: 0.02].
+	self assert: body position y abs < 0.01.
+	self assert: body onGround.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
 }
 SRAvatarBodyTest >> testAnObjectWithoutCollisionGeometryHoldsNobodyUp [
 	"Offering collision geometry is the whole of what makes an object solid, and
@@ -160,7 +195,7 @@ SRAvatarBodyTest >> testRestingLeavesTheBoxClearOfTheSurface [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:27'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
 }
 SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
 	"The other half of not falling while grounded: support is asked for every

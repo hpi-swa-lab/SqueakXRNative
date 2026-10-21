@@ -25,7 +25,8 @@ Class {
 		'secondPassRenderBuffer',
 		'traversalStack',
 		'pendingFrameActions',
-		'cycleSemaphore'
+		'cycleSemaphore',
+		'floorGeometry'
 	],
 	#classVars : [
 		'Current',
@@ -598,6 +599,24 @@ SRWorld >> camera [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:13'
+}
+SRWorld >> collisionGeometry [
+	"The floor of the empty holodeck. Unbounded and at y = 0, so walking,
+	teleporting and the arc preview all work in a world with nothing in it --
+	one collider rather than the same rule written into each of them.
+
+	Cached: the arc casts up to thirty rays a frame and each one asks every
+	solid for its geometry."
+
+	^ floorGeometry ifNil: [
+		floorGeometry := (SRCollisionPlane point: Vector3 zero normal: Vector3 up)
+			object: self;
+			yourself]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:58'
 }
@@ -623,19 +642,18 @@ SRWorld >> debugAxesLength [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
 }
 SRWorld >> debugAxesTargets [
-	"Derived rather than remembered, so a ghost that is gone takes its axes with it.
+	"Frames big enough for a basis to be read: the world origin and the rig.
 
-	The ghost's head anchor is here because it is the only visible copy of the camera
-	frame: out of body or not, the live camera sits inside your own head."
+	Not the camera, which sits inside your own head, and not the ghost anchors:
+	three crossing bars on a 10 cm head answered no question anybody asked. The
+	ghost carries its own single forward bar instead."
 
 	| targets |
 	targets := OrderedCollection with: self.
-	self avatar ifNotNil: [:avatar |
-		targets add: avatar; add: avatar camera.
-		avatar ghostAvatar ifNotNil: [:ghost | targets addAll: ghost anchors]].
+	self avatar ifNotNil: [:avatar | targets add: avatar].
 	^ targets
 ]
 
@@ -722,6 +740,17 @@ SRWorld >> gizmoPainter [
 ]
 
 {
+	#category : #interaction,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:13'
+}
+SRWorld >> grabTarget [
+	"The holodeck floor makes the world itself hittable by the grab ray, and
+	SRObject>>grabTarget would then hand back the whole scene."
+
+	^ nil
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
@@ -785,6 +814,14 @@ SRWorld >> invalidateCache [
 
 	self renderer clearCache.
 	self cacheInvalidated.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:15'
+}
+SRWorld >> isProcessAlive [
+	^ worldProcess notNil and: [worldProcess isTerminated not]
 ]
 
 { #category : #accessing }
@@ -1251,12 +1288,39 @@ SRWorld >> stop [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/29/2026 18:07'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:18'
 }
 SRWorld >> stopAndWait [
 
-	self stop.
-	[self class current] whileNotNil: [Processor yield].
+	"Blocks until the renderer has been handed back. SRWorld current is the
+	receipt for that: only #loop clears it, on its way out past
+	#renderer shutdown. A process killed rather than stopped -- User Interrupt,
+	terminateAggressively, an error that escaped #loop -- never gets there, so
+	the wait would never end and the drain has to be finished here. Otherwise
+	the next #start runs renderer setup on a live GL context, which does not
+	raise: it takes the VM down."
+
+	"Every step is best effort and the receipt is cleared in an ensure: the one
+	thing this method must achieve is that current ends up nil with the GPU
+	handed back. #stop raises on a half-built world (#clearCache), and #shutdown
+	can raise on a window already gone -- and either would otherwise leave the
+	receipt latched, which is the state that refuses every later #start with no
+	route out of it."
+
+	| deadline |
+	[[self stop] on: Error do: [:each | each return].
+	deadline := DateAndTime now + 3 seconds.
+	[self class current == self
+		and: [self isProcessAlive and: [DateAndTime now < deadline]]]
+			whileTrue: [(Delay forMilliseconds: 10) wait].
+	self class current == self ifTrue: [
+		"Killed rather than stopped, or wedged: #loop never reached
+		#resetCurrent, so the renderer still owns the context."
+		worldProcess ifNotNil: [:each | each terminate].
+		[self renderer ifNotNil: [:each | each shutdown]]
+			on: Error do: [:each | each return]]]
+		ensure: [
+			self class current == self ifTrue: [self class resetCurrent]].
 ]
 
 {

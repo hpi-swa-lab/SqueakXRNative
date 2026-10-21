@@ -47,19 +47,15 @@ SRSimpleAvatarMovementEmulator >> cameraTransform [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:13'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
 	"Raw axes, unrotated: SRAvatar>>stickMotionFor:dt: resolves the stick against
 	the camera itself, so rotating here would apply the heading twice."
 
-	"Negated: SRAvatar>>stickMotionFor:dt: resolves the stick against #camera
-	right, which is the exact opposite of the #forward cross: up this class uses
-	to fly -- measured dot -1.0. Without this, A and D swap when walk mode is
-	switched on."
 	avatar leftHand ifNotNil: [:hand |
 		hand inputState joystick
-			horizontal: strafe negated;
+			horizontal: strafe;
 			vertical: advance].
 ]
 

@@ -38,28 +38,28 @@ SRAvatarTest >> avatarOnFloorAtY: aHeight [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
 }
 SRAvatarTest >> setUp [
 	"The class variable, not the resolved value: writing back a number pins a
 	literal where nil is the documented 'use the code default'."
 
 	super setUp.
-	savedLocomotionStyle := SRAvatar classPool at: #LocomotionStyle ifAbsent: [nil].
+	savedLocomotionStyle := SRAvatar classPool at: #ContinuousLocomotion ifAbsent: [nil].
 	savedWalkSpeed := SRAvatar classPool at: #WalkSpeed ifAbsent: [nil].
-	SRAvatar classPool at: #LocomotionStyle put: nil.
+	SRAvatar classPool at: #ContinuousLocomotion put: nil.
 	SRAvatar classPool at: #WalkSpeed put: nil.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
 }
 SRAvatarTest >> tearDown [
 	"Restored even when a test fails, so running the tests can never retune the
 	live world."
 
-	SRAvatar classPool at: #LocomotionStyle put: savedLocomotionStyle.
+	SRAvatar classPool at: #ContinuousLocomotion put: savedLocomotionStyle.
 	SRAvatar classPool at: #WalkSpeed put: savedWalkSpeed.
 	super tearDown.
 ]
@@ -84,6 +84,31 @@ SRAvatarTest >> testDuckingDoesNotMoveTheRig [
 			stickMotion: nil
 			dt: 0.05.
 		self assert: correction y abs < 0.01].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
+}
+SRAvatarTest >> testGhostEyesAndRaysBothPointForward [
+	"The eyes were authored on +z and the hand rays on -z, so they disagreed by
+	a half turn and only looked right while SRAvatarCamera negated the camera
+	pose's third column. Asserted against Vector3 forward rather than a literal,
+	so it is the convention that is being checked and not a sign."
+
+	| ghost named |
+	ghost := SRGhostAvatar new.
+	named := [:name |
+		ghost allDescendantsDetect: [:each | each name = name] ifNone: [nil]].
+	#('GhostLeftEye' 'GhostRightEye' 'GhostLeftPupil' 'GhostRightPupil'
+	  'GhostLeftRay' 'GhostRightRay' 'GhostGaze') do: [:name |
+		self assert: (named value: name) notNil description: name , ' is missing'.
+		self
+			assert: ((named value: name) translation dot: Vector3 forward) > 0
+			description: name , ' is on the back of the head'].
+	"And each eye is on the side it is named for."
+	self assert: ((named value: 'GhostRightEye') translation dot: Vector3 right) > 0.
+	self assert: ((named value: 'GhostLeftEye') translation dot: Vector3 right) < 0.
 ]
 
 {
@@ -168,6 +193,36 @@ SRAvatarTest >> testStickWalksOnlyInContinuousStyle [
 	self deny: avatar stickWalksThePlayer.
 	SRAvatar locomotionStyle: #continuous.
 	self assert: avatar stickWalksThePlayer.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:31'
+}
+SRAvatarTest >> testTeleportBringsOpenMenusAlongButLeavesThePreviewBehind [
+	"The preview marks where the teleport goes, so carrying it would move the
+	very thing being aimed at."
+
+	| scene avatar menu preview menuBefore target delta |
+	scene := SRObject new.
+	avatar := SRAvatar new translation: 10.0 @ 4.0 @ 10.0; yourself.
+	avatar camera translation: -1.5 @ 1.7 @ -2.3.
+	scene addChild: avatar.
+	menu := SRMenu new translation: 1 @ 1.5 @ -2; yourself.
+	scene addChild: menu.
+	preview := SRTeleportPreview new translation: 9 @ 0 @ 9; yourself.
+	scene addChild: preview.
+	menuBefore := menu globalTranslation.
+	self assert: (avatar travellers includes: menu).
+	self deny: (avatar travellers includes: preview).
+
+	target := 20 @ 0 @ -30.
+	delta := target - (avatar camera globalTranslation x
+		@ avatar globalTranslation y
+		@ avatar camera globalTranslation z).
+	avatar teleportTo: target.
+	self assert: 0.001 > ((menu globalTranslation - (menuBefore + delta)) length).
+	self assert: 0.001 > ((preview globalTranslation - (9 @ 0 @ 9)) length).
 ]
 
 {

@@ -85,15 +85,18 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'jl 9/21/2026 17:31'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:16'
 }
 SRFrame >> process [
 
-	self updateActions;
-		stepObjects;
-		prepareFrame;
-		renderObjects;
-		completeFrame.
+	"A frame that opened must close. An error between #prepareFrame and
+	#completeFrame otherwise leaves the OpenXR frame begun and never ended, and
+	the session is then unusable rather than merely one frame short.
+	SRWorld>>completeFrame is guarded by #isFramePrepared, so running it after a
+	failed prepare is a no-op."
+
+	self updateActions; stepObjects.
+	[self prepareFrame; renderObjects] ensure: [self completeFrame].
 ]
 
 {

@@ -53,7 +53,7 @@ SRXRInputEmulator class >> rightHandOffset [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	| direction |
@@ -61,7 +61,7 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	direction isZero ifTrue: [^ aHand].
 	direction := direction normalized.
 	aHand globalTransform: (Matrix4x4
-		objectLookAt: aPosition - direction
+		objectLookAt: aPosition + direction
 		from: aPosition
 		up: self world camera up).
 	^ aHand

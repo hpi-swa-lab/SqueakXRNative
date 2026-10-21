@@ -6,25 +6,32 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:27'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:16'
 }
 SRRaylibRendererXR >> completeFrame [
 
-	Raylib
-		endMode3D.
-	
-	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
-	
+	"Everything up to #rlOpenXREnd is in the protected block: the overlay and the
+	mirror blit are both optional, and skipping #rlOpenXREnd is not -- an
+	unbalanced begin leaves the session open for every frame after it.
+	SRWorld current is read through ifNotNil: because the registry is empty while
+	a world is being swapped, and a decapitated completeFrame was how this was
+	found."
+	[Raylib endMode3D.
+
+	SRWorld current ifNotNil: [:each |
+		each gizmoPainter ifNotNil: [:painter | painter render2DOn: self]].
+
 	"The blit needs rlOpenXR still drawing (it asserts on active_fbo), and endDrawing
 	swaps the window, so a swap before the blit presents the buffer the blit has not
 	written yet."
 	self withMirrorFramebufferExtentDo: [
 		Raylib
 			rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeLeft
-				keep_aspect_ratio: true].
-	Raylib
-		rlOpenXREnd;
-		endDrawing.
+				keep_aspect_ratio: true]]
+		ensure: [
+			Raylib
+				rlOpenXREnd;
+				endDrawing].
 	
 	"After the raylib tail, not before it: endDrawing ends with PollInputEvents, which
 	destroys any input that arrived while we were suspended here. See

@@ -20,7 +20,6 @@ Class {
 	],
 	#classVars : [
 		'ContinuousLocomotion',
-		'LocomotionStyle',
 		'SmoothTurn',
 		'SmoothTurnSpeed',
 		'SnapTurnAngle',
@@ -247,13 +246,13 @@ SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:54'
 }
 SRAvatar >> aimTeleportFrom: aHand [
 	| arc |
 	self world ifNil: [^ self].
 	arc := SRBallisticArc new
-		origin: aHand globalTranslation direction: aHand backward;
+		origin: aHand globalTranslation direction: aHand forward;
 		castIn: self world;
 		yourself.
 	self teleportPreview showArc: arc
@@ -338,7 +337,7 @@ SRAvatar >> contextMenu [
 
 {
 	#category : #'out-of-body',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
 }
 SRAvatar >> enterOutOfBody [
 
@@ -346,7 +345,6 @@ SRAvatar >> enterOutOfBody [
 	
 	ghostAvatar := SRGhostAvatar new referenceAvatar: self.
 	self world addChild: ghostAvatar.
-	self world updateDebugAxes.
 ]
 
 {
@@ -616,7 +614,7 @@ SRAvatar >> teleportPreview [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
 }
 SRAvatar >> teleportTo: aGlobalPoint [
 	"Put the player's feet on the target, not the rig origin. The head stands
@@ -627,10 +625,14 @@ SRAvatar >> teleportTo: aGlobalPoint [
 	In STAGE space the floor is the rig's own y plane, which is what makes the
 	feet readable at all."
 
-	| head feet |
+	| head feet delta |
 	head := self camera globalTranslation.
 	feet := head x @ self globalTranslation y @ head z.
-	self translation: self translation + (aGlobalPoint - feet)
+	delta := aGlobalPoint - feet.
+	"Read before the rig moves, in case a traveller is ever parented inside it."
+	self travellers do: [:each |
+		each globalTranslation: each globalTranslation + delta].
+	self translation: self translation + delta
 ]
 
 {
@@ -642,6 +644,25 @@ SRAvatar >> toggleOutOfBody [
 	self isOutOfBody
 		ifTrue: [self exitOutOfBody]
 		ifFalse: [self enterOutOfBody]
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:31'
+}
+SRAvatar >> travellers [
+	"Scene objects that come along on a teleport. Anything inside the rig is
+	left out because it moves with the rig already, and a traveller inside
+	another is left out because the outer one carries it."
+
+	| found |
+	found := OrderedCollection new.
+	self sceneRoot allDo: [:each |
+		(each travelsWithAvatar
+			and: [(each isWithin: self) not
+			and: [found noneSatisfy: [:outer | each isWithin: outer]]])
+				ifTrue: [found add: each]].
+	^ found
 ]
 
 {

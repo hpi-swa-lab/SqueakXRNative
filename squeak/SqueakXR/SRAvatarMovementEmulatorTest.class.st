@@ -64,6 +64,29 @@ SRAvatarMovementEmulatorTest >> testFlyingMovesTheAvatarAndNotTheCamera [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+}
+SRAvatarMovementEmulatorTest >> testStrafingRightGoesToThePlayersRight [
+	"Flying derives right from #forward cross: up and walking reads #camera
+	right. The two disagreed for as long as Vector3 forward answered +z, and
+	D strafed left in walk mode."
+
+	| before fly stick |
+	SRAvatar locomotionStyle == #continuous ifFalse: [^ self].
+	emulator updateAvatarCamera.
+	before := avatar translation.
+	emulator moveStrafe: 1 advance: 0 lift: 0 deltaSeconds: 1.0.
+	fly := (avatar translation - before) normalized.
+	avatar locomotionEnabled: true.
+	emulator moveStrafe: 1 advance: 0 lift: 0 deltaSeconds: 1.0.
+	stick := (avatar stickMotionFor: avatar leftHand dt: 1.0) normalized.
+	"Yaw starts at -90 degrees, looking down -z, so the player's right is +x."
+	self assert: (fly dot: Vector3 right) > 0.999.
+	self assert: (stick dot: Vector3 right) > 0.999.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:10'
 }
 SRAvatarMovementEmulatorTest >> testTheHeadSitsAtEyeHeightAboveTheRig [
@@ -78,7 +101,7 @@ SRAvatarMovementEmulatorTest >> testTheHeadSitsAtEyeHeightAboveTheRig [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:14'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:55'
 }
 SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
 	"With locomotion on, WASD is a request like any thumbstick: the avatar's own
@@ -88,9 +111,7 @@ SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
 	avatar locomotionEnabled: true.
 	rigBefore := avatar translation.
 	emulator moveStrafe: 1 advance: 1 lift: 0 deltaSeconds: 1.0.
-	"Strafe arrives negated: the avatar resolves the stick against #camera right,
-	which is the opposite of the #forward cross: up this emulator flies by."
-	self assert: -1 equals: avatar leftHand inputState joystick vector x.
+	self assert: 1 equals: avatar leftHand inputState joystick vector x.
 	self assert: 1 equals: avatar leftHand inputState joystick vector y.
 	self assert: rigBefore equals: avatar translation.
 ]

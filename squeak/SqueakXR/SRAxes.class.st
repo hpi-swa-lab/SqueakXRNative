@@ -27,12 +27,12 @@ SRAxes class >> length: aNumber [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
 }
 SRAxes class >> showAxes [
 	<preference: 'Debug axes'
 		category: 'SqueakXR'
-		description: 'Draw colour-coded X (red), Y (green) and Z (blue) axes at the world origin, on the avatar rig and on the camera, with the negative half of each axis dimmed. For comparing the flat and XR camera frames.'
+		description: 'Draw colour-coded X (red), Y (green) and Z (blue) axes at the world origin and on the avatar rig, with the negative half of each axis dimmed.'
 		type: #Boolean>
 	^ ShowAxes ifNil: [false]
 ]
@@ -136,14 +136,13 @@ SRAxes >> buildAxis: anAxis letter: aString labelOffset: anOffset color: aColor 
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:42'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
 }
 SRAxes >> buildBars [
 
-	"The axes are written as literal 1@0@0, 0@1@0, 0@0@1 rather than Vector3 right,
-	up and forward. Those names are the thing under investigation: #right answers
-	column 1, which in a proper rotation with column 3 forward is the *left*
-	direction. Drawing the basis by its names would assume the answer."
+	"Literal 1@0@0, 0@1@0, 0@0@1 rather than Vector3 right, up and forward: this
+	draws the basis the names are defined against, so using them would make the
+	picture agree with itself whatever they answered."
 
 	| o |
 	self childrenCopy do: [:each | each remove].

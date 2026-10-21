@@ -72,7 +72,7 @@ SRAvatarBody >> climbTo: aBlockedPosition in: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
 }
 SRAvatarBody >> collidesAtFeet: aPosition in: aScene [
 	"aScene is anything answering #solidInBoxCenter:halfExtents: -- an SRObject, or

@@ -181,6 +181,21 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 
 {
 	#category : #building,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
+}
+SRMenu >> addSubmenuItemFor: aSegment filledBy: aBlock [
+	"A submenu whose rows are written out by aBlock rather than gathered from
+	SRMenuRegistry. Curated: an application decides what belongs in it and in
+	what order, which a registry walk cannot."
+
+	self
+		addItem: (self class submenuLabelFor: aSegment)
+		action: [:item | self openSubmenuFromItem: item filledBy: aBlock]
+		keepOpen: true.
+]
+
+{
+	#category : #building,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
 SRMenu >> addSubmenuItemFor: aSegment under: aPrefix target: anObjectOrNil [
@@ -338,10 +353,22 @@ SRMenu >> onGrabStarted: aHand [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
 }
 SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
-	"Only one submenu is open at a time; hitting the same row again closes it."
+	^ self
+		openSubmenuFromItem: anItemOrNil
+		filledBy: [:sub | sub addItemsUnder: aPath target: anObjectOrNil]
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
+}
+SRMenu >> openSubmenuFromItem: anItemOrNil filledBy: aBlock [
+	"Only one submenu is open at a time; hitting the same row again closes it.
+	aBlock fills the new menu, so a curated submenu and a registry-gathered one
+	share the placement and the one-at-a-time rule."
 
 	| sub reopening |
 	reopening := submenu notNil and: [submenuItem == anItemOrNil].
@@ -351,7 +378,7 @@ SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
 		parentMenu: self;
 		yourself.
 	(self parent ifNil: [self world]) ifNotNil: [:container | container addChild: sub].
-	sub addItemsUnder: aPath target: anObjectOrNil.
+	aBlock value: sub.
 	sub rebuild.
 	sub placeNextTo: self atItem: anItemOrNil.
 	submenu := sub.
@@ -498,7 +525,7 @@ SRMenu >> slabWidth [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:54'
 }
 SRMenu >> step: deltaTime [
 	"A row lights when either hand points at it. Collected first and written
@@ -510,7 +537,7 @@ SRMenu >> step: deltaTime [
 	avatar ifNil: [^ self].
 	hovered := IdentitySet new.
 	avatar hands do: [:hand |
-		(hand rayBackward castNearestObjects: self children)
+		(hand rayForward castNearestObjects: self children)
 			ifNotNil: [:result | hovered add: result object]].
 	submenuItem ifNotNil: [hovered add: submenuItem].
 	self setHoveredItems: hovered.
@@ -540,4 +567,15 @@ SRMenu >> submenu [
 }
 SRMenu >> submenuWasRemoved: aMenu [
 	submenu == aMenu ifTrue: [submenu := nil. submenuItem := nil].
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+}
+SRMenu >> travelsWithAvatar [
+	"An open menu is something you are still using, so teleporting away from it
+	and having to walk back would be the wrong answer."
+
+	^ true
 ]

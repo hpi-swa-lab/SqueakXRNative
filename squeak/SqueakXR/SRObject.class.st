@@ -1312,7 +1312,7 @@ SRObject >> setLocalTransformFromComponents [
 
 {
 	#category : #transformation,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 10:27'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 SRObject >> setTransformAt: aPosition facingCamera: aCamera [
 	"Adopts the camera's viewing direction rather than turning towards the camera."
@@ -1323,7 +1323,7 @@ SRObject >> setTransformAt: aPosition facingCamera: aCamera [
 		ifTrue: [aCamera up]	"looking straight up or down"
 		ifFalse: [Vector3 up].
 	self globalTransform: (Matrix4x4
-		objectLookAt: aPosition - direction
+		objectLookAt: aPosition + direction
 		from: aPosition
 		up: up)
 ]
@@ -1435,6 +1435,18 @@ SRObject >> translation [
 SRObject >> translation: aVector3 [
 
 	self localTranslation: aVector3
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+}
+SRObject >> travelsWithAvatar [
+	"Whether a teleport brings this along. For things the player is holding open
+	rather than things that mark a place in the world: SRTeleportPreview must
+	stay where it is, since it is showing where the teleport goes."
+
+	^ false
 ]
 
 {

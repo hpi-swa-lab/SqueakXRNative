@@ -22,6 +22,18 @@ SRTool >> handleRaycast: aHandRayIntersectionResult [
 ]
 
 {
+	#category : #comparing,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:05'
+}
+SRTool >> isSameToolAs: anSRTool [
+	"Tool sameness as a menu means it. An app hands out fresh instances so that
+	two hands can hold one kind of tool set differently, which leaves == unable
+	to tell a row whether a hand is holding what it offers."
+
+	^ self class == anSRTool class
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:59'
 }
