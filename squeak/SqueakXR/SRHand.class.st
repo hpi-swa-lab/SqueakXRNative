@@ -450,12 +450,12 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 16:28'
+	#'squeak_changestamp' : 'phkeese 10/21/2026 16:35'
 }
 SRHand >> performActions [
 
 	actions do: [:action |
-		action perform: self inputState 
+		(action perform: self inputState) ifFalse: [^self]
 	]
 ]
 
