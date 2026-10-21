@@ -27,43 +27,42 @@ SRRay >> cast: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 7/3/2026 17:22'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
-SRRay >> castAll: aSRWorld [
-
-	^ self castAllObjects: aSRWorld allDescendants
-]
-
-{
-	#category : #raycast,
-	#'squeak_changestamp' : 'lege 7/3/2026 17:22'
-}
-SRRay >> castAllObjects: aCollectionOfSRObjects [
+SRRay >> castAll: anSRObject [
 
 	| intersections |
 	intersections := OrderedCollection new.
-	aCollectionOfSRObjects do: [:object |
-		object collisionGeometryDo: [:geometry |
-			(geometry rayIntersection: self) ifNotNil: [:result |
-				intersections add: result]]].
-	^ intersections sorted: [:intersectionA :intersectionB | | distA distB |
-		distA := self origin distanceTo: intersectionA point.
-		distB := self origin distanceTo: intersectionB point.
-		distA < distB]
+	anSRObject allDo: [:object |
+		(self intersectionWith: object) ifNotNil: [:result | intersections add: result]].
+	^ self sortedByDistance: intersections
 ]
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 7/3/2026 17:24'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
-SRRay >> castNearest: aSRWorld [
+SRRay >> castAllObjects: aCollectionOfSRObjects [
 
-	^ self castNearestObjects: aSRWorld allDescendants
+	^ self sortedByDistance: (aCollectionOfSRObjects
+		collect: [:object | self intersectionWith: object]
+		thenSelect: [:result | result notNil])
 ]
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'lege 7/3/2026 17:24'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+}
+SRRay >> castNearest: anSRObject [
+
+	^ (self castAll: anSRObject)
+		ifEmpty: [nil]
+		ifNotEmpty: [:results | results first]
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> castNearestObjects: aCollectionOfSRObjects [
 
@@ -85,6 +84,15 @@ SRRay >> forward: aVector3 [
 	forward := aVector3
 ]
 
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+}
+SRRay >> intersectionWith: anSRObject [
+
+	^ anSRObject safeCollisionGeometry ifNotNil: [:geometry | geometry rayIntersection: self]
+]
+
 { #category : #accessing }
 SRRay >> origin [
 
@@ -101,4 +109,14 @@ SRRay >> origin: aVector3 [
 SRRay >> project: aNumber [
 
 	^ self origin + (self forward * aNumber)
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+}
+SRRay >> sortedByDistance: intersections [
+
+	^ intersections sorted: [:intersectionA :intersectionB |
+		(self origin distanceTo: intersectionA point) < (self origin distanceTo: intersectionB point)]
 ]

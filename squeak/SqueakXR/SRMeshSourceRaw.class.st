@@ -126,16 +126,12 @@ SRMeshSourceRaw >> createMeshVertexCount: a triangleCount: b vertices: c normals
 
 {
 	#category : #mesh,
-	#'squeak_changestamp' : 'lege 7/7/2026 18:17'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }
 SRMeshSourceRaw >> editDo: aBlock [
 
-	"Use this method to modify the contents of the mesh source.
-	This ensures that dependents of the mesh are notified after the block finishes."
-	
 	isEditable := true.
-	aBlock cull: self.
-	isEditable := false.
+	[aBlock cull: self] ensure: [isEditable := false].
 	self notifyMeshChanged.
 ]
 

@@ -20,25 +20,14 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
 	internalMaterial := Raylib loadMaterialDefault.
-	texture ifNotNil: [
-		internalMaterial maps texture: (texture internalTextureFor: aSRRenderer)].
 	shader ifNotNil: [
-		internalMaterial shader: shader load internalShader].
+		internalMaterial shader: shader internalShader].
 	^ internalMaterial
-]
-
-{
-	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:57'
-}
-SRMaterial >> ensureInternalMaterial [
-
-	^ internalMaterial ifNil: [internalMaterial := Raylib loadMaterialDefault]
 ]
 
 { #category : #'as yet unclassified' }
@@ -64,43 +53,28 @@ SRMaterial >> internalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:23'
 }
 SRMaterial >> internalMaterialFor: aSRRenderer [
 
+	| material |
 	isDirty ifTrue: [
 		aSRRenderer removeAt: self.
-		isDirty := false.].
-	^ aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer]
+		isDirty := false].
+	material := aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer].
+	texture ifNotNil: [material maps texture: texture internalTexture].
+	^ material
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:41'
-}
-SRMaterial >> internalTexture [
-
-	self flag: #remove.
-	^ self internalMaterial maps texture
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/13/2026 19:14'
-}
-SRMaterial >> internalTexture: aRlTexture [
-
-	self flag: #remove.
-	self ensureInternalMaterial maps texture: aRlTexture
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:52'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
 SRMaterial >> onCacheInvalidated [
 
 	internalMaterial := nil.
+	shader ifNotNil: [shader onCacheInvalidated].
+	texture ifNotNil: [texture onCacheInvalidated].
 ]
 
 {
@@ -114,11 +88,10 @@ SRMaterial >> shader [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
 }
 SRMaterial >> shader: aShader [
 
-	self unloadShader.
 	shader := aShader.
 	isDirty := true.
 ]
@@ -133,11 +106,12 @@ SRMaterial >> texture [
 
 {
 	#category : #textures,
-	#'squeak_changestamp' : 'SqueakXR 6/29/2026 16:42'
+	#'squeak_changestamp' : 'MCPServer 9/21/2026 16:15'
 }
 SRMaterial >> texture: anSRTexture [
 
 	texture := anSRTexture.
+	isDirty := true.
 	^ self
 ]
 
@@ -145,15 +119,4 @@ SRMaterial >> texture: anSRTexture [
 SRMaterial >> unloadInternalMaterial [
 
 	self internalMaterial ifNotNil: [Raylib unloadMaterial: self internalMaterial]
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 15:40'
-}
-SRMaterial >> unloadShader [
-
-	shader ifNotNil: [
-		Raylib unloadShader: shader.
-		shader := nil.]
 ]

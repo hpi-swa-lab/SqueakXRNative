@@ -245,6 +245,16 @@ SRHand >> cycleCursor [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:08'
+}
+SRHand >> forget: anSRObject [
+
+	grabbedObject == anSRObject ifTrue: [self stopGrabbing].
+	selectedObject == anSRObject ifTrue: [selectedObject := nil].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
 }
@@ -440,7 +450,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 14:20'
+	#'squeak_changestamp' : 'phkeese 10/21/2026 16:28'
 }
 SRHand >> performActions [
 
