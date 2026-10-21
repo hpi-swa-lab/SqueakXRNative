@@ -4,11 +4,13 @@ Class {
 	#category : #'SqueakXR-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:38'
+}
 SRSqueakXRHelpersTest >> test3DToRaylibVector [
 
 	| vec2 vec2Rl vec2RlExt |
-	self assert: false description: 'test is wrong, vec2 must be converted before checking equality in asserts'.
 	[vec2 :=  (1 @ 2) asVector.
 	vec2Rl := RlVector2 new x: 1; y: 2.
 	vec2RlExt := RlVector2 externalNew x: 1; y: 2.
