@@ -1,0 +1,575 @@
+<mxfile host="app.diagrams.net" agent="BlindGoldi">
+  <diagram name="SqueakXR classes" id="squeakxr-classes-1">
+    <mxGraphModel dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1400" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bFrame" parent="1" vertex="1" value="the frame loop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#bbbbbb;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=13;fontStyle=1;container=0;collapsible=0;">
+          <mxGeometry x="40" y="30" width="1480" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="bScene" parent="1" vertex="1" value="the scene graph" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#bbbbbb;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=13;fontStyle=1;container=0;collapsible=0;">
+          <mxGeometry x="40" y="265" width="1480" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="bPlayer" parent="1" vertex="1" value="the player" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#bbbbbb;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=13;fontStyle=1;container=0;collapsible=0;">
+          <mxGeometry x="40" y="500" width="1480" height="285" as="geometry" />
+        </mxCell>
+        <mxCell id="bGeom" parent="1" vertex="1" value="geometric questions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#bbbbbb;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=13;fontStyle=1;container=0;collapsible=0;">
+          <mxGeometry x="40" y="805" width="1480" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="bInput" parent="1" vertex="1" value="input  —  left of the divider is the desktop, right is the headset, the middle is shared" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#bbbbbb;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=13;fontStyle=1;container=0;collapsible=0;">
+          <mxGeometry x="40" y="1075" width="1480" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="div0" parent="1" vertex="1" value="" style="line;strokeWidth=2;html=1;strokeColor=#bbbbbb;dashed=1;direction=north;fontSize=11;fontColor=#777777;verticalAlign=top;labelPosition=center;align=center;">
+          <mxGeometry x="676" y="1105" width="10" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="div1" parent="1" vertex="1" value="" style="line;strokeWidth=2;html=1;strokeColor=#bbbbbb;dashed=1;direction=north;fontSize=11;fontColor=#777777;verticalAlign=top;labelPosition=center;align=center;">
+          <mxGeometry x="1326" y="1105" width="10" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld" parent="1" vertex="1" value="SRWorld" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="70" y="65" width="300" height="232" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_a0" parent="SRWorld" vertex="1" value="isXR" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_a1" parent="SRWorld" vertex="1" value="running" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_sep" parent="SRWorld" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m0" parent="SRWorld" vertex="1" value="start" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m1" parent="SRWorld" vertex="1" value="startXR" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m2" parent="SRWorld" vertex="1" value="loop" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="122" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m3" parent="SRWorld" vertex="1" value="stopAndWait" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="144" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m4" parent="SRWorld" vertex="1" value="completeFrame" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="166" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m5" parent="SRWorld" vertex="1" value="processKeyInput" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="188" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRWorld_m6" parent="SRWorld" vertex="1" value="collisionGeometry" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="210" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame" parent="1" vertex="1" value="SRFrame" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="410" y="65" width="280" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_a0" parent="SRFrame" vertex="1" value="deltaTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_sep" parent="SRFrame" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="48" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_m0" parent="SRFrame" vertex="1" value="process" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="56" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_m1" parent="SRFrame" vertex="1" value="stepObjects" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_m2" parent="SRFrame" vertex="1" value="renderObjects" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRFrame_m3" parent="SRFrame" vertex="1" value="completeFrame" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="122" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRenderer" parent="1" vertex="1" value="SRRenderer" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="730" y="65" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRenderer_m0" parent="SRRenderer" vertex="1" value="setup" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRenderer_m1" parent="SRRenderer" vertex="1" value="shutdown" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererFlat" parent="1" vertex="1" value="SRRaylibRendererFlat" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="1020" y="65" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererFlat_m0" parent="SRRaylibRendererFlat" vertex="1" value="setup" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="230" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererFlat_m1" parent="SRRaylibRendererFlat" vertex="1" value="completeFrame" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="230" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererXR" parent="1" vertex="1" value="SRRaylibRendererXR" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="1280" y="65" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererXR_m0" parent="SRRaylibRendererXR" vertex="1" value="setup" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="230" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRaylibRendererXR_m1" parent="SRRaylibRendererXR" vertex="1" value="completeFrame" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="230" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject" parent="1" vertex="1" value="SRObject" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="70" y="300" width="340" height="364" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_a0" parent="SRObject" vertex="1" value="name" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_a1" parent="SRObject" vertex="1" value="visible" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_a2" parent="SRObject" vertex="1" value="localTransform" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="70" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_a3" parent="SRObject" vertex="1" value="globalTransform" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="92" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_a4" parent="SRObject" vertex="1" value="transformVersion" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="114" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_sep" parent="SRObject" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="136" width="340" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m0" parent="SRObject" vertex="1" value="addChild: anSRObject" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="144" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m1" parent="SRObject" vertex="1" value="remove" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="166" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m2" parent="SRObject" vertex="1" value="step: deltaTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="188" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m3" parent="SRObject" vertex="1" value="renderOn: aRenderer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="210" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m4" parent="SRObject" vertex="1" value="collisionGeometry" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="232" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m5" parent="SRObject" vertex="1" value="isSolid" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="254" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m6" parent="SRObject" vertex="1" value="travelsWithAvatar" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="276" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m7" parent="SRObject" vertex="1" value="sceneRoot" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="298" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m8" parent="SRObject" vertex="1" value="isWithin: anSRObject" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="320" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRObject_m9" parent="SRObject" vertex="1" value="allDo: aBlock" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="342" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu" parent="1" vertex="1" value="SRMenu" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="460" y="300" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu_a0" parent="SRMenu" vertex="1" value="sticky" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu_sep" parent="SRMenu" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="48" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu_m0" parent="SRMenu" vertex="1" value="addItemsUnder: aPrefix target: anObjectOrNil" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="56" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu_m1" parent="SRMenu" vertex="1" value="travelsWithAvatar" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenu_m2" parent="SRMenu" vertex="1" value="isSolid" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenuItem" parent="1" vertex="1" value="SRMenuItem" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="810" y="300" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenuItem_a0" parent="SRMenuItem" vertex="1" value="label" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenuItem_a1" parent="SRMenuItem" vertex="1" value="keepsMenuOpen" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenuItem_sep" parent="SRMenuItem" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="290" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMenuItem_m0" parent="SRMenuItem" vertex="1" value="onRaycast: aResult" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMorphPanel" parent="1" vertex="1" value="SRMorphPanel" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="1150" y="300" width="290" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMorphPanel_a0" parent="SRMorphPanel" vertex="1" value="morph" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMorphPanel_sep" parent="SRMorphPanel" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="48" width="290" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRMorphPanel_m0" parent="SRMorphPanel" vertex="1" value="step: deltaTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="56" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar" parent="1" vertex="1" value="SRAvatar" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="70" y="535" width="400" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_a0" parent="SRAvatar" vertex="1" value="locomotionEnabled" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_a1" parent="SRAvatar" vertex="1" value="lastRigTranslation" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_sep" parent="SRAvatar" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="400" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_m0" parent="SRAvatar" vertex="1" value="updateLocomotion: deltaTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_m1" parent="SRAvatar" vertex="1" value="walkCorrectionForHead: head floorY: feetY stickMotion: motionOrNil dt: dt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_m2" parent="SRAvatar" vertex="1" value="teleportTo: aGlobalPoint" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="122" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_m3" parent="SRAvatar" vertex="1" value="turnBy: degrees" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="144" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatar_m4" parent="SRAvatar" vertex="1" value="travellers" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="166" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarCamera" parent="1" vertex="1" value="SRAvatarCamera" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="520" y="535" width="260" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarCamera_m0" parent="SRAvatarCamera" vertex="1" value="cameraTransformUpdated: aMatrix" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand" parent="1" vertex="1" value="SRHand" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="520" y="650" width="260" height="166" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_a0" parent="SRHand" vertex="1" value="handIndex" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_a1" parent="SRHand" vertex="1" value="turnArmed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_sep" parent="SRHand" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="260" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_m0" parent="SRHand" vertex="1" value="performActions" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_m1" parent="SRHand" vertex="1" value="rayCast" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_m2" parent="SRHand" vertex="1" value="teleport" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="122" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHand_m3" parent="SRHand" vertex="1" value="updateTurn: deltaTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="144" width="260" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody" parent="1" vertex="1" value="SRAvatarBody" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="830" y="535" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_a0" parent="SRAvatarBody" vertex="1" value="position" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_a1" parent="SRAvatarBody" vertex="1" value="velocity" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_a2" parent="SRAvatarBody" vertex="1" value="height" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="70" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_a3" parent="SRAvatarBody" vertex="1" value="onGround" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="92" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_sep" parent="SRAvatarBody" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="114" width="330" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_m0" parent="SRAvatarBody" vertex="1" value="integrateIn: aScene dt: dt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="122" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_m1" parent="SRAvatarBody" vertex="1" value="climbTo: aBlockedPosition in: aScene" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="144" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_m2" parent="SRAvatarBody" vertex="1" value="stillSupportedIn: aScene" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="166" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRAvatarBody_m3" parent="SRAvatarBody" vertex="1" value="skinWidth" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="188" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRTeleportPreview" parent="1" vertex="1" value="SRTeleportPreview" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="1210" y="535" width="230" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="SRTeleportPreview_m0" parent="SRTeleportPreview" vertex="1" value="showArc: anArc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="230" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRGhostAvatar" parent="1" vertex="1" value="SRGhostAvatar" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="1210" y="650" width="230" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay" parent="1" vertex="1" value="SRRay" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;">
+          <mxGeometry x="70" y="840" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay_a0" parent="SRRay" vertex="1" value="origin" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay_a1" parent="SRRay" vertex="1" value="forward" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay_sep" parent="SRRay" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay_m0" parent="SRRay" vertex="1" value="castNearest: anSRObject" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRRay_m1" parent="SRRay" vertex="1" value="castNearestSolid: anSRObject" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSceneSolids" parent="1" vertex="1" value="SRSceneSolids" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;">
+          <mxGeometry x="410" y="840" width="320" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSceneSolids_m0" parent="SRSceneSolids" vertex="1" value="solidInBoxCenter: aCentre halfExtents: aHalfExtents" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="320" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionGeometry" parent="1" vertex="1" value="SRCollisionGeometry" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;">
+          <mxGeometry x="770" y="840" width="330" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionGeometry_m0" parent="SRCollisionGeometry" vertex="1" value="rayIntersection: aRay" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionGeometry_m1" parent="SRCollisionGeometry" vertex="1" value="intersectsBoxCenter: aCentre halfExtents: aHalfExtents" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="330" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane" parent="1" vertex="1" value="SRCollisionPlane" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;">
+          <mxGeometry x="1150" y="840" width="290" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane_a0" parent="SRCollisionPlane" vertex="1" value="normal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane_a1" parent="SRCollisionPlane" vertex="1" value="point" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane_a2" parent="SRCollisionPlane" vertex="1" value="width" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="70" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane_a3" parent="SRCollisionPlane" vertex="1" value="height" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="92" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRCollisionPlane_a4" parent="SRCollisionPlane" vertex="1" value="up" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="114" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState" parent="1" vertex="1" value="SRDesktopInputState" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;">
+          <mxGeometry x="70" y="1115" width="290" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState_a0" parent="SRDesktopInputState" vertex="1" value="mousePosition" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState_a1" parent="SRDesktopInputState" vertex="1" value="mouseDelta" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState_sep" parent="SRDesktopInputState" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="290" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState_m0" parent="SRDesktopInputState" vertex="1" value="sample" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRDesktopInputState_m1" parent="SRDesktopInputState" vertex="1" value="isKeyPressed: aKeyCode" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="100" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSimpleAvatarMovementEmulator" parent="1" vertex="1" value="SRSimpleAvatarMovementEmulator" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;">
+          <mxGeometry x="70" y="1255" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSimpleAvatarMovementEmulator_a0" parent="SRSimpleAvatarMovementEmulator" vertex="1" value="yaw" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSimpleAvatarMovementEmulator_a1" parent="SRSimpleAvatarMovementEmulator" vertex="1" value="pitch" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSimpleAvatarMovementEmulator_sep" parent="SRSimpleAvatarMovementEmulator" vertex="1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry y="70" width="290" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="SRSimpleAvatarMovementEmulator_m0" parent="SRSimpleAvatarMovementEmulator" vertex="1" value="driveStickStrafe: strafe advance: advance" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="78" width="290" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRXRInputEmulator" parent="1" vertex="1" value="SRXRInputEmulator" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;">
+          <mxGeometry x="400" y="1255" width="250" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="SRXRInputEmulator_m0" parent="SRXRInputEmulator" vertex="1" value="updateHandInput: aHand" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHandInputState" parent="1" vertex="1" value="SRHandInputState" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="700" y="1115" width="300" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="SRHandInputState_m0" parent="SRHandInputState" vertex="1" value="updateDesktopTrigger: t squeeze: s topButton: b" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputFloatState" parent="1" vertex="1" value="SRInputFloatState" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;">
+          <mxGeometry x="1050" y="1115" width="250" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputFloatState_a0" parent="SRInputFloatState" vertex="1" value="value" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputFloatState_a1" parent="SRInputFloatState" vertex="1" value="pressThreshold" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputFloatState_a2" parent="SRInputFloatState" vertex="1" value="releaseThreshold" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="70" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputDualAxisState" parent="1" vertex="1" value="SRInputDualAxisState" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;">
+          <mxGeometry x="1050" y="1255" width="250" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputDualAxisState_a0" parent="SRInputDualAxisState" vertex="1" value="value" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="26" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputDualAxisState_a1" parent="SRInputDualAxisState" vertex="1" value="vertical" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="48" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRInputDualAxisState_a2" parent="SRInputDualAxisState" vertex="1" value="horizontal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=11;">
+          <mxGeometry y="70" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="SRXrActionStates" parent="1" vertex="1" value="SRXrActionStates" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#eeeeee;strokeColor=#999999;">
+          <mxGeometry x="1350" y="1115" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="SRXrInput" parent="1" vertex="1" value="SRXrInput" style="swimlane;html=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;fontStyle=1;fontSize=12;fillColor=#eeeeee;strokeColor=#999999;">
+          <mxGeometry x="1350" y="1230" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" parent="1" edge="1" source="SRWorld" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" parent="1" edge="1" source="SRRaylibRendererFlat" target="SRRenderer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" parent="1" edge="1" source="SRRaylibRendererXR" target="SRRenderer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" parent="1" edge="1" source="SRMenu" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" parent="1" edge="1" source="SRMenuItem" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" parent="1" edge="1" source="SRMorphPanel" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" parent="1" edge="1" source="SRAvatar" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" parent="1" edge="1" source="SRAvatarCamera" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" parent="1" edge="1" source="SRHand" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" parent="1" edge="1" source="SRTeleportPreview" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" parent="1" edge="1" source="SRGhostAvatar" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" parent="1" edge="1" source="SRCollisionPlane" target="SRCollisionGeometry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;endFill=0;html=1;strokeColor=#d79b00;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" parent="1" edge="1" source="SRWorld" target="SRFrame" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="one per frame">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" parent="1" edge="1" source="SRWorld" target="SRRenderer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#6c8ebf;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13l" parent="e13" vertex="1" connectable="0" value="renderer" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" parent="1" edge="1" source="SRFrame" target="SRWorld" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14l" parent="e14" vertex="1" connectable="0" value="world" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" parent="1" edge="1" source="SRAvatar" target="SRAvatarCamera" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#d6b656;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15l" parent="e15" vertex="1" connectable="0" value="camera" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" parent="1" edge="1" source="SRAvatar" target="SRHand" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#d6b656;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16l" parent="e16" vertex="1" connectable="0" value="leftHand, rightHand  2" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" parent="1" edge="1" source="SRAvatar" target="SRAvatarBody" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#d6b656;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17l" parent="e17" vertex="1" connectable="0" value="body" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" parent="1" edge="1" source="SRAvatar" target="SRTeleportPreview" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18l" parent="e18" vertex="1" connectable="0" value="teleportPreview 0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" parent="1" edge="1" source="SRAvatar" target="SRGhostAvatar" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19l" parent="e19" vertex="1" connectable="0" value="ghostAvatar 0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" parent="1" edge="1" source="SRMenu" target="SRMenuItem" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#82b366;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20l" parent="e20" vertex="1" connectable="0" value="items  *" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" parent="1" edge="1" source="SRAvatarBody" target="SRSceneSolids" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="is this box clear?">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" parent="1" edge="1" source="SRHand" target="SRRay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="what am I pointing at?">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" parent="1" edge="1" source="SRSceneSolids" target="SRCollisionGeometry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#d79b00;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23l" parent="e23" vertex="1" connectable="0" value="geometries  *" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" parent="1" edge="1" source="SRRay" target="SRCollisionGeometry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;dashed=1;strokeColor=#999999;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" parent="1" edge="1" source="SRObject" target="SRCollisionGeometry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;dashed=1;strokeColor=#999999;fontSize=10;" value="offers one, or none">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" parent="1" edge="1" source="SRCollisionGeometry" target="SRObject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26l" parent="e26" vertex="1" connectable="0" value="object" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" parent="1" edge="1" source="SRHand" target="SRHandInputState" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;fontColor=#b85450;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27l" parent="e27" vertex="1" connectable="0" value="inputState — the same object in either mode" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" parent="1" edge="1" source="SRHandInputState" target="SRInputFloatState" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#9673a6;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28l" parent="e28" vertex="1" connectable="0" value="trigger, squeeze  2" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" parent="1" edge="1" source="SRHandInputState" target="SRInputDualAxisState" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=diamondThin;endFill=1;html=1;strokeColor=#9673a6;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29l" parent="e29" vertex="1" connectable="0" value="joystick" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;labelBackgroundColor=none;">
+          <mxGeometry x="0.85" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e30" parent="1" edge="1" source="SRXRInputEmulator" target="SRHandInputState" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="fills in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" parent="1" edge="1" source="SRXrActionStates" target="SRHandInputState" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="fills in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" parent="1" edge="1" source="SRSimpleAvatarMovementEmulator" target="SRAvatarCamera" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="moves the head, in flat mode">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e33" parent="1" edge="1" source="SRDesktopInputState" target="SRXRInputEmulator" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;html=1;strokeColor=#666666;fontSize=10;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" parent="1" edge="1" source="SRCollisionPlane" target="SRWorld" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#b85450;fontColor=#b85450;fontSize=10;" value="the world is its own floor:
+collisionGeometry object == the world">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
