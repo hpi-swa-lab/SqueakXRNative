@@ -34,10 +34,9 @@ SRHandInputState class >> grabPressThreshold [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputState class >> grabPressThreshold: aNumber [
-	"Hand input states outlive a preference change, so push to the existing ones."
 
 	GrabPressThreshold := aNumber.
 	self allInstancesDo: [:each | each squeeze pressThreshold: aNumber].
@@ -57,10 +56,9 @@ SRHandInputState class >> grabReleaseThreshold [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputState class >> grabReleaseThreshold: aNumber [
-	"Hand input states outlive a preference change, so push to the existing ones."
 
 	GrabReleaseThreshold := aNumber.
 	self allInstancesDo: [:each | each squeeze releaseThreshold: aNumber].
@@ -200,11 +198,9 @@ SRHandInputState >> updateActionsRight: actionStates [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputState >> updateDesktopTrigger: aTrigger squeeze: aSqueeze topButton: aBoolean [
-	"Every frame with the level, never on edges: #isJustPressed is derived from
-	the transition, so a frame that reports nothing reads as a release."
 
 	trigger updateValue: aTrigger.
 	squeeze updateValue: aSqueeze.

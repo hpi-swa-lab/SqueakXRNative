@@ -30,26 +30,23 @@ SRAvatarBodyTest >> addFloorAtY: aHeight [
 
 {
 	#category : #fixtures,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRAvatarBodyTest >> holodeckFloor [
-	"What SRWorld>>collisionGeometry hands out. Built here rather than from an
-	SRWorld: instantiating one registers a project and a change set."
-
+	"Not built from an SRWorld: instantiating one registers a project and a change set."
 	^ SRSceneSolids new setGeometries:
 		{SRCollisionPlane point: Vector3 zero normal: Vector3 up}
+
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> setUp [
 	super setUp.
 	scene := SRObject new.
-	"The scene is asked on behalf of a node inside it, as it is on behalf of the
-	avatar. Asking on behalf of the root would skip the whole scene, since
-	everything in it is then one of the asker's own parts."
+
 	walker := SRObject new.
 	scene addChild: walker.
 	body := SRAvatarBody new.
@@ -57,12 +54,9 @@ SRAvatarBodyTest >> setUp [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testAStandingBodyDoesNotDrift [
-	"Settling leaves the feet a skin width clear, so a grounded body that falls to
-	find the floor falls exactly that gap, lands, and does it again -- a permanent
-	bounce the desktop showed up once the head stopped moving."
 
 	| resting |
 	self addFloorAtY: 0.
@@ -76,12 +70,12 @@ SRAvatarBodyTest >> testAStandingBodyDoesNotDrift [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
 
 	self addFloorAtY: 0.
-	"A half metre ledge covering x -5 to -1."
+
 	scene addChild: (SRPlane new
 		scale: 4 @ 1 @ 4;
 		translation: -3 @ 0.5 @ 0;
@@ -95,11 +89,9 @@ SRAvatarBodyTest >> testAStepWithinTheStepUpHeightIsClimbedByWalkingIntoIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testAWallStopsTheBodyWithoutLiftingIt [
-	"The mobs climb by jumping into whatever they walked into, which makes pressing
-	against a tall wall bounce. A head may not bounce."
 
 	self addFloorAtY: 0.
 	scene addChild: (SRPlane new
@@ -117,11 +109,9 @@ SRAvatarBodyTest >> testAWallStopsTheBodyWithoutLiftingIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testAnEmptySceneStillStopsTheBodyAtTheWorldFloor [
-	"Walking has to work in a scene with nothing in it, and a hole in a collider
-	must not be a one-way trip out of the world."
 
 	| floor |
 	floor := self holodeckFloor.
@@ -131,7 +121,7 @@ SRAvatarBodyTest >> testAnEmptySceneStillStopsTheBodyAtTheWorldFloor [
 	self assert: body onGround.
 	40 timesRepeat: [body applyPhysicsIn: floor dt: 0.02].
 	self assert: body position y abs < 0.01.
-	"Far from the origin, since the holodeck floor is unbounded."
+
 	body restAt: 400 @ 5 @ -400.
 	80 timesRepeat: [body applyPhysicsIn: floor dt: 0.02].
 	self assert: body position y abs < 0.01.
@@ -140,28 +130,23 @@ SRAvatarBodyTest >> testAnEmptySceneStillStopsTheBodyAtTheWorldFloor [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testAnObjectWithoutCollisionGeometryHoldsNobodyUp [
-	"Offering collision geometry is the whole of what makes an object solid, and
-	SRCube offers none: it would otherwise make every cube in every scene pickable
-	and grabbable as well as walkable."
 
 	scene addChild: (SRCube new scale: 10 @ 10 @ 10; yourself).
 	body restAt: 0 @ 5 @ 0.
 	80 timesRepeat: [body applyPhysicsIn: walker dt: 0.02].
 	self deny: body onGround.
-	"Out the bottom of a cube reaching from -5 to 5."
+
 	self assert: body position y < -5.0.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testFallingLandsOnTheFloorAndStaysThere [
-	"Stopping at the last free substep instead of settling onto the surface leaves
-	the player hovering a substep up, and falling again every frame."
 
 	self addFloorAtY: 0.
 	body restAt: 0 @ 5 @ 0.
@@ -174,13 +159,9 @@ SRAvatarBodyTest >> testFallingLandsOnTheFloorAndStaysThere [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testRestingLeavesTheBoxClearOfTheSurface [
-	"Resting exactly on contact puts the box's bottom face on a voxel boundary, and
-	the cell lookup runs through single precision, so the boundary floors into the
-	solid block below and the overlap flickers frame to frame. Measured in a tunnel:
-	feet at cell 3.999 instead of 4."
 
 	| bottom |
 	self addFloorAtY: 0.
@@ -195,11 +176,9 @@ SRAvatarBodyTest >> testRestingLeavesTheBoxClearOfTheSurface [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
-	"The other half of not falling while grounded: support is asked for every
-	frame, so a floor that disappears is noticed without having to fall first."
 
 	| plane probe restingY |
 	plane := SRPlane new
@@ -210,8 +189,7 @@ SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
 	probe := SRObject new.
 	scene addChild: probe.
 	body restAt: Vector3 zero.
-	"Solids are gathered per frame rather than from the cached fixture, which is
-	the whole point: the floor has to be able to go away."
+
 	5 timesRepeat: [body applyPhysicsIn: (SRSceneSolids forObject: probe) dt: 0.02].
 	self assert: body onGround.
 	restingY := body position y.
@@ -223,11 +201,9 @@ SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBodyTest >> walk: metresPerSecondX forFrames: aCount [
-	"The velocity is reasserted every frame because the stick does: the walk
-	correction sets it from the stick each time it is read."
 
 	aCount timesRepeat: [
 		body velocityX: metresPerSecondX z: 0.0.

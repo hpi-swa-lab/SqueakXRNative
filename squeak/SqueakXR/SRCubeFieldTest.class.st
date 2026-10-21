@@ -189,11 +189,9 @@ SRCubeFieldTest >> testStepRotatesEveryCubeWhenAnimating [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:04'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCubeFieldTest >> testStepTakesMilliseconds [
-	"Reading deltaTime as seconds spun the field two full turns per frame, which
-	aliased into a judder rather than an animation."
 
 	| field |
 	field := self fieldOf: 1.

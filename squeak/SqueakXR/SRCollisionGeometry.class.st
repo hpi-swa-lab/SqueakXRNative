@@ -24,13 +24,9 @@ SRCollisionGeometry >> ifCollisionGeometry: aBlock [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCollisionGeometry >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
-	"Overlap with an axis-aligned box in global space, as the locomotion sweep asks
-	it. An implementation may answer true for a near miss but never false for a
-	real overlap: a conservative collider stops the player short of a wall, an
-	optimistic one lets them walk through it."
 
 	^ self subclassResponsibility
 ]
@@ -91,12 +87,9 @@ SRCollisionGeometry >> object: aSRObject [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCollisionGeometry >> overlapsAlong: anAxis from: aDelta half: aHalfExtent query: aQueryHalfExtents [
-	"One separating-axis test. The query box is axis aligned in global space, so its
-	support along anAxis is the axis's absolute components dotted with its half
-	extents."
 
 	| support |
 	support := (anAxis x abs * aQueryHalfExtents x)

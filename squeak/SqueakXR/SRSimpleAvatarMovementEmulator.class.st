@@ -21,12 +21,9 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
-	"Stand the player back from the origin, where the scene is, unless something
-	has already placed them. The rig carries this now; it used to be an offset
-	baked into the camera, which made flat and XR disagree by 2.5 m."
 
 	avatar := anAvatar.
 	(avatar notNil and: [avatar translation = Vector3 zero]) ifTrue: [
@@ -47,11 +44,9 @@ SRSimpleAvatarMovementEmulator >> cameraTransform [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
-	"Raw axes, unrotated: SRAvatar>>stickMotionFor:dt: resolves the stick against
-	the camera itself, so rotating here would apply the heading twice."
 
 	avatar leftHand ifNotNil: [:hand |
 		hand inputState joystick
@@ -61,10 +56,9 @@ SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> eyeHeight [
-	"A headset reports where the head is; the desktop has to pick a height."
 
 	^ 1.8m
 ]
@@ -93,13 +87,12 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
 	super initialize.
-	"Looking down -Z at the origin: that is the frame SWAGameXR's slabs and
-	raylib's 3D text are laid out in, and the OpenXR head convention."
+
 	yaw := -90.0.
 	pitch := -25.0.
 	moveSpeed := 3m.
@@ -119,12 +112,9 @@ SRSimpleAvatarMovementEmulator >> lookModeEnabled [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> moveStrafe: strafe advance: advance lift: lift deltaSeconds: dt [
-	"WASD asks the player to move, so it moves the rig -- never the camera.
-	With locomotion on, the request goes to the left stick and the avatar's own
-	walker resolves it against the scene; otherwise it is a free fly."
 
 	| forward right movement |
 	avatar ifNil: [^ self].
@@ -139,11 +129,9 @@ SRSimpleAvatarMovementEmulator >> moveStrafe: strafe advance: advance lift: lift
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> position [
-
-	"The rig, which is where the player is. The head sits #eyeHeight above it."
 
 	^ avatar ifNil: [Vector3 zero] ifNotNil: [:a | a translation]
 ]
@@ -193,13 +181,9 @@ SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> updateAvatarCamera [
-
-	"Orientation and eye height only. The camera is the head, and on the desktop
-	the head does not wander off the rig: WASD is a request to move the player,
-	so it moves the avatar (see journal 2026-10-20)."
 
 	| forward eye |
 	avatar ifNil: [^ self].

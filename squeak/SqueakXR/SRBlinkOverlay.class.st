@@ -42,14 +42,13 @@ SRBlinkOverlay class >> fadeInSeconds: aNumber [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlay class >> fadeOutSeconds [
 	<preference: 'Teleport fade out seconds'
 		category: 'SqueakXR'
 		description: 'Time between asking to go and going. Short, or it reads as lag.'
 		type: #Number>
-	"0.1 is Valve's teleportFadeTime in the SteamVR Interaction System."
 
 	^ FadeOutSeconds ifNil: [0.1]
 ]
@@ -64,11 +63,9 @@ SRBlinkOverlay class >> fadeOutSeconds: aNumber [
 
 {
 	#category : #blinking,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlay >> blinkThen: aBlock [
-	"A second blink while one is running would strand the action of the first,
-	so the running one is finished immediately rather than dropped."
 
 	phase == #idle ifFalse: [self runPendingAction].
 	pendingAction := aBlock.
@@ -80,12 +77,11 @@ SRBlinkOverlay >> blinkThen: aBlock [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlay >> initialize [
 	super initialize.
-	"Four metres across at 20 cm from the eye: wider than any field of view, and
-	beyond the near clipping plane."
+
 	panel := SRFastCube new
 		scale: 4 @ 4 @ 0.01;
 		position: 0 @ 0 @ 20 cm;
@@ -133,7 +129,7 @@ SRBlinkOverlay >> runPendingAction [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlay >> step: deltaTime [
 	| seconds |
@@ -144,7 +140,7 @@ SRBlinkOverlay >> step: deltaTime [
 		elapsed < self class fadeOutSeconds
 			ifTrue: [^ self opacity: elapsed / self class fadeOutSeconds].
 		self opacity: 1.0.
-		"Behind a black screen, which is the whole point of the exercise."
+
 		self runPendingAction.
 		phase := #in.
 		elapsed := 0.0.

@@ -65,12 +65,9 @@ SRCollisionPlane >> height: aNumber [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:40'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCollisionPlane >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
-	"A plane has no thickness, so the box has to straddle it. Standing on one is
-	therefore a box whose bottom face is level with the plane, which the <= in
-	#overlapsAlong:from:half:query: counts as an overlap."
 
 	| delta |
 	delta := aCentre - self point.

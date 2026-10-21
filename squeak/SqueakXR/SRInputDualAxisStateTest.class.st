@@ -34,11 +34,9 @@ SRInputDualAxisStateTest >> testDeadzone [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 11:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputDualAxisStateTest >> testDeadzoneIsSymmetric [
-	"Comparing the signed value against the deadzone silently discarded every
-	leftward and backward push, so a thumbstick only worked in one quadrant."
 
 	| state |
 	state := SRInputDualAxisState new.

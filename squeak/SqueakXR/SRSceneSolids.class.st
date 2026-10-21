@@ -17,10 +17,9 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSceneSolids class >> forObject: anSRObject [
-	"Everything solid in anSRObject's scene except anSRObject's own parts."
 
 	| collected |
 	collected := OrderedCollection new.

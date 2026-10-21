@@ -53,10 +53,9 @@ SRAvatar class >> continuousLocomotion: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar class >> locomotionStyle [
-	"The internal vocabulary; see #turnStyle for why the preference is a Boolean."
 
 	^ self continuousLocomotion ifTrue: [#continuous] ifFalse: [#teleport]
 ]
@@ -177,14 +176,13 @@ SRAvatar class >> teleportBlink: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRAvatar class >> turnStyle [
-	"The internal vocabulary. Declared as a Boolean preference rather than a
-	symbol one: Squeak's Preference Browser has no view for #Symbol, and one
-	unsupported type takes the whole browser down, not just its own row."
-
+	"A Boolean preference rather than a Symbol one: the Preference Browser has no view for 
+	#Symbol, and one unsupported type takes the whole browser down."
 	^ self smoothTurn ifTrue: [#smooth] ifFalse: [#snap]
+
 ]
 
 {
@@ -260,11 +258,9 @@ SRAvatar >> aimTeleportFrom: aHand [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> blinkOverlay [
-	"A child of the camera, so it stays in front of the face however the head
-	moves during the blink."
 
 	^ blinkOverlay ifNil: [
 		blinkOverlay := SRBlinkOverlay new.
@@ -292,11 +288,9 @@ SRAvatar >> camera [
 
 {
 	#category : #camera,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> cameraLocalPosition: aPosition target: aTarget up: up [
-	"In rig space, so the head travels with the avatar. Writing the global
-	transform instead survives only until it is recomputed from the local one."
 
 	camera localTransform: (Matrix4x4 objectLookAt: aTarget from: aPosition up: up).
 ]
@@ -311,11 +305,9 @@ SRAvatar >> cancelTeleportAim [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> commitTeleport [
-	"Runs on the frame the stick returns to centre. The preview being hidden is
-	what says no aim was in progress, so this is cheap on every other frame."
 
 	teleportPreview ifNil: [^ self].
 	teleportPreview visible ifFalse: [^ self].
@@ -430,12 +422,9 @@ SRAvatar >> locomotionEnabled [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> locomotionEnabled: aBoolean [
-	"Off by default: a flying camera over a scene must not be dragged to the floor
-	by gravity. An application that means the player to stand in its world turns
-	it on, as SWAGameXR does when it scales a block to a metre."
 
 	locomotionEnabled := aBoolean.
 	aBoolean ifTrue: [lastRigTranslation := nil].
@@ -481,11 +470,9 @@ SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> openMenuForHand: aHand [
-	"A menu that was dismissed elsewhere (e.g. by selecting an item) has a nil
-	parent, so it no longer counts as open."
 
 	| position |
 	(contextMenu notNil and: [contextMenu isOpen]) ifTrue: [
@@ -514,24 +501,18 @@ SRAvatar >> openWorldMenuAt: aPosition [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:23'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> restDeadband [
-	"Below this, a correction with nothing asked of it is the settle epsilon
-	chasing itself rather than movement. Well under #skinWidth, and far above the
-	0.01 mm per frame measured on a standing player."
 
 	^ 1 mm
 ]
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> rigWasMovedExternally [
-	"We are the only writer of the rig's translation while locomotion is on, so any
-	value other than the one we left is a teleport -- by a hand, by an application
-	placing the player, or from a workspace."
 
 	lastRigTranslation ifNil: [^ true].
 	^ (self translation - lastRigTranslation) length > 0.0001
@@ -548,28 +529,18 @@ SRAvatar >> rightHand [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> snapBodyUnderHead: head floorY: feetY [
-	"Stand the collision body where the rig was just put, without walking it there.
-	The body lags one teleport behind otherwise, and the correction then drags the
-	player across the whole gap at walking speed, which is the one thing teleport
-	exists to avoid."
 
 	self body restAt: (Vector3 x: head x y: feetY z: head z).
 ]
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> stickMotionFor: aHand dt: dt [
-	"How far the stick asks to travel this frame, in metres. A standing player
-	cannot room-scale across a landscape, so the stick has to carry them.
-
-	Camera relative and flattened to the horizontal plane: pushing forward goes
-	where you look rather than where the controller points, and looking up does
-	not launch you."
 
 	| stick forward right flat |
 	self stickWalksThePlayer ifFalse: [^ nil].
@@ -589,22 +560,18 @@ SRAvatar >> stickMotionFor: aHand dt: dt [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> stickWalksThePlayer [
-	"The same stick aims the teleport arc in the other style, so it cannot also
-	walk: the player would move while choosing where to go."
 
 	^ self class locomotionStyle == #continuous
 ]
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> teleportPreview [
-	"A child of the world, not of the rig: it marks a place on the ground, and a
-	child of the rig would be carried along by the teleport it is previewing."
 
 	^ teleportPreview ifNil: [
 		teleportPreview := SRTeleportPreview new.
@@ -614,22 +581,15 @@ SRAvatar >> teleportPreview [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> teleportTo: aGlobalPoint [
-	"Put the player's feet on the target, not the rig origin. The head stands
-	anywhere inside the play space -- metres away after walking about -- so
-	moving the rig origin to the target lands the player that far off their aim,
-	and drops them if the ground there is lower.
-
-	In STAGE space the floor is the rig's own y plane, which is what makes the
-	feet readable at all."
 
 	| head feet delta |
 	head := self camera globalTranslation.
 	feet := head x @ self globalTranslation y @ head z.
 	delta := aGlobalPoint - feet.
-	"Read before the rig moves, in case a traveller is ever parented inside it."
+
 	self travellers do: [:each |
 		each globalTranslation: each globalTranslation + delta].
 	self translation: self translation + delta
@@ -648,12 +608,9 @@ SRAvatar >> toggleOutOfBody [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:31'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> travellers [
-	"Scene objects that come along on a teleport. Anything inside the rig is
-	left out because it moves with the rig already, and a traveller inside
-	another is left out because the outer one carries it."
 
 	| found |
 	found := OrderedCollection new.
@@ -667,13 +624,9 @@ SRAvatar >> travellers [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> turnBy: degrees [
-	"About the player's own vertical axis, not the rig origin. The head is
-	metres from the origin after walking the play space, and turning about the
-	origin would swing the player sideways through the room instead of letting
-	them look the other way."
 
 	| spin pivot offset |
 	degrees = 0 ifTrue: [^ self].
@@ -687,29 +640,19 @@ SRAvatar >> turnBy: degrees [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> updateLocomotion: deltaTime [
-	"The player is moved by the headset and by the stick, and neither knows what is
-	solid. Read where they went, resolve it against the scene, and write the
-	difference back to the rig, which is the only part of the player we may move.
-
-	deltaTime is milliseconds, and it is the frame delta rather than any fixed
-	tick: walking must not inherit a simulation's period."
 
 	| dt head feetY correction |
 	self locomotionEnabled ifFalse: [^ self].
 	camera ifNil: [^ self].
-	"A frame long enough to tunnel through a wall is better slowed than skipped."
+
 	dt := (deltaTime asFloat / 1000.0) min: 0.1.
 	dt <= 0.0 ifTrue: [^ self].
-	"The head, not the rig: on the desktop SRSimpleAvatarMovementEmulator moves the
-	camera inside the rig and in XR the headset does, so the rig never moves on its
-	own and reading it would see no walking at all."
+
 	head := camera globalTranslation.
-	"OpenXR poses arrive in STAGE space, so the rig's own y is the physical floor.
-	Subtracting a body height from the head instead makes ducking look like the
-	ground rising to meet you."
+
 	feetY := self globalTranslation y.
 	self rigWasMovedExternally
 		ifTrue: [self snapBodyUnderHead: head floorY: feetY].
@@ -724,28 +667,19 @@ SRAvatar >> updateLocomotion: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:24'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatar >> walkCorrectionForHead: head floorY: feetY stickMotion: motionOrNil dt: dt [
-	"How far the rig has to move for the player to stand where the scene allows.
-	Separate from #updateLocomotion: so it can be exercised without a camera."
 
 	| feet solids correction |
 	feet := Vector3 x: head x y: feetY z: head z.
-	"Collected once: resolving a step costs a dozen queries, and walking the graph
-	building a geometry object per collider measures 1.7 ms on a 234-object world."
+
 	solids := SRSceneSolids forObject: self.
 	self body height: head y - feetY.
-	"A step taken on the real floor cannot be refused. Pushing back against the
-	head moves the world out from under the player rather than stopping them,
-	which is both sickening and a lie about where they are standing.
 
-	The head alone: this asked whether the whole body box was clear, so standing on
-	a floor at all could answer no and freeze every frame."
 	(self body headInSolidAt: head in: solids) ifTrue: [^ Vector3 zero].
 	self body feetAtX: head x z: head z.
-	"Only the stick is resolved against the scene, because only the stick can be
-	refused: it is the one movement the player did not actually make."
+
 	motionOrNil
 		ifNil: [self body velocityX: 0.0 z: 0.0]
 		ifNotNil: [:motion | self body velocityX: motion x / dt z: motion z / dt].

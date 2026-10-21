@@ -69,11 +69,9 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> bearingFrom: anEye to: aPoint [
-	"Degrees about the vertical axis. Height is ignored: the cylinder's axis is
-	vertical, so only the horizontal direction names a position on it."
 
 	| d |
 	d := aPoint - anEye.
@@ -82,11 +80,9 @@ SRXRInputEmulator >> bearingFrom: anEye to: aPoint [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> cylinderHitFrom: anOrigin direction: aDirection eye: anEye radius: aRadius [
-	"Where the cursor ray leaves a vertical cylinder of that radius about the eye.
-	The far root: the near one is behind the viewer."
 
 	| ox oz dx dz a b c disc |
 	ox := anOrigin x - anEye x. oz := anOrigin z - anEye z.
@@ -111,24 +107,16 @@ SRXRInputEmulator >> debugHUD [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
-	"While something is held, the hand slides along the mouse ray and keeps the
-	rotation it had. The emulated hand never translates -- it pivots at a fixed
-	shoulder offset -- so aiming it at the cursor swings the held object on a
-	sphere and turns it as it goes, which is what makes flat-mode dragging
-	painful. A real hand moves; only this one cannot."
 
 	| eye t point lift |
 	eye := self world avatar camera globalTranslation.
 	grabRadius ifNil: [
 		| held |
 		held := aHand grabbedObject globalTranslation.
-		"A vertical cylinder about the viewer: a plane would push the thing away
-		as it goes sideways, and a sphere would turn it away from us. On the
-		cylinder the distance is constant and the yaw keeps it facing us.
-		Radius is measured from the eye each frame, so walking carries it."
+
 		grabRadius := ((held x - eye x) squared + (held z - eye z) squared) sqrt.
 		grabBearing := self bearingFrom: eye to: held.
 		grabHeight := held y.
@@ -138,8 +126,7 @@ SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
 	t ifNil: [^ aHand].
 	point := anOrigin + (aDirection * t).
 	lift := Matrix4x4 withOffset: (Vector3 x: 0 y: point y - grabHeight z: 0).
-	"Rotating the whole hand about the eye's vertical axis is what turns the held
-	object to face us: the object rides the hand, so it yaws without tumbling."
+
 	aHand globalTransform: (Matrix4x4
 		rotatedBy: (self bearingFrom: eye to: point) - grabBearing
 		around: Vector3 up
@@ -209,52 +196,42 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> step: delta [
-	"Desktop stand-in for the headset and the controllers: TAB toggles look mode,
-	WASD drives the rig, the mouse aims the right hand."
 
 	| input |
 	input := SRDesktopInputState current.
-	
+
 	(input isKeyPressed: RlKeyboardKey keyF2) ifTrue: [
 		debugHUD toggleVisibility].
-	
+
 	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
 		self world avatar toggleOutOfBody].
-	
+
 	emulatedCamera update: delta.
-	
+
 	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
-	
+
 	self updateLeftHandFromCamera.
 	emulatedCamera lookModeEnabled
 		ifTrue: [self updateRightHandFromScreenCenter]
 		ifFalse: [self updateRightHandFromMouseRay].
-	
+
 	self updateHandInput: input.
 ]
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> updateHandInput: anInput [
-	"The mouse is the right hand: left button is the trigger, right button the
-	squeeze, B the menu button. B reaches the right hand only -- both would open
-	the menu and close it again in the same frame, since #openMenuForHand: toggles.
-
-	Driving SRHandInputState rather than SRHand directly is what makes
-	#performActions -- and so the tools, the grab and the app menu -- behave the
-	same in flat mode as in XR."
 
 	| avatar squeezing |
 	avatar := self world ifNil: [^ self] ifNotNil: [:w | w avatar].
 	avatar ifNil: [^ self].
-	"Alt+Z holds the grab without holding the mouse down. A grab lasts exactly as
-	long as the squeeze, so grab-then-B is otherwise a two-handed stretch."
+
 	squeezing := (anInput isMouseButtonDown: RlMouseButton mouseButtonRight)
 		or: [anInput isAltDown and: [anInput isKeyDown: RlKeyboardKey keyZ]].
 	avatar rightHand inputState

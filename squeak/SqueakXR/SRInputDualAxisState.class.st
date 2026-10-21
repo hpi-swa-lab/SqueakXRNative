@@ -21,12 +21,9 @@ SRInputDualAxisState class >> deadzone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 11:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputDualAxisState >> horizontal [
-
-	"#abs: the deadzone is a distance from centre, not a threshold. Comparing the
-	signed value discarded every leftward and backward push as noise."
 
 	^ horizontal abs > self class deadzone
 		ifTrue: [horizontal]
@@ -108,11 +105,9 @@ SRInputDualAxisState >> vector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 11:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputDualAxisState >> vertical [
-
-	"See #horizontal: the deadzone is a distance from centre."
 
 	^ vertical abs > self class deadzone
 		ifTrue: [vertical]

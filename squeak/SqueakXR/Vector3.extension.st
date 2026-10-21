@@ -41,13 +41,12 @@ Vector3 class >> down [
 
 {
 	#category : #'*SqueakXR-helpers',
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 Vector3 class >> forward [
-	"Right-handed, as raylib and OpenXR are: with +x right and +y up, forward is
-	-z. Answering +z here makes #right come out as geometric left."
-
+	"Right-handed, as raylib and OpenXR are: with +x right and +y up, forward is -z."
 	^ self x: 0 y: 0 z: -1
+
 ]
 
 { #category : #'*SqueakXR-helpers' }

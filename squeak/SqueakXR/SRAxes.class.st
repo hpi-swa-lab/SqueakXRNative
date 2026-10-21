@@ -69,11 +69,9 @@ SRAxes class >> xrMenuToggleLabel: aMenu [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:02'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxes >> addBar: aScale at: aTranslation color: aColor name: aString [
-	"A bar of full extent aScale centred on aTranslation, so an extent of l centred at
-	l/2 spans 0 to l."
 
 	^ self addChild: (SRCube new
 		color: aColor;
@@ -101,12 +99,9 @@ SRAxes >> addLabel: aString at: aTranslation color: aColor name: aName [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:11'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxes >> barThickness [
-	"Fixed rather than a fraction of the length, so a 10 m frame and a 1 m one draw
-	with the same line weight. Below about 1mm the bars go sub-pixel at a distance
-	and shimmer instead of reading as lines."
 
 	^ 2mm
 ]
@@ -136,13 +131,9 @@ SRAxes >> buildAxis: anAxis letter: aString labelOffset: anOffset color: aColor 
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxes >> buildBars [
-
-	"Literal 1@0@0, 0@1@0, 0@0@1 rather than Vector3 right, up and forward: this
-	draws the basis the names are defined against, so using them would make the
-	picture agree with itself whatever they answered."
 
 	| o |
 	self childrenCopy do: [:each | each remove].
@@ -164,10 +155,9 @@ SRAxes >> dim: aColor [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxes >> extentAlong: anAxis [
-	"Full length along anAxis, bar thickness on the other two."
 
 	| t |
 	t := self barThickness.
@@ -206,12 +196,9 @@ SRAxes >> isSolid [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxes >> labelRotation [
-	"DrawText3D lays glyphs flat in the XZ plane, where they are legible only from
-	directly above. A quarter turn about X stands them upright, as SRMenuItem and
-	SRActionSign both do."
 
 	^ Quaternion new radiansAngle: Float pi / 2 axis: 1 @ 0 @ 0
 ]

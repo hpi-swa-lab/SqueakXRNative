@@ -28,11 +28,9 @@ SRAvatarMovementEmulatorTest >> setUp [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testAnAlreadyPlacedAvatarIsLeftWhereItIs [
-	"The standing-back-from-the-origin default must not overrule a scene that put
-	the player somewhere on purpose."
 
 	| placed em |
 	placed := SRAvatar new.
@@ -45,11 +43,9 @@ SRAvatarMovementEmulatorTest >> testAnAlreadyPlacedAvatarIsLeftWhereItIs [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testFlyingMovesTheAvatarAndNotTheCamera [
-	"The bug this class was carrying: WASD wrote the camera's position inside the
-	rig, so the player's head drifted away from the player."
 
 	| rigBefore headInRig |
 	avatar locomotionEnabled: false.
@@ -64,12 +60,9 @@ SRAvatarMovementEmulatorTest >> testFlyingMovesTheAvatarAndNotTheCamera [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testStrafingRightGoesToThePlayersRight [
-	"Flying derives right from #forward cross: up and walking reads #camera
-	right. The two disagreed for as long as Vector3 forward answered +z, and
-	D strafed left in walk mode."
 
 	| before fly stick |
 	SRAvatar locomotionStyle == #continuous ifFalse: [^ self].
@@ -80,18 +73,16 @@ SRAvatarMovementEmulatorTest >> testStrafingRightGoesToThePlayersRight [
 	avatar locomotionEnabled: true.
 	emulator moveStrafe: 1 advance: 0 lift: 0 deltaSeconds: 1.0.
 	stick := (avatar stickMotionFor: avatar leftHand dt: 1.0) normalized.
-	"Yaw starts at -90 degrees, looking down -z, so the player's right is +x."
+
 	self assert: (fly dot: Vector3 right) > 0.999.
 	self assert: (stick dot: Vector3 right) > 0.999.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testTheHeadSitsAtEyeHeightAboveTheRig [
-	"Local, so it travels with the rig. A global write would be undone as soon as
-	the transform is recomputed from the local one."
 
 	emulator updateAvatarCamera.
 	self assert: (avatar camera translation y - emulator eyeHeight) abs < 0.001.
@@ -101,11 +92,9 @@ SRAvatarMovementEmulatorTest >> testTheHeadSitsAtEyeHeightAboveTheRig [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:55'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
-	"With locomotion on, WASD is a request like any thumbstick: the avatar's own
-	walker decides what it is allowed to do with it."
 
 	| rigBefore |
 	avatar locomotionEnabled: true.

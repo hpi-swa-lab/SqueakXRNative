@@ -530,22 +530,18 @@ SRWorld class >> startUp: resuming [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> activeApp [
-	"Derived rather than remembered, so removing the app cannot leave the menu
-	pointing at something no longer in the scene."
 
 	^ children detect: [:each | each isApp] ifNone: [nil]
 ]
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> addDeferredFrameMessage: aBlock [
-	"Refused when not running: there is no next frame to run it in, and the block holds
-	the world and whatever it was going to add until one comes."
 
 	self isRunning ifFalse: [^ self].
 	self pendingFrameActions add: aBlock.
@@ -600,15 +596,9 @@ SRWorld >> camera [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:13'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> collisionGeometry [
-	"The floor of the empty holodeck. Unbounded and at y = 0, so walking,
-	teleporting and the arc preview all work in a world with nothing in it --
-	one collider rather than the same rule written into each of them.
-
-	Cached: the arc casts up to thirty rays a frame and each one asks every
-	solid for its geometry."
 
 	^ floorGeometry ifNil: [
 		floorGeometry := (SRCollisionPlane point: Vector3 zero normal: Vector3 up)
@@ -618,17 +608,16 @@ SRWorld >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> completeFrame [
-
+	"Last thing before #endDrawing: raylib PollInputEvents runs there and empties both key 
+	queues."
 	isFramePrepared ifTrue: [
-		"Last thing before #endDrawing, and that ordering is load-bearing: endDrawing
-		ends with raylib's PollInputEvents, which empties both key queues and collapses
-		every press/release edge. Whatever the OS delivered earlier in this frame has to
-		be read out here or it is gone. See SRDesktopInputState."
+
 		SRDesktopInputState current sample.
 		self renderer completeFrame]
+
 ]
 
 {
@@ -642,18 +631,13 @@ SRWorld >> debugAxesLength [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:06'
 }
 SRWorld >> debugAxesTargets [
-	"Frames big enough for a basis to be read: the world origin and the rig.
-
-	Not the camera, which sits inside your own head, and not the ghost anchors:
-	three crossing bars on a 10 cm head answered no question anybody asked. The
-	ghost carries its own single forward bar instead."
 
 	| targets |
 	targets := OrderedCollection with: self.
-	self avatar ifNotNil: [:avatar | targets add: avatar].
+	self avatar ifNotNil: [:anAvatar | targets add: anAvatar].
 	^ targets
 ]
 
@@ -719,13 +703,9 @@ SRWorld >> enterMorphicProject [
 
 {
 	#category : #'frame buffers',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> firstPassRenderBuffer [
-	"Reset per frame rather than rebuilt: at a few thousand nodes the collection grows
-	a 32 KB Array, and Spur puts allocations that size straight into old space, which
-	no scavenge ever visits. SRFrame drains these with removeFirst, so they end each
-	frame empty with their slots nilled."
 
 	^ firstPassRenderBuffer ifNil: [firstPassRenderBuffer := OrderedCollection new: 256]
 ]
@@ -741,11 +721,9 @@ SRWorld >> gizmoPainter [
 
 {
 	#category : #interaction,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:13'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> grabTarget [
-	"The holodeck floor makes the world itself hittable by the grab ray, and
-	SRObject>>grabTarget would then hand back the whole scene."
 
 	^ nil
 ]
@@ -976,12 +954,9 @@ SRWorld >> openHandMenu [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> pendingFrameActions [
-	"Per world rather than class-side: the blocks capture the world and whatever they
-	were about to add to it, and a class variable is a GC root that outlives every world
-	that ever posted to it."
 
 	^ pendingFrameActions ifNil: [pendingFrameActions := OrderedCollection new]
 ]
@@ -1006,14 +981,13 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> processKeyInput [
-
-	"The queue was drained in #completeFrame, before raylib's poll could discard it."
-
+	"The queue was drained in #completeFrame, before the raylib poll could discard it."
 	SRDesktopInputState current pressedKeyCodes do: [:each |
 		self handleKeyPress: each]
+
 ]
 
 {
@@ -1178,10 +1152,9 @@ SRWorld >> scavengeIfEdenFull [
 
 {
 	#category : #'frame buffers',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> secondPassRenderBuffer [
-	"See #firstPassRenderBuffer."
 
 	^ secondPassRenderBuffer ifNil: [secondPassRenderBuffer := OrderedCollection new: 256]
 ]
@@ -1250,35 +1223,32 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 19:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> startXR [
-	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer
-	must be in place before #start."
-
+	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer must be in place 
+	before #start."
 	self
 		isXR: true;
 		renderer: SRRaylibRendererXR new;
 		start.
+
 ]
 
 {
 	#category : #'frame buffers',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> steppedObjectsBuffer [
-	"Owned by the world so a stopped world takes it with it. See #firstPassRenderBuffer."
 
 	^ steppedObjectsBuffer ifNil: [steppedObjectsBuffer := OrderedCollection new: 256]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> stop [
-	"Dropped here rather than left to the next frame: there is no next frame, and the
-	queued blocks hold this world and its children."
 
 	self invalidateCache;
 		isRunning: false;
@@ -1288,25 +1258,10 @@ SRWorld >> stop [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:18'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> stopAndWait [
-
-	"Blocks until the renderer has been handed back. SRWorld current is the
-	receipt for that: only #loop clears it, on its way out past
-	#renderer shutdown. A process killed rather than stopped -- User Interrupt,
-	terminateAggressively, an error that escaped #loop -- never gets there, so
-	the wait would never end and the drain has to be finished here. Otherwise
-	the next #start runs renderer setup on a live GL context, which does not
-	raise: it takes the VM down."
-
-	"Every step is best effort and the receipt is cleared in an ensure: the one
-	thing this method must achieve is that current ends up nil with the GPU
-	handed back. #stop raises on a half-built world (#clearCache), and #shutdown
-	can raise on a window already gone -- and either would otherwise leave the
-	receipt latched, which is the state that refuses every later #start with no
-	route out of it."
-
+	"Best effort throughout, but SRWorld current must end up nil with the GPU handed back."
 	| deadline |
 	[[self stop] on: Error do: [:each | each return].
 	deadline := DateAndTime now + 3 seconds.
@@ -1314,13 +1269,13 @@ SRWorld >> stopAndWait [
 		and: [self isProcessAlive and: [DateAndTime now < deadline]]]
 			whileTrue: [(Delay forMilliseconds: 10) wait].
 	self class current == self ifTrue: [
-		"Killed rather than stopped, or wedged: #loop never reached
-		#resetCurrent, so the renderer still owns the context."
+
 		worldProcess ifNotNil: [:each | each terminate].
 		[self renderer ifNotNil: [:each | each shutdown]]
 			on: Error do: [:each | each return]]]
 		ensure: [
 			self class current == self ifTrue: [self class resetCurrent]].
+
 ]
 
 {
@@ -1381,12 +1336,9 @@ SRWorld >> updateDebugAxes [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> withAllObjectsDo: aBlock [
-	"The world is walked every frame and a large field grows the stack to ~24 KB, big
-	enough for Spur to place it in old space, where no scavenge reaches it.
-	Nilled with no send in between, so a nested or preempting walk gets its own."
 
 	| stack |
 	stack := traversalStack.

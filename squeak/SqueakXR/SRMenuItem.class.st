@@ -219,18 +219,14 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:05'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
-	"Actions may take the activated item and the picking hand as optional
-	arguments. A tool is given to the hand that reached for it, which is the
-	only way the two hands can end up holding different ones."
 
 	action ifNotNil: [
 		action valueWithEnoughArguments:
 			(Array with: self with: (aSRRayIntersectionResult ifNotNil: [:r | r hand]))].
-	"A row that keeps the menu open is the one whose label most needs rereading:
-	it is still in front of the player after it fired."
+
 	self menu ifNotNil: [:m |
 		(self keepsMenuOpen or: [m isSticky])
 			ifTrue: [m labelsChanged]

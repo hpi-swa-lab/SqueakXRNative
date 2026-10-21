@@ -76,10 +76,9 @@ SRFastCube >> drawWires: aBoolean [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRFastCube >> ensureMatrixCurrent [
-	"Read the transform first: that is the call that recomputes it and bumps the version."
 
 	| m |
 	m := self globalTransform.

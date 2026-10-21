@@ -42,10 +42,9 @@ SRRaylibRendererXR >> completeFrame [
 
 {
 	#category : #window,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRRaylibRendererXR >> mirrorAspect [
-	"rlgl's framebuffer extent spans both eyes, and the mirror shows one of them."
 
 	^ Raylib rlGetFramebufferWidth / 2.0 / Raylib rlGetFramebufferHeight
 ]
@@ -94,34 +93,30 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRRaylibRendererXR >> setup [
-	
+	"Returning early leaves the XrInstance null, and the frame loop then calls through null 
+	function pointers and takes the VM down."
 	Raylib
-		"setConfigFlags: ({
-				RlConfigFlags flagMsaa4xHint.
-				RlConfigFlags flagWindowHighdpi}
-			inject: 0 into: [:allFlags :flag | allFlags bitOr: flag]);"
-		"The mirror blit in #completeFrame letterboxes against dest.offset {0,0} rather
-		than centring, so the window is sized near one eye's extent to stay readable."
+
 		initWindowWidth: 2468 height: 2130 title: 'SqueakXR';
 		setTargetFPS: -1.
-	
+
 	Raylib rlOpenXRSetup
 		ifTrue: [Transcript showln: 'rlOpenXRSetup succeeded']
 		ifFalse: [
-			"Returning leaves the XrInstance null, and the frame loop then calls
-			through null function pointers and takes the VM down."
+
 			Transcript showln: 'Failed to initialise rlOpenXR!'.
 			^ self error: 'rlOpenXRSetup failed, see the console for the XrResult'].
-	
+
 	camera := RlCamera3D new
 		position: (RlVector3 new x: 10; y: 10; z: 10);
 		target: (RlVector3 new x: 0; y: 3; z: 0);
 		up: (RlVector3 new x: 0; y: 1; z: 0);
 		fovy: 45;
 		projection: RlCameraProjection cameraPerspective.
+
 ]
 
 {
@@ -143,18 +138,14 @@ SRRaylibRendererXR >> shutdown [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:28'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRRaylibRendererXR >> withMirrorFramebufferExtentDo: aBlock [
-	"rlOpenXRBlitToWindow takes its destination rect from rlGetFramebufferWidth/Height,
-	which rlOpenXR leaves at the swapchain extent, so the blit lands in a rect far larger
-	than the window and only its lower left corner is visible. rlgl's extent also drives
-	the per-eye viewport split, so it has to go back before the next frame draws."
-
+	"rlOpenXRBlitToWindow reads its destination from rlGetFramebufferWidth/Height, which 
+	rlOpenXR leaves at the swapchain extent."
 	| xrExtent |
 	xrExtent := Raylib rlGetFramebufferWidth @ Raylib rlGetFramebufferHeight.
-	"getRenderWidth reports the swapchain extent here, not the window; getScreenWidth
-	still tracks setWindowSize."
+
 	Raylib
 		rlSetFramebufferWidth: Raylib getScreenWidth;
 		rlSetFramebufferHeight: Raylib getScreenHeight.
@@ -162,4 +153,5 @@ SRRaylibRendererXR >> withMirrorFramebufferExtentDo: aBlock [
 		Raylib
 			rlSetFramebufferWidth: xrExtent x;
 			rlSetFramebufferHeight: xrExtent y].
+
 ]

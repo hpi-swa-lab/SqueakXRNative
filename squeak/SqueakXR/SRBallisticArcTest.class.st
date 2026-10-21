@@ -21,11 +21,9 @@ SRBallisticArcTest >> arcFrom: aPoint direction: aVector [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArcTest >> groundAtY: aNumber [
-	"Scaled up: an SRPlane is bounded, and a default one is a square metre that
-	every arc here would fly straight over."
 
 	^ SRPlane new
 		translation: 0 @ aNumber @ 0;
@@ -36,10 +34,9 @@ SRBallisticArcTest >> groundAtY: aNumber [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArcTest >> testAimingLowerLandsNearerAndHigherLandsFurther [
-	"The whole point of an arc over a straight ray: the wrist chooses distance."
 
 	| down level up |
 	down := self arcFrom: 0 @ 1.6 @ 0 direction: (0 @ -1 @ -1) normalized.
@@ -51,11 +48,9 @@ SRBallisticArcTest >> testAimingLowerLandsNearerAndHigherLandsFurther [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArcTest >> testAnArcThatReachesNothingHasNoHit [
-	"Pointing at the sky is not a place to stand, and the preview has to be able
-	to say so."
 
 	| arc |
 	arc := SRBallisticArc new
@@ -68,28 +63,24 @@ SRBallisticArcTest >> testAnArcThatReachesNothingHasNoHit [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArcTest >> testHorizontalThrowFallsToTheGround [
-	"Also proves the segments are bounded: an unbounded ray from the first
-	segment would meet the ground far away and end the arc at step one."
 
 	| arc |
 	arc := self arcFrom: 0 @ 1.6 @ 0 direction: 0 @ 0 @ -1.
 	self assert: arc hit notNil.
 	self assert: arc hit point y abs < 0.01.
-	"1.6 m of fall at 10 m/s is 5.7 m analytically; forward Euler overshoots."
+
 	self assert: (arc hit point z + 6.0) abs < 0.5.
 	self assert: arc points last = arc hit point.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArcTest >> testTheArcFliesThroughAMenu [
-	"A menu is hittable by a picking ray and is not a place to land, so the arc
-	must pass through it and reach the floor behind."
 
 	| root ground menu arc blocked |
 	ground := self groundAtY: 0.
@@ -101,7 +92,6 @@ SRBallisticArcTest >> testTheArcFliesThroughAMenu [
 	menu rebuild.
 	menu translation: 0 @ 1.502 @ -2.
 
-	"Not vacuous: an unfiltered cast along the same segment does hit the menu."
 	blocked := (SRRay origin: 0 @ 1.6 @ -1 forward: (0 @ -0.098 @ -1) normalized)
 		castNearest: root.
 	self assert: blocked notNil.

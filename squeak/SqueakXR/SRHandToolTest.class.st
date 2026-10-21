@@ -34,10 +34,9 @@ SRHandToolTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandToolTest >> testAHandOutsideAnAvatarCanStillBeArmed [
-	"The shared case has no second hand to reach, and must not fail trying."
 
 	| hand dig |
 	hand := SRHand new.
@@ -49,11 +48,9 @@ SRHandToolTest >> testAHandOutsideAnAvatarCanStillBeArmed [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 11:01'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandToolTest >> testAToolDeclinesByDefault [
-	"Declining is what leaves menus and panels working while a tool is held, so
-	it is the default a subclass has to opt out of."
 
 	self deny: (SRTool new handleRaycast: nil).
 ]
@@ -103,10 +100,9 @@ SRHandToolTest >> testEachHandHoldsItsOwnTool [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandToolTest >> testSwappingToolsDoesNotStackPreviews [
-	"Six materials picked in a row would otherwise leave six cubes on the hand."
 
 	| hand before |
 	hand := SRHand new.
@@ -117,11 +113,9 @@ SRHandToolTest >> testSwappingToolsDoesNotStackPreviews [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandToolTest >> testThePreviewIsNeitherPickableNorSolid [
-	"It rides on the hand and crosses everything the player points at, so it must
-	not answer a ray or hold the player up."
 
 	| hand preview |
 	hand := SRHand new.

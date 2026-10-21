@@ -23,12 +23,11 @@ SRPreferenceMenuTest >> rowNamed: aString [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenuTest >> setUp [
 	super setUp.
-	"The class variable, not the getter: nil is the documented 'use the code
-	default' value, and writing the resolved value back would quietly pin it."
+
 	savedTurnStyle := SRAvatar classPool at: #SmoothTurn.
 	savedLocomotionStyle := SRAvatar classPool at: #ContinuousLocomotion.
 ]
@@ -73,11 +72,9 @@ SRPreferenceMenuTest >> testEveryExposedCategoryIsAGroup [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenuTest >> testNumberRowShowsItsValueAndDoesNotChangeIt [
-	"Numbers wait for an editor. Until then a picked row must be inert rather
-	than cycling to something arbitrary."
 
 	| row |
 	row := self rowNamed: 'Snap turn angle'.
@@ -88,10 +85,9 @@ SRPreferenceMenuTest >> testNumberRowShowsItsValueAndDoesNotChangeIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenuTest >> testPreferenceRowsKeepTheMenuOpen [
-	"A settings menu that shuts on every pick cannot be used to try a setting."
 
 	(SRMenuRegistry current itemsUnder: #(world preferences)) do: [:each |
 		self assert: each keepOpen].
@@ -99,12 +95,9 @@ SRPreferenceMenuTest >> testPreferenceRowsKeepTheMenuOpen [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/20/2026 16:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenuTest >> testTheStyleSymbolsFollowTheirBooleanPreferences [
-	"The styles are symbols everywhere inside, but declared as Boolean
-	preferences: Squeak's Preference Browser has no view for #Symbol and one
-	unsupported type takes the whole browser down."
 
 	SRAvatar smoothTurn: false.
 	self assert: #snap equals: SRAvatar turnStyle.
@@ -114,7 +107,7 @@ SRPreferenceMenuTest >> testTheStyleSymbolsFollowTheirBooleanPreferences [
 	self assert: #teleport equals: SRAvatar locomotionStyle.
 	SRAvatar continuousLocomotion: true.
 	self assert: #continuous equals: SRAvatar locomotionStyle.
-	"The symbol setters still work, because everything inside speaks symbols."
+
 	SRAvatar turnStyle: #snap.
 	self deny: SRAvatar smoothTurn.
 ]

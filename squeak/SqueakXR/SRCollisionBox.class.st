@@ -51,12 +51,9 @@ SRCollisionBox >> halfExtents: aVector3 [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:40'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCollisionBox >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
-	"Separating axes are taken from this box only, not from the query box, so a
-	rotated box can report an overlap a few millimetres before it has one. Erring
-	that way is the direction the superclass requires."
 
 	| delta |
 	delta := aCentre - self center.

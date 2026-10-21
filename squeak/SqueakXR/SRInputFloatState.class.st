@@ -67,10 +67,9 @@ SRInputFloatState >> isPressed [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputFloatState >> pressThreshold [
-	"Nil in instances that predate the instance-side thresholds."
 
 	^ pressThreshold ifNil: [self class pressThreshold]
 ]
@@ -86,10 +85,9 @@ SRInputFloatState >> pressThreshold: aNumber [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputFloatState >> releaseThreshold [
-	"Nil in instances that predate the instance-side thresholds."
 
 	^ releaseThreshold ifNil: [self class releaseThreshold]
 ]

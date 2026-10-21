@@ -427,11 +427,9 @@ SRObjectTest >> testMoveChildBetweenParents [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObjectTest >> testNothingIsBlockedByItsOwnParts [
-	"The avatar's hands and its open menu are children of the rig and travel with
-	the player. Counting them as scenery walls the player in wherever they stand."
 
 	| scene asker |
 	scene := SRObject new.
@@ -540,10 +538,9 @@ SRObjectTest >> testReparentingInsideWorldDoesNotNotifyWorldChanged [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObjectTest >> testTheBoxSweepFindsObjectsOfferingCollisionGeometry [
-	"Searched from #sceneRoot, so the sweep works on a detached tree with no world."
 
 	| scene asker |
 	scene := SRObject new.

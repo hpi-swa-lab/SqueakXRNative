@@ -155,12 +155,9 @@ SRMenuEntry >> provider [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuEntry >> setPath: anArray label: aStringSymbolOrBlock priority: anInteger provider: aClass action: aSelectorOrBlock [
-	"Label and action are Symbols performed on the provider when the entry came
-	from a pragma, and blocks when a class computed the row, which is how one
-	row per preference is possible at all."
 
 	path := anArray.
 	label := aStringSymbolOrBlock.

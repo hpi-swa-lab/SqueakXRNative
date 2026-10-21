@@ -79,11 +79,9 @@ SRRay >> castNearestObjects: aCollectionOfSRObjects [
 
 {
 	#category : #casting,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRRay >> castNearestSolid: anSRObject [
-	"Only things the avatar can stand on. A menu is hittable by a picking ray
-	and is not a place to land."
 
 	^ self nearestIntersectionIn: [:aBlock |
 		anSRObject allDo: [:each | each isSolid ifTrue: [aBlock value: each]]]

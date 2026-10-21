@@ -90,7 +90,7 @@ void main()
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'leo 8/12/2026 14:50'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
 }
 SRObject >> addChild: aSRObject [
 	
@@ -103,8 +103,8 @@ SRObject >> addChild: aSRObject [
 	(self hasAncestor: aSRObject) ifTrue: [
 		self error: 'Cannot add ancestor of SRObject as child'].
 	
-	aSRObject parent ifNotNil: [:parent |
-		parent privateRemoveChild: aSRObject].
+	aSRObject parent ifNotNil: [:aParent |
+		aParent privateRemoveChild: aSRObject].
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
@@ -389,11 +389,9 @@ SRObject >> continueStepping [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> debugAxesLength [
-	"Distinct per frame so the world's axes and an avatar standing near the origin
-	do not draw on top of each other."
 
 	^ 2m
 ]
@@ -558,11 +556,9 @@ SRObject >> globalTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> globalTransform: aMatrix4x4 [
-	"Copied, not adopted: the receiver mutates its own matrix in place, so adopting
-	the argument would couple it to whoever else holds it."
 
 	globalTransform loadFrom: aMatrix4x4.
 	self globalTransformDirty.
@@ -666,10 +662,9 @@ SRObject >> initialize [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> isApp [
-	"An app owns the menu reached by the B button while nothing is grabbed."
 
 	^ false
 ]
@@ -757,11 +752,9 @@ SRObject >> isMorphPanel [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 13:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> isOpen [
-	"Whether the receiver is still in a scene. #remove unparents, so anything
-	holding on to it afterwards is holding a dismissed object."
 
 	^ parent notNil
 ]
@@ -780,14 +773,13 @@ SRObject >> isRendering [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRObject >> isSolid [
-	"Whether the avatar's body collides with this. Picking, grabbing and the
-	teleport ray go through #collisionGeometry and ignore this: a menu has to be
-	hittable by a ray without being something to stand on."
-
+	"Governs the body sweep only. Picking and the teleport ray go through #collisionGeometry, 
+	so a menu can be hit by a ray without being something to stand on."
 	^ true
+
 ]
 
 { #category : #stepping }
@@ -798,10 +790,9 @@ SRObject >> isStepping [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> isWithin: anSRObject [
-	"Whether anSRObject is me or one of my ancestors."
 
 	| each |
 	each := self.
@@ -910,10 +901,9 @@ SRObject >> localTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> localTransform: aMatrix4x4 [
-	"Copied, not adopted: see #globalTransform:."
 
 	localTransform loadFrom: aMatrix4x4.
 	self localTransformDirty.
@@ -970,11 +960,9 @@ SRObject >> name: aString [
 
 {
 	#category : #'transforms - internal',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> notifyTransformChanged [
-	"Indexed, not childrenDo:. Called once per moved object per frame, and passing a
-	real block reifies this context on the heap: 224 bytes even with no children."
 
 	1 to: children size do: [:index |
 		(children at: index) parentTransformDirty].
@@ -1165,14 +1153,14 @@ SRObject >> recursiveAllDo: aBlock [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
 }
 SRObject >> remove [
 
 	"Before unparenting, while #world can still be reached: the avatar and its hands hold
 	the last grabbed, selected and menu object, and would retain this whole subtree."
 	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
-	self parent ifNotNil: [:parent | parent removeChild: self]
+	self parent ifNotNil: [:aParent | aParent removeChild: self]
 ]
 
 {
@@ -1277,12 +1265,9 @@ SRObject >> scale: aVector3 [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:42'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> sceneRoot [
-	"The top of the graph, which in a live scene is the world. Unlike #world it
-	answers something for a detached tree, so a scene query can be exercised
-	without one."
 
 	| each |
 	each := self.
@@ -1312,15 +1297,14 @@ SRObject >> setLocalTransformFromComponents [
 
 {
 	#category : #transformation,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> setTransformAt: aPosition facingCamera: aCamera [
-	"Adopts the camera's viewing direction rather than turning towards the camera."
 
 	| direction up |
 	direction := aCamera forward.
 	up := (direction dot: Vector3 up) abs > 0.99
-		ifTrue: [aCamera up]	"looking straight up or down"
+		ifTrue: [aCamera up]
 		ifFalse: [Vector3 up].
 	self globalTransform: (Matrix4x4
 		objectLookAt: aPosition + direction
@@ -1341,19 +1325,9 @@ SRObject >> showAxes: aBoolean [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> solidInBoxCenter: aCentre halfExtents: aHalfExtents [
-	"Whether anything in the scene fills an axis-aligned box in global space. The
-	volume counterpart of SRRay>>castNearest:, and like it it asks every object
-	offering collision geometry: having some is what makes an object solid.
-
-	Searched from #sceneRoot rather than #world, so a detached tree can be swept
-	in a test: in a live scene the two are the same object.
-
-	The receiver and everything under it is skipped. Nothing collides with its own
-	parts, and for the avatar those parts include the hands and an open menu, which
-	travel with the player and would otherwise wall them in."
 
 	self sceneRoot allDo: [:each |
 		(each isWithin: self) ifFalse: [
@@ -1416,11 +1390,9 @@ SRObject >> transformDirtyFlag: flag [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> transformVersion [
-	"Bumped whenever globalTransform is recomputed. It is mutated in place, so its
-	identity is no longer a dirty test."
 
 	^ transformVersion
 ]
@@ -1439,12 +1411,9 @@ SRObject >> translation: aVector3 [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> travelsWithAvatar [
-	"Whether a teleport brings this along. For things the player is holding open
-	rather than things that mark a place in the world: SRTeleportPreview must
-	stay where it is, since it is showing where the teleport goes."
 
 	^ false
 ]
@@ -1460,12 +1429,9 @@ SRObject >> up [
 
 {
 	#category : #'transforms - internal',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> updateGlobalTransform [
-	"In place: a scene graph is mostly old objects, so assigning a fresh Matrix4x4
-	here puts one young object per node into the remembered set every frame, where
-	no scavenge can reclaim it and the tenure threshold eventually promotes it."
 
 	self hasParent
 		ifTrue: [globalTransform
@@ -1530,24 +1496,18 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> withAllObjectsDo: aBlock [
-	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack that cannot
-	overflow the Smalltalk one. The recursive version creates one closure per node."
 
 	self withAllObjectsDo: aBlock usingStack: (OrderedCollection new: 64).
 ]
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> withAllObjectsDo: aBlock usingStack: aStack [
-	"aStack is an OrderedCollection so it keeps its capacity across walks and its
-	identity across a grow, which is why nothing has to be answered.
-	Children are pushed back to front, so the first is popped first.
-	#removeLast nils the slot, so a kept stack retains nothing."
 
 	| node kids index |
 	aStack reset.

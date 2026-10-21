@@ -14,12 +14,9 @@ Class {
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> avatarOnFloorAtY: aHeight [
-	"An avatar standing in a scene with a floor, which is all the locomotion servo
-	needs: no SRWorld, because the only live one belongs to whoever is wearing the
-	headset."
 
 	| scene avatar |
 	scene := SRObject new.
@@ -38,11 +35,9 @@ SRAvatarTest >> avatarOnFloorAtY: aHeight [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> setUp [
-	"The class variable, not the resolved value: writing back a number pins a
-	literal where nil is the documented 'use the code default'."
 
 	super setUp.
 	savedLocomotionStyle := SRAvatar classPool at: #ContinuousLocomotion ifAbsent: [nil].
@@ -53,11 +48,9 @@ SRAvatarTest >> setUp [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> tearDown [
-	"Restored even when a test fails, so running the tests can never retune the
-	live world."
 
 	SRAvatar classPool at: #ContinuousLocomotion put: savedLocomotionStyle.
 	SRAvatar classPool at: #WalkSpeed put: savedWalkSpeed.
@@ -66,12 +59,9 @@ SRAvatarTest >> tearDown [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testDuckingDoesNotMoveTheRig [
-	"The floor is the rig origin, because OpenXR tracks in STAGE space. Deriving the
-	feet from the head by subtracting a fixed body height made the ground rise and
-	fall with the player's head."
 
 	| avatar |
 	avatar := self avatarOnFloorAtY: 0.
@@ -88,13 +78,9 @@ SRAvatarTest >> testDuckingDoesNotMoveTheRig [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testGhostEyesAndRaysBothPointForward [
-	"The eyes were authored on +z and the hand rays on -z, so they disagreed by
-	a half turn and only looked right while SRAvatarCamera negated the camera
-	pose's third column. Asserted against Vector3 forward rather than a literal,
-	so it is the convention that is being checked and not a sign."
 
 	| ghost named |
 	ghost := SRGhostAvatar new.
@@ -106,22 +92,20 @@ SRAvatarTest >> testGhostEyesAndRaysBothPointForward [
 		self
 			assert: ((named value: name) translation dot: Vector3 forward) > 0
 			description: name , ' is on the back of the head'].
-	"And each eye is on the side it is named for."
+
 	self assert: ((named value: 'GhostRightEye') translation dot: Vector3 right) > 0.
 	self assert: ((named value: 'GhostLeftEye') translation dot: Vector3 right) < 0.
 ]
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
-	"Putting your head inside something solid is not a request to be pushed
-	somewhere else."
 
 	| avatar correction |
 	avatar := self avatarOnFloorAtY: 0.
-	"A wall standing in the y-z plane at x = 2."
+
 	avatar parent addChild: (SRPlane new
 		scale: 4 @ 1 @ 4;
 		rotation: (Quaternion angle: 90 axis: Vector3 forward);
@@ -129,7 +113,7 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 		solid: true;
 		yourself).
 	avatar snapBodyUnderHead: 1.0 @ 1.8 @ 0 floorY: 0.
-	"The head has physically crossed into the wall."
+
 	correction := avatar
 		walkCorrectionForHead: 2.0 @ 1.8 @ 0
 		floorY: 0
@@ -140,11 +124,9 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
-	"A flying camera over a scene must not be pulled to the floor by gravity, so
-	the servo does nothing at all until it is switched on."
 
 	| avatar before |
 	avatar := SRAvatar new.
@@ -157,12 +139,9 @@ SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testStandingOnTheFloorDoesNotFreezeTheCorrection [
-	"The freeze is for a head inside something solid. Testing the whole body box
-	let the floor itself trigger it, so every frame of walking was dropped: measured
-	in the live world as the body reporting solid on 400 frames of 400."
 
 	| avatar frozen |
 	avatar := self avatarOnFloorAtY: 0.
@@ -181,11 +160,9 @@ SRAvatarTest >> testStandingOnTheFloorDoesNotFreezeTheCorrection [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testStickWalksOnlyInContinuousStyle [
-	"The same stick aims the teleport arc in the other style. Walking off it as
-	well would move the player while they were choosing where to go."
 
 	| avatar |
 	avatar := SRAvatar new.
@@ -197,11 +174,9 @@ SRAvatarTest >> testStickWalksOnlyInContinuousStyle [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:31'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testTeleportBringsOpenMenusAlongButLeavesThePreviewBehind [
-	"The preview marks where the teleport goes, so carrying it would move the
-	very thing being aimed at."
 
 	| scene avatar menu preview menuBefore target delta |
 	scene := SRObject new.
@@ -227,17 +202,14 @@ SRAvatarTest >> testTeleportBringsOpenMenusAlongButLeavesThePreviewBehind [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testTeleportLeavesNoCorrectionToWalkOff [
-	"A body left behind at the old place is walked back to the head over the
-	following frames, dragging the rig with it: smooth motion the player did not
-	ask for, which is the one thing teleport exists to avoid."
 
 	| avatar head correction |
 	avatar := self avatarOnFloorAtY: 0.
 	head := 20.0 @ 1.8 @ -15.0.
-	"A frame of ordinary walking is what leaves a rig translation to compare with."
+
 	avatar updateLocomotion: 16.
 	self deny: avatar rigWasMovedExternally.
 	avatar translation: 20.0 @ 0.0 @ -15.0.
@@ -253,17 +225,14 @@ SRAvatarTest >> testTeleportLeavesNoCorrectionToWalkOff [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testTeleportPutsTheFeetOnTheTargetNotTheRigOrigin [
-	"A player who has walked across the play space stands metres from the rig
-	origin. Moving the origin to the target lands them that far off their aim,
-	and drops them from any height difference between the two columns."
 
 	| avatar target feet |
 	avatar := SRAvatar new.
 	avatar translation: 10.0 @ 4.0 @ 10.0.
-	"Head 2.7 m from the rig origin, as measured on the Index with a large room."
+
 	avatar camera translation: -1.5 @ 1.7 @ -2.3.
 	target := 30.0 @ 7.0 @ 40.0.
 	avatar teleportTo: target.
@@ -291,11 +260,9 @@ SRAvatarTest >> testTurningChangesFacingWithoutMovingTheHead [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testTurningPivotsOnTheHeadNotTheRigOrigin [
-	"Turning about the rig origin swings a player who has walked across the play
-	space sideways through the room instead of turning them on the spot."
 
 	| avatar before |
 	avatar := SRAvatar new.
@@ -308,11 +275,9 @@ SRAvatarTest >> testTurningPivotsOnTheHeadNotTheRigOrigin [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:52'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testWalkingAboutTheRoomNeverMovesTheWorldSideways [
-	"On open ground the head is always right: the player really is there, so there
-	is nothing to correct horizontally."
 
 	| avatar |
 	avatar := self avatarOnFloorAtY: 0.

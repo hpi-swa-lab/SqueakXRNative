@@ -36,21 +36,18 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState class >> current [
-	"There is one raylib window per image, so one snapshot."
 
 	^ Current ifNil: [Current := self new]
 ]
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState class >> modifierKeys [
-	"Tracked from the start: they are read as a side condition of other events, so the
-	first frame they matter must already have a valid level."
 
 	^ {RlKeyboardKey keyLeftShift. RlKeyboardKey keyRightShift.
 		RlKeyboardKey keyLeftControl. RlKeyboardKey keyRightControl.
@@ -60,11 +57,9 @@ SRDesktopInputState class >> modifierKeys [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState class >> reset [
-	"Drop the snapshot, so a newly opened window cannot inherit stale key levels and
-	report a phantom press on its first frame."
 
 	Current := nil
 ]
@@ -118,12 +113,9 @@ SRDesktopInputState >> isKeyDown: aKeyCode [
 
 {
 	#category : #'querying-keyboard',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> isKeyPressed: aKeyCode [
-	"Down in this frame's sample and up in the previous one. Unlike raylib's
-	IsKeyPressed, this edge is computed in the image and so cannot be destroyed by
-	whoever else pumps the OS event queue."
 
 	^ (self keyStateFor: aKeyCode) isJustPressed
 ]
@@ -195,17 +187,14 @@ SRDesktopInputState >> isSuperDown [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> keyStateFor: aKeyCode [
-	"Keys are tracked from their first interrogation onwards, so that no central list of
-	interesting keys has to be kept in sync with the code that asks."
 
 	^ keyStates at: aKeyCode ifAbsent: [
 		| state |
 		state := SRInputButtonState new.
-		"Seed with the current level. Twice: the first #isPressed: would otherwise
-		manufacture an edge out of a key that merely happens to be held right now."
+
 		state isPressed: (Raylib isKeyDownKey: aKeyCode).
 		state isPressed: (Raylib isKeyDownKey: aKeyCode).
 		keyStates at: aKeyCode put: state]
@@ -213,11 +202,9 @@ SRDesktopInputState >> keyStateFor: aKeyCode [
 
 {
 	#category : #'querying-modifiers',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> morphicModifierBits [
-	"The modifier half of a Morphic event's `buttons', already shifted past the mouse
-	button bits -- i.e. what MouseEvent/KeyboardEvent expects in #buttons."
 
 	| bits |
 	bits := 0.
@@ -244,20 +231,18 @@ SRDesktopInputState >> mouseButtonStateFor: aButtonIndex [
 
 {
 	#category : #'querying-mouse',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> mouseDelta [
-	"An RlVector2, as GetMouseDelta returns it."
 
 	^ mouseDelta
 ]
 
 {
 	#category : #'querying-mouse',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> mousePosition [
-	"An RlVector2, as GetMousePosition returns it."
 
 	^ mousePosition
 ]
@@ -273,39 +258,29 @@ SRDesktopInputState >> mouseWheel [
 
 {
 	#category : #'querying-keyboard',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> pressedChars [
-	"The Unicode code points queued since the previous sample, in order; keyboard-layout
-	correct and including auto-repeat, which #pressedKeyCodes is neither. Not consumed
-	yet -- the keystroke path still goes through SRWorld class>>keyDict."
 
 	^ pressedChars
 ]
 
 {
 	#category : #'querying-keyboard',
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRDesktopInputState >> pressedKeyCodes [
-	"The raylib key codes queued since the previous sample, in order. These are physical
-	GLFW key codes, not characters."
 
 	^ pressedKeyCodes
 ]
 
 {
 	#category : #sampling,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRDesktopInputState >> sample [
-	"Read out everything raylib knows about input. Must be called at exactly one point
-	per frame, and that point must be immediately before #endDrawing: endDrawing's last
-	act is PollInputEvents, which empties both queues and collapses every press/release
-	edge. See the class comment.
-
-	Only levels are read from raylib; the edges are derived here."
-
+	"Exactly once per frame, immediately before #endDrawing: raylib PollInputEvents runs there 
+	and discards whatever has not been read."
 	| code |
 	pressedKeyCodes removeAll.
 	pressedChars removeAll.
@@ -320,4 +295,5 @@ SRDesktopInputState >> sample [
 	mousePosition := Raylib getMousePosition.
 	mouseDelta := Raylib getMouseDelta.
 	mouseWheel := Raylib getMouseWheelMove.
+
 ]

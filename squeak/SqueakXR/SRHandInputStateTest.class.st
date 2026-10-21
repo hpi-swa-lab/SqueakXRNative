@@ -10,10 +10,9 @@ Class {
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputStateTest >> testAHeldButtonIsJustPressedOnlyOnce [
-	"Holding the mouse down must not fire the trigger every frame."
 
 	| state |
 	state := SRHandInputState new.
@@ -28,11 +27,9 @@ SRHandInputStateTest >> testAHeldButtonIsJustPressedOnlyOnce [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputStateTest >> testReleasingIsSeenOnTheFrameItHappens [
-	"The desktop reports a level every frame rather than edges, so letting go is
-	a frame that reports zero."
 
 	| state |
 	state := SRHandInputState new.

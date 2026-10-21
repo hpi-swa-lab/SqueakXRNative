@@ -188,12 +188,9 @@ Matrix4x4 >> setFromQuaternion: q [
 
 {
 	#category : #'*SqueakXR-helpers',
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 Matrix4x4 >> setTranslation: aVector3 rotation: aQuaternion scale: aScaleVector3 [
-	"T * R * S written into the receiver. SRObject composes this once per frame per
-	object, so the three temporary matrices the operator form allocates are the bulk
-	of a moving scene's young-space traffic."
 
 	| sx sy sz |
 	self setIdentity; setFromQuaternion: aQuaternion.

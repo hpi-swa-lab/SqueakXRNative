@@ -119,11 +119,9 @@ SRMenuTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuTest >> testAMenuIsNotSomethingToStandOn [
-	"A menu must stay hittable by a ray, so it keeps its collision geometry and
-	is excluded from the body sweep instead."
 
 	| root menu probe |
 	root := SRObject new.
@@ -137,11 +135,9 @@ SRMenuTest >> testAMenuIsNotSomethingToStandOn [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
-	"Most rows take no arguments at all, and a picked row with no hand behind it
-	is a legitimate call."
 
 	| menu ran |
 	ran := false.
@@ -155,10 +151,9 @@ SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuTest >> testBothHandsCanHighlightAtOnce [
-	"Two rows lit together is what the per-hand write made impossible."
 
 	| menu rows |
 	menu := self menuUnder: #(demo).
@@ -357,11 +352,9 @@ SRMenuTest >> testStickyMenuStaysOpenWhenPicking [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuTest >> testTheActionReceivesThePickingHand [
-	"Which hand reached for the row is the whole of how a tool reaches one hand
-	rather than the other."
 
 	| menu hand seen result |
 	hand := SRHand new.

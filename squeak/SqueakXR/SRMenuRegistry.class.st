@@ -47,9 +47,10 @@ SRMenuRegistry class >> reset [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRMenuRegistry >> buildRegistry [
+	"Sorted on printed keys: a computed row action is a block, and every block compares equal."
 	| found |
 	found := OrderedCollection new.
 	Smalltalk allClassesDo: [:aClass |
@@ -57,18 +58,17 @@ SRMenuRegistry >> buildRegistry [
 			method pragmasDo: [:p |
 				(self pragmaKeywords includes: p keyword) ifTrue: [
 					found add: (SRMenuEntry fromPragma: p)].
-				"A pragma names one row. Rows that only exist at runtime -- one per
-				preference, per tool, per saved world -- are computed instead."
+
 				p keyword == #xrMenuEntries ifTrue: [
 					found addAll: (aClass perform: method selector)]]]].
-	"Printed, because a computed row's action is a block: every block compares
-	equal, and the sort is stable, so such rows keep the order they were made in."
+
 	^ found asArray sort: [:a :b |
 		a pathString = b pathString
 			ifTrue: [a priority = b priority
 				ifTrue: [a action printString <= b action printString]
 				ifFalse: [a priority < b priority]]
 			ifFalse: [a pathString <= b pathString]]
+
 ]
 
 {

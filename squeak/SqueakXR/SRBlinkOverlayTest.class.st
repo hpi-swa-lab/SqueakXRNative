@@ -14,12 +14,9 @@ Class {
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:23'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> setUp [
-	"These tests step a fixed number of frames, so a fade time tuned in the live
-	world would fail them. Saved from the class variables, not the getters: nil
-	is the documented 'use the code default'."
 
 	super setUp.
 	savedFadeOut := SRBlinkOverlay classPool at: #FadeOutSeconds.
@@ -29,11 +26,9 @@ SRBlinkOverlayTest >> setUp [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:23'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> tearDown [
-	"Restored even when a test fails, so running the tests never retunes the
-	live blink."
 
 	SRBlinkOverlay fadeOutSeconds: savedFadeOut; fadeInSeconds: savedFadeIn.
 	super tearDown
@@ -41,11 +36,9 @@ SRBlinkOverlayTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> testASecondBlinkDoesNotStrandTheFirstAction [
-	"Two teleports in quick succession must both happen, or the player ends up
-	somewhere they did not choose."
 
 	| overlay done |
 	done := OrderedCollection new.
@@ -59,10 +52,9 @@ SRBlinkOverlayTest >> testASecondBlinkDoesNotStrandTheFirstAction [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> testTheActionRunsOnlyWhenTheViewIsFullyBlack [
-	"The whole point: the world may only move behind a closed eye."
 
 	| overlay opacityWhenRun |
 	overlay := SRBlinkOverlay new.
@@ -75,11 +67,9 @@ SRBlinkOverlayTest >> testTheActionRunsOnlyWhenTheViewIsFullyBlack [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/19/2026 11:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
-	"setUp nils the class variables, so an unset preference must read as the
-	literal in the code rather than whatever the live world was tuned to."
 
 	| overlay |
 	self assert: SRBlinkOverlay fadeOutSeconds equals: 0.1.
@@ -89,16 +79,15 @@ SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
 	overlay blinkThen: [].
 	30 timesRepeat: [overlay step: 10].
 	self assert: overlay isBlinking.
-	"Opacity is stored as a Color alpha, which is 8 bit, so 0.15 reads back as 38/255."
+
 	self assert: (overlay opacity - 0.15) abs < (1 / 255).
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBlinkOverlayTest >> testTheOverlayEndsInvisibleAndIdle [
-	"A blink that forgot to clear itself would leave the player in the dark."
 
 	| overlay |
 	overlay := SRBlinkOverlay new.

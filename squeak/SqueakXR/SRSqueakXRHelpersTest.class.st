@@ -25,11 +25,9 @@ SRSqueakXRHelpersTest >> test3DToRaylibVector [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSqueakXRHelpersTest >> testAxisConstantsAreRightHanded [
-	"raylib and OpenXR are right-handed, and the coordinates go to raylib
-	unconverted. Declaring forward as +z makes #right mean geometric left."
 
 	self assert: Vector3 right equals: (Vector3 forward cross: Vector3 up).
 	self assert: Vector3 up equals: (Vector3 backward cross: Vector3 right).
@@ -47,11 +45,9 @@ SRSqueakXRHelpersTest >> testMatrix4x4Scale [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSqueakXRHelpersTest >> testObjectLookAtAgreesWithTheAxisConstants [
-	"It used to put the look direction on +z, which forces +x to be the object's
-	left and inverted every strafe taken from #right."
 
 	| eye target m |
 	eye := Vector3 x: 3 y: 2 z: 7.

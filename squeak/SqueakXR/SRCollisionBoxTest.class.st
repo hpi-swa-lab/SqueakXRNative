@@ -10,12 +10,9 @@ Class {
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCollisionBoxTest >> testARotatedBoxErrsTowardsReportingAnOverlap [
-	"Only this box's axes separate, not the query box's, so a rotated box may claim
-	an overlap slightly early. A collider that errs the other way lets the player
-	walk through the wall."
 
 	| box half |
 	box := SRCollisionBox new
@@ -24,7 +21,7 @@ SRCollisionBoxTest >> testARotatedBoxErrsTowardsReportingAnOverlap [
 		rotation: (Quaternion angle: 45 axis: Vector3 up);
 		yourself.
 	half := 0.3 @ 0.3 @ 0.3.
-	"The corner now reaches 0.707 along x, so 0.9 overlaps and 1.4 cannot."
+
 	self assert: (box intersectsBoxCenter: 0.9 @ 0 @ 0 halfExtents: half).
 	self deny: (box intersectsBoxCenter: 1.4 @ 0 @ 0 halfExtents: half).
 ]

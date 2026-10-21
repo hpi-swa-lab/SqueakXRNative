@@ -12,11 +12,9 @@ Class {
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenu class >> activate: aPreference [
-	"Symbol-valued preferences cycle through their choices; a number waits for
-	an editor."
 
 	| value |
 	value := aPreference preferenceValue.
@@ -27,17 +25,14 @@ SRPreferenceMenu class >> activate: aPreference [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:18'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenu class >> choicesFor: aPreference [
-	"Choices live next to the preference: whoever declares #turnStyle declares
-	#turnStyleChoices. Squeak's preference types have no notion of a choice."
 
 	| selector provider |
 	(aPreference respondsTo: #selectors) ifFalse: [^ nil].
 	provider := aPreference provider.
-	"#selectors answers the getter and the setter; PragmaPreference keeps the
-	getter in an instance variable with no accessor."
+
 	selector := (aPreference selectors first , 'Choices') asSymbol.
 	^ (provider respondsTo: selector)
 		ifTrue: [provider perform: selector]
@@ -45,11 +40,9 @@ SRPreferenceMenu class >> choicesFor: aPreference [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenu class >> cycle: aPreference [
-	"A value that is not in the list, or a preference with no list at all, lands
-	on the first choice rather than doing nothing."
 
 	| choices index |
 	choices := self choicesFor: aPreference.
@@ -60,11 +53,9 @@ SRPreferenceMenu class >> cycle: aPreference [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenu class >> entryFor: aPreference under: aCategory [
-	"The row keeps the menu open whether or not it does anything: a number row
-	that closed the menu on every misdirected ray would be worse than useless."
 
 	^ SRMenuEntry new
 		setPath: (Array with: #world with: #preferences with: aCategory)
@@ -78,11 +69,9 @@ SRPreferenceMenu class >> entryFor: aPreference under: aCategory [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRPreferenceMenu class >> exposedCategories [
-	"Named, not discovered: Squeak has hundreds of preference categories and
-	almost none of them mean anything inside a headset."
 
 	^ #(#SqueakXR #SWAGame)
 ]
@@ -99,16 +88,16 @@ SRPreferenceMenu class >> labelFor: aPreference [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:06'
 }
 SRPreferenceMenu class >> menuEntries [
 	<xrMenuEntries>
 	| entries |
 	entries := OrderedCollection new.
-	self exposedCategories do: [:category |
-		((Preferences preferencesInCategory: category)
+	self exposedCategories do: [:eachCategory |
+		((Preferences preferencesInCategory: eachCategory)
 			asSortedCollection: [:a :b | a name <= b name]) do: [:pref |
-				entries add: (self entryFor: pref under: category)]].
+				entries add: (self entryFor: pref under: eachCategory)]].
 	^ entries
 ]
 

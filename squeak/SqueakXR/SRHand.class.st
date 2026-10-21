@@ -50,12 +50,9 @@ SRHand class >> leftIndex [
 
 {
 	#category : #appearance,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand class >> leftRayColor [
-	"Whatever marks what a hand is pointing at is drawn in its hand's colour, so
-	two hands aiming at two things can be told apart. The ghost's ray bars set
-	the convention."
 
 	^ Color cyan
 ]
@@ -196,10 +193,9 @@ SRHand >> avatar: anSRAvatar [
 
 {
 	#category : #tools,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> basicTool: aTool [
-	"Arms this hand alone. #tool: is the one that honours the shared preference."
 
 	tool := aTool.
 	self updateToolPreview.
@@ -337,12 +333,9 @@ SRHand >> menuButton [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> noteInputEvent: aString [
-	"Why a press did or did not reach an action. Kept even when the labels are
-	off: it is one assignment, and the alternative is reproducing the gesture
-	again after switching them on."
 
 	lastInputEvent := aString.
 ]
@@ -368,7 +361,7 @@ SRHand >> openMenu [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> performActions [
 
@@ -380,23 +373,21 @@ SRHand >> performActions [
 			ifFalse: [
 				self noteInputEvent: 'trigger'.
 				self rayCast]].
-	
+
 	self squeeze isJustPressed ifTrue: [
 		self trigger isPressed
 			ifTrue: [self noteInputEvent: 'squeeze REFUSED: triggering']
 			ifFalse: [
 				self noteInputEvent: 'squeeze: grab'.
 				self startGrabbing]].
-	
+
 	self squeeze isJustReleased ifTrue: [
 		self noteInputEvent: 'squeeze released'.
 		self stopGrabbing].
-	
-	"B on either hand: open with one hand and pick with the other, so a tool can
-	be given to either. The OpenXR menu button belongs to the runtime."
+
 	self topButton isJustPressed ifTrue: [
 		self openMenu].
-	
+
 	self isLeft ifTrue: [
 		self updateTeleportAim.
 		self bottomButton isJustPressed ifTrue: [
@@ -471,16 +462,14 @@ SRHand >> startGrabbing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:46'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> step: deltaTime [
 
 	self performActions;
 		updateGrabbedObjectTransform;
 		highlightSelectedObject.
-	"Here rather than in #performActions: both need the frame delta. The avatar
-	owns the movement and is driven from a hand because SRObject decides whether
-	an object steps when it is created, and the running avatar predates this."
+
 	self isRight ifTrue: [self updateTurn: deltaTime].
 	self isLeft ifTrue: [self avatar ifNotNil: [:a | a updateLocomotion: deltaTime]].
 ]
@@ -497,13 +486,9 @@ SRHand >> stopGrabbing [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:15'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> teleport [
-
-	"Land on whatever the hand is pointing at, provided it is something to stand
-	on. The world's own floor is the last thing a downward ray can hit, so nil
-	here means the hand was pointing at the sky."
 
 	| hit |
 	self world ifNil: [^ self].
@@ -567,11 +552,9 @@ SRHand >> updateGrabbedObjectTransform [
 
 {
 	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:59'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> updateInputDebugLabel [
-	"Levels and the last event together: a trigger that never reaches
-	#pressThreshold and an action that was refused look identical from outside."
 
 	self class showInputDebug ifFalse: [
 		inputDebugLabel ifNotNil: [
@@ -582,8 +565,7 @@ SRHand >> updateInputDebugLabel [
 		inputDebugLabel := SRTextField new
 			color: Color white;
 			scale: 0.004 asVector3;
-			"Behind the hand, which is +z, so it reads when you look at your own
-			hand rather than along the ray."
+
 			translation: -3cm @ 4cm @ 6cm;
 			yourself.
 		self addChild: inputDebugLabel].
@@ -599,12 +581,9 @@ SRHand >> updateInputDebugLabel [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:42'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> updateTeleportAim [
-	"Hold the stick in any direction to aim, let it go to travel, as Half-Life:
-	Alyx does. A hold rather than a click because the runtime exposes no
-	stick-click action, and the same six controls exist on Touch and Index."
 
 	| stick |
 	self avatar ifNil: [^ self].
@@ -643,11 +622,9 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:49'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHand >> updateTurn: deltaTime [
-	"Snap waits for the stick to come back to centre before it fires again,
-	otherwise holding it spins the player."
 
 	| push |
 	self avatar ifNil: [^ self].

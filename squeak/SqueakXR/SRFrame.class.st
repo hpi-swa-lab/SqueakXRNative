@@ -47,12 +47,9 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRFrame >> initializeObjectLists [
-	"One traversal, three world-owned buffers. The two allDescendantsSelect: passes
-	this replaces walked the tree twice and built three collections per frame, and
-	allDescendantsSelect:thenDo: built a fourth internally."
 
 	steppedObjects := self world steppedObjectsBuffer reset.
 	firstPassRenderedObjects := self world firstPassRenderBuffer reset.
@@ -85,18 +82,14 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRFrame >> process [
-
-	"A frame that opened must close. An error between #prepareFrame and
-	#completeFrame otherwise leaves the OpenXR frame begun and never ended, and
-	the session is then unusable rather than merely one frame short.
-	SRWorld>>completeFrame is guarded by #isFramePrepared, so running it after a
-	failed prepare is a no-op."
-
+	"A frame that opened must close, or the OpenXR session is left open for every frame after 
+	it."
 	self updateActions; stepObjects.
 	[self prepareFrame; renderObjects] ensure: [self completeFrame].
+
 ]
 
 {

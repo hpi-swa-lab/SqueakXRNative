@@ -20,11 +20,9 @@ Class {
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> applyPhysicsIn: aScene dt: dt [
-	"Past about half a body width a step tunnels through a wall and the player jams
-	against its far side instead of being stopped by it, hence the substeps."
 
 	| steps h speed |
 	speed := (((velocity x * velocity x) + (velocity z * velocity z)) sqrt)
@@ -48,13 +46,9 @@ SRAvatarBody >> centreForFeet: aPosition [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> climbTo: aBlockedPosition in: aScene [
-	"A blocked horizontal step, retried with the feet lifted: if the body fits up
-	there the obstacle was a stair, and settling back down puts the feet on it
-	within the same substep. The mobs jump instead, which makes pressing into a
-	tall wall bounce -- tolerable for a rabbit, not for a head."
 
 	| lifted |
 	onGround ifFalse: [^ false].
@@ -72,11 +66,9 @@ SRAvatarBody >> climbTo: aBlockedPosition in: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> collidesAtFeet: aPosition in: aScene [
-	"aScene is anything answering #solidInBoxCenter:halfExtents: -- an SRObject, or
-	an SRSceneSolids snapshot of one when the same frame asks many times."
 
 	^ aScene
 		solidInBoxCenter: (self centreForFeet: aPosition)
@@ -94,33 +86,27 @@ SRAvatarBody >> collidesIn: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> feetAtX: aX z: aZ [
-	"Horizontal placement with no resistance: a step the player took on the real
-	floor cannot be refused, only the stick can."
 
 	position := Vector3 x: aX y: position y z: aZ.
 ]
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> gravity [
-	"Metres per second squared. The mobs fall at a game-feel 24 cells/s^2; a player
-	standing in a metre-sized world notices Earth being wrong."
 
 	^ 9.81
 ]
 
 {
 	#category : #dimensions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> halfExtents [
-	"Pulled in by a millimetre on every axis, otherwise a body resting exactly on
-	a surface reports it as a collision and can never be at rest."
 
 	| epsilon |
 	epsilon := 1 mm.
@@ -141,12 +127,9 @@ SRAvatarBody >> halfWidth [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:47'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> headInSolidAt: aHeadPosition in: aScene [
-	"Only the head. Testing the whole body box instead freezes the correction
-	whenever the legs meet a step, which is the case #climbTo:in: exists to handle,
-	so walking at rising ground dropped the frame rather than climbing it."
 
 	| half |
 	half := 12 cm.
@@ -166,11 +149,9 @@ SRAvatarBody >> height [
 
 {
 	#category : #dimensions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> height: metres [
-	"A headset put down on a desk tracks at floor level, and a zero-height body
-	fits through anything."
 
 	height := metres max: 50 cm
 ]
@@ -188,13 +169,9 @@ SRAvatarBody >> initialize [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> integrateIn: aScene dt: dt [
-	"One axis at a time: resolving all three at once cannot tell being stopped by
-	a wall from being stopped by the floor. A grounded body is asked whether it is
-	still supported rather than made to fall and find out, so taking the ground
-	out from under the player still drops them."
 
 	| alongX alongZ alongY |
 	onGround := onGround and: [self stillSupportedIn: aScene].
@@ -215,16 +192,12 @@ SRAvatarBody >> integrateIn: aScene dt: dt [
 		ifTrue: [self climbTo: alongZ in: aScene]
 		ifFalse: [position := alongZ].
 
-	"Only fall when not standing on something. The feet rest #skinWidth clear of
-	the surface, so a supported body never collides at its own position, and
-	running this while grounded answered 'no floor' every frame -- a permanent
-	bounce of exactly that gap."
 	onGround ifTrue: [^ self].
 
 	alongY := Vector3 x: position x y: position y + (velocity y * dt) z: position z.
 	(self collidesAtFeet: alongY in: aScene)
 		ifTrue: [
-			"Settling costs ten sweeps, so it is done on landing only."
+
 			velocity y <= 0 ifTrue: [
 				position := Vector3
 					x: position x
@@ -237,12 +210,9 @@ SRAvatarBody >> integrateIn: aScene dt: dt [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:42'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
 SRAvatarBody >> maxFallSpeed [
-	"A fall into empty scene accelerates without limit, and the substep count is
-	proportional to speed: unclamped, falling out of the world costs an unbounded
-	number of sweeps per frame."
 
 	^ 20 m
 ]
@@ -267,12 +237,9 @@ SRAvatarBody >> position [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBody >> restAt: aPosition [
-	"Placed rather than walked: a teleport must not carry the old velocity into the
-	new spot. Not on the ground until a sweep says so, which is what makes the next
-	frame settle it onto the surface instead of leaving it wherever it was put."
 
 	position := aPosition.
 	velocity := Vector3 zero.
@@ -281,12 +248,9 @@ SRAvatarBody >> restAt: aPosition [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBody >> settledYBetween: aFreeY and: aBlockedY in: aScene [
-	"The lowest height the body may occupy, by halving the gap. A generic collider
-	cannot be asked where a surface is, only whether a box is clear, and stopping
-	at the last free substep would leave the player hovering a substep up."
 
 	| free blocked mid |
 	free := aFreeY.
@@ -296,42 +260,35 @@ SRAvatarBody >> settledYBetween: aFreeY and: aBlockedY in: aScene [
 		(self collidesAtFeet: (Vector3 x: position x y: mid z: position z) in: aScene)
 			ifTrue: [blocked := mid]
 			ifFalse: [free := mid]].
-	"Away from the blocked side, so the result stays clear."
+
 	^ free + self skinWidth
 ]
 
 {
 	#category : #dimensions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRAvatarBody >> skinWidth [
-	"Clearance left above a surface after settling. Resting exactly on contact puts
-	the box's bottom face on a voxel boundary, and SWAGameXR>>cellPositionForGlobal:
-	runs through single precision, so the boundary reads as 3.99999993 and floors
-	into the solid block below. The overlap then flickers frame to frame."
-
+	"Clearance left above a surface. Resting exactly on contact puts the box on a voxel 
+	boundary, which single precision floors into the block below."
 	^ 3 mm
+
 ]
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBody >> stepUpHeight [
-	"How high a rise walking into it climbs. One metre clears a block in a world
-	scaled to a metre per cell, which is the only scale locomotion runs at."
 
 	^ 1 m
 ]
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:25'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBody >> stillSupportedIn: aScene [
-	"Settling leaves the feet #skinWidth clear of the surface, so a grounded body
-	has to be asked whether the floor is still there. Falling to find out means
-	falling exactly that gap, every frame, for ever."
 
 	^ self
 		collidesAtFeet: (Vector3 x: position x y: position y - (self skinWidth * 2) z: position z)
@@ -340,11 +297,9 @@ SRAvatarBody >> stillSupportedIn: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarBody >> velocityX: anX z: aZ [
-	"Horizontal only: the vertical component belongs to gravity, which the player
-	does not drive."
 
 	velocity := Vector3 x: anX y: velocity y z: aZ.
 ]

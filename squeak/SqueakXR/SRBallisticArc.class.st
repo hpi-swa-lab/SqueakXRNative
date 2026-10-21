@@ -22,12 +22,9 @@ Class {
 
 {
 	#category : #casting,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArc >> castIn: aRootObject [
-	"Walk the curve segment by segment, casting each as a bounded ray. Stops at
-	the first thing hit, so #points is the drawable part of the arc and #hit is
-	the landing place, or nil when the curve ran out of steps."
 
 	| velocity from |
 	points := OrderedCollection with: origin.
@@ -49,11 +46,9 @@ SRBallisticArc >> castIn: aRootObject [
 
 {
 	#category : #casting,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:35'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArc >> firstHitFrom: from to: to in: aRootObject [
-	"An SRRay is infinite, so a hit beyond the end of this segment belongs to a
-	later one and must be rejected here."
 
 	| segment ray result |
 	segment := to - from.
@@ -67,18 +62,16 @@ SRBallisticArc >> firstHitFrom: from to: to in: aRootObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:38'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArc >> hit [
-	"The SRRayIntersectionResult the curve ran into, or nil when it ran out of
-	steps first: an arc that reached nothing is not a place to stand."
 
 	^ hit
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:40'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRBallisticArc >> initialize [
 	super initialize.
@@ -86,10 +79,7 @@ SRBallisticArc >> initialize [
 	direction := Vector3 forward.
 	speed := 10.0.
 	gravity := 9.81.
-	"One cast per segment, so the step is what the preview costs per frame. A
-	segment is a ray and cannot tunnel along its own length; the only error is
-	the chord cutting the corner, which at 0.1 s is under 5 cm. Thirty of them
-	is three seconds of flight, enough to complete an arc thrown upward."
+
 	stepSeconds := 0.1.
 	maxSteps := 30.
 	points := OrderedCollection new.

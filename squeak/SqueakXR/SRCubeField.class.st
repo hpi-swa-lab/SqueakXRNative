@@ -89,10 +89,9 @@ SRCubeField class >> drawWires: aBoolean [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 12:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCubeField class >> radiansPerSecond [
-	"One turn every 16 seconds."
 
 	^ 0.4
 ]
@@ -480,14 +479,9 @@ SRCubeField >> setCount: aCount cubeClass: aClass [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/25/2026 12:53'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCubeField >> step: deltaTime [
-	"One step for the whole field rather than one per cube: N cubes stepping
-	themselves is N entries in the frame's stepped-object list.
-	All cubes share the rotation, so the frame costs one Quaternion and N dirty
-	transforms, which is what this mode is here to measure.
-	deltaTime is in milliseconds."
 
 	| rotation |
 	animating ifFalse: [^ self].

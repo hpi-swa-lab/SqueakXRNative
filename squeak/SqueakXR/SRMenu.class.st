@@ -22,11 +22,9 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu class >> appMenuFor: anApp at: aPosition facingCamera: aCamera in: aWorld [
-	"The app's own controls, with the world menu reachable from the last row.
-	Inspect/Clone/Remove are left out: those are reached by grabbing the app."
 
 	| menu |
 	menu := self new.
@@ -181,12 +179,9 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> addSubmenuItemFor: aSegment filledBy: aBlock [
-	"A submenu whose rows are written out by aBlock rather than gathered from
-	SRMenuRegistry. Curated: an application decides what belongs in it and in
-	what order, which a registry walk cannot."
 
 	self
 		addItem: (self class submenuLabelFor: aSegment)
@@ -363,12 +358,9 @@ SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> openSubmenuFromItem: anItemOrNil filledBy: aBlock [
-	"Only one submenu is open at a time; hitting the same row again closes it.
-	aBlock fills the new menu, so a curated submenu and a registry-gathered one
-	share the placement and the one-at-a-time rule."
 
 	| sub reopening |
 	reopening := submenu notNil and: [submenuItem == anItemOrNil].
@@ -495,11 +487,9 @@ SRMenu >> rowSpacing [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> setHoveredItems: aCollection [
-	"Written once from the whole collection, so one hand cannot clear what
-	another is pointing at."
 
 	self childrenDo: [:item |
 		item isMenuItem ifTrue: [item hovered: (aCollection includes: item)]].
@@ -525,12 +515,9 @@ SRMenu >> slabWidth [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:54'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> step: deltaTime [
-	"A row lights when either hand points at it. Collected first and written
-	once: setting every item per hand let the second hand clear the row the
-	first was pointing at."
 
 	| avatar hovered |
 	avatar := self world ifNotNil: [:w | w avatar].
@@ -571,11 +558,9 @@ SRMenu >> submenuWasRemoved: aMenu [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:30'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> travelsWithAvatar [
-	"An open menu is something you are still using, so teleporting away from it
-	and having to walk back would be the wrong answer."
 
 	^ true
 ]

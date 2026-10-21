@@ -18,11 +18,9 @@ Class {
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:05'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> setUp [
-	"SRWorld new installs nothing by itself, but SRAxes class>>showAxes: reaches for
-	SRWorld current, so the live world has to be out of the way."
 
 	super setUp.
 	savedShowAxes := SRAxes classPool at: #ShowAxes ifAbsent: [nil].
@@ -34,11 +32,9 @@ SRAxesTest >> setUp [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:05'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> tearDown [
-	"Restored even when a test fails, so running the tests can never switch the live
-	world's axes on."
 
 	SRAxes classPool at: #ShowAxes put: savedShowAxes.
 	world isRunning: false.
@@ -48,11 +44,9 @@ SRAxesTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testBarsAreNotObstacles [
-	"Axes ride on tracked objects, so a bar with collision geometry would sit
-	permanently between a ray and the world."
 
 	| axes |
 	axes := SRAxes length: 1m.
@@ -64,11 +58,9 @@ SRAxesTest >> testBarsAreNotObstacles [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testEachBarSpansItsOwnHalfAxis [
-	"A bar of extent l centred at l/2 reaches the origin at one end and l at the other,
-	which is what makes the dim half readable as the negative direction."
 
 	| axes |
 	axes := SRAxes length: 1m.
@@ -83,11 +75,9 @@ SRAxesTest >> testEachBarSpansItsOwnHalfAxis [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testEachFrameGetsItsOwnSize [
-	"Equal lengths would draw the world's axes and an avatar at the origin on top of
-	each other."
 
 	| avatar |
 	avatar := SRAvatar new.
@@ -164,11 +154,9 @@ SRAxesTest >> testSixBarsAndAnOrigin [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 10:25'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testTheCameraNeverGetsAxes [
-	"Bars on the camera are drawn from inside the player's head and cross the
-	whole view. The ghost's head anchor is the readable copy of that frame."
 
 	| avatar |
 	avatar := SRAvatar new.
@@ -181,12 +169,9 @@ SRAxesTest >> testTheCameraNeverGetsAxes [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:48'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testTheGhostCarriesAForwardBarRatherThanABasis [
-	"A basis on a 10 cm head is three bars crossing at the eyes. The ghost shows
-	which way it faces with one bar, and that bar is part of the ghost rather
-	than something the Debug axes preference switches on."
 
 	| avatar ghost |
 	avatar := SRAvatar new.
@@ -205,11 +190,9 @@ SRAxesTest >> testTheGhostCarriesAForwardBarRatherThanABasis [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAxesTest >> testTicksSitOnTheirOwnAxis [
-	"The tick is offset sideways so the bar does not cover it, but its distance along
-	its own axis has to be exactly the metre it names."
 
 	| axes labelled |
 	axes := SRAxes length: 4m.

@@ -18,10 +18,9 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:40'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRTeleportPreview class >> beadCount [
-	"One per arc segment. SRBallisticArc answers at most maxSteps + 1 points."
 
 	^ 31
 ]
@@ -71,21 +70,18 @@ SRTeleportPreview >> initialize [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRTeleportPreview >> landingPoint [
-	"Where a release would put the player, or nil when the arc reached nothing."
 
 	^ marker visible ifTrue: [marker position - (0 @ 1 cm @ 0)]
 ]
 
 {
 	#category : #displaying,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:40'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRTeleportPreview >> showArc: anArc [
-	"A curve that reached nothing is drawn red and the marker is left off, so
-	releasing on it visibly does nothing rather than silently doing nothing."
 
 	| colour landed |
 	landed := anArc hit notNil.
