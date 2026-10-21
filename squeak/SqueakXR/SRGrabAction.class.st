@@ -42,12 +42,13 @@ SRGrabAction >> perform: inputState [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:23'
+	#'squeak_changestamp' : 'phkeese 10/21/2026 15:20'
 }
 SRGrabAction >> startGrabbing [ 
 
 	| target |
 	target := self hand cursorTarget ifNil: [ ^ self ].
+	target := target grabTarget.
 	target canGrab ifFalse: [^self].
 	grabbedObject := target.
 	grabbedRelativeTransform := self hand cursor grabbingTransform inverseTransformation * grabbedObject globalTransform.
