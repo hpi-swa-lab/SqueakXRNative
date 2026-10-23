@@ -94,6 +94,17 @@ SRTextureSourceMorph >> onCacheInvalidated [
 
 {
 	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRTextureSourceMorph >> unload [
+
+	SRRenderer hasContext ifTrue: [
+		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
+	internalTexture := nil.
+]
+
+{
+	#category : #updating,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
 }
 SRTextureSourceMorph >> update: aSymbol with: anObject [

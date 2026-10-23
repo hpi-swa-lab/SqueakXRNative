@@ -34,3 +34,12 @@ SRTextureSource >> onCacheInvalidated [
 
 	self subclassResponsibility.
 ]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRTextureSource >> unload [
+
+	self subclassResponsibility.
+]

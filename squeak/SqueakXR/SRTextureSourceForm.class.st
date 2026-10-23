@@ -193,6 +193,17 @@ SRTextureSourceForm >> setWidth: w height: h [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRTextureSourceForm >> unload [
+
+	SRRenderer hasContext ifTrue: [
+		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
+	internalTexture := nil.
+]
+
+{
 	#category : #private,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }

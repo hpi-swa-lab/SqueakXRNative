@@ -89,6 +89,21 @@ SRTextureSourceFormTest >> testUnhibernatingNotifiesTextureChanged [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:29'
+}
+SRTextureSourceFormTest >> testUnloadForgetsTheGpuTexture [
+
+	| texture |
+	texture := SRTexture withSource: source.
+	source instVarNamed: 'internalTexture' put: RlTexture new.
+	texture instVarNamed: 'internalTexture' put: RlTexture new.
+	texture unload.
+	self assert: (source instVarNamed: 'internalTexture') isNil.
+	self assert: (texture instVarNamed: 'internalTexture') isNil.
+]
+
+{
 	#category : #updating,
 	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/23/2026 11:01'
 }
