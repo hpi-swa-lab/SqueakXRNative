@@ -55,7 +55,7 @@ SRMenuTest >> demoEntries [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 	^ SRMenuEntry new
@@ -63,7 +63,7 @@ SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 		label: aStringOrSymbol
 		priority: anInteger
 		provider: self class
-		selector: #demoAction:target:
+		action: #demoAction:target:
 ]
 
 {
@@ -115,6 +115,54 @@ SRMenuTest >> setUp [
 SRMenuTest >> tearDown [
 	SRMenuRegistry current entries: savedEntries.
 	super tearDown
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testAMenuIsNotSomethingToStandOn [
+
+	| root menu probe |
+	root := SRObject new.
+	menu := self menuUnder: #(demo).
+	probe := SRObject new.
+	root addChild: menu parent.
+	root addChild: probe.
+	self deny: menu safeCollisionGeometry isNil.
+	self assert: 0 equals: (SRSceneSolids forObject: probe) size.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
+
+	| menu ran |
+	ran := false.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Go' action: [ran := true].
+	menu rebuild.
+	(self rowOf: menu labelled: 'Go') onRaycast: nil.
+	self assert: ran.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testBothHandsCanHighlightAtOnce [
+
+	| menu rows |
+	menu := self menuUnder: #(demo).
+	rows := menu children select: [:each | each isMenuItem].
+	self assert: rows size >= 2.
+	menu setHoveredItems: (IdentitySet withAll: (rows first: 2)).
+	self assert: rows first hovered.
+	self assert: (rows at: 2) hovered.
+	self deny: rows last hovered.
 ]
 
 {
@@ -303,8 +351,29 @@ SRMenuTest >> testStickyMenuStaysOpenWhenPicking [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testTheActionReceivesThePickingHand [
+
+	| menu hand seen result |
+	hand := SRHand new.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Arm' action: [:item :pickingHand | seen := pickingHand].
+	menu rebuild.
+	result := SRRayIntersectionResult new
+		object: menu;
+		point: Vector3 zero;
+		yourself.
+	(self rowOf: menu labelled: 'Arm')
+		onRaycast: (result asHandRayIntersection: nil hand: hand).
+	self assert: hand == seen.
+]
+
+{
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> toggleEntry [
 	"A Symbol label is recomputed from the provider every time it is resolved."
@@ -314,5 +383,5 @@ SRMenuTest >> toggleEntry [
 		label: #demoToggleLabel
 		priority: 150
 		provider: self class
-		selector: #demoToggle:target:.
+		action: #demoToggle:target:.
 ]

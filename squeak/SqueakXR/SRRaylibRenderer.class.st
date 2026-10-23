@@ -32,6 +32,20 @@ SRRaylibRenderer class >> fill: anRlColor withColor: aColor [
 
 {
 	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer class >> fill: anRlMatrix withMatrix4x4: aMatrix4x4 [
+
+	^ anRlMatrix
+		m0: aMatrix4x4 a11; m4: aMatrix4x4 a12; m8: aMatrix4x4 a13; m12: aMatrix4x4 a14;
+		m1: aMatrix4x4 a21; m5: aMatrix4x4 a22; m9: aMatrix4x4 a23; m13: aMatrix4x4 a24;
+		m2: aMatrix4x4 a31; m6: aMatrix4x4 a32; m10: aMatrix4x4 a33; m14: aMatrix4x4 a34;
+		m3: aMatrix4x4 a41; m7: aMatrix4x4 a42; m11: aMatrix4x4 a43; m15: aMatrix4x4 a44;
+		yourself
+]
+
+{
+	#category : #'shared rl objects',
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:18'
 }
 SRRaylibRenderer class >> fill: anRlVector3 withVector3: aVector3 [
@@ -160,6 +174,30 @@ SRRaylibRenderer >> disableDepthTest [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> drawGrid [
+
+	| rlColor slices spacing half |
+	rlColor := SRRenderer gridColor asRlColor.
+	slices := SRRenderer gridSlices.
+	spacing := SRRenderer gridSpacing.
+	half := slices / 2.0 * spacing.
+	0 to: slices do: [:i |
+		| offset |
+		offset := i * spacing - half.
+		Raylib
+			drawLine3DStartPos: (offset @ 0 @ half negated) asRlVector
+			endPos: (offset @ 0 @ half) asRlVector
+			color: rlColor.
+		Raylib
+			drawLine3DStartPos: (half negated @ 0 @ offset) asRlVector
+			endPos: (half @ 0 @ offset) asRlVector
+			color: rlColor].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
@@ -179,12 +217,62 @@ SRRaylibRenderer >> enableDepthTest [
 		rlEnableDepthTest.
 ]
 
-{ #category : #initializing }
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
 SRRaylibRenderer >> initialize [
 
 	super initialize.
-	
+
 	self clearColor: self class clearColor.
+
+	SRRenderer mirrorPlaced: false.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> mirrorAspect [
+
+	^ 16 / 9
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> moveWindowToMonitor: monitorIndex [
+
+	| origin inset extent width height |
+	origin := Raylib getMonitorPositionMonitor: monitorIndex.
+	extent := (Raylib getMonitorWidthMonitor: monitorIndex)
+		@ (Raylib getMonitorHeightMonitor: monitorIndex).
+
+	inset := 60.
+	height := extent y - (inset * 2).
+	width := (height * self mirrorAspect) rounded.
+	width > (extent x - (inset * 2)) ifTrue: [
+		width := extent x - (inset * 2).
+		height := (width / self mirrorAspect) rounded].
+	Raylib
+		setWindowPositionX: origin x asInteger + (extent x - width // 2)
+			y: origin y asInteger + inset;
+		setWindowSizeWidth: width height: height.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> placeMirrorWindowOnce [
+
+	SRRenderer mirrorPlaced ifTrue: [^ self].
+	SRRenderer mirrorPlaced: true.
+	SRWorld current ifNotNil: [:world |
+		world addDeferredFrameMessage: [
+			self moveWindowToMonitor: SRRenderer mirrorMonitor]].
 ]
 
 { #category : #'render-loop' }

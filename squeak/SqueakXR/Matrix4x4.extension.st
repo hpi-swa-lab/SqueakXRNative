@@ -49,19 +49,19 @@ Matrix4x4 class >> fromQuaternion: aQuaternion [
 
 {
 	#category : #'*SqueakXR-helpers',
-	#'squeak_changestamp' : 'lege 7/3/2026 14:43'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 Matrix4x4 class >> objectLookAt: target from: position up: worldUp [
 	"creates a lookAt matrix for an object (as opposed to a view matrix for a camera)"
 	
 	| front side up |
 	front := position directionTo: target.
-	side := (worldUp normalized cross: front) normalized.
-	up := front cross: side.
+	side := (front cross: worldUp normalized) normalized.
+	up := side cross: front.
 	^ self identity
 		column1: side;
 		column2: up;
-		column3: front;
+		column3: front negated;
 		column4: position;
 		yourself
 ]
@@ -187,4 +187,22 @@ Matrix4x4 >> setFromQuaternion: q [
 		a31: xz - wy;
 		a32: yz + wx;
 		a33: 1 - (xx + yy)
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+}
+Matrix4x4 >> setTranslation: aVector3 rotation: aQuaternion scale: aScaleVector3 [
+
+	| sx sy sz |
+	self setIdentity; setFromQuaternion: aQuaternion.
+	sx := aScaleVector3 x.
+	sy := aScaleVector3 y.
+	sz := aScaleVector3 z.
+	self
+		a11: self a11 * sx; a21: self a21 * sx; a31: self a31 * sx;
+		a12: self a12 * sy; a22: self a22 * sy; a32: self a32 * sy;
+		a13: self a13 * sz; a23: self a23 * sz; a33: self a33 * sz.
+	self setTranslation: aVector3.
 ]

@@ -425,6 +425,20 @@ SRObjectTest >> testMoveChildBetweenParents [
 	self assert: child parent = parent2.
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObjectTest >> testNothingIsBlockedByItsOwnParts [
+
+	| scene asker |
+	scene := SRObject new.
+	asker := SRObject new.
+	scene addChild: asker.
+	asker addChild: (SRSphere new scale: 1 @ 1 @ 1; yourself).
+	self deny: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testOnWorldChanged [
 
@@ -520,6 +534,22 @@ SRObjectTest >> testReparentingInsideWorldDoesNotNotifyWorldChanged [
 
 	self assert: mock parent == o2.
 	self assert: mock onWorldChangedCount = 1
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObjectTest >> testTheBoxSweepFindsObjectsOfferingCollisionGeometry [
+
+	| scene asker |
+	scene := SRObject new.
+	asker := SRObject new.
+	scene addChild: asker.
+	self deny: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+	scene addChild: (SRSphere new scale: 1 @ 1 @ 1; yourself).
+	self assert: (asker solidInBoxCenter: Vector3 zero halfExtents: 1 @ 1 @ 1).
+	self deny: (asker solidInBoxCenter: 20 @ 0 @ 0 halfExtents: 1 @ 1 @ 1).
 ]
 
 { #category : #'tests - children' }

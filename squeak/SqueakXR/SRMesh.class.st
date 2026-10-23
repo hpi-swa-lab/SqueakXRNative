@@ -62,6 +62,17 @@ SRMesh >> source: aMeshSource [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRMesh >> unload [
+	"Releases only the GPU copy: the next draw uploads the source again."
+	internalMesh ifNil: [^ self].
+	SRRenderer hasContext ifTrue: [source unloadInternalMesh: internalMesh].
+	internalMesh := nil.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/15/2026 19:02'
 }

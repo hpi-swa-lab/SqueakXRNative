@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/23/2026 16:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 SRAvatarCamera >> cameraTransformUpdated: cameraTransform [
 
@@ -15,10 +15,6 @@ SRAvatarCamera >> cameraTransformUpdated: cameraTransform [
 	self transform
 		setFromQuaternion: (Quaternion a: quat w b: quat x c: quat y d: quat z);
 		setTranslation: cameraTransform translation asVector3.
-	self transform
-		a13: self transform a13 negated;
-		a23: self transform a23 negated;
-		a33: self transform a33 negated.
 	self localTransformDirty.
 ]
 

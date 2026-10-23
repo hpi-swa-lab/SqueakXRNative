@@ -109,3 +109,12 @@ SRMeshSourceRaylibGen >> planeWidth: width length: length widthSections: widthSe
 			selector: #genMeshPlaneWidth:length:resX:resZ:
 			arguments: {width. length. widthSections. lengthSections}).
 ]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRMeshSourceRaylibGen >> unloadInternalMesh: anRlMesh [
+
+	Raylib unloadMesh: anRlMesh.
+]

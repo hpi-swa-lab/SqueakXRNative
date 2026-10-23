@@ -125,6 +125,20 @@ SRMeshSourceRaw >> createMeshVertexCount: a triangleCount: b vertices: c normals
 ]
 
 {
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRMeshSourceRaw >> detachArraysFrom: anRlMesh [
+
+	anRlMesh
+		vertices: ExternalAddress new;
+		normals: ExternalAddress new;
+		texcoords: ExternalAddress new;
+		colors: ExternalAddress new;
+		indices: ExternalAddress new.
+]
+
+{
 	#category : #mesh,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }
@@ -227,6 +241,16 @@ SRMeshSourceRaw >> texcoords: aFloat32Array [
 SRMeshSourceRaw >> triangleCount [
 
 	^ (self indices ifNotNil: [:i | i size] ifNil: [self elementCount]) / 3
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRMeshSourceRaw >> unloadInternalMesh: anRlMesh [
+	"The vertex arrays are pinned Smalltalk objects, which UnloadMesh would free."
+	self detachArraysFrom: anRlMesh.
+	Raylib unloadMesh: anRlMesh.
 ]
 
 {

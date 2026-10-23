@@ -12,9 +12,57 @@ Class {
 		'trigger',
 		'squeeze'
 	],
+	#classVars : [
+		'GrabPressThreshold',
+		'GrabReleaseThreshold'
+	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'lege 8/5/2026 16:44'
 }
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRHandInputState class >> grabPressThreshold [
+	<preference: 'Grab press threshold'
+		category: 'SqueakXR'
+		description: 'How far the grip must be squeezed to start a grab, from 0 to 1. The Index reports grip as force rather than travel, so a comfortable grab there peaks well below the value a Touch trigger reaches.'
+		type: #Number>
+	^ GrabPressThreshold ifNil: [GrabPressThreshold := 0.25]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHandInputState class >> grabPressThreshold: aNumber [
+
+	GrabPressThreshold := aNumber.
+	self allInstancesDo: [:each | each squeeze pressThreshold: aNumber].
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:17'
+}
+SRHandInputState class >> grabReleaseThreshold [
+	<preference: 'Grab release threshold'
+		category: 'SqueakXR'
+		description: 'How far the grip must relax to end a grab, from 0 to 1. Keep it below the press threshold; the gap is what stops a grab flickering at the boundary.'
+		type: #Number>
+	^ GrabReleaseThreshold ifNil: [GrabReleaseThreshold := 0.15]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHandInputState class >> grabReleaseThreshold: aNumber [
+
+	GrabReleaseThreshold := aNumber.
+	self allInstancesDo: [:each | each squeeze releaseThreshold: aNumber].
+]
 
 {
 	#category : #accessing,
@@ -27,7 +75,7 @@ SRHandInputState >> bottomButton [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 8/5/2026 17:46'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:18'
 }
 SRHandInputState >> initialize [
 
@@ -36,7 +84,10 @@ SRHandInputState >> initialize [
 	menuButton := SRInputButtonState new.
 	joystick := SRInputDualAxisState new.
 	trigger := SRInputFloatState new.
-	squeeze := SRInputFloatState new.
+	squeeze := SRInputFloatState new
+		pressThreshold: self class grabPressThreshold;
+		releaseThreshold: self class grabReleaseThreshold;
+		yourself.
 ]
 
 {
@@ -143,4 +194,15 @@ SRHandInputState >> updateActionsRight: actionStates [
 	
 	self topButton isPressed: actionStates b.
 	self bottomButton isPressed: actionStates a.
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHandInputState >> updateDesktopTrigger: aTrigger squeeze: aSqueeze topButton: aBoolean [
+
+	trigger updateValue: aTrigger.
+	squeeze updateValue: aSqueeze.
+	topButton isPressed: aBoolean.
 ]

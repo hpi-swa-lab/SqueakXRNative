@@ -9,6 +9,24 @@ Class {
 }
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCollisionBoxTest >> testARotatedBoxErrsTowardsReportingAnOverlap [
+
+	| box half |
+	box := SRCollisionBox new
+		center: Vector3 zero;
+		halfExtents: 0.5 @ 0.5 @ 0.5;
+		rotation: (Quaternion angle: 45 axis: Vector3 up);
+		yourself.
+	half := 0.3 @ 0.3 @ 0.3.
+
+	self assert: (box intersectsBoxCenter: 0.9 @ 0 @ 0 halfExtents: half).
+	self deny: (box intersectsBoxCenter: 1.4 @ 0 @ 0 halfExtents: half).
+]
+
+{
 	#category : #'tests - basic',
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:56'
 }
@@ -30,6 +48,25 @@ SRCollisionBoxTest >> testAccessors [
 	self assert: box size equals: (halfExtents * 2).
 	box size: (4 @ 6 @ 8).
 	self assert: box halfExtents equals: (2 @ 3 @ 4)
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:54'
+}
+SRCollisionBoxTest >> testBoxOverlapIsExactWhenAxisAligned [
+
+	| box half |
+	box := SRCollisionBox new
+		center: Vector3 zero;
+		halfExtents: 0.5 @ 0.5 @ 0.5;
+		rotation: Quaternion identity;
+		yourself.
+	half := 0.3 @ 0.3 @ 0.3.
+	self assert: (box intersectsBoxCenter: 0.7 @ 0 @ 0 halfExtents: half).
+	self assert: (box intersectsBoxCenter: 0.8 @ 0 @ 0 halfExtents: half).
+	self deny: (box intersectsBoxCenter: 0.81 @ 0 @ 0 halfExtents: half).
+	self deny: (box intersectsBoxCenter: 0 @ 0 @ 2 halfExtents: half).
 ]
 
 {

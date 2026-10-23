@@ -63,6 +63,16 @@ SRTexture >> source: aTextureSource [
 
 {
 	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRTexture >> unload [
+
+	source unload.
+	internalTexture := nil.
+]
+
+{
+	#category : #updating,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }
 SRTexture >> update: aSymbol [

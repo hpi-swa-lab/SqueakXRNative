@@ -36,10 +36,11 @@ SRTextureSourceForm class >> width: w height: h fill: aColor [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:23'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/23/2026 11:01'
 }
 SRTextureSourceForm >> bits [
 
+	form unhibernate ifTrue: [self notifyTextureChanged].
 	^ form bits
 ]
 
@@ -189,6 +190,17 @@ SRTextureSourceForm >> setWidth: w height: h [
 	form := Form extent: w @ h depth: 32.
 	canvas := form getCanvas.
 	isEditable := false.
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRTextureSourceForm >> unload [
+
+	SRRenderer hasContext ifTrue: [
+		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
+	internalTexture := nil.
 ]
 
 {

@@ -4,11 +4,13 @@ Class {
 	#category : #'SqueakXR-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:38'
+}
 SRSqueakXRHelpersTest >> test3DToRaylibVector [
 
 	| vec2 vec2Rl vec2RlExt |
-	self assert: false description: 'test is wrong, vec2 must be converted before checking equality in asserts'.
 	[vec2 :=  (1 @ 2) asVector.
 	vec2Rl := RlVector2 new x: 1; y: 2.
 	vec2RlExt := RlVector2 externalNew x: 1; y: 2.
@@ -21,6 +23,17 @@ SRSqueakXRHelpersTest >> test3DToRaylibVector [
 		ensure: [vec2RlExt ifNotNil: [vec2RlExt free]]
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRSqueakXRHelpersTest >> testAxisConstantsAreRightHanded [
+
+	self assert: Vector3 right equals: (Vector3 forward cross: Vector3 up).
+	self assert: Vector3 up equals: (Vector3 backward cross: Vector3 right).
+	self assert: Vector3 backward equals: (Vector3 right cross: Vector3 up).
+]
+
 { #category : #'as yet unclassified' }
 SRSqueakXRHelpersTest >> testMatrix4x4Scale [
 
@@ -28,6 +41,21 @@ SRSqueakXRHelpersTest >> testMatrix4x4Scale [
 	matrix := (Matrix4x4 withScale: 2 @ 3 @ 4).
 	
 	self assert: matrix scale = (2 @ 3 @ 4).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRSqueakXRHelpersTest >> testObjectLookAtAgreesWithTheAxisConstants [
+
+	| eye target m |
+	eye := Vector3 x: 3 y: 2 z: 7.
+	target := Vector3 x: 3 y: 2 z: 1.
+	m := Matrix4x4 objectLookAt: target from: eye up: Vector3 up.
+	self assert: ((m localDirToGlobal: Vector3 forward) dot: (eye directionTo: target)) > 0.999.
+	self assert: (m localDirToGlobal: Vector3 right) equals: Vector3 right.
+	self assert: (m localDirToGlobal: Vector3 up) equals: Vector3 up.
 ]
 
 { #category : #'as yet unclassified' }

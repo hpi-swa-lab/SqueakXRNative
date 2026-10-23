@@ -6,7 +6,11 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'emulatedCamera',
-		'debugHUD'
+		'debugHUD',
+		'grabRadius',
+		'grabBearing',
+		'grabHeight',
+		'grabTransform'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -49,7 +53,7 @@ SRXRInputEmulator class >> rightHandOffset [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
 }
 SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	| direction |
@@ -57,10 +61,39 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	direction isZero ifTrue: [^ aHand].
 	direction := direction normalized.
 	aHand globalTransform: (Matrix4x4
-		objectLookAt: aPosition - direction
+		objectLookAt: aPosition + direction
 		from: aPosition
 		up: self world camera up).
 	^ aHand
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRXRInputEmulator >> bearingFrom: anEye to: aPoint [
+
+	| d |
+	d := aPoint - anEye.
+	^ (d x arcTan: d z) radiansToDegrees
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRXRInputEmulator >> cylinderHitFrom: anOrigin direction: aDirection eye: anEye radius: aRadius [
+
+	| ox oz dx dz a b c disc |
+	ox := anOrigin x - anEye x. oz := anOrigin z - anEye z.
+	dx := aDirection x. dz := aDirection z.
+	a := (dx * dx) + (dz * dz).
+	a < 1.0e-9 ifTrue: [^ nil].
+	b := 2.0 * ((ox * dx) + (oz * dz)).
+	c := (ox * ox) + (oz * oz) - (aRadius * aRadius).
+	disc := (b * b) - (4.0 * a * c).
+	disc < 0 ifTrue: [^ nil].
+	^ b negated + disc sqrt / (2.0 * a)
 ]
 
 {
@@ -70,6 +103,35 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 SRXRInputEmulator >> debugHUD [
 
 	^ debugHUD
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
+
+	| eye t point lift |
+	eye := self world avatar camera globalTranslation.
+	grabRadius ifNil: [
+		| held |
+		held := aHand grabbedObject globalTranslation.
+
+		grabRadius := ((held x - eye x) squared + (held z - eye z) squared) sqrt.
+		grabBearing := self bearingFrom: eye to: held.
+		grabHeight := held y.
+		grabTransform := aHand globalTransform copy].
+	t := self
+		cylinderHitFrom: anOrigin direction: aDirection eye: eye radius: grabRadius.
+	t ifNil: [^ aHand].
+	point := anOrigin + (aDirection * t).
+	lift := Matrix4x4 withOffset: (Vector3 x: 0 y: point y - grabHeight z: 0).
+
+	aHand globalTransform: (Matrix4x4
+		rotatedBy: (self bearingFrom: eye to: point) - grabBearing
+		around: Vector3 up
+		centeredAt: eye) * (lift * grabTransform).
+	^ aHand
 ]
 
 {
@@ -134,45 +196,53 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/20/2026 18:43'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> step: delta [
-	"Desktop debug input: TAB toggles look mode, WASD moves at 1.8m height."
-	| rightHand |
-	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF2) ifTrue: [
+
+	| input |
+	input := SRDesktopInputState current.
+
+	(input isKeyPressed: RlKeyboardKey keyF2) ifTrue: [
 		debugHUD toggleVisibility].
-	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyF3) ifTrue: [
+
+	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
 		self world avatar toggleOutOfBody].
-	
-	emulatedCamera update.
-	
-	(Raylib isKeyPressedKey: RlKeyboardKey keyTab) ifTrue: [
+
+	emulatedCamera update: delta.
+
+	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
 		emulatedCamera toggleLookMode].
-	
-	"Update left hand to follow camera at a natural offset"
+
 	self updateLeftHandFromCamera.
-	
 	emulatedCamera lookModeEnabled
-		ifTrue: [
-			rightHand := self updateRightHandFromScreenCenter]
-		ifFalse: [
-			rightHand := self updateRightHandFromMouseRay].
-	
-	(Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonLeft) ifTrue: [
-		rightHand handleTrigger: 1.0].
-	(Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonLeft) ifTrue: [
-		rightHand handleTrigger: 0.0].
-	
-	((Raylib isMouseButtonPressedButton: RlMouseButton mouseButtonRight) or: [
-		(Raylib isKeyDownKey: RlKeyboardKey keyZ)
-		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
-		rightHand handleSqueeze: 1.0].
-	((Raylib isMouseButtonReleasedButton: RlMouseButton mouseButtonRight) or: [
-		(Raylib isKeyUpKey: RlKeyboardKey keyZ)
-		and: [Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt]]) ifTrue: [
-		rightHand handleSqueeze: 0.0].
+		ifTrue: [self updateRightHandFromScreenCenter]
+		ifFalse: [self updateRightHandFromMouseRay].
+
+	self updateHandInput: input.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRXRInputEmulator >> updateHandInput: anInput [
+
+	| avatar squeezing |
+	avatar := self world ifNil: [^ self] ifNotNil: [:w | w avatar].
+	avatar ifNil: [^ self].
+
+	squeezing := (anInput isMouseButtonDown: RlMouseButton mouseButtonRight)
+		or: [anInput isAltDown and: [anInput isKeyDown: RlKeyboardKey keyZ]].
+	avatar rightHand inputState
+		updateDesktopTrigger: ((anInput isMouseButtonDown: RlMouseButton mouseButtonLeft)
+			ifTrue: [1.0] ifFalse: [0.0])
+		squeeze: (squeezing ifTrue: [1.0] ifFalse: [0.0])
+		topButton: (anInput isKeyDown: RlKeyboardKey keyB).
+	avatar leftHand inputState
+		updateDesktopTrigger: 0.0
+		squeeze: 0.0
+		topButton: false.
 ]
 
 {
@@ -194,17 +264,20 @@ SRXRInputEmulator >> updateLeftHandFromCamera [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:10'
 }
 SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 	| hand handPos rlRay origin direction hit target |
 	hand := self world avatar rightHand.
-	handPos := self handPositionFor: self class rightHandOffset.
 	rlRay := Raylib
 		getScreenToWorldRayPosition: aScreenPosition
 		camera: self world renderer camera.
 	origin := rlRay position asVector3.
 	direction := rlRay direction asVector3 normalized.
+	hand grabbedObject
+		ifNil: [grabRadius := nil]
+		ifNotNil: [^ self dragHand: hand along: origin direction: direction].
+	handPos := self handPositionFor: self class rightHandOffset.
 	hit := (SRRay origin: origin forward: direction) castNearest: self world.
 	target := hit
 		ifNil: [origin + (direction * self class aimConvergenceDistance)]
@@ -214,10 +287,10 @@ SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRXRInputEmulator >> updateRightHandFromMouseRay [
-	^ self updateRightHandAimingAt: Raylib getMousePosition
+	^ self updateRightHandAimingAt: SRDesktopInputState current mousePosition
 ]
 
 {

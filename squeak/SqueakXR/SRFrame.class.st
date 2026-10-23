@@ -70,17 +70,19 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:20'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRFrame >> initializeObjectLists [
 
-	steppedObjects := self world allDescendantsSelect: #isStepping.
-	
-	firstPassRenderedObjects := OrderedCollection new.
-	secondPassRenderedObjects := OrderedCollection new.
-	self world allDescendantsSelect: #isRendering thenDo: [:obj |
-		(obj renderInSecondPass ifTrue: [secondPassRenderedObjects] ifFalse: [firstPassRenderedObjects])
-			add: obj]
+	steppedObjects := self world steppedObjectsBuffer reset.
+	firstPassRenderedObjects := self world firstPassRenderBuffer reset.
+	secondPassRenderedObjects := self world secondPassRenderBuffer reset.
+	self world allDo: [:object |
+		object isStepping ifTrue: [steppedObjects add: object].
+		object isRendering ifTrue: [
+			(object renderInSecondPass
+				ifTrue: [secondPassRenderedObjects]
+				ifFalse: [firstPassRenderedObjects]) add: object]].
 ]
 
 { #category : #accessing }
@@ -107,15 +109,14 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'jl 9/21/2026 17:31'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRFrame >> process [
+	"A frame that opened must close, or the OpenXR session is left open for every frame after 
+	it."
+	self updateActions; stepObjects.
+	[self prepareFrame; renderObjects] ensure: [self completeFrame].
 
-	self updateActions;
-		stepObjects;
-		prepareFrame;
-		renderObjects;
-		completeFrame.
 ]
 
 {

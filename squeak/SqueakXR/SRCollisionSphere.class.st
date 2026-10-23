@@ -20,6 +20,21 @@ SRCollisionSphere >> center: aVector3 [
 	center := aVector3
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:39'
+}
+SRCollisionSphere >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	| delta nearest |
+	delta := self center - aCentre.
+	nearest := Vector3
+		x: ((delta x abs - aHalfExtents x) max: 0.0)
+		y: ((delta y abs - aHalfExtents y) max: 0.0)
+		z: ((delta z abs - aHalfExtents z) max: 0.0).
+	^ nearest length <= self radius
+]
+
 { #category : #accessing }
 SRCollisionSphere >> radius [
 

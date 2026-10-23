@@ -31,3 +31,26 @@ SRInputDualAxisStateTest >> testDeadzone [
 		assert: state realVertical equals: 0.9;
 		assert: state realVector equals: 0.9 @ 0.9.
 ]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRInputDualAxisStateTest >> testDeadzoneIsSymmetric [
+
+	| state |
+	state := SRInputDualAxisState new.
+
+	state horizontal: -0.9.
+	state vertical: -0.9.
+	self assert: state horizontal equals: -0.9;
+		assert: state vertical equals: -0.9;
+		assert: state vector equals: -0.9 @ -0.9.
+
+	state horizontal: -0.01.
+	state vertical: -0.01.
+	self assert: state horizontal equals: 0;
+		assert: state vertical equals: 0;
+		assert: state vector equals: 0 @ 0;
+		assert: state realVector equals: -0.01 @ -0.01.
+]

@@ -172,6 +172,14 @@ SRResizer >> isDragging [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+}
+SRResizer >> isSolid [
+	^ false
+]
+
+{
 	#category : #geometry,
 	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:32'
 }

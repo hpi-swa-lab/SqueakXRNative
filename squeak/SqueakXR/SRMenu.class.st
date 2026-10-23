@@ -22,6 +22,23 @@ Class {
 
 {
 	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenu class >> appMenuFor: anApp at: aPosition facingCamera: aCamera in: aWorld [
+
+	| menu |
+	menu := self new.
+	anApp addCustomMenuItemsTo: menu.
+	menu setTransformAt: aPosition facingCamera: aCamera.
+	aWorld addChild: menu.
+	menu
+		addItemsUnder: {anApp class name asSymbol} target: anApp;
+		addSubmenuItemFor: #world under: #() target: nil.
+	^ menu
+]
+
+{
+	#category : #'instance creation',
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facingCamera: aCamera in: aWorld [
@@ -143,7 +160,7 @@ SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	"Entries at aPrefix become rows, deeper paths one submenu row per group."
@@ -153,9 +170,23 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	(registry directItemsUnder: aPrefix) do: [:entry |
 		self
 			addItem: [entry labelIn: self target: anObjectOrNil]
-			action: [entry activateIn: self target: anObjectOrNil]].
+			action: [entry activateIn: self target: anObjectOrNil.
+				entry keepOpen ifTrue: [self labelsChanged]]
+			keepOpen: entry keepOpen].
 	(registry groupsUnder: aPrefix) do: [:segment |
 		self addSubmenuItemFor: segment under: aPrefix target: anObjectOrNil]
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenu >> addSubmenuItemFor: aSegment filledBy: aBlock [
+
+	self
+		addItem: (self class submenuLabelFor: aSegment)
+		action: [:item | self openSubmenuFromItem: item filledBy: aBlock]
+		keepOpen: true.
 ]
 
 {
@@ -269,11 +300,10 @@ SRMenu >> isMenu [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'lege 7/1/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
 }
-SRMenu >> isOpen [
-
-	^ self parent notNil
+SRMenu >> isSolid [
+	^ false
 ]
 
 {
@@ -318,10 +348,19 @@ SRMenu >> onGrabStarted: aHand [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 11:22'
 }
 SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
-	"Only one submenu is open at a time; hitting the same row again closes it."
+	^ self
+		openSubmenuFromItem: anItemOrNil
+		filledBy: [:sub | sub addItemsUnder: aPath target: anObjectOrNil]
+]
+
+{
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenu >> openSubmenuFromItem: anItemOrNil filledBy: aBlock [
 
 	| sub reopening |
 	reopening := submenu notNil and: [submenuItem == anItemOrNil].
@@ -331,7 +370,7 @@ SRMenu >> openSubmenuFor: aPath target: anObjectOrNil fromItem: anItemOrNil [
 		parentMenu: self;
 		yourself.
 	(self parent ifNil: [self world]) ifNotNil: [:container | container addChild: sub].
-	sub addItemsUnder: aPath target: anObjectOrNil.
+	aBlock value: sub.
 	sub rebuild.
 	sub placeNextTo: self atItem: anItemOrNil.
 	submenu := sub.
@@ -447,21 +486,13 @@ SRMenu >> rowSpacing [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
-SRMenu >> setTransformAt: aPosition facingCamera: aCamera [
-	"Adopts the camera's viewing direction rather than turning towards the camera."
+SRMenu >> setHoveredItems: aCollection [
 
-	| direction up |
-	direction := aCamera forward.
-	up := (direction dot: Vector3 up) abs > 0.99
-		ifTrue: [aCamera up]	"looking straight up or down"
-		ifFalse: [Vector3 up].
-	self globalTransform: (Matrix4x4
-		objectLookAt: aPosition - direction
-		from: aPosition
-		up: up)
+	self childrenDo: [:item |
+		item isMenuItem ifTrue: [item hovered: (aCollection includes: item)]].
 ]
 
 {
@@ -484,18 +515,19 @@ SRMenu >> slabWidth [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:31'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> step: deltaTime [
-	"Update hover highlight on our own items by casting rays from each hand."
 
-	| nearest |
-	self world avatar hands do: [:hand | | |
-		nearest := (hand rayBackward castNearestObjects: self children) ifNotNil: #object.
-		
-		self childrenDo: [:item |
-			item isMenuItem ifTrue: [
-				item hovered: (item == nearest or: [item == submenuItem])]]].
+	| avatar hovered |
+	avatar := self world ifNotNil: [:w | w avatar].
+	avatar ifNil: [^ self].
+	hovered := IdentitySet new.
+	avatar hands do: [:hand |
+		(hand rayForward castNearestObjects: self children)
+			ifNotNil: [:result | hovered add: result object]].
+	submenuItem ifNotNil: [hovered add: submenuItem].
+	self setHoveredItems: hovered.
 ]
 
 {
@@ -522,4 +554,13 @@ SRMenu >> submenu [
 }
 SRMenu >> submenuWasRemoved: aMenu [
 	submenu == aMenu ifTrue: [submenu := nil. submenuItem := nil].
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenu >> travelsWithAvatar [
+
+	^ true
 ]

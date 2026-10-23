@@ -20,16 +20,24 @@ Class {
 		'ghostAvatar',
 		'project',
 		'cameraTransform',
-		'cycleSemaphore'
+		'steppedObjectsBuffer',
+		'firstPassRenderBuffer',
+		'secondPassRenderBuffer',
+		'traversalStack',
+		'pendingFrameActions',
+		'cycleSemaphore',
+		'floorGeometry'
 	],
 	#classVars : [
 		'Current',
+		'ForcedScavenges',
+		'FrameStartEdenPercent',
 		'KeyDict',
 		'LogFPS',
-		'PendingFrameActions',
 		'RenderFrame',
 		'RunStartScriptInFlat',
 		'RunStartScriptInXR',
+		'ScavengeAtFrameStart',
 		'StartMCPServer'
 	],
 	#category : #'SqueakXR-Objects'
@@ -462,21 +470,34 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> activeApp [
+
+	^ children detect: [:each | each isApp] ifNone: [nil]
+]
+
+{
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'jl 8/11/2026 16:27'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> addDeferredFrameMessage: aBlock [
-	
-	self pendingFrameActions add: aBlock
+
+	self isRunning ifFalse: [^ self].
+	self pendingFrameActions add: aBlock.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/8/2026 13:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:45'
 }
 SRWorld >> adjustPreferences [
 
 	self log.
+	"Debug axes are installed per world, so a world started after the preference was
+	set would otherwise come up without them while the preference reads true."
+	self updateDebugAxes.
 	self isXR ifTrue: [
 		"Display relativeUiScaleFactor: 1.0."
 		UIManager openToolsAttachedToMouseCursor: false.
@@ -514,11 +535,51 @@ SRWorld >> camera [
 	^ self avatar camera
 ]
 
-{ #category : #'as yet unclassified' }
-SRWorld >> completeFrame [
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> collisionGeometry [
 
+	^ floorGeometry ifNil: [
+		floorGeometry := (SRCollisionPlane point: Vector3 zero normal: Vector3 up)
+			object: self;
+			yourself]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+}
+SRWorld >> completeFrame [
+	"Last thing before #endDrawing: raylib PollInputEvents runs there and empties both key 
+	queues."
 	isFramePrepared ifTrue: [
+
+		SRDesktopInputState current sample.
 		self renderer completeFrame]
+
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
+}
+SRWorld >> debugAxesLength [
+
+	^ 10m
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:06'
+}
+SRWorld >> debugAxesTargets [
+
+	| targets |
+	targets := OrderedCollection with: self.
+	self avatar ifNotNil: [:anAvatar | targets add: anAvatar].
+	^ targets
 ]
 
 {
@@ -582,6 +643,15 @@ SRWorld >> enterMorphicProject [
 ]
 
 {
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> firstPassRenderBuffer [
+
+	^ firstPassRenderBuffer ifNil: [firstPassRenderBuffer := OrderedCollection new: 256]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 11/11/2025 13:15'
 }
@@ -591,8 +661,17 @@ SRWorld >> gizmoPainter [
 ]
 
 {
+	#category : #interaction,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> grabTarget [
+
+	^ nil
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRWorld >> handleKeyPress: charCode [
 	| isShiftDown |
@@ -601,8 +680,7 @@ SRWorld >> handleKeyPress: charCode [
 
 	self keyboardFocus ifNil: [^ self].
 	
-	isShiftDown := ((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift]).
+	isShiftDown := SRDesktopInputState current isShiftDown.
 	self keyboardFocus keyboardEvent: ((self class keyFor: charCode shift: isShiftDown)
 		ifNil: [^ self])
 ]
@@ -655,6 +733,14 @@ SRWorld >> invalidateCache [
 
 	self renderer clearCache.
 	self cacheInvalidated.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 13:15'
+}
+SRWorld >> isProcessAlive [
+	^ worldProcess notNil and: [worldProcess isTerminated not]
 ]
 
 { #category : #accessing }
@@ -810,10 +896,11 @@ SRWorld >> openHandMenu [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> pendingFrameActions [
-	^ PendingFrameActions ifNil: [PendingFrameActions := OrderedCollection new]
+
+	^ pendingFrameActions ifNil: [pendingFrameActions := OrderedCollection new]
 ]
 
 { #category : #'as yet unclassified' }
@@ -836,17 +923,13 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:32'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> processKeyInput [
+	"The queue was drained in #completeFrame, before the raylib poll could discard it."
+	SRDesktopInputState current pressedKeyCodes do: [:each |
+		self handleKeyPress: each]
 
-	| keyValue keys |
-	keys := OrderedCollection new.
-	[(keyValue := Raylib getKeyPressed) = 0] whileFalse: [
-		keys add: keyValue].
-	
-	keys ifNotEmpty: [
-		keys do: [:k | self handleKeyPress: k]].
 ]
 
 {
@@ -891,18 +974,18 @@ SRWorld >> resume [
 
 {
 	#category : #'between-frame actions',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:55'
+	#'squeak_changestamp' : 'MCPServer 10/12/2026 17:44'
 }
 SRWorld >> runPendingBetweenFrameActions [
 	| due |
-	(PendingFrameActions isNil or: [PendingFrameActions isEmpty]) ifTrue: [^ self].
-	due := PendingFrameActions.
-	PendingFrameActions := OrderedCollection new.
+	(pendingFrameActions isNil or: [pendingFrameActions isEmpty]) ifTrue: [^ self].
+	due := pendingFrameActions.
+	pendingFrameActions := nil.
 	due do: [:each |
 		each ifNotNil: [
 			[each value]
 				on: Error
-				do: [:e | self log: 'between-frame action failed: ', e description]]]
+				do: [:e | self log: 'between-frame action failed: ', e description]]].
 ]
 
 {
@@ -989,6 +1072,15 @@ SRWorld >> runStartScript [
 ]
 
 {
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> secondPassRenderBuffer [
+
+	^ secondPassRenderBuffer ifNil: [secondPassRenderBuffer := OrderedCollection new: 256]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 10/13/2026 15:08'
 }
@@ -1053,24 +1145,60 @@ SRWorld >> startUp: resuming [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+}
+SRWorld >> startXR [
+	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer must be in place 
+	before #start."
+	self
+		isXR: true;
+		renderer: SRRaylibRendererXR new;
+		start.
+
+]
+
+{
+	#category : #'frame buffers',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> steppedObjectsBuffer [
+
+	^ steppedObjectsBuffer ifNil: [steppedObjectsBuffer := OrderedCollection new: 256]
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 13:16'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRWorld >> stop [
 
 	self invalidateCache;
 		isRunning: false;
 		allDo: #onWorldStopped.
+	pendingFrameActions := nil.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 4/29/2026 18:07'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRWorld >> stopAndWait [
+	"Best effort throughout, but SRWorld current must end up nil with the GPU handed back."
+	| deadline |
+	[[self stop] on: Error do: [:each | each return].
+	deadline := DateAndTime now + 3 seconds.
+	[self class current == self
+		and: [self isProcessAlive and: [DateAndTime now < deadline]]]
+			whileTrue: [(Delay forMilliseconds: 10) wait].
+	self class current == self ifTrue: [
 
-	self stop.
-	[self class current] whileNotNil: [Processor yield].
+		worldProcess ifNotNil: [:each | each terminate].
+		[self renderer ifNotNil: [:each | each shutdown]]
+			on: Error do: [:each | each return]]]
+		ensure: [
+			self class current == self ifTrue: [self class resetCurrent]].
+
 ]
 
 {
@@ -1116,6 +1244,31 @@ SRWorld >> updateCameraTransform [
 
 	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
 	self changed: #cameraTransformUpdated with: cameraTransform.
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:04'
+}
+SRWorld >> updateDebugAxes [
+
+	| show |
+	show := SRAxes showAxes.
+	self debugAxesTargets do: [:each | each showAxes: show].
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRWorld >> withAllObjectsDo: aBlock [
+
+	| stack |
+	stack := traversalStack.
+	traversalStack := nil.
+	stack ifNil: [stack := OrderedCollection new: 256].
+	self withAllObjectsDo: aBlock usingStack: stack.
+	traversalStack := stack.
 ]
 
 { #category : #accessing }

@@ -22,6 +22,15 @@ SRCollisionGeometry >> ifCollisionGeometry: aBlock [
 	^ aBlock value: self
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCollisionGeometry >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	^ self subclassResponsibility
+]
+
 { #category : #collisions }
 SRCollisionGeometry >> intersectsWithRay: aRay [
 
@@ -74,6 +83,19 @@ SRCollisionGeometry >> object [
 SRCollisionGeometry >> object: aSRObject [
 
 	object := aSRObject
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCollisionGeometry >> overlapsAlong: anAxis from: aDelta half: aHalfExtent query: aQueryHalfExtents [
+
+	| support |
+	support := (anAxis x abs * aQueryHalfExtents x)
+		+ (anAxis y abs * aQueryHalfExtents y)
+		+ (anAxis z abs * aQueryHalfExtents z).
+	^ (aDelta dot: anAxis) abs <= (aHalfExtent + support)
 ]
 
 { #category : #collisions }

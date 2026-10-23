@@ -50,6 +50,31 @@ SRCollisionBox >> halfExtents: aVector3 [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCollisionBox >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	| delta |
+	delta := aCentre - self center.
+	^ (self
+		overlapsAlong: (self rotation rotateVector: Vector3 right)
+		from: delta
+		half: self halfExtents x
+		query: aHalfExtents)
+		and: [(self
+			overlapsAlong: (self rotation rotateVector: Vector3 up)
+			from: delta
+			half: self halfExtents y
+			query: aHalfExtents)
+			and: [self
+				overlapsAlong: (self rotation rotateVector: Vector3 forward)
+				from: delta
+				half: self halfExtents z
+				query: aHalfExtents]]
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:46'
 }

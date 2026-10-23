@@ -10,6 +10,7 @@ Class {
 		'localScale',
 		'parent',
 		'transformDirtyFlag',
+		'transformVersion',
 		'name',
 		'isStepping',
 		'isRendering',
@@ -89,7 +90,7 @@ void main()
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'leo 8/12/2026 14:50'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
 }
 SRObject >> addChild: aSRObject [
 	
@@ -102,8 +103,8 @@ SRObject >> addChild: aSRObject [
 	(self hasAncestor: aSRObject) ifTrue: [
 		self error: 'Cannot add ancestor of SRObject as child'].
 	
-	aSRObject parent ifNotNil: [:parent |
-		parent privateRemoveChild: aSRObject].
+	aSRObject parent ifNotNil: [:aParent |
+		aParent privateRemoveChild: aSRObject].
 	
 	self children add: aSRObject.
 	aSRObject parent: self.
@@ -202,6 +203,15 @@ SRObject >> ancestorChain [
 		[current notNil] whileTrue: [
 			stream nextPut: current.
 			current := current parent]])
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> axes [
+
+	^ children detect: [:each | each isAxes] ifNone: [nil]
 ]
 
 {
@@ -378,6 +388,15 @@ SRObject >> continueStepping [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> debugAxesLength [
+
+	^ 2m
+]
+
+{
 	#category : #directions,
 	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
 }
@@ -537,11 +556,11 @@ SRObject >> globalTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:10'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> globalTransform: aMatrix4x4 [
 
-	globalTransform := aMatrix4x4.
+	globalTransform loadFrom: aMatrix4x4.
 	self globalTransformDirty.
 ]
 
@@ -618,7 +637,7 @@ SRObject >> hasParent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/20/2026 17:03'
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
 }
 SRObject >> initialize [
 
@@ -632,11 +651,31 @@ SRObject >> initialize [
 	visible := true.
 	
 	localTransform := Matrix4x4 identity.
+	globalTransform := Matrix4x4 identity.
+	transformVersion := 0.
 	localTranslation := Vector3 zero.
 	localRotation := Quaternion identity.
 	localScale := Vector3 one.
 	
 	self transformDirtyFlag: #localTransform.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> isApp [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> isAxes [
+
+	^ false
 ]
 
 {
@@ -712,6 +751,15 @@ SRObject >> isMorphPanel [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> isOpen [
+
+	^ parent notNil
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
@@ -720,10 +768,35 @@ SRObject >> isRendering [
 	^ isRendering and: [visible and: [badRender not]]
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+}
+SRObject >> isSolid [
+	"Governs the body sweep only. Picking and the teleport ray go through #collisionGeometry, 
+	so a menu can be hit by a ray without being something to stand on."
+	^ true
+
+]
+
 { #category : #stepping }
 SRObject >> isStepping [
 
 	^ isStepping and: [badStep not]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> isWithin: anSRObject [
+
+	| each |
+	each := self.
+	[each isNil] whileFalse: [
+		each == anSRObject ifTrue: [^ true].
+		each := each parent].
+	^ false
 ]
 
 {
@@ -825,11 +898,11 @@ SRObject >> localTransform [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:11'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> localTransform: aMatrix4x4 [
 
-	localTransform := aMatrix4x4.
+	localTransform loadFrom: aMatrix4x4.
 	self localTransformDirty.
 ]
 
@@ -882,10 +955,14 @@ SRObject >> name: aString [
 	name := aString
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
 SRObject >> notifyTransformChanged [
 
-	self childrenDo: [:object | object parentTransformDirty].
+	1 to: children size do: [:index |
+		(children at: index) parentTransformDirty].
 ]
 
 { #category : #events }
@@ -1073,11 +1150,13 @@ SRObject >> recursiveAllDo: aBlock [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:08'
+	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:19'
 }
 SRObject >> remove [
 
+	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
 	parent ifNotNil: [parent removeChild: self]
+
 ]
 
 {
@@ -1180,6 +1259,18 @@ SRObject >> scale: aVector3 [
 	self localScale: aVector3
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> sceneRoot [
+
+	| each |
+	each := self.
+	[each parent isNil] whileFalse: [each := each parent].
+	^ each
+]
+
 { #category : #'transforms - internal' }
 SRObject >> setLocalComponentsFrom: aMatrix4x4 [
 
@@ -1188,12 +1279,58 @@ SRObject >> setLocalComponentsFrom: aMatrix4x4 [
 	localScale := aMatrix4x4 scale.
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
 SRObject >> setLocalTransformFromComponents [
 
-	localTransform := (Matrix4x4 withOffset: localTranslation)
-		* (Matrix4x4 fromQuaternion: localRotation)
-		* (Matrix4x4 withScale: localScale)
+	localTransform
+		setTranslation: localTranslation
+		rotation: localRotation
+		scale: localScale.
+]
+
+{
+	#category : #transformation,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> setTransformAt: aPosition facingCamera: aCamera [
+
+	| direction up |
+	direction := aCamera forward.
+	up := (direction dot: Vector3 up) abs > 0.99
+		ifTrue: [aCamera up]
+		ifFalse: [Vector3 up].
+	self globalTransform: (Matrix4x4
+		objectLookAt: aPosition + direction
+		from: aPosition
+		up: up)
+]
+
+{
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
+}
+SRObject >> showAxes: aBoolean [
+
+	aBoolean
+		ifTrue: [self axes ifNil: [self addChild: (SRAxes length: self debugAxesLength)]]
+		ifFalse: [self axes ifNotNil: [:each | each remove]].
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> solidInBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	self sceneRoot allDo: [:each |
+		(each isWithin: self) ifFalse: [
+			each safeCollisionGeometry ifNotNil: [:geometry |
+				(geometry intersectsBoxCenter: aCentre halfExtents: aHalfExtents)
+					ifTrue: [^ true]]]].
+	^ false
 ]
 
 {
@@ -1247,6 +1384,15 @@ SRObject >> transformDirtyFlag: flag [
 	transformDirtyFlag := flag
 ]
 
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> transformVersion [
+
+	^ transformVersion
+]
+
 { #category : #transforms }
 SRObject >> translation [
 
@@ -1260,6 +1406,15 @@ SRObject >> translation: aVector3 [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> travelsWithAvatar [
+
+	^ false
+]
+
+{
 	#category : #directions,
 	#'squeak_changestamp' : 'lege 11/3/2025 18:03'
 }
@@ -1268,19 +1423,32 @@ SRObject >> up [
 	^ (self globalTransform localDirToGlobal: Vector3 up) normalize
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
 SRObject >> updateGlobalTransform [
 
-	globalTransform := self parentGlobalTransform * localTransform
+	self hasParent
+		ifTrue: [globalTransform
+			privateTransformMatrix: self parent globalTransform
+			with: localTransform
+			into: globalTransform]
+		ifFalse: [globalTransform loadFrom: localTransform].
+	transformVersion := transformVersion + 1.
 ]
 
-{ #category : #'transforms - internal' }
+{
+	#category : #'transforms - internal',
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 11:39'
+}
 SRObject >> updateTransformsFromGlobalTransform [
 
-	| transform |
-	transform := self parentGlobalTransform inverseTransformation * globalTransform.
-	localTransform := transform.
-	self setLocalComponentsFrom: transform
+	localTransform
+		privateTransformMatrix: self parentGlobalTransform inverseTransformation
+		with: globalTransform
+		into: localTransform.
+	self setLocalComponentsFrom: localTransform.
 ]
 
 { #category : #'transforms - internal' }
@@ -1324,29 +1492,29 @@ SRObject >> visible: aBoolean [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:41'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRObject >> withAllObjectsDo: aBlock [
-	"Pre-order, same order as #recursiveAllDo:, but with an explicit stack.
-	The recursive version creates one block closure per node; this one allocates
-	a single Array per traversal, and cannot overflow the Smalltalk stack."
 
-	| stack size node kids index |
-	stack := Array new: 64.
-	size := 1.
-	stack at: 1 put: self.
-	[size > 0] whileTrue: [
-		node := stack at: size.
-		stack at: size put: nil.
-		size := size - 1.
+	self withAllObjectsDo: aBlock usingStack: (OrderedCollection new: 64).
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRObject >> withAllObjectsDo: aBlock usingStack: aStack [
+
+	| node kids index |
+	aStack reset.
+	aStack addLast: self.
+	[aStack isEmpty] whileFalse: [
+		node := aStack removeLast.
 		aBlock cull: node.
 		kids := node children.
 		index := kids size.
-		size + index > stack size ifTrue: [
-			stack := stack grownBy: (size + index max: stack size)].
 		[index > 0] whileTrue: [
-			size := size + 1.
-			stack at: size put: (kids at: index).
+			aStack addLast: (kids at: index).
 			index := index - 1]].
 ]
 

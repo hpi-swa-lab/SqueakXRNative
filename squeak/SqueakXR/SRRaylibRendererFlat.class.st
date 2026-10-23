@@ -75,18 +75,19 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 10/1/2026 12:27'
+	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:12'
 }
 SRRaylibRendererFlat >> completeFrame [
-
+	"The loop only reschedules here, and it has to sit after #endDrawing, which discards unread 
+	input."
 	Raylib endMode3D.
 	self drawReticle.
-	
+
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
-	
-	1 milliSecond wait.
-	
+
 	Raylib endDrawing.
+
+	1 milliSecond wait.
 
 ]
 
@@ -132,7 +133,7 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
@@ -148,8 +149,8 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
-		beginMode3DCamera: camera;
-		drawGridSlices: 10 spacing: 1.
+		beginMode3DCamera: camera.
+	self drawGrid.
 	^ true
 ]
 
@@ -164,10 +165,12 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRRaylibRendererFlat >> setup [
 
+	SRDesktopInputState reset.
+	
 	self class highDpiEnabled ifTrue: [
 		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
 	

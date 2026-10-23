@@ -29,19 +29,19 @@ SqueakXRExtensionsTest >> testMatrix4x4FromQuaternion [
 
 {
 	#category : #'testing-matrix4x4',
-	#'squeak_changestamp' : 'lege 7/3/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:38'
 }
 SqueakXRExtensionsTest >> testMatrix4x4ObjectLookAt [
 
 	| m1 m2 |
-	m1 := Matrix4x4 objectLookAt: 0 @ 0 @ 1 from: 0 @ 0 @ 0 up: 0 @ 1 @ 0.
+	m1 := Matrix4x4 objectLookAt: Vector3 forward from: Vector3 zero up: Vector3 up.
 	self assertMatrix: m1 closeTo: Matrix4x4 identity.
 	
 	m2 := Matrix4x4 objectLookAt: 0 @ 0 @ 0 from: 1 @ 0 @ 0 up: 0 @ 1 @ 0.
 	self assertMatrix: m2 closeTo: #(
-		 0  0 -1  1
+		 0  0  1  1
 		 0  1  0  0
-		 1  0  0  0
+		-1  0  0  0
 		 0  0  0  1
 	).
 ]

@@ -21,11 +21,11 @@ SRInputDualAxisState class >> deadzone [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:33'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputDualAxisState >> horizontal [
 
-	^ horizontal > self class deadzone
+	^ horizontal abs > self class deadzone
 		ifTrue: [horizontal]
 		ifFalse: [0]
 ]
@@ -105,11 +105,11 @@ SRInputDualAxisState >> vector [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 8/5/2026 17:38'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRInputDualAxisState >> vertical [
 
-	^ vertical > self class deadzone
+	^ vertical abs > self class deadzone
 		ifTrue: [vertical]
 		ifFalse: [0]
 ]

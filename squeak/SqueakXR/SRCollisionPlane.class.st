@@ -63,6 +63,29 @@ SRCollisionPlane >> height: aNumber [
 	height := aNumber
 ]
 
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCollisionPlane >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	| delta |
+	delta := aCentre - self point.
+	(self overlapsAlong: self normal from: delta half: 0.0 query: aHalfExtents)
+		ifFalse: [^ false].
+	self isBounded ifFalse: [^ true].
+	^ (self
+		overlapsAlong: self up
+		from: delta
+		half: self height / 2
+		query: aHalfExtents)
+		and: [self
+			overlapsAlong: self side
+			from: delta
+			half: self width / 2
+			query: aHalfExtents]
+]
+
 { #category : #testing }
 SRCollisionPlane >> isBounded [
 

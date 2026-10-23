@@ -157,6 +157,14 @@ SRMenuItem >> isMenuItem [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
+}
+SRMenuItem >> isSolid [
+	^ false
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
@@ -211,15 +219,16 @@ SRMenuItem >> menu [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenuItem >> onRaycast: aSRRayIntersectionResult [
-	"Actions may take the activated item as an optional argument."
 
-	action ifNotNil: [action valueWithEnoughArguments: (Array with: self)].
-	self keepsMenuOpen ifTrue: [^ self].
+	action ifNotNil: [
+		action valueWithEnoughArguments:
+			(Array with: self with: (aSRRayIntersectionResult ifNotNil: [:r | r hand]))].
+
 	self menu ifNotNil: [:m |
-		m isSticky
+		(self keepsMenuOpen or: [m isSticky])
 			ifTrue: [m labelsChanged]
 			ifFalse: [m closeCascade]].
 ]

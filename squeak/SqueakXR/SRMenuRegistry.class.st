@@ -47,22 +47,28 @@ SRMenuRegistry class >> reset [
 
 {
 	#category : #registry,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:02'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRMenuRegistry >> buildRegistry [
+	"Sorted on printed keys: a computed row action is a block, and every block compares equal."
 	| found |
 	found := OrderedCollection new.
 	Smalltalk allClassesDo: [:aClass |
 		aClass class methodsDo: [:method |
 			method pragmasDo: [:p |
 				(self pragmaKeywords includes: p keyword) ifTrue: [
-					found add: (SRMenuEntry fromPragma: p)]]]].
+					found add: (SRMenuEntry fromPragma: p)].
+
+				p keyword == #xrMenuEntries ifTrue: [
+					found addAll: (aClass perform: method selector)]]]].
+
 	^ found asArray sort: [:a :b |
 		a pathString = b pathString
 			ifTrue: [a priority = b priority
-				ifTrue: [a selector <= b selector]
+				ifTrue: [a action printString <= b action printString]
 				ifFalse: [a priority < b priority]]
 			ifFalse: [a pathString <= b pathString]]
+
 ]
 
 {
