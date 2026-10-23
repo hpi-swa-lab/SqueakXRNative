@@ -179,14 +179,14 @@ SRMorphPanel >> detachedMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:24'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
 }
 SRMorphPanel >> fullTextureUpdate [
 
 	morph ifNil: [^ self].
 
 	self updatePlaneSize.
-	texture fullUpdate.
+	texture source notifyTextureChanged.
 	"The Morph may have been resized by something other than a handle."
 	self snapResizers.
 ]
@@ -248,22 +248,24 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'jl 8/12/2026 18:31'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
 }
 SRMorphPanel >> initialize [
 
 	super initialize.
 	
+	texture := SRTexture withSource: SRTextureSourceMorph new.
 	plane := SRPlane new
 		rotation: (Quaternion angle: 90 axis: Vector3 right);
 		addDependent: self;
 		grabTarget: self;
 		yourself.
-	texture := SRMorphTexture new.
 	lastClickPosition := nil.
 	resizers := OrderedCollection new.
 
-	plane material shader: texture shader.
+	plane material
+		shader: self morphicPanelShader;
+		texture: texture.
 
 	plane grabTarget: self.
 
@@ -331,7 +333,7 @@ SRMorphPanel >> morph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/15/2026 16:34'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
 }
 SRMorphPanel >> morph: aMorph [
 
@@ -341,20 +343,27 @@ SRMorphPanel >> morph: aMorph [
 	morph lastPanelPosition ifNotNil: [:position |
 		self globalTranslation: position].
 	morph setIsInMorphPanel.
-	texture morph: morph.
-	self updateTexture;
-		name: (morph knownName ifNil: [morph class asString]).
+	texture source morph: morph.
+	self name: (morph knownName ifNil: [morph class asString]).
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+}
+SRMorphPanel >> morphicPanelShader [
+
+	^ SRShader morphicPanel
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/11/2026 16:39'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
 }
 SRMorphPanel >> onCacheInvalidated [
 
 	super onCacheInvalidated.
 
-	texture resetTexture.
 	self fullTextureUpdate.
 ]
 
@@ -399,7 +408,7 @@ SRMorphPanel >> remountMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 3/16/2026 17:40'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
 }
 SRMorphPanel >> removeMorph [
 
@@ -407,7 +416,7 @@ SRMorphPanel >> removeMorph [
 		morph setInMorphPanel: false. "assumption: morph is only ever in one morph panel"
 		morph lastPanelPosition: self globalTranslation.
 		morph := nil.
-		texture removeMorph].
+		texture source morph: nil].
 ]
 
 {
@@ -418,17 +427,6 @@ SRMorphPanel >> removeResizers [
 
 	resizers do: [:each | each remove].
 	resizers := OrderedCollection new.
-]
-
-{
-	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/15/2026 13:54'
-}
-SRMorphPanel >> renderOn: aSRRenderer [
-
-	self morph ifNil: [^ self].
-	self updateTexture.
-	super renderOn: aSRRenderer.
 ]
 
 {
@@ -485,14 +483,4 @@ SRMorphPanel >> updatePlaneSize [
 	| ppm |
 	ppm := self pixelsPerMeter.
 	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm).
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'jl 8/11/2026 15:49'
-}
-SRMorphPanel >> updateTexture [
-
-	texture update ifNotNil: [:each |
-		plane material internalTexture: each].
 ]

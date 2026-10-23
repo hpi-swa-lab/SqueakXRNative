@@ -761,12 +761,9 @@ SRObject >> isOpen [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 18:24'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRObject >> isRendering [
-
-	"#and:and: takes real blocks, so it cannot be inlined and costs a closure per call.
-	This runs once per object per select pass, twice a frame."
 
 	^ isRendering and: [visible and: [badRender not]]
 ]
@@ -1153,14 +1150,13 @@ SRObject >> recursiveAllDo: aBlock [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:19'
 }
 SRObject >> remove [
 
-	"Before unparenting, while #world can still be reached: the avatar and its hands hold
-	the last grabbed, selected and menu object, and would retain this whole subtree."
 	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
-	self parent ifNotNil: [:aParent | aParent removeChild: self]
+	parent ifNotNil: [parent removeChild: self]
+
 ]
 
 {

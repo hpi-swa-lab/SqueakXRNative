@@ -15,9 +15,12 @@ SRTranscriptWindow >> initialize [
 	Transcript addDependent: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:10'
+}
 SRTranscriptWindow >> update: aSymbol [
 
 	aSymbol = #appendEntry ifTrue: [
-		self children first updateTexture]
+		self children first fullTextureUpdate].
 ]

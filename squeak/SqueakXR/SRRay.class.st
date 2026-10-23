@@ -18,22 +18,6 @@ SRRay class >> origin: aVector3 forward: anotherVector3 [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
-}
-SRRay >> allIntersectionsIn: anEnumerationBlock [
-	"anEnumerationBlock takes a one-argument block and feeds it every candidate object."
-
-	| intersections |
-	intersections := OrderedCollection new.
-	anEnumerationBlock value: [:object |
-		(self intersectionWith: object) ifNotNil: [:result |
-			intersections add: result]].
-	^ intersections sorted: [:intersectionA :intersectionB |
-		(self origin distanceTo: intersectionA point) < (self origin distanceTo: intersectionB point)]
-]
-
-{
-	#category : #raycast,
 	#'squeak_changestamp' : 'lege 10/6/2025 16:40'
 }
 SRRay >> cast: aSRWorld [
@@ -43,38 +27,48 @@ SRRay >> cast: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> castAll: anSRObject [
 
-	^ self allIntersectionsIn: [:aBlock | anSRObject allDo: aBlock]
+	| intersections |
+	intersections := OrderedCollection new.
+	anSRObject allDo: [:object |
+		(self intersectionWith: object) ifNotNil: [:result | intersections add: result]].
+	^ self sortedByDistance: intersections
 ]
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> castAllObjects: aCollectionOfSRObjects [
 
-	^ self allIntersectionsIn: [:aBlock | aCollectionOfSRObjects do: aBlock]
+	^ self sortedByDistance: (aCollectionOfSRObjects
+		collect: [:object | self intersectionWith: object]
+		thenSelect: [:result | result notNil])
 ]
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> castNearest: anSRObject [
 
-	^ self nearestIntersectionIn: [:aBlock | anSRObject allDo: aBlock]
+	^ (self castAll: anSRObject)
+		ifEmpty: [nil]
+		ifNotEmpty: [:results | results first]
 ]
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> castNearestObjects: aCollectionOfSRObjects [
 
-	^ self nearestIntersectionIn: [:aBlock | aCollectionOfSRObjects do: aBlock]
+	^ (self castAllObjects: aCollectionOfSRObjects)
+		ifEmpty: [nil]
+		ifNotEmpty: [:results | results first]
 ]
 
 {
@@ -102,33 +96,11 @@ SRRay >> forward: aVector3 [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'leo 9/29/2026 16:50'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRay >> intersectionWith: anSRObject [
 
-	"Not #collisionGeometryDo: -- a non-inlined block argument costs a closure per
-	object, and this runs over the whole tree on every raycast."
-
 	^ anSRObject safeCollisionGeometry ifNotNil: [:geometry | geometry rayIntersection: self]
-]
-
-{
-	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
-}
-SRRay >> nearestIntersectionIn: anEnumerationBlock [
-	"anEnumerationBlock takes a one-argument block and feeds it every candidate object."
-
-	| nearest nearestDistance |
-	nearestDistance := Float infinity.
-	anEnumerationBlock value: [:object |
-		(self intersectionWith: object) ifNotNil: [:result |
-			| distance |
-			distance := self origin distanceTo: result point.
-			distance < nearestDistance ifTrue: [
-				nearestDistance := distance.
-				nearest := result]]].
-	^ nearest
 ]
 
 { #category : #accessing }
@@ -147,4 +119,14 @@ SRRay >> origin: aVector3 [
 SRRay >> project: aNumber [
 
 	^ self origin + (self forward * aNumber)
+]
+
+{
+	#category : #raycast,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+}
+SRRay >> sortedByDistance: intersections [
+
+	^ intersections sorted: [:intersectionA :intersectionB |
+		(self origin distanceTo: intersectionA point) < (self origin distanceTo: intersectionB point)]
 ]

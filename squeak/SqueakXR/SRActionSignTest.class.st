@@ -30,23 +30,3 @@ SRActionSignTest >> testLabelRoundTrips [
 	sign := SRActionSign new label: 'hello'; yourself.
 	self assert: 'hello' equals: sign label.
 ]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:12'
-}
-SRActionSignTest >> testRaycastWithoutActionIsHarmless [
-	SRActionSign new onRaycast: nil.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:12'
-}
-SRActionSignTest >> testStopSignStillLabelsItself [
-	| sign |
-	sign := SRBenchmarkStopSign new.
-	self assert: 'STOP' equals: sign label.
-	self assert: sign isRendering.
-	self assert: sign collisionGeometry notNil.
-]

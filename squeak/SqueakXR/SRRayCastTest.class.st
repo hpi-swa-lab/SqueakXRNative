@@ -6,10 +6,10 @@ Class {
 
 {
 	#category : #helpers,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:07'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
 }
 SRRayCastTest >> planeAtZ: aNumber [
-	"Faces -Z, so a ray cast along +Z from the origin hits it head on."
+	"Faces -Z"
 
 	^ SRPlane new
 		position: 0 @ 0 @ aNumber;

@@ -80,7 +80,10 @@ Matrix4x4 >> prettyString [
 			(r < 4) ifTrue:[stream nextPut: Character cr]]]
 ]
 
-{ #category : #'*SqueakXR-helpers' }
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'leo 10/13/2026 14:42'
+}
 Matrix4x4 >> rotationQuaternion [
 	"adapted from
 	https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf "
@@ -89,13 +92,13 @@ Matrix4x4 >> rotationQuaternion [
 	
 	scale := self scale.
 	r11 := self a11 / scale x.
-	r21 := self a12 / scale x.
-	r31 := self a13 / scale x.
-	r12 := self a21 / scale y.
+	r21 := self a12 / scale y.
+	r31 := self a13 / scale z.
+	r12 := self a21 / scale x.
 	r22 := self a22 / scale y.
-	r32 := self a23 / scale y.
-	r13 := self a31 / scale z.
-	r23 := self a32 / scale z.
+	r32 := self a23 / scale z.
+	r13 := self a31 / scale x.
+	r23 := self a32 / scale y.
 	r33 := self a33 / scale z.
 	
 	r33 < 0

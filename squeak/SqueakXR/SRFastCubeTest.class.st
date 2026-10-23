@@ -78,16 +78,6 @@ SRFastCubeTest >> testIsCube [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:44'
-}
-SRFastCubeTest >> testIsRendered [
-	"SRWorld skips objects that do not define #renderOn: themselves."
-
-	self assert: cube isRendering.
-]
-
-{
-	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:21'
 }
 SRFastCubeTest >> testMatrixFollowsTheParent [

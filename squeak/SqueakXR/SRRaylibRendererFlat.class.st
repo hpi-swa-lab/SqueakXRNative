@@ -75,7 +75,7 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:12'
 }
 SRRaylibRendererFlat >> completeFrame [
 	"The loop only reschedules here, and it has to sit after #endDrawing, which discards unread 

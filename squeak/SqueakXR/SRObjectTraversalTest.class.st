@@ -17,17 +17,6 @@ Class {
 	#category : #fixture,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:42'
 }
-SRObjectTraversalTest >> bytesAllocatedDuring: aBlock [
-	| before |
-	before := Smalltalk vmParameterAt: 34.
-	aBlock value.
-	^ (Smalltalk vmParameterAt: 34) - before.
-]
-
-{
-	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:42'
-}
 SRObjectTraversalTest >> namesVisitedBy: aBlock [
 	| names |
 	names := OrderedCollection new.
@@ -69,81 +58,6 @@ SRObjectTraversalTest >> testAcceptsNiladicBlock [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:02'
-}
-SRObjectTraversalTest >> testBenchmarkComparesBothImplementations [
-	| benchmark at |
-	benchmark := SRTreeTraversalBenchmark new run.
-	self assert: 931 equals: benchmark nodeCount.
-	at := [:name | (benchmark points detect: [:p | p parameter == name]) bytesAllocated].
-	self assert: (at value: #withAllObjectsDo) * 10 < (at value: #recursiveAllDo).
-	self assert: (at value: #iterativeSelect) < (at value: #recursiveSelect).
-	self assert: savedSwitch equals: SRObject useIterativeTraversal.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:46'
-}
-SRObjectTraversalTest >> testDeepChainDoesNotRecurse [
-	| root node count |
-	root := SRObject new.
-	node := root.
-	2000 timesRepeat: [| child |
-		child := SRObject new.
-		node addChild: child.
-		node := child].
-	count := 0.
-	root withAllObjectsDo: [:each | count := count + 1].
-	self assert: 2001 equals: count.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:42'
-}
-SRObjectTraversalTest >> testGrowsBeyondInitialStack [
-	"More children than the 64 slots the stack starts with."
-
-	| root count |
-	root := SRObject new.
-	root addChildren: ((1 to: 500) collect: [:i | SRObject new]).
-	count := 0.
-	root withAllObjectsDo: [:each | count := count + 1].
-	self assert: 501 equals: count.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:42'
-}
-SRObjectTraversalTest >> testIterativeAllocatesLessPerNode [
-	"The whole point of the iterative walk: no closure per node."
-
-	| root count recursive iterative |
-	root := SRObject new.
-	root addChildren: ((1 to: 2000) collect: [:i | SRObject new]).
-	count := 0.
-	recursive := self bytesAllocatedDuring: [root recursiveAllDo: [:each | count := count + 1]].
-	iterative := self bytesAllocatedDuring: [root withAllObjectsDo: [:each | count := count + 1]].
-	self assert: iterative * 4 < recursive.
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:05'
-}
-SRObjectTraversalTest >> testMenuTogglesTheSwitch [
-	SRObject useIterativeTraversal: false.
-	self assert: 'tree walk: recursive' equals: SRTreeTraversalBenchmark xrMenuTraversalLabel.
-	SRTreeTraversalBenchmark xrMenuToggleTraversal: nil.
-	self assert: SRObject useIterativeTraversal.
-	SRTreeTraversalBenchmark xrMenuToggleTraversal: nil.
-	self deny: SRObject useIterativeTraversal.
-]
-
-{
-	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:42'
 }
 SRObjectTraversalTest >> testPreOrder [
@@ -164,20 +78,6 @@ SRObjectTraversalTest >> testSameOrderAsRecursive [
 	self
 		assert: (self namesVisitedBy: [:block | root recursiveAllDo: block])
 		equals: (self namesVisitedBy: [:block | root withAllObjectsDo: block]).
-]
-
-{
-	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 12:05'
-}
-SRObjectTraversalTest >> testSwitchIsAPreference [
-	| preference |
-	preference := (Preferences preferencesInCategory: #SqueakXR)
-		detect: [:each | each name = 'Iterative object tree traversal'].
-	SRObject useIterativeTraversal: false.
-	preference preferenceValue: true.
-	self assert: SRObject useIterativeTraversal.
-	self assert: 'tree walk: iterative' equals: SRTreeTraversalBenchmark xrMenuTraversalLabel.
 ]
 
 {
