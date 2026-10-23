@@ -6,7 +6,8 @@ Class {
 		'leftHand',
 		'rightHand',
 		'contextMenu',
-		'ghostAvatar'
+		'ghostAvatar',
+		'trackedHands'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -71,6 +72,17 @@ SRAvatar >> cameraPosition: position target: target up: up [
 SRAvatar >> contextMenu [
 
 	^ contextMenu
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:04'
+}
+SRAvatar >> enableHandTracking [
+
+	trackedHands := {SRTrackedHand left. SRTrackedHand right}.
+	self addChildren: trackedHands.
+	^ trackedHands
 ]
 
 {

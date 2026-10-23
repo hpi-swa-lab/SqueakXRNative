@@ -213,8 +213,8 @@ extern "C" SqueakXrActionStates pollActions() {
         if (xrInput.aimPoseState[i].isActive) {
             XrSpaceLocation spaceLocation {XR_TYPE_SPACE_LOCATION};
             if (XR_SUCCEEDED(xrLocateSpace(xrInput.aimPoseSpaces[i], rlGetPlaySpace(), time, &spaceLocation))) {
-                if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT != 0)
-                    && (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT != 0)) {
+                if (((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) != 0)
+                    && ((spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT) != 0)) {
                     actionStates.aimPoses[i] = spaceLocation.pose;
                 }
             } else {
@@ -304,4 +304,93 @@ extern "C" SqueakXrActionStates pollActions() {
     }
 
     return actionStates;
+}
+
+struct SqueakXrHandJoints {
+    XrHandJointLocationEXT leftJointLocations[XR_HAND_JOINT_COUNT_EXT];
+    XrHandJointLocationEXT rightJointLocations[XR_HAND_JOINT_COUNT_EXT];
+};
+
+SqueakXrHandJoints xrHandJoints;
+XrHandTrackerEXT xrHandTracker[2] = {XR_NULL_HANDLE, XR_NULL_HANDLE};
+XrHandJointLocationsEXT xrHandJointLocations[2];
+PFN_xrLocateHandJointsEXT pfnLocateHandJoints = nullptr;
+
+extern "C" bool initXrHandTracking() {
+    auto xrInstance = rlGetXRInstance();
+    auto xrSession = rlGetXRSession();
+    auto xrSystemId = rlGetSystemId();
+
+    XrSystemHandTrackingPropertiesEXT handTrackingProperties {
+        .type = XR_TYPE_SYSTEM_HAND_TRACKING_PROPERTIES_EXT,
+    };
+    XrSystemProperties systemProperties {
+        .type = XR_TYPE_SYSTEM_PROPERTIES,
+        .next = &handTrackingProperties,
+    };
+    if (XR_FAILED(xrGetSystemProperties(xrInstance, xrSystemId, &systemProperties))) {
+        std::cerr << "Failed to get system properties for hand tracking\n";
+        return false;
+    }
+
+    if (!handTrackingProperties.supportsHandTracking) {
+        std::cerr << "System does not support hand tracking\n";
+        return false;
+    }
+
+    PFN_xrCreateHandTrackerEXT pfnCreateHandTrackerExt = nullptr;
+    if (XR_FAILED(xrGetInstanceProcAddr(xrInstance, "xrCreateHandTrackerEXT", reinterpret_cast<PFN_xrVoidFunction*>(&pfnCreateHandTrackerExt)))) {
+        std::cerr << "Failed to retrieve function pointer for xrCreateHandTrackerEXT (is XR_EXT_hand_tracking enabled?)\n";
+        return false;
+    }
+
+    if (XR_FAILED(xrGetInstanceProcAddr(xrInstance, "xrLocateHandJointsEXT", reinterpret_cast<PFN_xrVoidFunction*>(&pfnLocateHandJoints)))) {
+        std::cerr << "Failed to retrieve function pointer for xrLocateHandJointsEXT\n";
+        return false;
+    }
+
+    const XrHandEXT hands[2] = {XR_HAND_LEFT_EXT, XR_HAND_RIGHT_EXT};
+    XrHandJointLocationEXT *jointLocations[2] = {xrHandJoints.leftJointLocations, xrHandJoints.rightJointLocations};
+    for (size_t i = 0; i < 2; ++i) {
+        if (xrHandTracker[i] == XR_NULL_HANDLE) {
+            XrHandTrackerCreateInfoEXT createInfo {
+                .type = XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT,
+                .hand = hands[i],
+                .handJointSet = XR_HAND_JOINT_SET_DEFAULT_EXT,
+            };
+            if (XR_FAILED(pfnCreateHandTrackerExt(xrSession, &createInfo, &xrHandTracker[i]))) {
+                std::cerr << "Failed to create hand tracker for " << fromXrPath(xrInput.handPaths[i]) << "\n";
+                return false;
+            }
+        }
+
+        xrHandJointLocations[i] = {
+            .type = XR_TYPE_HAND_JOINT_LOCATIONS_EXT,
+            .jointCount = XR_HAND_JOINT_COUNT_EXT,
+            .jointLocations = jointLocations[i],
+        };
+    }
+
+    return true;
+}
+
+extern "C" SqueakXrHandJoints pollHandJoints() {
+    const auto time = rlOpenXRGetTime(); // alternatively rlGetPredictedDisplayTime()
+
+    XrHandJointsLocateInfoEXT locateInfo {
+            .type = XR_TYPE_HAND_JOINTS_LOCATE_INFO_EXT,
+            .baseSpace = rlGetPlaySpace(),
+            .time = time,
+    };
+
+    for (size_t i = 0; i < 2; ++i) {
+        if (xrHandTracker[i] == XR_NULL_HANDLE || pfnLocateHandJoints == nullptr) continue;
+
+        const auto result = pfnLocateHandJoints(xrHandTracker[i], &locateInfo, &xrHandJointLocations[i]);
+        if (XR_FAILED(result)) {
+            std::cerr << "Failed to retrieve hand joint locations (" << result << ")\n";
+        }
+    }
+
+    return xrHandJoints;
 }
