@@ -73,12 +73,18 @@ SRRay >> castNearestObjects: aCollectionOfSRObjects [
 
 {
 	#category : #casting,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (MCPServer (MCPServer)) 10/23/2026 11:01'
 }
 SRRay >> castNearestSolid: anSRObject [
 
-	^ self nearestIntersectionIn: [:aBlock |
-		anSRObject allDo: [:each | each isSolid ifTrue: [aBlock value: each]]]
+	| intersections |
+	intersections := OrderedCollection new.
+	anSRObject allDo: [:object |
+		object isSolid ifTrue: [
+			(self intersectionWith: object) ifNotNil: [:result | intersections add: result]]].
+	^ (self sortedByDistance: intersections)
+		ifEmpty: [nil]
+		ifNotEmpty: [:results | results first]
 ]
 
 { #category : #accessing }
