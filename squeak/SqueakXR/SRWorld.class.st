@@ -26,7 +26,8 @@ Class {
 		'traversalStack',
 		'pendingFrameActions',
 		'cycleSemaphore',
-		'floorGeometry'
+		'floorGeometry',
+		'supportsHandTracking'
 	],
 	#classVars : [
 		'Current',
@@ -685,6 +686,16 @@ SRWorld >> handleKeyPress: charCode [
 		ifNil: [^ self])
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/21/2026 14:57'
+}
+SRWorld >> initXrHandTracking [
+
+	<cdecl: bool 'initXrHandTracking' () module: 'squeakxrnative'>
+	^ self externalCallFailed
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> initXrInput [
 
@@ -717,13 +728,19 @@ SRWorld >> initialize [
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'MCPServer 6/9/2026 14:57'
+	#'squeak_changestamp' : 'leo 10/23/2026 15:04'
 }
 SRWorld >> initializeWorldProcess [
 	
 	self log.
 	self renderer setup.
-	self isXR ifTrue: [self initXrInput].
+	self isXR ifTrue: [
+		self log: 'initXrInput'.
+		self initXrInput.
+		self log: 'initXrHandTracking'.
+		supportsHandTracking := self initXrHandTracking.
+		Transcript showln: 'Handtracking: ', supportsHandTracking asString.
+		self avatar enableHandTracking do: [:hand | self addDependent: hand]].
 	Smalltalk at: #XRWorld put: self.
 	self allDo: #onWorldStarted.
 ]
@@ -911,6 +928,16 @@ SRWorld >> pollActions [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/22/2026 16:44'
+}
+SRWorld >> pollHandJoints [
+
+	<cdecl: SXrHandJoints 'pollHandJoints' () module: 'squeakxrnative'>
+	^ self externalCallFailed
+]
+
+{
 	#category : #'render-loop',
 	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
 }
@@ -961,10 +988,11 @@ SRWorld >> renderer: aSRRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:11'
+	#'squeak_changestamp' : 'leo 10/21/2026 18:34'
 }
 SRWorld >> resume [
 	
+	self log: self isRunning asString.
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
@@ -1098,14 +1126,13 @@ SRWorld >> shutDown [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
+	#'squeak_changestamp' : 'leo 10/23/2026 14:59'
 }
 SRWorld >> start [
 
 	self class current ifNotNil: [self error: 'A world is already running!'].
 	
 	self log.
-	self log: 'here'.
 	self worldProcess: ([
 		self log: 'add avatar'.
 		self avatar ifNil: [
@@ -1227,12 +1254,14 @@ SRWorld >> suspend [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:35'
+	#'squeak_changestamp' : 'leo 10/23/2026 15:05'
 }
 SRWorld >> updateActions [
 
 	self isXR ifTrue: [
-		self changed: #actionsUpdated with: self pollActions].
+		self changed: #actionsUpdated with: self pollActions.
+		supportsHandTracking ifTrue: [
+			self changed: #handJointsUpdated with: self pollHandJoints]].
 	self processKeyInput.
 ]
 

@@ -58,6 +58,18 @@ Vector3 class >> fromRlVector3: aRlVector3 [
 		z: aRlVector3 z
 ]
 
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/22/2026 18:15'
+}
+Vector3 class >> fromXrVector3f: anXrVector3f [
+
+	^ self
+		x: anXrVector3f x
+		y: anXrVector3f y
+		z: anXrVector3f z
+]
+
 { #category : #'*SqueakXR-helpers' }
 Vector3 class >> left [
 
@@ -83,6 +95,18 @@ Vector3 class >> random [
 Vector3 class >> right [
 
 	^ self x: 1 y: 0 z: 0
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/22/2026 18:15'
+}
+Vector3 >> setFromXrVector3f: anXrVector3f [
+
+	self
+		x: anXrVector3f x
+		y: anXrVector3f y
+		z: anXrVector3f z
 ]
 
 { #category : #'*SqueakXR-helpers' }

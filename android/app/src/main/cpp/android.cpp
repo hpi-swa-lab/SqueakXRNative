@@ -56,6 +56,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_st
     startScript = strdup(env->GetStringUTFChars(jStartScript, nullptr));
 }
 
+bool deferStartScript = true;
+extern "C" JNIEXPORT void JNICALL Java_com_swalab_squeakxrnative_MainActivity_storeDeferStartScript(JNIEnv *env, jobject /* jobj */, jboolean value) {
+    deferStartScript = value;
+}
+
 extern "C" struct android_app *GetAndroidApp(void);
 
 extern "C" void initOpenxr();
@@ -107,9 +112,14 @@ int main(int argc, char *argv[]) {
 //            source->process(app, source); }
 //    }
 
-    std::ostringstream startScriptStream;
-    startScriptStream << "Project current addDeferredUIMessage: [" << startScript << "]";
-    auto fullStartScript= strdup(startScriptStream.str().c_str());
+    char* fullStartScript;
+    if (deferStartScript) {
+        std::ostringstream startScriptStream;
+        startScriptStream << "Project current addDeferredUIMessage: [" << startScript << "]";
+        fullStartScript= strdup(startScriptStream.str().c_str());
+    } else {
+        fullStartScript = startScript;
+    }
     __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "DoIt: %s", fullStartScript);
 
     //"-doit", "Project current addDeferredUIMessage: [Transcript showln: 'THIS SHOULD SHOW UP ON STDOUT'. SRSyncServer start. [Processor activeProcess name: 'RENDERER'. SRRenderer new simpleDrawLoop] fork]",
@@ -118,7 +128,7 @@ int main(int argc, char *argv[]) {
 //    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
 
     auto *squeak_func_args = new SqueakFuncArgs {
-        .argv = {"squeak", /*"-vm-display-null",*/ squeakImagePath, "-doit", fullStartScript, "--", "--xr"},
+        .argv = {"squeak", /*"-vm-display-null",*/ squeakImagePath, "--", "--xr", "-doit", fullStartScript},
 //        .argc = argv2.size(),
     };
 

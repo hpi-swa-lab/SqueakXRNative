@@ -16,7 +16,8 @@ Class {
 		'blinkOverlay',
 		'body',
 		'locomotionEnabled',
-		'lastRigTranslation'
+		'lastRigTranslation',
+		'trackedHands'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
@@ -325,6 +326,17 @@ SRAvatar >> commitTeleport [
 SRAvatar >> contextMenu [
 
 	^ contextMenu
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:04'
+}
+SRAvatar >> enableHandTracking [
+
+	trackedHands := {SRTrackedHand left. SRTrackedHand right}.
+	self addChildren: trackedHands.
+	^ trackedHands
 ]
 
 {
