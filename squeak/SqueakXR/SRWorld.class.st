@@ -1208,24 +1208,12 @@ SRWorld >> stop [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/26/2026 15:57'
 }
 SRWorld >> stopAndWait [
-	"Best effort throughout, but SRWorld current must end up nil with the GPU handed back."
-	| deadline |
-	[[self stop] on: Error do: [:each | each return].
-	deadline := DateAndTime now + 3 seconds.
-	[self class current == self
-		and: [self isProcessAlive and: [DateAndTime now < deadline]]]
-			whileTrue: [(Delay forMilliseconds: 10) wait].
-	self class current == self ifTrue: [
 
-		worldProcess ifNotNil: [:each | each terminate].
-		[self renderer ifNotNil: [:each | each shutdown]]
-			on: Error do: [:each | each return]]]
-		ensure: [
-			self class current == self ifTrue: [self class resetCurrent]].
-
+	self stop.
+	[self class current] whileNotNil: [Processor yield].
 ]
 
 {
