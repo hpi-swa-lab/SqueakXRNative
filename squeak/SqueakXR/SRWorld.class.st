@@ -644,7 +644,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'phkeese 9/24/2026 13:04'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:58'
 }
 SRWorld >> initialize [
 
@@ -658,6 +658,7 @@ SRWorld >> initialize [
 	self addChild: gizmoPainter.
 	haloState := SRHaloState new.
 	self addChild: haloState.
+	self haloMode: SRHaloMode ignore.
 	
 	cameraTransform := RlTransform new.
 	
@@ -1169,14 +1170,6 @@ SRWorld >> updateCameraTransform [
 
 	Raylib rlOpenXRUpdateCameraTransform: cameraTransform.
 	self changed: #cameraTransformUpdated with: cameraTransform.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 12:34'
-}
-SRWorld >> wantsHalo [ 
-	^ false
 ]
 
 { #category : #accessing }
