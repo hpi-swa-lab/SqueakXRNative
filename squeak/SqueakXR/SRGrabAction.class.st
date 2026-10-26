@@ -29,9 +29,9 @@ SRGrabAction >> isGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:28'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
 }
-SRGrabAction >> perform: inputState [
+SRGrabAction >> run: inputState [
 
 	inputState squeeze isJustPressed ifTrue: [ self startGrabbing ].
 	inputState squeeze isJustReleased ifTrue: [ self stopGrabbing ].

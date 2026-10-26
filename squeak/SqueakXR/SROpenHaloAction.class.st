@@ -36,9 +36,9 @@ SROpenHaloAction >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 11:42'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
 }
-SROpenHaloAction >> perform: inputState [ 
+SROpenHaloAction >> run: inputState [ 
 
 	| start target |
 	inputState bottomButton isJustPressed ifFalse: [

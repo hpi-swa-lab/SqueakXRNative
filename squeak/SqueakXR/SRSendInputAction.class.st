@@ -34,9 +34,9 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/20/2026 11:02'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
 }
-SRSendInputAction >> perform: inputState [ 
+SRSendInputAction >> run: inputState [ 
 
 	"I send any inputs to the first target."
 	| events point target |

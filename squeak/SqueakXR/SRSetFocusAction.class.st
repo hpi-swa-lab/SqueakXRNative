@@ -6,9 +6,9 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:59'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
 }
-SRSetFocusAction >> perform: inputState [
+SRSetFocusAction >> run: inputState [
 
 	self hand cursor focusPoint: (self hand cursorPoint).
 	^ true
