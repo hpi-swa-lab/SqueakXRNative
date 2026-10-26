@@ -930,11 +930,11 @@ SRWorld >> pollActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/22/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/26/2026 17:58'
 }
 SRWorld >> pollHandJoints [
 
-	<cdecl: SXrHandJoints 'pollHandJoints' () module: 'squeakxrnative'>
+	<cdecl: SRXrHandJoints 'pollHandJoints' () module: 'squeakxrnative'>
 	^ self externalCallFailed
 ]
 
