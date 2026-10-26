@@ -728,7 +728,7 @@ SRWorld >> initialize [
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'leo 10/23/2026 15:04'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/26/2026 16:08'
 }
 SRWorld >> initializeWorldProcess [
 	
@@ -740,7 +740,8 @@ SRWorld >> initializeWorldProcess [
 		self log: 'initXrHandTracking'.
 		supportsHandTracking := self initXrHandTracking.
 		Transcript showln: 'Handtracking: ', supportsHandTracking asString.
-		self avatar enableHandTracking do: [:hand | self addDependent: hand]].
+		supportsHandTracking ifTrue: [
+			self avatar enableHandTracking do: [:hand | self addDependent: hand]]].
 	Smalltalk at: #XRWorld put: self.
 	self allDo: #onWorldStarted.
 ]
