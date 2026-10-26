@@ -1636,16 +1636,12 @@ SRObject >> wantsGrab [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:41'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 11:34'
 }
 SRObject >> wantsHalo [
 	
 	"Does this object want a Halo?"
-	^ self haloMode caseOf: {
-		[SRHaloMode want] -> [self parent ifNil: [false] ifNotNil: [:p | p allowsHalo]].
-		[SRHaloMode ignore] -> [false].
-		[SRHaloMode forbid] -> [false].
-	}
+	^ self haloMode = SRHaloMode want
 ]
 
 {

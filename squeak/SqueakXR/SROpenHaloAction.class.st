@@ -9,6 +9,24 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/26/2026 11:29'
+}
+SROpenHaloAction class >> findHaloTarget: start [
+
+	| target here |
+	here := start.
+	target := nil.
+	[ here ] whileNotNil: [
+		here allowsHalo ifFalse: [^nil].
+		here hasHalo ifTrue: [^target].
+		here wantsHalo ifTrue: [target := here].
+		here := here parent.
+	].
+	^ target
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 16:43'
 }
 SROpenHaloAction >> initialize [ 
@@ -18,28 +36,30 @@ SROpenHaloAction >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/20/2026 15:01'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 11:42'
 }
 SROpenHaloAction >> perform: inputState [ 
 
+	| start target |
 	inputState bottomButton isJustPressed ifFalse: [
 		"We only care about halos."
 		^ true
 	].
 
-	self hand cursorTarget 
+	start := self hand cursorTarget.
+	target := self class findHaloTarget: start.
+	target
 		ifNil: [ self hand haloState closeHalo ]
-		ifNotNil: [:target | | event |
-			event := (SRInputEventButton new
-				target: target;
-				point: self hand cursorPoint;
-				hand: self hand;
-				button: #bottomButton;
-				pressed: true
-			).
-			Transcript showln: 'Opening Halo on ', target.
-			target addHalo: event
-		].
+		ifNotNil: [ 
+			Transcript showln: 'Opening halo on ', (target ancestorChain collect: [:node | node name]) reverse.
+			target addHalo: (SRInputEventButton new
+			target: target;
+			point: self hand cursorPoint;
+			hand: self hand;
+			button: #bottomButton;
+			pressed: true
+		)
+	].
 	
 	^ false
 ]

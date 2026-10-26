@@ -1171,6 +1171,14 @@ SRWorld >> updateCameraTransform [
 	self changed: #cameraTransformUpdated with: cameraTransform.
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/26/2026 12:34'
+}
+SRWorld >> wantsHalo [ 
+	^ false
+]
+
 { #category : #accessing }
 SRWorld >> worldProcess [
 
