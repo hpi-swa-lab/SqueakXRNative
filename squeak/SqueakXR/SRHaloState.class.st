@@ -75,14 +75,14 @@ SRHaloState >> haloSpecies: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:18'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:20'
 }
 SRHaloState >> initialize [ 
 
 	super initialize.
 	outlines := Dictionary new.
 	highlights := Dictionary new.
-	haloSpecies := SRRingHalo
+	haloSpecies := SRButterflyHalo.
 ]
 
 {

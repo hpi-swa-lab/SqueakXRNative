@@ -4,6 +4,8 @@ A SRHaloHandle is a handle to be placed on a halo.
 Instance Variables
 clickAction - Called whenever the button is clicked on.
 dragAction 	- Called when the button is dragged by a cursor.
+grabAction 	- Called when grabbing this handle.
+dropAction 	- Called then releasing this handle.
 "
 Class {
 	#name : #SRHaloHandle,
@@ -11,12 +13,14 @@ Class {
 	#instVars : [
 		'clickAction',
 		'dragAction',
+		'dropAction',
 		'cube',
 		'text',
-		'originalTransform'
+		'originalTransform',
+		'grabAction'
 	],
 	#category : #'SqueakXR-Halo',
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:15'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
 }
 
 {
@@ -87,6 +91,38 @@ SRHaloHandle >> dragTo: aMatrix4x4 [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
+}
+SRHaloHandle >> dropAction [
+	^ dropAction
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
+}
+SRHaloHandle >> dropAction: anObject [
+	dropAction := anObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
+}
+SRHaloHandle >> grabAction [
+	^ grabAction
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
+}
+SRHaloHandle >> grabAction: anObject [
+	grabAction := anObject
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:28'
 }
@@ -121,20 +157,24 @@ SRHaloHandle >> onButtonPress: event [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:40'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:36'
 }
 SRHaloHandle >> onGrabStarted: aHand [
 
-	originalTransform := self globalTransform
+	originalTransform := self globalTransform.
+	self grabAction ifNotNil: [:action | 
+		action cull: aHand cull: self globalTransform
+	]
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:40'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
 }
 SRHaloHandle >> onGrabStopped: aHand [
 
-	self globalTransform: originalTransform
+	self globalTransform: originalTransform.
+	self dropAction ifNotNil: [:action | action cull: aHand]
 ]
 
 {
