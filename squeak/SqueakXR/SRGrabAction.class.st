@@ -29,11 +29,27 @@ SRGrabAction >> isGrabbing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 16:50'
+}
+SRGrabAction >> prepareGrab: target [
+	
+	target ifNil: [^self].
+	grabbedRelativeTransform := self hand cursor grabbingTransform inverseTransformation * target globalTransform.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/26/2026 16:56'
 }
 SRGrabAction >> run: inputState [
 
-	inputState squeeze isJustPressed ifTrue: [ self startGrabbing ].
+	inputState squeeze isJustPressed ifTrue: [ | target |
+		target := self hand cursorTarget ifNil: [^true].
+		target := target grabTarget.
+		target canGrab ifFalse: [^true].
+		self prepareGrab: target.
+		self startGrabbing: target
+	].
 	inputState squeeze isJustReleased ifTrue: [ self stopGrabbing ].
 	self dragGrabbedObject.
 	
@@ -42,16 +58,11 @@ SRGrabAction >> run: inputState [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:20'
+	#'squeak_changestamp' : 'phkeese 10/26/2026 16:49'
 }
-SRGrabAction >> startGrabbing [ 
+SRGrabAction >> startGrabbing: target [
 
-	| target |
-	target := self hand cursorTarget ifNil: [ ^ self ].
-	target := target grabTarget.
-	target canGrab ifFalse: [^self].
 	grabbedObject := target.
-	grabbedRelativeTransform := self hand cursor grabbingTransform inverseTransformation * grabbedObject globalTransform.
 	grabbedObject startGrabbing: self hand.
 ]
 
