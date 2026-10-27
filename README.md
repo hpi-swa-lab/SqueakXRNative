@@ -86,23 +86,33 @@ If you connect the headset to another machine (e.g. your development device), yo
 
 ### Windows, Linux, macOS
 
-#### With OpenXR
+On desktop, SqueakXR runs in a regular Squeak VM that loads the `squeakxrnative` shared library. Make sure you have an up-to-date version of Squeak.
 
-*TODO*
+#### Prerequisites
 
-#### Without OpenXR (flat only)
+- CMake 3.22.1 or newer and a C/C++ compiler (MSVC, GCC/Clang or Xcode command line tools).
+- raylib, rlOpenXR and GLFW are fetched and built automatically during the CMake configure step.
+- **Linux only**: the GLFW build needs the X11/Wayland headers, e.g. on Debian/Ubuntu: `sudo apt install libwayland-dev libxkbcommon-dev xorg-dev`.
 
-Make sure you have an up-to-date version of Squeak.
+#### Compile the library
 
-[GLFW](https://www.glfw.org) is required as a dependency.
-
-Compile the library:
+Run from the repository root:
 
 ```
-mkdir build
-cmake -DENABLE_RLOPENXR=OFF -DENABLE_ANDROID=OFF -S ../android/app/src/main/cpp/ -B build
+cmake -DENABLE_RLOPENXR=OFF -S desktop -B build
 cmake --build build
 ```
+
+This produces `libsqueakxrnative.dylib` (macOS), `libsqueakxrnative.so` (Linux) or `squeakxrnative.dll` (Windows) in `build/`.
+
+`ENABLE_RLOPENXR` controls OpenXR support and defaults to `ON`:
+
+- **Without OpenXR (flat only)**: pass `-DENABLE_RLOPENXR=OFF` as above. This is the only option on macOS, which has no OpenXR runtime and only supports OpenGL up to 4.1.
+- **With OpenXR**: omit the flag (or pass `-DENABLE_RLOPENXR=ON`). This requests OpenGL 4.3, which SteamVR needs.
+
+The option is cached in `build/`. When switching between the two, delete the `build/` directory first.
+
+#### Install the library
 
 Ensure that the library is available to Squeak by copying it to the correct location.
 
@@ -220,7 +230,7 @@ Make sure that the `initialize` method of your object calls `super initialize`; 
 
 ## Working with dependencies locally
 
-You can work with local copies of some dependencies by setting the following variables to the respective paths in `android/dev.properties` (`var=path`):
+You can work with local copies of some dependencies by setting the following variables to the respective paths in `dev.properties` in the repository root (`var=path`):
 
 ```
 rlOpenXRRepo
