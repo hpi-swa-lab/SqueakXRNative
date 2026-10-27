@@ -31,16 +31,16 @@ SROpenHaloAction class >> findHaloTarget: start [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 17:03'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
 }
 SROpenHaloAction class >> grabAngleThreshold [
 	
-	^10
+	^5 "degrees"
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:59'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:30'
 }
 SROpenHaloAction class >> grabMovementThreshold [
 	
@@ -49,11 +49,11 @@ SROpenHaloAction class >> grabMovementThreshold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 17:03'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
 }
 SROpenHaloAction class >> grabTimeout [ 
 
-	^2
+	^0.5 "seconds"
 ]
 
 {
@@ -158,15 +158,16 @@ SROpenHaloAction >> run: inputState [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 17:02'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
 }
 SROpenHaloAction >> shouldGrab [
 
-	| handXform |
+	| handXform angleDiff |
 	(timeout <= Time now) ifTrue: [^true].
 	handXform := self hand globalTransform.
-	"(limboXform translation distanceTo: handXform translation) > self class grabMovementThreshold ifTrue: [^true]."
-	((limboXform localPointToGlobal: Vector3 right) angleTo: (handXform localPointToGlobal: Vector3 right)) > self class grabAngleThreshold degreesToRadians ifTrue: [^true].
+	(limboXform translation distanceTo: handXform translation) > self class grabMovementThreshold ifTrue: [^true].
+	angleDiff := (handXform rotationQuaternion inverse * limboXform rotationQuaternion) angle.
+	(self class grabAngleThreshold <= angleDiff abs) ifTrue: [^true].
 	^false
 ]
 
