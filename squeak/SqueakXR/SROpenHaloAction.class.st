@@ -2,11 +2,10 @@ Class {
 	#name : #SROpenHaloAction,
 	#superclass : #SRGrabAction,
 	#instVars : [
-		'lastEvent',
 		'state',
-		'timeout',
-		'limboTime',
-		'limboTarget'
+		'limboTarget',
+		'grabTarget',
+		'limboTime'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -31,123 +30,122 @@ SROpenHaloAction class >> findHaloTarget: start [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:30'
 }
-SROpenHaloAction class >> grabAngleThreshold [
-	
-	^5 "degrees"
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:30'
-}
-SROpenHaloAction class >> grabMovementThreshold [
-	
-	^5cm
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:11'
-}
-SROpenHaloAction class >> grabTimeout [ 
+SROpenHaloAction class >> limboTimeout [ 
 
 	^0.5 "seconds"
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:45'
-}
-SROpenHaloAction >> grabLimboTarget [
-
-	| target |
-	limboTarget ifNil: [^self].
-	self hand haloState closeHalo.
-	self state: #grabbing:.
-	target := limboTarget grabTarget.
-	target grabbingHand ifNotNil: [^self].
-	Transcript showln: 'Grabbing ', target.
-	self startGrabbing: target.
-	self hand cursor progress: 0.
-
-
-]
-
-{
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:43'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:29'
 }
-SROpenHaloAction >> grabbing: inputState [
+SROpenHaloAction >> closingState: inputState [ 
 
 	inputState bottomButton isJustReleased ifTrue: [
-		self state: #idle:.
-		self stopGrabbing.
-		^ false.
+		self hand haloState closeHalo.
+		state := #idleState:.
 	].
-	self dragGrabbedObject.
-	^ self isGrabbing not
+	^false
 ]
 
 {
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:40'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:32'
 }
-SROpenHaloAction >> idle: inputState [
+SROpenHaloAction >> grabProgress [ 
 
-	inputState bottomButton isJustPressed ifFalse: [
-		"We only care about halos."
-		^ true
-	] ifTrue: [
-		limboTime := Time now.
-		limboTarget := self hand cursorTarget.
-		limboTarget ifNotNil: [self prepareGrab: limboTarget grabTarget].
-		self state: #limbo:.
-		^ false
-	]
-	
+	^self timeInLimbo / self class limboTimeout
+]
+
+{
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:54'
+}
+SROpenHaloAction >> grabbingState: inputState [ 
+
+	inputState bottomButton isJustReleased ifTrue: [
+		self stopGrabbing.
+		self hand cursor progress: 0.
+		state := #idleState:.
+		^false
+	].
+	self hand cursor progress: 1.
+	self dragGrabbedObject.
+	^false
+]
+
+{
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:45'
+}
+SROpenHaloAction >> idleState: inputState [ 
+
+	inputState bottomButton isJustPressed ifFalse: [^true].
+	limboTarget := self hand cursorTarget.
+	limboTarget ifNil: [
+		state := #closingState:.
+		^false
+	].
+	limboTime := Time now.
+	grabTarget := limboTarget grabTarget.
+	grabTarget grabbingHand 
+		ifNil: [
+			self prepareGrab: grabTarget.
+			state := #limboState:.
+		] ifNotNil: [
+			state := #openingState:.
+		].
+	^false
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:06'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:19'
 }
 SROpenHaloAction >> initialize [ 
 
-	lastEvent := Sensor eventTimeNow.
-	state := #idle:.
+	super initialize.
+	state := #idleState:.
 ]
 
 {
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:44'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:55'
 }
-SROpenHaloAction >> limbo: inputState [ 
+SROpenHaloAction >> limboState: inputState [ 
 
 	inputState bottomButton isJustReleased ifTrue: [
-		self state: #idle:.
+		self openHalo.
 		self hand cursor progress: 0.
-		^self openHalo
+		state := #idleState:.
+		^false
+	].
+	
+	self shouldGrab ifTrue: [
+		grabTarget ifNotNil: [ self startGrabbing: grabTarget ].
+		state := #grabbingState:.
+		^false.
 	].
 
-	self shouldGrab ifTrue: [ self grabLimboTarget. ^false ].
-	self hand cursor progress: (self timeInLimbo / self class grabTimeout).
+	"No transitions, update progress!"
+	self hand cursor progress: self grabProgress.
 
-	^true
+	^false
+
+
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:39'
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:42'
 }
-SROpenHaloAction >> openHalo [
-	
+SROpenHaloAction >> openHalo [ 
+
 	| target |
 	target := self class findHaloTarget: limboTarget.
-	target
-		ifNil: [ self hand haloState closeHalo ]
-		ifNotNil: [ 
+	target ifNotNil: [ 
 			Transcript showln: 'Opening halo on ', (target ancestorChain collect: [:node | node name]) reverse.
 			target addHalo: (SRInputEventButton new
 			target: target;
@@ -156,9 +154,21 @@ SROpenHaloAction >> openHalo [
 			button: #bottomButton;
 			pressed: true
 		)
-	].
+	] ifNil: [ self hand haloState closeHalo ].
 	
 	^ false	
+]
+
+{
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:46'
+}
+SROpenHaloAction >> openingState: inputState [ 
+
+	inputState bottomButton isJustReleased ifFalse: [^false].
+	self shouldGrab ifFalse: [self openHalo].
+	state := #idleState:.
+	^false
 ]
 
 {
@@ -172,32 +182,18 @@ SROpenHaloAction >> run: inputState [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:55'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:30'
 }
-SROpenHaloAction >> shouldGrab [
+SROpenHaloAction >> shouldGrab [ 
 
-	^self timeInLimbo >= self class grabTimeout
-	"handXform := self hand globalTransform.
-	(limboXform translation distanceTo: handXform translation) > self class grabMovementThreshold ifTrue: [^true].
-	angleDiff := (handXform rotationQuaternion inverse * limboXform rotationQuaternion) angle.
-	(self class grabAngleThreshold <= angleDiff abs) ifTrue: [^true]."
+	^self timeInLimbo >= self class limboTimeout
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:32'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 14:32'
 }
-SROpenHaloAction >> state: aSelector [
-
-	Transcript showln: 'New state: ', state, ' -> ', aSelector.
-	state := aSelector.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:10'
-}
-SROpenHaloAction >> timeInLimbo [
+SROpenHaloAction >> timeInLimbo [ 
 
 	^(limboTime to: Time now) duration asMilliSeconds / 1000
 ]
