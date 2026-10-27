@@ -248,7 +248,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
+	#'squeak_changestamp' : 'jl 10/27/2026 14:07'
 }
 SRMorphPanel >> initialize [
 
@@ -256,7 +256,8 @@ SRMorphPanel >> initialize [
 	
 	texture := SRTexture withSource: SRTextureSourceMorph new.
 	plane := SRPlane new
-		rotation: (Quaternion angle: 90 axis: Vector3 right);
+		rotation: (Quaternion angle: 90 axis: Vector3 right)
+					* (Quaternion angle: 180 axis: Vector3 up);
 		addDependent: self;
 		grabTarget: self;
 		yourself.

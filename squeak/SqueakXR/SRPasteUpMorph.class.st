@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/29/2026 17:57'
+	#'squeak_changestamp' : 'jl 10/27/2026 14:00'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
