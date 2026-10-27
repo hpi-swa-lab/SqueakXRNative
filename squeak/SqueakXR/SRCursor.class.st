@@ -10,7 +10,8 @@ Class {
 	#instVars : [
 		'hand',
 		'focusPoint',
-		'focusCube'
+		'focusCube',
+		'progress'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:01'
@@ -116,12 +117,13 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:11'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:49'
 }
 SRCursor >> initialize [ 
 
 	super initialize.
 	self cursorMode: SRCursorMode stop.
+	self progress: 0.
 
 ]
 
@@ -144,6 +146,22 @@ SRCursor >> intersectionsSelect: aBlock [
 	
 	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
 	^ self intersections select: aBlock
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:50'
+}
+SRCursor >> progress [
+	^ progress
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:50'
+}
+SRCursor >> progress: anObject [
+	progress := anObject
 ]
 
 {

@@ -105,19 +105,22 @@ SRPointRayCursor >> intersections [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:09'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:12'
 }
 SRPointRayCursor >> step: deltaTime [ 
 
-	| end focus start |
+	| end focus start progressEnd |
 	super step: deltaTime.
 	start := gogo globalTranslation.
 	focus := self focusPoint ifNil: [ gogo globalTranslation ].
 	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
+	progressEnd := (focus - start) * self progress + start.
 	self gizmoPainter 
 		gizmoLine: start to: focus color: self color;
+		gizmoLine: start to: progressEnd color: Color white;
 		gizmoLine: focus to: end color: Color gray;
 		gizmoWireSphere: start size: self class grabRadius * 2 color: self color.
+	
 
 ]
 

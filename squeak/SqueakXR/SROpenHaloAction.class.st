@@ -5,8 +5,8 @@ Class {
 		'lastEvent',
 		'state',
 		'timeout',
-		'grabTarget',
-		'limboXform'
+		'limboTime',
+		'limboTarget'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -49,7 +49,7 @@ SROpenHaloAction class >> grabMovementThreshold [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:11'
 }
 SROpenHaloAction class >> grabTimeout [ 
 
@@ -58,6 +58,25 @@ SROpenHaloAction class >> grabTimeout [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:45'
+}
+SROpenHaloAction >> grabLimboTarget [
+
+	| target |
+	limboTarget ifNil: [^self].
+	self hand haloState closeHalo.
+	self state: #grabbing:.
+	target := limboTarget grabTarget.
+	target grabbingHand ifNotNil: [^self].
+	Transcript showln: 'Grabbing ', target.
+	self startGrabbing: target.
+	self hand cursor progress: 0.
+
+
+]
+
+{
+	#category : #states,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 16:43'
 }
 SROpenHaloAction >> grabbing: inputState [
@@ -72,8 +91,8 @@ SROpenHaloAction >> grabbing: inputState [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:52'
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:40'
 }
 SROpenHaloAction >> idle: inputState [
 
@@ -81,10 +100,9 @@ SROpenHaloAction >> idle: inputState [
 		"We only care about halos."
 		^ true
 	] ifTrue: [
-		timeout := Time now addSeconds: self class grabTimeout.
-		grabTarget := self hand cursorTarget ifNotNil: [:tgt | tgt grabTarget ].
-		self prepareGrab: grabTarget.
-		limboXform := self hand globalTransform.
+		limboTime := Time now.
+		limboTarget := self hand cursorTarget.
+		limboTarget ifNotNil: [self prepareGrab: limboTarget grabTarget].
 		self state: #limbo:.
 		^ false
 	]
@@ -102,35 +120,31 @@ SROpenHaloAction >> initialize [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:54'
+	#category : #states,
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:44'
 }
 SROpenHaloAction >> limbo: inputState [ 
 
 	inputState bottomButton isJustReleased ifTrue: [
 		self state: #idle:.
+		self hand cursor progress: 0.
 		^self openHalo
 	].
 
-	self shouldGrab ifTrue: [
-		self state: #grabbing:.
-		Transcript showln: 'Grabbing ', grabTarget.
-		self startGrabbing: grabTarget.
-		^false
-	].
+	self shouldGrab ifTrue: [ self grabLimboTarget. ^false ].
+	self hand cursor progress: (self timeInLimbo / self class grabTimeout).
 
 	^true
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:14'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:39'
 }
 SROpenHaloAction >> openHalo [
 	
-	| start target |
-	start := self hand cursorTarget.
-	target := self class findHaloTarget: start.
+	| target |
+	target := self class findHaloTarget: limboTarget.
 	target
 		ifNil: [ self hand haloState closeHalo ]
 		ifNotNil: [ 
@@ -158,17 +172,15 @@ SROpenHaloAction >> run: inputState [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:28'
+	#'squeak_changestamp' : 'phkeese 10/27/2026 11:55'
 }
 SROpenHaloAction >> shouldGrab [
 
-	| handXform angleDiff |
-	(timeout <= Time now) ifTrue: [^true].
-	handXform := self hand globalTransform.
+	^self timeInLimbo >= self class grabTimeout
+	"handXform := self hand globalTransform.
 	(limboXform translation distanceTo: handXform translation) > self class grabMovementThreshold ifTrue: [^true].
 	angleDiff := (handXform rotationQuaternion inverse * limboXform rotationQuaternion) angle.
-	(self class grabAngleThreshold <= angleDiff abs) ifTrue: [^true].
-	^false
+	(self class grabAngleThreshold <= angleDiff abs) ifTrue: [^true]."
 ]
 
 {
@@ -179,4 +191,13 @@ SROpenHaloAction >> state: aSelector [
 
 	Transcript showln: 'New state: ', state, ' -> ', aSelector.
 	state := aSelector.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/27/2026 12:10'
+}
+SROpenHaloAction >> timeInLimbo [
+
+	^(limboTime to: Time now) duration asMilliSeconds / 1000
 ]
