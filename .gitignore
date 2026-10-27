@@ -5,3 +5,4 @@
 *.changes
 *.o
 build/
+dev.properties

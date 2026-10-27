@@ -2,7 +2,7 @@ include(FetchContent)
 
 # ==== local repository overrides ====
 
-cmake_path(SET DEV_PROPERTIES_FILE NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/../../../../../dev.properties")
+cmake_path(SET DEV_PROPERTIES_FILE NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/../../dev.properties")
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${DEV_PROPERTIES_FILE}")
 if(EXISTS "${DEV_PROPERTIES_FILE}")
     file(STRINGS "${DEV_PROPERTIES_FILE}" DEV_PROPERTIES_LINES)
@@ -91,7 +91,11 @@ else()
   # and its compositor copies the swapchain texture with glCopyImageSubData, core in
   # 4.3. Without this rlgl defaults to 3.3, every OpenXR call succeeds, and the
   # headset stays blank while the desktop mirror shows the frame.
-  target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW GRAPHICS_API_OPENGL_43)
+  # macOS only supports up to 4.1, so flat builds stay on raylib's default (3.3).
+  target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW)
+  if(ENABLE_RLOPENXR)
+    target_compile_definitions(raylib PUBLIC GRAPHICS_API_OPENGL_43)
+  endif()
   set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -134,17 +138,6 @@ if(ENABLE_ANDROID)
   target_link_options(raylib PRIVATE "-u ANativeActivity_onCreate")
 endif()
 
-# ==== opensmalltalk-vm ====
-
-if(LOCAL_OPENSMALLTALKVM_SOURCE)
-    set(FETCHCONTENT_SOURCE_DIR_OPENSMALLTALKVM "${LOCAL_OPENSMALLTALKVM_SOURCE}")
-endif()
-
-FetchContent_Declare(opensmalltalkvm
-  GIT_REPOSITORY https://github.com/leogeier/opensmalltalk-vm.git
-  GIT_TAG cmake-for-quest
-)
-
 # ==== rlOpenXR ====
 
 if(ENABLE_RLOPENXR)
@@ -158,5 +151,5 @@ if(ENABLE_RLOPENXR)
     #        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rlOpenXR"
     )
 
-    FetchContent_MakeAvailable(opensmalltalkvm rlOpenXR)
+    FetchContent_MakeAvailable(rlOpenXR)
 endif()

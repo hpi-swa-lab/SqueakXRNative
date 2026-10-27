@@ -80,10 +80,9 @@ jobs:
       - uses: threeal/cmake-action@v2.1.0
         with:
           build-dir: build/
-          source-dir: android/app/src/main/cpp/
+          source-dir: desktop/
           options: |
             ENABLE_RLOPENXR=OFF
-            ENABLE_ANDROID=OFF
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.last-commit-check.outputs.release-date }}-dev-release
