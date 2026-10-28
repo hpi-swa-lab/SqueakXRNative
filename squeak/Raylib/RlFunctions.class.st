@@ -342,6 +342,15 @@ RlFunctions >> clearBackgroundColor: color [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'SqueakXR 10/28/2026 14:26'
+}
+RlFunctions >> clearDepthBuffer [
+	<cdecl: void 'rlClearDepthBuffer'() module: 'squeakxrnative'>
+	^ self externalCallFailed
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 4/17/2026 15:50'
 }
 RlFunctions >> clearWindowStateFlags: flags [

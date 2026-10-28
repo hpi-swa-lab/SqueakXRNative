@@ -133,13 +133,13 @@ SRRaylibRenderer >> clearColor: aColor [
 
 {
 	#category : #info,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:47'
+	#'squeak_changestamp' : 'SqueakXR 10/28/2026 14:24'
 }
 SRRaylibRenderer >> clearDepth [ 
 
 	Raylib
 		rlDrawRenderBatchActive;
-		glClear: 256
+		clearDepthBuffer.
 ]
 
 { #category : #'render-loop' }
