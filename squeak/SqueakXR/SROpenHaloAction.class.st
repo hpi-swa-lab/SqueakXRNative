@@ -30,11 +30,11 @@ SROpenHaloAction class >> findHaloTarget: start [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 14:30'
+	#'squeak_changestamp' : 'SqueakXR 10/28/2026 14:59'
 }
 SROpenHaloAction class >> limboTimeout [ 
 
-	^0.5 "seconds"
+	^0.2 "seconds"
 ]
 
 {
