@@ -107,11 +107,11 @@ SRMenu class >> worldMenuAt: aPosition facingCamera: aCamera in: aWorld [
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'leo 10/27/2026 18:14'
 }
 SRMenu class >> xrMenuOpenBrowser: aMenu [
 	<xrMenu: #(world tools) label: 'System Browser' priority: 220>
-	^ Browser open
+	^ SystemBrowser default open
 ]
 
 {
