@@ -1019,7 +1019,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/20/2026 18:34'
+	#'squeak_changestamp' : 'leo 10/29/2026 13:10'
 }
 SRWorld >> runStartScript [
 
@@ -1071,26 +1071,29 @@ SRWorld >> runStartScript [
 			morph: methodMorserMorph;
 			translation: -1 @ 1 @ -2.5);"
 		addChild: (SRMorphPanel transcript
-			translation: 1 @ 2 @ -2.5);
+			translation: 1 @ 2 @ -2.5;
+			rotation: (Quaternion angle: 180 axis: Vector3 up));
 		addChild: (SRMorphPanel systemBrowser
-			translation: 0 @ 1 @ -1.5);
+			translation: 0 @ 1 @ -1.5;
+			rotation: (Quaternion angle: 180 axis: Vector3 up));
 		"addChild: (SRMorphPanel new
 			morph: SystemBrowser default open dependents first;
 			translation: 0 @ 2 @ -1.5);"
 		addChild: (SRMorphPanel workspace
-			translation: 1.5 @ 1 @ -1.5)";
+			translation: 1.5 @ 1 @ -1.5;
+			rotation: (Quaternion angle: 180 axis: Vector3 up))";
 		addChild: (SRMorphPanel new
 			morph: SRSaveMorph new openInWorld;
 			translation: -1.25 @ 1 @ -1.5)".
 	
-	self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1).
+	"self addChild: (SRFrameTimeGraph new translation: 1 @ 1 @ -1)."
 	
-	self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
+	"self addChild: (SRMorphPanel new morph: ((SimpleButtonMorph new
 		label: 'Profile'
 		font: (StrikeFont familyName: #DefaultTextStyle size: 20))
 		extent: 200 @ 100;
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
-		actionSelector: #value)).
+		actionSelector: #value))."
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new
