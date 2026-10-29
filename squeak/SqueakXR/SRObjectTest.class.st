@@ -175,6 +175,20 @@ SRObjectTest >> testAllDo [
 	self assert: count = 5.
 ]
 
+{
+	#category : #'tests - children',
+	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+}
+SRObjectTest >> testAppIsTheNearestAncestorThatIsOne [
+
+	| plain part |
+	plain := SRObject new.
+	part := SRObject new.
+	plain addChild: part.
+	self assert: nil equals: part app.
+	self assert: nil equals: plain app.
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testChildrenDo [
 

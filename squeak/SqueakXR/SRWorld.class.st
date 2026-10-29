@@ -471,15 +471,6 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
-}
-SRWorld >> activeApp [
-
-	^ children detect: [:each | each isApp] ifNone: [nil]
-]
-
-{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }

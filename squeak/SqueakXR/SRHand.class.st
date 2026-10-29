@@ -174,6 +174,15 @@ SRHand >> actionsUpdated: aSRActionStates [
 ]
 
 {
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+}
+SRHand >> appUnderRay [
+
+	^ self castRayForward ifNotNil: [:result | result object app]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }

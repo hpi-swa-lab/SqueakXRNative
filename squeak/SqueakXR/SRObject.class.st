@@ -206,6 +206,15 @@ SRObject >> ancestorChain [
 ]
 
 {
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+}
+SRObject >> app [
+
+	^ self ancestorChain detect: [:each | each isApp] ifNone: [nil]
+]
+
+{
 	#category : #debugging,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
 }

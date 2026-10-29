@@ -482,7 +482,7 @@ SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
 }
 SRAvatar >> openMenuForHand: aHand [
 
@@ -492,11 +492,10 @@ SRAvatar >> openMenuForHand: aHand [
 		contextMenu := nil.
 		^ self].
 	position := self menuPlacementPositionForHand: aHand.
-	aHand grabbedObject
-		ifNotNil: [:object | self openContextMenuFor: object at: position]
-		ifNil: [self world activeApp
-			ifNil: [self openWorldMenuAt: position]
-			ifNotNil: [:app | self openAppMenuFor: app at: position]].
+	aHand grabbedObject ifNotNil: [:object | ^ self openContextMenuFor: object at: position].
+	aHand appUnderRay
+		ifNil: [self openWorldMenuAt: position]
+		ifNotNil: [:app | self openAppMenuFor: app at: position].
 ]
 
 {
