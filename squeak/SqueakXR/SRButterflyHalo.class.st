@@ -26,26 +26,26 @@ SRButterflyHalo class >> spacing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:40'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:17'
 }
 SRButterflyHalo >> addHandles [ 
 
 	| bottom top y |
 	top := {
-		SRHaloHandle new
+		SRHaloButton new
 			text: 'Close';
 			clickAction: [self close].
-		SRHaloHandle new
+		SRHaloButton new
 			text: 'Inspect';
 			clickAction: [self target inspect].
 	}.
 	bottom := {
-		SRHaloHandle new
+		SRHaloButton new
 			text: 'Move';
-			grabAction: [:hand :xform | relXform := xform inverseTransformation * self target globalTransform];
+			grabAction: [:hand :xform | relXform := xform inverseTransformation * self target globalTransform. self frozen: true];
 			dragAction: [:xform | self target dragTo: xform * relXform];
-			dropAction: [:hand | relXform := nil].
-		SRHaloHandle new
+			dropAction: [:hand | relXform := nil. self frozen: false].
+		SRHaloButton new
 			text: 'Remove';
 			clickAction: [self target remove. self close].
 	}.

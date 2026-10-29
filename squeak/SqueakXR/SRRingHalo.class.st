@@ -65,7 +65,7 @@ SRRingHalo >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:20'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:15'
 }
 SRRingHalo >> initialize [ 
 
@@ -76,6 +76,7 @@ SRRingHalo >> initialize [
 		position: (0@ -0.2@0);
 		yourself.
 	self addChild: label.
+	self frozen: true.
 ]
 
 {
@@ -89,10 +90,11 @@ SRRingHalo >> startGrabbing: aHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/13/2026 09:51'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:14'
 }
 SRRingHalo >> step: deltaTime [ 
 
+	super step: deltaTime.
 	targetLocalTransform ifNotNil: [:xform | self target dragTo: self globalTransform * xform ]
 ]
 

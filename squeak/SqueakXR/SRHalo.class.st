@@ -20,7 +20,9 @@ Class {
 	#name : #SRHalo,
 	#superclass : #SRObject,
 	#instVars : [
-		'target'
+		'target',
+		'targetLocalPoint',
+		'frozen'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 9/29/2026 14:38'
@@ -28,18 +30,27 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:20'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:05'
 }
-SRHalo class >> initialHaloCenterFor: aPoint in: aWorld [
+SRHalo class >> initialHaloCenterFor: globalPoint in: aWorld [
 	
 	"Initial center position of a Halo for a given point in the world."
 	^ SRWorld haloAnchor caseOf: {
-		[SRHaloAnchor lineOfSight] -> [ | camera toTarget |
-			camera := aWorld camera.
-			toTarget := (aPoint - camera globalTranslation) normalized.
-			^ camera globalTranslation + (toTarget * SRWorld haloDistance)
-		]
+		[SRHaloAnchor lineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
+		[SRHaloAnchor staticLineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
 	}
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:48'
+}
+SRHalo class >> lineOfSightFor: globalPoint in: aWorld [
+
+	| camera toPoint |
+	camera := aWorld camera.
+	toPoint := (globalPoint - camera globalTranslation) normalized.
+	^ SRWorld haloDistance * toPoint + camera globalTranslation
 ]
 
 {
@@ -62,6 +73,15 @@ SRHalo >> center [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:57'
+}
+SRHalo >> center: aPoint [
+
+	self globalTranslation: aPoint
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/9/2026 14:51'
 }
@@ -71,6 +91,24 @@ SRHalo >> close [
 		self haloState activeHalo: nil.
 		self parent removeChild: self.
 	]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:13'
+}
+SRHalo >> frozen [
+	^ frozen
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:14'
+}
+SRHalo >> frozen: aBool [
+
+	"If True, this halo does not try to move with the target, regardless of the anchor."
+	frozen := aBool
 ]
 
 {
@@ -85,12 +123,13 @@ SRHalo >> haloSpec [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:33'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:15'
 }
 SRHalo >> initialize [ 
 
 	super initialize.
 	self haloMode: SRHaloMode forbid.
+	frozen := false.
 ]
 
 {
@@ -111,62 +150,69 @@ SRHalo >> isOpen [
 ]
 
 {
-	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:52'
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:11'
 }
-SRHalo >> popUpFor: anSRObject [ 
-		
-	^ self 
-		popUpFor: anSRObject
-		hand: (anSRObject world avatar rightHand)
+SRHalo >> moveToLineOfSight: deltaTime [ 
+
+	"Position myself in line-of-sight of the user, but smoothly interpolated across frames."		
+	| los point |
+	point := self target globalTransform localPointToGlobal: targetLocalPoint.
+	los := self class lineOfSightFor: point in: self world.
+	self center: (self center interpolateTo: los at: 3 * deltaTime).
+	self lookAt: self world camera globalTranslation.
+
 ]
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/13/2026 09:46'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:01'
 }
-SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
+SRHalo >> popUpFor: anSRObject [ 
+	
+	| hand point |
+	hand := anSRObject world avatar rightHand.
+	point := anSRObject  globalTranslation.
+	^ self popUpFor: anSRObject hand: hand point: point
+]
 
-	"Remove any other halos."
-	aHand haloState 
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:54'
+}
+SRHalo >> popUpFor: anSRObject event: event [
+
+	^ self
+		popUpFor: anSRObject
+		hand: event hand
+		point: event point
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:05'
+}
+SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
+		
+	"Pop up for an object triggered by a hand by clicking on the target at a point."
+	| world |
+	world := aHand world.
+	targetLocalPoint := anSRObject globalTransform globalPointToLocal: aPoint.
+	
+	"Remove all other halos."
+	world haloState
 		closeHalo;
 		activeHalo: self.
 	
 	self target: anSRObject.
 	aHand halo: self.
-	aHand world addChild: self.
+	world addChild: self.
 	
-	self globalTranslation: aPoint.
-	self lookAt: self world camera globalTranslation.
+	"Position ourselves according to the user's preferences."
+	self center: (self class initialHaloCenterFor: aPoint in: world).
+	self lookAt: world camera globalTranslation.
+
 	self addHandles.
-]
-
-{
-	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:18'
-}
-SRHalo >> popUpFor: anSRObject event: event [
-
-	| point |
-	point := self class initialHaloCenterFor: event point in: anSRObject world.
-	^ self
-		popUpFor: anSRObject
-		at: point
-		hand: event hand
-]
-
-{
-	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:20'
-}
-SRHalo >> popUpFor: anSRObject hand: aHand [
-	
-	| point |
-	point := self class initialHaloCenterFor: anSRObject globalTranslation in: anSRObject world.
-	^ self 
-		popUpFor: anSRObject
-		at: point
-		hand: aHand
 ]
 
 {
@@ -176,6 +222,19 @@ SRHalo >> popUpFor: anSRObject hand: aHand [
 SRHalo >> renderInSecondPass [ 
 
 	^ true
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 16:13'
+}
+SRHalo >> step: deltaTime [ 
+
+	self frozen ifTrue: [^self].
+	SRWorld haloAnchor caseOf: {
+		[SRHaloAnchor staticLineOfSight] -> [].
+		[SRHaloAnchor lineOfSight] -> [self moveToLineOfSight: deltaTime].
+	}
 ]
 
 {

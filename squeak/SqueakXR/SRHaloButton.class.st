@@ -1,5 +1,5 @@
 "
-A SRHaloHandle is a handle to be placed on a halo.
+A SRHaloButton is a button used in the context of halo actions
 
 Instance Variables
 clickAction - Called whenever the button is clicked on.
@@ -8,7 +8,7 @@ grabAction 	- Called when grabbing this handle.
 dropAction 	- Called then releasing this handle.
 "
 Class {
-	#name : #SRHaloHandle,
+	#name : #SRHaloButton,
 	#superclass : #SRObject,
 	#instVars : [
 		'clickAction',
@@ -17,34 +17,35 @@ Class {
 		'cube',
 		'text',
 		'originalTransform',
-		'grabAction'
+		'grabAction',
+		'minimumWidth'
 	],
 	#category : #'SqueakXR-Halo',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:29'
 }
 
 {
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:31'
 }
-SRHaloHandle class >> padding [
+SRHaloButton class >> padding [
 
 	^ (1cm)@(1cm)@(0)
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:25'
 }
-SRHaloHandle >> clickAction [
+SRHaloButton >> clickAction [
 	^ clickAction
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:26'
 }
-SRHaloHandle >> clickAction: aBlock [
+SRHaloButton >> clickAction: aBlock [
 	clickAction := aBlock
 ]
 
@@ -52,7 +53,7 @@ SRHaloHandle >> clickAction: aBlock [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:26'
 }
-SRHaloHandle >> color [
+SRHaloButton >> color [
 	^ cube color
 ]
 
@@ -60,23 +61,23 @@ SRHaloHandle >> color [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:26'
 }
-SRHaloHandle >> color: aColor [
+SRHaloButton >> color: aColor [
 	cube color: aColor
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:26'
 }
-SRHaloHandle >> dragAction [
+SRHaloButton >> dragAction [
 	^ dragAction
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:26'
 }
-SRHaloHandle >> dragAction: aBlock [
+SRHaloButton >> dragAction: aBlock [
 	dragAction := aBlock
 ]
 
@@ -84,41 +85,41 @@ SRHaloHandle >> dragAction: aBlock [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:45'
 }
-SRHaloHandle >> dragTo: aMatrix4x4 [
+SRHaloButton >> dragTo: aMatrix4x4 [
 
 	self dragAction ifNotNil: [:action | action cull: aMatrix4x4 cull: originalTransform ].
 	super dragTo: aMatrix4x4
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
 }
-SRHaloHandle >> dropAction [
+SRHaloButton >> dropAction [
 	^ dropAction
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
 }
-SRHaloHandle >> dropAction: anObject [
+SRHaloButton >> dropAction: anObject [
 	dropAction := anObject
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
 }
-SRHaloHandle >> grabAction [
+SRHaloButton >> grabAction [
 	^ grabAction
 ]
 
 {
-	#category : #accessing,
+	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:10'
 }
-SRHaloHandle >> grabAction: anObject [
+SRHaloButton >> grabAction: anObject [
 	grabAction := anObject
 ]
 
@@ -126,7 +127,7 @@ SRHaloHandle >> grabAction: anObject [
 	#category : #initialization,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:28'
 }
-SRHaloHandle >> initialize [ 
+SRHaloButton >> initialize [ 
 
 	super initialize.
 	
@@ -147,19 +148,36 @@ SRHaloHandle >> initialize [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:31'
+}
+SRHaloButton >> minimumWidth [
+	^ minimumWidth
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:34'
+}
+SRHaloButton >> minimumWidth: anObject [
+	minimumWidth := anObject.
+	self text: self text.
+]
+
+{
+	#category : #events,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:33'
 }
-SRHaloHandle >> onButtonPress: event [
+SRHaloButton >> onButtonPress: event [
 
 	event button = #trigger ifFalse: [^self].
 	self clickAction ifNotNil: [:action | action cull: event. event handled: true.]
 ]
 
 {
-	#category : #accessing,
+	#category : #events,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:36'
 }
-SRHaloHandle >> onGrabStarted: aHand [
+SRHaloButton >> onGrabStarted: aHand [
 
 	originalTransform := self globalTransform.
 	self grabAction ifNotNil: [:action | 
@@ -168,10 +186,10 @@ SRHaloHandle >> onGrabStarted: aHand [
 ]
 
 {
-	#category : #accessing,
+	#category : #events,
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
 }
-SRHaloHandle >> onGrabStopped: aHand [
+SRHaloButton >> onGrabStopped: aHand [
 
 	self globalTransform: originalTransform.
 	self dropAction ifNotNil: [:action | action cull: aHand]
@@ -181,25 +199,38 @@ SRHaloHandle >> onGrabStopped: aHand [
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:18'
 }
-SRHaloHandle >> text [
+SRHaloButton >> text [
 
 	^ text text
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:31'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:37'
 }
-SRHaloHandle >> text: aString [
+SRHaloButton >> text: aString [
 
+	| scale |
 	text text: aString.
-	cube scale: ((text textSize)@(1cm) * text scale) + (2 * self class padding)
+	scale := ((text textSize)@(1cm) * text scale) + (2 * self class padding).
+	minimumWidth ifNotNil: [ 
+		scale x: (scale x max: minimumWidth)
+	].
+	cube scale: scale
 ]
 
 {
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/21/2026 15:36'
 }
-SRHaloHandle >> wantsGrab [
+SRHaloButton >> wantsGrab [
 	^ self dragAction notNil
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 14:05'
+}
+SRHaloButton >> width [
+	^cube scale x
 ]
