@@ -884,6 +884,17 @@ SRWorld >> morphicWorld [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+}
+SRWorld >> newWorldProcess: aBlock [
+
+	^ aBlock newProcess
+		name: 'XR World Process';
+		priority: Processor userSchedulingPriority
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 8/3/2026 11:31'
 }
@@ -999,6 +1010,16 @@ SRWorld >> resume [
 			needsSetup := false.
 			self initializeWorldProcess].
 		worldProcess resume].
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+}
+SRWorld >> runLoop [
+
+	self loop.
+	self renderer shutdown
 ]
 
 {
@@ -1129,15 +1150,25 @@ SRWorld >> shutDown [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
+}
+SRWorld >> spawnNewWorldProcess [
+
+	self worldProcess: (self newWorldProcess: [self runLoop]).
+	self worldProcess resume
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
 SRWorld >> start [
 
 	self class current ifNotNil: [self error: 'A world is already running!'].
 	
 	self log.
-	self worldProcess: ([
+	self worldProcess: (self newWorldProcess: [
 		self log: 'add avatar'.
 		self avatar ifNil: [
 				avatar := SRAvatar new.
@@ -1152,11 +1183,7 @@ SRWorld >> start [
 				self addChild: SRXRInputEmulator new]].
 		lastFrameTime := DateAndTime now.
 		self log: 'starting process'.
-		self loop.
-		self renderer shutdown
-		] newProcess
-			name: 'XR World Process';
-			priority: Processor userSchedulingPriority).
+		self runLoop]).
 	
 	self isRunning: true.
 	self resume.

@@ -8,7 +8,8 @@ Class {
 		'isOld',
 		'firstPassRenderedObjects',
 		'secondPassRenderedObjects',
-		'hasRenderingBegun'
+		'hasRenderingBegun',
+		'isCompleted'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -22,10 +23,15 @@ SRFrame class >> world: world deltaTime: deltaTime [
 		initializeObjectLists
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:09'
+}
 SRFrame >> completeFrame [
 
-	self world completeFrame
+	isCompleted = true ifTrue: [^ self].
+	isCompleted := true.
+	self world completeFrame.
 ]
 
 { #category : #accessing }
@@ -38,6 +44,18 @@ SRFrame >> deltaTime [
 SRFrame >> deltaTime: aNumber [
 
 	deltaTime := aNumber
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
+}
+SRFrame >> handleError: anError [
+
+	SRIsFrameContinuableVariable
+		value: true
+		during: [ToolSet handleError: anError].
+	anError retry
 ]
 
 {
@@ -60,12 +78,13 @@ SRFrame >> hasRenderingBegun: aBoolean [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
 SRFrame >> initialize [
 
 	self hasRenderingBegun: false.
-	self isOld: false
+	self isOld: false.
+	isCompleted := false
 ]
 
 {
@@ -99,12 +118,13 @@ SRFrame >> isOld: aBoolean [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
 }
 SRFrame >> prepareFrame [
 
+	self hasRenderingBegun ifTrue: [^ self].
 	self hasRenderingBegun: true.
-	self isOld ifFalse: [self world prepareFrame]
+	self world prepareFrame
 ]
 
 {
@@ -131,7 +151,7 @@ SRFrame >> renderObjects [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:21'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
 SRFrame >> renderObjects: anOrderedCollection [
 
@@ -141,15 +161,13 @@ SRFrame >> renderObjects: anOrderedCollection [
 		self world render: currentObject]]
 		on: Error
 		do: [:error |
-			"ToolSet default handleError: error."
-			error printVerboseOn: Transcript.
 			currentObject badRender: true.
-			error retry.].
+			self handleError: error]
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 7/16/2026 10:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
 SRFrame >> stepObjects [
 
@@ -163,10 +181,8 @@ SRFrame >> stepObjects [
 			currentObject step: deltaTime]]]
 		on: Error
 		do: [:error |
-				"ToolSet default handleError: error."
-				error printVerboseOn: Transcript.
-				currentObject badStep: true.
-				error retry.]
+			currentObject badStep: true.
+			self handleError: error]
 ]
 
 { #category : #processing }
