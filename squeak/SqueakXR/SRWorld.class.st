@@ -542,7 +542,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/21/2026 16:02'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:44'
 }
 SRWorld >> doOneCycle [
 

@@ -227,12 +227,12 @@ SRFrameTimeGraph >> graphWidth: aNumber [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'lege 3/13/2026 16:49'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:51'
 }
 SRFrameTimeGraph >> heightForFrameTime: frameTime [
 
 	| normalized |
-	normalized := frameTime / maxFrameTimeMs.
+	normalized := frameTime / (maxFrameTimeMs / 1000).
 	normalized := normalized max: 0.0.
 	normalized := normalized min: 1.0.
 	^ (normalized * 0.75) max: 0.001
