@@ -1219,17 +1219,13 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 9/29/2026 17:01'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
 	self stop.
 	[project close]
-		on: ProvideAnswerNotification
-		do: [:noti |
-			(noti messageText beginsWith: 'Do you really want to delete this project')
-				ifTrue: [noti resume: true]
-				ifFalse: [noti pass]].
+		valueSupplyingAnswers: #(#('Do you really want to delete the project*' true)).
 ]
 
 {
