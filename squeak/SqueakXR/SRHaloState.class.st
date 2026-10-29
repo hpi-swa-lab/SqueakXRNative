@@ -10,7 +10,6 @@ Class {
 	#instVars : [
 		'outlines',
 		'highlights',
-		'haloSpecies',
 		'activeHalo'
 	],
 	#category : #'SqueakXR-Halo',
@@ -58,31 +57,14 @@ SRHaloState >> closeHalo [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
-}
-SRHaloState >> haloSpecies [
-	^ haloSpecies
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/28/2026 15:26'
-}
-SRHaloState >> haloSpecies: anObject [
-	haloSpecies := anObject
-]
-
-{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:20'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:55'
 }
 SRHaloState >> initialize [ 
 
 	super initialize.
 	outlines := Dictionary new.
 	highlights := Dictionary new.
-	haloSpecies := SRButterflyHalo.
 ]
 
 {

@@ -25,6 +25,8 @@ Class {
 	],
 	#classVars : [
 		'Current',
+		'HaloAnchor',
+		'HaloSpecies',
 		'KeyDict',
 		'LogFPS',
 		'PendingFrameActions',
@@ -298,6 +300,46 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 				deltaTime: deltaTime]
 		ifNotNil: [
 			RenderFrame isOld: true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:00'
+}
+SRWorld class >> haloAnchor [
+	<preference: 'Halo Anchor'
+		category: 'SqueakXR'
+		description: 'Which where to anchor the Halo'
+		type: #String>
+	^ HaloAnchor ifNil: [SRHaloAnchor lineOfSight]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:02'
+}
+SRWorld class >> haloAnchor: anAnchor [
+	HaloAnchor := anAnchor
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 13:03'
+}
+SRWorld class >> haloSpecies [
+	<preference: 'Halo Species'
+		category: 'SqueakXR'
+		description: 'Which class to use as Halo'
+		type: #String>
+	^ HaloSpecies ifNil: [SRButterflyHalo]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 12:50'
+}
+SRWorld class >> haloSpecies: aClass [
+	HaloSpecies := aClass
 ]
 
 { #category : #'as yet unclassified' }
