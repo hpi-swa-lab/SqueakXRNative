@@ -6,24 +6,25 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'jl 10/27/2026 14:00'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
-	| camera |
+	| world camera transform |
+	world := self currentXRWorld ifNil: [^ self].
 	(SRIsAddingMorphsToWorldVariable value
 		and: [aMorph shouldBeInMorphPanel]
-		and: [aMorph isInMorphPanel not]) ifTrue: [ | transform |
-		"place the panel in front of the user"
-		camera := self currentXRWorld camera.
-		transform := Matrix4x4
-			objectLookAt: camera globalTranslation
-			from: camera globalTranslation + (camera forward * 1.25)
-			up: Vector3 up.
-		self currentXRWorld addChild: (
-			SRMorphPanel new
-				morph: aMorph;
-				globalTransform: transform)].
+		and: [aMorph isInMorphPanel not]) ifFalse: [^ self].
+	"place the panel in front of the user"
+	camera := world camera.
+	transform := Matrix4x4
+		objectLookAt: camera globalTranslation
+		from: camera globalTranslation + (camera forward * 1.25)
+		up: Vector3 up.
+	world addChild: (
+		SRMorphPanel new
+			morph: aMorph;
+			globalTransform: transform).
 ]
 
 {
@@ -71,14 +72,16 @@ SRPasteUpMorph >> morphToGrab: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/2/2026 17:14'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
 }
 SRPasteUpMorph >> removedMorph: aMorph [
 
+	| world |
+	world := self currentXRWorld ifNil: [^ self].
 	aMorph isInMorphPanel ifTrue: [
-		self currentXRWorld allDescendantsSelect: [:obj |
+		world allDescendantsSelect: [:obj |
 				obj isMorphPanel and: [obj morph = aMorph]]
 			thenDo: [:panel |
 				panel removeMorph.
-				self currentXRWorld removeChild: panel]]
+				world removeChild: panel]].
 ]

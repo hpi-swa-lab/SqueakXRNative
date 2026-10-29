@@ -71,9 +71,10 @@ SRBallisticArc >> hit [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer 10/27/2026 18:19'
 }
 SRBallisticArc >> initialize [
+
 	super initialize.
 	origin := Vector3 zero.
 	direction := Vector3 forward.
