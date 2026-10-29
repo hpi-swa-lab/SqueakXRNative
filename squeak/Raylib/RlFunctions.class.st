@@ -342,11 +342,10 @@ RlFunctions >> clearBackgroundColor: color [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'SqueakXR 10/28/2026 14:26'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 12:13'
 }
 RlFunctions >> clearDepthBuffer [
-	<cdecl: void 'rlClearDepthBuffer'() module: 'squeakxrnative'>
-	^ self externalCallFailed
+	self glClear: 256
 ]
 
 {
