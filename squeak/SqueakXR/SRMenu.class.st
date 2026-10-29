@@ -14,7 +14,8 @@ Class {
 		'parentMenu',
 		'submenu',
 		'submenuItem',
-		'sticky'
+		'sticky',
+		'lastPointedAt'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -83,12 +84,12 @@ SRMenu class >> submenuLabelFor: aSegment [
 
 {
 	#category : #layout,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
 }
 SRMenu class >> submenuSideOffset [
-	"To the left of the opening menu, as a fraction of the menu width."
+	"To the right, leaving the start of the parent's left-aligned labels in view."
 
-	^ 0.65
+	^ 12cm
 ]
 
 {
@@ -203,6 +204,25 @@ SRMenu >> addSubmenuItemFor: aSegment under: aPrefix target: anObjectOrNil [
 ]
 
 {
+	#category : #building,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
+}
+SRMenu >> carryOverRowsFrom: oldRows [
+	"Picking a row rebuilds the menu, and a new row object under an unmoved ray must
+	not read as the ray arriving on another row."
+
+	| newRows rowFor |
+	newRows := self children select: [:child | child isMenuItem].
+	rowFor := [:each | | index |
+		index := oldRows indexOf: each.
+		(index between: 1 and: newRows size)
+			ifTrue: [newRows at: index]
+			ifFalse: [each]].
+	submenuItem ifNotNil: [submenuItem := rowFor value: submenuItem].
+	lastPointedAt := IdentitySet withAll: (lastPointedAt asArray collect: rowFor).
+]
+
+{
 	#category : #'menu-actions',
 	#'squeak_changestamp' : 'lege 7/1/2026 18:24'
 }
@@ -268,7 +288,7 @@ SRMenu >> detachFromCascade [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:35'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -279,6 +299,7 @@ SRMenu >> initialize [
 	rowSpacing := 2.5cm.
 	needsRebuild := false.
 	sticky := false.
+	lastPointedAt := IdentitySet new.
 ]
 
 {
@@ -396,27 +417,65 @@ SRMenu >> parentMenu: aSRMenuOrNil [
 
 {
 	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
 }
 SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
-	"Offsets are in aMenu's own frame, so the submenu inherits its orientation."
+	"Offsets are in aMenu's own frame, so the submenu inherits its orientation. It drops
+	below the parent's top only as far as needed to cover the opening row, so the ray
+	reaches it from that row without crossing another one."
 
 	| topY offset |
-	topY := anItemOrNil
-		ifNil: [aMenu slabHeight / 2]
-		ifNotNil: [:item | item localPosition y + (aMenu rowSpacing / 2)].
-	offset := (aMenu slabWidth * self class submenuSideOffset) negated
+	topY := aMenu slabHeight / 2.
+	anItemOrNil ifNotNil: [:item |
+		topY := topY min: item localPosition y - (aMenu rowSpacing / 2) + self slabHeight].
+	offset := self class submenuSideOffset
 		@ (topY - (self slabHeight / 2))
 		@ self class submenuForwardOffset.
 	self globalTransform: aMenu globalTransform * (Matrix4x4 withOffset: offset).
 ]
 
 {
+	#category : #submenus,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
+}
+SRMenu >> pointableObjects [
+	"The open cascade is included so that a row hidden behind a submenu is not pointed at."
+
+	| objects menu |
+	objects := self children copy.
+	menu := submenu.
+	[menu notNil] whileTrue: [
+		objects add: menu.
+		menu := menu submenu].
+	^ objects
+]
+
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
+}
+SRMenu >> pointedAt: aSet [
+	"Only a ray arriving on another row closes the submenu: a hand left resting on this
+	menu must not close what the other hand has just opened."
+
+	| arrived |
+	arrived := aSet reject: [:each | lastPointedAt includes: each].
+	(submenu notNil and: [arrived anySatisfy: [:each |
+			each isMenuItem and: [each ~~ submenuItem]]])
+		ifTrue: [self closeSubmenu].
+	lastPointedAt := aSet.
+	self setHoveredItems: (submenuItem
+		ifNil: [aSet]
+		ifNotNil: [:item | aSet copyWith: item]).
+]
+
+{
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
 }
 SRMenu >> rebuild [
-	| rowY totalHeight |
+	| rowY totalHeight oldRows |
+	oldRows := self children select: [:child | child isMenuItem].
 	self children copy do: [:child | child remove].
 	
 	items ifEmpty: [^ self].
@@ -438,6 +497,7 @@ SRMenu >> rebuild [
 		rowY := rowY - rowSpacing].
 	
 	sticky ifTrue: [self addCloseButton].
+	self carryOverRowsFrom: oldRows.
 	needsRebuild := false.
 ]
 
@@ -515,7 +575,7 @@ SRMenu >> slabWidth [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
 }
 SRMenu >> step: deltaTime [
 
@@ -524,10 +584,9 @@ SRMenu >> step: deltaTime [
 	avatar ifNil: [^ self].
 	hovered := IdentitySet new.
 	avatar hands do: [:hand |
-		(hand rayForward castNearestObjects: self children)
+		(hand rayForward castNearestObjects: self pointableObjects)
 			ifNotNil: [:result | hovered add: result object]].
-	submenuItem ifNotNil: [hovered add: submenuItem].
-	self setHoveredItems: hovered.
+	self pointedAt: hovered.
 ]
 
 {
