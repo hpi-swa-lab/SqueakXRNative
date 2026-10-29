@@ -28,6 +28,22 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:20'
+}
+SRHalo class >> initialHaloCenterFor: aPoint in: aWorld [
+	
+	"Initial center position of a Halo for a given point in the world."
+	^ SRWorld haloAnchor caseOf: {
+		[SRHaloAnchor lineOfSight] -> [ | camera toTarget |
+			camera := aWorld camera.
+			toTarget := (aPoint - camera globalTranslation) normalized.
+			^ camera globalTranslation + (toTarget * SRWorld haloDistance)
+		]
+	}
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/12/2026 16:15'
 }
 SRHalo >> addHandles [
@@ -127,12 +143,12 @@ SRHalo >> popUpFor: anSRObject at: aPoint hand: aHand [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 12:24'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:18'
 }
 SRHalo >> popUpFor: anSRObject event: event [
 
 	| point |
-	point := event point interpolateTo: event hand globalTranslation at: 0.5.
+	point := self class initialHaloCenterFor: event point in: anSRObject world.
 	^ self
 		popUpFor: anSRObject
 		at: point
@@ -141,14 +157,16 @@ SRHalo >> popUpFor: anSRObject event: event [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/9/2026 13:53'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:20'
 }
 SRHalo >> popUpFor: anSRObject hand: aHand [
-		
+	
+	| point |
+	point := self class initialHaloCenterFor: anSRObject globalTranslation in: anSRObject world.
 	^ self 
 		popUpFor: anSRObject
-		at: (aHand globalTranslation)
-		hand: (anSRObject world avatar rightHand)
+		at: point
+		hand: aHand
 ]
 
 {

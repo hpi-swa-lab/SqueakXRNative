@@ -26,6 +26,7 @@ Class {
 	#classVars : [
 		'Current',
 		'HaloAnchor',
+		'HaloDistance',
 		'HaloSpecies',
 		'KeyDict',
 		'LogFPS',
@@ -304,14 +305,14 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 13:00'
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:09'
 }
 SRWorld class >> haloAnchor [
 	<preference: 'Halo Anchor'
 		category: 'SqueakXR'
 		description: 'Which where to anchor the Halo'
 		type: #String>
-	^ HaloAnchor ifNil: [SRHaloAnchor lineOfSight]
+	^ HaloAnchor ifNil: [SRHaloAnchor default]
 ]
 
 {
@@ -320,6 +321,26 @@ SRWorld class >> haloAnchor [
 }
 SRWorld class >> haloAnchor: anAnchor [
 	HaloAnchor := anAnchor
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:14'
+}
+SRWorld class >> haloDistance [
+	<preference: 'Halo Distance (m)'
+		category: 'SqueakXR'
+		description: 'How far to place the Halo away from the user, if placing it in the world. Value in meters.'
+		type: #Number>
+	^ HaloDistance ifNil: [HaloDistance := 1]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'phkeese 10/29/2026 15:14'
+}
+SRWorld class >> haloDistance: aNumber [
+	HaloDistance := aNumber
 ]
 
 {
