@@ -1240,13 +1240,13 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
+	#'squeak_changestamp' : 'leo 10/29/2026 16:37'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
 	self stop.
 	[project close]
-		valueSupplyingAnswers: #(#('Do you really want to delete the project*' true)).
+		valueSupplyingAnswers: #(#('Do you really want to delete*' true)).
 ]
 
 {
