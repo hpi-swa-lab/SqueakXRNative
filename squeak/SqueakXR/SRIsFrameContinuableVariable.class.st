@@ -9,10 +9,10 @@ Class {
 }
 
 {
-	#category : #accessing,
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
-SRIsFrameContinuableVariable >> default [
+SRIsFrameContinuableVariable class >> default [
 
 	^ false
 ]

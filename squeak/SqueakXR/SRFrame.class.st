@@ -11,8 +11,29 @@ Class {
 		'hasRenderingBegun',
 		'isCompleted'
 	],
+	#classVars : [
+		'FrameExceptionSet'
+	],
 	#category : #'SqueakXR-Core'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/30/2026 15:38'
+}
+SRFrame class >> exceptionSet [
+
+	^ FrameExceptionSet ifNil: [FrameExceptionSet := Error, Halt]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/30/2026 15:38'
+}
+SRFrame class >> resetExceptionSet [
+
+	FrameExceptionSet := nil
+]
 
 { #category : #'as yet unclassified' }
 SRFrame class >> world: world deltaTime: deltaTime [
@@ -151,7 +172,7 @@ SRFrame >> renderObjects [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+	#'squeak_changestamp' : 'leo 10/30/2026 15:39'
 }
 SRFrame >> renderObjects: anOrderedCollection [
 
@@ -159,7 +180,7 @@ SRFrame >> renderObjects: anOrderedCollection [
 	[[anOrderedCollection notEmpty] whileTrue: [
 		currentObject := anOrderedCollection removeFirst.
 		self world render: currentObject]]
-		on: Error
+		on: self class exceptionSet
 		do: [:error |
 			currentObject badRender: true.
 			self handleError: error]
@@ -167,7 +188,7 @@ SRFrame >> renderObjects: anOrderedCollection [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+	#'squeak_changestamp' : 'leo 10/30/2026 15:39'
 }
 SRFrame >> stepObjects [
 
@@ -179,7 +200,7 @@ SRFrame >> stepObjects [
 		Thus, we need to check if the object is still in the world before proceeding."
 		currentObject world = self world ifTrue: [
 			currentObject step: deltaTime]]]
-		on: Error
+		on: self class exceptionSet
 		do: [:error |
 			currentObject badStep: true.
 			self handleError: error]
