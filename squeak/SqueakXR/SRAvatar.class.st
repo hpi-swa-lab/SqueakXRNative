@@ -137,14 +137,12 @@ SRAvatar class >> smoothTurnSpeed: aNumber [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:17'
+	#'squeak_changestamp' : 'leo 10/29/2026 16:29'
 }
 SRAvatar class >> snapTurnAngle [
-	<preference: 'Snap turn angle'
-		category: 'SqueakXR'
-		description: 'Degrees per snap turn.'
-		type: #Number>
-	^ SnapTurnAngle ifNil: [45]
+	<preference: 'Snap turn angle' category: 'SqueakXR' description: 'Degrees per snap turn.' type: #Number>
+	^ SnapTurnAngle
+		ifNil: [-45]
 ]
 
 {
@@ -392,7 +390,7 @@ SRAvatar >> hands [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'lege 7/21/2026 18:10'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:56'
 }
 SRAvatar >> initialize [
 
@@ -403,6 +401,7 @@ SRAvatar >> initialize [
 	camera := SRAvatarCamera new.
 
 	self addChildren: {leftHand. rightHand. camera}.
+	camera addChild: SRSkyBox new.
 ]
 
 {

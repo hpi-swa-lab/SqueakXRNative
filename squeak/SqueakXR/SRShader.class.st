@@ -135,6 +135,111 @@ SRShader class >> pythonName: aString [
 
 {
 	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> pythonTranspileAllSource [
+
+	| shaders |
+	shaders := Dictionary new.
+	self shaderSourcePragmas do: [:pragma |
+		shaders
+			at: pragma arguments first asString
+			put: (pragma methodClass theNonMetaClass perform: pragma selector)].
+	^ (self pythonTranspileAllTemplate
+		copyReplaceAll: '$STAGES$' with: (Json render: self stages))
+		copyReplaceAll: '$SHADERS$' with: (Json render: shaders)
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> pythonTranspileAllTemplate [
+
+	^ '#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+import tempfile
+
+SHADERS = json.loads(r"""$SHADERS$""")
+STAGES = json.loads(r"""$STAGES$""")
+
+def evaluate_command(command_args):
+    result = subprocess.run(command_args, capture_output=True, text=True)
+    if result.returncode != 0:
+        printed = " ".join(command_args)
+        sys.stderr.write(
+            "An error occurred while evaluating ''{0}''\nstdout:\n{1}\nstderr:\n{2}\n".format(
+                printed, result.stdout, result.stderr))
+        raise RuntimeError("An error occurred while evaluating ''{0}''.".format(printed))
+    return result.stdout
+
+def strip_input_locations_for_es(source):
+    lines = []
+    for line in source.splitlines():
+        trimmed = line.strip()
+        if trimmed.startswith("layout(location"):
+            rest = trimmed.partition(")")[2].strip()
+            if rest.startswith("in "):
+                line = rest
+        lines.append(line + "\n")
+    return "".join(lines)
+
+TARGETS = [
+    ("330", ["--version", "330", "--no-420pack-extension", "--no-es"], lambda source: source),
+    ("300es", ["--version", "300", "--es"], strip_input_locations_for_es),
+]
+
+def transpile(source, stage, options, base_path):
+    input_file_name = os.path.join(base_path, "input.shader")
+    shader_file_name = os.path.join(base_path, "shader.spv")
+    with open(input_file_name, "w") as f:
+        f.write(source)
+    evaluate_command(["glslang", "-G", "-o", shader_file_name, input_file_name, "-S", stage])
+    return evaluate_command(["spirv-cross"] + options + [shader_file_name])
+
+def transpile_shader(sources, base_path):
+    result = dict()
+    for version, options, post_process in TARGETS:
+        result[version] = dict(
+            (stage, post_process(transpile(sources[stage], stage, options, base_path)) if stage in sources else None)
+            for stage in STAGES)
+    for key, value in sources.items():
+        if key not in STAGES:
+            result[key] = value
+    return result
+
+def main():
+    if len(sys.argv) > 1:
+        output_file_name = sys.argv[1]
+    else:
+        output_file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shaders.json")
+    cache = dict()
+    with tempfile.TemporaryDirectory() as base_path:
+        for name in sorted(SHADERS):
+            print("Transpiling " + name)
+            cache[name] = transpile_shader(SHADERS[name], base_path)
+    with open(output_file_name, "w") as f:
+        json.dump(cache, f)
+
+if __name__ == "__main__":
+    main()
+'
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:29'
+}
+SRShader class >> pythonTranspileFileName [
+
+	^ (FileDirectory on: Smalltalk imagePath) fullNameFor: 'transpile.py'
+]
+
+{
+	#category : #transpiling,
 	#'squeak_changestamp' : 'leo 9/11/2026 13:40'
 }
 SRShader class >> pythonTranspileSource [
@@ -340,7 +445,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'MCPServer 9/11/2026 13:38'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -450,6 +555,40 @@ SRShader class >> transpileSource: sourceDict [
 ]
 
 {
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
+}
+SRShader class >> writePythonTranspileSource [
+
+	self writePythonTranspileSourceTo: self pythonTranspileFileName
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> writePythonTranspileSourceTo: aFileName [
+
+	(FileStream forceNewFileNamed: aFileName)
+		nextPutAll: self pythonTranspileAllSource withUnixLineEndings;
+		close
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
+}
+SRShader >> assignSamplerLocations [
+
+	| location |
+	location := Raylib getShaderLocationShader: internalShader uniformName: 'environmentMap'.
+	location >= 0 ifTrue: [
+		internalShader locs
+			at: RlShaderLocationIndex shaderLocMapCubemap + 1
+			put: location].
+]
+
+{
 	#category : #finalization,
 	#'squeak_changestamp' : 'leo 10/15/2026 15:25'
 }
@@ -472,7 +611,7 @@ SRShader >> internalShader [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
 }
 SRShader >> loadInternalShader [
 
@@ -482,6 +621,7 @@ SRShader >> loadInternalShader [
 	internalShader := Raylib loadShaderFromMemoryVsCode: (sources at: #vert) fsCode: (sources at: #frag).
 	uniformLocs := (sources at: #uniforms ifAbsent: [#()]) collect: [:uniform |
 		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)].
+	self assignSamplerLocations.
 	FinalizationRegistry default add: self.
 ]
 

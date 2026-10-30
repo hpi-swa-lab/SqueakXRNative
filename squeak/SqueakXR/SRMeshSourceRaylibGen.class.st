@@ -9,6 +9,15 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:55'
+}
+SRMeshSourceRaylibGen class >> cubeWidth: width height: height length: length [
+
+	^ self new cubeWidth: width height: height length: length
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 7/14/2026 11:21'
 }
 SRMeshSourceRaylibGen class >> cylinderRadius: radius height: height slices: slices [
@@ -41,6 +50,19 @@ SRMeshSourceRaylibGen class >> planeWidth: width length: length widthSections: w
 SRMeshSourceRaylibGen >> createInternalMesh [
 
 	^ self generatorMessage ifNotNil: [:message | message value]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:55'
+}
+SRMeshSourceRaylibGen >> cubeWidth: width height: height length: length [
+
+	self generatorMessage: (
+		MessageSend
+			receiver: Raylib
+			selector: #genMeshCubeWidth:height:length:
+			arguments: {width. height. length}).
 ]
 
 {

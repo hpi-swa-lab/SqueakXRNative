@@ -51,7 +51,7 @@ SRTexture >> source [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 16:33'
 }
 SRTexture >> source: aTextureSource [
 
@@ -59,6 +59,7 @@ SRTexture >> source: aTextureSource [
 	source := aTextureSource.
 	source addDependent: self.
 	internalTexture := nil.
+	self changed: #textureChanged.
 ]
 
 {
@@ -73,10 +74,11 @@ SRTexture >> unload [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:55'
 }
 SRTexture >> update: aSymbol [
 
 	aSymbol = #textureChanged ifTrue: [
-		internalTexture := nil].
+		internalTexture := nil.
+		self changed: #textureChanged].
 ]
