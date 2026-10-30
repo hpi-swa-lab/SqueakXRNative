@@ -25,6 +25,15 @@ SRHaloAnchor class >> default [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 10/30/2026 16:44'
+}
+SRHaloAnchor class >> inactiveHand [
+	"Place the halo on the inactive hand of the user and disable its cursor."
+	^'inactiveHand'
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/29/2026 16:04'
 }
 SRHaloAnchor class >> lineOfSight [
