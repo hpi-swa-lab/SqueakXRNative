@@ -161,11 +161,11 @@ SRSceneTreeInspector >> codePaneMenu: aMenu shifted: shifted [
 
 {
 	#category : #toolbuilder,
-	#'squeak_changestamp' : 'lege 10/6/2025 15:21'
+	#'squeak_changestamp' : 'leo 10/30/2026 15:40'
 }
 SRSceneTreeInspector >> continueRendering [
 
-	self currentSelection ifNotNil: [:object | object continueRendering]
+	self hasSelection ifTrue: [self currentSelection last continueRendering]
 ]
 
 {
