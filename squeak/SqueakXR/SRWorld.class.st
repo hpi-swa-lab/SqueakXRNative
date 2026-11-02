@@ -1240,11 +1240,11 @@ SRWorld >> stopAndWait [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/29/2026 16:37'
+	#'squeak_changestamp' : 'leo 11/2/2026 15:09'
 }
 SRWorld >> stopWorldAndLeaveProject [
 
-	self stop.
+	self stopAndWait.
 	[project close]
 		valueSupplyingAnswers: #(#('Do you really want to delete*' true)).
 ]
