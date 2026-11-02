@@ -1095,7 +1095,7 @@ SRObject >> localTranslation: aVector3 [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 7/2/2026 11:40'
+	#'squeak_changestamp' : 'phkeese 11/2/2026 15:16'
 }
 SRObject >> lookAt: aGlobalVector3 [
 
@@ -1103,7 +1103,16 @@ SRObject >> lookAt: aGlobalVector3 [
 		Matrix4x4
 			objectLookAt: aGlobalVector3
 			from: self globalTranslation
-			up: Vector3 up)
+			up: Vector3 up) * (Matrix4x4 withScale: self globalScale)
+]
+
+{
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 11/2/2026 14:58'
+}
+SRObject >> lookAtCamera [ 
+	
+	self lookAt: self world camera globalTranslation
 ]
 
 { #category : #accessing }

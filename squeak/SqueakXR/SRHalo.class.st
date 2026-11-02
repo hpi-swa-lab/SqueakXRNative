@@ -169,15 +169,6 @@ SRHalo >> isOpen [
 ]
 
 {
-	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:27'
-}
-SRHalo >> lookAtCamera [ 
-	
-	self lookAt: self world camera globalTranslation
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/30/2026 17:26'
 }
