@@ -71,7 +71,7 @@ SRSkyBox class >> skyAssetNames [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
+	#'squeak_changestamp' : 'leo 11/2/2026 16:54'
 }
 SRSkyBox class >> skybox [
 	<shaderSource: #skybox>
@@ -103,6 +103,7 @@ layout(location = 0) out vec4 finalColor;
 void main()
 {
     finalColor = texture(environmentMap, fragDirection);
+    finalColor = vec4(finalColor.rgb * finalColor.rgb, finalColor.a);
 }'
 	} as: Dictionary
 ]

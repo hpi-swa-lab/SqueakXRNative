@@ -171,13 +171,22 @@ SRMaterial >> normalMap [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRMaterial >> observe: newObject insteadOf: oldObject [
+
+	oldObject ifNotNil: [oldObject removeDependent: self].
+	newObject ifNotNil: [newObject addDependent: self].
+]
+
+{
 	#category : #textures,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRMaterial >> observeTexture: newTexture insteadOf: oldTexture [
 
-	oldTexture ifNotNil: [oldTexture removeDependent: self].
-	newTexture ifNotNil: [newTexture addDependent: self].
+	self observe: newTexture insteadOf: oldTexture.
 	mapsDirty := true.
 ]
 
@@ -232,10 +241,11 @@ SRMaterial >> shader [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRMaterial >> shader: aShader [
 
+	self observe: aShader insteadOf: shader.
 	shader := aShader.
 	isDirty := true.
 ]
@@ -267,11 +277,12 @@ SRMaterial >> unloadInternalMaterial [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:55'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRMaterial >> update: aSymbol [
 
 	aSymbol = #textureChanged ifTrue: [mapsDirty := true].
+	aSymbol = #shaderUnloaded ifTrue: [isDirty := true].
 ]
 
 {

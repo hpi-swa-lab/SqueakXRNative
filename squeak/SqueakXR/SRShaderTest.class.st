@@ -29,6 +29,16 @@ SRShaderTest >> testDuplicateShaderNamesFindsAClash [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:55'
+}
+SRShaderTest >> testNamedReturnsOneInstancePerName [
+
+	[self assert: (SRShader named: #srShaderTestProbe) == (SRShader named: 'srShaderTestProbe')]
+		ensure: [SRShader instances removeKey: #srShaderTestProbe ifAbsent: []].
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'jl 8/11/2026 15:52'
 }
 SRShaderTest >> testNoDuplicateShaderNames [

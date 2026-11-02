@@ -133,19 +133,13 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
-	| position forward up target |
-	position := cameraTransform translation.
-	forward := cameraTransform localDirToGlobal: Vector3 forward.
-	up := cameraTransform localDirToGlobal: Vector3 up.
-	target := position + forward.
-	camera
-		position: (self class rlVector3For_1: position);
-		target: (self class rlVector3For_2: target);
-		up: (self class rlVector3For_3: up).
+	self
+		clearLitShaders;
+		updateCamera: cameraTransform.
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;

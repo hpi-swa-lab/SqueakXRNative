@@ -9,10 +9,14 @@ Class {
 		'id',
 		'internalShader',
 		'uniformLocs',
-		'name'
+		'name',
+		'lightUniforms',
+		'floatBuffer',
+		'intBuffer'
 	],
 	#classVars : [
 		'Default',
+		'Instances',
 		'PythonName',
 		'ShaderCache'
 	],
@@ -95,20 +99,31 @@ SRShader class >> evaluateCommand: aCommandString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> hasCachedShader: aName [
 
-	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
+	^ self shaderCache includesKey: aName asString
 ]
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> instances [
+
+	^ Instances ifNil: [Instances := Dictionary new]
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> named: aSymbol [
 
-	^ self new name: aSymbol; yourself
+	^ self instances
+		at: aSymbol asSymbol
+		ifAbsentPut: [self new name: aSymbol asSymbol; yourself]
 ]
 
 {
@@ -297,29 +312,58 @@ if __name__ == "__main__":
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> resetCache [
 
-	ShaderCache := Dictionary new.
+	self shaderCache: Dictionary new.
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/14/2026 16:49'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> setShaderCacheFromJson: aJsonString [
 
-	ShaderCache := Json readFromString: aJsonString
+	self shaderCache: (Json readFromString: aJsonString).
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCache [
+
+	^ ShaderCache ifNil: [ShaderCache := Dictionary new]
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCache: aDictionary [
+
+	ShaderCache := aDictionary.
+	self unloadAllShaders.
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/14/2026 16:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> shaderCacheAsJson [
 
-	^ Json render: ShaderCache
+	^ Json render: self shaderCache
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCacheAt: aName put: aDictionary [
+
+	self shaderCache at: aName asString put: aDictionary.
+	self unloadShaderNamed: aName.
 ]
 
 {
@@ -373,11 +417,11 @@ SRShader class >> shellQuote: aString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:42'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> sourceFor: shader version: version [
 	
-	^ ShaderCache at: shader
+	^ self shaderCache at: shader asString
 		ifPresent: [:sources |
 			| versioned |
 			versioned := sources at: version
@@ -503,16 +547,15 @@ SRShader class >> transpileAllUnsafe [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/11/2026 12:41'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> transpileShaderDeclaredBy: aPragma [
 
 	| shaderName |
 	shaderName := aPragma arguments first asString.
-	ShaderCache ifNil: [self resetCache].
 	UIManager default informUser: 'Transpiling ', shaderName during: [
-		ShaderCache
-			at: shaderName
+		self
+			shaderCacheAt: shaderName
 			put: (self transpileSource:
 				(aPragma methodClass theNonMetaClass perform: aPragma selector)).
 		^ shaderName]
@@ -555,6 +598,24 @@ SRShader class >> transpileSource: sourceDict [
 ]
 
 {
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> unloadAllShaders [
+
+	self instances do: [:shader | shader unload].
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> unloadShaderNamed: aName [
+
+	self instances at: aName asSymbol ifPresent: [:shader | shader unload].
+]
+
+{
 	#category : #transpiling,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
 }
@@ -576,12 +637,12 @@ SRShader class >> writePythonTranspileSourceTo: aFileName [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
 }
 SRShader >> assignSamplerLocations [
 
 	| location |
-	location := Raylib getShaderLocationShader: internalShader uniformName: 'environmentMap'.
+	location := self locationOf: 'environmentMap'.
 	location >= 0 ifTrue: [
 		internalShader locs
 			at: RlShaderLocationIndex shaderLocMapCubemap + 1
@@ -600,6 +661,17 @@ SRShader >> finalize [
 ]
 
 {
+	#category : #initializing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> initialize [
+
+	super initialize.
+	floatBuffer := ByteArray new: 12.
+	intBuffer := ByteArray new: 4.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
@@ -610,8 +682,18 @@ SRShader >> internalShader [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
+SRShader >> lightUniforms [
+
+	self internalShader.
+	^ lightUniforms
+]
+
+{
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
 }
 SRShader >> loadInternalShader [
 
@@ -620,9 +702,29 @@ SRShader >> loadInternalShader [
 	sources := self class sourceFor: name version: self currentXRWorld renderer shaderVersion.
 	internalShader := Raylib loadShaderFromMemoryVsCode: (sources at: #vert) fsCode: (sources at: #frag).
 	uniformLocs := (sources at: #uniforms ifAbsent: [#()]) collect: [:uniform |
-		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)].
-	self assignSamplerLocations.
+		uniform -> (self locationOf: uniform)].
+	self assignSamplerLocations; loadLightUniforms.
 	FinalizationRegistry default add: self.
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
+SRShader >> loadLightUniforms [
+
+	lightUniforms := (SRLightUniforms isUsedBy: self)
+		ifTrue: [SRLightUniforms forShader: self]
+		ifFalse: [nil].
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> locationOf: aUniformName [
+
+	^ Raylib getShaderLocationShader: self internalShader uniformName: aUniformName asString
 ]
 
 {
@@ -653,6 +755,75 @@ SRShader >> onCacheInvalidated [
 ]
 
 {
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:08'
+}
+SRShader >> setColor: aColor intensity: aNumber at: aLocation [
+
+	self
+		setX: aColor red * aNumber
+		y: aColor green * aNumber
+		z: aColor blue * aNumber
+		at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setFloat: aNumber at: aLocation [
+
+	floatBuffer floatAt: 1 put: aNumber asFloat.
+	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformFloat at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setInt: anInteger at: aLocation [
+
+	intBuffer signedLongAt: 1 put: anInteger.
+	self setValue: intBuffer type: RlShaderUniformDataType shaderUniformInt at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setValue: aByteArray type: aUniformType at: aLocation [
+
+	aLocation < 0 ifTrue: [^ self].
+	Raylib
+		setShaderValueShader: self internalShader
+		locIndex: aLocation
+		value: aByteArray
+		uniformType: aUniformType.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setVector: aVector3 at: aLocation [
+
+	self setX: aVector3 x y: aVector3 y z: aVector3 z at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setX: x y: y z: z at: aLocation [
+
+	floatBuffer
+		floatAt: 1 put: x asFloat;
+		floatAt: 5 put: y asFloat;
+		floatAt: 9 put: z asFloat.
+	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformVec3 at: aLocation.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
@@ -666,7 +837,7 @@ SRShader >> uniformLocAt: aUniformName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader >> unload [
 
@@ -675,4 +846,19 @@ SRShader >> unload [
 	SRRenderer hasContext ifTrue: [Raylib unloadShader: internalShader].
 	internalShader := nil.
 	uniformLocs := nil.
+	lightUniforms := nil.
+	self changed: #shaderUnloaded.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/2/2026 15:15'
+}
+SRShader >> uploadLights: aCollection ambientColor: aColor viewPosition: aVector3 [
+
+	self lightUniforms ifNotNil: [:uniforms |
+		uniforms
+			uploadLights: aCollection
+			ambientColor: aColor
+			viewPosition: aVector3].
 ]

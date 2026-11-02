@@ -779,6 +779,15 @@ SRObject >> isRendering [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
+}
+SRObject >> isShining [
+
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
 }
 SRObject >> isSolid [

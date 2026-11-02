@@ -60,6 +60,21 @@ SRWorldTest >> testDeferredActionRunsOnTheNextCycle [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:05'
+}
+SRWorldTest >> testFrameCollectsLights [
+
+	| light |
+	light := SRPointLight new.
+	world addChild: (SRObject new addChild: light; yourself).
+	
+	SRFrame world: world deltaTime: 0.
+	
+	self assert: {light} equals: world lightsBuffer asArray.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:17'
 }
 SRWorldTest >> testStopDropsDeferredActions [

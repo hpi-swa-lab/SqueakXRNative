@@ -110,15 +110,22 @@ SRFrame >> initialize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRFrame >> initializeObjectLists [
 
+	| lights |
+	"Side note, after a reset the buffers can still hold old objects.
+	If the number of objects becomes very large in one frame,
+	objects at the back of the buffer would not be GCed until
+	the number rises to that amount again."
 	steppedObjects := self world steppedObjectsBuffer reset.
 	firstPassRenderedObjects := self world firstPassRenderBuffer reset.
 	secondPassRenderedObjects := self world secondPassRenderBuffer reset.
+	lights := self world lightsBuffer reset.
 	self world allDo: [:object |
 		object isStepping ifTrue: [steppedObjects add: object].
+		object isShining ifTrue: [lights add: object].
 		object isRendering ifTrue: [
 			(object renderInSecondPass
 				ifTrue: [secondPassRenderedObjects]

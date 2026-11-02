@@ -10,11 +10,29 @@ Class {
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:17'
+}
+SRGizmoPainter >> commands [
+
+	^ commands
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:02'
 }
 SRGizmoPainter >> commands2D [
 
 	^ commands2D
+]
+
+{
+	#category : #drawing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> drawLine: command renderer: aSRRenderer [
+
+	aSRRenderer renderLineFrom: command second to: command third withColor: command fourth.
 ]
 
 {
@@ -67,6 +85,15 @@ SRGizmoPainter >> drawWireBox: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #drawing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> drawWireCube: command renderer: aSRRenderer [
+
+	aSRRenderer renderCubeWiresTransformed: command second withColor: command third.
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
 }
@@ -106,12 +133,32 @@ SRGizmoPainter >> drawWirePlane: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #drawing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> drawWireSphere: command renderer: aSRRenderer [
+
+	aSRRenderer
+		renderSphereWiresTransformed: (Matrix4x4 withOffset: command second) * (Matrix4x4 withScale: (command third * 2) asVector3)
+		withColor: command fourth.
+]
+
+{
 	#category : #'2D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
 SRGizmoPainter >> gizmo2DText: aString at: aPoint fontSize: anInteger color: aColor [
 
 	commands2D add: {#text2D. aString. aPoint. anInteger. aColor}
+]
+
+{
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoLineFrom: startPosition to: endPosition color: aColor [
+
+	commands add: {#line. startPosition. endPosition. aColor}.
 ]
 
 {
@@ -133,12 +180,30 @@ SRGizmoPainter >> gizmoWireBox: aSRCollisionBox color: aColor [
 ]
 
 {
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoWireCube: aMatrix4x4 color: aColor [
+
+	commands add: {#wireCube. aMatrix4x4. aColor}.
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:15'
 }
 SRGizmoPainter >> gizmoWirePlane: aSRCollisionPlane color: aColor [
 
 	commands add: {#wirePlane. aSRCollisionPlane. aColor}.
+]
+
+{
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoWireSphere: globalPosition radius: aNumber color: aColor [
+
+	commands add: {#wireSphere. globalPosition. aNumber. aColor}.
 ]
 
 {
@@ -175,7 +240,7 @@ SRGizmoPainter >> render2DOn: aSRRenderer [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -183,6 +248,9 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 		command first caseOf: {
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
-			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer]}].
+			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
+			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
+			[#wireCube] -> [self drawWireCube: command renderer: aSRRenderer].
+			[#line] -> [self drawLine: command renderer: aSRRenderer]}].
 	commands removeAll.
 ]

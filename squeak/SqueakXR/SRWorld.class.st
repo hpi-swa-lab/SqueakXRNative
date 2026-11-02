@@ -27,7 +27,9 @@ Class {
 		'pendingFrameActions',
 		'cycleSemaphore',
 		'floorGeometry',
-		'supportsHandTracking'
+		'supportsHandTracking',
+		'visualEnvironment',
+		'lightsBuffer'
 	],
 	#classVars : [
 		'Current',
@@ -696,7 +698,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/22/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
 }
 SRWorld >> initialize [
 
@@ -710,6 +712,7 @@ SRWorld >> initialize [
 	self addChild: gizmoPainter.
 	
 	cameraTransform := RlTransform new.
+	visualEnvironment := SRVisualEnvironment new.
 	
 	self
 		isXR: false;
@@ -796,6 +799,15 @@ SRWorld >> keyboardFocus [
 SRWorld >> keyboardFocus: aSRObject [
 
 	keyboardFocus := aSRObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+}
+SRWorld >> lightsBuffer [
+
+	^ lightsBuffer ifNil: [lightsBuffer := OrderedCollection new: SRLight maxCount]
 ]
 
 { #category : #'as yet unclassified' }
@@ -942,12 +954,13 @@ SRWorld >> pollHandJoints [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
 }
 SRWorld >> prepareFrame [
 
 	self renderer pollEventsAndWaitForFrame.
 	self isXR ifTrue: [self updateCameraTransform].
+	self renderer environment: self visualEnvironment lights: self lightsBuffer.
 	isFramePrepared := self renderer prepareFrame: self avatar camera globalTransform.
 ]
 
@@ -1218,10 +1231,11 @@ SRWorld >> steppedObjectsBuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'leo 11/2/2026 15:10'
 }
 SRWorld >> stop [
 
+	"TODO: we should probably do this between frames"
 	self invalidateCache;
 		isRunning: false;
 		allDo: #onWorldStopped.
@@ -1290,6 +1304,24 @@ SRWorld >> updateDebugAxes [
 	| show |
 	show := SRAxes showAxes.
 	self debugAxesTargets do: [:each | each showAxes: show].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+}
+SRWorld >> visualEnvironment [
+
+	^ visualEnvironment
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+}
+SRWorld >> visualEnvironment: aVisualEnvironment [
+
+	visualEnvironment := aVisualEnvironment.
 ]
 
 {

@@ -3,7 +3,11 @@ Class {
 	#superclass : #SRRenderer,
 	#instVars : [
 		'clearColor',
-		'camera'
+		'camera',
+		'environment',
+		'lights',
+		'viewPosition',
+		'litShaders'
 	],
 	#classVars : [
 		'CachedColor1',
@@ -126,6 +130,20 @@ SRRaylibRenderer class >> rlVectorZero [
 ]
 
 {
+	#category : #lighting,
+	#'squeak_changestamp' : 'leo 11/2/2026 16:50'
+}
+SRRaylibRenderer >> applyLightingTo: aSRShader [
+
+	(litShaders includes: aSRShader) ifTrue: [^ self].
+	litShaders add: aSRShader.
+	aSRShader
+		uploadLights: lights
+		ambientColor: environment ambientColor
+		viewPosition: viewPosition.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/16/2026 17:13'
 }
@@ -143,6 +161,15 @@ SRRaylibRenderer >> clearColor: aColor [
 	clearColor
 		ifNil: [clearColor := RlColor new].
 	self class fill: clearColor withColor: aColor
+]
+
+{
+	#category : #lighting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
+}
+SRRaylibRenderer >> clearLitShaders [
+
+	litShaders removeAll.
 ]
 
 { #category : #'render-loop' }
@@ -218,14 +245,26 @@ SRRaylibRenderer >> enableDepthTest [
 ]
 
 {
+	#category : #lighting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
+}
+SRRaylibRenderer >> environment: aVisualEnvironment lights: aCollection [
+
+	environment := aVisualEnvironment.
+	lights := aCollection.
+	self clearColor: aVisualEnvironment clearColor.
+]
+
+{
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
 }
 SRRaylibRenderer >> initialize [
 
 	super initialize.
 
-	self clearColor: self class clearColor.
+	litShaders := IdentitySet new.
+	self environment: SRVisualEnvironment new lights: #().
 
 	SRRenderer mirrorPlaced: false.
 ]
@@ -317,6 +356,21 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderCubeWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubeWiresPosition: self class rlVectorZero
+				width: 1
+				height: 1
+				length: 1
+				color: (self class rlColorFor_1: aColor)].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:20'
 }
 SRRaylibRenderer >> renderFastCube: anSRFastCube [
@@ -342,10 +396,23 @@ SRRaylibRenderer >> renderFastCube: anSRFastCube [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderLineFrom: startVector3 to: endVector3 withColor: aColor [
+
+	Raylib
+		drawLine3DStartPos: (self class rlVector3For_1: startVector3)
+		endPos: (self class rlVector3For_2: endVector3)
+		color: (self class rlColorFor_1: aColor).
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:03'
 }
 SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMaterial [
 
+	aSRMaterial shader ifNotNil: [:shader | self applyLightingTo: shader].
 	Raylib
 		drawMesh: aSRMesh internalMesh
 		material: (aSRMaterial internalMaterialFor: self)
@@ -389,6 +456,21 @@ SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderSphereWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawSphereWiresCenterPos: self class rlVectorZero
+				radius: 0.5
+				rings: 16
+				slices: 16
+				color: (self class rlColorFor_1: aColor)].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 4/2/2026 13:31'
 }
 SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor [
@@ -416,17 +498,11 @@ SRRaylibRenderer >> renderString: aString transformed: aMatrix4x4 color: aColor 
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
 }
 SRRaylibRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 
-	self withTransform: aMatrix4x4 do: [
-		Raylib
-			drawCubeWiresPosition: self class rlVectorZero
-				width: 1
-				height: 1
-				length: 1
-				color: (self class rlColorFor_1: aColor muchDarker)].
+	self renderCubeWiresTransformed: aMatrix4x4 withColor: aColor muchDarker.
 ]
 
 { #category : #'render-loop' }
@@ -448,4 +524,20 @@ SRRaylibRenderer >> shaderVersion [
 SRRaylibRenderer >> shutdown [
 
 	self subclassResponsibility 
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:03'
+}
+SRRaylibRenderer >> updateCamera: cameraTransform [
+
+	| forward up |
+	viewPosition := cameraTransform translation.
+	forward := cameraTransform localDirToGlobal: Vector3 forward.
+	up := cameraTransform localDirToGlobal: Vector3 up.
+	camera
+		position: (self class rlVector3For_1: viewPosition);
+		target: (self class rlVector3For_2: viewPosition + forward);
+		up: (self class rlVector3For_3: up).
 ]

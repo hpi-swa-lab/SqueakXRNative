@@ -5,7 +5,6 @@ Class {
 		'cache'
 	],
 	#classVars : [
-		'ClearColor',
 		'GridColor',
 		'GridSlices',
 		'GridSpacing',
@@ -25,24 +24,6 @@ SRRenderer class >> assertContext [
 	"Calls into GL without a context do not raise, they take the VM down."
 
 	self assert: self hasContext description: 'no GL context: open a renderer window first'
-]
-
-{
-	#category : #preferences,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:30'
-}
-SRRenderer class >> clearColor [
-	<preference: 'Clear color'
-		category: 'SqueakXR'
-		description: 'Clear color for the renderer'
-		type: #Color>
-	^ ClearColor ifNil: [ClearColor := Color r: 0.753 g: 0.973 b: 0.977]
-]
-
-{ #category : #preferences }
-SRRenderer class >> clearColor: aColor [
-	
-	ClearColor := aColor
 ]
 
 { #category : #'as yet unclassified' }
@@ -328,9 +309,27 @@ SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderCubeWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:40'
 }
 SRRenderer >> renderFastCube: anSRFastCube [
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderLineFrom: startVector3 to: endVector3 withColor: aColor [
+
 	self subclassResponsibility
 ]
 
@@ -342,6 +341,15 @@ SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 
 { #category : #rendering }
 SRRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderSphereWiresTransformed: aMatrix4x4 withColor: aColor [
 
 	self subclassResponsibility
 ]
