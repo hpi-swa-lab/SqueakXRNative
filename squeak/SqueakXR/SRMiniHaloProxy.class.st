@@ -13,7 +13,8 @@ Class {
 	#name : #SRMiniHaloProxy,
 	#superclass : #SRObject,
 	#instVars : [
-		'dragging'
+		'dragging',
+		'label'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 11/2/2026 14:16'
@@ -44,12 +45,18 @@ SRMiniHaloProxy >> dragTo: xform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:47'
+	#'squeak_changestamp' : 'phkeese 11/2/2026 15:29'
 }
 SRMiniHaloProxy >> initialize [ 
 
 	super initialize.
-	dragging := false
+	dragging := false.
+	label := SRTextField new
+		position: Vector3 up;
+		scale: 0.3 asVector3;
+		text: 'Label';
+		centered: true.
+	self addChild: label.
 	
 ]
 
@@ -75,13 +82,23 @@ SRMiniHaloProxy >> startDragging: aHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:47'
+	#'squeak_changestamp' : 'phkeese 11/2/2026 15:43'
 }
 SRMiniHaloProxy >> step: deltaTime [
 
+	| xform labelPos end |
 	dragging ifFalse: [
 		self globalTransform: self parent miniTransform * self target globalTransform
-	]
+	].
+	labelPos := self globalTranslation  + (0@10cm@0).
+	xform := 
+		(Matrix4x4 withOffset: labelPos)
+		* (Matrix4x4 withScale: 3cm asVector3).
+	label globalTransform: xform.
+	label lookAtCamera.
+	label text: self target name asString.
+	end := self parent miniTransform localPointToGlobal: self target globalTranslation.
+	self gizmoPainter gizmoLine: labelPos to: end color: Color gray.
 ]
 
 {
