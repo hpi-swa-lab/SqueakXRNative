@@ -254,7 +254,7 @@ SRHalo >> renderInSecondPass [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:26'
+	#'squeak_changestamp' : 'phkeese 11/2/2026 13:42'
 }
 SRHalo >> step: deltaTime [ 
 
@@ -262,10 +262,7 @@ SRHalo >> step: deltaTime [
 	SRWorld haloAnchor caseOf: {
 		[SRHaloAnchor staticLineOfSight] -> [].
 		[SRHaloAnchor lineOfSight] -> [self moveToLineOfSight: deltaTime].
-		[SRHaloAnchor inactiveHand] -> [
-			self globalTranslation: self hand opposite globalTranslation.
-			self lookAtCamera.
-		]
+		[SRHaloAnchor inactiveHand] -> [self globalTransform: self hand opposite globalTransform].
 	}
 ]
 
