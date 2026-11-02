@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'timeRemaining',
 		'spin',
-		'size'
+		'size',
+		'light'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -24,20 +25,53 @@ SRGunMuzzleFlash class >> duration [
 ]
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'leo 11/2/2026 17:41'
+}
+SRGunMuzzleFlash class >> lightRange [
+
+	^ 5 m
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'leo 11/2/2026 17:41'
+}
+SRGunMuzzleFlash >> addLight [
+
+	light := SRPointLight new
+		color: Color yellow;
+		range: self class lightRange;
+		visible: false;
+		yourself.
+	self addChild: light.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
+}
+SRGunMuzzleFlash >> fade [
+
+	^ timeRemaining / self class duration
+]
+
+{
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRGunMuzzleFlash >> flash [
 
 	timeRemaining := self class duration.
 	spin := 90 atRandom.
 	size := 0.8 + (0.4 * ThreadSafeRandom value next).
-	self visible: true.
+	light intensity: 1.
+	self show: true.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRGunMuzzleFlash >> initialize [
 
@@ -46,7 +80,16 @@ SRGunMuzzleFlash >> initialize [
 	timeRemaining := 0.
 	spin := 0.
 	size := 1.
-	self visible: false.
+	self addLight; show: false.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
+}
+SRGunMuzzleFlash >> light [
+
+	^ light
 ]
 
 {
@@ -63,16 +106,15 @@ SRGunMuzzleFlash >> partAt: aVector3 rotation: degreesAroundForward scale: scale
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRGunMuzzleFlash >> renderOn: aSRRenderer [
 
-	| fade s |
+	| s |
 	timeRemaining <= 0 ifTrue: [^ self].
 	
 	"the flash is biggest right after the shot and shrinks while it fades"
-	fade := timeRemaining / self class duration.
-	s := size * (0.5 + (0.5 * fade)).
+	s := size * (0.5 + (0.5 * self fade)).
 	
 	aSRRenderer
 		renderSphereTransformed: (self partAt: 0 @ 0 @ (-5cm * s) rotation: spin scale: (5cm * s) @ (5cm * s) @ (12cm * s))
@@ -90,15 +132,24 @@ SRGunMuzzleFlash >> renderOn: aSRRenderer [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
+}
+SRGunMuzzleFlash >> show: aBoolean [
+
+	self visible: aBoolean.
+	light visible: aBoolean.
+]
+
+{
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRGunMuzzleFlash >> step: deltaTime [
 
 	timeRemaining <= 0 ifTrue: [^ self].
 	
-	timeRemaining := timeRemaining - deltaTime.
-	timeRemaining <= 0 ifTrue: [
-		timeRemaining := 0.
-		self visible: false].
+	timeRemaining := timeRemaining - deltaTime max: 0.
+	light intensity: self fade.
+	timeRemaining = 0 ifTrue: [self show: false].
 ]
