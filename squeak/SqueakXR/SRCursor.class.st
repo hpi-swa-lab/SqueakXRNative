@@ -11,7 +11,8 @@ Class {
 		'hand',
 		'focusPoint',
 		'focusCube',
-		'progress'
+		'progress',
+		'disabled'
 	],
 	#category : #'SqueakXR-Input',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:01'
@@ -58,6 +59,22 @@ SRCursor >> castSphereOn: targets from: anOrigin radius: aNumber [
 SRCursor >> color [
 
 	^ self hand ifNotNil: [:hand | hand color ] ifNil: [ Color black ]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:35'
+}
+SRCursor >> disabled [
+	^ disabled
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:35'
+}
+SRCursor >> disabled: aBool [
+	disabled := aBool
 ]
 
 {
@@ -117,13 +134,14 @@ SRCursor >> hand: anSRHand [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/27/2026 11:49'
+	#'squeak_changestamp' : 'phkeese 11/2/2026 13:21'
 }
 SRCursor >> initialize [ 
 
 	super initialize.
 	self cursorMode: SRCursorMode stop.
 	self progress: 0.
+	self disabled: false.
 
 ]
 
@@ -146,6 +164,22 @@ SRCursor >> intersectionsSelect: aBlock [
 	
 	"Filter the list of our intersections and keep only the ones where aBlock value: anIntersection returns true."
 	^ self intersections select: aBlock
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:36'
+}
+SRCursor >> isRendering [
+	^super isRendering and: [disabled not]
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:36'
+}
+SRCursor >> isStepping [
+	^super isStepping and: [disabled not]
 ]
 
 {

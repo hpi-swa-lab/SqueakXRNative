@@ -449,6 +449,17 @@ SRHand >> openMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:16'
+}
+SRHand >> opposite [ 
+
+	^self isRight 
+		ifTrue: [self avatar leftHand]
+		ifFalse: [self avatar rightHand]
+]
+
+{
 	#category : #stepping,
 	#'squeak_changestamp' : 'phkeese 10/30/2026 17:11'
 }

@@ -20,6 +20,7 @@ Class {
 	#name : #SRHalo,
 	#superclass : #SRObject,
 	#instVars : [
+		'hand',
 		'target',
 		'targetLocalPoint',
 		'frozen'
@@ -30,14 +31,15 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:05'
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:16'
 }
-SRHalo class >> initialHaloCenterFor: globalPoint in: aWorld [
+SRHalo class >> initialHaloCenterFor: globalPoint in: aWorld hand: aHand [
 	
 	"Initial center position of a Halo for a given point in the world."
 	^ SRWorld haloAnchor caseOf: {
 		[SRHaloAnchor lineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
 		[SRHaloAnchor staticLineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
+		[SRHaloAnchor inactiveHand] -> [aHand opposite globalTranslation].
 	}
 ]
 
@@ -122,6 +124,23 @@ SRHalo >> haloSpec [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:28'
+}
+SRHalo >> hand [
+	^ hand
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:30'
+}
+SRHalo >> hand: aHand [
+	hand := aHand.
+	hand ifNotNil: [:hand | hand halo: self ]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/29/2026 16:15'
 }
@@ -150,8 +169,17 @@ SRHalo >> isOpen [
 ]
 
 {
+	#category : #'pop up',
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:27'
+}
+SRHalo >> lookAtCamera [ 
+	
+	self lookAt: self world camera globalTranslation
+]
+
+{
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:11'
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:26'
 }
 SRHalo >> moveToLineOfSight: deltaTime [ 
 
@@ -160,8 +188,7 @@ SRHalo >> moveToLineOfSight: deltaTime [
 	point := self target globalTransform localPointToGlobal: targetLocalPoint.
 	los := self class lineOfSightFor: point in: self world.
 	self center: (self center interpolateTo: los at: 3 * deltaTime).
-	self lookAt: self world camera globalTranslation.
-
+	self lookAtCamera.
 ]
 
 {
@@ -190,7 +217,7 @@ SRHalo >> popUpFor: anSRObject event: event [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:05'
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:33'
 }
 SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
 		
@@ -204,12 +231,13 @@ SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
 		closeHalo;
 		activeHalo: self.
 	
-	self target: anSRObject.
-	aHand halo: self.
+	self
+		target: anSRObject;
+		hand: aHand.
 	world addChild: self.
 	
 	"Position ourselves according to the user's preferences."
-	self center: (self class initialHaloCenterFor: aPoint in: world).
+	self center: (self class initialHaloCenterFor: aPoint in: world hand: aHand).
 	self lookAt: world camera globalTranslation.
 
 	self addHandles.
@@ -226,7 +254,7 @@ SRHalo >> renderInSecondPass [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:13'
+	#'squeak_changestamp' : 'phkeese 10/30/2026 17:26'
 }
 SRHalo >> step: deltaTime [ 
 
@@ -234,6 +262,10 @@ SRHalo >> step: deltaTime [
 	SRWorld haloAnchor caseOf: {
 		[SRHaloAnchor staticLineOfSight] -> [].
 		[SRHaloAnchor lineOfSight] -> [self moveToLineOfSight: deltaTime].
+		[SRHaloAnchor inactiveHand] -> [
+			self globalTranslation: self hand opposite globalTranslation.
+			self lookAtCamera.
+		]
 	}
 ]
 
