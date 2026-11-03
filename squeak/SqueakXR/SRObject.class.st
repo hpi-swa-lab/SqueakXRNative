@@ -788,13 +788,12 @@ SRObject >> isShining [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/3/2026 18:31'
 }
 SRObject >> isSolid [
-	"Governs the body sweep only. Picking and the teleport ray go through #collisionGeometry, 
+	"Governs the body sweep only. Picking and the teleport ray go through #collisionGeometry,
 	so a menu can be hit by a ray without being something to stand on."
-	^ true
-
+	^ false
 ]
 
 { #category : #stepping }

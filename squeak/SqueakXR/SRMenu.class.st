@@ -320,14 +320,6 @@ SRMenu >> isMenu [
 ]
 
 {
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
-}
-SRMenu >> isSolid [
-	^ false
-]
-
-{
 	#category : #sticky,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:44'
 }

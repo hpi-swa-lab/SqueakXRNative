@@ -186,15 +186,6 @@ SRAxes >> isAxes [
 ]
 
 {
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:02'
-}
-SRAxes >> isSolid [
-
-	^ false
-]
-
-{
 	#category : #building,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
