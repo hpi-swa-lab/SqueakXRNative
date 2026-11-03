@@ -6,12 +6,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.oculus.permission.HAND_TRACKING" />
+    <uses-permission android:name="com.oculus.permission.USE_ANCHOR_API" />
+    <uses-permission android:name="com.oculus.permission.USE_SCENE" />
 
     <uses-feature
         android:name="android.hardware.vr.headtracking"
         android:required="true"
         android:version="1" />
-    <uses-feature android:name="oculus.software.handtracking" />
+    <!-- not required, so controllers keep working and the runtime can switch between hands and controllers -->
+    <uses-feature
+        android:name="oculus.software.handtracking"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +44,12 @@
         <meta-data
             android:name="com.oculus.supportedDevices"
             android:value="quest2|quest3|quest3s" />
+        <meta-data
+            android:name="com.oculus.handtracking.frequency"
+            android:value="HIGH" />
+        <meta-data
+            android:name="com.oculus.handtracking.version"
+            android:value="V2.0" />
 
         <activity
             android:name=".MainActivity"

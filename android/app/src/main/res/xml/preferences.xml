@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="image_category"
         app:title="Images">
@@ -39,10 +40,14 @@
         <SwitchPreferenceCompat
             app:key="launch_into_xr"
             app:title="Launch into XR on app start"/>
-        <EditTextPreference
-            app:key="start_script"
-            app:title="Do it expression (executed very early)"
-            app:defaultValue=""
-            app:useSimpleSummaryProvider="true"/>
+            <EditTextPreference
+                app:defaultValue=""
+                app:key="start_script"
+                app:title="DoIt expression (executed very early)"
+                app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="defer_doit"
+        android:title="Defer DoIt" />
 </PreferenceScreen>

@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
         storeImagePath(imagePath)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         storeStartScript(preferences.getString("start_script", "")!!)
+        storeDeferStartScript(preferences.getBoolean("defer_doit", true))
 
         val intent = Intent(this, VrActivity::class.java)
         startActivity(intent)
@@ -187,6 +188,8 @@ class MainActivity : AppCompatActivity() {
     external fun launch(imagePath: String)
     external fun storeImagePath(imagePath: String)
     external fun storeStartScript(startScript: String)
+
+    external fun storeDeferStartScript(defer: Boolean)
 
     companion object {
         // Used to load the 'squeakxrnative' library on application startup.
