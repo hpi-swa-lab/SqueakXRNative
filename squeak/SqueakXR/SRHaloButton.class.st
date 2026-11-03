@@ -82,13 +82,12 @@ SRHaloButton >> dragAction: aBlock [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:45'
+	#category : #events,
+	#'squeak_changestamp' : 'phkeese 11/3/2026 15:32'
 }
 SRHaloButton >> dragTo: aMatrix4x4 [
 
-	self dragAction ifNotNil: [:action | action cull: aMatrix4x4 cull: originalTransform ].
-	super dragTo: aMatrix4x4
+	self dragAction ifNotNil: [:action | action cull: self cull: aMatrix4x4]
 ]
 
 {
@@ -165,34 +164,34 @@ SRHaloButton >> minimumWidth: anObject [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:33'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 15:32'
 }
 SRHaloButton >> onButtonPress: event [
 
 	event button = #trigger ifFalse: [^self].
-	self clickAction ifNotNil: [:action | action cull: event. event handled: true.]
+	self clickAction ifNotNil: [:action | action cull: self cull: event. event handled: true.]
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:36'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 15:10'
 }
 SRHaloButton >> onGrabStarted: aHand [
 
-	originalTransform := self globalTransform.
+	originalTransform := self localTransform.
 	self grabAction ifNotNil: [:action | 
-		action cull: aHand cull: self globalTransform
+		action cull: self cull: aHand
 	]
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:11'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 15:10'
 }
 SRHaloButton >> onGrabStopped: aHand [
 
-	self globalTransform: originalTransform.
-	self dropAction ifNotNil: [:action | action cull: aHand]
+	self localTransform: originalTransform.
+	self dropAction ifNotNil: [:action | action cull: self cull: aHand ]
 ]
 
 {
@@ -221,10 +220,10 @@ SRHaloButton >> text: aString [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:36'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 14:47'
 }
 SRHaloButton >> wantsGrab [
-	^ self dragAction notNil
+	^ self dragAction notNil or: [self grabAction notNil]
 ]
 
 {
