@@ -9,7 +9,8 @@ Class {
 	#superclass : #SRHalo,
 	#instVars : [
 		'label',
-		'relXform'
+		'relXform',
+		'mini'
 	],
 	#category : #'SqueakXR-Halo',
 	#'squeak_changestamp' : 'phkeese 10/26/2026 14:01'
@@ -69,7 +70,7 @@ SRButterflyHalo >> dragTarget: xform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:24'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:23'
 }
 SRButterflyHalo >> initialize [
 
@@ -77,8 +78,12 @@ SRButterflyHalo >> initialize [
 	label := SRTextField new
 		centered: true;
 		text: 'No Target';
-		scale: 0.1 asVector3.
+		scale: 0.05 asVector3;
+		position: 0@ -5cm@0.
 	self addChild: label.
+	mini := SRMiniView new
+		scale: 0.1.
+	self addChild: mini.
 ]
 
 {
@@ -101,10 +106,11 @@ SRButterflyHalo >> stopMove [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 14:23'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 15:50'
 }
 SRButterflyHalo >> target: anObject [
 
 	label text: '', anObject.
+	mini subtree: anObject.
 	super target: anObject.
 ]
