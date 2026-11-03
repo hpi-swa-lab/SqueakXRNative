@@ -27,7 +27,7 @@ SRButterflyHalo class >> spacing [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 14:53'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:28'
 }
 SRButterflyHalo >> addHandles [ 
 
@@ -43,8 +43,10 @@ SRButterflyHalo >> addHandles [
 	bottom := {
 		SRHaloButton new
 			text: 'Move';
-			grabAction: [:button :hand | relXform := button globalTransform inverseTransformation * self target globalTransform. self frozen: true];
-			dragAction: [:button | self target dragTo: button globalTransform * relXform];
+			grabAction: [:button :hand | relXform := button globalTransform inverseTransformation * self target globalTransform.];
+			dragAction: [:button :xform | 
+				button globalTransform: xform.
+				self target dragTo: xform * relXform];
 			dropAction: [relXform := nil. self frozen: false].
 		SRHaloButton new
 			text: 'Remove';
