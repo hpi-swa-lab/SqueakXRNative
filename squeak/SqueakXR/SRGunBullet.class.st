@@ -33,6 +33,19 @@ SRGunBullet class >> streakLength [
 ]
 
 {
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/3/2026 19:04'
+}
+SRGunBullet >> hitsTargetFrom: start to: end [
+	"Only targets opt in to #hitByBulletFrom:to:, so SRObject stays free of gun protocol."
+
+	self world ifNil: [^ false].
+	^ self world children anySatisfy: [:each |
+		(each respondsTo: #hitByBulletFrom:to:)
+			and: [each hitByBulletFrom: start to: end]]
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
 }
@@ -59,14 +72,17 @@ SRGunBullet >> renderOn: aSRRenderer [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/3/2026 19:04'
 }
 SRGunBullet >> step: deltaTime [
 
+	| from |
 	age := age + deltaTime.
 	age > self class lifetime ifTrue: [^ self remove].
 	
-	self globalTranslation: self globalTranslation + (velocity * (deltaTime / 1000.0)).
+	from := self globalTranslation.
+	self globalTranslation: from + (velocity * (deltaTime / 1000.0)).
+	(self hitsTargetFrom: from to: self globalTranslation) ifTrue: [self remove].
 ]
 
 {
