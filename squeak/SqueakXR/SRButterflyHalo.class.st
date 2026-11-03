@@ -72,7 +72,7 @@ SRButterflyHalo >> dragTarget: xform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 16:23'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:45'
 }
 SRButterflyHalo >> initialize [
 
@@ -84,7 +84,7 @@ SRButterflyHalo >> initialize [
 		position: 0@ -5cm@0.
 	self addChild: label.
 	mini := SRMiniView new
-		scale: 0.1.
+		scale: 0.1 asVector3.
 	self addChild: mini.
 ]
 

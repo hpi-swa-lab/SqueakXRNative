@@ -2,15 +2,14 @@ Class {
 	#name : #SRMiniView,
 	#superclass : #SRObject,
 	#instVars : [
-		'subtree',
-		'scale'
+		'subtree'
 	],
 	#category : #'SqueakXR-Halo'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 16:42'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:46'
 }
 SRMiniView >> miniTransform [ 
 
@@ -20,7 +19,7 @@ SRMiniView >> miniTransform [
 	3. ...scaled proportionally to a scale of 1m
 	"
 	| xform |
-	xform := self globalTransform * (Matrix4x4 withScale: self scale).
+	xform := self globalTransform.
 	self subtree ifNotNil: [:top | | invT invR invS |
 		invT := Matrix4x4 withOffset: top globalTranslation negated.
 		invR := top globalRotation inverse asMatrix4x4.
@@ -57,22 +56,6 @@ SRMiniView >> renderOn: aRenderer [
 		tree allDescendantsSelect: [:obj | obj isRendering]
 	].
 	self renderObjects: renderingObjects on: aRenderer.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/3/2026 15:48'
-}
-SRMiniView >> scale [
-	^ scale
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/3/2026 15:48'
-}
-SRMiniView >> scale: anObject [
-	scale := anObject asVector3
 ]
 
 {

@@ -3,7 +3,8 @@ Class {
 	#superclass : #SRHalo,
 	#instVars : [
 		'label',
-		'targetLocalTransform'
+		'targetLocalTransform',
+		'mini'
 	],
 	#category : #'SqueakXR-Halo'
 }
@@ -65,7 +66,7 @@ SRRingHalo >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:15'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:44'
 }
 SRRingHalo >> initialize [ 
 
@@ -76,6 +77,10 @@ SRRingHalo >> initialize [
 		position: (0@ -0.2@0);
 		yourself.
 	self addChild: label.
+	mini := SRMiniView new
+		scale: 0.1 asVector3.
+	self addChild: mini.
+	
 	self frozen: true.
 ]
 
@@ -109,10 +114,11 @@ SRRingHalo >> stopGrabbing: aHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:17'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:44'
 }
 SRRingHalo >> target: anObject [
 
 	label text: '', anObject.
+	mini subtree: anObject.
 	^ super target: anObject
 ]
