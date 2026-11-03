@@ -4,31 +4,46 @@ Class {
 	#category : #'OpenXR-Typedefs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrExternalCameraAttachedToDeviceOCULUS class >> XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_HMD_OCULUS [
 
 	^ self on: (1)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrExternalCameraAttachedToDeviceOCULUS class >> XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_LTOUCH_OCULUS [
 
 	^ self on: (2)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrExternalCameraAttachedToDeviceOCULUS class >> XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_NONE_OCULUS [
 
 	^ self on: (0)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrExternalCameraAttachedToDeviceOCULUS class >> XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_RTOUCH_OCULUS [
 
 	^ self on: (3)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrExternalCameraAttachedToDeviceOCULUS class >> originalTypeName [
 
     ^ 'long'

@@ -1,1 +1,4 @@
-Package { #name : #OpenXR }
+Package {
+	#'squeak_changestamp' : true,
+	#name : #OpenXR
+}

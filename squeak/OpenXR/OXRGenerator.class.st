@@ -247,7 +247,10 @@ OXRGenerator >> createStruct: aType [
 	self createExternalStructure: ExternalStructure from: aType
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:17'
+}
 OXRGenerator >> createTypeFor: type [
 
 	(type attributeAt: #category) = #handle ifTrue: [
@@ -260,7 +263,7 @@ OXRGenerator >> createTypeFor: type [
 					createTypedef: type
 					type: alias]
 			ifNil: [
-				class := self createTypedef: type type: 'long'.
+				class := self createTypedef: type type: 'uint64_t'.
 				(type attributeAt: #requires) ifNotNil: [:req | bitmaskTypes at: req put: class]]].
 	
 	(type attributeAt: #category) = #funcpointer ifTrue: [^ self createTypedef: type type: 'void*'].

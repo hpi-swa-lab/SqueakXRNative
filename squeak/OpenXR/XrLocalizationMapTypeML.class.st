@@ -4,19 +4,28 @@ Class {
 	#category : #'OpenXR-Typedefs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrLocalizationMapTypeML class >> XR_LOCALIZATION_MAP_TYPE_CLOUD_ML [
 
 	^ self on: (1)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrLocalizationMapTypeML class >> XR_LOCALIZATION_MAP_TYPE_ON_DEVICE_ML [
 
 	^ self on: (0)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrLocalizationMapTypeML class >> originalTypeName [
 
     ^ 'long'

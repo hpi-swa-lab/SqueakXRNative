@@ -4,25 +4,37 @@ Class {
 	#category : #'OpenXR-Typedefs-Generated'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrVirtualKeyboardLocationTypeMETA class >> XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_CUSTOM_META [
 
 	^ self on: (0)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrVirtualKeyboardLocationTypeMETA class >> XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_DIRECT_META [
 
 	^ self on: (2)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrVirtualKeyboardLocationTypeMETA class >> XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_FAR_META [
 
 	^ self on: (1)
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/23/2026 15:21'
+}
 XrVirtualKeyboardLocationTypeMETA class >> originalTypeName [
 
     ^ 'long'
