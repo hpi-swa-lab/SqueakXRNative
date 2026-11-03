@@ -10,10 +10,15 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 16:21'
+	#'squeak_changestamp' : 'phkeese 11/3/2026 16:42'
 }
 SRMiniView >> miniTransform [ 
 
+	"Answer a transform with the following properties:
+	1. Our subtree is centered
+	2. ...looking forward
+	3. ...scaled proportionally to a scale of 1m
+	"
 	| xform |
 	xform := self globalTransform * (Matrix4x4 withScale: self scale).
 	self subtree ifNotNil: [:top | | invT invR invS |
