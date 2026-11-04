@@ -785,6 +785,14 @@ SRWorld >> isRunning: aBoolean [
 	running ifTrue: [self class current: self]
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/3/2026 18:31'
+}
+SRWorld >> isSolid [
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> isWorldObject [
 

@@ -157,14 +157,6 @@ SRMenuItem >> isMenuItem [
 ]
 
 {
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:26'
-}
-SRMenuItem >> isSolid [
-	^ false
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
