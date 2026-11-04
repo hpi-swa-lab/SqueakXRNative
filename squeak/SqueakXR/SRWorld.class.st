@@ -958,6 +958,15 @@ SRWorld >> render: aSRObject [
 	aSRObject renderOn: self renderer
 ]
 
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/4/2026 14:09'
+}
+SRWorld >> renderOn: aRenderer [
+
+	aRenderer renderGridSlices: 10 spacing: 1
+]
+
 { #category : #accessing }
 SRWorld >> renderer [
 

@@ -237,6 +237,15 @@ SRRenderer >> renderFastCube: anSRFastCube [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/4/2026 14:07'
+}
+SRRenderer >> renderGridSlices: anInt spacing: aNumber [
+
+	self subclassResponsibility 
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'phkeese 9/30/2026 15:24'
 }
 SRRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [

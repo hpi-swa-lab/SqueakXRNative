@@ -265,6 +265,15 @@ SRRaylibRenderer >> renderFastCube: anSRFastCube [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/4/2026 14:08'
+}
+SRRaylibRenderer >> renderGridSlices: anInt spacing: aNumber [
+
+	Raylib drawGridSlices: anInt spacing: aNumber
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'phkeese 9/30/2026 15:25'
 }
 SRRaylibRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [
