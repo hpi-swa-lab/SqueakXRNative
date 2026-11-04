@@ -211,11 +211,11 @@ SRCursor >> step: deltaTime [
 
 {
 	#category : #helpers,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 13:57'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 13:58'
 }
 SRCursor >> targetsIn: aSubTree [
 	
-	^ aSubTree allDescendants
+	^ aSubTree allDescendantsSelect: [:object | object collisionGeometry notNil and: [object ignoreCollision not]]
 ]
 
 {

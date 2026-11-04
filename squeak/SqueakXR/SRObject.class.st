@@ -19,7 +19,8 @@ Class {
 		'visible',
 		'cursorMode',
 		'haloMode',
-		'grabber'
+		'grabber',
+		'ignoreCollision'
 	],
 	#classVars : [
 		'UseIterativeTraversal'
@@ -841,8 +842,24 @@ SRObject >> hasParent [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/4/2026 13:57'
+}
+SRObject >> ignoreCollision [
+	^ ignoreCollision
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/4/2026 13:57'
+}
+SRObject >> ignoreCollision: anObject [
+	ignoreCollision := anObject
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:57'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 13:58'
 }
 SRObject >> initialize [
 
@@ -855,6 +872,7 @@ SRObject >> initialize [
 	"By default, objects with collision handle all inputs on that collision themselves."
 	cursorMode := SRCursorMode stop.
 	haloMode := SRHaloMode want.
+	ignoreCollision := false.
 	
 	visible := true.
 	

@@ -364,7 +364,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 16:32'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 13:59'
 }
 SRHand >> initialize [
 
@@ -388,6 +388,16 @@ SRHand >> initialize [
 		SRGrabAction new.
 		SRSendInputAction new.
 	}.
+	
+	self addChild: (SRCube new
+		scale: 6cm asVector3;
+		ignoreCollision: true).
+	self addChild: (SRCube new
+		scale: 4cm@10cm@4cm;
+		rotation: (Quaternion angle: -45 axis: Vector3 right);
+		position: 0@ -5cm@5cm;
+		ignoreCollision: true
+	).
 ]
 
 {
