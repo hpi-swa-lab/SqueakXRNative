@@ -31,12 +31,12 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:16'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:49'
 }
 SRHalo class >> initialHaloCenterFor: globalPoint in: aWorld hand: aHand [
 	
 	"Initial center position of a Halo for a given point in the world."
-	^ SRWorld haloAnchor caseOf: {
+	^ SRWorld haloAnchorMode caseOf: {
 		[SRHaloAnchor lineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
 		[SRHaloAnchor staticLineOfSight] -> [self lineOfSightFor: globalPoint in: aWorld].
 		[SRHaloAnchor inactiveHand] -> [aHand opposite globalTranslation].
@@ -142,13 +142,14 @@ SRHalo >> hand: aHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:15'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:51'
 }
 SRHalo >> initialize [ 
 
 	super initialize.
 	self haloMode: SRHaloMode forbid.
 	frozen := false.
+	self addChild: SRHaloAnchor new.
 ]
 
 {
@@ -241,20 +242,6 @@ SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
 SRHalo >> renderInSecondPass [ 
 
 	^ true
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/4/2026 14:04'
-}
-SRHalo >> step: deltaTime [ 
-
-	self frozen ifTrue: [^self].
-	SRWorld haloAnchor caseOf: {
-		[SRHaloAnchor staticLineOfSight] -> [].
-		[SRHaloAnchor lineOfSight] -> [self moveToLineOfSight: deltaTime].
-		[SRHaloAnchor inactiveHand] -> [self globalTransform: self hand opposite haloTransform].
-	}
 ]
 
 {

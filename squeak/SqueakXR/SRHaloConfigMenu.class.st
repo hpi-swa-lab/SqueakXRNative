@@ -39,9 +39,30 @@ SRHaloConfigMenu class >> rowY: row [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:28'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:58'
 }
 SRHaloConfigMenu >> addAnchorRow [
+	
+	| left y anchors |
+	left := 0.
+	y := self class rowY: 2.
+	anchors := [SRHaloAnchor all].
+	SRHaloAnchor all do: [:anchorMode | | button width |
+		button := SRHaloButton new
+			text: anchorMode asString;
+			clickAction: [SRWorld haloAnchorMode: anchorMode].
+		width := button width.
+		button position: (left + (width / 2))@y@0.
+		self addChild: button.
+		left := left + width + self class buttonSpacing.
+	].
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:58'
+}
+SRHaloConfigMenu >> addSpeciesRow [
 	
 	| left |
 	left := 0.
@@ -58,9 +79,9 @@ SRHaloConfigMenu >> addAnchorRow [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:28'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:57'
 }
-SRHaloConfigMenu >> addSpeciesRow [
+SRHaloConfigMenu >> addSpeciesRow2 [
 	
 	| left y anchors |
 	left := 0.

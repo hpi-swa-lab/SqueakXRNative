@@ -25,7 +25,7 @@ Class {
 	],
 	#classVars : [
 		'Current',
-		'HaloAnchor',
+		'HaloAnchorMode',
 		'HaloDistance',
 		'HaloSpecies',
 		'KeyDict',
@@ -305,22 +305,22 @@ SRWorld class >> ensureRenderFrame: world deltaTime: deltaTime [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:09'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:49'
 }
-SRWorld class >> haloAnchor [
-	<preference: 'Halo Anchor'
+SRWorld class >> haloAnchorMode [
+	<preference: 'Halo Anchor Mode'
 		category: 'SqueakXR'
-		description: 'Which where to anchor the Halo'
+		description: 'Where to anchor the Halo'
 		type: #String>
-	^ HaloAnchor ifNil: [SRHaloAnchor default]
+	^ HaloAnchorMode ifNil: [SRHaloAnchor default]
 ]
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 13:02'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:49'
 }
-SRWorld class >> haloAnchor: anAnchor [
-	HaloAnchor := anAnchor
+SRWorld class >> haloAnchorMode: anAnchorMode [
+	HaloAnchorMode := anAnchorMode
 ]
 
 {

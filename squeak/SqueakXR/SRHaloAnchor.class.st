@@ -1,7 +1,13 @@
+"
+A SRHaloAnchor is intended to be placed as a child of an SRHalo to anchor that halo according to the current haloAnchorMode preference of the user, every frame.
+Instance Variables
+
+"
 Class {
 	#name : #SRHaloAnchor,
-	#superclass : #Object,
-	#category : #'SqueakXR-Halo'
+	#superclass : #SRObject,
+	#category : #'SqueakXR-Halo',
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:47'
 }
 
 {
@@ -48,4 +54,20 @@ SRHaloAnchor class >> lineOfSight [
 SRHaloAnchor class >> staticLineOfSight [
 	"Place Halo between the user's head and the center point and stay there."
 	^'staticLineOfSight'
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/4/2026 16:50'
+}
+SRHaloAnchor >> step: deltaTime [
+
+	self parent frozen ifTrue: [^self].
+	SRWorld haloAnchorMode caseOf: {
+		[SRHaloAnchor staticLineOfSight] -> [].
+		[SRHaloAnchor lineOfSight] -> [self parent moveToLineOfSight: deltaTime].
+		[SRHaloAnchor inactiveHand] -> [self parent globalTransform: self parent hand opposite haloTransform].
+	}
+
+
 ]
