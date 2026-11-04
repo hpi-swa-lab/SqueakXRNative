@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'state',
 		'limboTarget',
+		'limboPoint',
 		'grabTarget',
 		'limboTime'
 	],
@@ -78,7 +79,7 @@ SROpenHaloAction >> grabbingState: inputState [
 
 {
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 10/27/2026 14:45'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 18:05'
 }
 SROpenHaloAction >> idleState: inputState [ 
 
@@ -89,6 +90,7 @@ SROpenHaloAction >> idleState: inputState [
 		^false
 	].
 	limboTime := Time now.
+	limboPoint := self hand cursorPoint.
 	grabTarget := limboTarget grabTarget.
 	grabTarget grabbingHand 
 		ifNil: [
@@ -139,7 +141,7 @@ SROpenHaloAction >> limboState: inputState [
 
 {
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 10/27/2026 14:42'
+	#'squeak_changestamp' : 'phkeese 11/4/2026 18:05'
 }
 SROpenHaloAction >> openHalo [ 
 
@@ -149,7 +151,7 @@ SROpenHaloAction >> openHalo [
 			Transcript showln: 'Opening halo on ', (target ancestorChain collect: [:node | node name]) reverse.
 			target addHalo: (SRInputEventButton new
 			target: target;
-			point: self hand cursorPoint;
+			point: limboPoint;
 			hand: self hand;
 			button: #bottomButton;
 			pressed: true
