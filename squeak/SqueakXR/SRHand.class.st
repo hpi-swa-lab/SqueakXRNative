@@ -279,6 +279,16 @@ SRHand >> halo: anObject [
 	halo := anObject
 ]
 
+{
+	#category : #input,
+	#'squeak_changestamp' : 'phkeese 11/4/2026 14:03'
+}
+SRHand >> haloTransform [
+
+	"Answer a transform to place a halo anchored to this hand at"
+	^ self globalTransform * (Matrix4x4 withOffset: 0@5cm@0)
+]
+
 { #category : #accessing }
 SRHand >> handIndex [
 
