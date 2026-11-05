@@ -39,25 +39,34 @@ SRAudioSource class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 17:58'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> bindSnippet: aSnippet [
 
 	self ensureReady.
 	OpenAL alSourceiSource: source first param: AlDefines alBuffer value: aSnippet buffer first.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:22'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> cleanup [
 
 	source ifNotNil: [
 		OpenAL alDeleteSourcesN: 1 sources: source.
-		SRAudio instance checkErrorAl.
+		self checkErrorAl.
 		source := nil]
+]
+
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'leo 11/5/2026 15:19'
+}
+SRAudioSource >> discardExternalObjects [
+
+	source := nil.
 ]
 
 {
@@ -91,7 +100,7 @@ SRAudioSource >> play: audio [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:21'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> position: aVector3 [
 
@@ -100,31 +109,30 @@ SRAudioSource >> position: aVector3 [
 		alSourcefvSource: source first
 		param: AlDefines alPosition
 		values: aVector3.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:03'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> rewind [
 
 	self ensureReady.
 	OpenAL alSourceRewindSource: source first.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:39'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> setup [
 
-	SRAudio instance ensureOpenAL.
+	self ensureOpenAL.
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
-	SRAudio instance checkErrorAl.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
@@ -138,11 +146,11 @@ SRAudioSource >> source [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 19:03'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> unbindBuffer [
 
 	source ifNotNil: [
 		OpenAL alSourceiSource: source first param: AlDefines alBuffer value: 0.
-		SRAudio instance checkErrorAl.].
+		self checkErrorAl.].
 ]

@@ -10,3 +10,10 @@ Class {
 }
 SRAudioStream >> cleanup [
 ]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/5/2026 15:19'
+}
+SRAudioStream >> discardExternalObjects [
+]

@@ -59,7 +59,7 @@ SRAudioSnippet >> buffer [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:43'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }
 SRAudioSnippet >> cleanup [
 
@@ -67,8 +67,18 @@ SRAudioSnippet >> cleanup [
 	currentSource := nil.
 	buffer ifNotNil: [
 		OpenAL alDeleteBuffersN: 1 buffers: buffer.
-		SRAudio instance checkErrorAl.
+		self checkErrorAl.
 		buffer := nil]
+]
+
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'leo 11/5/2026 15:18'
+}
+SRAudioSnippet >> discardExternalObjects [
+
+	currentSource := nil.
+	buffer := nil.
 ]
 
 {
@@ -123,7 +133,7 @@ SRAudioSnippet >> initialize [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:19'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
 
@@ -147,14 +157,14 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 		data: dataBuffer
 		size: dataBuffer size * 2
 		samplerate: info sampleRate.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 	
 	STBVorbis default close: file.
 ]
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:06'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }
 SRAudioSnippet >> playOn: aSource [
 
@@ -170,18 +180,18 @@ SRAudioSnippet >> playOn: aSource [
 			aSource bindSnippet: self].
 	
 	OpenAL alSourcePlaySource: aSource source first.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/4/2026 19:08'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }
 SRAudioSnippet >> setup [
 
-	SRAudio instance ensureOpenAL.
+	self ensureOpenAL.
 	buffer := ExternalType uint32_t allocate.
 	OpenAL alGenBuffersN: 1 buffers: buffer.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 	isFileDirty := true.
 ]

@@ -13,12 +13,12 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 18:44'
+	#'squeak_changestamp' : 'leo 11/5/2026 12:00'
 }
 SRAudio class >> initialize [
 
-	Smalltalk addToStartUpList: self.
-	Smalltalk addToShutDownList: self.
+	"Smalltalk addToStartUpList: self.
+	Smalltalk addToShutDownList: self."
 ]
 
 {
@@ -210,9 +210,11 @@ SRAudio >> ensureOpenAL [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 11/4/2026 18:45'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:22'
 }
 SRAudio >> initialize [
+
+	self notify: 'SRAudio only exists for reference purposes and will be removed in the future.'.
 
 	super initialize.
 	

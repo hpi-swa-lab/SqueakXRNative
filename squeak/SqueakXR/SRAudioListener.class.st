@@ -16,15 +16,22 @@ SRAudioListener >> cleanup [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 18:37'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:19'
+}
+SRAudioListener >> discardExternalObjects [
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/5/2026 15:24'
 }
 SRAudioListener >> forward: forwardVector up: upVector [
 
-	SRAudio instance ensureOpenAL.
+	self ensureOpenAL.
 	floatBuffer atAll: (1 to: 3) putAll: forwardVector.
 	floatBuffer atAll: (4 to: 6) putAll: upVector.
 	OpenAL alListenerfvParam: AlDefines alOrientation values: floatBuffer.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
@@ -39,11 +46,11 @@ SRAudioListener >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 18:23'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }
 SRAudioListener >> position: aVector3 [
 
-	SRAudio instance ensureOpenAL.
+	self ensureOpenAL.
 	OpenAL alListenerfvParam: AlDefines alPosition values: aVector3.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
