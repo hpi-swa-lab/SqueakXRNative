@@ -6,8 +6,7 @@ Class {
 	#superclass : #SRTextureSource,
 	#instVars : [
 		'morph',
-		'canvas',
-		'internalTexture'
+		'canvas'
 	],
 	#category : #'SqueakXR-Morphic',
 	#'squeak_changestamp' : '<historical>'
@@ -81,26 +80,6 @@ SRTextureSourceMorph >> morph: aMorph [
 	morph := aMorph.
 	morph ifNotNil: [morph addDependent: self].
 	self notifyTextureChanged.
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
-}
-SRTextureSourceMorph >> onCacheInvalidated [
-
-	internalTexture := nil.
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
-}
-SRTextureSourceMorph >> unload [
-
-	SRRenderer hasContext ifTrue: [
-		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
-	internalTexture := nil.
 ]
 
 {
