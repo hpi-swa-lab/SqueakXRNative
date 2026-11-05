@@ -4,9 +4,9 @@
 
 SqueakXR provides a XR interface for the [Squeak/Smalltalk](squeak.org) programming environment.
 
-It currently only supports Meta Quest headsets.
+Supported on Meta Quest headsets and SteamVR on Windows.
 
-![Screenshot](images/screenshot.png)
+![Screenshot](images/screenshot2.jpg)
 
 ## How to use
 
