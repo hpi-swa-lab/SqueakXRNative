@@ -36,6 +36,69 @@ SRLight class >> glslDefines [
 ]
 
 {
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/4/2026 19:48'
+}
+SRLight class >> glslLightingFrom: firstLocation [
+
+	^ String streamContents: [:stream |
+		stream
+			nextPutAll: self glslDefines;
+			nextPutAll: '
+struct Light
+{
+    int type;
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+    float range;
+};
+
+layout(location = '; print: firstLocation; nextPutAll: ') uniform vec3 ambientColor;
+layout(location = '; print: firstLocation + 1; nextPutAll: ') uniform vec3 viewPosition;
+layout(location = '; print: firstLocation + 2; nextPutAll: ') uniform int lightCount;
+layout(location = '; print: firstLocation + 3; nextPutAll: ') uniform Light lights[MAX_LIGHTS];
+
+float attenuation(float lightDistance, float range)
+{
+    if (range < 0.0) return 1.0;
+    if (lightDistance < 0.0) return 0.0;
+    float falloff = clamp(1.0 - lightDistance / range, 0.0, 1.0);
+    return falloff * falloff;
+}
+
+vec3 incidentLight(Light light, vec3 position, out vec3 toLight)
+{
+    float lightDistance;
+    if (light.type == LIGHT_DIRECTIONAL)
+    {
+        toLight = -light.direction;
+        lightDistance = dot(position - light.position, light.direction);
+    }
+    else
+    {
+        vec3 offset = light.position - position;
+        lightDistance = length(offset);
+        toLight = offset / max(lightDistance, 0.0001);
+    }
+    return light.color * attenuation(lightDistance, light.range);
+}
+
+vec3 diffuseLighting(vec3 position, vec3 normal)
+{
+    vec3 diffuse = ambientColor;
+    for (int i = 0; i < min(lightCount, MAX_LIGHTS); i++)
+    {
+        vec3 toLight;
+        vec3 radiance = incidentLight(lights[i], position, toLight);
+        diffuse += radiance * max(dot(normal, toLight), 0.0);
+    }
+    return diffuse;
+}
+']
+]
+
+{
 	#category : #constants,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:01'
 }
