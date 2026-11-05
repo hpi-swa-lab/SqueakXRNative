@@ -143,11 +143,11 @@ SRAudioSnippet >> initialize [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:55'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
 
-	| bufferPointer count dataBuffer error file info |
+	| bufferPointer count dataBuffer error file info length |
 	error := ExternalType int allocate.
 	file := STBVorbis default openFilename: aFilepathString error: error alloc: nil.
 	STBVorbis default getError: file.
@@ -155,20 +155,22 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 	info channels > 1 ifTrue: [
 		self error: 'Loading OGG files with more than 1 channel is not supported'.
 		^ self].
-	dataBuffer := ExternalType int16_t allocateExternal: info setupMemoryRequired.
+	length := STBVorbis default streamLengthInSamples: file.
+	dataBuffer := ExternalType int16_t allocateExternal: length * info channels.
 	bufferPointer := ExternalType int64_t allocate.
 	bufferPointer at: 1 put: dataBuffer getHandle asInteger.
-	count := STBVorbis default getSamplesShort: file channels: info channels buffer: bufferPointer length: info setupMemoryRequired.
+	count := STBVorbis default getSamplesShort: file channels: info channels buffer: bufferPointer length: length.
 	
 	self unbindFromCurrentSource.
 	currentSource := nil.
 	OpenAL alBufferDataBuffer: buffer first
 		format: AlDefines alFormatMono16
 		data: dataBuffer
-		size: dataBuffer size * 2
+		size: count * info channels * 2
 		samplerate: info sampleRate.
 	self checkErrorAl.
 	
+	dataBuffer free.
 	STBVorbis default close: file.
 ]
 
