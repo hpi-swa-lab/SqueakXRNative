@@ -58,6 +58,16 @@ SRAudioSnippet >> buffer [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'leo 11/5/2026 17:38'
+}
+SRAudioSnippet >> canPlay [
+
+	"TODO: make this more robust"
+	^ filepath notNil
+]
+
+{
 	#category : #lifecycle,
 	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
 }

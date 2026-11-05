@@ -190,7 +190,7 @@ SRGun >> holdTransform [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/4/2026 19:28'
+	#'squeak_changestamp' : 'leo 11/5/2026 17:39'
 }
 SRGun >> initialize [
 
@@ -205,7 +205,7 @@ SRGun >> initialize [
 		yourself.
 	self addChildren: {
 		muzzleFlash.
-		sound := SRAudioPlayer new}.
+		sound := SRAudioPlayer new filepath: 'C:\Users\leona\Downloads\gun.ogg'.}.
 ]
 
 {

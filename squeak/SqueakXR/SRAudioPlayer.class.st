@@ -10,23 +10,33 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 19:38'
+	#'squeak_changestamp' : 'leo 11/5/2026 17:37'
+}
+SRAudioPlayer >> filepath: aFilepathString [
+
+	data filepath: aFilepathString.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/5/2026 17:37'
 }
 SRAudioPlayer >> initialize [
 
 	super initialize.
 	
-	data := SRAudioSnippet fromFilepath: 'C:\Users\leona\Downloads\gun.ogg'.
+	data := SRAudioSnippet new.
 	source := SRAudioSource new.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 19:21'
+	#'squeak_changestamp' : 'leo 11/5/2026 17:39'
 }
 SRAudioPlayer >> play [
 
-	source play: data.
+	data canPlay ifTrue: [	
+		source play: data].
 ]
 
 {
