@@ -1,6 +1,6 @@
 Class {
 	#name : #SRAudioData,
-	#superclass : #Object,
+	#superclass : #SRAudioObject,
 	#instVars : [
 		'currentSource'
 	],
@@ -14,15 +14,6 @@ Class {
 SRAudioData >> cleanup [
 
 	self subclassResponsibility
-]
-
-{
-	#category : #finalizing,
-	#'squeak_changestamp' : 'lege 1/13/2026 11:48'
-}
-SRAudioData >> finalize [
-
-	self cleanup.
 ]
 
 {

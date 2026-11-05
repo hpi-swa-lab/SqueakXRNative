@@ -1,14 +1,39 @@
 Class {
 	#name : #SRAudioPlayer,
-	#superclass : #Object,
+	#superclass : #SRObject,
+	#instVars : [
+		'data',
+		'source'
+	],
 	#category : #'SqueakXR-Audio'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/19/2025 16:50'
+	#'squeak_changestamp' : 'leo 11/4/2026 19:38'
 }
 SRAudioPlayer >> initialize [
 
+	super initialize.
 	
+	data := SRAudioSnippet fromFilepath: 'C:\Users\leona\Downloads\gun.ogg'.
+	source := SRAudioSource new.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/4/2026 19:21'
+}
+SRAudioPlayer >> play [
+
+	source play: data.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/4/2026 19:19'
+}
+SRAudioPlayer >> step: delta [
+
+	source position: self globalTranslation.
 ]

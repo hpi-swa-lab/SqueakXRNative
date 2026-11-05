@@ -10,7 +10,8 @@ Class {
 		'hand',
 		'muzzleFlash',
 		'recoil',
-		'cooldown'
+		'cooldown',
+		'sound'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -18,12 +19,12 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'leo 11/5/2026 11:17'
 }
 SRGun class >> bulletSpeed [
 	"meters per second"
 
-	^ 40
+	^ 500
 ]
 
 {
@@ -157,7 +158,7 @@ SRGun >> dragTo: aMatrix4x4 [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'leo 11/4/2026 19:24'
 }
 SRGun >> fire [
 
@@ -165,6 +166,7 @@ SRGun >> fire [
 	recoil := 1.
 	muzzleFlash flash.
 	self spawnBullet.
+	sound play.
 ]
 
 {
@@ -188,7 +190,7 @@ SRGun >> holdTransform [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'leo 11/4/2026 19:28'
 }
 SRGun >> initialize [
 
@@ -201,7 +203,9 @@ SRGun >> initialize [
 	muzzleFlash := SRGunMuzzleFlash new
 		translation: self muzzleOffset;
 		yourself.
-	self addChild: muzzleFlash.
+	self addChildren: {
+		muzzleFlash.
+		sound := SRAudioPlayer new}.
 ]
 
 {

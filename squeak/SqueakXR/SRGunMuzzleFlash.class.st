@@ -26,11 +26,11 @@ SRGunMuzzleFlash class >> duration [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'leo 11/2/2026 17:41'
+	#'squeak_changestamp' : 'leo 11/5/2026 11:28'
 }
 SRGunMuzzleFlash class >> lightRange [
 
-	^ 5 m
+	^ 15 m
 ]
 
 {

@@ -20,6 +20,17 @@ SRAvatarCamera >> cameraTransformUpdated: cameraTransform [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/4/2026 19:23'
+}
+SRAvatarCamera >> initialize [
+
+	super initialize.
+
+	self addChild: SRAudioEars new.
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
 SRAvatarCamera >> onWorldChanged: oldWorld [

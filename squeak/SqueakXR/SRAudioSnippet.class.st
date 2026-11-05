@@ -2,10 +2,21 @@ Class {
 	#name : #SRAudioSnippet,
 	#superclass : #SRAudioData,
 	#instVars : [
-		'buffer'
+		'buffer',
+		'filepath',
+		'isFileDirty'
 	],
 	#category : #'SqueakXR-Audio'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/4/2026 19:12'
+}
+SRAudioSnippet class >> fromFilepath: aFilepahString [
+
+	^ self new filepath: aFilepahString
+]
 
 {
 	#category : #'as yet unclassified',
@@ -48,11 +59,12 @@ SRAudioSnippet >> buffer [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 3/6/2026 16:30'
+	#'squeak_changestamp' : 'leo 11/4/2026 18:43'
 }
 SRAudioSnippet >> cleanup [
 
 	self unbindFromCurrentSource.
+	currentSource := nil.
 	buffer ifNotNil: [
 		OpenAL alDeleteBuffersN: 1 buffers: buffer.
 		SRAudio instance checkErrorAl.
@@ -61,7 +73,57 @@ SRAudioSnippet >> cleanup [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'lege 1/12/2026 16:22'
+	#'squeak_changestamp' : 'leo 11/4/2026 17:35'
+}
+SRAudioSnippet >> ensureFileLoaded [
+
+	(isFileDirty and: [self filepath notNil]) ifTrue: [
+		self loadFilepath: self filepath.
+		isFileDirty := false.]
+]
+
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'leo 11/4/2026 17:34'
+}
+SRAudioSnippet >> ensureReady [
+
+	buffer ifNil: [self setup].
+	self ensureFileLoaded.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 11/4/2026 17:36'
+}
+SRAudioSnippet >> filepath [
+
+	^ filepath
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 11/4/2026 17:33'
+}
+SRAudioSnippet >> filepath: aFilepathString [
+
+	filepath := aFilepathString.
+	isFileDirty := true.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'leo 11/4/2026 17:33'
+}
+SRAudioSnippet >> initialize [
+
+	super initialize.
+	isFileDirty := true.
+]
+
+{
+	#category : #playback,
+	#'squeak_changestamp' : 'leo 11/4/2026 18:19'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
 
@@ -79,6 +141,7 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 	count := STBVorbis default getSamplesShort: file channels: info channels buffer: bufferPointer length: info setupMemoryRequired.
 	
 	self unbindFromCurrentSource.
+	currentSource := nil.
 	OpenAL alBufferDataBuffer: buffer first
 		format: AlDefines alFormatMono16
 		data: dataBuffer
@@ -91,22 +154,28 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'lege 1/9/2026 17:57'
+	#'squeak_changestamp' : 'leo 11/4/2026 18:06'
 }
 SRAudioSnippet >> playOn: aSource [
 
-	aSource = currentSource ifTrue: [
-		currentSource unbindBuffer].
+	self ensureReady.
+
+	"TODO: currently there is a 1-1 relation between source and data,
+	but technically multiple AL sources can share one buffer"
+	aSource = currentSource
+		ifTrue: [currentSource rewind]
+		ifFalse: [
+			currentSource ifNotNil: [currentSource unbindBuffer].
+			currentSource := aSource.
+			aSource bindSnippet: self].
 	
-	currentSource := aSource.
-	aSource bindSnippet: self.
 	OpenAL alSourcePlaySource: aSource source first.
 	SRAudio instance checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/9/2026 17:44'
+	#'squeak_changestamp' : 'leo 11/4/2026 19:08'
 }
 SRAudioSnippet >> setup [
 
@@ -114,4 +183,5 @@ SRAudioSnippet >> setup [
 	buffer := ExternalType uint32_t allocate.
 	OpenAL alGenBuffersN: 1 buffers: buffer.
 	SRAudio instance checkErrorAl.
+	isFileDirty := true.
 ]

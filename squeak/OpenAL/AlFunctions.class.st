@@ -6,11 +6,11 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/6/2026 17:46'
+	#'squeak_changestamp' : 'leo 11/4/2026 15:51'
 }
 AlFunctions class >> moduleName [
 
-	^ 'openal'
+	^ 'OpenAL32'
 ]
 
 {
