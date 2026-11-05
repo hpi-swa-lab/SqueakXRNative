@@ -1026,6 +1026,18 @@ SRObject >> onWorldStopped [
 
 {
 	#category : #hierarchy,
+	#'squeak_changestamp' : 'leo 11/4/2026 19:42'
+}
+SRObject >> openInFront [
+
+	| camera |
+	self openInWorld.
+	camera := self world camera.
+	self translation: camera globalTranslation + camera forward * 0.75m.
+]
+
+{
+	#category : #hierarchy,
 	#'squeak_changestamp' : 'lege 4/2/2026 16:37'
 }
 SRObject >> openInWorld [
