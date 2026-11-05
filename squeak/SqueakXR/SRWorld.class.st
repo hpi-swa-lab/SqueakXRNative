@@ -473,6 +473,20 @@ SRWorld class >> startUp: resuming [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/3/2026 12:14'
+}
+SRWorld class >> stopWorld: aMenu [
+	<xrMenu: #(world debug) label: 'Stop World' priority: 10000000>
+	
+	"Since the world process is suspended during the startUp/shutDown procedure,
+	we cannot perform said procedure in the world process. Instead, create a new process for it."
+	| world |
+	world := aMenu world.
+	Project current addDeferredUIMessage: [world stopWorldAndLeaveProject].
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }

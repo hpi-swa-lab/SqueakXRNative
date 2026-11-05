@@ -662,13 +662,14 @@ SRShader >> finalize [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+	#'squeak_changestamp' : 'leo 11/4/2026 14:16'
 }
 SRShader >> initialize [
 
 	super initialize.
 	floatBuffer := ByteArray new: 12.
 	intBuffer := ByteArray new: 4.
+	Smalltalk addToShutDownList: self.
 ]
 
 {
@@ -821,6 +822,16 @@ SRShader >> setX: x y: y z: z at: aLocation [
 		floatAt: 5 put: y asFloat;
 		floatAt: 9 put: z asFloat.
 	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformVec3 at: aLocation.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'leo 11/4/2026 14:17'
+}
+SRShader >> shutDown: quitting [
+
+	quitting ifTrue: [
+		self unloadAllShaders].
 ]
 
 {

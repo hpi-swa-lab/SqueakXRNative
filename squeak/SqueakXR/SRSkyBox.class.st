@@ -13,17 +13,6 @@ Class {
 
 {
 	#category : #defaults,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 18:02'
-}
-SRSkyBox class >> assetsDirectory [
-
-	^ (({GSBaseWorkingCopy. GSGitWorkingCopy} collect: [:class |
-		class named: 'SqueakXRNative' ifAbsent: [nil]]) detect: #notNil)
-			repository workingDir / 'assets'
-]
-
-{
-	#category : #defaults,
 	#'squeak_changestamp' : 'leo 10/30/2026 16:27'
 }
 SRSkyBox class >> defaultSize [
@@ -110,12 +99,12 @@ void main()
 
 {
 	#category : #defaults,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 18:05'
+	#'squeak_changestamp' : 'leo 11/3/2026 14:07'
 }
 SRSkyBox class >> textureFullPath [
 
 	^ (self skyAssetNames at: self sky) in: [:assetName |
-		(self assetsDirectory / (assetName, '_4K') / (assetName, '_cubemap.png')) fullName]
+		(SRAssets assetsDirectory / (assetName, '_4K') / (assetName, '_cubemap.png')) fullName]
 ]
 
 {
