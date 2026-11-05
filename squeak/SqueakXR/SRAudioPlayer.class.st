@@ -47,3 +47,12 @@ SRAudioPlayer >> step: delta [
 
 	source position: self globalTranslation.
 ]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/5/2026 17:58'
+}
+SRAudioPlayer >> stop [
+
+	source stop.
+]

@@ -145,6 +145,17 @@ SRAudioSource >> source [
 ]
 
 {
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:56'
+}
+SRAudioSource >> stop [
+
+	self ensureReady.
+	OpenAL alSourceStopSource: source first.
+	self checkErrorAl.
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
