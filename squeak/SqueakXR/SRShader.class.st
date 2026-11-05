@@ -442,6 +442,16 @@ SRShader class >> stages [
 ]
 
 {
+	#category : #'system startup',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRShader class >> startUp: resuming [
+
+	resuming ifFalse: [^ self].
+	self allInstancesDo: [:each | each discardExternalObjects].
+]
+
+{
 	#category : #shaders,
 	#'squeak_changestamp' : 'MCPServer 6/8/2026 16:23'
 }
@@ -650,6 +660,19 @@ SRShader >> assignSamplerLocations [
 ]
 
 {
+	#category : #releasing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRShader >> discardExternalObjects [
+	"No GL call: the handles belong to a process that no longer exists."
+
+	FinalizationRegistry default remove: self ifAbsent: [].
+	internalShader := nil.
+	uniformLocs := nil.
+	lightUniforms := nil.
+]
+
+{
 	#category : #finalization,
 	#'squeak_changestamp' : 'leo 10/15/2026 15:25'
 }
@@ -848,16 +871,13 @@ SRShader >> uniformLocAt: aUniformName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRShader >> unload [
 
 	internalShader ifNil: [^ self].
-	FinalizationRegistry default remove: self ifAbsent: [].
 	SRRenderer hasContext ifTrue: [Raylib unloadShader: internalShader].
-	internalShader := nil.
-	uniformLocs := nil.
-	lightUniforms := nil.
+	self discardExternalObjects.
 	self changed: #shaderUnloaded.
 ]
 

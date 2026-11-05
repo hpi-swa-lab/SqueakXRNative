@@ -13,12 +13,31 @@ Class {
 }
 
 {
+	#category : #'system startup',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRTexture class >> startUp: resuming [
+
+	resuming ifFalse: [^ self].
+	self allInstancesDo: [:each | each discardExternalObjects].
+]
+
+{
 	#category : #'instance creation',
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:22'
 }
 SRTexture class >> withSource: aTextureSource [
 
 	^ self new source: aTextureSource
+]
+
+{
+	#category : #releasing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRTexture >> discardExternalObjects [
+
+	internalTexture := nil.
 ]
 
 {
@@ -64,12 +83,12 @@ SRTexture >> source: aTextureSource [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRTexture >> unload [
 
 	source unload.
-	internalTexture := nil.
+	self discardExternalObjects.
 ]
 
 {

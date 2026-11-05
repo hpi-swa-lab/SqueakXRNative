@@ -5,8 +5,7 @@ Class {
 	#name : #SRTextureSourceFile,
 	#superclass : #SRTextureSource,
 	#instVars : [
-		'path',
-		'internalTexture'
+		'path'
 	],
 	#category : #'SqueakXR-Graphics-Texture',
 	#'squeak_changestamp' : '<historical>'
@@ -43,15 +42,6 @@ SRTextureSourceFile >> loadInternalTexture [
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:55'
-}
-SRTextureSourceFile >> onCacheInvalidated [
-
-	internalTexture := nil.
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:55'
 }
@@ -68,15 +58,4 @@ SRTextureSourceFile >> path: aString [
 
 	path := aString.
 	self notifyTextureChanged.
-]
-
-{
-	#category : #releasing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:55'
-}
-SRTextureSourceFile >> unload [
-
-	SRRenderer hasContext ifTrue: [
-		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
-	internalTexture := nil.
 ]

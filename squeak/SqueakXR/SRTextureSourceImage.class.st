@@ -6,7 +6,6 @@ Class {
 	#superclass : #SRTextureSource,
 	#instVars : [
 		'image',
-		'internalTexture',
 		'isEditable',
 		'width',
 		'height'
@@ -22,16 +21,6 @@ Class {
 SRTextureSourceImage class >> initialize [
 
 	Smalltalk addToStartUpList: self before: SRWorld.
-]
-
-{
-	#category : #'system startup',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 16:06'
-}
-SRTextureSourceImage class >> startUp: resuming [
-
-	resuming ifFalse: [^ self].
-	self allInstancesDo: [:each | each discardExternalObjects].
 ]
 
 {
@@ -58,12 +47,12 @@ SRTextureSourceImage >> createInternalTexture [
 
 {
 	#category : #releasing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRTextureSourceImage >> discardExternalObjects [
 
 	image := nil.
-	internalTexture := nil.
+	super discardExternalObjects.
 ]
 
 {
@@ -119,15 +108,6 @@ SRTextureSourceImage >> image [
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:10'
-}
-SRTextureSourceImage >> onCacheInvalidated [
-
-	internalTexture := nil.
-]
-
-{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:53'
 }
@@ -140,15 +120,12 @@ SRTextureSourceImage >> setWidth: w height: h [
 
 {
 	#category : #releasing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRTextureSourceImage >> unload [
 
-	SRRenderer hasContext ifTrue: [
-		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
-	internalTexture := nil.
 	image ifNotNil: [Raylib unloadImage: image].
-	image := nil.
+	super unload.
 ]
 
 {

@@ -8,8 +8,32 @@ Class {
 		'aimBox',
 		'previousGesture'
 	],
+	#classVars : [
+		'HandGestures'
+	],
 	#category : #'SqueakXR-HandTracking'
 }
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/4/2026 14:11'
+}
+SRTrackedHand class >> handGestures [
+	<preference: 'Hand gestures'
+		category: 'SqueakXR'
+		description: 'Recognise tracked-hand gestures: middle finger up deletes the object above the palm, a raised hand shows the aim box.'
+		type: #Boolean>
+	^ HandGestures ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/4/2026 14:11'
+}
+SRTrackedHand class >> handGestures: aBoolean [
+
+	HandGestures := aBoolean.
+]
 
 {
 	#category : #'as yet unclassified',
@@ -378,12 +402,12 @@ SRTrackedHand >> ringTip [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 14:54'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/4/2026 14:11'
 }
 SRTrackedHand >> step: delta [
 
 	| gesture |
-	gesture := self deriveGesture.
+	gesture := self class handGestures ifTrue: [self deriveGesture].
 	
 	aimBox visible: (gesture = #delete or: [gesture = #backAim]).
 	(previousGesture ~= #delete and: [gesture = #delete]) ifTrue: [

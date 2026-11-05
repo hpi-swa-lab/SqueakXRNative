@@ -9,7 +9,6 @@ Class {
 		'canvas',
 		'width',
 		'height',
-		'internalTexture',
 		'isEditable'
 	],
 	#category : #'SqueakXR-Graphics-Texture',
@@ -171,15 +170,6 @@ SRTextureSourceForm >> loadInternalTexture [
 ]
 
 {
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
-}
-SRTextureSourceForm >> onCacheInvalidated [
-
-	internalTexture := nil.
-]
-
-{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
 }
@@ -190,17 +180,6 @@ SRTextureSourceForm >> setWidth: w height: h [
 	form := Form extent: w @ h depth: 32.
 	canvas := form getCanvas.
 	isEditable := false.
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
-}
-SRTextureSourceForm >> unload [
-
-	SRRenderer hasContext ifTrue: [
-		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
-	internalTexture := nil.
 ]
 
 {
