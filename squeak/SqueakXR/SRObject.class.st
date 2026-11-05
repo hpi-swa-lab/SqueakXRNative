@@ -646,12 +646,15 @@ SRObject >> globalRotation [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:09'
+	#'squeak_changestamp' : 'phkeese 11/5/2026 15:55'
 }
 SRObject >> globalRotation: aQuaternion [
 
-	self globalTransform setFromQuaternion: aQuaternion.
-	self globalTransformDirty.
+	| T R S |
+	T := Matrix4x4 withOffset: self globalTranslation.
+	R := aQuaternion asMatrix4x4.
+	S := Matrix4x4 withScale: self globalScale.
+	self globalTransform: T * R * S
 ]
 
 { #category : #transforms }
