@@ -164,6 +164,20 @@ SRGizmoPainter >> drawWireSphere: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/5/2026 17:08'
+}
+SRGizmoPainter >> drawWireTorus: command renderer: aRenderer [
+
+	| torus color fwd |
+	torus := command second.
+	color := command third.
+	fwd := torus axis * torus minor.
+	aRenderer renderCircleCenter: torus center radius: torus major + torus minor axis: torus axis color: color.
+	aRenderer renderCircleCenter: torus center radius: torus major - torus minor axis: torus axis color: color.
+]
+
+{
 	#category : #'2D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
@@ -240,6 +254,15 @@ SRGizmoPainter >> gizmoWireSphere: globalPosition size: size color: color [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/5/2026 16:20'
+}
+SRGizmoPainter >> gizmoWireTorus: aCollisionTorus color: aColor [
+
+	commands add: {#wireTorus. aCollisionTorus. aColor }
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:57'
 }
 SRGizmoPainter >> initialize [
@@ -281,7 +304,7 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:54'
+	#'squeak_changestamp' : 'phkeese 11/5/2026 16:21'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -289,6 +312,7 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 		command first caseOf: {
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
 			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
+			[#wireTorus] -> [self drawWireTorus: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
 			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].

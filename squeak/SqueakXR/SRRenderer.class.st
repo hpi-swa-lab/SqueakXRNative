@@ -221,6 +221,15 @@ SRRenderer >> removeAt: aSymbol [
 	self cache removeKey: aSymbol ifAbsent: [].
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/5/2026 16:52'
+}
+SRRenderer >> renderCircleCenter: aVector3 radius: aFloat axis: Vector3 color: aColor [
+
+	self subclassResponsibility
+]
+
 { #category : #rendering }
 SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 

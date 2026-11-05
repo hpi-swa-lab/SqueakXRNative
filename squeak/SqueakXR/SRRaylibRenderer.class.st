@@ -220,6 +220,25 @@ SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontS
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/5/2026 17:41'
+}
+SRRaylibRenderer >> renderCircleCenter: center radius: radius axis: axis color: color [
+	
+	| T R |
+	R := Matrix4x4 at: axis up: Vector3 up.
+	T := Matrix4x4 withOffset: center.
+	self withTransform: T * R do: [
+		Raylib drawCircle3DCenter: (self class rlVectorZero) 
+		radius: radius 
+		rotationAxis: (self class rlVector3For_2: 0@0@1)
+		rotationAngle: 0 
+		color: (self class rlColorFor_1: color).
+		Raylib drawLine3DStartPos: (self class rlVectorZero) endPos: (self class rlVector3For_2: 0@0@1) color: (self class rlColorFor_1: color).
+	]
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
 }
 SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [

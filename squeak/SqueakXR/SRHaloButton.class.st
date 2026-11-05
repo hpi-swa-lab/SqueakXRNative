@@ -12,12 +12,13 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'clickAction',
+		'grabAction',
 		'dragAction',
 		'dropAction',
+		'stepAction',
 		'cube',
 		'text',
 		'originalTransform',
-		'grabAction',
 		'minimumWidth'
 	],
 	#category : #'SqueakXR-Halo',
@@ -192,6 +193,33 @@ SRHaloButton >> onGrabStopped: aHand [
 
 	self localTransform: originalTransform.
 	self dropAction ifNotNil: [:action | action cull: self cull: aHand ]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/5/2026 15:40'
+}
+SRHaloButton >> step: deltaTime [ 
+
+	self stepAction ifNotNil: [:action |
+		action cull: self cull: deltaTime 
+	]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/5/2026 15:40'
+}
+SRHaloButton >> stepAction [
+	^ stepAction
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/5/2026 15:40'
+}
+SRHaloButton >> stepAction: anObject [
+	stepAction := anObject
 ]
 
 {
