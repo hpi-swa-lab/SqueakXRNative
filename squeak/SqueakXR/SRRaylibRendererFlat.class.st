@@ -75,18 +75,19 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 10/1/2026 12:27'
+	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:12'
 }
 SRRaylibRendererFlat >> completeFrame [
-
+	"The loop only reschedules here, and it has to sit after #endDrawing, which discards unread 
+	input."
 	Raylib endMode3D.
 	self drawReticle.
-	
+
 	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
-	
-	1 milliSecond wait.
-	
+
 	Raylib endDrawing.
+
+	1 milliSecond wait.
 
 ]
 
@@ -132,19 +133,13 @@ SRRaylibRendererFlat >> initialize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'phkeese 11/4/2026 14:08'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:55'
 }
 SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
-	| position forward up target |
-	position := cameraTransform translation.
-	forward := cameraTransform localDirToGlobal: Vector3 forward.
-	up := cameraTransform localDirToGlobal: Vector3 up.
-	target := position + forward.
-	camera
-		position: (self class rlVector3For_1: position);
-		target: (self class rlVector3For_2: target);
-		up: (self class rlVector3For_3: up).
+	self
+		clearLitShaders;
+		updateCamera: cameraTransform.
 	Raylib
 		beginDrawing;
 		clearBackgroundColor: clearColor;
@@ -163,10 +158,12 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
 }
 SRRaylibRendererFlat >> setup [
 
+	SRDesktopInputState reset.
+	
 	self class highDpiEnabled ifTrue: [
 		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
 	

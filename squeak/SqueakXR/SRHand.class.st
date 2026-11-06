@@ -5,24 +5,33 @@ Class {
 	#name : #SRHand,
 	#superclass : #SRObject,
 	#instVars : [
-		'handIndex',
-		'triggerPressed',
-		'squeezePressed',
 		'aPressed',
-		'menuPressed',
-		'xPressed',
 		'actionState',
-		'selectedObject',
-		'hoveredMenuItem',
-		'avatar',
-		'inputState',
-		'cursor',
-		'halo',
 		'actions',
-		'firstIntersection'
+		'avatar',
+		'cursor',
+		'firstIntersection',
+		'grabbedObject',
+		'grabbedRelativeTransform',
+		'halo',
+		'handIndex',
+		'hoveredMenuItem',
+		'inputDebugLabel',
+		'inputState',
+		'lastInputEvent',
+		'menuPressed',
+		'selectedObject',
+		'squeezePressed',
+		'tool',
+		'toolPreview',
+		'triggerPressed',
+		'turnArmed',
+		'xPressed'
 	],
 	#classVars : [
 		'EndRate',
+		'SharedTool',
+		'ShowInputDebug',
 		'StartRate',
 		'TransitionEnd',
 		'TransitionStart'
@@ -41,6 +50,15 @@ SRHand class >> left [
 SRHand class >> leftIndex [
 
 	^ 1
+]
+
+{
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand class >> leftRayColor [
+
+	^ Color cyan
 ]
 
 {
@@ -75,6 +93,14 @@ SRHand class >> rightIndex [
 ]
 
 {
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+}
+SRHand class >> rightRayColor [
+	^ Color r: 1.0 g: 0.5 b: 0.5
+]
+
+{
 	#category : #'distance remapping',
 	#'squeak_changestamp' : 'lege 10/17/2025 17:24'
 }
@@ -93,6 +119,47 @@ SRHand class >> setDistanceRemappingTransitionStart: transitionStart end: transi
 	TransitionEnd := transitionEnd.
 	StartRate := startRate.
 	EndRate := endRate.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand class >> sharedTool [
+	<preference: 'Shared tool in both hands'
+		category: 'SqueakXR'
+		description: 'Picking a tool arms both hands instead of only the hand that reached for it. For one-handed use, or when holding two different tools is more to keep track of than it is worth.'
+		type: #Boolean>
+	^ SharedTool ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand class >> sharedTool: aBoolean [
+
+	SharedTool := aBoolean.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+}
+SRHand class >> showInputDebug [
+	<preference: 'Hand input debug labels'
+		category: 'SqueakXR'
+		description: 'Show the live trigger and squeeze values and the last input event as a label at each hand. For telling a controller that is not reporting from an action that is being refused.'
+		type: #Boolean>
+	^ ShowInputDebug ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
+}
+SRHand class >> showInputDebug: aBoolean [
+	ShowInputDebug := aBoolean.
 ]
 
 {
@@ -138,6 +205,15 @@ SRHand >> addActions: aList [
 ]
 
 {
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+}
+SRHand >> appUnderRay [
+
+	^ self castRayForward ifNotNil: [:result | result object app]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 6/30/2026 17:19'
 }
@@ -153,6 +229,16 @@ SRHand >> avatar [
 SRHand >> avatar: anSRAvatar [
 
 	avatar := anSRAvatar
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand >> basicTool: aTool [
+
+	tool := aTool.
+	self updateToolPreview.
 ]
 
 {
@@ -314,48 +400,6 @@ SRHand >> handIndex: anInteger [
 ]
 
 {
-	#category : #input,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
-}
-SRHand >> handleSqueeze: aNumber [
-
-	| prevSqueezePressed threshold |
-	self flag: #deprecated.
-	prevSqueezePressed := squeezePressed.
-	threshold := squeezePressed
-		ifTrue: [0.8]
-		ifFalse: [0.9].
-	squeezePressed := aNumber > threshold.
-	
-	(squeezePressed and: [prevSqueezePressed not]) ifTrue: [
-		triggerPressed
-			ifTrue: [self openMenu]
-			ifFalse: [self startGrabbing]].
-	(squeezePressed not and: [prevSqueezePressed])
-		ifTrue: [self stopGrabbing].
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'lege 8/7/2026 13:04'
-}
-SRHand >> handleTrigger: aNumber [
-
-	| prevTriggerPressed threshold |
-	self flag: #deprecated.
-	prevTriggerPressed := triggerPressed.
-	threshold := triggerPressed
-		ifTrue: [0.8]
-		ifFalse: [0.9].
-	triggerPressed := aNumber > threshold.
-	
-	(triggerPressed and: [prevTriggerPressed not]) ifTrue: [
-		squeezePressed
-			ifTrue: [self openMenu]
-			ifFalse: [self rayCast]].
-]
-
-{
 	#category : #stepping,
 	#'squeak_changestamp' : 'lege 8/6/2026 19:10'
 }
@@ -450,6 +494,15 @@ SRHand >> menuButton [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand >> noteInputEvent: aString [
+
+	lastInputEvent := aString.
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
 }
@@ -507,14 +560,30 @@ SRHand >> printOn: aStream [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 12:52'
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
 }
 SRHand >> rayCast [
 
-	| result |
-	result := self castRayBackward.
-	result ifNotNil: [
-		result object onRaycast: (result asHandIntersection: actionState)]
+	| result hit |
+	result := self castRayForward.
+	result ifNil: [^ self noteInputEvent: 'ray hit nothing'].
+	hit := result asHandRayIntersection: actionState hand: self.
+	(tool notNil and: [tool handleRaycast: hit]) ifTrue: [
+		^ self noteInputEvent: tool label , ' used'].
+	self noteInputEvent: (tool
+		ifNil: ['bare hand on ' , result object class name]
+		ifNotNil: [:each | each label , ' DECLINED, hit ' , result object class name]).
+	result object onRaycast: hit
+]
+
+{
+	#category : #appearance,
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:39'
+}
+SRHand >> rayColor [
+	^ self isLeft
+		ifTrue: [self class leftRayColor]
+		ifFalse: [self class rightRayColor]
 ]
 
 {
@@ -548,17 +617,50 @@ SRHand >> squeeze [
 	^ self inputState squeeze
 ]
 
-{ #category : #actions }
+{
+	#category : #stepping,
+	#'squeak_changestamp' : 'leo 11/6/2026 15:42'
+}
+SRHand >> step: deltaTime [
+
+	"self performActions;
+		updateGrabbedObjectTransform;
+		highlightSelectedObject.
+
+	self isRight ifTrue: [self updateTurn: deltaTime].
+	self isLeft ifTrue: [self avatar ifNotNil: [:a | a updateLocomotion: deltaTime]]."
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
 SRHand >> teleport [
 
-	| forward groundPoint t translation |
-	"hand points backward, so we need to start with Vector3 backward instead of forward"
-	forward := self globalTransform localDirToGlobal: Vector3 backward.
-	forward y > 0 ifTrue: [^ self]. "hand is not pointing at ground"
-	translation := self globalTranslation.
-	t := (translation y / forward y) negated.
-	groundPoint := forward * t + translation.
-	self world avatar translation: groundPoint.
+	| hit |
+	self world ifNil: [^ self].
+	hit := self rayForward castNearestSolid: self world.
+	hit ifNil: [^ self].
+	self world avatar teleportTo: hit point.
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand >> tool [
+	^ tool
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:46'
+}
+SRHand >> tool: aTool [
+
+	(self class sharedTool and: [avatar notNil])
+		ifTrue: [avatar hands do: [:each | each basicTool: aTool]]
+		ifFalse: [self basicTool: aTool].
 ]
 
 {
@@ -599,6 +701,64 @@ SRHand >> updateFirstIntersection [
 ]
 
 {
+	#category : #debugging,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand >> updateInputDebugLabel [
+
+	self class showInputDebug ifFalse: [
+		inputDebugLabel ifNotNil: [
+			inputDebugLabel remove.
+			inputDebugLabel := nil].
+		^ self].
+	inputDebugLabel ifNil: [
+		inputDebugLabel := SRTextField new
+			color: Color white;
+			scale: 0.004 asVector3;
+
+			translation: -3cm @ 4cm @ 6cm;
+			yourself.
+		self addChild: inputDebugLabel].
+	inputDebugLabel text: (String streamContents: [:out |
+		out nextPutAll: (self isLeft ifTrue: ['L'] ifFalse: ['R']);
+			nextPutAll: ' trig '; nextPutAll: (self trigger value roundTo: 0.01) printString;
+			nextPutAll: (self trigger isPressed ifTrue: ['*'] ifFalse: ['']);
+			nextPutAll: ' sqz '; nextPutAll: (self squeeze value roundTo: 0.01) printString;
+			nextPutAll: (self squeeze isPressed ifTrue: ['*'] ifFalse: ['']);
+			cr;
+			nextPutAll: (lastInputEvent ifNil: ['--'])]).
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand >> updateTeleportAim [
+
+	| stick |
+	self avatar ifNil: [^ self].
+	SRAvatar locomotionStyle == #teleport ifFalse: [^ self avatar cancelTeleportAim].
+	stick := self joystick vector.
+	(stick x = 0 and: [stick y = 0])
+		ifTrue: [self avatar commitTeleport]
+		ifFalse: [self avatar aimTeleportFrom: self]
+]
+
+{
+	#category : #tools,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
+}
+SRHand >> updateToolPreview [
+
+	toolPreview ifNotNil: [
+		toolPreview remove.
+		toolPreview := nil].
+	tool ifNil: [^ self].
+	toolPreview := tool newPreviewObject.
+	toolPreview ifNotNil: [self addChild: toolPreview].
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'lege 8/10/2026 11:09'
 }
@@ -608,4 +768,21 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 	pose := aSRActionStates aimPoses at: self handIndex.
 	self translation: pose position;
 		rotation: pose orientation
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRHand >> updateTurn: deltaTime [
+
+	| push |
+	self avatar ifNil: [^ self].
+	push := self joystick horizontal.
+	SRAvatar turnStyle == #smooth ifTrue: [
+		^ self avatar turnBy: push * SRAvatar smoothTurnSpeed * deltaTime / 1000.0].
+	push = 0 ifTrue: [^ turnArmed := true].
+	turnArmed == false ifTrue: [^ self].
+	turnArmed := false.
+	self avatar turnBy: push sign * SRAvatar snapTurnAngle
 ]

@@ -66,3 +66,13 @@ STBVorbis >> openFilename: filename error: error alloc: alloc [
 	^ self externalCallFailed
 
 ]
+
+{
+	#category : #functions,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:55'
+}
+STBVorbis >> streamLengthInSamples: f [
+
+	<cdecl: uint32_t 'stb_vorbis_stream_length_in_samples'(void*)>
+	^ self externalCallFailed
+]

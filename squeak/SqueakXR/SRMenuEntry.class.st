@@ -17,7 +17,8 @@ Class {
 		'label',
 		'priority',
 		'provider',
-		'selector'
+		'action',
+		'keepOpen'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -25,7 +26,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
 }
 SRMenuEntry class >> fromPragma: aPragma [
 	^ self new
@@ -33,15 +34,24 @@ SRMenuEntry class >> fromPragma: aPragma [
 		label: (aPragma argumentAt: 2)
 		priority: (aPragma arguments size >= 3 ifTrue: [aPragma argumentAt: 3] ifFalse: [500])
 		provider: aPragma methodClass theNonMetaClass
-		selector: aPragma selector
+		action: aPragma selector
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
+}
+SRMenuEntry >> action [
+	^ action
 ]
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
 }
 SRMenuEntry >> activateIn: aMenu target: anObjectOrNil [
-	^ provider perform: selector withEnoughArguments: {aMenu. anObjectOrNil}
+	action isSymbol ifFalse: [^ action value].
+	^ provider perform: action withEnoughArguments: {aMenu. anObjectOrNil}
 ]
 
 {
@@ -55,6 +65,22 @@ SRMenuEntry >> isUnder: aPrefix [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
+}
+SRMenuEntry >> keepOpen [
+	^ keepOpen ifNil: [false]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
+}
+SRMenuEntry >> keepOpen: aBoolean [
+	keepOpen := aBoolean
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
 }
 SRMenuEntry >> label [
@@ -63,12 +89,14 @@ SRMenuEntry >> label [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
 }
 SRMenuEntry >> labelIn: aMenu target: anObjectOrNil [
 	"A Symbol label is computed by the provider, for toggles."
-	label isSymbol ifFalse: [^ label asString].
-	^ (provider perform: label withEnoughArguments: {aMenu. anObjectOrNil}) asString
+	label isSymbol ifTrue: [
+		^ (provider perform: label withEnoughArguments: {aMenu. anObjectOrNil}) asString].
+	label isString ifTrue: [^ label].
+	^ label value asString
 ]
 
 {
@@ -98,7 +126,7 @@ SRMenuEntry >> pathUnder: aPrefix [
 
 {
 	#category : #printing,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
 }
 SRMenuEntry >> printOn: aStream [
 	aStream
@@ -106,7 +134,7 @@ SRMenuEntry >> printOn: aStream [
 		print: label;
 		nextPutAll: ' p'; print: priority;
 		nextPutAll: ' <- '; nextPutAll: provider name;
-		nextPutAll: ' class>>'; nextPutAll: selector
+		nextPutAll: ' class>>'; print: action
 ]
 
 {
@@ -126,21 +154,15 @@ SRMenuEntry >> provider [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
-SRMenuEntry >> selector [
-	^ selector
-]
+SRMenuEntry >> setPath: anArray label: aStringSymbolOrBlock priority: anInteger provider: aClass action: aSelectorOrBlock [
 
-{
-	#category : #private,
-	#'squeak_changestamp' : 'MCPServer 7/30/2026 17:36'
-}
-SRMenuEntry >> setPath: anArray label: aStringOrSymbol priority: anInteger provider: aClass selector: aSelector [
 	path := anArray.
-	label := aStringOrSymbol.
+	label := aStringSymbolOrBlock.
 	priority := anInteger.
 	provider := aClass.
-	selector := aSelector
+	action := aSelectorOrBlock.
+	keepOpen := false.
 ]

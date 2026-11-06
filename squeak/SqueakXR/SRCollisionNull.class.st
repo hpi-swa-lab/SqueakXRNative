@@ -12,6 +12,15 @@ SRCollisionNull >> ifCollisionGeometry: aBlock [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:39'
+}
+SRCollisionNull >> intersectsBoxCenter: aCentre halfExtents: aHalfExtents [
+
+	^ false
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:13'
 }

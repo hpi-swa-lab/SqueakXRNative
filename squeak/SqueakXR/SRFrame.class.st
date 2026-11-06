@@ -8,10 +8,32 @@ Class {
 		'isOld',
 		'firstPassRenderedObjects',
 		'secondPassRenderedObjects',
-		'hasRenderingBegun'
+		'hasRenderingBegun',
+		'isCompleted'
+	],
+	#classVars : [
+		'FrameExceptionSet'
 	],
 	#category : #'SqueakXR-Core'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/30/2026 15:38'
+}
+SRFrame class >> exceptionSet [
+
+	^ FrameExceptionSet ifNil: [FrameExceptionSet := Error, Halt]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 10/30/2026 15:38'
+}
+SRFrame class >> resetExceptionSet [
+
+	FrameExceptionSet := nil
+]
 
 { #category : #'as yet unclassified' }
 SRFrame class >> world: world deltaTime: deltaTime [
@@ -22,10 +44,15 @@ SRFrame class >> world: world deltaTime: deltaTime [
 		initializeObjectLists
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:09'
+}
 SRFrame >> completeFrame [
 
-	self world completeFrame
+	isCompleted = true ifTrue: [^ self].
+	isCompleted := true.
+	self world completeFrame.
 ]
 
 { #category : #accessing }
@@ -38,6 +65,18 @@ SRFrame >> deltaTime [
 SRFrame >> deltaTime: aNumber [
 
 	deltaTime := aNumber
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
+}
+SRFrame >> handleError: anError [
+
+	SRIsFrameContinuableVariable
+		value: true
+		during: [ToolSet handleError: anError].
+	anError retry
 ]
 
 {
@@ -60,27 +99,37 @@ SRFrame >> hasRenderingBegun: aBoolean [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
 }
 SRFrame >> initialize [
 
 	self hasRenderingBegun: false.
-	self isOld: false
+	self isOld: false.
+	isCompleted := false
 ]
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:20'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:38'
 }
 SRFrame >> initializeObjectLists [
 
-	steppedObjects := self world allDescendantsSelect: #isStepping.
-	
-	firstPassRenderedObjects := OrderedCollection new.
-	secondPassRenderedObjects := OrderedCollection new.
-	self world allDescendantsSelect: #isRendering thenDo: [:obj |
-		(obj renderInSecondPass ifTrue: [secondPassRenderedObjects] ifFalse: [firstPassRenderedObjects])
-			add: obj]
+	| lights |
+	"Side note, after a reset the buffers can still hold old objects.
+	If the number of objects becomes very large in one frame,
+	objects at the back of the buffer would not be GCed until
+	the number rises to that amount again."
+	steppedObjects := self world steppedObjectsBuffer reset.
+	firstPassRenderedObjects := self world firstPassRenderBuffer reset.
+	secondPassRenderedObjects := self world secondPassRenderBuffer reset.
+	lights := self world lightsBuffer reset.
+	self world allDo: [:object |
+		object isStepping ifTrue: [steppedObjects add: object].
+		object isShining ifTrue: [lights add: object].
+		object isRendering ifTrue: [
+			(object renderInSecondPass
+				ifTrue: [secondPassRenderedObjects]
+				ifFalse: [firstPassRenderedObjects]) add: object]].
 ]
 
 { #category : #accessing }
@@ -97,25 +146,24 @@ SRFrame >> isOld: aBoolean [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/30/2026 16:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
 }
 SRFrame >> prepareFrame [
 
+	self hasRenderingBegun ifTrue: [^ self].
 	self hasRenderingBegun: true.
-	self isOld ifFalse: [self world prepareFrame]
+	self world prepareFrame
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'jl 9/21/2026 17:31'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:21'
 }
 SRFrame >> process [
 
-	self updateActions;
-		stepObjects;
-		prepareFrame;
-		renderObjects;
-		completeFrame.
+	self updateActions; stepObjects.
+	[self prepareFrame; renderObjects] ensure: [self completeFrame].
+
 ]
 
 {
@@ -131,7 +179,7 @@ SRFrame >> renderObjects [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 9/8/2026 18:21'
+	#'squeak_changestamp' : 'leo 10/30/2026 15:39'
 }
 SRFrame >> renderObjects: anOrderedCollection [
 
@@ -139,17 +187,15 @@ SRFrame >> renderObjects: anOrderedCollection [
 	[[anOrderedCollection notEmpty] whileTrue: [
 		currentObject := anOrderedCollection removeFirst.
 		self world render: currentObject]]
-		on: Error
+		on: self class exceptionSet
 		do: [:error |
-			"ToolSet default handleError: error."
-			error printVerboseOn: Transcript.
 			currentObject badRender: true.
-			error retry.].
+			self handleError: error]
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'lege 7/16/2026 10:08'
+	#'squeak_changestamp' : 'leo 10/30/2026 15:39'
 }
 SRFrame >> stepObjects [
 
@@ -161,12 +207,10 @@ SRFrame >> stepObjects [
 		Thus, we need to check if the object is still in the world before proceeding."
 		currentObject world = self world ifTrue: [
 			currentObject step: deltaTime]]]
-		on: Error
+		on: self class exceptionSet
 		do: [:error |
-				"ToolSet default handleError: error."
-				error printVerboseOn: Transcript.
-				currentObject badStep: true.
-				error retry.]
+			currentObject badStep: true.
+			self handleError: error]
 ]
 
 { #category : #processing }

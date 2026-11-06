@@ -1,6 +1,6 @@
 Class {
 	#name : #SRAudioSource,
-	#superclass : #Object,
+	#superclass : #SRAudioObject,
 	#instVars : [
 		'source'
 	],
@@ -39,43 +39,54 @@ SRAudioSource class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/9/2026 17:57'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> bindSnippet: aSnippet [
 
+	self ensureReady.
 	OpenAL alSourceiSource: source first param: AlDefines alBuffer value: aSnippet buffer first.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:22'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> cleanup [
 
 	source ifNotNil: [
 		OpenAL alDeleteSourcesN: 1 sources: source.
-		SRAudio instance checkErrorAl.
+		self checkErrorAl.
 		source := nil]
 ]
 
 {
-	#category : #finalizing,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:20'
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'leo 11/5/2026 15:19'
 }
-SRAudioSource >> finalize [
+SRAudioSource >> discardExternalObjects [
 
-	self cleanup.
+	source := nil.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/4/2026 17:57'
+}
+SRAudioSource >> ensureReady [
+
+	source ifNil: [
+		self setup].
 ]
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:11'
+	#'squeak_changestamp' : 'leo 11/4/2026 17:47'
 }
 SRAudioSource >> initialize [
 
 	super initialize.
-	self setup.
+	self position: Vector3 zero.
 ]
 
 {
@@ -88,30 +99,40 @@ SRAudioSource >> play: audio [
 ]
 
 {
-	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/13/2026 11:36'
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> position: aVector3 [
 
-	OpenAL alSource3fSource: source first param: AlDefines alPosition
-		value1: aVector3 x
-		value2: aVector3 y
-		value3: aVector3 z.
-	SRAudio instance checkErrorAl.
+	self ensureReady.
+	OpenAL
+		alSourcefvSource: source first
+		param: AlDefines alPosition
+		values: aVector3.
+	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/12/2026 16:57'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
+}
+SRAudioSource >> rewind [
+
+	self ensureReady.
+	OpenAL alSourceRewindSource: source first.
+	self checkErrorAl.
+]
+
+{
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> setup [
 
-	SRAudio instance ensureOpenAL.
+	self ensureOpenAL.
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
-	SRAudio instance checkErrorAl.
-	OpenAL alSourceiSource: source first param: AlDefines alSourceRelative value: AlDefines alTrue.
-	SRAudio instance checkErrorAl.
+	self checkErrorAl.
 ]
 
 {
@@ -124,12 +145,23 @@ SRAudioSource >> source [
 ]
 
 {
+	#category : #lifecycle,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:56'
+}
+SRAudioSource >> stop [
+
+	self ensureReady.
+	OpenAL alSourceStopSource: source first.
+	self checkErrorAl.
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 3/6/2026 16:29'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
 }
 SRAudioSource >> unbindBuffer [
 
 	source ifNotNil: [
-		OpenAL alSourceiSource: source first param: AlDefines alBuffer value: 0].
-	SRAudio instance checkErrorAl.
+		OpenAL alSourceiSource: source first param: AlDefines alBuffer value: 0.
+		self checkErrorAl.].
 ]

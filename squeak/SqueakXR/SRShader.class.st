@@ -9,10 +9,14 @@ Class {
 		'id',
 		'internalShader',
 		'uniformLocs',
-		'name'
+		'name',
+		'lightUniforms',
+		'floatBuffer',
+		'intBuffer'
 	],
 	#classVars : [
 		'Default',
+		'Instances',
 		'PythonName',
 		'ShaderCache'
 	],
@@ -95,20 +99,31 @@ SRShader class >> evaluateCommand: aCommandString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> hasCachedShader: aName [
 
-	^ ShaderCache notNil and: [ShaderCache includesKey: aName asString]
+	^ self shaderCache includesKey: aName asString
 ]
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> instances [
+
+	^ Instances ifNil: [Instances := Dictionary new]
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> named: aSymbol [
 
-	^ self new name: aSymbol; yourself
+	^ self instances
+		at: aSymbol asSymbol
+		ifAbsentPut: [self new name: aSymbol asSymbol; yourself]
 ]
 
 {
@@ -131,6 +146,111 @@ SRShader class >> pythonName [
 SRShader class >> pythonName: aString [
 
 	^ PythonName := aString
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> pythonTranspileAllSource [
+
+	| shaders |
+	shaders := Dictionary new.
+	self shaderSourcePragmas do: [:pragma |
+		shaders
+			at: pragma arguments first asString
+			put: (pragma methodClass theNonMetaClass perform: pragma selector)].
+	^ (self pythonTranspileAllTemplate
+		copyReplaceAll: '$STAGES$' with: (Json render: self stages))
+		copyReplaceAll: '$SHADERS$' with: (Json render: shaders)
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> pythonTranspileAllTemplate [
+
+	^ '#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+import tempfile
+
+SHADERS = json.loads(r"""$SHADERS$""")
+STAGES = json.loads(r"""$STAGES$""")
+
+def evaluate_command(command_args):
+    result = subprocess.run(command_args, capture_output=True, text=True)
+    if result.returncode != 0:
+        printed = " ".join(command_args)
+        sys.stderr.write(
+            "An error occurred while evaluating ''{0}''\nstdout:\n{1}\nstderr:\n{2}\n".format(
+                printed, result.stdout, result.stderr))
+        raise RuntimeError("An error occurred while evaluating ''{0}''.".format(printed))
+    return result.stdout
+
+def strip_input_locations_for_es(source):
+    lines = []
+    for line in source.splitlines():
+        trimmed = line.strip()
+        if trimmed.startswith("layout(location"):
+            rest = trimmed.partition(")")[2].strip()
+            if rest.startswith("in "):
+                line = rest
+        lines.append(line + "\n")
+    return "".join(lines)
+
+TARGETS = [
+    ("330", ["--version", "330", "--no-420pack-extension", "--no-es"], lambda source: source),
+    ("300es", ["--version", "300", "--es"], strip_input_locations_for_es),
+]
+
+def transpile(source, stage, options, base_path):
+    input_file_name = os.path.join(base_path, "input.shader")
+    shader_file_name = os.path.join(base_path, "shader.spv")
+    with open(input_file_name, "w") as f:
+        f.write(source)
+    evaluate_command(["glslang", "-G", "-o", shader_file_name, input_file_name, "-S", stage])
+    return evaluate_command(["spirv-cross"] + options + [shader_file_name])
+
+def transpile_shader(sources, base_path):
+    result = dict()
+    for version, options, post_process in TARGETS:
+        result[version] = dict(
+            (stage, post_process(transpile(sources[stage], stage, options, base_path)) if stage in sources else None)
+            for stage in STAGES)
+    for key, value in sources.items():
+        if key not in STAGES:
+            result[key] = value
+    return result
+
+def main():
+    if len(sys.argv) > 1:
+        output_file_name = sys.argv[1]
+    else:
+        output_file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shaders.json")
+    cache = dict()
+    with tempfile.TemporaryDirectory() as base_path:
+        for name in sorted(SHADERS):
+            print("Transpiling " + name)
+            cache[name] = transpile_shader(SHADERS[name], base_path)
+    with open(output_file_name, "w") as f:
+        json.dump(cache, f)
+
+if __name__ == "__main__":
+    main()
+'
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:29'
+}
+SRShader class >> pythonTranspileFileName [
+
+	^ (FileDirectory on: Smalltalk imagePath) fullNameFor: 'transpile.py'
 ]
 
 {
@@ -192,29 +312,58 @@ if __name__ == "__main__":
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'lege 3/10/2026 11:53'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> resetCache [
 
-	ShaderCache := Dictionary new.
+	self shaderCache: Dictionary new.
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/14/2026 16:49'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> setShaderCacheFromJson: aJsonString [
 
-	ShaderCache := Json readFromString: aJsonString
+	self shaderCache: (Json readFromString: aJsonString).
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCache [
+
+	^ ShaderCache ifNil: [ShaderCache := Dictionary new]
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCache: aDictionary [
+
+	ShaderCache := aDictionary.
+	self unloadAllShaders.
 ]
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/14/2026 16:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> shaderCacheAsJson [
 
-	^ Json render: ShaderCache
+	^ Json render: self shaderCache
+]
+
+{
+	#category : #'shader cache',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> shaderCacheAt: aName put: aDictionary [
+
+	self shaderCache at: aName asString put: aDictionary.
+	self unloadShaderNamed: aName.
 ]
 
 {
@@ -268,11 +417,11 @@ SRShader class >> shellQuote: aString [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'MCPServer 7/29/2026 12:42'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> sourceFor: shader version: version [
 	
-	^ ShaderCache at: shader
+	^ self shaderCache at: shader asString
 		ifPresent: [:sources |
 			| versioned |
 			versioned := sources at: version
@@ -290,6 +439,16 @@ SRShader class >> sourceFor: shader version: version [
 SRShader class >> stages [
 
 	^ #(vert frag)
+]
+
+{
+	#category : #'system startup',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRShader class >> startUp: resuming [
+
+	resuming ifFalse: [^ self].
+	self allInstancesDo: [:each | each discardExternalObjects].
 ]
 
 {
@@ -340,7 +499,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'MCPServer 9/11/2026 13:38'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -398,16 +557,15 @@ SRShader class >> transpileAllUnsafe [
 
 {
 	#category : #shaders,
-	#'squeak_changestamp' : 'leo 9/11/2026 12:41'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
 }
 SRShader class >> transpileShaderDeclaredBy: aPragma [
 
 	| shaderName |
 	shaderName := aPragma arguments first asString.
-	ShaderCache ifNil: [self resetCache].
 	UIManager default informUser: 'Transpiling ', shaderName during: [
-		ShaderCache
-			at: shaderName
+		self
+			shaderCacheAt: shaderName
 			put: (self transpileSource:
 				(aPragma methodClass theNonMetaClass perform: aPragma selector)).
 		^ shaderName]
@@ -450,6 +608,71 @@ SRShader class >> transpileSource: sourceDict [
 ]
 
 {
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> unloadAllShaders [
+
+	self instances do: [:shader | shader unload].
+]
+
+{
+	#category : #shaders,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:54'
+}
+SRShader class >> unloadShaderNamed: aName [
+
+	self instances at: aName asSymbol ifPresent: [:shader | shader unload].
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
+}
+SRShader class >> writePythonTranspileSource [
+
+	self writePythonTranspileSourceTo: self pythonTranspileFileName
+]
+
+{
+	#category : #transpiling,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:34'
+}
+SRShader class >> writePythonTranspileSourceTo: aFileName [
+
+	(FileStream forceNewFileNamed: aFileName)
+		nextPutAll: self pythonTranspileAllSource withUnixLineEndings;
+		close
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
+SRShader >> assignSamplerLocations [
+
+	| location |
+	location := self locationOf: 'environmentMap'.
+	location >= 0 ifTrue: [
+		internalShader locs
+			at: RlShaderLocationIndex shaderLocMapCubemap + 1
+			put: location].
+]
+
+{
+	#category : #releasing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRShader >> discardExternalObjects [
+	"No GL call: the handles belong to a process that no longer exists."
+
+	FinalizationRegistry default remove: self ifAbsent: [].
+	internalShader := nil.
+	uniformLocs := nil.
+	lightUniforms := nil.
+]
+
+{
 	#category : #finalization,
 	#'squeak_changestamp' : 'leo 10/15/2026 15:25'
 }
@@ -458,6 +681,18 @@ SRShader >> finalize [
 	internalShader ifNotNil: [
 		SRRenderer hasContext ifTrue: [
 			Raylib unloadShader: internalShader]].
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'leo 11/4/2026 14:16'
+}
+SRShader >> initialize [
+
+	super initialize.
+	floatBuffer := ByteArray new: 12.
+	intBuffer := ByteArray new: 4.
+	Smalltalk addToShutDownList: self.
 ]
 
 {
@@ -471,8 +706,18 @@ SRShader >> internalShader [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
+SRShader >> lightUniforms [
+
+	self internalShader.
+	^ lightUniforms
+]
+
+{
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
 }
 SRShader >> loadInternalShader [
 
@@ -481,8 +726,29 @@ SRShader >> loadInternalShader [
 	sources := self class sourceFor: name version: self currentXRWorld renderer shaderVersion.
 	internalShader := Raylib loadShaderFromMemoryVsCode: (sources at: #vert) fsCode: (sources at: #frag).
 	uniformLocs := (sources at: #uniforms ifAbsent: [#()]) collect: [:uniform |
-		uniform -> (Raylib getShaderLocationShader: internalShader uniformName: uniform asString)].
+		uniform -> (self locationOf: uniform)].
+	self assignSamplerLocations; loadLightUniforms.
 	FinalizationRegistry default add: self.
+]
+
+{
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
+SRShader >> loadLightUniforms [
+
+	lightUniforms := (SRLightUniforms isUsedBy: self)
+		ifTrue: [SRLightUniforms forShader: self]
+		ifFalse: [nil].
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> locationOf: aUniformName [
+
+	^ Raylib getShaderLocationShader: self internalShader uniformName: aUniformName asString
 ]
 
 {
@@ -513,6 +779,85 @@ SRShader >> onCacheInvalidated [
 ]
 
 {
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:08'
+}
+SRShader >> setColor: aColor intensity: aNumber at: aLocation [
+
+	self
+		setX: aColor red * aNumber
+		y: aColor green * aNumber
+		z: aColor blue * aNumber
+		at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setFloat: aNumber at: aLocation [
+
+	floatBuffer floatAt: 1 put: aNumber asFloat.
+	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformFloat at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setInt: anInteger at: aLocation [
+
+	intBuffer signedLongAt: 1 put: anInteger.
+	self setValue: intBuffer type: RlShaderUniformDataType shaderUniformInt at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setValue: aByteArray type: aUniformType at: aLocation [
+
+	aLocation < 0 ifTrue: [^ self].
+	Raylib
+		setShaderValueShader: self internalShader
+		locIndex: aLocation
+		value: aByteArray
+		uniformType: aUniformType.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setVector: aVector3 at: aLocation [
+
+	self setX: aVector3 x y: aVector3 y z: aVector3 z at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:25'
+}
+SRShader >> setX: x y: y z: z at: aLocation [
+
+	floatBuffer
+		floatAt: 1 put: x asFloat;
+		floatAt: 5 put: y asFloat;
+		floatAt: 9 put: z asFloat.
+	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformVec3 at: aLocation.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'leo 11/4/2026 14:17'
+}
+SRShader >> shutDown: quitting [
+
+	quitting ifTrue: [
+		self unloadAllShaders].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
 }
@@ -526,13 +871,25 @@ SRShader >> uniformLocAt: aUniformName [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:33'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRShader >> unload [
 
 	internalShader ifNil: [^ self].
-	FinalizationRegistry default remove: self ifAbsent: [].
 	SRRenderer hasContext ifTrue: [Raylib unloadShader: internalShader].
-	internalShader := nil.
-	uniformLocs := nil.
+	self discardExternalObjects.
+	self changed: #shaderUnloaded.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/2/2026 15:15'
+}
+SRShader >> uploadLights: aCollection ambientColor: aColor viewPosition: aVector3 [
+
+	self lightUniforms ifNotNil: [:uniforms |
+		uniforms
+			uploadLights: aCollection
+			ambientColor: aColor
+			viewPosition: aVector3].
 ]

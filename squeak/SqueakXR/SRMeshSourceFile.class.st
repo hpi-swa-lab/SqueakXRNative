@@ -22,12 +22,15 @@ SRMeshSourceFile class >> path: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/15/2026 18:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:25'
 }
 SRMeshSourceFile >> createInternalMesh [
 
+	| model |
 	self assert: path notNil.
-	^ (Raylib loadModelFileName: self path) meshes
+	model := Raylib loadModelFileName: self path.
+	model meshCount = 0 ifTrue: [^ self error: 'Could not load a mesh from ', self path].
+	^ model meshes
 ]
 
 {

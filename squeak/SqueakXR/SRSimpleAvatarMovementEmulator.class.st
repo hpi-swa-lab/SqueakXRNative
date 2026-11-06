@@ -1,11 +1,12 @@
 "
-WASD + mouse look camera controller for flat mode.
+Stands in for a headset and a left controller on the desktop.
+
+Moves the avatar, never the camera: WASD is a request to move the player, the same as a thumbstick, while a camera that moved on its own would be claiming the head had physically moved.
 "
 Class {
 	#name : #SRSimpleAvatarMovementEmulator,
 	#superclass : #Object,
 	#instVars : [
-		'position',
 		'yaw',
 		'pitch',
 		'moveSpeed',
@@ -20,23 +21,46 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
 
 	avatar := anAvatar.
+	(avatar notNil and: [avatar translation = Vector3 zero]) ifTrue: [
+		avatar translation: 0m @ 0m @ 2.5m].
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/16/2026 19:17'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:09'
 }
 SRSimpleAvatarMovementEmulator >> cameraTransform [
 
-	| forward target |
+	| forward eye |
 	forward := self forwardVector.
-	target := position + forward.
-	^ Matrix4x4 objectLookAt: target from: position up: Vector3 up
+	eye := self position + (0 @ self eyeHeight @ 0).
+	^ Matrix4x4 objectLookAt: eye + forward from: eye up: Vector3 up
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
+
+	avatar leftHand ifNotNil: [:hand |
+		hand inputState joystick
+			horizontal: strafe;
+			vertical: advance].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRSimpleAvatarMovementEmulator >> eyeHeight [
+
+	^ 1.8m
 ]
 
 {
@@ -63,15 +87,15 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/27/2026 18:01'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
 	super initialize.
-	position := -6m @ 1.8m @ 0m.
-	yaw := 0.0.
-	pitch := 0.0.
-	moveSpeed := 0.05.
+
+	yaw := -90.0.
+	pitch := -25.0.
+	moveSpeed := 3m.
 	lookSpeed := 0.15.
 	lookModeEnabled := false.
 	isUpdatingEnabled := true.
@@ -87,20 +111,37 @@ SRSimpleAvatarMovementEmulator >> lookModeEnabled [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
+	#category : #movement,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
-SRSimpleAvatarMovementEmulator >> position [
+SRSimpleAvatarMovementEmulator >> moveStrafe: strafe advance: advance lift: lift deltaSeconds: dt [
 
-	^ position
+	| forward right movement |
+	avatar ifNil: [^ self].
+	avatar locomotionEnabled ifTrue: [
+		^ self driveStickStrafe: strafe advance: advance].
+	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
+	right := (forward cross: Vector3 up) normalize.
+	movement := (forward * advance) + (right * strafe) + (Vector3 up * lift).
+	movement length > 0 ifTrue: [
+		avatar translation: avatar translation + (movement normalize * moveSpeed * dt)].
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 6/8/2026 10:57'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRSimpleAvatarMovementEmulator >> position [
+
+	^ avatar ifNil: [Vector3 zero] ifNotNil: [:a | a translation]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:09'
 }
 SRSimpleAvatarMovementEmulator >> position: aVector3 [
-	position := aVector3
+	avatar ifNotNil: [:a | a translation: aVector3].
 ]
 
 {
@@ -117,45 +158,36 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'leo 10/13/2026 13:44'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
 }
-SRSimpleAvatarMovementEmulator >> update [
-
-	| forward right movement |
-	(Raylib isKeyPressedKey: RlKeyboardKey keyGrave) ifTrue: [
+SRSimpleAvatarMovementEmulator >> update: deltaMillis [
+	| input deltaSeconds held |
+	input := SRDesktopInputState current.
+	(input isKeyPressed: RlKeyboardKey keyGrave) ifTrue: [
 		isUpdatingEnabled := isUpdatingEnabled not].
 	isUpdatingEnabled ifFalse: [^ self].
 	
-	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
-	right := (forward cross: Vector3 up) normalize.
-	movement := Vector3 zero.
-	(Raylib isKeyDownKey: RlKeyboardKey keyW) ifTrue: [
-		movement := movement + forward].
-	(Raylib isKeyDownKey: RlKeyboardKey keyS) ifTrue: [
-		movement := movement - forward].
-	(Raylib isKeyDownKey: RlKeyboardKey keyD) ifTrue: [
-		movement := movement + right].
-	(Raylib isKeyDownKey: RlKeyboardKey keyA) ifTrue: [
-		movement := movement - right].
-	(Raylib isKeyDownKey: RlKeyboardKey keyLeftShift) ifTrue: [
-		movement := movement + Vector3 up].
-	(Raylib isKeyDownKey: RlKeyboardKey keyLeftControl) ifTrue: [
-		movement := movement - Vector3 up].
-	movement length > 0 ifTrue: [
-		position := position + (movement normalize * moveSpeed)].
+	deltaSeconds := deltaMillis / 1000.0.
+	held := [:key | (input isKeyDown: key) ifTrue: [1] ifFalse: [0]].
+	self
+		moveStrafe: (held value: RlKeyboardKey keyD) - (held value: RlKeyboardKey keyA)
+		advance: (held value: RlKeyboardKey keyW) - (held value: RlKeyboardKey keyS)
+		lift: (held value: RlKeyboardKey keyLeftShift) - (held value: RlKeyboardKey keyLeftControl)
+		deltaSeconds: deltaSeconds.
 	lookModeEnabled ifTrue: [
-		self handleMouseDelta: Raylib getMouseDelta].
+		self handleMouseDelta: input mouseDelta].
 	self updateAvatarCamera
 ]
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> updateAvatarCamera [
 
-	| forward |
+	| forward eye |
 	avatar ifNil: [^ self].
+	eye := 0 @ self eyeHeight @ 0.
 	forward := self forwardVector.
-	avatar cameraPosition: position target: position + forward up: Vector3 up
+	avatar cameraLocalPosition: eye target: eye + forward up: Vector3 up
 ]

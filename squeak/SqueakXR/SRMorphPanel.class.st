@@ -260,7 +260,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 16:02'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
 }
 SRMorphPanel >> initialize [
 
@@ -268,7 +268,8 @@ SRMorphPanel >> initialize [
 	
 	texture := SRTexture withSource: SRTextureSourceMorph new.
 	plane := SRPlane new
-		rotation: (Quaternion angle: 90 axis: Vector3 right);
+		rotation: (Quaternion angle: 90 axis: Vector3 right)
+					* (Quaternion angle: 180 axis: Vector3 up);
 		addDependent: self;
 		grabTarget: self;
 		cursorMode: SRCursorMode ignore;
@@ -296,26 +297,13 @@ SRMorphPanel >> isMorphPanel [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'lege 3/25/2026 18:25'
+	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
 SRMorphPanel >> keyboardEvent: aCharacter [
 
 	| buttons event keyValue |
 	self morph ifNil: [^ self].
-	buttons := 0.
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftShift)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightShift])
-		ifTrue: [buttons := buttons bitOr: 2r0001].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftControl)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightControl])
-		ifTrue: [buttons := buttons bitOr: 2r0010].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftAlt)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightAlt])
-		ifTrue: [buttons := buttons bitOr: 2r1000].
-	((Raylib isKeyDownKey: RlKeyboardKey keyLeftSuper)
-		or: [Raylib isKeyDownKey: RlKeyboardKey keyRightSuper])
-		ifTrue: [buttons := buttons bitOr: 2r0100].
-	buttons := buttons bitShift: MouseEvent numButtons.
+	buttons := SRDesktopInputState current morphicModifierBits.
 	keyValue := aCharacter asInteger.
 	
 	event := KeyboardEvent new

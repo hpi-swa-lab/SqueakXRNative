@@ -8,6 +8,26 @@ Class {
 }
 
 {
+	#category : #enter,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+}
+SRMorphicProject >> finalEnterActions: leavingProject [
+
+	super finalEnterActions: leavingProject.
+	SRToolSet activate
+]
+
+{
+	#category : #enter,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+}
+SRMorphicProject >> finalExitActions: enteringProject [
+
+	SRToolSet deactivate.
+	super finalExitActions: enteringProject
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'lege 2/23/2026 16:08'
 }
@@ -20,22 +40,6 @@ SRMorphicProject >> initialize [
 		when: #aboutToEnterWorld
 		send: #signalStart
 		to: self
-]
-
-{
-	#category : #debugging,
-	#'squeak_changestamp' : 'MCPServer 9/21/2026 17:55'
-}
-SRMorphicProject >> openDebuggerWindow: windowOrModel [
-	"In XR mode, do not open debugger windows as they crash the render loop.
-	 Log the error to the Transcript instead."
-	| xrWorld label |
-	xrWorld := SRWorld allInstances detect: [:w | w isRunning] ifNone: [nil].
-	(xrWorld notNil and: [xrWorld isXR]) ifTrue: [
-		label := [windowOrModel label] on: Error do: ['(unknown error)'].
-		Transcript cr; show: '*** XR error (debugger suppressed): ', label.
-		^ self].
-	^ super openDebuggerWindow: windowOrModel
 ]
 
 {

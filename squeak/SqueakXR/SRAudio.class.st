@@ -13,7 +13,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 4/10/2026 16:19'
+	#'squeak_changestamp' : 'leo 11/5/2026 12:00'
 }
 SRAudio class >> initialize [
 
@@ -42,7 +42,7 @@ SRAudio class >> resetInstance [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/8/2026 18:00'
+	#'squeak_changestamp' : 'leo 11/4/2026 18:49'
 }
 SRAudio class >> shutDown: quitting [
 
@@ -52,7 +52,7 @@ SRAudio class >> shutDown: quitting [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/8/2026 18:06'
+	#'squeak_changestamp' : 'leo 11/4/2026 18:49'
 }
 SRAudio class >> startUp: resuming [
 
@@ -210,13 +210,15 @@ SRAudio >> ensureOpenAL [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:06'
+	#'squeak_changestamp' : 'leo 11/5/2026 15:22'
 }
 SRAudio >> initialize [
 
+	self notify: 'SRAudio only exists for reference purposes and will be removed in the future.'.
+
 	super initialize.
 	
-	self setup
+	self setup.
 ]
 
 {
@@ -285,7 +287,7 @@ SRAudio >> record [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'lege 1/8/2026 18:08'
+	#'squeak_changestamp' : 'leo 11/5/2026 11:31'
 }
 SRAudio >> setup [	
 	
@@ -299,14 +301,14 @@ SRAudio >> setup [
 	context := OpenAL alcCreateContextDevice: device attrlist: nil.
 	context ifNil: [
 		OpenAL alcCloseDevice: device.
-		Transcript showln: self class name, ':Failed to create audio context'.
+		Transcript showln: self class name, ': Failed to create audio context'.
 		^ self].
 	self checkErrorAlc.
 	
 	(OpenAL alcMakeContextCurrentContext: context) = 0 ifTrue: [
 		OpenAL alcDestroyContext: context.
 		OpenAL alcCloseDevice: device.
-		Transcript showln: self class name, ':Could not set an audio context!'].
+		Transcript showln: self class name, ': Could not set an audio context!'].
 	self checkErrorAlc.
 	
 	name := OpenAL alcGetStringDevice: device param: AlDefines alcAllDevicesSpecifier.

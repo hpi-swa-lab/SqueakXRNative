@@ -35,3 +35,12 @@ SRMeshSource >> onCacheInvalidated [
 	"Forces subclasses to make it explicit that nothing needs to be done on cache invalidation." 
 	self subclassResponsibility
 ]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/23/2026 12:28'
+}
+SRMeshSource >> unloadInternalMesh: anRlMesh [
+
+	self subclassResponsibility.
+]

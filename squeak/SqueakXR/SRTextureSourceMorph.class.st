@@ -6,8 +6,7 @@ Class {
 	#superclass : #SRTextureSource,
 	#instVars : [
 		'morph',
-		'canvas',
-		'internalTexture'
+		'canvas'
 	],
 	#category : #'SqueakXR-Morphic',
 	#'squeak_changestamp' : '<historical>'

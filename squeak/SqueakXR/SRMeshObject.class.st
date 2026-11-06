@@ -27,13 +27,100 @@ SRMeshObject class >> fromSource: aSRMeshSource [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'jl 8/11/2026 16:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
 }
 SRMeshObject class >> phong [
 	<shaderSource: #phong>
-	"Textured mesh lit by one fixed directional light."
+
 	^ {
-		#vert -> '#version 450
+		#vert -> self phongVertexSource.
+		#frag -> self phongFragmentSource
+	} as: Dictionary
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+}
+SRMeshObject class >> phongFragmentSource [
+
+	^ '#version 450
+', SRLight glslDefines, '#define SHININESS 32.0
+#define SPECULAR_STRENGTH 0.5
+
+struct Light
+{
+    int type;
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+    float range;
+};
+
+layout(location = 0) in vec2 fragTexCoord;
+layout(location = 1) in vec4 fragColor;
+layout(location = 2) in vec3 fragNormal;
+layout(location = 3) in vec3 fragPosition;
+
+layout(binding = 0) uniform sampler2D texture0;
+layout(location = 2) uniform vec4 colDiffuse;
+layout(location = 4) uniform vec3 ambientColor;
+layout(location = 5) uniform vec3 viewPosition;
+layout(location = 6) uniform int lightCount;
+layout(location = 7) uniform Light lights[MAX_LIGHTS];
+
+layout(location = 0) out vec4 finalColor;
+
+float attenuation(float lightDistance, float range)
+{
+    if (range < 0.0) return 1.0;
+    if (lightDistance < 0.0) return 0.0;
+    float falloff = clamp(1.0 - lightDistance / range, 0.0, 1.0);
+    return falloff * falloff;
+}
+
+void addLight(Light light, vec3 normal, vec3 viewDirection, inout vec3 diffuse, inout vec3 specular)
+{
+    vec3 toLight;
+    float lightDistance;
+    if (light.type == LIGHT_DIRECTIONAL)
+    {
+        toLight = -light.direction;
+        lightDistance = dot(fragPosition - light.position, light.direction);
+    }
+    else
+    {
+        vec3 offset = light.position - fragPosition;
+        lightDistance = length(offset);
+        toLight = offset / max(lightDistance, 0.0001);
+    }
+    vec3 radiance = light.color * attenuation(lightDistance, light.range);
+    float lambert = max(dot(normal, toLight), 0.0);
+    diffuse += radiance * lambert;
+    if (lambert > 0.0)
+        specular += radiance * SPECULAR_STRENGTH * pow(max(dot(viewDirection, reflect(-toLight, normal)), 0.0), SHININESS);
+}
+
+void main()
+{
+    vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
+    vec3 normal = normalize(fragNormal);
+    vec3 viewDirection = normalize(viewPosition - fragPosition);
+    vec3 diffuse = vec3(0.0);
+    vec3 specular = vec3(0.0);
+    for (int i = 0; i < min(lightCount, MAX_LIGHTS); i++)
+        addLight(lights[i], normal, viewDirection, diffuse, specular);
+    finalColor = vec4(texelColor.rgb * (ambientColor + diffuse) + specular, texelColor.a);
+}'
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+}
+SRMeshObject class >> phongVertexSource [
+
+	^ '#version 450
 
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertexTexCoord;
@@ -42,39 +129,21 @@ layout(location = 3) in vec4 vertexColor;
 
 layout(location = 0) uniform mat4 mvp;
 layout(location = 1) uniform mat4 matNormal;
+layout(location = 3) uniform mat4 matModel;
 
 layout(location = 0) out vec2 fragTexCoord;
 layout(location = 1) out vec4 fragColor;
 layout(location = 2) out vec3 fragNormal;
+layout(location = 3) out vec3 fragPosition;
 
 void main()
 {
     fragTexCoord = vertexTexCoord;
     fragColor = vertexColor;
-    fragNormal = normalize(vec3(matNormal*vec4(vertexNormal, 1.0)));
-
-    gl_Position = mvp*vec4(vertexPosition, 1.0);
-}'.
-		#frag -> '
-#version 450
-
-layout(location = 0) in vec2 fragTexCoord;
-layout(location = 1) in vec4 fragColor;
-layout(location = 2) in vec3 fragNormal;
-
-layout(binding = 0) uniform sampler2D texture0;
-layout(location = 2) uniform vec4 colDiffuse;
-
-layout(location = 0) out vec4 finalColor;
-
-void main()
-{
-      vec4 texelColor = texture(texture0, fragTexCoord) * colDiffuse * fragColor;
-	vec3 lightDirection = normalize(vec3(0.5, -1.0, -0.25));
-	vec3 diffuse = vec3(max(0.05, dot(normalize(fragNormal), -lightDirection)));
-      finalColor = texelColor * vec4(diffuse, 1.0);
+    fragNormal = normalize(mat3(matNormal) * vertexNormal);
+    fragPosition = vec3(matModel * vec4(vertexPosition, 1.0));
+    gl_Position = mvp * vec4(vertexPosition, 1.0);
 }'
-	} as: Dictionary
 ]
 
 {

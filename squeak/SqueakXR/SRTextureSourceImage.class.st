@@ -6,7 +6,6 @@ Class {
 	#superclass : #SRTextureSource,
 	#instVars : [
 		'image',
-		'internalTexture',
 		'isEditable',
 		'width',
 		'height'
@@ -58,12 +57,12 @@ SRTextureSourceImage >> createInternalTexture [
 
 {
 	#category : #releasing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRTextureSourceImage >> discardExternalObjects [
 
 	image := nil.
-	internalTexture := nil.
+	super discardExternalObjects.
 ]
 
 {
@@ -140,15 +139,12 @@ SRTextureSourceImage >> setWidth: w height: h [
 
 {
 	#category : #releasing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
 }
 SRTextureSourceImage >> unload [
 
-	SRRenderer hasContext ifTrue: [
-		internalTexture ifNotNil: [Raylib unloadTexture: internalTexture]].
-	internalTexture := nil.
 	image ifNotNil: [Raylib unloadImage: image].
-	image := nil.
+	super unload.
 ]
 
 {

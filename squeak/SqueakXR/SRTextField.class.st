@@ -12,6 +12,21 @@ Class {
 }
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/3/2026 14:06'
+}
+SRTextField class >> fontFor: aSRRenderer [
+
+	SRRenderer assertContext.
+	^ aSRRenderer cacheAt: #TextFieldFont ifAbsentPut: [ | font |
+		font := Raylib loadFontFileName: (
+			(SRAssets assetsDirectory / 'fonts' / 'dejavu-fonts-ttf-2.37' / 'ttf' / 'DejaVuSans.ttf') pathString).
+		(Raylib isFontValidFont: font)
+			ifTrue: [font]
+			ifFalse: [self error: 'Failed to load font'. nil]]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/1/2026 14:03'
 }
@@ -77,19 +92,11 @@ SRTextField >> initialize [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:43'
+	#'squeak_changestamp' : 'leo 11/3/2026 13:45'
 }
 SRTextField >> renderOn: aSRRenderer [
 
-	| faceForward xform |
-	faceForward := (Quaternion new radiansAngle: Float pi / 2 axis:  Vector3 right) asMatrix4x4.
-	xform := self globalTransform * faceForward.
-	centered ifTrue: [ | offset globalOffset |
-		offset := (self textWidth / 2 negated)@(self textHeight / 2)@0.
-		globalOffset := (self globalTransform localPointToGlobal: offset) - self globalTranslation.
-		xform := xform translatedBy: globalOffset.
-	].
-	aSRRenderer renderString: self text transformed: xform color: self color.
+	aSRRenderer renderString: self text transformed: self globalTransform color: self color font: (self class fontFor: aSRRenderer)
 ]
 
 {

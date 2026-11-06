@@ -10,6 +10,15 @@ Class {
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:17'
+}
+SRGizmoPainter >> commands [
+
+	^ commands
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/11/2026 18:02'
 }
 SRGizmoPainter >> commands2D [
@@ -19,10 +28,10 @@ SRGizmoPainter >> commands2D [
 
 {
 	#category : #'3D gizmos',
-	#'squeak_changestamp' : 'phkeese 9/30/2026 15:26'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:24'
 }
 SRGizmoPainter >> drawLine: command renderer: aSRRenderer [
-	"Slightly expand the wireframe so it pokes through any solid surface."
+
 	| color end start |
 	start := command second.
 	end := command third.
@@ -118,6 +127,15 @@ SRGizmoPainter >> drawWireCircle: command renderer: aRenderer [
 ]
 
 {
+	#category : #drawing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> drawWireCube: command renderer: aSRRenderer [
+
+	aSRRenderer renderCubeWiresTransformed: command second withColor: command third.
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
 }
@@ -158,19 +176,13 @@ SRGizmoPainter >> drawWirePlane: command renderer: aSRRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:54'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:27'
 }
 SRGizmoPainter >> drawWireSphere: command renderer: aSRRenderer [
 
 	| transform |
 	transform := (Matrix4x4 withOffset: command second) * (Matrix4x4 withScale: command third asVector3).
 	aSRRenderer renderWireSphereTransformed: transform withColor: command fourth.
-	"aSRRenderer
-		drawSphereWiresCenterPos: command second
-		radius: command third
-		rings: 16
-		slices: 16
-		color: command fourth"
 ]
 
 {
@@ -204,6 +216,15 @@ SRGizmoPainter >> gizmoLine: aStartPoint to: anEndPoint color: aColor [
 
 	commands add: {#line. aStartPoint. anEndPoint. aColor}.
 	
+]
+
+{
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoLineFrom: startPosition to: endPosition color: aColor [
+
+	commands add: {#line. startPosition. endPosition. aColor}.
 ]
 
 {
@@ -254,12 +275,30 @@ SRGizmoPainter >> gizmoWireCircleAt: center axis: axis radius: r color: color [
 ]
 
 {
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoWireCube: aMatrix4x4 color: aColor [
+
+	commands add: {#wireCube. aMatrix4x4. aColor}.
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:15'
 }
 SRGizmoPainter >> gizmoWirePlane: aSRCollisionPlane color: aColor [
 
 	commands add: {#wirePlane. aSRCollisionPlane. aColor}.
+]
+
+{
+	#category : #painting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRGizmoPainter >> gizmoWireSphere: globalPosition radius: aNumber color: aColor [
+
+	commands add: {#wireSphere. globalPosition. aNumber. aColor}.
 ]
 
 {
@@ -323,21 +362,19 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 11/6/2026 14:20'
+	#'squeak_changestamp' : 'leo 11/6/2026 15:29'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
 	commands do: [:command |
 		command first caseOf: {
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
-			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
-			[#wireTorus] -> [self drawWireTorus: command renderer: aSRRenderer].
-			[#wireCircle] -> [self drawWireCircle: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
 			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
+			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
+			[#wireCube] -> [self drawWireCube: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].
-			[#object] -> [self drawObject: command renderer: aSRRenderer].
-			[#point] -> [self drawPoint: command renderer: aSRRenderer].
+			[#wireCircle] -> [self drawWireCircle: command renderer: aSRRenderer].
 		}].
 	commands removeAll.
 ]

@@ -3,7 +3,11 @@ Class {
 	#superclass : #SRRenderer,
 	#instVars : [
 		'clearColor',
-		'camera'
+		'camera',
+		'environment',
+		'lights',
+		'viewPosition',
+		'litShaders'
 	],
 	#classVars : [
 		'CachedColor1',
@@ -27,6 +31,20 @@ SRRaylibRenderer class >> fill: anRlColor withColor: aColor [
 		g: (aColor green * 255) asInteger;
 		b: (aColor blue * 255) asInteger;
 		a: (aColor alpha * 255) asInteger;
+		yourself
+]
+
+{
+	#category : #'shared rl objects',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer class >> fill: anRlMatrix withMatrix4x4: aMatrix4x4 [
+
+	^ anRlMatrix
+		m0: aMatrix4x4 a11; m4: aMatrix4x4 a12; m8: aMatrix4x4 a13; m12: aMatrix4x4 a14;
+		m1: aMatrix4x4 a21; m5: aMatrix4x4 a22; m9: aMatrix4x4 a23; m13: aMatrix4x4 a24;
+		m2: aMatrix4x4 a31; m6: aMatrix4x4 a32; m10: aMatrix4x4 a33; m14: aMatrix4x4 a34;
+		m3: aMatrix4x4 a41; m7: aMatrix4x4 a42; m11: aMatrix4x4 a43; m15: aMatrix4x4 a44;
 		yourself
 ]
 
@@ -112,6 +130,20 @@ SRRaylibRenderer class >> rlVectorZero [
 ]
 
 {
+	#category : #lighting,
+	#'squeak_changestamp' : 'leo 11/2/2026 16:50'
+}
+SRRaylibRenderer >> applyLightingTo: aSRShader [
+
+	(litShaders includes: aSRShader) ifTrue: [^ self].
+	litShaders add: aSRShader.
+	aSRShader
+		uploadLights: lights
+		ambientColor: environment ambientColor
+		viewPosition: viewPosition.
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/16/2026 17:13'
 }
@@ -140,6 +172,15 @@ SRRaylibRenderer >> clearDepth [
 	Raylib
 		rlDrawRenderBatchActive;
 		clearDepthBuffer.
+]
+
+{
+	#category : #lighting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
+}
+SRRaylibRenderer >> clearLitShaders [
+
+	litShaders removeAll.
 ]
 
 { #category : #'render-loop' }
@@ -171,6 +212,30 @@ SRRaylibRenderer >> disableDepthTest [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> drawGrid [
+
+	| rlColor slices spacing half |
+	rlColor := SRRenderer gridColor asRlColor.
+	slices := SRRenderer gridSlices.
+	spacing := SRRenderer gridSpacing.
+	half := slices / 2.0 * spacing.
+	0 to: slices do: [:i |
+		| offset |
+		offset := i * spacing - half.
+		Raylib
+			drawLine3DStartPos: (offset @ 0 @ half negated) asRlVector
+			endPos: (offset @ 0 @ half) asRlVector
+			color: rlColor.
+		Raylib
+			drawLine3DStartPos: (half negated @ 0 @ offset) asRlVector
+			endPos: (half @ 0 @ offset) asRlVector
+			color: rlColor].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
@@ -190,12 +255,74 @@ SRRaylibRenderer >> enableDepthTest [
 		rlEnableDepthTest.
 ]
 
-{ #category : #initializing }
+{
+	#category : #lighting,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
+}
+SRRaylibRenderer >> environment: aVisualEnvironment lights: aCollection [
+
+	environment := aVisualEnvironment.
+	lights := aCollection.
+	self clearColor: aVisualEnvironment clearColor.
+]
+
+{
+	#category : #initializing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+}
 SRRaylibRenderer >> initialize [
 
 	super initialize.
-	
-	self clearColor: self class clearColor.
+
+	litShaders := IdentitySet new.
+	self environment: SRVisualEnvironment new lights: #().
+
+	SRRenderer mirrorPlaced: false.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> mirrorAspect [
+
+	^ 16 / 9
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> moveWindowToMonitor: monitorIndex [
+
+	| origin inset extent width height |
+	origin := Raylib getMonitorPositionMonitor: monitorIndex.
+	extent := (Raylib getMonitorWidthMonitor: monitorIndex)
+		@ (Raylib getMonitorHeightMonitor: monitorIndex).
+
+	inset := 60.
+	height := extent y - (inset * 2).
+	width := (height * self mirrorAspect) rounded.
+	width > (extent x - (inset * 2)) ifTrue: [
+		width := extent x - (inset * 2).
+		height := (width / self mirrorAspect) rounded].
+	Raylib
+		setWindowPositionX: origin x asInteger + (extent x - width // 2)
+			y: origin y asInteger + inset;
+		setWindowSizeWidth: width height: height.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRRaylibRenderer >> placeMirrorWindowOnce [
+
+	SRRenderer mirrorPlaced ifTrue: [^ self].
+	SRRenderer mirrorPlaced: true.
+	SRWorld current ifNotNil: [:world |
+		world addDeferredFrameMessage: [
+			self moveWindowToMonitor: SRRenderer mirrorMonitor]].
 ]
 
 { #category : #'render-loop' }
@@ -259,6 +386,21 @@ SRRaylibRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderCubeWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawCubeWiresPosition: self class rlVectorZero
+				width: 1
+				height: 1
+				length: 1
+				color: (self class rlColorFor_1: aColor)].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:20'
 }
 SRRaylibRenderer >> renderFastCube: anSRFastCube [
@@ -302,10 +444,23 @@ SRRaylibRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/7/2026 18:02'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderLineFrom: startVector3 to: endVector3 withColor: aColor [
+
+	Raylib
+		drawLine3DStartPos: (self class rlVector3For_1: startVector3)
+		endPos: (self class rlVector3For_2: endVector3)
+		color: (self class rlColorFor_1: aColor).
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:03'
 }
 SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMaterial [
 
+	aSRMaterial shader ifNotNil: [:shader | self applyLightingTo: shader].
 	Raylib
 		drawMesh: aSRMesh internalMesh
 		material: (aSRMaterial internalMaterialFor: self)
@@ -345,6 +500,21 @@ SRRaylibRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
 				rings: 16
 				slices: 16
 				color: (self class rlColorFor_2: aColor thriceDarker)].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRaylibRenderer >> renderSphereWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self withTransform: aMatrix4x4 do: [
+		Raylib
+			drawSphereWiresCenterPos: self class rlVectorZero
+				radius: 0.5
+				rings: 16
+				slices: 16
+				color: (self class rlColorFor_1: aColor)].
 ]
 
 {
@@ -424,4 +594,20 @@ SRRaylibRenderer >> shaderVersion [
 SRRaylibRenderer >> shutdown [
 
 	self subclassResponsibility 
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:03'
+}
+SRRaylibRenderer >> updateCamera: cameraTransform [
+
+	| forward up |
+	viewPosition := cameraTransform translation.
+	forward := cameraTransform localDirToGlobal: Vector3 forward.
+	up := cameraTransform localDirToGlobal: Vector3 up.
+	camera
+		position: (self class rlVector3For_1: viewPosition);
+		target: (self class rlVector3For_2: viewPosition + forward);
+		up: (self class rlVector3For_3: up).
 ]

@@ -13,12 +13,31 @@ Class {
 }
 
 {
+	#category : #'system startup',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRTexture class >> startUp: resuming [
+
+	resuming ifFalse: [^ self].
+	self allInstancesDo: [:each | each discardExternalObjects].
+]
+
+{
 	#category : #'instance creation',
 	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:22'
 }
 SRTexture class >> withSource: aTextureSource [
 
 	^ self new source: aTextureSource
+]
+
+{
+	#category : #releasing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:38'
+}
+SRTexture >> discardExternalObjects [
+
+	internalTexture := nil.
 ]
 
 {
@@ -51,7 +70,7 @@ SRTexture >> source [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 16:33'
 }
 SRTexture >> source: aTextureSource [
 
@@ -59,14 +78,26 @@ SRTexture >> source: aTextureSource [
 	source := aTextureSource.
 	source addDependent: self.
 	internalTexture := nil.
+	self changed: #textureChanged.
 ]
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/14/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/5/2026 11:52'
+}
+SRTexture >> unload [
+
+	source unload.
+	self discardExternalObjects.
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:55'
 }
 SRTexture >> update: aSymbol [
 
 	aSymbol = #textureChanged ifTrue: [
-		internalTexture := nil].
+		internalTexture := nil.
+		self changed: #textureChanged].
 ]

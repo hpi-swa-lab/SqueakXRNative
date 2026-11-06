@@ -5,7 +5,11 @@ Class {
 		'cache'
 	],
 	#classVars : [
-		'ClearColor',
+		'GridColor',
+		'GridSlices',
+		'GridSpacing',
+		'MirrorMonitor',
+		'MirrorPlaced',
 		'RendererClass',
 		'StartMonitor'
 	],
@@ -22,28 +26,73 @@ SRRenderer class >> assertContext [
 	self assert: self hasContext description: 'no GL context: open a renderer window first'
 ]
 
-{
-	#category : #preferences,
-	#'squeak_changestamp' : 'SqueakXR 6/26/2026 17:30'
-}
-SRRenderer class >> clearColor [
-	<preference: 'Clear color'
-		category: 'SqueakXR'
-		description: 'Clear color for the renderer'
-		type: #Color>
-	^ ClearColor ifNil: [ClearColor := Color r: 0.753 g: 0.973 b: 0.977]
-]
-
-{ #category : #preferences }
-SRRenderer class >> clearColor: aColor [
-	
-	ClearColor := aColor
-]
-
 { #category : #'as yet unclassified' }
 SRRenderer class >> default [
 
 	^ SRRaylibRenderer
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridColor [
+	<preference: 'Grid color'
+		category: 'SqueakXR'
+		description: 'Color of the floor grid'
+		type: #Color>
+	^ GridColor ifNil: [GridColor := Color r: 0.85 g: 0.65 b: 0.2]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridColor: aColor [
+
+	GridColor := aColor
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSlices [
+	<preference: 'Grid slices'
+		category: 'SqueakXR'
+		description: 'Number of cells across the floor grid'
+		type: #Number>
+	^ GridSlices ifNil: [GridSlices := 24]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSlices: anInteger [
+
+	GridSlices := anInteger
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSpacing [
+	<preference: 'Grid spacing'
+		category: 'SqueakXR'
+		description: 'Edge length of one floor grid cell, in metres'
+		type: #Number>
+	^ GridSpacing ifNil: [GridSpacing := 0.5]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+}
+SRRenderer class >> gridSpacing: aNumber [
+
+	GridSpacing := aNumber
 ]
 
 {
@@ -53,6 +102,46 @@ SRRenderer class >> default [
 SRRenderer class >> hasContext [
 
 	^ Raylib isWindowReady
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:35'
+}
+SRRenderer class >> mirrorMonitor [
+	<preference: 'Mirror monitor'
+		category: 'SqueakXR'
+		description: 'Index of the monitor the desktop mirror window is placed on'
+		type: #Number>
+	^ MirrorMonitor ifNil: [MirrorMonitor := 0]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:35'
+}
+SRRenderer class >> mirrorMonitor: anInteger [
+
+	MirrorMonitor := anInteger.
+	MirrorPlaced := false.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
+}
+SRRenderer class >> mirrorPlaced [
+
+	^ MirrorPlaced ifNil: [MirrorPlaced := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer 10/14/2026 10:36'
+}
+SRRenderer class >> mirrorPlaced: aBoolean [
+
+	MirrorPlaced := aBoolean.
 ]
 
 { #category : #preferences }
@@ -238,6 +327,15 @@ SRRenderer >> renderCubeTransformed: aMatrix4x4 withColor: aColor [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderCubeWiresTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 10:40'
 }
 SRRenderer >> renderFastCube: anSRFastCube [
@@ -262,6 +360,15 @@ SRRenderer >> renderLineFrom: aPoint to: anEndPoint color: aColor [
 	self subclassResponsibility
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderLineFrom: startVector3 to: endVector3 withColor: aColor [
+
+	self subclassResponsibility
+]
+
 { #category : #rendering }
 SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 
@@ -270,6 +377,15 @@ SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
 
 { #category : #rendering }
 SRRenderer >> renderSphereTransformed: aMatrix4x4 withColor: aColor [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:16'
+}
+SRRenderer >> renderSphereWiresTransformed: aMatrix4x4 withColor: aColor [
 
 	self subclassResponsibility
 ]

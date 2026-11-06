@@ -6,10 +6,13 @@ Vector3 >> asRlVector [
 	^ RlVector3 new x: self x; y: self y; z: self z
 ]
 
-{ #category : #'*SqueakXR-helpers' }
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
+}
 Vector3 class >> backward [
 
-	^ self x: 0 y: 0 z: -1
+	^ self x: 0 y: 0 z: 1
 ]
 
 {
@@ -36,10 +39,14 @@ Vector3 class >> down [
 	^ self x: 0 y: -1 z: 0
 ]
 
-{ #category : #'*SqueakXR-helpers' }
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+}
 Vector3 class >> forward [
+	"Right-handed, as raylib and OpenXR are: with +x right and +y up, forward is -z."
+	^ self x: 0 y: 0 z: -1
 
-	^ self x: 0 y: 0 z: 1
 ]
 
 { #category : #'*SqueakXR-helpers' }
@@ -49,6 +56,18 @@ Vector3 class >> fromRlVector3: aRlVector3 [
 		x: aRlVector3 x
 		y: aRlVector3 y
 		z: aRlVector3 z
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/22/2026 18:15'
+}
+Vector3 class >> fromXrVector3f: anXrVector3f [
+
+	^ self
+		x: anXrVector3f x
+		y: anXrVector3f y
+		z: anXrVector3f z
 ]
 
 { #category : #'*SqueakXR-helpers' }
@@ -76,6 +95,18 @@ Vector3 class >> random [
 Vector3 class >> right [
 
 	^ self x: 1 y: 0 z: 0
+]
+
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'MCPServer (leo) 10/22/2026 18:15'
+}
+Vector3 >> setFromXrVector3f: anXrVector3f [
+
+	self
+		x: anXrVector3f x
+		y: anXrVector3f y
+		z: anXrVector3f z
 ]
 
 { #category : #'*SqueakXR-helpers' }

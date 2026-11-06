@@ -1,15 +1,22 @@
+"
+A flat textured quad, used far more often as a display surface than as ground.
+
+Not solid unless asked: a panel you can walk onto or teleport into is in the way. Send #solid: true to make one a floor, a ledge or a wall.
+"
 Class {
 	#name : #SRPlane,
 	#superclass : #SRObject,
 	#instVars : [
 		'material',
 		'mesh',
-		'meshObject'
+		'meshObject',
+		'solid'
 	],
 	#classVars : [
 		'Mesh'
 	],
-	#category : #'SqueakXR-Objects'
+	#category : #'SqueakXR-Objects',
+	#'squeak_changestamp' : '<historical>'
 }
 
 {
@@ -57,6 +64,14 @@ SRPlane >> initialize [
 	
 	meshObject := SRMeshObject withMesh: self class mesh.
 	self addChild: meshObject.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+}
+SRPlane >> isSolid [
+	^ solid ifNil: [false]
 ]
 
 {
@@ -118,6 +133,14 @@ SRPlane >> onWorldStarted [
 SRPlane >> planeUp [
 
 	^ (self globalTransform localDirToGlobal: 0 @ 0 @ 1) normalize
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:43'
+}
+SRPlane >> solid: aBoolean [
+	solid := aBoolean.
 ]
 
 { #category : #accessing }

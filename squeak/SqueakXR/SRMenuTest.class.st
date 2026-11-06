@@ -55,7 +55,7 @@ SRMenuTest >> demoEntries [
 
 {
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:41'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 	^ SRMenuEntry new
@@ -63,7 +63,7 @@ SRMenuTest >> entryAt: aPath label: aStringOrSymbol priority: anInteger [
 		label: aStringOrSymbol
 		priority: anInteger
 		provider: self class
-		selector: #demoAction:target:
+		action: #demoAction:target:
 ]
 
 {
@@ -115,6 +115,109 @@ SRMenuTest >> setUp [
 SRMenuTest >> tearDown [
 	SRMenuRegistry current entries: savedEntries.
 	super tearDown
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:13'
+}
+SRMenuTest >> testAHandLeftRestingOnTheParentDoesNotCloseTheSubmenu [
+	| menu resting opener sub |
+	menu := self menuUnder: #(demo).
+	resting := self rowOf: menu labelled: 'Alpha'.
+	opener := self rowOf: menu labelled: 'Tools >'.
+	menu pointedAt: (IdentitySet with: resting with: opener).
+	opener onRaycast: nil.
+	sub := menu submenu.
+	menu pointedAt: (IdentitySet with: resting with: sub).
+	self assert: menu submenu == sub.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testAMenuIsNotSomethingToStandOn [
+
+	| root menu probe |
+	root := SRObject new.
+	menu := self menuUnder: #(demo).
+	probe := SRObject new.
+	root addChild: menu parent.
+	root addChild: probe.
+	self deny: menu safeCollisionGeometry isNil.
+	self assert: 0 equals: (SRSceneSolids forObject: probe) size.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:13'
+}
+SRMenuTest >> testASubmenuCoversTheRowThatOpenedIt [
+	| menu row sub rowY subTop subBottom |
+	menu := self menuUnder: #(demo).
+	row := self rowOf: menu labelled: 'Zoo >'.
+	row onRaycast: nil.
+	sub := menu submenu.
+	rowY := row globalTranslation y.
+	subTop := sub globalTranslation y + (sub slabHeight / 2).
+	subBottom := sub globalTranslation y - (sub slabHeight / 2).
+	self assert: subTop >= rowY.
+	self assert: subBottom <= rowY.
+	self assert: subTop <= (menu globalTranslation y + (menu slabHeight / 2) + 1mm).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:13'
+}
+SRMenuTest >> testASubmenuStaysAtAFixedOffsetHoweverDeepTheCascade [
+	| menu sub subsub first second |
+	menu := self menuUnder: #(demo).
+	(self rowOf: menu labelled: 'Tools >') onRaycast: nil.
+	sub := menu submenu.
+	sub addSubmenuItemFor: #zoo filledBy: [:m | m addItemsUnder: #(demo zoo) target: nil].
+	sub rebuild.
+	(self rowOf: sub labelled: 'Zoo >') onRaycast: nil.
+	subsub := sub submenu.
+	first := sub globalTranslation - menu globalTranslation.
+	second := subsub globalTranslation - sub globalTranslation.
+	self assert: (first x closeTo: SRMenu submenuSideOffset).
+	self assert: (second x closeTo: SRMenu submenuSideOffset).
+	self assert: (first z closeTo: SRMenu submenuForwardOffset).
+	self assert: (second z closeTo: SRMenu submenuForwardOffset).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testAnActionIgnoringTheHandStillRuns [
+
+	| menu ran |
+	ran := false.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Go' action: [ran := true].
+	menu rebuild.
+	(self rowOf: menu labelled: 'Go') onRaycast: nil.
+	self assert: ran.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testBothHandsCanHighlightAtOnce [
+
+	| menu rows |
+	menu := self menuUnder: #(demo).
+	rows := menu children select: [:each | each isMenuItem].
+	self assert: rows size >= 2.
+	menu setHoveredItems: (IdentitySet withAll: (rows first: 2)).
+	self assert: rows first hovered.
+	self assert: (rows at: 2) hovered.
+	self deny: rows last hovered.
 ]
 
 {
@@ -275,6 +378,42 @@ SRMenuTest >> testPickingInASubmenuLeavesAStickyParentStanding [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:13'
+}
+SRMenuTest >> testPointingBackAtAnotherRowOfTheParentClosesTheSubmenu [
+	| menu opener sub |
+	menu := self menuUnder: #(demo).
+	opener := self rowOf: menu labelled: 'Tools >'.
+	opener onRaycast: nil.
+	sub := menu submenu.
+	menu pointedAt: (IdentitySet with: opener).
+	menu pointedAt: (IdentitySet with: sub).
+	self assert: menu submenu == sub.
+	menu pointedAt: (IdentitySet with: (self rowOf: menu labelled: 'Alpha')).
+	self assert: menu submenu isNil.
+	self deny: sub isOpen.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
+}
+SRMenuTest >> testRebuildingTheParentKeepsItsSubmenuOpen [
+	| menu opener sub |
+	menu := self menuUnder: #(demo).
+	opener := self rowOf: menu labelled: 'Tools >'.
+	menu pointedAt: (IdentitySet with: opener).
+	opener onRaycast: nil.
+	sub := menu submenu.
+	menu rebuild.
+	opener := self rowOf: menu labelled: 'Tools >'.
+	menu pointedAt: (IdentitySet with: opener).
+	self assert: menu submenu == sub.
+	self assert: opener hovered.
+]
+
+{
 	#category : #'tests - sticky',
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:39'
 }
@@ -303,8 +442,46 @@ SRMenuTest >> testStickyMenuStaysOpenWhenPicking [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+}
+SRMenuTest >> testTheActionReceivesThePickingHand [
+
+	| menu hand seen result |
+	hand := SRHand new.
+	menu := SRMenu new.
+	SRObject new addChild: menu.
+	menu addItem: 'Arm' action: [:item :pickingHand | seen := pickingHand].
+	menu rebuild.
+	result := SRRayIntersectionResult new
+		object: menu;
+		point: Vector3 zero;
+		yourself.
+	(self rowOf: menu labelled: 'Arm')
+		onRaycast: (result asHandRayIntersection: nil hand: hand).
+	self assert: hand == seen.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:13'
+}
+SRMenuTest >> testTheSubmenuHidesTheParentRowsBehindIt [
+	| menu opener sub hidden ray |
+	menu := self menuUnder: #(demo).
+	opener := self rowOf: menu labelled: 'Tools >'.
+	opener onRaycast: nil.
+	sub := menu submenu.
+	hidden := self rowOf: menu labelled: 'Alpha'.
+	ray := SRRay
+		origin: hidden globalTranslation + (SRMenu submenuSideOffset @ 0 @ 1)
+		forward: 0 @ 0 @ -1.
+	self assert: (ray castNearestObjects: menu pointableObjects) object == sub.
+]
+
+{
 	#category : #fixture,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:19'
 }
 SRMenuTest >> toggleEntry [
 	"A Symbol label is recomputed from the provider every time it is resolved."
@@ -314,5 +491,5 @@ SRMenuTest >> toggleEntry [
 		label: #demoToggleLabel
 		priority: 150
 		provider: self class
-		selector: #demoToggle:target:.
+		action: #demoToggle:target:.
 ]

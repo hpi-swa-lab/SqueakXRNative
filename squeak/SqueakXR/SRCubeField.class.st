@@ -88,6 +88,15 @@ SRCubeField class >> drawWires: aBoolean [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+}
+SRCubeField class >> radiansPerSecond [
+
+	^ 0.4
+]
+
+{
 	#category : #showing,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 17:27'
 }
@@ -345,6 +354,14 @@ SRCubeField class >> xrMenuWiresLabel [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:04'
+}
+SRCubeField >> angle [
+	^ angle
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
 }
 SRCubeField >> animating [
@@ -462,17 +479,13 @@ SRCubeField >> setCount: aCount cubeClass: aClass [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRCubeField >> step: deltaTime [
-	"One step for the whole field rather than one per cube: N cubes stepping
-	themselves is N entries in the frame's stepped-object list.
-	All cubes share the rotation, so the frame costs one Quaternion and N dirty
-	transforms, which is what this mode is here to measure."
 
 	| rotation |
 	animating ifFalse: [^ self].
-	angle := angle + (deltaTime * 0.8).
+	angle := angle + (deltaTime * 0.001 * self class radiansPerSecond) \\ Float twoPi.
 	rotation := Quaternion new radiansAngle: angle axis: axis.
 	self childrenDo: [:each |
 		each isCube ifTrue: [each localRotation: rotation]].
