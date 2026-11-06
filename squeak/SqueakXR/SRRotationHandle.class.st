@@ -62,15 +62,15 @@ SRRotationHandle >> axis [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/6/2026 14:57'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 15:02'
 }
 SRRotationHandle >> collisionGeometry [ 
 
 	^ SRCollisionRing new
 		point: self globalTranslation;
 		normal: self axis;
-		innerR: self class innerR;
-		width: self class width;
+		innerR: self class innerR * self globalScale x;
+		width: self class width * self globalScale x;
 		object: self
 ]
 
@@ -94,12 +94,13 @@ SRRotationHandle >> color: aColor [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/6/2026 13:59'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 14:59'
 }
 SRRotationHandle >> initialize [ 
 
 	super initialize.
 	meshObject := SRMeshObject withMesh: self class mesh.
+	meshObject scale: 1@1@0.
 	self addChild: meshObject.
 ]
 
