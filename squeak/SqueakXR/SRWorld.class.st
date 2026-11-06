@@ -29,7 +29,8 @@ Class {
 		'floorGeometry',
 		'supportsHandTracking',
 		'visualEnvironment',
-		'lightsBuffer'
+		'lightsBuffer',
+		'shutDownWithoutQuitting'
 	],
 	#classVars : [
 		'Current',
@@ -424,11 +425,14 @@ SRWorld class >> shiftValueOffset [
 	^ 1000
 ]
 
-{ #category : #'as yet unclassified' }
-SRWorld class >> shutDown [
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/6/2026 23:13'
+}
+SRWorld class >> shutDown: quitting [
 
 	self allInstances do: [:world |
-		world shutDown]
+		world shutDown: quitting]
 ]
 
 {
@@ -712,7 +716,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 17:04'
+	#'squeak_changestamp' : 'leo 11/6/2026 23:42'
 }
 SRWorld >> initialize [
 
@@ -727,6 +731,8 @@ SRWorld >> initialize [
 	
 	cameraTransform := RlTransform new.
 	visualEnvironment := SRVisualEnvironment new.
+	
+	shutDownWithoutQuitting := false.
 	
 	self
 		isXR: false;
@@ -853,7 +859,7 @@ SRWorld >> log: aString [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 9/30/2026 19:12'
+	#'squeak_changestamp' : 'leo 11/7/2026 00:22'
 }
 SRWorld >> loop [
 
@@ -869,8 +875,10 @@ SRWorld >> loop [
 	cycleSemaphore := Semaphore forMutualExclusion.
 	
 	[self isRunning] whileTrue: [
-		cycleSemaphore critical: [self doOneCycle]]
-	
+		cycleSemaphore critical: [
+			[self doOneCycle]
+				on: CancelFrame
+				do: []]]
 	]
 		on: Error
 		do: [:error |
@@ -1161,9 +1169,11 @@ SRWorld >> secondPassRenderBuffer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/13/2026 15:08'
+	#'squeak_changestamp' : 'leo 11/6/2026 23:42'
 }
-SRWorld >> shutDown [
+SRWorld >> shutDown: quitting [
+
+	shutDownWithoutQuitting := quitting not.
 
 	(self worldProcess notNil and: [self worldProcess isSuspended]) ifTrue: [^ self].
 
@@ -1217,12 +1227,15 @@ SRWorld >> start [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/15/2026 14:45'
+	#'squeak_changestamp' : 'leo 11/7/2026 00:09'
 }
 SRWorld >> startUp: resuming [
 
 	self log.
 	resuming ifTrue: [
+		shutDownWithoutQuitting ifTrue: [
+			self worldProcess ifNotNil: [:p |
+				p isTerminated ifFalse: [p signalException: CancelFrame new]]].
 		self invalidateCache.
 		needsSetup := resuming].
 	self resume
