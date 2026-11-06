@@ -9,7 +9,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/4/2026 18:03'
+	#'squeak_changestamp' : 'leo 11/6/2026 16:17'
 }
 SRMiniView >> miniTransform [ 
 
@@ -23,7 +23,7 @@ SRMiniView >> miniTransform [
 	self subtree ifNotNil: [:top | | invT invR invS |
 		invT := Matrix4x4 withOffset: top globalTranslation negated.
 		invR := top globalRotation inverse asMatrix4x4.
-		invS := Matrix4x4 withScale: 1 / (top globalScale axisMax asVector3).
+		invS := Matrix4x4 withScale: 1 / (top globalScale max asVector3).
 		xform := xform * invS * invR * invT
 	].
 	^xform

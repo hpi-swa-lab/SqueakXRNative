@@ -11,14 +11,14 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/12/2026 16:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:20'
 }
 SRRingHalo >> addButtons: aList [
 
 	"Add buttons in a ring-like fashoin around my center."
 	| step position xform |
 	step := 360 / aList size.
-	xform := Quaternion angle: step axis: Vector3 forward.
+	xform := Quaternion angle: step axis: Vector3 backward.
 	position := Vector3 up * 0.3.
 	aList do: [:btn |
 		btn position: position.

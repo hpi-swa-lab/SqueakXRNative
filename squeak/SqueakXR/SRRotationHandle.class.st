@@ -53,11 +53,11 @@ SRRotationHandle class >> width [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/5/2026 17:44'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:20'
 }
 SRRotationHandle >> axis [
 	
-	^ self forward
+	^ self backward
 ]
 
 {

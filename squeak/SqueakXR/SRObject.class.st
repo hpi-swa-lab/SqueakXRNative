@@ -21,7 +21,7 @@ Class {
 		'parent',
 		'transformDirtyFlag',
 		'transformVersion',
-		'visible\r'
+		'visible'
 	],
 	#classVars : [
 		'UseIterativeTraversal'
@@ -654,21 +654,21 @@ SRObject >> gizmoSphereLocal: localPosition [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'phkeese 10/13/2026 11:04'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
 }
 SRObject >> globalRotation [
 
-	| center forward getAxis right up |
+	| center backward getAxis right up |
 	self ensureTransformClean.
 	center := self globalTranslation.
 	getAxis := [:dir | ((self globalTransform localPointToGlobal: dir) - center) normalized ].
 	right := getAxis value: Vector3 right.
 	up := getAxis value: Vector3 up.
-	forward := getAxis value: Vector3 forward.
+	backward := getAxis value: Vector3 backward.
 	^ (Matrix4x4 identity 
 		column1: right;
 		column2: up;
-		column3: forward;
+		column3: backward;
 		rotationQuaternion)
 ]
 

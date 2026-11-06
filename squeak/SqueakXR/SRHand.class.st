@@ -760,7 +760,7 @@ SRHand >> updateToolPreview [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'lege 8/10/2026 11:09'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:34'
 }
 SRHand >> updateTransformFromActions: aSRActionStates [
 	

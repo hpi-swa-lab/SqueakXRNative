@@ -282,7 +282,7 @@ SRSceneTreeInspector >> labelOf: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 9/29/2026 16:57'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:34'
 }
 SRSceneTreeInspector >> propertiesOfCurrentSelection [
 
@@ -300,10 +300,10 @@ SRSceneTreeInspector >> propertiesOfCurrentSelection [
 		'    y: ', selection localTranslation y.
 		'    z: ', selection localTranslation z.
 		'Local rotation'.
-		'    axis x: ', selection localRotation axis x.
-		'    axis y: ', selection localRotation axis y.
-		'    axis z: ', selection localRotation axis z.
-		'    angle: ', selection localRotation angle.
+		'    axis x: ', selection localRotation asQuaternion axis x.
+		'    axis y: ', selection localRotation asQuaternion axis y.
+		'    axis z: ', selection localRotation asQuaternion axis z.
+		'    angle: ', selection localRotation asQuaternion angle.
 		'Local scale'.
 		'    x: ', selection localScale x.
 		'    y: ', selection localScale y.

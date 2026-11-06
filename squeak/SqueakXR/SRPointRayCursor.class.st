@@ -37,7 +37,7 @@ SRPointRayCursor >> castCollision [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/7/2026 15:35'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
 }
 SRPointRayCursor >> castCollisionOn: targets [
 
@@ -49,7 +49,7 @@ SRPointRayCursor >> castCollisionOn: targets [
 	) ifNotEmpty: [:results | ^ results first ].
 	
 	"...then try and find something along the ray"
-	^ (self castRayOn: targets from: gogo globalTranslation toward: gogo backward)
+	^ (self castRayOn: targets from: gogo globalTranslation toward: gogo forward)
 		ifEmpty: [ nil ] ifNotEmpty: [:r | r first ]
 ]
 
@@ -105,7 +105,7 @@ SRPointRayCursor >> intersections [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/27/2026 12:12'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
 }
 SRPointRayCursor >> step: deltaTime [ 
 
@@ -113,7 +113,7 @@ SRPointRayCursor >> step: deltaTime [
 	super step: deltaTime.
 	start := gogo globalTranslation.
 	focus := self focusPoint ifNil: [ gogo globalTranslation ].
-	end := gogo globalTransform localPointToGlobal: (Vector3 backward * 10).
+	end := gogo globalTransform localPointToGlobal: (Vector3 forward * 10).
 	progressEnd := (focus - start) * self progress + start.
 	self gizmoPainter 
 		gizmoLine: start to: focus color: self color;
@@ -157,7 +157,7 @@ SRPointRayCursor >> updateGoGo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/19/2026 13:23'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
 }
 SRPointRayCursor >> updateIntersections [ 
 
@@ -178,7 +178,7 @@ SRPointRayCursor >> updateIntersections [
 		self
 			castRayOn: targets
 			from: gogo globalTranslation 
-			toward: gogo backward
+			toward: gogo forward
 	).
 	
 ]
