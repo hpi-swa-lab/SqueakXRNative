@@ -5,6 +5,7 @@ Class {
 		'internalMaterial',
 		'shader',
 		'texture',
+		'colDiffuse',
 		'isDirty'
 	],
 	#category : #'SqueakXR-Graphics-Material'
@@ -20,14 +21,34 @@ SRMaterial class >> withTexture: anSRTexture [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:19'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 13:56'
 }
 SRMaterial >> buildInternalMaterialFor: aSRRenderer [
 
 	internalMaterial := Raylib loadMaterialDefault.
 	shader ifNotNil: [
 		internalMaterial shader: shader internalShader].
+	colDiffuse ifNotNil: [
+		internalMaterial maps color: colDiffuse asRlColor
+	].
 	^ internalMaterial
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/6/2026 13:52'
+}
+SRMaterial >> colDiffuse [
+	^ colDiffuse
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/6/2026 13:52'
+}
+SRMaterial >> colDiffuse: aColor [
+	colDiffuse := aColor.
+	isDirty := true
 ]
 
 { #category : #'as yet unclassified' }

@@ -1,8 +1,26 @@
 Class {
 	#name : #SRRotationHandle,
 	#superclass : #SRObject,
+	#instVars : [
+		'meshObject'
+	],
+	#classVars : [
+		'Mesh'
+	],
 	#category : #'SqueakXR-Halo'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/6/2026 13:50'
+}
+SRRotationHandle class >> mesh [
+
+	^ Mesh ifNil: [
+		Mesh := SRMesh withSource: (
+			SRMeshSourceRaylibGen torusRadius: 0.05 size: 2 radSeg: 8 sides: 64
+	)]
+]
 
 {
 	#category : #accessing,
@@ -29,15 +47,14 @@ SRRotationHandle >> collisionGeometry [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/5/2026 17:17'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 13:54'
 }
 SRRotationHandle >> initialize [ 
 
 	super initialize.
-	
-	axis := Vector3 right.
-	radius := 1.
-	thickness := 10cm.
+	meshObject := SRMeshObject withMesh: self class mesh.
+	meshObject material colDiffuse: Color red.
+	self addChild: meshObject.
 ]
 
 {
