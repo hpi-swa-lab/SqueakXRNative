@@ -1010,7 +1010,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/5/2026 17:43'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 14:59'
 }
 SRWorld >> runStartScript [
 
@@ -1026,9 +1026,6 @@ SRWorld >> runStartScript [
 	(self isXR not and: [self class runStartScriptInFlat not]) ifTrue: [^ self].
 
 	"self maybeStartMCPServer."
-	self addChild: (SRRotationHandle new
-		rotation:( Quaternion axis: Vector3 one normalized angle: 45)
-	).
 
 	(self isXR and: [self class runStartScriptInXR not]) ifTrue: [^ self].
 	"self log: 'trying yaros...'."

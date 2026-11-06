@@ -108,6 +108,16 @@ SRGizmoPainter >> drawWireBox: command renderer: aSRRenderer [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/6/2026 14:19'
+}
+SRGizmoPainter >> drawWireCircle: command renderer: aRenderer [
+
+	aRenderer renderCircleCenter: command second 
+		radius: command fourth axis: command third color: command fifth
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'MCPServer 5/19/2026 16:38'
 }
@@ -235,6 +245,15 @@ SRGizmoPainter >> gizmoWireBox: aSRCollisionBox color: aColor [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/6/2026 14:17'
+}
+SRGizmoPainter >> gizmoWireCircleAt: center axis: axis radius: r color: color [
+
+	commands add: {#wireCircle. center. axis. r. color}
+]
+
+{
 	#category : #'3D gizmos',
 	#'squeak_changestamp' : 'SqueakXR 6/25/2026 16:15'
 }
@@ -304,7 +323,7 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 11/5/2026 16:21'
+	#'squeak_changestamp' : 'phkeese 11/6/2026 14:20'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -313,6 +332,7 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 			[#sphere] -> [self drawSphere: command renderer: aSRRenderer].
 			[#wireSphere] -> [self drawWireSphere: command renderer: aSRRenderer].
 			[#wireTorus] -> [self drawWireTorus: command renderer: aSRRenderer].
+			[#wireCircle] -> [self drawWireCircle: command renderer: aSRRenderer].
 			[#wireBox] -> [self drawWireBox: command renderer: aSRRenderer].
 			[#wirePlane] -> [self drawWirePlane: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].
