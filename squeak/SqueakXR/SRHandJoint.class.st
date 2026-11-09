@@ -47,12 +47,12 @@ SRHandJoint >> bones [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/23/2026 13:36'
+	#'squeak_changestamp' : 'leo 11/9/2026 14:15'
 }
 SRHandJoint >> connectTo: aJoint [
 
 	| bone |
-	bone := SRCube new color: Color gray veryMuchDarker.
+	bone := SRCube new color: Color gray veryMuchDarker; ignoreCollision: true.
 	self addChild: bone.
 	self bones add: aJoint -> bone.
 ]
@@ -109,13 +109,16 @@ SRHandJoint >> connectedJoints [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 10/23/2026 13:37'
+	#'squeak_changestamp' : 'leo 11/9/2026 14:16'
 }
 SRHandJoint >> initialize [
 
 	super initialize.
 
-	self addChild: (jointCube := SRCube new scale: 1cm asVector3; color: Color gray).
+	self addChild: (jointCube := SRCube new
+		scale: 1cm asVector3;
+		color: Color gray;
+		ignoreCollision: true).
 ]
 
 {

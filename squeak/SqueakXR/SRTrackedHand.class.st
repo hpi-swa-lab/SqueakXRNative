@@ -169,7 +169,7 @@ SRTrackedHand >> indexTip [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 14:26'
+	#'squeak_changestamp' : 'leo 11/9/2026 14:17'
 }
 SRTrackedHand >> initialize [
 
@@ -190,7 +190,8 @@ SRTrackedHand >> initialize [
 		color: Color red;
 		scale: 3mm @ 10m @ 3mm;
 		position: 0 @ 5m @ 0;
-		visible: false).
+		visible: false;
+		ignoreCollision: true).
 ]
 
 {
