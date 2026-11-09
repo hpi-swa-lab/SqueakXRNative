@@ -823,7 +823,7 @@ SRWorld >> initialize [
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/26/2026 16:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:08'
 }
 SRWorld >> initializeWorldProcess [
 	
@@ -833,7 +833,7 @@ SRWorld >> initializeWorldProcess [
 		self log: 'initXrInput'.
 		self initXrInput.
 		self log: 'initXrHandTracking'.
-		supportsHandTracking := self initXrHandTracking.
+		supportsHandTracking := SRAvatar handTracking and: [self initXrHandTracking].
 		Transcript showln: 'Handtracking: ', supportsHandTracking asString.
 		supportsHandTracking ifTrue: [
 			self avatar enableHandTracking do: [:hand | self addDependent: hand]]].

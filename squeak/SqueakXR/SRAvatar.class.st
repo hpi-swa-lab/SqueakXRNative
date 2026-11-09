@@ -21,6 +21,7 @@ Class {
 	],
 	#classVars : [
 		'ContinuousLocomotion',
+		'HandTracking',
 		'SmoothTurn',
 		'SmoothTurnSpeed',
 		'SnapTurnAngle',
@@ -50,6 +51,27 @@ SRAvatar class >> continuousLocomotion [
 SRAvatar class >> continuousLocomotion: aBoolean [
 
 	ContinuousLocomotion := aBoolean.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:08'
+}
+SRAvatar class >> handTracking [
+	<preference: 'Hand tracking'
+		category: 'SqueakXR'
+		description: 'Initialize XR hand tracking when the world starts.'
+		type: #Boolean>
+	^ HandTracking ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:08'
+}
+SRAvatar class >> handTracking: aBoolean [
+
+	HandTracking := aBoolean.
 ]
 
 {
