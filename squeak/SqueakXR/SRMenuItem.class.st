@@ -8,8 +8,7 @@ Class {
 		'label',
 		'action',
 		'textField',
-		'highlightColor',
-		'hovered',
+		'hands',
 		'size',
 		'keepsMenuOpen'
 	],
@@ -89,6 +88,19 @@ SRMenuItem >> action [
 ]
 
 {
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenuItem >> activateBy: aHand [
+
+	action ifNotNil: [action valueWithEnoughArguments: (Array with: self with: aHand)].
+	self menu ifNotNil: [:menu |
+		(self keepsMenuOpen or: [menu isSticky])
+			ifTrue: [menu labelsChanged]
+			ifFalse: [menu closeCascade]].
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'lege 7/3/2026 18:20'
 }
@@ -112,32 +124,32 @@ SRMenuItem >> grabTarget [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/19/2026 18:30'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
 }
-SRMenuItem >> hovered [
-	^ hovered
+SRMenuItem >> hands [
+
+	^ hands
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:37'
 }
-SRMenuItem >> hovered: aBoolean [
-	hovered = aBoolean ifTrue: [^ self].
-	hovered := aBoolean.
-	textField color: (hovered ifTrue: [self class textColorHighlight] ifFalse: [self class textColorNormal])
+SRMenuItem >> hovered [
+
+	^ hands notEmpty or: [self opensSubmenu]
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
 }
 SRMenuItem >> initialize [
 
 	super initialize.
 	
 	label := ''.
-	hovered := false.
+	hands := IdentitySet new.
 	size := 14cm @ 2cm @ self class itemDepth.
 	textField := SRTextField new
 		text: label;
@@ -210,40 +222,71 @@ SRMenuItem >> menu [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
 }
-SRMenuItem >> onRaycast: aSRRayIntersectionResult [
+SRMenuItem >> onButtonPress: anEvent [
 
-	action ifNotNil: [
-		action valueWithEnoughArguments:
-			(Array with: self with: (aSRRayIntersectionResult ifNotNil: [:r | r hand]))].
+	anEvent button = #trigger ifTrue: [self activateBy: anEvent hand].
+]
 
-	self menu ifNotNil: [:m |
-		(self keepsMenuOpen or: [m isSticky])
-			ifTrue: [m labelsChanged]
-			ifFalse: [m closeCascade]].
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenuItem >> onCursorEnter: anEvent [
+
+	(hands includes: anEvent hand) ifTrue: [^ self].
+	hands add: anEvent hand.
+	self menu ifNotNil: [:menu | menu itemEntered: self].
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenuItem >> onCursorLeave: anEvent [
+
+	hands remove: anEvent hand ifAbsent: [].
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenuItem >> opensSubmenu [
+
+	^ self menu notNil and: [self menu submenuItem == self]
 ]
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 18:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:37'
 }
 SRMenuItem >> renderOn: aSRRenderer [
-	| fillColor wireColor transform |
-	self hovered
-		ifTrue: [
-			fillColor := self class fillColorHighlight.
-			wireColor := self class wireColorHighlight]
-		ifFalse: [
-			fillColor := self class fillColorNormal.
-			wireColor := self class wireColorNormal].
-	
+
+	| highlighted transform |
+	highlighted := self hovered.
+	textField color: (highlighted
+		ifTrue: [self class textColorHighlight]
+		ifFalse: [self class textColorNormal]).
 	transform := self globalTransform * (Matrix4x4 withScale: size).
-	
 	aSRRenderer
-		renderPlainCubeTransformed: transform withColor: fillColor;
-		renderWireCubeTransformed: transform withColor: wireColor.
+		renderPlainCubeTransformed: transform withColor: (highlighted
+			ifTrue: [self class fillColorHighlight]
+			ifFalse: [self class fillColorNormal]);
+		renderWireCubeTransformed: transform withColor: (highlighted
+			ifTrue: [self class wireColorHighlight]
+			ifFalse: [self class wireColorNormal]).
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenuItem >> takeHandsFrom: anItem [
+
+	hands addAll: anItem hands.
 ]
 
 {

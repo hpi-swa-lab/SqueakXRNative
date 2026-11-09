@@ -459,11 +459,13 @@ SRFrameTimeGraph >> setupBars [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer 8/5/2026 14:53'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:18'
 }
 SRFrameTimeGraph >> step: deltaTime [
 
+	| milliseconds |
+	milliseconds := deltaTime * 1000.
 	self mode = #frameTime
-		ifTrue: [self recordFrameTime: deltaTime]
-		ifFalse: [self recordFrameInSecond: deltaTime]
+		ifTrue: [self recordFrameTime: milliseconds]
+		ifFalse: [self recordFrameInSecond: milliseconds]
 ]

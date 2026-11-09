@@ -14,12 +14,12 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:13'
 }
 SRGunBullet class >> lifetime [
-	"in milliseconds"
+	"in seconds"
 
-	^ 1500
+	^ 1.5
 ]
 
 {
@@ -72,7 +72,7 @@ SRGunBullet >> renderOn: aSRRenderer [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/3/2026 19:04'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:13'
 }
 SRGunBullet >> step: deltaTime [
 
@@ -81,7 +81,7 @@ SRGunBullet >> step: deltaTime [
 	age > self class lifetime ifTrue: [^ self remove].
 	
 	from := self globalTranslation.
-	self globalTranslation: from + (velocity * (deltaTime / 1000.0)).
+	self globalTranslation: from + (velocity * deltaTime).
 	(self hitsTargetFrom: from to: self globalTranslation) ifTrue: [self remove].
 ]
 

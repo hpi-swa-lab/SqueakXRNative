@@ -129,13 +129,11 @@ SRBlinkOverlay >> runPendingAction [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:09'
 }
 SRBlinkOverlay >> step: deltaTime [
-	| seconds |
 	phase == #idle ifTrue: [^ self].
-	seconds := deltaTime / 1000.0.
-	elapsed := elapsed + seconds.
+	elapsed := elapsed + deltaTime asFloat.
 	phase == #out ifTrue: [
 		elapsed < self class fadeOutSeconds
 			ifTrue: [^ self opacity: elapsed / self class fadeOutSeconds].

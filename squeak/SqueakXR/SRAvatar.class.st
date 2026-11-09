@@ -579,6 +579,17 @@ SRAvatar >> snapBodyUnderHead: head floorY: feetY [
 ]
 
 {
+	#category : #stepping,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:31'
+}
+SRAvatar >> step: deltaTime [
+
+	self
+		updateLocomotion: deltaTime;
+		updateSmoothTurn: deltaTime.
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
@@ -682,7 +693,7 @@ SRAvatar >> turnBy: degrees [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:18'
 }
 SRAvatar >> updateLocomotion: deltaTime [
 
@@ -690,7 +701,7 @@ SRAvatar >> updateLocomotion: deltaTime [
 	self locomotionEnabled ifFalse: [^ self].
 	camera ifNil: [^ self].
 
-	dt := (deltaTime asFloat / 1000.0) min: 0.1.
+	dt := deltaTime asFloat min: 0.1.
 	dt <= 0.0 ifTrue: [^ self].
 
 	head := camera globalTranslation.
@@ -705,6 +716,17 @@ SRAvatar >> updateLocomotion: deltaTime [
 		dt: dt.
 	self translation: self translation + correction.
 	lastRigTranslation := self translation.
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:31'
+}
+SRAvatar >> updateSmoothTurn: deltaTime [
+
+	self class turnStyle == #smooth ifFalse: [^ self].
+	rightHand ifNil: [^ self].
+	self turnBy: rightHand joystick horizontal * self class smoothTurnSpeed * deltaTime.
 ]
 
 {

@@ -20,6 +20,24 @@ Class {
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:01'
+}
+SRHandAction >> forget: anSRObject [
+
+	^ self
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:28'
+}
+SRHandAction >> grabbedObject [
+
+	^ nil
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/19/2026 13:27'
 }
 SRHandAction >> hand [

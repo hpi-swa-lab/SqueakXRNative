@@ -125,14 +125,12 @@ SRPointRayCursor >> step: deltaTime [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 9/29/2026 15:11'
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:02'
 }
-SRPointRayCursor >> target [ 
-	^ grabbedObject ifNil: [
-		hit ifNotNil: [ hit object 
-		]
-	]
+SRPointRayCursor >> target [
+
+	^ hit ifNotNil: [hit object]
 ]
 
 {

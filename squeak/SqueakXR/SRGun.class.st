@@ -29,12 +29,12 @@ SRGun class >> bulletSpeed [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:13'
 }
 SRGun class >> fireInterval [
-	"minimum milliseconds between two shots"
+	"minimum seconds between two shots"
 
-	^ 120
+	^ 0.12
 ]
 
 {
@@ -49,12 +49,12 @@ SRGun class >> recoilAngle [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:13'
 }
 SRGun class >> recoilHalfLife [
-	"milliseconds until the recoil has settled halfway back"
+	"seconds until the recoil has settled halfway back"
 
-	^ 40
+	^ 0.04
 ]
 
 {
@@ -292,4 +292,13 @@ SRGun >> step: deltaTime [
 		^ self].
 	
 	(hand trigger isJustPressed and: [cooldown = 0]) ifTrue: [self fire].
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:11'
+}
+SRGun >> wantsGrab [
+
+	^ true
 ]

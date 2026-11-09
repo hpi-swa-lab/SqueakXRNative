@@ -19,6 +19,24 @@ SRGrabAction >> dragGrabbedObject [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:01'
+}
+SRGrabAction >> forget: anSRObject [
+
+	grabbedObject == anSRObject ifTrue: [self stopGrabbing].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:28'
+}
+SRGrabAction >> grabbedObject [
+
+	^ grabbedObject
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/19/2026 16:27'
 }

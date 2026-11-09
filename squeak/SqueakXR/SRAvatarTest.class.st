@@ -124,7 +124,7 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
 }
 SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 
@@ -133,8 +133,27 @@ SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 	self deny: avatar locomotionEnabled.
 	avatar translation: 0 @ 10 @ 0.
 	before := avatar translation.
-	20 timesRepeat: [avatar updateLocomotion: 16].
+	20 timesRepeat: [avatar updateLocomotion: 0.016].
 	self assert: avatar translation equals: before.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
+}
+SRAvatarTest >> testSmoothTurningFollowsTheRightStick [
+
+	| saved avatar expected |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #smooth.
+	avatar := SRAvatar new.
+	avatar rightHand joystick horizontal: 1.
+	avatar updateSmoothTurn: 0.5.
+	expected := SRAvatar new
+		turnBy: SRAvatar smoothTurnSpeed * 0.5;
+		rotation.
+	self assert: expected equals: avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
 ]
 
 {
@@ -202,7 +221,7 @@ SRAvatarTest >> testTeleportBringsOpenMenusAlongButLeavesThePreviewBehind [
 
 {
 	#category : #'tests - locomotion',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
 }
 SRAvatarTest >> testTeleportLeavesNoCorrectionToWalkOff [
 
@@ -210,7 +229,7 @@ SRAvatarTest >> testTeleportLeavesNoCorrectionToWalkOff [
 	avatar := self avatarOnFloorAtY: 0.
 	head := 20.0 @ 1.8 @ -15.0.
 
-	avatar updateLocomotion: 16.
+	avatar updateLocomotion: 0.016.
 	self deny: avatar rigWasMovedExternally.
 	avatar translation: 20.0 @ 0.0 @ -15.0.
 	self assert: avatar rigWasMovedExternally.

@@ -36,7 +36,7 @@ SRBlinkOverlayTest >> tearDown [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:09'
 }
 SRBlinkOverlayTest >> testASecondBlinkDoesNotStrandTheFirstAction [
 
@@ -44,15 +44,15 @@ SRBlinkOverlayTest >> testASecondBlinkDoesNotStrandTheFirstAction [
 	done := OrderedCollection new.
 	overlay := SRBlinkOverlay new.
 	overlay blinkThen: [done add: #first].
-	overlay step: 10.
+	overlay step: 0.01.
 	overlay blinkThen: [done add: #second].
-	100 timesRepeat: [overlay step: 10].
+	100 timesRepeat: [overlay step: 0.01].
 	self assert: done asArray equals: #(#first #second).
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:09'
 }
 SRBlinkOverlayTest >> testTheActionRunsOnlyWhenTheViewIsFullyBlack [
 
@@ -61,13 +61,13 @@ SRBlinkOverlayTest >> testTheActionRunsOnlyWhenTheViewIsFullyBlack [
 	overlay blinkThen: [opacityWhenRun := overlay opacity].
 	self assert: opacityWhenRun isNil.
 	30 timesRepeat: [
-		opacityWhenRun ifNil: [overlay step: 10]].
+		opacityWhenRun ifNil: [overlay step: 0.01]].
 	self assert: opacityWhenRun equals: 1.0.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:09'
 }
 SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
 
@@ -77,7 +77,7 @@ SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
 	SRBlinkOverlay fadeOutSeconds: 2.0.
 	overlay := SRBlinkOverlay new.
 	overlay blinkThen: [].
-	30 timesRepeat: [overlay step: 10].
+	30 timesRepeat: [overlay step: 0.01].
 	self assert: overlay isBlinking.
 
 	self assert: (overlay opacity - 0.15) abs < (1 / 255).
@@ -85,14 +85,14 @@ SRBlinkOverlayTest >> testTheFadeTimesAreThePreferences [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:09'
 }
 SRBlinkOverlayTest >> testTheOverlayEndsInvisibleAndIdle [
 
 	| overlay |
 	overlay := SRBlinkOverlay new.
 	overlay blinkThen: [].
-	100 timesRepeat: [overlay step: 10].
+	100 timesRepeat: [overlay step: 0.01].
 	self deny: overlay isBlinking.
 	self assert: overlay opacity equals: 0.0.
 	self deny: overlay children first visible.

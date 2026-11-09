@@ -1162,7 +1162,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'leo 11/9/2026 15:22'
 }
 SRWorld >> runStartScript [
 
@@ -1237,7 +1237,7 @@ SRWorld >> runStartScript [
 		target: [[MessageTally spyOnProcess: self worldProcess forMilliseconds: 5000] fork];
 		actionSelector: #value))."
 
-	self addChild: (SRInputDebugger new
+	"self addChild: (SRInputDebugger new
 		translation: 0@3@(-1)
 	).
 	
@@ -1246,11 +1246,11 @@ SRWorld >> runStartScript [
 		
 	self addChild: (SRCubeTower new
 		translation: (1@1@0)
-		"rotation: (Quaternion angle: 90 axis: Vector3 one normalized) "
+		""rotation: (Quaternion angle: 90 axis: Vector3 one normalized) ""
 	).
 	
 	self addChild: (SRHaloConfigMenu new
-		position: -2@1@ -2).
+		position: -2@1@ -2)."
 
 	"{Color red. Color green. Color blue} withIndexDo: [:col :i |
 	self addChild: (SRMorphPanel new

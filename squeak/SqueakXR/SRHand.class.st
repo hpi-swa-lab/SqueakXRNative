@@ -11,21 +11,16 @@ Class {
 		'avatar',
 		'cursor',
 		'firstIntersection',
-		'grabbedObject',
-		'grabbedRelativeTransform',
 		'halo',
 		'handIndex',
-		'hoveredMenuItem',
 		'inputDebugLabel',
 		'inputState',
 		'lastInputEvent',
-		'menuPressed',
 		'selectedObject',
 		'squeezePressed',
 		'tool',
 		'toolPreview',
 		'triggerPressed',
-		'turnArmed',
 		'xPressed'
 	],
 	#classVars : [
@@ -40,10 +35,16 @@ Class {
 	#'squeak_changestamp' : '<historical>'
 }
 
-{ #category : #'instance creation' }
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
+}
 SRHand class >> left [
 
-	^ self new handIndex: self leftIndex
+	^ self new
+		handIndex: self leftIndex;
+		addFirstAction: SRTeleportAction new;
+		yourself
 ]
 
 { #category : #constants }
@@ -80,10 +81,16 @@ SRHand class >> remapGrabDistance: aNumber [
 	^ f2 value: aNumber
 ]
 
-{ #category : #'instance creation' }
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
+}
 SRHand class >> right [
 
-	^ self new handIndex: self rightIndex
+	^ self new
+		handIndex: self rightIndex;
+		addFirstAction: SRSnapTurnAction new;
+		yourself
 ]
 
 { #category : #constants }
@@ -164,7 +171,7 @@ SRHand class >> showInputDebug: aBoolean [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:54'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:26'
 }
 SRHand >> actionsUpdated: aSRActionStates [
 
@@ -174,11 +181,6 @@ SRHand >> actionsUpdated: aSRActionStates [
 	
 	actionState := aSRActionStates.
 	self updateTransformFromActions: aSRActionStates.
-	
-	self inputState topButton isJustPressed ifTrue: [ 
-		self cycleCursor.
-		^ self
-	].
 	
 	self cursor updateActions: aSRActionStates.
 	self updateFirstIntersection.
@@ -206,11 +208,21 @@ SRHand >> addActions: aList [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:56'
+}
+SRHand >> addFirstAction: anSRHandAction [
+
+	anSRHandAction hand: self.
+	actions addFirst: anSRHandAction.
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:53'
 }
 SRHand >> appUnderRay [
 
-	^ self castRayForward ifNotNil: [:result | result object app]
+	^ self cursorTarget ifNotNil: [:target | target app]
 ]
 
 {
@@ -314,39 +326,23 @@ SRHand >> cursorTarget [
 ]
 
 {
-	#category : #input,
-	#'squeak_changestamp' : 'phkeese 10/8/2026 17:20'
-}
-SRHand >> cycleCursor [
-	| index cursorClasses nextClass |
-	cursorClasses := SRCursor subclasses.
-	index := cursorClasses indexOf: cursor class.
-	cursorClasses := SRCursor subclasses.
-	index := cursorClasses indexOf: cursor class.
-	cursor class = cursorClasses last
-		ifTrue: [ index := 1 ]
-		ifFalse: [ index := index + 1 ].
-	nextClass := cursorClasses at: index.
-	self cursor: nextClass new
-]
-
-{
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:01'
 }
 SRHand >> forget: anSRObject [
 
-	grabbedObject == anSRObject ifTrue: [self stopGrabbing].
+	actions do: [:action | action forget: anSRObject].
 	selectedObject == anSRObject ifTrue: [selectedObject := nil].
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 9/16/2026 14:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:28'
 }
 SRHand >> grabbedObject [
 
-	^ self cursor grabbedObject
+	actions do: [:action | action grabbedObject ifNotNil: [:object | ^ object]].
+	^ nil
 ]
 
 {
@@ -418,7 +414,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 11/4/2026 13:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:01'
 }
 SRHand >> initialize [
 
@@ -427,7 +423,6 @@ SRHand >> initialize [
 	triggerPressed := false.
 	aPressed := false.
 	squeezePressed := false.
-	menuPressed := false.
 	xPressed := false.
 	
 	inputState := SRHandInputState new.
@@ -439,6 +434,7 @@ SRHand >> initialize [
 		SRSetFocusAction new.
 		SRHighlightTargetsAction new.
 		SROpenHaloAction new.
+		SROpenMenuAction new.
 		SRGrabAction new.
 		SRSendInputAction new.
 	}.
@@ -513,15 +509,6 @@ SRHand >> onWorldChanged: oldWorld [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'lege 7/21/2026 14:57'
-}
-SRHand >> openMenu [
-
-	self avatar openMenuForHand: self
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/30/2026 17:16'
 }
@@ -556,24 +543,6 @@ SRHand >> printOn: aStream [
 	| side |
 	side := self isLeft ifTrue: [ 'left' ] ifFalse: [ 'right' ].
 	aStream nextPutAll: 'an ', (self class name), '(', side, ')'.
-]
-
-{
-	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 12:58'
-}
-SRHand >> rayCast [
-
-	| result hit |
-	result := self castRayForward.
-	result ifNil: [^ self noteInputEvent: 'ray hit nothing'].
-	hit := result asHandRayIntersection: actionState hand: self.
-	(tool notNil and: [tool handleRaycast: hit]) ifTrue: [
-		^ self noteInputEvent: tool label , ' used'].
-	self noteInputEvent: (tool
-		ifNil: ['bare hand on ' , result object class name]
-		ifNotNil: [:each | each label , ' DECLINED, hit ' , result object class name]).
-	result object onRaycast: hit
 ]
 
 {
@@ -615,20 +584,6 @@ SRHand >> selectedObject [
 SRHand >> squeeze [
 
 	^ self inputState squeeze
-]
-
-{
-	#category : #stepping,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:42'
-}
-SRHand >> step: deltaTime [
-
-	"self performActions;
-		updateGrabbedObjectTransform;
-		highlightSelectedObject.
-
-	self isRight ifTrue: [self updateTurn: deltaTime].
-	self isLeft ifTrue: [self avatar ifNotNil: [:a | a updateLocomotion: deltaTime]]."
 ]
 
 {
@@ -730,21 +685,6 @@ SRHand >> updateInputDebugLabel [
 ]
 
 {
-	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
-}
-SRHand >> updateTeleportAim [
-
-	| stick |
-	self avatar ifNil: [^ self].
-	SRAvatar locomotionStyle == #teleport ifFalse: [^ self avatar cancelTeleportAim].
-	stick := self joystick vector.
-	(stick x = 0 and: [stick y = 0])
-		ifTrue: [self avatar commitTeleport]
-		ifFalse: [self avatar aimTeleportFrom: self]
-]
-
-{
 	#category : #tools,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 13:57'
 }
@@ -768,21 +708,4 @@ SRHand >> updateTransformFromActions: aSRActionStates [
 	pose := aSRActionStates aimPoses at: self handIndex.
 	self translation: pose position;
 		rotation: pose orientation
-]
-
-{
-	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
-}
-SRHand >> updateTurn: deltaTime [
-
-	| push |
-	self avatar ifNil: [^ self].
-	push := self joystick horizontal.
-	SRAvatar turnStyle == #smooth ifTrue: [
-		^ self avatar turnBy: push * SRAvatar smoothTurnSpeed * deltaTime / 1000.0].
-	push = 0 ifTrue: [^ turnArmed := true].
-	turnArmed == false ifTrue: [^ self].
-	turnArmed := false.
-	self avatar turnBy: push sign * SRAvatar snapTurnAngle
 ]

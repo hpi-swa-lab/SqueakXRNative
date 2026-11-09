@@ -479,13 +479,13 @@ SRCubeField >> setCount: aCount cubeClass: aClass [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:18'
 }
 SRCubeField >> step: deltaTime [
 
 	| rotation |
 	animating ifFalse: [^ self].
-	angle := angle + (deltaTime * 0.001 * self class radiansPerSecond) \\ Float twoPi.
+	angle := angle + (deltaTime * self class radiansPerSecond) \\ Float twoPi.
 	rotation := Quaternion new radiansAngle: angle axis: axis.
 	self childrenDo: [:each |
 		each isCube ifTrue: [each localRotation: rotation]].

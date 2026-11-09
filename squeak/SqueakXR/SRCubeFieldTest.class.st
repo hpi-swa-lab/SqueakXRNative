@@ -189,14 +189,14 @@ SRCubeFieldTest >> testStepRotatesEveryCubeWhenAnimating [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:19'
 }
-SRCubeFieldTest >> testStepTakesMilliseconds [
+SRCubeFieldTest >> testStepTakesSeconds [
 
 	| field |
 	field := self fieldOf: 1.
 	field animating: true.
-	10 timesRepeat: [field step: 100].
+	10 timesRepeat: [field step: 0.1].
 	self assert: (field angle - SRCubeField radiansPerSecond) abs < 1.0e-9.
 ]
 

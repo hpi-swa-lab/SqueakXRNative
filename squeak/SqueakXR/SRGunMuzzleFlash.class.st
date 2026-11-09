@@ -16,12 +16,12 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:13'
 }
 SRGunMuzzleFlash class >> duration [
-	"in milliseconds"
+	"in seconds"
 
-	^ 60
+	^ 0.06
 ]
 
 {

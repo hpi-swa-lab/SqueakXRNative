@@ -585,3 +585,12 @@ SRMorphPanel >> updatePlaneSize [
 	ppm := self pixelsPerMeter.
 	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm).
 ]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:21'
+}
+SRMorphPanel >> wantsGrab [
+
+	^ true
+]

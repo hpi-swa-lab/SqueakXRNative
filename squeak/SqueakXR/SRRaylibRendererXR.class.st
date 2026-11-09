@@ -48,7 +48,7 @@ SRRaylibRendererXR >> pollEventsAndWaitForFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 15:47'
+	#'squeak_changestamp' : 'leo 11/9/2026 15:34'
 }
 SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
@@ -63,8 +63,7 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 			self placeMirrorWindowOnce.
 			Raylib
 				clearBackgroundColor: clearColor;
-				beginMode3DCamera: camera.
-			self drawGrid].
+				beginMode3DCamera: camera].
 	
 	^ beginSuccessful
 ]

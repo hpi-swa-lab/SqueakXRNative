@@ -14,8 +14,7 @@ Class {
 		'parentMenu',
 		'submenu',
 		'submenuItem',
-		'sticky',
-		'lastPointedAt'
+		'sticky'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -205,21 +204,18 @@ SRMenu >> addSubmenuItemFor: aSegment under: aPrefix target: anObjectOrNil [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:37'
 }
 SRMenu >> carryOverRowsFrom: oldRows [
 	"Picking a row rebuilds the menu, and a new row object under an unmoved ray must
 	not read as the ray arriving on another row."
 
-	| newRows rowFor |
+	| newRows count |
 	newRows := self children select: [:child | child isMenuItem].
-	rowFor := [:each | | index |
-		index := oldRows indexOf: each.
-		(index between: 1 and: newRows size)
-			ifTrue: [newRows at: index]
-			ifFalse: [each]].
-	submenuItem ifNotNil: [submenuItem := rowFor value: submenuItem].
-	lastPointedAt := IdentitySet withAll: (lastPointedAt asArray collect: rowFor).
+	count := oldRows size min: newRows size.
+	(oldRows first: count) with: (newRows first: count) do: [:old :new |
+		new takeHandsFrom: old.
+		submenuItem == old ifTrue: [submenuItem := new]].
 ]
 
 {
@@ -288,7 +284,7 @@ SRMenu >> detachFromCascade [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -299,7 +295,6 @@ SRMenu >> initialize [
 	rowSpacing := 2.5cm.
 	needsRebuild := false.
 	sticky := false.
-	lastPointedAt := IdentitySet new.
 ]
 
 {
@@ -325,6 +320,15 @@ SRMenu >> isMenu [
 }
 SRMenu >> isSticky [
 	^ sticky.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenu >> itemEntered: anItem [
+
+	(submenu notNil and: [anItem ~~ submenuItem]) ifTrue: [self closeSubmenu].
 ]
 
 {
@@ -427,41 +431,6 @@ SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
 ]
 
 {
-	#category : #submenus,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
-}
-SRMenu >> pointableObjects [
-	"The open cascade is included so that a row hidden behind a submenu is not pointed at."
-
-	| objects menu |
-	objects := self children copy.
-	menu := submenu.
-	[menu notNil] whileTrue: [
-		objects add: menu.
-		menu := menu submenu].
-	^ objects
-]
-
-{
-	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
-}
-SRMenu >> pointedAt: aSet [
-	"Only a ray arriving on another row closes the submenu: a hand left resting on this
-	menu must not close what the other hand has just opened."
-
-	| arrived |
-	arrived := aSet reject: [:each | lastPointedAt includes: each].
-	(submenu notNil and: [arrived anySatisfy: [:each |
-			each isMenuItem and: [each ~~ submenuItem]]])
-		ifTrue: [self closeSubmenu].
-	lastPointedAt := aSet.
-	self setHoveredItems: (submenuItem
-		ifNil: [aSet]
-		ifNotNil: [:item | aSet copyWith: item]).
-]
-
-{
 	#category : #building,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
 }
@@ -538,16 +507,6 @@ SRMenu >> rowSpacing [
 ]
 
 {
-	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
-}
-SRMenu >> setHoveredItems: aCollection [
-
-	self childrenDo: [:item |
-		item isMenuItem ifTrue: [item hovered: (aCollection includes: item)]].
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
 }
@@ -566,22 +525,6 @@ SRMenu >> slabWidth [
 ]
 
 {
-	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 15:14'
-}
-SRMenu >> step: deltaTime [
-
-	| avatar hovered |
-	avatar := self world ifNotNil: [:w | w avatar].
-	avatar ifNil: [^ self].
-	hovered := IdentitySet new.
-	avatar hands do: [:hand |
-		(hand rayForward castNearestObjects: self pointableObjects)
-			ifNotNil: [:result | hovered add: result object]].
-	self pointedAt: hovered.
-]
-
-{
 	#category : #sticky,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:35'
 }
@@ -597,6 +540,15 @@ SRMenu >> sticky: aBoolean [
 }
 SRMenu >> submenu [
 	^ submenu
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+}
+SRMenu >> submenuItem [
+
+	^ submenuItem
 ]
 
 {
