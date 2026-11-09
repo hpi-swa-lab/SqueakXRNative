@@ -76,7 +76,7 @@ SRCubeButton >> handleInput: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:06'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRCubeButton >> initialize [ 
 	
@@ -87,8 +87,8 @@ SRCubeButton >> initialize [
 	
 	text := SRTextField new
 		scale: 10cm asVector3;
-		position: 0@0@2cm;
-		centered: true.
+		rotation: SRTextField uprightRotation;
+		yourself.
 	self addChild: text.
 	self text: 'Cube Button'.
 ]
@@ -136,7 +136,7 @@ SRCubeButton >> text [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/15/2026 17:07'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRCubeButton >> text: aString [
 	
@@ -145,4 +145,5 @@ SRCubeButton >> text: aString [
 	cubeScale := text textSize asVector3 * text scale.
 	cubeScale z: 1cm.
 	cube scale: cubeScale.
+	text alignLeftIn: cubeScale inset: 0.
 ]

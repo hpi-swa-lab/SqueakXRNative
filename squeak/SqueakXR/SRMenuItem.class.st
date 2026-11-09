@@ -130,7 +130,7 @@ SRMenuItem >> hovered: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 14:19'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
 }
 SRMenuItem >> initialize [
 
@@ -143,6 +143,7 @@ SRMenuItem >> initialize [
 		text: label;
 		color: self class textColorNormal;
 		scale: 0.015 asVector3;
+		rotation: SRTextField uprightRotation;
 		yourself.
 	self addChild: textField.
 ]

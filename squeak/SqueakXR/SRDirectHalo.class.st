@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/5/2026 17:39'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRDirectHalo >> addHandles [ 
 
@@ -15,7 +15,7 @@ SRDirectHalo >> addHandles [
 		color: Color brown;
 		stepAction: [:btn | btn 
 			globalTranslation: self target globalTranslation;
-			lookAtCamera
+			faceCamera
 		];
 		dragAction: [:btn :xform | self target globalTranslation: xform translation]
 	).

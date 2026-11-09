@@ -5,8 +5,7 @@ Class {
 		'textPanel',
 		'text',
 		'color',
-		'billboard',
-		'centered'
+		'billboard'
 	],
 	#category : #'SqueakXR-Objects'
 }
@@ -27,6 +26,24 @@ SRTextField class >> fontFor: aSRRenderer [
 ]
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
+}
+SRTextField class >> uprightRotation [
+
+	^ Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right
+]
+
+{
+	#category : #layout,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
+}
+SRTextField >> alignLeftIn: aBoxSize inset: aNumber [
+
+	self position: (aBoxSize x / -2 + aNumber) @ (self textHeight * self scale y / 2) @ (aBoxSize z / 2 + 1mm)
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/1/2026 14:03'
 }
@@ -40,22 +57,6 @@ SRTextField >> billboard [
 }
 SRTextField >> billboard: aBool [
 	billboard := aBool
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
-}
-SRTextField >> centered [
-	^ centered
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
-}
-SRTextField >> centered: anObject [
-	centered := anObject
 ]
 
 {
@@ -77,8 +78,18 @@ SRTextField >> color: aColor [
 ]
 
 {
+	#category : #transforming,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
+}
+SRTextField >> face: aGlobalVector3 [
+
+	super face: aGlobalVector3.
+	self rotation: self class uprightRotation * self rotation
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/15/2026 16:24'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRTextField >> initialize [
 
@@ -86,8 +97,7 @@ SRTextField >> initialize [
 	
 	self text: 'text';
 		color: Color black;
-		billboard: false;
-		centered: false
+		billboard: false
 ]
 
 {
@@ -101,16 +111,11 @@ SRTextField >> renderOn: aSRRenderer [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/1/2026 15:48'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRTextField >> step: deltaTime [
 
-	self billboard ifTrue: [ | scale target |
-		scale := Matrix4x4 identity scaledBy: self globalScale.
-		target := self world camera globalTranslation.
-		self globalTransform: ((Matrix4x4
-			objectLookAt: target from: self 				 globalTranslation up: Vector3 up) * scale).
-	].
+	self billboard ifTrue: [self faceCamera].
 ]
 
 {

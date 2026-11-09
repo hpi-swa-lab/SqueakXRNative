@@ -187,11 +187,11 @@ SRAxes >> isAxes [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
 }
 SRAxes >> labelRotation [
 
-	^ Quaternion new radiansAngle: Float pi / 2 axis: 1 @ 0 @ 0
+	^ SRTextField uprightRotation
 ]
 
 {

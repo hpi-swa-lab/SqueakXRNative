@@ -171,7 +171,7 @@ SRHalo >> isOpen [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:26'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRHalo >> moveToLineOfSight: deltaTime [ 
 
@@ -180,7 +180,7 @@ SRHalo >> moveToLineOfSight: deltaTime [
 	point := self target globalTransform localPointToGlobal: targetLocalPoint.
 	los := self class lineOfSightFor: point in: self world.
 	self center: (self center interpolateTo: los at: 3 * deltaTime).
-	self lookAtCamera.
+	self faceCamera.
 ]
 
 {
@@ -209,7 +209,7 @@ SRHalo >> popUpFor: anSRObject event: event [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
 		
@@ -230,7 +230,7 @@ SRHalo >> popUpFor: anSRObject hand: aHand point: aPoint [
 	
 	"Position ourselves according to the user's preferences."
 	self center: (self class initialHaloCenterFor: aPoint in: world hand: aHand).
-	self lookAt: world camera globalTranslation.
+	self faceCamera.
 
 	self addHandles.
 ]

@@ -125,7 +125,7 @@ SRHaloButton >> grabAction: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/21/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRHaloButton >> initialize [ 
 
@@ -139,8 +139,8 @@ SRHaloButton >> initialize [
 		yourself.
 	text := SRTextField new
 		scale: 0.1 asVector3;
-		position: 0@0@(6mm);
-		centered: true.
+		rotation: SRTextField uprightRotation;
+		yourself.
 	
 	self addChildren: { cube. text }.
 	self text: ''.
@@ -175,11 +175,11 @@ SRHaloButton >> onButtonPress: event [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 11/3/2026 15:10'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:48'
 }
 SRHaloButton >> onGrabStarted: aHand [
 
-	originalTransform := self localTransform.
+	originalTransform := self localTransform copy.
 	self grabAction ifNotNil: [:action | 
 		action cull: self cull: aHand
 	]
@@ -233,7 +233,7 @@ SRHaloButton >> text [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRHaloButton >> text: aString [
 
@@ -243,7 +243,8 @@ SRHaloButton >> text: aString [
 	minimumWidth ifNotNil: [ 
 		scale x: (scale x max: minimumWidth)
 	].
-	cube scale: scale
+	cube scale: scale.
+	text alignLeftIn: scale inset: self class padding x
 ]
 
 {

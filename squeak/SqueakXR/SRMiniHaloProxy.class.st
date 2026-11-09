@@ -45,7 +45,7 @@ SRMiniHaloProxy >> dragTo: xform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 15:29'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRMiniHaloProxy >> initialize [ 
 
@@ -55,7 +55,7 @@ SRMiniHaloProxy >> initialize [
 		position: Vector3 up;
 		scale: 0.3 asVector3;
 		text: 'Label';
-		centered: true.
+		yourself.
 	self addChild: label.
 	
 ]
@@ -82,7 +82,7 @@ SRMiniHaloProxy >> startDragging: aHand [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 15:43'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRMiniHaloProxy >> step: deltaTime [
 
@@ -95,7 +95,7 @@ SRMiniHaloProxy >> step: deltaTime [
 		(Matrix4x4 withOffset: labelPos)
 		* (Matrix4x4 withScale: 3cm asVector3).
 	label globalTransform: xform.
-	label lookAtCamera.
+	label faceCamera.
 	label text: self target name asString.
 	end := self parent miniTransform localPointToGlobal: self target globalTranslation.
 	self gizmoPainter gizmoLine: labelPos to: end color: Color gray.

@@ -42,7 +42,7 @@ SRActionSign >> collisionGeometry [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
 }
 SRActionSign >> initialize [
 	super initialize.
@@ -52,7 +52,7 @@ SRActionSign >> initialize [
 		text: '';
 		color: Color white;
 		scale: 1.2cm asVector3;
-		rotation: (Quaternion new radiansAngle: Float pi / 2 axis: Vector3 right);
+		rotation: SRTextField uprightRotation;
 		yourself.
 	self addChild: textField.
 	self label: ''.

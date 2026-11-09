@@ -547,6 +547,24 @@ SRObject >> ensureTransformClean [
 ]
 
 {
+	#category : #transforming,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
+}
+SRObject >> face: aGlobalVector3 [
+
+	self lookAt: self globalTranslation * 2 - aGlobalVector3
+]
+
+{
+	#category : #transforming,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
+}
+SRObject >> faceCamera [
+
+	self face: self world camera globalTranslation
+]
+
+{
 	#category : #'*SqueakXR-core',
 	#'squeak_changestamp' : 'phkeese 10/9/2026 14:41'
 }

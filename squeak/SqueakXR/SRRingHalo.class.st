@@ -31,21 +31,21 @@ SRRingHalo >> addButtons: aList [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/13/2026 09:33'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:45'
 }
 SRRingHalo >> addHandles [ 
 
 	| buttons |
 	buttons := OrderedCollection new.
-	buttons add: (SRCubeButton new
+	buttons add: (SRHaloButton new
 		text: 'Inspect';
-		onClick: [ self target inspect. self close ];
+		clickAction: [ self target inspect. self close ];
 		color: Color gray);
-		add: (SRCubeButton new
+		add: (SRHaloButton new
 		text: 'Remove';
-		onClick: [ self target remove. self close ];
+		clickAction: [ self target remove. self close ];
 		color: Color red).
-	3 timesRepeat: [ buttons add: (SRCubeButton new
+	3 timesRepeat: [ buttons add: (SRHaloButton new
 		text: '<Dummy>') ].
 	self addButtons: buttons.
 ]
@@ -66,7 +66,7 @@ SRRingHalo >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 16:44'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
 }
 SRRingHalo >> initialize [ 
 
@@ -75,6 +75,7 @@ SRRingHalo >> initialize [
 	label := SRTextField new
 		scale: 0.1 asVector3;
 		position: (0@ -0.2@0);
+		rotation: SRTextField uprightRotation;
 		yourself.
 	self addChild: label.
 	mini := SRMiniView new

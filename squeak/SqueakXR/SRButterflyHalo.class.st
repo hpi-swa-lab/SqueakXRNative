@@ -72,16 +72,16 @@ SRButterflyHalo >> dragTarget: xform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 16:45'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:39'
 }
 SRButterflyHalo >> initialize [
 
 	super initialize.
 	label := SRTextField new
-		centered: true;
 		text: 'No Target';
 		scale: 0.05 asVector3;
-		position: 0@ -5cm@0.
+		position: 0@ -5cm@0;
+		rotation: SRTextField uprightRotation.
 	self addChild: label.
 	mini := SRMiniView new
 		scale: 0.1 asVector3.
