@@ -35,10 +35,14 @@ SRShader class >> canTranspile [
 
 {
 	#category : #prerequisites,
-	#'squeak_changestamp' : 'lege 5/6/2026 13:09'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/5/2026 14:15'
 }
 SRShader class >> doesCommandExist: aString [
+	"ShellSyntax searches the PATH with Unix syntax, so on Windows it splits %PATH% at
+	 every drive colon and resolves nothing at all, not even cmd."
 
+	OSProcess isWindows ifTrue: [
+		^ (OSProcess waitForCommand: 'cmd /c where ', aString, ' >nul 2>nul') exitStatus = 0].
 	^ (ShellSyntax new
 		programNameAndArgumentsFrom: aString
 		inDirectoryPath: OSProcess thisOSProcess path
@@ -400,12 +404,14 @@ SRShader class >> shaderSourcePragmas [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'MCPServer 9/11/2026 12:37'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/5/2026 14:15'
 }
 SRShader class >> shellQuote: aString [
-	"Wrap aString in POSIX shell single quotes, escaping any embedded
-	 single quotes so the result is safe to pass as one shell argument."
+	"Quote aString as one argument. cmd.exe does not treat single quotes as quoting
+	 characters, it passes them straight through into the argument."
 
+	OSProcess isWindows ifTrue: [
+		^ '"', (aString asString copyReplaceAll: '"' with: '""'), '"'].
 	^ String streamContents: [:s |
 		s nextPut: $'.
 		aString asString do: [:ch |
@@ -499,7 +505,7 @@ SRShader class >> transpile330: source stage: stage [
 
 {
 	#category : #transpiling,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 17:27'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/5/2026 14:21'
 }
 SRShader class >> transpile: source stage: stage options: options [
 
@@ -510,7 +516,7 @@ SRShader class >> transpile: source stage: stage options: options [
 	outputFileName := basePath, '/output.shader'.
 	[
 	(FileStream forceNewFileNamed: scriptFileName)
-		nextPutAll: self pythonTranspileSource;
+		nextPutAll: self pythonTranspileSource withUnixLineEndings;
 		close.
 	(FileStream forceNewFileNamed: sourceFileName)
 		nextPutAll: source asString;

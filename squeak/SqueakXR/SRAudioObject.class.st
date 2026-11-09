@@ -123,15 +123,20 @@ SRAudioObject class >> setup [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:30'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/6/2026 15:06'
 }
 SRAudioObject class >> startUp: resuming [
 
+	"A startUp: that raises aborts processStartUpList:, so every hook registered
+	 after this one is silently skipped. Audio is not worth taking the rest of
+	 the image's startup down for."
 	resuming ifFalse: [^ self].
 
-	self discardExternalObjects;
+	[self discardExternalObjects;
 		allSubInstancesDo: #discardExternalObjects;
-		setup.
+		setup]
+			on: Error
+			do: [:e | Transcript showln: self name, ' startUp: failed: ', e messageText].
 ]
 
 {
