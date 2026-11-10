@@ -37,6 +37,16 @@ SRXRInputEmulator class >> handOffset [
 
 {
 	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:34'
+}
+SRXRInputEmulator class >> heldAimOffset [
+	"(right, up, ahead) in the full head frame, low right in view like a first-person shooter."
+
+	^ 12cm @ -12cm @ 35cm
+]
+
+{
+	#category : #constants,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 13:56'
 }
 SRXRInputEmulator class >> leftHandOffset [
@@ -65,6 +75,33 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 		from: aPosition
 		up: self world camera up).
 	^ aHand
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:41'
+}
+SRXRInputEmulator >> aimHeld: anObject with: aHand along: anOrigin direction: aDirection [
+	"The barrel meets the eye ray where it hits, so it shoots at what the mouse points at."
+
+	| camera offset hit distance |
+	camera := self world avatar camera.
+	offset := self class heldAimOffset.
+	hit := ((SRRay origin: anOrigin forward: aDirection) castAll: self world)
+		detect: [:result | result object ~~ anObject and: [(result object hasAncestor: anObject) not]]
+		ifNone: [nil].
+	distance := hit ifNil: [100m] ifNotNil: [:result | result distance].
+	self world children do: [:each |
+		(each respondsTo: #aimDistanceFrom:to:) ifTrue: [
+			(each aimDistanceFrom: anOrigin to: anOrigin + (aDirection * distance))
+				ifNotNil: [:mobDistance | distance := distance min: mobDistance]]].
+	^ self
+		aimHand: aHand
+		from: camera globalTranslation
+			+ (camera right * offset x)
+			+ (camera up * offset y)
+			+ (camera forward * offset z)
+		at: anOrigin + (aDirection * distance)
 ]
 
 {
@@ -107,7 +144,7 @@ SRXRInputEmulator >> debugHUD [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:34'
 }
 SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
 
@@ -196,7 +233,7 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:20'
 }
 SRXRInputEmulator >> step: delta [
 
@@ -220,6 +257,11 @@ SRXRInputEmulator >> step: delta [
 		ifFalse: [self updateRightHandFromMouseRay].
 
 	self updateHandInput: input.
+	self world avatar hands do: [:hand |
+		hand cursor updateActions: nil.
+		hand
+			updateFirstIntersection;
+			performActions].
 ]
 
 {
@@ -264,7 +306,7 @@ SRXRInputEmulator >> updateLeftHandFromCamera [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:34'
 }
 SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 	| hand handPos rlRay origin direction hit target |
@@ -276,7 +318,9 @@ SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 	direction := rlRay direction asVector3 normalized.
 	hand grabbedObject
 		ifNil: [grabRadius := nil]
-		ifNotNil: [^ self dragHand: hand along: origin direction: direction].
+		ifNotNil: [:held |
+			held aimsWhileHeld ifTrue: [^ self aimHeld: held with: hand along: origin direction: direction].
+			^ self dragHand: hand along: origin direction: direction].
 	handPos := self handPositionFor: self class rightHandOffset.
 	hit := (SRRay origin: origin forward: direction) castNearest: self world.
 	target := hit

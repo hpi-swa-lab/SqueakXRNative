@@ -6,6 +6,24 @@ Class {
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 17:39'
+}
+AlFunctions class >> initialize [
+
+	self installFunctionGlobal
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 17:39'
+}
+AlFunctions class >> installFunctionGlobal [
+
+	Smalltalk at: #OpenAL put: AlFunctions new
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 11/4/2026 15:51'
 }
 AlFunctions class >> moduleName [

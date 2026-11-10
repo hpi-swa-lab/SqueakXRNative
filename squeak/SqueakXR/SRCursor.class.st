@@ -200,10 +200,11 @@ SRCursor >> progress: anObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:10'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:17'
 }
 SRCursor >> step: deltaTime [ 
 
+	visible ifFalse: [^ self].
 	self focusPoint ifNotNil: [:point |
 		self gizmoPainter gizmoSphere: point size: 1cm color: self color
 	]

@@ -38,7 +38,7 @@ SRTool >> label [
 
 {
 	#category : #preview,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:22'
 }
 SRTool >> newPreviewObject [
 
@@ -46,6 +46,7 @@ SRTool >> newPreviewObject [
 		color: self previewColor;
 		scale: Vector3 one * 4 cm;
 		translation: 0 @ 4 cm @ 0;
+		ignoreCollision: true;
 		yourself
 ]
 

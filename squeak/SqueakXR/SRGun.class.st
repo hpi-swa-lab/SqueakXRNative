@@ -77,7 +77,7 @@ SRGun >> addPart: aColor size: sizeVector3 at: positionVector3 [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:25'
 }
 SRGun >> addPart: aColor size: sizeVector3 at: positionVector3 tilt: degreesAroundRight [
 
@@ -87,9 +87,19 @@ SRGun >> addPart: aColor size: sizeVector3 at: positionVector3 tilt: degreesArou
 		scale: sizeVector3;
 		translation: positionVector3;
 		rotation: (Quaternion angle: degreesAroundRight axis: Vector3 right);
+		ignoreCollision: true;
 		yourself.
 	self addChild: part.
 	^ part
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/9/2026 13:58'
+}
+SRGun >> aimsWhileHeld [
+
+	^ true
 ]
 
 {
@@ -190,7 +200,7 @@ SRGun >> holdTransform [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/5/2026 17:39'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 18:09'
 }
 SRGun >> initialize [
 
@@ -205,7 +215,7 @@ SRGun >> initialize [
 		yourself.
 	self addChildren: {
 		muzzleFlash.
-		sound := SRAudioPlayer new filepath: 'C:\Users\leona\Downloads\gun.ogg'.}.
+		sound := SRAudioPlayer new filepath: (FileDirectory default / 'sounds' / 'gun.ogg') fullName.}.
 ]
 
 {
@@ -228,21 +238,25 @@ SRGun >> muzzleOffset [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:17'
 }
 SRGun >> onGrabStarted: aHand [
 
 	hand := aHand.
+	aHand body visible: false.
+	aHand cursor visible: false.
 	recoil := 0.
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:17'
 }
 SRGun >> onGrabStopped: aHand [
 
 	hand == aHand ifTrue: [hand := nil].
+	aHand body visible: true.
+	aHand cursor visible: true.
 	recoil := 0.
 ]
 

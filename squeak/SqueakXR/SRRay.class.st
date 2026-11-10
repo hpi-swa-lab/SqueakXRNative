@@ -27,14 +27,15 @@ SRRay >> cast: aSRWorld [
 
 {
 	#category : #raycast,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/19/2026 16:07'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:18'
 }
 SRRay >> castAll: anSRObject [
 
 	| intersections |
 	intersections := OrderedCollection new.
 	anSRObject allDo: [:object |
-		(self intersectionWith: object) ifNotNil: [:result | intersections add: result]].
+		object ignoreCollision ifFalse: [
+			(self intersectionWith: object) ifNotNil: [:result | intersections add: result]]].
 	^ self sortedByDistance: intersections
 ]
 

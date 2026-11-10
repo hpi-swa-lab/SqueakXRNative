@@ -143,18 +143,21 @@ SRAudioSnippet >> initialize [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:55'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 18:03'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
 
 	| bufferPointer count dataBuffer error file info length |
+	(FileDirectory default fileExists: aFilepathString) ifFalse: [
+		^ self error: 'Audio file not found: ', aFilepathString].
 	error := ExternalType int allocate.
 	file := STBVorbis default openFilename: aFilepathString error: error alloc: nil.
-	STBVorbis default getError: file.
+	file isNull ifTrue: [
+		^ self error: 'stb_vorbis cannot open ', aFilepathString, ' (error ', error first printString, ')'].
 	info := STBVorbis default getInfo: file.
 	info channels > 1 ifTrue: [
-		self error: 'Loading OGG files with more than 1 channel is not supported'.
-		^ self].
+		STBVorbis default close: file.
+		^ self error: 'Loading OGG files with more than 1 channel is not supported'].
 	length := STBVorbis default streamLengthInSamples: file.
 	dataBuffer := ExternalType int16_t allocateExternal: length * info channels.
 	bufferPointer := ExternalType int64_t allocate.

@@ -9,18 +9,24 @@ Class {
 		'actionState',
 		'actions',
 		'avatar',
+		'body',
 		'cursor',
 		'firstIntersection',
+		'grabbedObject',
+		'grabbedRelativeTransform',
 		'halo',
 		'handIndex',
+		'hoveredMenuItem',
 		'inputDebugLabel',
 		'inputState',
 		'lastInputEvent',
+		'menuPressed',
 		'selectedObject',
 		'squeezePressed',
 		'tool',
 		'toolPreview',
 		'triggerPressed',
+		'turnArmed',
 		'xPressed'
 	],
 	#classVars : [
@@ -254,6 +260,15 @@ SRHand >> basicTool: aTool [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:06'
+}
+SRHand >> body [
+
+	^ body
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'lege 8/6/2026 19:05'
 }
@@ -414,7 +429,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 17:49'
 }
 SRHand >> initialize [
 
@@ -439,9 +454,11 @@ SRHand >> initialize [
 		SRSendInputAction new.
 	}.
 	
-	self addChild: (SRCube new
+	body := SRCube new
 		scale: 6cm asVector3;
-		ignoreCollision: true).
+		ignoreCollision: true;
+		yourself.
+	self addChild: body.
 	self addChild: (SRCube new
 		scale: 4cm@10cm@4cm;
 		rotation: (Quaternion angle: -45 axis: Vector3 right);
@@ -557,16 +574,11 @@ SRHand >> rayColor [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:25'
 }
 SRHand >> selectIntersection: intersections [
 
-	"Select parents over their children."
-	^ (intersections sorted: [:a :b |
-		(a distance < b distance) or: [b object hasAncestor: a object]
-	])
-	ifEmpty: [ nil ]
-	ifNotEmpty: [:sorted | sorted first ]
+	^ intersections detectMin: [:each | each distance]
 ]
 
 {
@@ -644,15 +656,15 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 15:56'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:25'
 }
-SRHand >> updateFirstIntersection [ 
+SRHand >> updateFirstIntersection [
+	"Prefer second-pass objects over the others."
 
-	"Prefer parents over their children and second-pass objects over the others."
 	| all secondPass |
 	all := self cursor intersections.
-	secondPass := all select: [:inter | inter object renderInSecondPass ].
-	firstIntersection := self selectIntersection: (secondPass ifEmpty: [ all ]).
+	secondPass := all select: [:inter | inter object renderInSecondPass].
+	firstIntersection := self selectIntersection: (secondPass ifEmpty: [all]).
 ]
 
 {

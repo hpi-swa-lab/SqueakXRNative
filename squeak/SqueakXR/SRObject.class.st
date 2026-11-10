@@ -191,6 +191,15 @@ SRObject >> addHighlight: color [
 ]
 
 {
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/9/2026 13:58'
+}
+SRObject >> aimsWhileHeld [
+
+	^ false
+]
+
+{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 16:06'
 }

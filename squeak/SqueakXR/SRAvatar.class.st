@@ -17,7 +17,8 @@ Class {
 		'body',
 		'locomotionEnabled',
 		'lastRigTranslation',
-		'trackedHands'
+		'trackedHands',
+		'walkSpeedFactor'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
@@ -466,11 +467,12 @@ SRAvatar >> locomotionEnabled: aBoolean [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:25'
 }
 SRAvatar >> menuPlacementPositionForHand: aHand [
 	"Orientation comes from the camera, see SRMenu>>setTransformAt:facingCamera:."
 
+	self world isXR ifFalse: [^ camera globalTranslation + (camera forward * 1m)].
 	^ aHand globalTranslation
 		+ (camera forward * self class menuSpawnDistance)
 		+ (Vector3 up * self class menuSpawnLift)
@@ -591,7 +593,7 @@ SRAvatar >> step: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:06'
 }
 SRAvatar >> stickMotionFor: aHand dt: dt [
 
@@ -608,7 +610,7 @@ SRAvatar >> stickMotionFor: aHand dt: dt [
 	forward := flat value: camera forward.
 	right := flat value: camera right.
 	(forward isNil or: [right isNil]) ifTrue: [^ nil].
-	^ ((forward * stick y) + (right * stick x)) * (self class walkSpeed * dt)
+	^ ((forward * stick y) + (right * stick x)) * (self class walkSpeed * self walkSpeedFactor * dt)
 ]
 
 {
@@ -749,4 +751,22 @@ SRAvatar >> walkCorrectionForHead: head floorY: feetY stickMotion: motionOrNil d
 		ifNotNil: [:motion | self body velocityX: motion x / dt z: motion z / dt].
 	self body applyPhysicsIn: solids dt: dt.
 	^ self body position - feet
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:06'
+}
+SRAvatar >> walkSpeedFactor [
+
+	^ walkSpeedFactor ifNil: [1]
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:36'
+}
+SRAvatar >> walkSpeedFactor: aNumber [
+
+	walkSpeedFactor := aNumber.
 ]

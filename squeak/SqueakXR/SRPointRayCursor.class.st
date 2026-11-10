@@ -5,8 +5,32 @@ Class {
 		'gogo',
 		'intersections'
 	],
+	#classVars : [
+		'DirectToolRay'
+	],
 	#category : #'SqueakXR-Input'
 }
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
+}
+SRPointRayCursor class >> directToolRay [
+	<preference: 'Direct tool ray'
+		category: 'SqueakXR'
+		description: 'While a hand holds a tool, aim straight from the hand like the gun: no go-go reach extension and no grab sphere.'
+		type: #Boolean>
+	^ DirectToolRay ifNil: [true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
+}
+SRPointRayCursor class >> directToolRay: aBoolean [
+
+	DirectToolRay := aBoolean.
+]
 
 {
 	#category : #'as yet unclassified',
@@ -104,12 +128,23 @@ SRPointRayCursor >> intersections [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
+}
+SRPointRayCursor >> isDirect [
+	"A held tool works on what the hand points at, like the gun: no reach extension, no grab sphere."
+
+	^ self class directToolRay and: [hand notNil and: [hand tool notNil]]
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
 }
 SRPointRayCursor >> step: deltaTime [ 
 
 	| end focus start progressEnd |
+	visible ifFalse: [^ self].
 	super step: deltaTime.
 	start := gogo globalTranslation.
 	focus := self focusPoint ifNil: [ gogo globalTranslation ].
@@ -118,8 +153,9 @@ SRPointRayCursor >> step: deltaTime [
 	self gizmoPainter 
 		gizmoLine: start to: focus color: self color;
 		gizmoLine: start to: progressEnd color: Color white;
-		gizmoLine: focus to: end color: Color gray;
-		gizmoWireSphere: start size: self class grabRadius * 2 color: self color.
+		gizmoLine: focus to: end color: Color gray.
+	self isDirect ifFalse: [
+		self gizmoPainter gizmoWireSphere: start size: self class grabRadius * 2 color: self color].
 	
 
 ]
@@ -155,28 +191,22 @@ SRPointRayCursor >> updateGoGo [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:28'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
 }
-SRPointRayCursor >> updateIntersections [ 
+SRPointRayCursor >> updateIntersections [
 
 	| targets |
 	targets := self targetsInWorld.
 	intersections := OrderedCollection new.
-	
 	"Prefer objects inside the small sphere."
-	intersections addAll: (
-		self
+	self isDirect ifFalse: [
+		intersections addAll: (self
 			castSphereOn: targets
 			from: gogo globalTranslation
-			radius: self class grabRadius
-	).
-	
+			radius: self class grabRadius)].
 	"Then along the ray."
-	intersections addAll: (
-		self
-			castRayOn: targets
-			from: gogo globalTranslation 
-			toward: gogo forward
-	).
-	
+	intersections addAll: (self
+		castRayOn: targets
+		from: gogo globalTranslation
+		toward: gogo forward).
 ]

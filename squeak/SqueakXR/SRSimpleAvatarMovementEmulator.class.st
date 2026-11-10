@@ -20,12 +20,23 @@ Class {
 }
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:36'
+}
+SRSimpleAvatarMovementEmulator class >> speedFactor [
+	"The desktop moves faster than is comfortable in a headset."
+
+	^ 3
+]
+
+{
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:36'
 }
 SRSimpleAvatarMovementEmulator >> avatar: anAvatar [
 
 	avatar := anAvatar.
+	avatar ifNotNil: [avatar walkSpeedFactor: self class speedFactor].
 	(avatar notNil and: [avatar translation = Vector3 zero]) ifTrue: [
 		avatar translation: 0m @ 0m @ 2.5m].
 ]
@@ -87,7 +98,7 @@ SRSimpleAvatarMovementEmulator >> handleMouseDelta: aDelta [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:36'
 }
 SRSimpleAvatarMovementEmulator >> initialize [
 
@@ -95,7 +106,7 @@ SRSimpleAvatarMovementEmulator >> initialize [
 
 	yaw := -90.0.
 	pitch := -25.0.
-	moveSpeed := 3m.
+	moveSpeed := 3m * self class speedFactor.
 	lookSpeed := 0.15.
 	lookModeEnabled := false.
 	isUpdatingEnabled := true.
