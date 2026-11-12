@@ -24,11 +24,11 @@ AlFunctions class >> installFunctionGlobal [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 15:51'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/12/2026 13:13'
 }
 AlFunctions class >> moduleName [
 
-	^ 'OpenAL32'
+	^ 'openal'
 ]
 
 {
