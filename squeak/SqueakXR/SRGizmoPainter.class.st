@@ -362,7 +362,7 @@ SRGizmoPainter >> renderInSecondPass [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:29'
+	#'squeak_changestamp' : 'phkeese 11/12/2026 18:25'
 }
 SRGizmoPainter >> renderOn: aSRRenderer [
 
@@ -375,6 +375,7 @@ SRGizmoPainter >> renderOn: aSRRenderer [
 			[#wireCube] -> [self drawWireCube: command renderer: aSRRenderer].
 			[#line] -> [self drawLine: command renderer: aSRRenderer].
 			[#wireCircle] -> [self drawWireCircle: command renderer: aSRRenderer].
+			[#point] -> [self drawPoint: command renderer: aSRRenderer].
 		}].
 	commands removeAll.
 ]
