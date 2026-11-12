@@ -14,23 +14,39 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/6/2026 14:55'
+	#'squeak_changestamp' : 'phkeese 11/12/2026 17:50'
 }
 SRRotationHandle class >> innerR [
 
-	^ 90cm
+	^ 1m
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/6/2026 14:53'
+	#'squeak_changestamp' : 'phkeese 11/12/2026 17:36'
 }
 SRRotationHandle class >> mesh [
+	
+	^ Mesh ifNil: [Mesh := SRMesh withSource: self meshSource]
+]
 
-	^ Mesh ifNil: [
-		Mesh := SRMesh withSource: (
-			SRMeshSourceRaylibGen torusRadius: 0.1 size: 2 radSeg: 8 sides: 64
-	)]
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/12/2026 17:38'
+}
+SRRotationHandle class >> meshFilePath [
+	
+	^ (SRAssets assetsDirectory / 'models' / 'rotation_handle.obj') fullName 
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/12/2026 17:36'
+}
+SRRotationHandle class >> meshSource [ 
+
+	^ SRMeshSourceFile new
+		path: self meshFilePath
 ]
 
 {
@@ -44,11 +60,11 @@ SRRotationHandle class >> radius [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/6/2026 14:55'
+	#'squeak_changestamp' : 'phkeese 11/12/2026 17:49'
 }
 SRRotationHandle class >> width [
 	
-	^20cm
+	^10cm
 ]
 
 {
