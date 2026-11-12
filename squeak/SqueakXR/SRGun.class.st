@@ -200,7 +200,7 @@ SRGun >> holdTransform [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 18:09'
+	#'squeak_changestamp' : 'leo 11/12/2026 13:01'
 }
 SRGun >> initialize [
 
@@ -215,7 +215,7 @@ SRGun >> initialize [
 		yourself.
 	self addChildren: {
 		muzzleFlash.
-		sound := SRAudioPlayer new filepath: (FileDirectory default / 'sounds' / 'gun.ogg') fullName.}.
+		sound := SRAudioPlayer new filepath: (SRAssets assetsDirectory / 'sounds' / 'gun.ogg') fullName.}.
 ]
 
 {
