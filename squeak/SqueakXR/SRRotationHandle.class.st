@@ -78,15 +78,17 @@ SRRotationHandle >> axis [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/6/2026 15:02'
+	#'squeak_changestamp' : 'phkeese 11/12/2026 18:24'
 }
 SRRotationHandle >> collisionGeometry [ 
 
+	| width |
+	width := (localGrabPoint ifNotNil: [100] ifNil: [self class width]) * self globalScale x.
 	^ SRCollisionRing new
 		point: self globalTranslation;
 		normal: self axis;
 		innerR: self class innerR * self globalScale x;
-		width: self class width * self globalScale x;
+		width: width;
 		object: self
 ]
 
@@ -106,6 +108,15 @@ SRRotationHandle >> color [
 SRRotationHandle >> color: aColor [
 
 	^ meshObject material colDiffuse: aColor
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/12/2026 18:26'
+}
+SRRotationHandle >> dragTo: xform [
+
+
 ]
 
 {
@@ -156,4 +167,29 @@ SRRotationHandle >> rotateAction: aBlock [
 
 	"Called with self and the rotation amount while the user is using this handle."
 	rotateAction := aBlock
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/12/2026 18:36'
+}
+SRRotationHandle >> step: deltaTime [
+
+	localGrabPoint ifNotNil: [:point | | end color x |
+		end := self globalTransform localPointToGlobal: point.
+		color := self color muchDarker.
+		x := self grabbingHand cursorPoint.
+		self gizmoPainter 
+			gizmoPoint: end color: color;
+			gizmoLine: self globalTranslation to: end color: color;
+			gizmoLine: end to: x color: color.
+	]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/12/2026 18:24'
+}
+SRRotationHandle >> wantsGrab [
+	^true
 ]
