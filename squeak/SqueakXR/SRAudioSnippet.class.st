@@ -104,12 +104,14 @@ SRAudioSnippet >> ensureFileLoaded [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/4/2026 17:34'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSnippet >> ensureReady [
 
 	buffer ifNil: [self setup].
+	buffer ifNil: [^ false].
 	self ensureFileLoaded.
+	^ true
 ]
 
 {
@@ -143,11 +145,12 @@ SRAudioSnippet >> initialize [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/6/2026 18:03'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSnippet >> loadFilepath: aFilepathString [
 
 	| bufferPointer count dataBuffer error file info length |
+	self class audioEnabled ifFalse: [^ self].
 	(FileDirectory default fileExists: aFilepathString) ifFalse: [
 		^ self error: 'Audio file not found: ', aFilepathString].
 	error := ExternalType int allocate.
@@ -179,11 +182,11 @@ SRAudioSnippet >> loadFilepath: aFilepathString [
 
 {
 	#category : #playback,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSnippet >> playOn: aSource [
 
-	self ensureReady.
+	self ensureReady ifFalse: [^ self].
 
 	"TODO: currently there is a 1-1 relation between source and data,
 	but technically multiple AL sources can share one buffer"
@@ -200,11 +203,11 @@ SRAudioSnippet >> playOn: aSource [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:25'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSnippet >> setup [
 
-	self ensureOpenAL.
+	self ensureOpenAL ifFalse: [^ self].
 	buffer := ExternalType uint32_t allocate.
 	OpenAL alGenBuffersN: 1 buffers: buffer.
 	self checkErrorAl.

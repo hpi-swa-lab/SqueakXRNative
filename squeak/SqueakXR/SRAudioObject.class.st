@@ -3,18 +3,44 @@ Class {
 	#superclass : #Object,
 	#classVars : [
 		'ALContext',
-		'ALDevice'
+		'ALDevice',
+		'AudioEnabled'
 	],
 	#category : #'SqueakXR-Audio'
 }
 
 {
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
+}
+SRAudioObject class >> audioEnabled [
+	<preference: 'Audio enabled'
+		category: 'SqueakXR'
+		description: 'Whether SqueakXR uses OpenAL at all. OpenAL calls have been taking the VM down, so audio is off by default; while this is false nothing under SRAudio* issues an OpenAL call.'
+		type: #Boolean>
+	^ AudioEnabled ifNil: [AudioEnabled := false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:29'
+}
+SRAudioObject class >> audioEnabled: aBoolean [
+	"Disabling releases the device here: once the flag is false every OpenAL entry point
+	is gated, so nothing would reach #teardown later."
+
+	AudioEnabled := aBoolean.
+	aBoolean ifFalse: [self teardown].
+]
+
+{
 	#category : #'error checking',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:21'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
 SRAudioObject class >> checkErrorAl [
 
 	| code matches |
+	self audioEnabled ifFalse: [^ self].
 	code := OpenAL alGetError.
 	code = AlDefines alNoError ifTrue: [^ self].
 	code := code asString.
@@ -27,11 +53,12 @@ SRAudioObject class >> checkErrorAl [
 
 {
 	#category : #'error checking',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:21'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
 SRAudioObject class >> checkErrorAlc [
 
 	| code matches |
+	self audioEnabled ifFalse: [^ self].
 	code := OpenAL alcGetErrorDevice: ALDevice.
 	code = AlDefines alcNoError ifTrue: [^ self].
 	code := code asString.
@@ -54,12 +81,15 @@ SRAudioObject class >> discardExternalObjects [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:29'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
 SRAudioObject class >> ensureOpenAL [	
 	
-	self isReady ifFalse: [
-		self setup].
+	"Answers whether OpenAL may be called. Callers must not issue an FFI call when this is false."
+
+	self audioEnabled ifFalse: [^ false].
+	self isReady ifFalse: [self setup].
+	^ self isReady
 ]
 
 {
@@ -87,11 +117,12 @@ SRAudioObject class >> isReady [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:27'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
 SRAudioObject class >> setup [	
 	
 	| deviceName |
+	self audioEnabled ifFalse: [^ self].
 	self isReady ifTrue: [
 		self teardown].
 	
@@ -196,28 +227,33 @@ SRAudioObject >> discardExternalObjects [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:28'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
 SRAudioObject >> ensureOpenAL [
 
-	self class ensureOpenAL.
+	^ self class ensureOpenAL
 ]
 
 {
 	#category : #finalization,
-	#'squeak_changestamp' : 'leo 11/4/2026 17:16'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 13:53'
 }
 SRAudioObject >> finalize [
 
-	self cleanup.
+	"Finalization runs after the OpenAL context may be gone, and deleting a source or
+	buffer without one takes the VM down."
+
+	ALContext ifNotNil: [self cleanup].
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/4/2026 17:10'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:27'
 }
 SRAudioObject >> initialize [
 
 	super initialize.
-	FinalizationRegistry default add: self.
+	"Nothing to release while audio is off: no device, no source, no buffer is ever created."
+	self class audioEnabled ifTrue: [
+		FinalizationRegistry default add: self].
 ]

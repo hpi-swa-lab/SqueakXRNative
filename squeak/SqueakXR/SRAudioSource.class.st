@@ -39,11 +39,11 @@ SRAudioSource class >> startUp: resuming [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSource >> bindSnippet: aSnippet [
 
-	self ensureReady.
+	self ensureReady ifFalse: [^ self].
 	OpenAL alSourceiSource: source first param: AlDefines alBuffer value: aSnippet buffer first.
 	self checkErrorAl.
 ]
@@ -71,12 +71,12 @@ SRAudioSource >> discardExternalObjects [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/4/2026 17:57'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSource >> ensureReady [
 
-	source ifNil: [
-		self setup].
+	source ifNil: [self setup].
+	^ source notNil
 ]
 
 {
@@ -100,11 +100,11 @@ SRAudioSource >> play: audio [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:28'
 }
 SRAudioSource >> position: aVector3 [
 
-	self ensureReady.
+	self ensureReady ifFalse: [^ self].
 	OpenAL
 		alSourcefvSource: source first
 		param: AlDefines alPosition
@@ -114,22 +114,22 @@ SRAudioSource >> position: aVector3 [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSource >> rewind [
 
-	self ensureReady.
+	self ensureReady ifFalse: [^ self].
 	OpenAL alSourceRewindSource: source first.
 	self checkErrorAl.
 ]
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/5/2026 15:26'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSource >> setup [
 
-	self ensureOpenAL.
+	self ensureOpenAL ifFalse: [^ self].
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
 	self checkErrorAl.
@@ -146,11 +146,11 @@ SRAudioSource >> source [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/5/2026 17:56'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudioSource >> stop [
 
-	self ensureReady.
+	self ensureReady ifFalse: [^ self].
 	OpenAL alSourceStopSource: source first.
 	self checkErrorAl.
 ]

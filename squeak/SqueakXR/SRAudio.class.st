@@ -62,11 +62,12 @@ SRAudio class >> startUp: resuming [
 
 {
 	#category : #'error checking',
-	#'squeak_changestamp' : 'lege 1/8/2026 15:36'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> checkErrorAl [
 
 	| code matches |
+	SRAudioObject audioEnabled ifFalse: [^ self].
 	code := OpenAL alGetError.
 	code = AlDefines alNoError ifTrue: [^ self].
 	code := code asString.
@@ -79,11 +80,12 @@ SRAudio >> checkErrorAl [
 
 {
 	#category : #'error checking',
-	#'squeak_changestamp' : 'lege 1/8/2026 15:37'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> checkErrorAlc [
 
 	| code matches |
+	SRAudioObject audioEnabled ifFalse: [^ self].
 	code := OpenAL alcGetErrorDevice: device.
 	code = AlDefines alcNoError ifTrue: [^ self].
 	code := code asString.
@@ -120,11 +122,12 @@ SRAudio >> createAudioPlayer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/17/2025 11:40'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> createAudioStreamPlayer [
 
 	| source buffer data |
+	SRAudioObject audioEnabled ifFalse: [^ self].
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
 	
@@ -223,11 +226,12 @@ SRAudio >> initialize [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 1/8/2026 18:09'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> play: audio [
 
 	| source buffer |
+	SRAudioObject audioEnabled ifFalse: [^ self].
 	source := ExternalType uint32_t allocate.
 	OpenAL alGenSourcesN: 1 sources: source.
 	self checkErrorAl.
@@ -258,11 +262,12 @@ SRAudio >> play: audio [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 12/18/2025 16:10'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> record [
 
 	| count recordingDevice buffer |
+	SRAudioObject audioEnabled ifFalse: [^ nil].
 	recordingDevice := OpenAL alcCaptureOpenDeviceDevicename: nil frequency: 24000 format: AlDefines alFormatMono16 buffersize: 32768.
 	self checkErrorAlc: 'alcCaptureOpenDeviceDevicename:'.
 	OpenAL alcCaptureStartDevice: recordingDevice.
@@ -287,11 +292,12 @@ SRAudio >> record [
 
 {
 	#category : #lifecycle,
-	#'squeak_changestamp' : 'leo 11/5/2026 11:31'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:26'
 }
 SRAudio >> setup [	
 	
 	| name |
+	SRAudioObject audioEnabled ifFalse: [^ self].
 	device := OpenAL alcOpenDeviceDevicename: nil.
 	device ifNil: [
 		Transcript showln: self class name, ': Failed to open audio device!'.
