@@ -165,13 +165,13 @@ SRRaylibRenderer >> clearColor: aColor [
 
 {
 	#category : #info,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:11'
+	#'squeak_changestamp' : 'phkeese 11/13/2026 13:51'
 }
 SRRaylibRenderer >> clearDepth [ 
 
 	Raylib
-		rlDrawRenderBatchActive";
-		clearDepthBuffer".
+		rlDrawRenderBatchActive;
+		clearDepthBuffer.
 ]
 
 {

@@ -78,18 +78,21 @@ SRRotationHandle >> axis [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/12/2026 18:24'
+	#'squeak_changestamp' : 'phkeese 11/13/2026 14:01'
 }
 SRRotationHandle >> collisionGeometry [ 
 
-	| width |
-	width := (localGrabPoint ifNotNil: [100] ifNil: [self class width]) * self globalScale x.
-	^ SRCollisionRing new
+	^(self isGrabbed ifTrue: [ SRCollisionPlane new ] ifFalse: [
+			SRCollisionRing new
+				innerR: self class innerR * self globalScale x;
+				width: self class width * self globalScale x;
+				yourself
+		])
 		point: self globalTranslation;
 		normal: self axis;
-		innerR: self class innerR * self globalScale x;
-		width: width;
-		object: self
+		object: self;
+		yourself
+		
 ]
 
 {
@@ -103,11 +106,11 @@ SRRotationHandle >> color [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/6/2026 13:59'
+	#'squeak_changestamp' : 'phkeese 11/13/2026 13:54'
 }
 SRRotationHandle >> color: aColor [
 
-	^ meshObject material colDiffuse: aColor
+	meshObject material colDiffuse: aColor
 ]
 
 {
@@ -129,6 +132,14 @@ SRRotationHandle >> initialize [
 	meshObject := SRMeshObject withMesh: self class mesh.
 	meshObject scale: 1@1@0.
 	self addChild: meshObject.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/13/2026 13:56'
+}
+SRRotationHandle >> isGrabbed [
+	^ self grabbingHand notNil
 ]
 
 {
@@ -171,18 +182,19 @@ SRRotationHandle >> rotateAction: aBlock [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/12/2026 18:36'
+	#'squeak_changestamp' : 'phkeese 11/13/2026 13:56'
 }
 SRRotationHandle >> step: deltaTime [
 
-	localGrabPoint ifNotNil: [:point | | end color x |
+	localGrabPoint ifNotNil: [:point | | end color |
 		end := self globalTransform localPointToGlobal: point.
 		color := self color muchDarker.
-		x := self grabbingHand cursorPoint.
 		self gizmoPainter 
 			gizmoPoint: end color: color;
-			gizmoLine: self globalTranslation to: end color: color;
-			gizmoLine: end to: x color: color.
+			gizmoLine: self globalTranslation to: end color: color.
+		self grabbingHand cursorPoint ifNotNil: [:p |
+			self gizmoPainter gizmoLine: end to: p color: color.	
+		]
 	]
 ]
 
