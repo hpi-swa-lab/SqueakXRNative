@@ -108,16 +108,11 @@ SRRaylibRendererFlat >> drawReticle [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 16:02'
 }
 SRRaylibRendererFlat >> enterFullscreen [
-	"ToggleFullscreen switches the monitor to the window size, so size the window to the monitor's native mode first."
-	| monitor |
-	monitor := Raylib getCurrentMonitor.
-	Raylib
-		setWindowSizeWidth: (Raylib getMonitorWidthMonitor: monitor)
-			height: (Raylib getMonitorHeightMonitor: monitor);
-		toggleFullscreen.
+	"Borderless, not exclusive: ToggleFullscreen grabs the monitor on Windows, Alt-Tab cannot get past it."
+	Raylib toggleBorderlessWindowed.
 ]
 
 {
