@@ -10,7 +10,8 @@ Class {
 		'menuButton',
 		'joystick',
 		'trigger',
-		'squeeze'
+		'squeeze',
+		'wheel'
 	],
 	#classVars : [
 		'GrabPressThreshold',
@@ -74,8 +75,8 @@ SRHandInputState >> bottomButton [
 ]
 
 {
-	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 13:18'
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
 }
 SRHandInputState >> initialize [
 
@@ -83,6 +84,7 @@ SRHandInputState >> initialize [
 	bottomButton := SRInputButtonState new.
 	menuButton := SRInputButtonState new.
 	joystick := SRInputDualAxisState new.
+	wheel := 0.
 	trigger := SRInputFloatState new.
 	squeeze := SRInputFloatState new
 		pressThreshold: self class grabPressThreshold;
@@ -160,12 +162,13 @@ SRHandInputState >> trigger [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'lege 8/6/2026 16:27'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
 }
 SRHandInputState >> updateActionsCommon: actionStates handIndex: handIndex [
 
 	self trigger updateValue: (actionStates triggers at: handIndex).
 	self squeeze updateValue: (actionStates squeeze at: handIndex).
+	wheel := 0.
 	self joystick
 		horizontal: (actionStates thumbstickX at: handIndex);
 		vertical: (actionStates thumbstickY at: handIndex).
@@ -205,4 +208,21 @@ SRHandInputState >> updateDesktopTrigger: aTrigger squeeze: aSqueeze topButton: 
 	trigger updateValue: aTrigger.
 	squeeze updateValue: aSqueeze.
 	topButton isPressed: aBoolean.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:44'
+}
+SRHandInputState >> wheel [
+	"Wheel notches this frame, positive away from the user."
+	^ wheel
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:44'
+}
+SRHandInputState >> wheel: aNumber [
+	wheel := aNumber.
 ]

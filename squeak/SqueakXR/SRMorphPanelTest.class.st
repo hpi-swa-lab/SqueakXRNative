@@ -195,3 +195,21 @@ SRMorphPanelTest >> testReparentingPanelInsideWorldKeepsMorphInMorphic [
 	self assert: (morphicWorld submorphs includes: window).
 	self assert: window owner == morphicWorld
 ]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+}
+SRMorphPanelTest >> testWheelNotchesBecomeMorphicScrollUnits [
+	| panel up down |
+	panel := SRMorphPanel new.
+	panel morph: Morph new.
+	up := panel mouseWheelEventFor: 1.0 at: 10 @ 20.
+	down := panel mouseWheelEventFor: -0.5 at: 10 @ 20.
+	self
+		assert: up isWheelUp;
+		assert: 0 @ 120 equals: up wheelDelta;
+		assert: 10 @ 20 equals: up position;
+		assert: down isWheelDown;
+		assert: 0 @ -60 equals: down wheelDelta.
+]

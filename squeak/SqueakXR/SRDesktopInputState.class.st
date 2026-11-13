@@ -25,7 +25,8 @@ Class {
 		'pressedChars',
 		'mousePosition',
 		'mouseDelta',
-		'mouseWheel'
+		'mouseWheel',
+		'heldKeyCodes'
 	],
 	#classVars : [
 		'Current'
@@ -66,7 +67,7 @@ SRDesktopInputState class >> reset [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:56'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:34'
 }
 SRDesktopInputState >> initialize [
 
@@ -75,6 +76,7 @@ SRDesktopInputState >> initialize [
 	mouseButtonStates := Dictionary new.
 	pressedKeyCodes := OrderedCollection new.
 	pressedChars := OrderedCollection new.
+	heldKeyCodes := OrderedCollection new.
 	mousePosition := RlVector2 new.
 	mouseDelta := RlVector2 new.
 	mouseWheel := 0.0.
@@ -276,7 +278,7 @@ SRDesktopInputState >> pressedKeyCodes [
 
 {
 	#category : #sampling,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:34'
 }
 SRDesktopInputState >> sample [
 	"Exactly once per frame, immediately before #endDrawing: raylib PollInputEvents runs there 
@@ -284,7 +286,10 @@ SRDesktopInputState >> sample [
 	| code |
 	pressedKeyCodes removeAll.
 	pressedChars removeAll.
-	[(code := Raylib getKeyPressed) = 0] whileFalse: [pressedKeyCodes add: code].
+	self sampleRepeatedKeys.
+	[(code := Raylib getKeyPressed) = 0] whileFalse: [
+		pressedKeyCodes add: code.
+		(heldKeyCodes includes: code) ifFalse: [heldKeyCodes add: code]].
 	[(code := Raylib getCharPressed) = 0] whileFalse: [pressedChars add: code].
 
 	keyStates keysAndValuesDo: [:keyCode :state |
@@ -295,5 +300,16 @@ SRDesktopInputState >> sample [
 	mousePosition := Raylib getMousePosition.
 	mouseDelta := Raylib getMouseDelta.
 	mouseWheel := Raylib getMouseWheelMove.
+]
 
+{
+	#category : #sampling,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:34'
+}
+SRDesktopInputState >> sampleRepeatedKeys [
+	"raylib queues only the initial press for GetKeyPressed; OS key repeats are visible
+	solely through IsKeyPressedRepeat, so ask for each key that is still held."
+	heldKeyCodes removeAll: (heldKeyCodes reject: [:each | Raylib isKeyDownKey: each]).
+	heldKeyCodes do: [:each |
+		(Raylib isKeyPressedRepeatKey: each) ifTrue: [pressedKeyCodes add: each]].
 ]

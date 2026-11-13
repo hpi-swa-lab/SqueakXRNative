@@ -116,6 +116,15 @@ SRMenu class >> xrMenuOpenBrowser: aMenu [
 
 {
 	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:18'
+}
+SRMenu class >> xrMenuOpenOpenCode: aMenu [
+	<xrMenu: #(world tools) label: 'OpenCode' priority: 215>
+	^ SWATermMorph openOpenCode
+]
+
+{
+	#category : #'xr menu',
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
 }
 SRMenu class >> xrMenuOpenWorkspace: aMenu [

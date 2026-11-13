@@ -363,8 +363,23 @@ SRMorphPanel >> morphicPanelShader [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+}
+SRMorphPanel >> mouseWheelEventFor: notches at: aPoint [
+	"Morphic counts wheel deltas in VM scroll units, 120 per notch."
+	^ MouseWheelEvent new
+		setType: #mouseWheel
+		position: aPoint
+		delta: 0 @ (notches * MouseWheelEvent scrollUnitsPerMouseWheelNotch) rounded
+		buttons: SRDesktopInputState current morphicModifierBits
+		hand: self currentHand
+		stamp: Sensor eventTimeNow
+]
+
+{
 	#category : #testing,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:33'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
 }
 SRMorphPanel >> onAnalogInput: anEvent [
 
@@ -373,6 +388,8 @@ SRMorphPanel >> onAnalogInput: anEvent [
 		clickPoint := self getClickPoint: anEvent.
 		self performScroll: anEvent at: clickPoint.
 	].
+	anEvent axis == #wheel ifTrue: [
+		self performWheel: anEvent at: (self getClickPoint: anEvent)].
 ]
 
 {
@@ -474,6 +491,19 @@ SRMorphPanel >> performScroll: anAnalogEvent at: aPoint [
 		scrollEvent becomeActiveDuring: [
 			self morph processEvent: scrollEvent].
 	].
+	anAnalogEvent handled: true.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+}
+SRMorphPanel >> performWheel: anAnalogEvent at: aPoint [
+	| wheelEvent |
+	wheelEvent := self mouseWheelEventFor: anAnalogEvent value at: aPoint.
+	Project current addDeferredUIMessage: [
+		wheelEvent becomeActiveDuring: [
+			self morph processEvent: wheelEvent]].
 	anAnalogEvent handled: true.
 ]
 

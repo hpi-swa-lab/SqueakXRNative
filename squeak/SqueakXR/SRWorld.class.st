@@ -886,6 +886,15 @@ SRWorld >> isSolid [
 	^ true
 ]
 
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
+}
+SRWorld >> isTyping [
+
+	^ keyboardFocus notNil
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> isWorldObject [
 
@@ -1333,6 +1342,16 @@ SRWorld >> start [
 	
 	self isRunning: true.
 	self resume.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
+}
+SRWorld >> startFullscreen [
+
+	self renderer fullscreen: true.
+	self start.
 ]
 
 {

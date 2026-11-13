@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:40'
 }
 SRPasteUpMorph >> addedMorph: aMorph [
 
@@ -19,7 +19,7 @@ SRPasteUpMorph >> addedMorph: aMorph [
 	camera := world camera.
 	transform := Matrix4x4
 		objectLookAt: camera globalTranslation
-		from: camera globalTranslation + (camera forward * 1.25)
+		from: camera globalTranslation + (camera forward * 1.6m)
 		up: Vector3 up.
 	world addChild: (
 		SRMorphPanel new
