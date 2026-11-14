@@ -2,7 +2,8 @@ Class {
 	#name : #SRRaylibRendererFlat,
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
-		'reticleLines'
+		'reticleLines',
+		'fullscreen'
 	],
 	#classVars : [
 		'HighDpiEnabled',
@@ -106,6 +107,24 @@ SRRaylibRendererFlat >> drawReticle [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 16:02'
+}
+SRRaylibRendererFlat >> enterFullscreen [
+	"Borderless, not exclusive: ToggleFullscreen grabs the monitor on Windows, Alt-Tab cannot get past it."
+	Raylib toggleBorderlessWindowed.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
+}
+SRRaylibRendererFlat >> fullscreen: aBoolean [
+
+	fullscreen := aBoolean.
+]
+
+{
 	#category : #initializing,
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:33'
 }
@@ -158,7 +177,7 @@ SRRaylibRendererFlat >> reticleSize [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
 }
 SRRaylibRendererFlat >> setup [
 
@@ -171,6 +190,7 @@ SRRaylibRendererFlat >> setup [
 		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
 			ifTrue: [0]
 			ifFalse: [self class startMonitor]).
+	fullscreen == true ifTrue: [self enterFullscreen].
 	
 	camera := RlCamera3D new
 		position: (self class rlVector3For_1: 10 asVector3);

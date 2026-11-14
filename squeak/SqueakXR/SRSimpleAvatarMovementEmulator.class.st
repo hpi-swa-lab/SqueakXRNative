@@ -113,6 +113,15 @@ SRSimpleAvatarMovementEmulator >> initialize [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
+}
+SRSimpleAvatarMovementEmulator >> isTyping [
+
+	^ avatar notNil and: [avatar world notNil and: [avatar world isTyping]]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
 }
@@ -169,11 +178,14 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 15:08'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
 }
 SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 	| input deltaSeconds held |
 	input := SRDesktopInputState current.
+	self isTyping ifTrue: [
+		lookModeEnabled ifTrue: [self handleMouseDelta: input mouseDelta].
+		^ self updateAvatarCamera].
 	(input isKeyPressed: RlKeyboardKey keyGrave) ifTrue: [
 		isUpdatingEnabled := isUpdatingEnabled not].
 	isUpdatingEnabled ifFalse: [^ self].

@@ -34,7 +34,7 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 15:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
 }
 SRSendInputAction >> run: inputState [ 
 
@@ -70,6 +70,9 @@ SRSendInputAction >> run: inputState [
 		].
 	].
 
+	inputState wheel isZero ifFalse: [
+		events add: (self analogEventValue: inputState wheel for: #wheel)].
+	
 	events do: [:event |
 		event
 			target: target;

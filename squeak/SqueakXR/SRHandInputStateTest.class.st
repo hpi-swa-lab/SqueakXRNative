@@ -27,6 +27,19 @@ SRHandInputStateTest >> testAHeldButtonIsJustPressedOnlyOnce [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+}
+SRHandInputStateTest >> testPollingControllersClearsTheDesktopWheel [
+	| state |
+	state := SRHandInputState new.
+	self assert: 0 equals: state wheel.
+	state wheel: 2.0.
+	state updateActionsRight: SRXrActionStates new.
+	self assert: 0 equals: state wheel.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRHandInputStateTest >> testReleasingIsSeenOnTheFrameItHappens [

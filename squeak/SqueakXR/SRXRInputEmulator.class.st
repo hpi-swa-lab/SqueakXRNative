@@ -233,12 +233,16 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:20'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
 }
 SRXRInputEmulator >> step: delta [
 
-	| input |
+	| input typing |
 	input := SRDesktopInputState current.
+	"A panel click sets the focus again during #performActions below."
+	(input isMouseButtonPressed: RlMouseButton mouseButtonLeft) ifTrue: [
+		self world keyboardFocus: nil].
+	typing := self world isTyping.
 
 	(input isKeyPressed: RlKeyboardKey keyF2) ifTrue: [
 		debugHUD toggleVisibility].
@@ -248,7 +252,7 @@ SRXRInputEmulator >> step: delta [
 
 	emulatedCamera update: delta.
 
-	(input isKeyPressed: RlKeyboardKey keyTab) ifTrue: [
+	(typing not and: [input isKeyPressed: RlKeyboardKey keyTab]) ifTrue: [
 		emulatedCamera toggleLookMode].
 
 	self updateLeftHandFromCamera.
@@ -266,7 +270,7 @@ SRXRInputEmulator >> step: delta [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
 }
 SRXRInputEmulator >> updateHandInput: anInput [
 
@@ -280,7 +284,8 @@ SRXRInputEmulator >> updateHandInput: anInput [
 		updateDesktopTrigger: ((anInput isMouseButtonDown: RlMouseButton mouseButtonLeft)
 			ifTrue: [1.0] ifFalse: [0.0])
 		squeeze: (squeezing ifTrue: [1.0] ifFalse: [0.0])
-		topButton: (anInput isKeyDown: RlKeyboardKey keyB).
+		topButton: (self world isTyping not and: [anInput isKeyDown: RlKeyboardKey keyB]).
+	avatar rightHand inputState wheel: (anInput mouseWheel ifNil: [0]).
 	avatar leftHand inputState
 		updateDesktopTrigger: 0.0
 		squeeze: 0.0
