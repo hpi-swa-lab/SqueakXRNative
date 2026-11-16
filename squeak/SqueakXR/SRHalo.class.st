@@ -57,6 +57,25 @@ SRHalo class >> lineOfSightFor: globalPoint in: aWorld [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:00'
+}
+SRHalo class >> menuEntries [ 
+
+	<xrMenuEntries>
+	^self subclasses collect: [:sc |
+		SRMenuEntry new
+			setPath: #(world preferences halo)
+			label: 'Use ', sc name
+			priority: 500
+			provider: self
+			action: [SRWorld haloSpecies: sc];
+			keepOpen: true;
+			yourself
+		]
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 10/12/2026 16:15'
 }
 SRHalo >> addHandles [

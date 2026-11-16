@@ -12,11 +12,14 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 15:08'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:05'
 }
 SRHaloAnchor class >> all [
+
+	| ignoreList |
+	ignoreList := #(all default menuEntries).
 	^(self class methodDict keys 
-		reject: [:name | name = 'all' or: name = 'default' ]) collect: [:each |
+		reject: [:name | ignoreList includes: name asSymbol  ]) collect: [:each |
 		self perform: each
 	]
 ]
@@ -45,6 +48,24 @@ SRHaloAnchor class >> inactiveHand [
 SRHaloAnchor class >> lineOfSight [
 	"Place Halo between the user's head and the center point and move with the user's head and the target."
 	^'lineOfSight'
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:06'
+}
+SRHaloAnchor class >> menuEntries [ 
+	<xrMenuEntries>
+	^self all collect: [:mode |
+		SRMenuEntry new
+			setPath: #(world preferences halo)
+			label: 'Use ', mode, ' mode'
+			priority: 500
+			provider: self
+			action: [SRWorld haloAnchorMode: mode];
+			keepOpen: true;
+			yourself
+		]
 ]
 
 {
