@@ -656,15 +656,21 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:25'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 15:35'
 }
 SRHand >> updateFirstIntersection [
-	"Prefer second-pass objects over the others."
+	"Update the intersection used for cursorPoint and cursorTarget.
+	Grabbed objects override all other collisions and second-pass objects are preferred over all others."
 
-	| all secondPass |
-	all := self cursor intersections.
-	secondPass := all select: [:inter | inter object renderInSecondPass].
-	firstIntersection := self selectIntersection: (secondPass ifEmpty: [all]).
+	| all secondPass grabbed |
+	self grabbedObject ifNotNil: [
+		grabbed := self cursor intersectionsSelect: [:inter | inter object = self grabbedObject].
+		firstIntersection := self selectIntersection: grabbed
+	] ifNil: [
+		all := self cursor intersections.
+		secondPass := all select: [:inter | inter object renderInSecondPass].
+		firstIntersection := (self selectIntersection: secondPass) ifNil: [self selectIntersection: all].
+	]
 ]
 
 {
