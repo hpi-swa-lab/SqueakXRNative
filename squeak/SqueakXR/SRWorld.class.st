@@ -40,6 +40,7 @@ Class {
 		'HaloAnchorMode',
 		'HaloDistance',
 		'HaloSpecies',
+		'HolodeckFloor',
 		'KeyDict',
 		'LogFPS',
 		'PendingFrameActions',
@@ -376,6 +377,84 @@ SRWorld class >> haloSpecies: aClass [
 	HaloSpecies := aClass
 ]
 
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+}
+SRWorld class >> holodeckFloor [
+	<preference: 'Holodeck floor'
+		category: 'SqueakXR'
+		description: 'An unbounded floor at y = 0 that the empty world walks, teleports and aims onto, and continuous locomotion without an app.'
+		type: #Boolean>
+	^ HolodeckFloor ifNil: [false]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+}
+SRWorld class >> holodeckFloor: aBoolean [
+
+	HolodeckFloor := aBoolean
+]
+
+{
+	#category : #'shader sources',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+}
+SRWorld class >> holodeckGrid [
+	<shaderSource: #holodeckGrid>
+	"Grid lines on the platform quad, fading with distance and once cells get smaller than a few pixels. A rim marks the edge.
+	grid = spacing, half the platform size, fade start, fade end; vertex positions are already in world space."
+	^ {
+		#uniforms -> #(gridColor floorColor grid).
+		#vert -> '#version 450
+
+layout(location = 0) in vec3 vertexPosition;
+
+layout(location = 0) uniform mat4 mvp;
+
+layout(location = 0) out vec3 fragPosition;
+layout(location = 1) out vec3 eyePosition;
+
+void main()
+{
+    vec4 eye = inverse(mvp) * vec4(0.0, 0.0, 1.0, 0.0);
+    eyePosition = eye.xyz / eye.w;
+    fragPosition = vertexPosition;
+    gl_Position = mvp * vec4(vertexPosition, 1.0);
+}
+'.
+		#frag -> '#version 450
+
+layout(location = 0) in vec3 fragPosition;
+layout(location = 1) in vec3 eyePosition;
+
+layout(location = 1) uniform vec4 gridColor;
+layout(location = 2) uniform vec4 floorColor;
+layout(location = 3) uniform vec4 grid;
+
+layout(location = 0) out vec4 finalColor;
+
+void main()
+{
+    vec2 cell = fragPosition.xz / grid.x;
+    vec2 cellWidth = fwidth(cell);
+    vec2 toLine = abs(fract(cell - 0.5) - 0.5) / cellWidth;
+    float line = 1.0 - min(min(toLine.x, toLine.y), 1.0);
+    float density = 1.0 - smoothstep(0.1, 0.4, max(cellWidth.x, cellWidth.y));
+    float far = smoothstep(grid.z, grid.w, length(fragPosition.xz - eyePosition.xz));
+
+    vec2 toEdge = (grid.y - abs(fragPosition.xz)) / fwidth(fragPosition.xz);
+    float edge = 1.0 - min(min(toEdge.x, toEdge.y) / 1.5, 1.0);
+
+    float amount = max(line * density * (1.0 - far), edge);
+    finalColor = vec4(mix(floorColor.rgb, gridColor.rgb, amount), 1.0);
+}
+'
+	} as: Dictionary
+]
+
 { #category : #'as yet unclassified' }
 SRWorld class >> initialize [
 
@@ -613,16 +692,24 @@ SRWorld >> camera [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/6/2026 16:04'
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
 }
-SRWorld >> collisionGeometry [ 
+SRWorld >> collisionGeometry [
+	"The floor makes the world itself hit by every hand ray, hence the preference."
 
-	"^ floorGeometry ifNil: [
-		floorGeometry := (SRCollisionPlane point: Vector3 zero normal: Vector3 up)
+	| size |
+	self hasHolodeckFloor ifFalse: [^ nil].
+	size := self holodeckSize.
+	(floorGeometry notNil and: [floorGeometry width = size]) ifTrue: [^ floorGeometry].
+	^ floorGeometry := (SRCollisionPlane
+		point: Vector3 zero
+		normal: Vector3 up
+		up: Vector3 forward
+		width: size
+		height: size)
 			object: self;
-			yourself]"
-	^ nil
+			yourself
 ]
 
 {
@@ -779,6 +866,24 @@ SRWorld >> handleKeyPress: charCode [
 	isShiftDown := SRDesktopInputState current isShiftDown.
 	self keyboardFocus keyboardEvent: ((self class keyFor: charCode shift: isShiftDown)
 		ifNil: [^ self])
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+}
+SRWorld >> hasHolodeckFloor [
+
+	^ self class holodeckFloor
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
+}
+SRWorld >> holodeckSize [
+
+	^ SRRenderer gridSlices * SRRenderer gridSpacing
 ]
 
 {
@@ -1043,6 +1148,17 @@ SRWorld >> notifyObjectRemoved: aSRObject oldParent: oldParent [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:36'
+}
+SRWorld >> onCacheInvalidated [
+	"The holodeck grid shader is reached through the renderer, not a material, so nothing else resets it."
+
+	(SRShader instances at: #holodeckGrid ifAbsent: [nil])
+		ifNotNil: [:shader | shader onCacheInvalidated].
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
 }
@@ -1118,11 +1234,15 @@ SRWorld >> render: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/4/2026 14:09'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:11'
 }
 SRWorld >> renderOn: aRenderer [
+	"The slab sits just below the grid quad, or the two z-fight."
 
-	aRenderer renderGridSlices: 10 spacing: 1
+	self hasHolodeckFloor ifFalse: [^ aRenderer renderGridSlices: 10 spacing: 1].
+	aRenderer
+		renderSlabAt: 0 @ -1cm @ 0 size: self holodeckSize thickness: 50cm;
+		renderHolodeckGridSize: self holodeckSize.
 ]
 
 { #category : #accessing }

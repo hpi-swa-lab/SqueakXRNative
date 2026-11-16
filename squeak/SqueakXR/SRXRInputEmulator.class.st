@@ -10,7 +10,8 @@ Class {
 		'grabRadius',
 		'grabBearing',
 		'grabHeight',
-		'grabTransform'
+		'grabTransform',
+		'grabEye'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -59,6 +60,26 @@ SRXRInputEmulator class >> leftHandOffset [
 }
 SRXRInputEmulator class >> rightHandOffset [
 	^ self handOffset
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:55'
+}
+SRXRInputEmulator class >> xrMenuFullscreenLabel: aMenu [
+
+	^ aMenu world renderer isFullscreen
+		ifTrue: ['Exit Fullscreen (F11)']
+		ifFalse: ['Fullscreen (F11)']
+]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:04'
+}
+SRXRInputEmulator class >> xrMenuToggleFullscreen: aMenu [
+	<xrMenu: #(world debug) label: #xrMenuFullscreenLabel: priority: 9000>
+	^ aMenu world renderer toggleFullscreen
 ]
 
 {
@@ -117,6 +138,19 @@ SRXRInputEmulator >> bearingFrom: anEye to: aPoint [
 
 {
 	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
+}
+SRXRInputEmulator >> beginDrag: aMatrix4x4 holding: aPoint from: anEye [
+
+	grabRadius := ((aPoint x - anEye x) squared + (aPoint z - anEye z) squared) sqrt.
+	grabBearing := self bearingFrom: anEye to: aPoint.
+	grabHeight := aPoint y - anEye y.
+	grabEye := anEye.
+	grabTransform := aMatrix4x4 copy.
+]
+
+{
+	#category : #input,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRXRInputEmulator >> cylinderHitFrom: anOrigin direction: aDirection eye: anEye radius: aRadius [
@@ -144,31 +178,35 @@ SRXRInputEmulator >> debugHUD [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:34'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
 }
 SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
 
-	| eye t point lift |
+	| eye t |
 	eye := self world avatar camera globalTranslation.
 	grabRadius ifNil: [
-		| held |
-		held := aHand grabbedObject globalTranslation.
-
-		grabRadius := ((held x - eye x) squared + (held z - eye z) squared) sqrt.
-		grabBearing := self bearingFrom: eye to: held.
-		grabHeight := held y.
-		grabTransform := aHand globalTransform copy].
+		self beginDrag: aHand globalTransform holding: aHand grabbedObject globalTranslation from: eye].
 	t := self
 		cylinderHitFrom: anOrigin direction: aDirection eye: eye radius: grabRadius.
 	t ifNil: [^ aHand].
-	point := anOrigin + (aDirection * t).
-	lift := Matrix4x4 withOffset: (Vector3 x: 0 y: point y - grabHeight z: 0).
-
-	aHand globalTransform: (Matrix4x4
-		rotatedBy: (self bearingFrom: eye to: point) - grabBearing
-		around: Vector3 up
-		centeredAt: eye) * (lift * grabTransform).
+	aHand globalTransform: (self dragTransformTo: anOrigin + (aDirection * t) from: eye).
 	^ aHand
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
+}
+SRXRInputEmulator >> dragTransformTo: aPoint from: anEye [
+	"Relative to the eye, so a held object comes along when the avatar walks."
+
+	| lift follow |
+	lift := Matrix4x4 withOffset: (Vector3 x: 0 y: aPoint y - anEye y - grabHeight z: 0).
+	follow := Matrix4x4 withOffset: anEye - grabEye.
+	^ (Matrix4x4
+		rotatedBy: (self bearingFrom: anEye to: aPoint) - grabBearing
+		around: Vector3 up
+		centeredAt: anEye) * (follow * (lift * grabTransform))
 ]
 
 {
@@ -233,14 +271,15 @@ SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
 }
 SRXRInputEmulator >> step: delta [
 
 	| input typing |
 	input := SRDesktopInputState current.
 	"A panel click sets the focus again during #performActions below."
-	(input isMouseButtonPressed: RlMouseButton mouseButtonLeft) ifTrue: [
+	((input isMouseButtonPressed: RlMouseButton mouseButtonLeft)
+		or: [input isMouseButtonPressed: RlMouseButton mouseButtonMiddle]) ifTrue: [
 		self world keyboardFocus: nil].
 	typing := self world isTyping.
 
@@ -250,13 +289,16 @@ SRXRInputEmulator >> step: delta [
 	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
 		self world avatar toggleOutOfBody].
 
+	(input isKeyPressed: RlKeyboardKey keyF11) ifTrue: [
+		self world renderer toggleFullscreen].
+
 	emulatedCamera update: delta.
 
 	(typing not and: [input isKeyPressed: RlKeyboardKey keyTab]) ifTrue: [
 		emulatedCamera toggleLookMode].
 
 	self updateLeftHandFromCamera.
-	emulatedCamera lookModeEnabled
+	emulatedCamera isLooking
 		ifTrue: [self updateRightHandFromScreenCenter]
 		ifFalse: [self updateRightHandFromMouseRay].
 

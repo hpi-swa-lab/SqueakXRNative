@@ -116,6 +116,20 @@ SRMenu class >> xrMenuOpenBrowser: aMenu [
 
 {
 	#category : #'xr menu',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:38'
+}
+SRMenu class >> xrMenuOpenGitBrowser: aMenu [
+	<xrMenu: #(world tools) label: 'Git Browser' priority: 225>
+	"GSBrowser class>>open checks for updates over the network first, which would stall the frame."
+	| window |
+	[GSSelfUpdater checkForNewVersion] forkAt: Processor userBackgroundPriority.
+	window := GSBrowser basicOpen.
+	window extent: window extent * 2.
+	^ window
+]
+
+{
+	#category : #'xr menu',
 	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:18'
 }
 SRMenu class >> xrMenuOpenOpenCode: aMenu [

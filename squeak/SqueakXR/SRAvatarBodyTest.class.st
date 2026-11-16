@@ -130,16 +130,14 @@ SRAvatarBodyTest >> testAnEmptySceneStillStopsTheBodyAtTheWorldFloor [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
 SRAvatarBodyTest >> testAnObjectWithoutCollisionGeometryHoldsNobodyUp [
 
 	scene addChild: (SRCube new scale: 10 @ 10 @ 10; yourself).
-	body restAt: 0 @ 5 @ 0.
+	body restAt: 0 @ 6 @ 0.
 	80 timesRepeat: [body applyPhysicsIn: walker dt: 0.02].
-	self deny: body onGround.
-
-	self assert: body position y < -5.0.
+	self assert: body position y < (SRAvatarBody bedrock + 1cm).
 ]
 
 {
@@ -155,6 +153,18 @@ SRAvatarBodyTest >> testFallingLandsOnTheFloorAndStaysThere [
 	self assert: body onGround.
 	40 timesRepeat: [body applyPhysicsIn: walker dt: 0.02].
 	self assert: body position y abs < 0.01.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
+}
+SRAvatarBodyTest >> testNothingFallsBelowBedrock [
+
+	body restAt: 0 @ 3 @ 0.
+	200 timesRepeat: [body applyPhysicsIn: walker dt: 0.02].
+	self assert: body onGround.
+	self assert: (body position y between: SRAvatarBody bedrock and: SRAvatarBody bedrock + 1cm).
 ]
 
 {
@@ -176,19 +186,20 @@ SRAvatarBodyTest >> testRestingLeavesTheBoxClearOfTheSurface [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
 SRAvatarBodyTest >> testTakingTheFloorAwayStillDropsTheBody [
 
 	| plane probe restingY |
 	plane := SRPlane new
 		scale: 40 @ 1 @ 40;
+		translation: 0 @ 10 @ 0;
 		solid: true;
 		yourself.
 	scene addChild: plane.
 	probe := SRObject new.
 	scene addChild: probe.
-	body restAt: Vector3 zero.
+	body restAt: 0 @ 10 @ 0.
 
 	5 timesRepeat: [body applyPhysicsIn: (SRSceneSolids forObject: probe) dt: 0.02].
 	self assert: body onGround.

@@ -438,6 +438,27 @@ SRAvatar >> isOutOfBody [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:05'
+}
+SRAvatar >> keepOnHolodeck: aCorrection feet: feet [
+	"Only a body standing at platform height is held, or the game terrain above would be fenced in too.
+	A body already outside is not pulled back: it is falling."
+
+	| half target clamp |
+	(self world notNil and: [self world hasHolodeckFloor]) ifFalse: [^ aCorrection].
+	feet y abs > 5cm ifTrue: [^ aCorrection].
+	half := self world holodeckSize / 2 - self body halfWidth.
+	(feet x abs > half or: [feet z abs > half]) ifTrue: [^ aCorrection].
+	target := feet + aCorrection.
+	clamp := [:v | (v max: half negated) min: half].
+	^ Vector3
+		x: (clamp value: target x) - feet x
+		y: aCorrection y
+		z: (clamp value: target z) - feet z
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/8/2025 17:50'
 }
@@ -448,11 +469,15 @@ SRAvatar >> leftHand [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/19/2026 14:45'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
 }
 SRAvatar >> locomotionEnabled [
+	"Without an app deciding, the avatar walks only where there is a floor to walk on."
 
-	^ locomotionEnabled == true
+	^ locomotionEnabled ifNil: [
+		self world
+			ifNil: [false]
+			ifNotNil: [:world | world hasHolodeckFloor]]
 ]
 
 {
@@ -582,7 +607,7 @@ SRAvatar >> snapBodyUnderHead: head floorY: feetY [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:31'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
 SRAvatar >> step: deltaTime [
 
@@ -695,7 +720,7 @@ SRAvatar >> turnBy: degrees [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:18'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:05'
 }
 SRAvatar >> updateLocomotion: deltaTime [
 
@@ -716,6 +741,7 @@ SRAvatar >> updateLocomotion: deltaTime [
 		floorY: feetY
 		stickMotion: (self stickMotionFor: leftHand dt: dt)
 		dt: dt.
+	correction := self keepOnHolodeck: correction feet: head x @ feetY @ head z.
 	self translation: self translation + correction.
 	lastRigTranslation := self translation.
 ]
@@ -729,6 +755,16 @@ SRAvatar >> updateSmoothTurn: deltaTime [
 	self class turnStyle == #smooth ifFalse: [^ self].
 	rightHand ifNil: [^ self].
 	self turnBy: rightHand joystick horizontal * self class smoothTurnSpeed * deltaTime.
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+}
+SRAvatar >> useDefaultLocomotion [
+
+	locomotionEnabled := nil.
+	lastRigTranslation := nil.
 ]
 
 {

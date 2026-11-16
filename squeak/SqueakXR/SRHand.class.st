@@ -27,7 +27,8 @@ Class {
 		'toolPreview',
 		'triggerPressed',
 		'turnArmed',
-		'xPressed'
+		'xPressed',
+		'grabIntersection'
 	],
 	#classVars : [
 		'EndRate',
@@ -352,6 +353,15 @@ SRHand >> forget: anSRObject [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRHand >> grabCandidate [
+
+	^ grabIntersection ifNotNil: [:inter | inter object]
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:28'
 }
 SRHand >> grabbedObject [
@@ -552,6 +562,18 @@ SRHand >> performActions [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRHand >> preferredIntersectionOf: intersections [
+	"Prefer second-pass objects over the others."
+
+	| secondPass |
+	secondPass := intersections select: [:inter | inter object renderInSecondPass].
+	^ self selectIntersection: (secondPass ifEmpty: [intersections])
+]
+
+{
 	#category : #actions,
 	#'squeak_changestamp' : 'phkeese 10/20/2026 14:45'
 }
@@ -579,6 +601,20 @@ SRHand >> rayColor [
 SRHand >> selectIntersection: intersections [
 
 	^ intersections detectMin: [:each | each distance]
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:43'
+}
+SRHand >> selectTargetsFrom: intersections [
+	"Grab handles take only grabs, so a click through them reaches the object behind."
+
+	| clickable |
+	clickable := intersections reject: [:inter |
+		inter object grabTarget notNil and: [inter object grabTarget isGrabHandle]].
+	firstIntersection := self preferredIntersectionOf: clickable.
+	grabIntersection := self preferredIntersectionOf: intersections.
 ]
 
 {
@@ -656,15 +692,11 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:25'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:43'
 }
 SRHand >> updateFirstIntersection [
-	"Prefer second-pass objects over the others."
 
-	| all secondPass |
-	all := self cursor intersections.
-	secondPass := all select: [:inter | inter object renderInSecondPass].
-	firstIntersection := self selectIntersection: (secondPass ifEmpty: [all]).
+	self selectTargetsFrom: self cursor intersections.
 ]
 
 {

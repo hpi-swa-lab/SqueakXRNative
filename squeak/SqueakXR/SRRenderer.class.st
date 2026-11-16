@@ -5,6 +5,7 @@ Class {
 		'cache'
 	],
 	#classVars : [
+		'FloorColor',
 		'GridColor',
 		'GridSlices',
 		'GridSpacing',
@@ -34,6 +35,27 @@ SRRenderer class >> default [
 
 {
 	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:58'
+}
+SRRenderer class >> floorColor [
+	<preference: 'Floor color'
+		category: 'SqueakXR'
+		description: 'Color of the solid holodeck floor under the grid'
+		type: #Color>
+	^ FloorColor ifNil: [FloorColor := Color r: 0.04 g: 0.04 b: 0.05]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:58'
+}
+SRRenderer class >> floorColor: aColor [
+
+	FloorColor := aColor
+]
+
+{
+	#category : #preferences,
 	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
 }
 SRRenderer class >> gridColor [
@@ -55,14 +77,14 @@ SRRenderer class >> gridColor: aColor [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'MCPServer 10/14/2026 09:52'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:06'
 }
 SRRenderer class >> gridSlices [
 	<preference: 'Grid slices'
 		category: 'SqueakXR'
 		description: 'Number of cells across the floor grid'
 		type: #Number>
-	^ GridSlices ifNil: [GridSlices := 24]
+	^ GridSlices ifNil: [GridSlices := 200]
 ]
 
 {
@@ -281,6 +303,15 @@ SRRenderer >> initialize [
 	cache := Dictionary new
 ]
 
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
+}
+SRRenderer >> isFullscreen [
+
+	^ false
+]
+
 { #category : #experiments }
 SRRenderer >> pollAndroidEvents [
 
@@ -344,11 +375,38 @@ SRRenderer >> renderFastCube: anSRFastCube [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:58'
+}
+SRRenderer >> renderFloorAt: aVector3 size: aNumber [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:56'
+}
+SRRenderer >> renderGridAt: aVector3 [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'phkeese 11/4/2026 14:07'
 }
 SRRenderer >> renderGridSlices: anInt spacing: aNumber [
 
 	self subclassResponsibility 
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+}
+SRRenderer >> renderHolodeckGridSize: aNumber [
+
+	self subclassResponsibility
 ]
 
 {
@@ -371,6 +429,15 @@ SRRenderer >> renderLineFrom: startVector3 to: endVector3 withColor: aColor [
 
 { #category : #rendering }
 SRRenderer >> renderMesh: aMesh transform: aMatrix4x4 material: aMaterial [
+
+	self subclassResponsibility
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
+}
+SRRenderer >> renderSlabAt: aVector3 size: aNumber thickness: aThickness [
 
 	self subclassResponsibility
 ]
@@ -484,6 +551,14 @@ SRRenderer >> simpleDrawLoop [
 SRRenderer >> test [
 
 	^ 102934
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
+}
+SRRenderer >> toggleFullscreen [
+	"Only a desktop window can change; the headset has no window to resize."
 ]
 
 {

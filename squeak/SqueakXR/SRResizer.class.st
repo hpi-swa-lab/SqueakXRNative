@@ -42,6 +42,14 @@ SRResizer class >> minimumExtent [
 ]
 
 {
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRResizer >> addHighlight: aColor [
+	"Highlighting the panel would otherwise outline every resizer, even hidden ones."
+]
+
+{
 	#category : #geometry,
 	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
@@ -119,16 +127,15 @@ SRResizer >> cornerSign [
 
 {
 	#category : #dragging,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:49'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:48'
 }
 SRResizer >> dragTo: aMatrix4x4 [
 
 	| span |
 	(dragging and: [anchor notNil]) ifFalse: [^ super dragTo: aMatrix4x4].
-
 	"Measured from the anchor, not from the panel origin, so that moving the panel
 	below cannot disturb the next frame's measurement."
-	span := panel globalTransform globalDirToLocal: aMatrix4x4 translation - anchor.
+	span := (panel globalTransform globalDirToLocal: aMatrix4x4 translation - anchor) - self handleOffset.
 	self resizeToSpan: span.
 ]
 
@@ -145,8 +152,21 @@ SRResizer >> finishResize [
 ]
 
 {
+	#category : #geometry,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:48'
+}
+SRResizer >> handleOffset [
+	"Outside the panel, so the handle never covers anything clickable."
+
+	| sign half |
+	sign := self cornerSign.
+	half := self class handleSize / 2.
+	^ (sign x * half) @ (sign y * half) @ 0
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 18:01'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:40'
 }
 SRResizer >> initialize [
 
@@ -158,6 +178,9 @@ SRResizer >> initialize [
 		color: Color orange;
 		yourself.
 	self addChild: cube.
+	"SRCube has its own collision box, so rays hit it before me."
+	cube grabTarget: self.
+	cube visible: false.
 	corner := #bottomRight.
 	self name: 'Resizer ', corner.
 ]
@@ -169,6 +192,29 @@ SRResizer >> initialize [
 SRResizer >> isDragging [
 
 	^ dragging ifNil: [false]
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRResizer >> isGrabHandle [
+
+	^ true
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRResizer >> isHovered [
+
+	| world |
+	self isDragging ifTrue: [^ true].
+	world := self world ifNil: [^ false].
+	world avatar ifNil: [^ false].
+	^ world avatar hands anySatisfy: [:hand |
+		hand grabCandidate notNil and: [hand grabCandidate grabTarget == self]]
 ]
 
 {
@@ -252,6 +298,17 @@ SRResizer >> panel: aSRMorphPanel [
 ]
 
 {
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:40'
+}
+SRResizer >> renderOn: aRenderer [
+	"The cube child stays invisible so it still catches the ray without being drawn."
+
+	self isHovered ifFalse: [^ self].
+	aRenderer renderPlainCubeTransformed: self globalTransform withColor: (cube color alpha: 0.5).
+]
+
+{
 	#category : #geometry,
 	#'squeak_changestamp' : 'jl 8/12/2026 17:25'
 }
@@ -275,10 +332,20 @@ SRResizer >> resizeToSpan: aVector3 [
 
 {
 	#category : #geometry,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 17:48'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:48'
 }
 SRResizer >> snapToCorner [
-	
+	"A panel gets its morph after #initialize; #fullTextureUpdate snaps again then."
 
-	self position: (self localPositionForSign: self cornerSign).
+	(panel isNil or: [panel morph isNil]) ifTrue: [^ self].
+	self position: (self localPositionForSign: self cornerSign) + self handleOffset.
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:28'
+}
+SRResizer >> wantsGrab [
+
+	^ true
 ]

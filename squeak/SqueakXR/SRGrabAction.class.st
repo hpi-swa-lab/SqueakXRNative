@@ -57,14 +57,14 @@ SRGrabAction >> prepareGrab: target [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 10/26/2026 16:56'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
 }
 SRGrabAction >> run: inputState [
 
 	inputState squeeze isJustPressed ifTrue: [ | target |
-		target := self hand cursorTarget ifNil: [^true].
+		target := self hand grabCandidate ifNil: [^true].
 		target := target grabTarget.
-		target canGrab ifFalse: [^true].
+		(target notNil and: [target canGrab]) ifFalse: [^true].
 		self prepareGrab: target.
 		self startGrabbing: target
 	].

@@ -10,15 +10,20 @@ Class {
 		'resizers'
 	],
 	#classVars : [
-		'Mesh'
+		'Mesh',
+		'PixelsPerMeter'
 	],
 	#category : #'SqueakXR-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:23'
+}
 SRMorphPanel class >> defaultPixelsPerMeter [
+	"Morph extents grow with the desktop scale factor; panels should not."
 
-	^ 500
+	^ self pixelsPerMeter * RealEstateAgent scaleFactor
 ]
 
 {
@@ -47,6 +52,28 @@ void main()
       finalColor = texelColor.bgra;
 }'
 	} as: Dictionary
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:23'
+}
+SRMorphPanel class >> pixelsPerMeter [
+	<preference: 'XR panel pixels per meter'
+		category: 'SqueakXR'
+		description: 'How many Morphic pixels make one meter of an XR panel, at desktop scale factor 1. Lower makes panels bigger. The desktop scale factor is divided out, so a high-DPI desktop gives sharper panels, not bigger ones.'
+		type: #Number>
+	^ PixelsPerMeter ifNil: [500]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:23'
+}
+SRMorphPanel class >> pixelsPerMeter: aNumber [
+
+	PixelsPerMeter := aNumber.
+	self allInstancesDo: [:each | each morph ifNotNil: [each updatePlaneSize]].
 ]
 
 {
@@ -117,20 +144,14 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'jl 8/12/2026 13:54'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
 }
 SRMorphPanel >> addCustomMenuItemsTo: aMenu [
 	super addCustomMenuItemsTo: aMenu.
 	aMenu
 		addItem: 'Refresh Texture'
 		action: [self world
-			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]].
-	aMenu
-		addItem: (self resizers ifEmpty: ['Resize'] ifNotEmpty: [:r | 'Resize (hide handles)'])
-		action: [self world
-			ifNil: [self toggleResizers]
-			ifNotNil: [:w | w addDeferredFrameMessage: [self toggleResizers]]]
-
+			ifNotNil: [:w | w addDeferredFrameMessage: [self fullTextureUpdate]]]
 ]
 
 {
@@ -175,6 +196,23 @@ SRMorphPanel >> detachMorph [
 }
 SRMorphPanel >> detachedMorph [
 	^ detachedMorph
+]
+
+{
+	#category : #geometry,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
+}
+SRMorphPanel >> followMorphExtent [
+	"A Morph resized from the Morphic side, e.g. right after opening, would otherwise
+	keep the old plane and look like a different DPI until the next handle drag."
+
+	| ppm |
+	morph ifNil: [^ self].
+	(self resizers anySatisfy: [:each | each isDragging]) ifTrue: [^ self].
+	ppm := self pixelsPerMeter.
+	((plane scale x * ppm) rounded = morph width and: [(plane scale z * ppm) rounded = morph height])
+		ifTrue: [^ self].
+	self updatePlaneSize; snapResizers.
 ]
 
 {
@@ -260,7 +298,7 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
 }
 SRMorphPanel >> initialize [
 
@@ -284,6 +322,7 @@ SRMorphPanel >> initialize [
 	plane grabTarget: self.
 
 	self addChild: plane.
+	self addResizers.
 ]
 
 {
@@ -339,7 +378,7 @@ SRMorphPanel >> morph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
 }
 SRMorphPanel >> morph: aMorph [
 
@@ -349,8 +388,10 @@ SRMorphPanel >> morph: aMorph [
 	morph lastPanelPosition ifNotNil: [:position |
 		self globalTranslation: position].
 	morph setIsInMorphPanel.
+	morph addDependent: self.
 	texture source morph: morph.
 	self name: (morph knownName ifNil: [morph class asString]).
+	self updatePlaneSize; snapResizers.
 ]
 
 {
@@ -536,25 +577,16 @@ SRMorphPanel >> remountMorph [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 12:49'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
 }
 SRMorphPanel >> removeMorph [
 
 	morph ifNotNil: [
 		morph setInMorphPanel: false. "assumption: morph is only ever in one morph panel"
 		morph lastPanelPosition: self globalTranslation.
+		morph removeDependent: self.
 		morph := nil.
 		texture source morph: nil].
-]
-
-{
-	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/12/2026 16:53'
-}
-SRMorphPanel >> removeResizers [
-
-	resizers do: [:each | each remove].
-	resizers := OrderedCollection new.
 ]
 
 {
@@ -586,23 +618,13 @@ SRMorphPanel >> snapResizers [
 ]
 
 {
-	#category : #resizing,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 18:00'
-}
-SRMorphPanel >> toggleResizers [
-
-	self resizers
-		ifEmpty: [self addResizers]
-		ifNotEmpty: [self removeResizers]
-]
-
-{
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 13:39'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
 }
 SRMorphPanel >> update: aSymbol with: anObject [
 
 	aSymbol = #raycast ifTrue: [self handleRaycast: anObject].
+	aSymbol = #worldDrawn ifTrue: [self followMorphExtent].
 ]
 
 {
