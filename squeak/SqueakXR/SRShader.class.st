@@ -786,6 +786,15 @@ SRShader >> onCacheInvalidated [
 
 {
 	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+}
+SRShader >> setColor: aColor at: aLocation [
+
+	self setX: aColor red y: aColor green z: aColor blue w: aColor alpha at: aLocation.
+]
+
+{
+	#category : #uniforms,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 17:08'
 }
 SRShader >> setColor: aColor intensity: aNumber at: aLocation [
@@ -851,6 +860,22 @@ SRShader >> setX: x y: y z: z at: aLocation [
 		floatAt: 5 put: y asFloat;
 		floatAt: 9 put: z asFloat.
 	self setValue: floatBuffer type: RlShaderUniformDataType shaderUniformVec3 at: aLocation.
+]
+
+{
+	#category : #uniforms,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+}
+SRShader >> setX: x y: y z: z w: w at: aLocation [
+
+	| buffer |
+	buffer := ByteArray new: 16.
+	buffer
+		floatAt: 1 put: x asFloat;
+		floatAt: 5 put: y asFloat;
+		floatAt: 9 put: z asFloat;
+		floatAt: 13 put: w asFloat.
+	self setValue: buffer type: RlShaderUniformDataType shaderUniformVec4 at: aLocation.
 ]
 
 {

@@ -85,12 +85,23 @@ SRPreferenceMenuTest >> testNumberRowShowsItsValueAndDoesNotChangeIt [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:29'
 }
 SRPreferenceMenuTest >> testPreferenceRowsKeepTheMenuOpen [
 
-	(SRMenuRegistry current itemsUnder: #(world preferences)) do: [:each |
-		self assert: each keepOpen].
+	SRPreferenceMenu exposedCategories do: [:category |
+		(SRMenuRegistry current itemsUnder: {#world. #preferences. category}) do: [:each |
+			self assert: each keepOpen]].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:29'
+}
+SRPreferenceMenuTest >> testThePreferenceBrowserIsOffered [
+
+	self assert: ((SRMenuRegistry current directItemsUnder: #(world preferences))
+		anySatisfy: [:each | each label = 'Preference Browser'])
 ]
 
 {

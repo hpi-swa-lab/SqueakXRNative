@@ -2,7 +2,6 @@ Class {
 	#name : #SRRaylibRendererFlat,
 	#superclass : #SRRaylibRenderer,
 	#instVars : [
-		'reticleLines',
 		'fullscreen'
 	],
 	#classVars : [
@@ -94,16 +93,20 @@ SRRaylibRendererFlat >> completeFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 9/29/2026 15:34'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:19'
 }
 SRRaylibRendererFlat >> drawReticle [
+	"Centred on the screen as it is now, which a fullscreen toggle changes."
 
-	reticleLines do: [:line |
-		Raylib drawLineStartPosX: line first x
-			startPosY: line first y
-			endPosX: line second x
-			endPosY: line second y
-			color: (self class rlColorFor_1: Color red)].
+	| centre half color |
+	centre := (Raylib getScreenWidth // 2) @ (Raylib getScreenHeight // 2).
+	half := self reticleSize // 2.
+	color := self class rlColorFor_1: Color red.
+	Raylib
+		drawLineStartPosX: centre x - half startPosY: centre y
+			endPosX: centre x + half endPosY: centre y color: color;
+		drawLineStartPosX: centre x startPosY: centre y - half
+			endPosX: centre x endPosY: centre y + half color: color.
 ]
 
 {
@@ -125,29 +128,12 @@ SRRaylibRendererFlat >> fullscreen: aBoolean [
 ]
 
 {
-	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:33'
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
 }
-SRRaylibRendererFlat >> initReticle [
+SRRaylibRendererFlat >> isFullscreen [
 
-	| horiLineStart vertLineStart |
-	horiLineStart := ((self windowWidth - self reticleSize) @ (self windowHeight)) / 2.
-	vertLineStart := ((self windowWidth) @ (self windowHeight - self reticleSize)) / 2.
-	reticleLines := {
-		{horiLineStart. horiLineStart + (self reticleSize @ 0)}.
-		{vertLineStart. vertLineStart + (0 @ self reticleSize)}.
-	}.
-]
-
-{
-	#category : #initializing,
-	#'squeak_changestamp' : 'lege 7/16/2026 17:49'
-}
-SRRaylibRendererFlat >> initialize [
-
-	super initialize.
-	
-	self initReticle.
+	^ fullscreen == true
 ]
 
 {
@@ -217,6 +203,17 @@ SRRaylibRendererFlat >> shaderVersion [
 SRRaylibRendererFlat >> shutdown [
 
 	Raylib closeWindow.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
+}
+SRRaylibRendererFlat >> toggleFullscreen [
+	"Borderless, see #enterFullscreen: raylib toggles it both ways and restores the old window size."
+
+	Raylib toggleBorderlessWindowed.
+	fullscreen := self isFullscreen not.
 ]
 
 {

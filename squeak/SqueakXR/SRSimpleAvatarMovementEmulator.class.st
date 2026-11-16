@@ -113,6 +113,15 @@ SRSimpleAvatarMovementEmulator >> initialize [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:15'
+}
+SRSimpleAvatarMovementEmulator >> isLooking [
+
+	^ lookModeEnabled or: [SRDesktopInputState current isMouseButtonDown: RlMouseButton mouseButtonMiddle]
+]
+
+{
 	#category : #updating,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
 }
@@ -178,13 +187,13 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:13'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:15'
 }
 SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 	| input deltaSeconds held |
 	input := SRDesktopInputState current.
 	self isTyping ifTrue: [
-		lookModeEnabled ifTrue: [self handleMouseDelta: input mouseDelta].
+		self isLooking ifTrue: [self handleMouseDelta: input mouseDelta].
 		^ self updateAvatarCamera].
 	(input isKeyPressed: RlKeyboardKey keyGrave) ifTrue: [
 		isUpdatingEnabled := isUpdatingEnabled not].
@@ -197,7 +206,7 @@ SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 		advance: (held value: RlKeyboardKey keyW) - (held value: RlKeyboardKey keyS)
 		lift: (held value: RlKeyboardKey keyLeftShift) - (held value: RlKeyboardKey keyLeftControl)
 		deltaSeconds: deltaSeconds.
-	lookModeEnabled ifTrue: [
+	self isLooking ifTrue: [
 		self handleMouseDelta: input mouseDelta].
 	self updateAvatarCamera
 ]

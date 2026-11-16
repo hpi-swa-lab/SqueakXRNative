@@ -60,6 +60,15 @@ SRMorphPanelTest >> tearDown [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
+}
+SRMorphPanelTest >> testEveryPanelHasItsResizers [
+
+	self assert: SRMorphPanel new resizers size equals: SRResizer corners size.
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:31'
 }
@@ -194,6 +203,32 @@ SRMorphPanelTest >> testReparentingPanelInsideWorldKeepsMorphInMorphic [
 	self assert: panel detachedMorph isNil.
 	self assert: (morphicWorld submorphs includes: window).
 	self assert: window owner == morphicWorld
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
+}
+SRMorphPanelTest >> testResizingTheMorphInMorphicResizesThePanel [
+
+	| morph panel |
+	morph := Morph new extent: 400 @ 300; yourself.
+	panel := SRMorphPanel new morph: morph.
+	morph extent: 800 @ 600.
+	morph changed: #worldDrawn with: morph bounds.
+	self assert: (panel resizerAt: #bottomRight) position x * panel pixelsPerMeter >= 400.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:23'
+}
+SRMorphPanelTest >> testThePanelSizeDoesNotGrowWithTheDesktopScaleFactor [
+
+	| morph panel |
+	morph := Morph new extent: (1000 * RealEstateAgent scaleFactor) @ 500; yourself.
+	panel := SRMorphPanel new morph: morph.
+	self assert: (morph width / panel pixelsPerMeter closeTo: 1000 / SRMorphPanel pixelsPerMeter).
 ]
 
 {

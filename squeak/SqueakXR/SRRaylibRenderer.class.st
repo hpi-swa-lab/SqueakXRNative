@@ -212,30 +212,6 @@ SRRaylibRenderer >> disableDepthTest [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
-}
-SRRaylibRenderer >> drawGrid [
-
-	| rlColor slices spacing half |
-	rlColor := SRRenderer gridColor asRlColor.
-	slices := SRRenderer gridSlices.
-	spacing := SRRenderer gridSpacing.
-	half := slices / 2.0 * spacing.
-	0 to: slices do: [:i |
-		| offset |
-		offset := i * spacing - half.
-		Raylib
-			drawLine3DStartPos: (offset @ 0 @ half negated) asRlVector
-			endPos: (offset @ 0 @ half) asRlVector
-			color: rlColor.
-		Raylib
-			drawLine3DStartPos: (half negated @ 0 @ offset) asRlVector
-			endPos: (half @ 0 @ offset) asRlVector
-			color: rlColor].
-]
-
-{
-	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
 SRRaylibRenderer >> enableBackfaceCulling [
@@ -426,11 +402,70 @@ SRRaylibRenderer >> renderFastCube: anSRFastCube [
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:58'
+}
+SRRaylibRenderer >> renderFloorAt: aVector3 size: aNumber [
+
+	Raylib
+		drawPlaneCenterPos: aVector3 asRlVector
+		size: (Vector2 x: aNumber y: aNumber) asRlVector
+		color: SRRenderer floorColor asRlColor.
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:11'
+}
+SRRaylibRenderer >> renderGridAt: aVector3 [
+	"raylib's DrawGrid hardcodes its own grey, so the lines are drawn one by one."
+
+	| rlColor slices spacing half |
+	rlColor := SRRenderer gridColor asRlColor.
+	slices := SRRenderer gridSlices.
+	spacing := SRRenderer gridSpacing.
+	half := slices / 2.0 * spacing.
+	0 to: slices do: [:i |
+		| offset |
+		offset := i * spacing - half.
+		Raylib
+			drawLine3DStartPos: (aVector3 + (offset @ 0 @ half negated)) asRlVector
+			endPos: (aVector3 + (offset @ 0 @ half)) asRlVector
+			color: rlColor.
+		Raylib
+			drawLine3DStartPos: (aVector3 + (half negated @ 0 @ offset)) asRlVector
+			endPos: (aVector3 + (half @ 0 @ offset)) asRlVector
+			color: rlColor].
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'phkeese 11/4/2026 14:08'
 }
 SRRaylibRenderer >> renderGridSlices: anInt spacing: aNumber [
 
 	Raylib drawGridSlices: anInt spacing: aNumber
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+}
+SRRaylibRenderer >> renderHolodeckGridSize: aNumber [
+	"Falls back to the line grid where the shader was never transpiled."
+
+	| shader |
+	(SRShader hasCachedShader: #holodeckGrid) ifFalse: [^ self renderGridAt: Vector3 zero].
+	shader := SRShader named: #holodeckGrid.
+	shader
+		setColor: SRRenderer gridColor at: (shader uniformLocAt: #gridColor);
+		setColor: SRRenderer floorColor at: (shader uniformLocAt: #floorColor);
+		setX: SRRenderer gridSpacing y: aNumber / 2 z: 15m w: 45m at: (shader uniformLocAt: #grid).
+	Raylib beginShaderModeShader: shader internalShader.
+	[Raylib
+		drawPlaneCenterPos: Vector3 zero asRlVector
+		size: (Vector2 x: aNumber y: aNumber) asRlVector
+		color: Color white asRlColor]
+			ensure: [Raylib endShaderMode].
 ]
 
 {
@@ -480,6 +515,21 @@ SRRaylibRenderer >> renderPlainCubeTransformed: aMatrix4x4 withColor: aColor [
 				height: 1
 				length: 1
 				color: (self class rlColorFor_1: aColor)].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
+}
+SRRaylibRenderer >> renderSlabAt: aVector3 size: aNumber thickness: aThickness [
+	"aVector3 is the centre of the top face."
+
+	Raylib
+		drawCubePosition: (aVector3 - (0 @ (aThickness / 2) @ 0)) asRlVector
+		width: aNumber
+		height: aThickness
+		length: aNumber
+		color: SRRenderer floorColor asRlColor.
 ]
 
 {

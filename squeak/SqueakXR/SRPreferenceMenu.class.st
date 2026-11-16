@@ -113,3 +113,12 @@ SRPreferenceMenu class >> printValueOf: aPreference on: aStream [
 	value isNumber ifTrue: [^ aStream nextPutAll: value printString].
 	aStream nextPutAll: value asString
 ]
+
+{
+	#category : #menu,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:29'
+}
+SRPreferenceMenu class >> xrMenuOpenPreferenceBrowser: aMenu [
+	<xrMenu: #(world preferences) label: 'Preference Browser' priority: 100>
+	^ PreferenceBrowser open
+]

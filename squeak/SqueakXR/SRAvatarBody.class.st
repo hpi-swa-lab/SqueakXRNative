@@ -19,6 +19,16 @@ Class {
 }
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
+}
+SRAvatarBody class >> bedrock [
+	"Nothing in any scene is walked below the floor of the play space, so falling ends there."
+
+	^ 0m
+]
+
+{
 	#category : #physics,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
@@ -66,10 +76,11 @@ SRAvatarBody >> climbTo: aBlockedPosition in: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
 SRAvatarBody >> collidesAtFeet: aPosition in: aScene [
 
+	aPosition y < self class bedrock ifTrue: [^ true].
 	^ aScene
 		solidInBoxCenter: (self centreForFeet: aPosition)
 		halfExtents: self halfExtents
@@ -169,11 +180,13 @@ SRAvatarBody >> initialize [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
 SRAvatarBody >> integrateIn: aScene dt: dt [
 
 	| alongX alongZ alongY |
+	position y < self class bedrock ifTrue: [
+		position := Vector3 x: position x y: self class bedrock z: position z].
 	onGround := onGround and: [self stillSupportedIn: aScene].
 	velocity := Vector3
 		x: velocity x

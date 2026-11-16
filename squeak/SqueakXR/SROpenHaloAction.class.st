@@ -79,7 +79,7 @@ SROpenHaloAction >> grabbingState: inputState [
 
 {
 	#category : #states,
-	#'squeak_changestamp' : 'phkeese 11/4/2026 18:05'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:25'
 }
 SROpenHaloAction >> idleState: inputState [ 
 
@@ -92,6 +92,10 @@ SROpenHaloAction >> idleState: inputState [
 	limboTime := Time now.
 	limboPoint := self hand cursorPoint.
 	grabTarget := limboTarget grabTarget.
+	grabTarget ifNil: [
+		state := #closingState:.
+		^false
+	].
 	grabTarget grabbingHand 
 		ifNil: [
 			self prepareGrab: grabTarget.

@@ -1008,6 +1008,15 @@ SRObject >> isGizmoPainter [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+}
+SRObject >> isGrabHandle [
+
+	^ false
+]
+
+{
 	#category : #transforms,
 	#'squeak_changestamp' : 'phkeese 10/6/2026 10:51'
 }
