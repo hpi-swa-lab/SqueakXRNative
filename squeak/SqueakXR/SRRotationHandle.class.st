@@ -24,10 +24,10 @@ SRRotationHandle class >> grabbedInnerR [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/16/2026 13:35'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 15:37'
 }
 SRRotationHandle class >> grabbedWidth [
-	^ self width * 3
+	^ self innerR 
 ]
 
 {
