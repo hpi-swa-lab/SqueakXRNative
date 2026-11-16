@@ -1,5 +1,18 @@
 Extension { #name : #Vector3 }
 
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'phkeese 11/16/2026 14:13'
+}
+Vector3 >> angleTo: b axis: n [
+	
+	"Answer the angle between myself and b using an axis n to extract a sign, in radians."
+	| cross dot |
+	cross := self cross: b.
+	dot := self dot: b.
+	^ (n dot: cross) arcTan: dot
+]
+
 { #category : #'*SqueakXR-helpers' }
 Vector3 >> asRlVector [
 
