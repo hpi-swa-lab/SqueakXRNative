@@ -1179,7 +1179,7 @@ SRWorld >> runPendingBetweenFrameActions [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/16/2026 14:12'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 15:38'
 }
 SRWorld >> runStartScript [
 
@@ -1224,10 +1224,6 @@ SRWorld >> runStartScript [
 	Transcript showln: '----------------- WROTE IMAGE'] fork."
 	
 	SRSceneTreeInspector openOn: self.
-	self addChild: (SRRotationHandle new 
-		color: Color red;
-		rotateAction: [:h :a | Transcript showln: a
-	]).
 	
 	self log: 'proceeding';
 		"addChild: (SRMorphPanel new
