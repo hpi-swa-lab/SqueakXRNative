@@ -3,6 +3,7 @@ Class {
 	#superclass : #SRObject,
 	#instVars : [
 		'meshObject',
+		'grabAction',
 		'rotateAction',
 		'startPoint',
 		'lastPoint',
@@ -87,11 +88,20 @@ SRRotationHandle >> angle [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/6/2026 16:20'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:15'
 }
 SRRotationHandle >> axis [
 	
-	^ self backward
+	^ self forward
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:32'
+}
+SRRotationHandle >> axis: aVector [
+	
+	self lookAt: self globalTranslation + aVector
 ]
 
 {
@@ -142,6 +152,24 @@ SRRotationHandle >> dragTo: xform [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:19'
+}
+SRRotationHandle >> grabAction [
+	^ grabAction
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:20'
+}
+SRRotationHandle >> grabAction: aBlock [
+
+	"Set an action to perform when I am grabbed, passing myself as its argument."
+	grabAction := aBlock
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 11/16/2026 14:11'
 }
 SRRotationHandle >> initialize [ 
@@ -163,7 +191,7 @@ SRRotationHandle >> isGrabbed [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 13:23'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:19'
 }
 SRRotationHandle >> onGrabStarted: aHand [
 
@@ -171,6 +199,9 @@ SRRotationHandle >> onGrabStarted: aHand [
 	point := aHand cursorPoint ifNil: [^self].
 	startPoint := self globalTransform globalPointToLocal: point.
 	lastPoint := startPoint.
+	self grabAction ifNotNil: [:action |
+		action cull: self
+	]
 ]
 
 {
