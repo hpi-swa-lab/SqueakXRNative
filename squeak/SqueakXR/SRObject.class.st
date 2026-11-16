@@ -1233,15 +1233,22 @@ SRObject >> localTranslation: aVector3 [
 
 {
 	#category : #transforms,
-	#'squeak_changestamp' : 'phkeese 11/2/2026 15:16'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 16:46'
 }
 SRObject >> lookAt: aGlobalVector3 [
 
-	self globalTransform: (
-		Matrix4x4
-			objectLookAt: aGlobalVector3
-			from: self globalTranslation
-			up: Vector3 up) * (Matrix4x4 withScale: self globalScale)
+	self globalTransform: (aGlobalVector3 = Vector3 up ifFalse: [
+			Matrix4x4
+				objectLookAt: aGlobalVector3
+				from: self globalTranslation
+				up: Vector3 up
+	] ifTrue: [
+		"Need some special handling to avoid breaking our transform into a bunch of NaN values."
+			Matrix4x4
+				objectLookAt: aGlobalVector3
+				from: self globalTranslation
+				up: Vector3 backward
+	]) * (Matrix4x4 withScale: self globalScale)
 ]
 
 {
