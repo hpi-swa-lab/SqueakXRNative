@@ -758,7 +758,7 @@ SRWorld >> debugHUD [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'leo 11/16/2026 14:04'
 }
 SRWorld >> doOneCycle [
 
@@ -768,7 +768,7 @@ SRWorld >> doOneCycle [
 	SRFrameScavenger scavengeIfEdenFull.
 	self runPendingBetweenFrameActions.
 	startTime := DateAndTime now.
-	deltaTime := (startTime - lastFrameTime) asNanoSeconds / 1000000000.
+	deltaTime := ((startTime - lastFrameTime) asNanoSeconds / 1e9) asFloat.
 	lastFrameTime := startTime.
 	
 	self class logFPS ifTrue: [
