@@ -258,15 +258,15 @@ SRSceneTreeInspector >> hasSelection [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/31/2026 15:07'
+	#'squeak_changestamp' : 'leo 11/17/2026 12:15'
 }
 SRSceneTreeInspector >> key: aChar from: view event: event [
 
 	event anyModifierKeyPressed ifFalse: [^ false].
 
-	aChar == $i ifTrue: [self currentSelection inspect. ^ true].
-	aChar == $I ifTrue: [self currentSelection explore. ^ true].
-	aChar = $b ifTrue: [ToolSet browseClass: self currentSelection class. ^ true].
+	aChar == $i ifTrue: [self currentSelection last inspect. ^ true].
+	aChar == $I ifTrue: [self currentSelection last explore. ^ true].
+	aChar = $b ifTrue: [ToolSet browseClass: self currentSelection last class. ^ true].
 	
 	^ false
 ]
