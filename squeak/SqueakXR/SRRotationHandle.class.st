@@ -258,13 +258,12 @@ SRRotationHandle >> step: deltaTime [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/17/2026 13:46'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 14:15'
 }
 SRRotationHandle >> updateAngle [ 
 
 	| grabPoint  |
 	grabPoint := self grabbingHand cursor grabbingTransform localPointToGlobal: grabberLocalPoint.
-	self gizmoPainter gizmoPoint: grabPoint color: self color.
 	lastPoint := self globalTransform globalPointToLocal: (grabPoint onPlanePoint: self globalTranslation normal: self axis).
 	angle := startPoint angleTo: lastPoint axis: Vector3 forward.
 ]
