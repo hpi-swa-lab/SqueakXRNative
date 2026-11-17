@@ -323,7 +323,7 @@ SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontS
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese 11/5/2026 17:41'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 13:50'
 }
 SRRaylibRenderer >> renderCircleCenter: center radius: radius axis: axis color: color [
 	
@@ -336,7 +336,6 @@ SRRaylibRenderer >> renderCircleCenter: center radius: radius axis: axis color: 
 		rotationAxis: (self class rlVector3For_2: 0@0@1)
 		rotationAngle: 0 
 		color: (self class rlColorFor_1: color).
-		Raylib drawLine3DStartPos: (self class rlVectorZero) endPos: (self class rlVector3For_2: 0@0@1) color: (self class rlColorFor_1: color).
 	]
 ]
 
