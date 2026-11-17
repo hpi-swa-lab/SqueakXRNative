@@ -1,12 +1,15 @@
 Class {
 	#name : #SRDirectHalo,
 	#superclass : #SRHalo,
+	#instVars : [
+		'rotationGizmo'
+	],
 	#category : #'SqueakXR-Halo'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:28'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 14:53'
 }
 SRDirectHalo >> addHandles [ 
 
@@ -19,5 +22,16 @@ SRDirectHalo >> addHandles [
 		];
 		dragAction: [:btn :xform | self target globalTranslation: xform translation]
 	).
-	self addChild: (SRRotationGizmo new scale: 0.25 asVector3).
+	rotationGizmo := SRRotationGizmo new
+		target: self target.
+	self addChild: rotationGizmo.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/17/2026 14:54'
+}
+SRDirectHalo >> step: deltatime [
+
+	rotationGizmo globalTranslation: self target globalTranslation
 ]
