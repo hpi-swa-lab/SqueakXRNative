@@ -7,6 +7,7 @@ Class {
 		'rotateAction',
 		'startPoint',
 		'lastPoint',
+		'grabberLocalPoint',
 		'angle'
 	],
 	#classVars : [
@@ -191,14 +192,14 @@ SRRotationHandle >> isGrabbed [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:19'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 13:28'
 }
 SRRotationHandle >> onGrabStarted: aHand [
 
 	| point |
 	point := aHand cursorPoint ifNil: [^self].
 	startPoint := self globalTransform globalPointToLocal: point.
-	lastPoint := startPoint.
+	grabberLocalPoint := aHand cursor grabbingTransform globalPointToLocal: point.
 	self grabAction ifNotNil: [:action |
 		action cull: self
 	]
@@ -257,13 +258,14 @@ SRRotationHandle >> step: deltaTime [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 14:10'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 13:46'
 }
 SRRotationHandle >> updateAngle [ 
 
-	self grabbingHand cursorPoint ifNotNil: [:point |
-		lastPoint := self globalTransform globalPointToLocal: point
-	].
+	| grabPoint  |
+	grabPoint := self grabbingHand cursor grabbingTransform localPointToGlobal: grabberLocalPoint.
+	self gizmoPainter gizmoPoint: grabPoint color: self color.
+	lastPoint := self globalTransform globalPointToLocal: (grabPoint onPlanePoint: self globalTranslation normal: self axis).
 	angle := startPoint angleTo: lastPoint axis: Vector3 forward.
 ]
 
