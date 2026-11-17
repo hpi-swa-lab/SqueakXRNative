@@ -60,6 +60,19 @@ SRAvatarMovementEmulatorTest >> testFlyingMovesTheAvatarAndNotTheCamera [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/17/2026 15:33'
+}
+SRAvatarMovementEmulatorTest >> testFlyingTurnsTheView [
+	| forwardBefore |
+	avatar locomotionEnabled: false.
+	forwardBefore := emulator forwardVector.
+	emulator turn: 1 deltaSeconds: 0.25.
+	self deny: (forwardBefore closeTo: emulator forwardVector).
+	self assert: 0 equals: avatar rightHand inputState joystick vector x.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarMovementEmulatorTest >> testStrafingRightGoesToThePlayersRight [
@@ -103,4 +116,19 @@ SRAvatarMovementEmulatorTest >> testWalkModeAsksTheStickInsteadOfMovingTheRig [
 	self assert: 1 equals: avatar leftHand inputState joystick vector x.
 	self assert: 1 equals: avatar leftHand inputState joystick vector y.
 	self assert: rigBefore equals: avatar translation.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/17/2026 15:33'
+}
+SRAvatarMovementEmulatorTest >> testWalkModeTurnsWithTheRightStick [
+	| rotationBefore |
+	avatar locomotionEnabled: true.
+	rotationBefore := avatar rotation.
+	emulator turn: 1 deltaSeconds: 1.0.
+	self assert: 1 equals: avatar rightHand inputState joystick vector x.
+	self assert: rotationBefore equals: avatar rotation.
+	emulator turn: 0 deltaSeconds: 1.0.
+	self assert: 0 equals: avatar rightHand inputState joystick vector x.
 ]

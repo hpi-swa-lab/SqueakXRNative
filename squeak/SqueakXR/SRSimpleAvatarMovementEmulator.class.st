@@ -66,6 +66,16 @@ SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
 ]
 
 {
+	#category : #movement,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/17/2026 15:33'
+}
+SRSimpleAvatarMovementEmulator >> driveStickTurn: turn [
+
+	avatar rightHand ifNotNil: [:hand |
+		hand inputState joystick horizontal: turn].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
@@ -186,8 +196,20 @@ SRSimpleAvatarMovementEmulator >> toggleLookMode [
 ]
 
 {
+	#category : #movement,
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/17/2026 15:33'
+}
+SRSimpleAvatarMovementEmulator >> turn: turn deltaSeconds: dt [
+
+	avatar ifNil: [^ self].
+	avatar locomotionEnabled ifTrue: [
+		^ self driveStickTurn: turn].
+	yaw := yaw + (turn * SRAvatar smoothTurnSpeed * dt).
+]
+
+{
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:15'
+	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/17/2026 15:33'
 }
 SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 	| input deltaSeconds held |
@@ -205,6 +227,9 @@ SRSimpleAvatarMovementEmulator >> update: deltaMillis [
 		moveStrafe: (held value: RlKeyboardKey keyD) - (held value: RlKeyboardKey keyA)
 		advance: (held value: RlKeyboardKey keyW) - (held value: RlKeyboardKey keyS)
 		lift: (held value: RlKeyboardKey keyLeftShift) - (held value: RlKeyboardKey keyLeftControl)
+		deltaSeconds: deltaSeconds.
+	self
+		turn: (held value: RlKeyboardKey keyE) - (held value: RlKeyboardKey keyQ)
 		deltaSeconds: deltaSeconds.
 	self isLooking ifTrue: [
 		self handleMouseDelta: input mouseDelta].
