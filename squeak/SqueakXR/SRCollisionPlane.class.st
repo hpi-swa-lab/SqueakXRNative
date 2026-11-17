@@ -180,13 +180,11 @@ SRCollisionPlane >> pointIntersection: aCollisionPoint [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 8/11/2026 14:22'
+	#'squeak_changestamp' : 'phkeese 11/17/2026 13:58'
 }
 SRCollisionPlane >> projected: aPoint [
-	| p2p dist |
-	p2p := aPoint - self point.
-	dist := self normal dot: p2p.
-	^ aPoint - (dist * self normal)
+	
+	^ aPoint onPlanePoint: self point normal: self normal
 ]
 
 {

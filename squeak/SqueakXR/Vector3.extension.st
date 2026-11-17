@@ -89,6 +89,19 @@ Vector3 class >> left [
 	^ self x: -1 y: 0 z: 0
 ]
 
+{
+	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'phkeese 11/17/2026 13:38'
+}
+Vector3 >> onPlanePoint: point normal: normal [
+
+	"Project this vector onto the plane given by point and normal."
+	| dist p2p |
+	p2p := self - point.
+	dist := normal dot: p2p.
+	^ self - (dist * normal)
+]
+
 { #category : #'*SqueakXR-helpers' }
 Vector3 class >> one [
 
