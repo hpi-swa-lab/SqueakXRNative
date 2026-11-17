@@ -70,6 +70,18 @@ extern "C" SqueakXrInput* initXrInput() {
         return nullptr;
     }
 
+    // Output structs must carry their type, strict runtimes (e.g. Virtual Desktop) validate it
+    xrInput.aimPoseState.fill({XR_TYPE_ACTION_STATE_POSE});
+    xrInput.triggerState.fill({XR_TYPE_ACTION_STATE_FLOAT});
+    xrInput.squeezeState.fill({XR_TYPE_ACTION_STATE_FLOAT});
+    xrInput.thumbstickXState.fill({XR_TYPE_ACTION_STATE_FLOAT});
+    xrInput.thumbstickYState.fill({XR_TYPE_ACTION_STATE_FLOAT});
+    xrInput.aPressState = {XR_TYPE_ACTION_STATE_BOOLEAN};
+    xrInput.bPressState = {XR_TYPE_ACTION_STATE_BOOLEAN};
+    xrInput.xPressState = {XR_TYPE_ACTION_STATE_BOOLEAN};
+    xrInput.yPressState = {XR_TYPE_ACTION_STATE_BOOLEAN};
+    xrInput.menuPressState = {XR_TYPE_ACTION_STATE_BOOLEAN};
+
     // Create Actions
     xrInput.handPaths = {createXrPath("/user/hand/left"), createXrPath("/user/hand/right")};
     #define LEFT_HAND_PATH xrInput.handPaths[0]
@@ -208,9 +220,7 @@ extern "C" SqueakXrActionStates pollActions() {
         actionStateGetInfo.action = xrInput.aimPoseAction;
         if (XR_FAILED(xrGetActionStatePose(session, &actionStateGetInfo, &xrInput.aimPoseState[i]))) {
             std::cerr << "Failed to get aim action state pose for " << fromXrPath(xrInput.handPaths[i]) << "\n";
-            continue;
-        }
-        if (xrInput.aimPoseState[i].isActive) {
+        } else if (xrInput.aimPoseState[i].isActive) {
             XrSpaceLocation spaceLocation {XR_TYPE_SPACE_LOCATION};
             if (XR_SUCCEEDED(xrLocateSpace(xrInput.aimPoseSpaces[i], rlGetPlaySpace(), time, &spaceLocation))) {
                 if (((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) != 0)
