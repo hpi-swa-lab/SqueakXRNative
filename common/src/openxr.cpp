@@ -50,11 +50,16 @@ struct SqueakXrInput {
     std::array<XrActionStateFloat, 2> thumbstickYState;
 };
 
-SqueakXrInput xrInput;
+SqueakXrInput xrInput {};
+bool xrInputReady = false;
+
+extern "C" void releaseXrInput();
 
 // Adapted from https://openxr-tutorial.com/android/opengles/4-actions.html#interactions
 extern "C" SqueakXrInput* initXrInput() {
     std::cout << "Initializing XR input\n";
+    // Handles from a previous session died with its XrInstance; never reuse them.
+    releaseXrInput();
     auto xrInstance = rlGetXRInstance();
     auto xrSession = rlGetXRSession();
 
@@ -180,6 +185,7 @@ extern "C" SqueakXrInput* initXrInput() {
         }
     }
 
+    xrInputReady = true;
     return &xrInput;
 }
 
@@ -199,6 +205,8 @@ struct SqueakXrActionStates {
 SqueakXrActionStates actionStates;
 
 extern "C" SqueakXrActionStates pollActions() {
+    if (!xrInputReady) return actionStates;
+
     const auto time = rlOpenXRGetTime(); // alternatively rlGetPredictedDisplayTime()
     const auto session = rlGetXRSession();
 
@@ -362,16 +370,15 @@ extern "C" bool initXrHandTracking() {
     const XrHandEXT hands[2] = {XR_HAND_LEFT_EXT, XR_HAND_RIGHT_EXT};
     XrHandJointLocationEXT *jointLocations[2] = {xrHandJoints.leftJointLocations, xrHandJoints.rightJointLocations};
     for (size_t i = 0; i < 2; ++i) {
-        if (xrHandTracker[i] == XR_NULL_HANDLE) {
-            XrHandTrackerCreateInfoEXT createInfo {
-                .type = XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT,
-                .hand = hands[i],
-                .handJointSet = XR_HAND_JOINT_SET_DEFAULT_EXT,
-            };
-            if (XR_FAILED(pfnCreateHandTrackerExt(xrSession, &createInfo, &xrHandTracker[i]))) {
-                std::cerr << "Failed to create hand tracker for " << fromXrPath(xrInput.handPaths[i]) << "\n";
-                return false;
-            }
+        XrHandTrackerCreateInfoEXT createInfo {
+            .type = XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT,
+            .hand = hands[i],
+            .handJointSet = XR_HAND_JOINT_SET_DEFAULT_EXT,
+        };
+        if (XR_FAILED(pfnCreateHandTrackerExt(xrSession, &createInfo, &xrHandTracker[i]))) {
+            std::cerr << "Failed to create hand tracker for " << fromXrPath(xrInput.handPaths[i]) << "\n";
+            xrHandTracker[0] = xrHandTracker[1] = XR_NULL_HANDLE;
+            return false;
         }
 
         xrHandJointLocations[i] = {
@@ -385,6 +392,8 @@ extern "C" bool initXrHandTracking() {
 }
 
 extern "C" SqueakXrHandJoints pollHandJoints() {
+    if (!xrInputReady || pfnLocateHandJoints == nullptr) return xrHandJoints;
+
     const auto time = rlOpenXRGetTime(); // alternatively rlGetPredictedDisplayTime()
 
     XrHandJointsLocateInfoEXT locateInfo {
@@ -394,7 +403,7 @@ extern "C" SqueakXrHandJoints pollHandJoints() {
     };
 
     for (size_t i = 0; i < 2; ++i) {
-        if (xrHandTracker[i] == XR_NULL_HANDLE || pfnLocateHandJoints == nullptr) continue;
+        if (xrHandTracker[i] == XR_NULL_HANDLE) continue;
 
         const auto result = pfnLocateHandJoints(xrHandTracker[i], &locateInfo, &xrHandJointLocations[i]);
         if (XR_FAILED(result)) {
@@ -403,4 +412,13 @@ extern "C" SqueakXrHandJoints pollHandJoints() {
     }
 
     return xrHandJoints;
+}
+
+// Forgets all handles without destroying them: xrDestroyInstance (rlOpenXRShutdown) already
+// destroyed them, and destroying stale handles is undefined behavior.
+extern "C" void releaseXrInput() {
+    xrInputReady = false;
+    xrInput = {};
+    xrHandTracker[0] = xrHandTracker[1] = XR_NULL_HANDLE;
+    pfnLocateHandJoints = nullptr;
 }

@@ -692,6 +692,15 @@ SRWorld >> camera [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/18/2026 17:01'
+}
+SRWorld >> cancelInterruptedFrame [
+
+	worldProcess isTerminated ifFalse: [worldProcess signalException: CancelFrame new]
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
 }
@@ -876,6 +885,15 @@ SRWorld >> handleKeyPress: charCode [
 SRWorld >> hasHolodeckFloor [
 
 	^ self class holodeckFloor
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:22'
+}
+SRWorld >> hasRunStartScript [
+
+	^ ranStartScript == true
 ]
 
 {
@@ -1270,7 +1288,7 @@ SRWorld >> renderer: aSRRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/21/2026 18:34'
+	#'squeak_changestamp' : 'leo 11/18/2026 17:01'
 }
 SRWorld >> resume [
 	
@@ -1278,7 +1296,11 @@ SRWorld >> resume [
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
-			self initializeWorldProcess].
+			self initializeWorldProcess.
+			shutDownWithoutQuitting ifTrue: [
+				"Process>>signalException: also resumes the process,
+				so XR must already be set up."
+				^ self cancelInterruptedFrame]].
 		worldProcess resume].
 ]
 
@@ -1499,17 +1521,14 @@ SRWorld >> startFullscreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/7/2026 00:09'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:45'
 }
 SRWorld >> startUp: resuming [
 
 	self log.
 	resuming ifTrue: [
-		shutDownWithoutQuitting ifTrue: [
-			self worldProcess ifNotNil: [:p |
-				p isTerminated ifFalse: [p signalException: CancelFrame new]]].
 		self invalidateCache.
-		needsSetup := resuming].
+		needsSetup := self isRunning].
 	self resume
 ]
 
@@ -1568,6 +1587,15 @@ SRWorld >> stopWorldAndLeaveProject [
 	self stopAndWait.
 	[project close]
 		valueSupplyingAnswers: #(#('Do you really want to delete*' true)).
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 11/18/2026 15:04'
+}
+SRWorld >> supportsHandTracking [
+
+	^ supportsHandTracking ifNil: [false]
 ]
 
 {

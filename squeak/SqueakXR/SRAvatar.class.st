@@ -351,13 +351,14 @@ SRAvatar >> contextMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 15:04'
+	#'squeak_changestamp' : 'leo 11/18/2026 16:58'
 }
 SRAvatar >> enableHandTracking [
 
-	trackedHands := {SRTrackedHand left. SRTrackedHand right}.
-	self addChildren: trackedHands.
-	^ trackedHands
+	^ trackedHands ifNil: [
+		trackedHands := {SRTrackedHand left. SRTrackedHand right}.
+		self addChildren: trackedHands.
+		trackedHands]
 ]
 
 {
