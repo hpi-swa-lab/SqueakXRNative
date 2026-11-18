@@ -43,10 +43,13 @@ SRTeleportPreview class >> validColor [
 
 {
 	#category : #displaying,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:40'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:37'
 }
 SRTeleportPreview >> hide [
-	self visible: false
+
+	self visible: false.
+	beads do: [:bead | bead visible: false].
+	marker visible: false
 ]
 
 {

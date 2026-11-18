@@ -67,6 +67,28 @@ SRAvatarTest >> tearDown [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:36'
+}
+SRAvatarTest >> testCancellingTheTeleportAimHidesTheWholePreviewWithoutTeleporting [
+
+	| avatar before ground |
+	avatar := SRAvatar new.
+	ground := SRPlane new scale: Vector3 one * 100; solid: true; yourself.
+	avatar teleportPreview showArc: (SRBallisticArc new
+		origin: 0 @ 1.6 @ 0 direction: 0 @ 0 @ -1;
+		castIn: ground;
+		yourself).
+	self assert: avatar teleportPreview landingPoint notNil.
+	before := avatar translation.
+	avatar cancelTeleportAim.
+	avatar commitTeleport.
+	self assert: before equals: avatar translation.
+	self deny: (avatar teleportPreview children anySatisfy: [:each | each visible]).
+	self assert: nil equals: avatar teleportPreview landingPoint.
+]
+
+{
 	#category : #'tests - locomotion',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
