@@ -18,27 +18,27 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/16/2026 13:35'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:37'
 }
 SRRotationHandle class >> grabbedInnerR [ 
-	^self innerR - (self grabbedWidth / 2)
+	^self innerR
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/16/2026 15:37'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:37'
 }
 SRRotationHandle class >> grabbedWidth [
-	^ self innerR 
+	^ self width
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/12/2026 17:50'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:37'
 }
 SRRotationHandle class >> innerR [
 
-	^ 1m
+	^ 70cm
 ]
 
 {
@@ -71,11 +71,11 @@ SRRotationHandle class >> meshSource [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/12/2026 17:49'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:37'
 }
 SRRotationHandle class >> width [
 	
-	^10cm
+	^40cm
 ]
 
 {
@@ -180,14 +180,6 @@ SRRotationHandle >> initialize [
 	meshObject := SRMeshObject withMesh: self class mesh.
 	meshObject scale: 1@1@0.
 	self addChild: meshObject.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/13/2026 13:56'
-}
-SRRotationHandle >> isGrabbed [
-	^ self grabbingHand notNil
 ]
 
 {

@@ -1017,6 +1017,14 @@ SRObject >> isGrabHandle [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:34'
+}
+SRObject >> isGrabbed [
+	^ self grabbingHand notNil
+]
+
+{
 	#category : #transforms,
 	#'squeak_changestamp' : 'phkeese 10/6/2026 10:51'
 }

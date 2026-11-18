@@ -2,10 +2,7 @@ Class {
 	#name : #SRRotationGizmo,
 	#superclass : #SRObject,
 	#instVars : [
-		'target',
-		'initialRotation',
-		'activeAxis',
-		'activeAngle'
+		'activeAxis'
 	],
 	#classVars : [
 		'Mesh'
@@ -38,49 +35,30 @@ SRRotationGizmo >> initialize [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:26'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:35'
+}
+SRRotationGizmo >> isGrabbed [ 
+
+	^ self children anySatisfy: [:c | c isGrabbed ]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:30'
 }
 SRRotationGizmo >> setRotation: angle [
 	
-	"Todo: apply rotation to our target."
-	Transcript showln: 'Angle = ', angle.
-	activeAngle := angle.
+	activeAxis ifNotNil: [:axis | | rot |
+		rot := Quaternion axis: axis angle: angle radiansToDegrees.
+		self globalRotation: self globalRotation * rot
+	]
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:27'
+	#'squeak_changestamp' : 'phkeese 11/18/2026 14:31'
 }
 SRRotationGizmo >> startRotatingAround: anAxis [
 	
-	"Todo: prepare roating our target object."
-	Transcript showln: 'Starting rotation around ', anAxis.
-	initialRotation := self rotation.
 	activeAxis := anAxis.
-	activeAngle := 0.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:26'
-}
-SRRotationGizmo >> step: deltaTime [
-
-	
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:14'
-}
-SRRotationGizmo >> target [
-	^ target
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 16:14'
-}
-SRRotationGizmo >> target: anObject [
-	target := anObject
 ]
