@@ -618,13 +618,14 @@ SRAvatar >> step: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:06'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:29'
 }
 SRAvatar >> stickMotionFor: aHand dt: dt [
 
 	| stick forward right flat |
 	self stickWalksThePlayer ifFalse: [^ nil].
 	aHand ifNil: [^ nil].
+	aHand isAimingAtMorphPanel ifTrue: [^ nil].
 	camera ifNil: [^ nil].
 	stick := aHand inputState joystick vector.
 	(stick x = 0 and: [stick y = 0]) ifTrue: [^ nil].

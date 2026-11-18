@@ -13,6 +13,15 @@ Class {
 }
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:29'
+}
+SRAvatarTest >> aim: aHand at: anObject [
+
+	aHand instVarNamed: #firstIntersection put: (SRIntersectionResult new object: anObject; yourself)
+]
+
+{
 	#category : #building,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
@@ -120,6 +129,23 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 		stickMotion: nil
 		dt: 0.05.
 	self assert: correction length equals: 0.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+}
+SRAvatarTest >> testLeftStickScrollsInsteadOfWalkingWhileAimingAtAMorphPanel [
+
+	| avatar |
+	avatar := SRAvatar new.
+	SRAvatar locomotionStyle: #continuous.
+	avatar leftHand inputState joystick vertical: 1.
+	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
+	self aim: avatar leftHand at: (SRMorphPanel new children detect: [:each | each isKindOf: SRPlane]).
+	self assert: nil equals: (avatar stickMotionFor: avatar leftHand dt: 0.1).
+	self aim: avatar leftHand at: SRObject new.
+	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
 ]
 
 {

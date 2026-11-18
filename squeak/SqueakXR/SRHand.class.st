@@ -486,6 +486,17 @@ SRHand >> inputState [
 	^ inputState
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+}
+SRHand >> isAimingAtMorphPanel [
+
+	^ self cursorTarget
+		ifNil: [false]
+		ifNotNil: [:target | target ancestorChain anySatisfy: [:each | each isMorphPanel]]
+]
+
 { #category : #testing }
 SRHand >> isLeft [
 
