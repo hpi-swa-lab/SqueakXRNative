@@ -204,16 +204,16 @@ SRDesktopInputState >> keyStateFor: aKeyCode [
 
 {
 	#category : #'querying-modifiers',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'leo 11/18/2026 14:20'
 }
 SRDesktopInputState >> morphicModifierBits [
 
 	| bits |
 	bits := 0.
 	self isShiftDown ifTrue: [bits := bits bitOr: 2r0001].
-	self isControlDown ifTrue: [bits := bits bitOr: 2r0010].
+	self isAltDown ifTrue: [bits := bits bitOr: 2r0010].
 	self isSuperDown ifTrue: [bits := bits bitOr: 2r0100].
-	self isAltDown ifTrue: [bits := bits bitOr: 2r1000].
+	self isControlDown ifTrue: [bits := bits bitOr: 2r1000].
 	^ bits bitShift: MouseEvent numButtons
 ]
 
