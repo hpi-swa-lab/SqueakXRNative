@@ -468,6 +468,16 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #hierarchy,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:16'
+}
+SRMorphPanel >> onMorphicWorldEntered [
+
+	super onMorphicWorldEntered.
+	self detachMorph; remountMorph
+]
+
+{
+	#category : #hierarchy,
 	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
 }
 SRMorphPanel >> onWorldChanged: oldWorld [
@@ -569,7 +579,7 @@ SRMorphPanel >> pixelsPerMeter [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:16'
 }
 SRMorphPanel >> remountMorph [
 

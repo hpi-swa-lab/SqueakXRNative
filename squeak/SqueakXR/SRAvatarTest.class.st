@@ -13,6 +13,15 @@ Class {
 }
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:29'
+}
+SRAvatarTest >> aim: aHand at: anObject [
+
+	aHand instVarNamed: #firstIntersection put: (SRIntersectionResult new object: anObject; yourself)
+]
+
+{
 	#category : #building,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
@@ -55,6 +64,28 @@ SRAvatarTest >> tearDown [
 	SRAvatar classPool at: #ContinuousLocomotion put: savedLocomotionStyle.
 	SRAvatar classPool at: #WalkSpeed put: savedWalkSpeed.
 	super tearDown.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:36'
+}
+SRAvatarTest >> testCancellingTheTeleportAimHidesTheWholePreviewWithoutTeleporting [
+
+	| avatar before ground |
+	avatar := SRAvatar new.
+	ground := SRPlane new scale: Vector3 one * 100; solid: true; yourself.
+	avatar teleportPreview showArc: (SRBallisticArc new
+		origin: 0 @ 1.6 @ 0 direction: 0 @ 0 @ -1;
+		castIn: ground;
+		yourself).
+	self assert: avatar teleportPreview landingPoint notNil.
+	before := avatar translation.
+	avatar cancelTeleportAim.
+	avatar commitTeleport.
+	self assert: before equals: avatar translation.
+	self deny: (avatar teleportPreview children anySatisfy: [:each | each visible]).
+	self assert: nil equals: avatar teleportPreview landingPoint.
 ]
 
 {
@@ -120,6 +151,23 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 		stickMotion: nil
 		dt: 0.05.
 	self assert: correction length equals: 0.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+}
+SRAvatarTest >> testLeftStickScrollsInsteadOfWalkingWhileAimingAtAMorphPanel [
+
+	| avatar |
+	avatar := SRAvatar new.
+	SRAvatar locomotionStyle: #continuous.
+	avatar leftHand inputState joystick vertical: 1.
+	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
+	self aim: avatar leftHand at: (SRMorphPanel new children detect: [:each | each isKindOf: SRPlane]).
+	self assert: nil equals: (avatar stickMotionFor: avatar leftHand dt: 0.1).
+	self aim: avatar leftHand at: SRObject new.
+	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
 ]
 
 {

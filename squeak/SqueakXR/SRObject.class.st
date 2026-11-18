@@ -1371,6 +1371,14 @@ SRObject >> onGrabStarted: aHand [
 SRObject >> onGrabStopped: aHand [
 ]
 
+{
+	#category : #events,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRObject >> onMorphicWorldEntered [
+
+]
+
 { #category : #events }
 SRObject >> onRaycast: aSRRayIntersectionResult [
 

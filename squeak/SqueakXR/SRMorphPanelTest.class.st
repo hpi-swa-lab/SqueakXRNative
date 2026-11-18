@@ -10,6 +10,17 @@ Class {
 }
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRMorphPanelTest >> enterNewMorphicProject [
+
+	xrWorld project: SRDummyMorphicProject new.
+	morphicWorld := xrWorld morphicWorld.
+	xrWorld morphicProjectEntered
+]
+
+{
 	#category : #helpers,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
 }
@@ -57,6 +68,39 @@ SRMorphPanelTest >> tearDown [
 	morphicWorld ifNotNil: [morphicWorld submorphs do: [:each | each delete]].
 	SRWorld current: previousXRWorld.
 	super tearDown
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRMorphPanelTest >> testEnteringNewMorphicProjectKeepsMorphAlreadyThere [
+
+	| window |
+	window := self openWindowInMorphic.
+
+	xrWorld morphicProjectEntered.
+
+	self assert: (morphicWorld submorphs select: [:each | each == window]) size = 1.
+	self assert: self panels size = 1
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRMorphPanelTest >> testEnteringNewMorphicProjectMovesPanelMorphThere [
+
+	| window panel |
+	window := self openWindowInMorphic.
+	panel := self panels first.
+
+	self enterNewMorphicProject.
+
+	self assert: window owner == morphicWorld.
+	self assert: panel morph == window.
+	self assert: panel world == xrWorld.
+	self assert: self panels size = 1
 ]
 
 {
@@ -162,6 +206,21 @@ SRMorphPanelTest >> testRemovingAncestorDetachesNestedPanelMorph [
 	self assert: panel morph == window.
 	self assert: panel detachedMorph isNil.
 	self assert: (morphicWorld submorphs includes: window)
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRMorphPanelTest >> testRemovingMorphFromStaleMorphicWorldKeepsPanel [
+
+	| window |
+	window := self openWindowInMorphic.
+	xrWorld project: SRDummyMorphicProject new.
+
+	window delete.
+
+	self assert: self panels size = 1
 ]
 
 {

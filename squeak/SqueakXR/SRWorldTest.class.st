@@ -39,6 +39,15 @@ SRWorldTest >> tearDown [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:22'
+}
+SRWorldTest >> testANewWorldHasNotRunItsStartScript [
+
+	self deny: world hasRunStartScript
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 9/25/2026 13:17'
 }
 SRWorldTest >> testDeferredActionIsRefusedWhileNotRunning [
@@ -166,6 +175,23 @@ SRWorldTest >> testTheHolodeckPlatformIsAFloorEveryLocomotionCanUse [
 		yourself.
 	self assert: arc hit notNil.
 	self assert: arc hit point y abs < 0.05.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:22'
+}
+SRWorldTest >> testTheStartScriptRunsOnlyOnce [
+
+	| savedRunInFlat |
+	savedRunInFlat := SRWorld classPool at: #RunStartScriptInFlat.
+	[SRWorld runStartScriptInFlat: false.
+	world runStartScriptOnce.
+	SRWorld runStartScriptInFlat: true.
+	world runStartScriptOnce.
+	self assert: world hasRunStartScript.
+	self deny: (world children anySatisfy: [:each | each isMorphPanel])]
+		ensure: [SRWorld classPool at: #RunStartScriptInFlat put: savedRunInFlat]
 ]
 
 {

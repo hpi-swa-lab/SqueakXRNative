@@ -72,12 +72,13 @@ SRPasteUpMorph >> morphToGrab: event [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/29/2026 10:04'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
 SRPasteUpMorph >> removedMorph: aMorph [
 
 	| world |
 	world := self currentXRWorld ifNil: [^ self].
+	world morphicWorld == self ifFalse: [^ self].
 	aMorph isInMorphPanel ifTrue: [
 		world allDescendantsSelect: [:obj |
 				obj isMorphPanel and: [obj morph = aMorph]]

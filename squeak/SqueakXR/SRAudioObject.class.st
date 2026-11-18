@@ -94,7 +94,7 @@ SRAudioObject class >> ensureOpenAL [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/5/2026 15:31'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:42'
 }
 SRAudioObject class >> initialize [
 

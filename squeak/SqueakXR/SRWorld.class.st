@@ -786,7 +786,7 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/9/2026 18:07'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
 SRWorld >> enterMorphicProject [
 
@@ -799,6 +799,7 @@ SRWorld >> enterMorphicProject [
 			revert: false
 			saveForRevert: false].
 	project waitForStart.
+	self morphicProjectEntered.
 	
 	stopButton := (SimpleButtonMorph newWithLabel: 'Stop')
 		target: self;
@@ -905,7 +906,7 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 11/9/2026 15:56'
+	#'squeak_changestamp' : 'leo 11/18/2026 17:02'
 }
 SRWorld >> initialize [
 
@@ -914,6 +915,7 @@ SRWorld >> initialize [
 	running := false.
 	needsSetup := false.
 	isFramePrepared := false.
+	ranStartScript := false.
 	
 	gizmoPainter := SRGizmoPainter new.
 	self addChild: gizmoPainter.
@@ -1107,6 +1109,15 @@ SRWorld >> maybeStartMCPServer [
 		do: [:e |
 			self log: 'MCP server failed to start: ', e messageText.
 			nil]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRWorld >> morphicProjectEntered [
+
+	self allDo: #onMorphicWorldEntered
 ]
 
 {
@@ -1398,6 +1409,17 @@ SRWorld >> runStartScript [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:22'
+}
+SRWorld >> runStartScriptOnce [
+
+	self hasRunStartScript ifTrue: [^ self].
+	ranStartScript := true.
+	self runStartScript
+]
+
+{
 	#category : #'frame buffers',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
@@ -1436,7 +1458,7 @@ SRWorld >> spawnNewWorldProcess [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:45'
 }
 SRWorld >> start [
 
@@ -1452,7 +1474,7 @@ SRWorld >> start [
 		self adjustPreferences;
 			initializeWorldProcess;
 			enterMorphicProject;
-			runStartScript.
+			runStartScriptOnce.
 		self isXR ifFalse: [
 			(self allDescendantsAnySatisfy: [:obj | obj isXRInputEmulator]) ifFalse: [
 				self addChild: SRXRInputEmulator new]].
@@ -1460,6 +1482,7 @@ SRWorld >> start [
 		self log: 'starting process'.
 		self runLoop]).
 	
+	needsSetup := false.
 	self isRunning: true.
 	self resume.
 ]
