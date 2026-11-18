@@ -7,7 +7,8 @@ Class {
 		'texture',
 		'lastClickPosition',
 		'detachedMorph',
-		'resizers'
+		'resizers',
+		'alignmentTween'
 	],
 	#classVars : [
 		'Mesh',
@@ -15,6 +16,33 @@ Class {
 	],
 	#category : #'SqueakXR-Morphic'
 }
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel class >> alignedCosine [
+
+	^ 0.05 degreesToRadians cos
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel class >> alignmentDuration [
+
+	^ 400 milliSeconds
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel class >> cylinderHeight [
+
+	^ 75cm
+]
 
 {
 	#category : #'as yet unclassified',
@@ -176,6 +204,58 @@ SRMorphPanel >> addResizerAt: aCornerSymbol [
 }
 SRMorphPanel >> addResizers [
 	^ SRResizer corners collect: [:each | self addResizerAt: each]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> alignToCamera [
+
+	self world ifNotNil: [:aWorld | self alignTowards: aWorld camera globalTranslation]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:39'
+}
+SRMorphPanel >> alignTowards: aPoint [
+
+	| delta target |
+	delta := self globalRotation inverse * (self alignedRotationFor: aPoint).
+	delta a abs >= self class alignedCosine ifTrue: [^ self].
+	target := self grabTarget.
+	self alignmentTween
+		from: target globalRotation to: target globalRotation * delta;
+		target: (MessageSend receiver: target selector: #globalRotation:);
+		start
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel >> alignedRotationFor: aPoint [
+
+	^ (self isNearCameraHeight: aPoint)
+		ifTrue: [self rotationFacingAxisThrough: aPoint]
+		ifFalse: [self rotationFacing: aPoint]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:33'
+}
+SRMorphPanel >> alignmentTween [
+
+	^ alignmentTween ifNil: [
+		alignmentTween := SRTween new
+			duration: self class alignmentDuration;
+			transitionCubic;
+			easeOut;
+			yourself.
+		self addChild: alignmentTween.
+		alignmentTween]
 ]
 
 {
@@ -345,6 +425,15 @@ SRMorphPanel >> isMorphPanel [
 ]
 
 {
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel >> isNearCameraHeight: aPoint [
+
+	^ ((self globalTranslation - aPoint) dot: Vector3 up) abs <= self class cylinderHeight
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
 }
@@ -464,6 +553,26 @@ SRMorphPanel >> onCacheInvalidated [
 	super onCacheInvalidated.
 
 	self fullTextureUpdate.
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> onGrabStarted: aHand [
+
+	super onGrabStarted: aHand.
+	self stopAligning
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> onGrabStopped: aHand [
+
+	super onGrabStopped: aHand.
+	self alignToCamera
 ]
 
 {
@@ -635,6 +744,15 @@ SRMorphPanel >> resizers [
 }
 SRMorphPanel >> snapResizers [
 	self resizers do: [:each | each snapToCorner]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> stopAligning [
+
+	alignmentTween ifNotNil: [:tween | tween stop]
 ]
 
 {

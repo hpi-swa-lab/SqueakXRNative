@@ -9,6 +9,31 @@ Class {
 }
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:55'
+}
+SRCube class >> color: aColor from: start to: end thickness: aNumber [
+
+	^ (self color: aColor size: 1 asVector3 at: start)
+		beamFrom: start to: end thickness: aNumber;
+		yourself
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:55'
+}
+SRCube class >> color: aColor size: aVector3 at: aPosition [
+
+	^ self new
+		color: aColor;
+		scale: aVector3;
+		translation: aPosition;
+		ignoreCollision: true;
+		yourself
+]
+
+{
 	#category : #'xr menu',
 	#'squeak_changestamp' : 'MCPServer 8/3/2026 13:35'
 }
@@ -21,6 +46,21 @@ SRCube class >> xrMenuSpawn: aMenu [
 		yourself.
 	aMenu world addChild: cube.
 	^ cube
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:55'
+}
+SRCube >> beamFrom: start to: end thickness: aNumber [
+
+	| direction up |
+	direction := (end - start) normalized.
+	up := (direction cross: Vector3 right) length < 0.01
+		ifTrue: [Vector3 up]
+		ifFalse: [Vector3 right].
+	self localTransform: (Matrix4x4 objectLookAt: end from: start + end / 2 up: up)
+		* (Matrix4x4 withScale: aNumber @ aNumber @ (start distanceTo: end))
 ]
 
 {

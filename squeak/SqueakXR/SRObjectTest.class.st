@@ -10,6 +10,27 @@ SRObjectTest >> assertMatrix: aMatrix4x4 equals: aMatrixCollection [
 	self assert: aMatrix4x4 = (Matrix4x4 newFrom: aMatrixCollection)
 ]
 
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SRObjectTest >> assertVector: aVector closeTo: anotherVector [
+
+	self assert: (aVector - anotherVector) length < 0.001
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SRObjectTest >> objectAt: aPosition rotated: aQuaternion [
+
+	^ SRObject new
+		globalTranslation: aPosition;
+		globalRotation: aQuaternion;
+		yourself
+]
+
 { #category : #'tests - children' }
 SRObjectTest >> testAddChild [
 
@@ -548,6 +569,73 @@ SRObjectTest >> testReparentingInsideWorldDoesNotNotifyWorldChanged [
 
 	self assert: mock parent == o2.
 	self assert: mock onWorldChangedCount = 1
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRObjectTest >> testRotationFacingAxisThroughLooksHorizontallyAtTheAxis [
+
+	| object |
+	object := self objectAt: 1m @ 0.5m @ -2m rotated: (Quaternion angle: 40 axis: Vector3 forward).
+	object globalRotation: (object rotationFacingAxisThrough: 0 @ 1.6m @ 0).
+	self assertVector: object forward closeTo: (-1 @ 0 @ 2) normalized.
+	self assertVector: object up closeTo: Vector3 up
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRObjectTest >> testRotationFacingAxisThroughOnTheAxisStraightensUp [
+
+	| object |
+	object := self objectAt: 0 @ 3m @ 0 rotated: (Quaternion angle: 40 axis: Vector3 forward).
+	object globalRotation: (object rotationFacingAxisThrough: 0 @ 1.6m @ 0).
+	self assertVector: object forward closeTo: Vector3 forward.
+	self assertVector: object up closeTo: Vector3 up
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SRObjectTest >> testRotationFacingFromAboveKeepsTheCurrentUp [
+
+	| object |
+	object := self objectAt: 0 @ 3m @ 0 rotated: (Quaternion angle: 20 axis: Vector3 right).
+	object globalRotation: (object rotationFacing: 0 @ 1m @ 0).
+	self assertVector: object forward closeTo: Vector3 down.
+	self assertVector: object up closeTo: Vector3 backward
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SRObjectTest >> testRotationFacingItsOwnPositionKeepsTheFacing [
+
+	| object facing |
+	object := self objectAt: 0 @ 1m @ 0 rotated: (Quaternion angle: 30 axis: Vector3 up).
+	facing := object forward.
+	object globalRotation: (object rotationFacing: 0 @ 1m @ 0).
+	self assertVector: object forward closeTo: facing
+]
+
+{
+	#category : #'tests - transforms',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SRObjectTest >> testRotationFacingLooksAtThePointWithoutRoll [
+
+	| object camera |
+	camera := 0 @ 1.6m @ 0.
+	object := self objectAt: 1m @ 0.5m @ -2m rotated: (Quaternion angle: 40 axis: Vector3 forward).
+	object globalRotation: (object rotationFacing: camera).
+	self assertVector: object forward closeTo: (camera - object globalTranslation) normalized.
+	self assert: (object right y closeTo: 0).
+	self assert: object up y > 0
 ]
 
 {
