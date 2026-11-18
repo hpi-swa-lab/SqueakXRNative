@@ -242,6 +242,16 @@ SRMorphPanel >> getClickPoint: anEvent [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 15:10'
+}
+SRMorphPanel >> grabTarget: anObject [
+
+	super grabTarget: anObject.
+	plane ifNotNil: [plane grabTarget: self grabTarget].
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 5/29/2026 14:29'
 }

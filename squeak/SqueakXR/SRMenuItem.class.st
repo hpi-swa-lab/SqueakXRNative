@@ -114,12 +114,13 @@ SRMenuItem >> collisionGeometry [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:36'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 15:10'
 }
 SRMenuItem >> grabTarget [
-	"A row is not something you can move on its own, so grabbing one drags the menu."
 
-	^ self menu ifNil: [super grabTarget].
+	^ self menu
+		ifNil: [super grabTarget]
+		ifNotNil: [:aMenu | aMenu grabTarget]
 ]
 
 {

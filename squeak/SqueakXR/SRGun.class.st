@@ -292,7 +292,7 @@ SRGun >> spawnBullet [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/29/2026 13:37'
+	#'squeak_changestamp' : 'leo 11/18/2026 11:30'
 }
 SRGun >> step: deltaTime [
 
