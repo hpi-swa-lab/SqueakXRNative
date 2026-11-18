@@ -786,7 +786,7 @@ SRWorld >> doOneCycle [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/9/2026 18:07'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
 SRWorld >> enterMorphicProject [
 
@@ -799,6 +799,7 @@ SRWorld >> enterMorphicProject [
 			revert: false
 			saveForRevert: false].
 	project waitForStart.
+	self morphicProjectEntered.
 	
 	stopButton := (SimpleButtonMorph newWithLabel: 'Stop')
 		target: self;
@@ -1107,6 +1108,15 @@ SRWorld >> maybeStartMCPServer [
 		do: [:e |
 			self log: 'MCP server failed to start: ', e messageText.
 			nil]
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
+}
+SRWorld >> morphicProjectEntered [
+
+	self allDo: #onMorphicWorldEntered
 ]
 
 {
