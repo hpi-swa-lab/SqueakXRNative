@@ -34,6 +34,14 @@ SRMorphPanelTest >> openWindowInMorphic [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+}
+SRMorphPanelTest >> panelOf: aMorph [
+	^ self panels detect: [:each | each morph == aMorph]
+]
+
+{
 	#category : #helpers,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
 }
@@ -68,6 +76,141 @@ SRMorphPanelTest >> tearDown [
 	morphicWorld ifNotNil: [morphicWorld submorphs do: [:each | each delete]].
 	SRWorld current: previousXRWorld.
 	super tearDown
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:51'
+}
+SRMorphPanelTest >> testAClickElsewhereDismissesAPopUpMenu [
+	| menu sticky |
+	menu := MenuMorph new.
+	menu add: 'one' action: #yourself.
+	sticky := MenuMorph new.
+	sticky add: 'two' action: #yourself; stayUp: true.
+	morphicWorld addMorphFront: menu; addMorphFront: sticky.
+	morphicWorld dismissPopUpMenusExcept: menu.
+	self assert: menu owner == morphicWorld.
+	morphicWorld dismissPopUpMenusExcept: nil.
+	self
+		assert: menu owner isNil;
+		assert: sticky owner == morphicWorld.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:51'
+}
+SRMorphPanelTest >> testAClickInACascadeKeepsTheWholeCascade [
+	| parent item sub other |
+	parent := MenuMorph new.
+	parent add: 'more' action: #yourself.
+	item := parent items first.
+	sub := MenuMorph new.
+	sub add: 'leaf' action: #yourself; popUpOwner: item.
+	other := MenuMorph new.
+	other add: 'elsewhere' action: #yourself.
+	morphicWorld addMorphFront: parent; addMorphFront: sub; addMorphFront: other.
+	morphicWorld dismissPopUpMenusExcept: parent.
+	self
+		assert: parent owner == morphicWorld;
+		assert: sub owner == morphicWorld;
+		assert: other owner isNil.
+	morphicWorld dismissPopUpMenusExcept: nil.
+	self
+		assert: parent owner isNil;
+		assert: sub owner isNil.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+}
+SRMorphPanelTest >> testAPopUpMenuOpensAtTheClickingHand [
+	| hand menu |
+	hand := xrWorld avatar rightHand.
+	menu := MenuMorph new.
+	menu add: 'one' action: #yourself.
+	SRClickingHandVariable value: hand during: [morphicWorld addMorphFront: menu].
+	self assert: ((self panelOf: menu) globalTranslation
+		- (xrWorld avatar menuPlacementPositionForHand: hand)) length < 1mm.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+}
+SRMorphPanelTest >> testASubmenuOpensBesideItsParent [
+	| parent sub parentPanel subPanel seam |
+	parent := MenuMorph new.
+	parent add: 'more' action: #yourself.
+	SRClickingHandVariable value: xrWorld avatar rightHand during: [
+		morphicWorld addMorphFront: parent].
+	sub := MenuMorph new.
+	sub add: 'leaf' action: #yourself; popUpOwner: parent items first.
+	sub position: parent topRight.
+	morphicWorld addMorphFront: sub.
+	parentPanel := self panelOf: parent.
+	subPanel := self panelOf: sub.
+	seam := (subPanel globalPointForMorphPoint: sub leftCenter)
+		- (parentPanel globalPointForMorphPoint: parent rightCenter).
+	self
+		assert: ((seam - (parentPanel forward * 5mm)) length) < 1mm;
+		assert: ((subPanel forward - parentPanel forward) length) < 0.001.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+}
+SRMorphPanelTest >> testAWindowOpenedByAClickKeepsItsDistance [
+	| camera window |
+	camera := xrWorld camera.
+	window := SystemWindow new.
+	SRClickingHandVariable value: xrWorld avatar rightHand during: [
+		morphicWorld addMorphFront: window].
+	self assert: (((self panelOf: window) globalTranslation
+		- camera globalTranslation) length - 1.6m) abs < 1mm.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+}
+SRMorphPanelTest >> testArrowKeysReachTheMenuHoldingTheKeyboardFocus [
+	| window menu event |
+	window := self openWindowInMorphic.
+	menu := MenuMorph new.
+	menu add: 'one' action: #yourself; add: 'two' action: #yourself.
+	morphicWorld addMorphFront: menu.
+	morphicWorld primaryHand newKeyboardFocus: menu.
+	event := KeyboardEvent new
+		setType: #keystroke
+		buttons: 0
+		position: window center
+		keyValue: Character arrowDown asInteger
+		keyCode: Character arrowDown asInteger
+		hand: morphicWorld primaryHand
+		stamp: 0.
+	(self panelOf: window) deliverKeyboardEvent: event.
+	self assert: menu selectedItem notNil.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:46'
+}
+SRMorphPanelTest >> testControlClickIsTheRightClick [
+	| panel trigger other |
+	panel := SRMorphPanel new.
+	trigger := SRInputEventButton new button: #trigger; pressed: true; yourself.
+	other := SRInputEventButton new button: #squeeze; pressed: true; yourself.
+	self
+		assert: MouseButtonEvent redButton
+			equals: (panel morphicButtonFor: trigger controlDown: false);
+		assert: MouseButtonEvent yellowButton
+			equals: (panel morphicButtonFor: trigger controlDown: true);
+		assert: (panel morphicButtonFor: other controlDown: true) isNil.
 ]
 
 {
@@ -110,6 +253,46 @@ SRMorphPanelTest >> testEnteringNewMorphicProjectMovesPanelMorphThere [
 SRMorphPanelTest >> testEveryPanelHasItsResizers [
 
 	self assert: SRMorphPanel new resizers size equals: SRResizer corners size.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+}
+SRMorphPanelTest >> testHoveringAMenuItemSelectsIt [
+	| menu panel item |
+	menu := MenuMorph new.
+	menu add: 'one' action: #yourself; add: 'two' action: #yourself.
+	morphicWorld addMorphFront: menu.
+	menu fullBounds.
+	panel := self panelOf: menu.
+	item := menu items second.
+	panel hoverAt: item center.
+	self assert: menu selectedItem == item.
+	panel hoverAt: menu items first center.
+	self assert: menu selectedItem == menu items first.
+	panel hoverAt: nil.
+	self assert: (panel instVarNamed: 'hoveredMorphs') isEmpty.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:13'
+}
+SRMorphPanelTest >> testHoveringAnItemWithASubmenuOpensItBesideTheMenu [
+	| menu sub |
+	sub := MenuMorph new.
+	sub add: 'leaf' action: #yourself.
+	"Never displayed, so it has no view box for Squeak to fit the submenu into."
+	morphicWorld viewBox: (0 @ 0 extent: 1600 @ 1200).
+	menu := MenuMorph new.
+	menu add: 'more' subMenu: sub.
+	morphicWorld addMorphFront: menu.
+	menu fullBounds.
+	(self panelOf: menu) hoverAt: menu items first center.
+	self
+		assert: sub owner == morphicWorld;
+		assert: (self panels anySatisfy: [:each | each morph == sub]).
 ]
 
 {

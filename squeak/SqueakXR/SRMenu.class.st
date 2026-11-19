@@ -581,3 +581,12 @@ SRMenu >> travelsWithAvatar [
 
 	^ true
 ]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 17:15'
+}
+SRMenu >> wantsGrab [
+
+	^ true
+]

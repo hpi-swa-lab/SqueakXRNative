@@ -33,8 +33,25 @@ SRSendInputAction >> buttonEventPressed: aBool for: aButton [
 ]
 
 {
+	#category : #private,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:51'
+}
+SRSendInputAction >> dismissPopUpMenusFor: target [
+	"Deferred, so it runs before the click the panel defers after it."
+	| morphicWorld clicked |
+	morphicWorld := self hand world ifNotNil: [:world | world morphicWorld].
+	(morphicWorld respondsTo: #dismissPopUpMenusExcept:) ifFalse: [^ self].
+	clicked := target ifNotNil: [
+		(target ancestorChain
+			detect: [:each | each isMorphPanel]
+			ifNone: [nil]) ifNotNil: [:panel | panel morph]].
+	Project current addDeferredUIMessage: [
+		morphicWorld dismissPopUpMenusExcept: clicked]
+]
+
+{
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:51'
 }
 SRSendInputAction >> run: inputState [ 
 
@@ -45,6 +62,7 @@ SRSendInputAction >> run: inputState [
 	point := self hand cursorPoint.
 	
 	self sendEnterEventsTo: target at: point.
+	inputState trigger isJustPressed ifTrue: [self dismissPopUpMenusFor: target].
 	target ifNil: [ ^ true ].
 	
 	events := OrderedCollection new.

@@ -313,13 +313,14 @@ SRMenuTest >> testGrabbedSubmenuKeepsPickingWithoutClosing [
 
 {
 	#category : #'tests - sticky',
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:38'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 17:15'
 }
 SRMenuTest >> testGrabbingARowGrabsTheMenu [
 	| menu row |
 	menu := self menuUnder: #(demo).
 	row := self rowOf: menu labelled: 'Alpha'.
 	self assert: menu == row grabTarget.
+	self assert: row grabTarget canGrab.
 ]
 
 {
