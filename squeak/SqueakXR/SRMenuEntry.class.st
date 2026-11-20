@@ -47,11 +47,22 @@ SRMenuEntry >> action [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:13'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 10:44'
 }
 SRMenuEntry >> activateIn: aMenu target: anObjectOrNil [
-	action isSymbol ifFalse: [^ action value].
-	^ provider perform: action withEnoughArguments: {aMenu. anObjectOrNil}
+	^ self activateIn: aMenu target: anObjectOrNil item: nil
+]
+
+{
+	#category : #building,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 10:44'
+}
+SRMenuEntry >> activateIn: aMenu target: anObjectOrNil item: anItemOrNil [
+	"anItemOrNil is the picked row, for actions that open a submenu beside it."
+	| arguments |
+	arguments := {aMenu. anObjectOrNil. anItemOrNil}.
+	action isSymbol ifFalse: [^ action valueWithEnoughArguments: arguments].
+	^ provider perform: action withEnoughArguments: arguments
 ]
 
 {

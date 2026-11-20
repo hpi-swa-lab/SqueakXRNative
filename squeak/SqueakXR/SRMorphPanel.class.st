@@ -7,7 +7,11 @@ Class {
 		'texture',
 		'lastClickPosition',
 		'detachedMorph',
-		'resizers'
+		'resizers',
+		'alignmentTween',
+		'hoveredMorphs',
+		'lastHoverPoint',
+		'pressedButton'
 	],
 	#classVars : [
 		'Mesh',
@@ -15,6 +19,33 @@ Class {
 	],
 	#category : #'SqueakXR-Morphic'
 }
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel class >> alignedCosine [
+
+	^ 0.05 degreesToRadians cos
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel class >> alignmentDuration [
+
+	^ 400 milliSeconds
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel class >> cylinderHeight [
+
+	^ 75cm
+]
 
 {
 	#category : #'as yet unclassified',
@@ -143,6 +174,15 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanel >> acceptsRightClickAt: aVector [
+
+	^ self morph notNil and: [self morph bounds containsPoint: (self morphPointForGlobalPoint: aVector)]
+]
+
+{
 	#category : #menu,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
 }
@@ -176,6 +216,72 @@ SRMorphPanel >> addResizerAt: aCornerSymbol [
 }
 SRMorphPanel >> addResizers [
 	^ SRResizer corners collect: [:each | self addResizerAt: each]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> alignToCamera [
+
+	self world ifNotNil: [:aWorld | self alignTowards: aWorld camera globalTranslation]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:39'
+}
+SRMorphPanel >> alignTowards: aPoint [
+
+	| delta target |
+	delta := self globalRotation inverse * (self alignedRotationFor: aPoint).
+	delta a abs >= self class alignedCosine ifTrue: [^ self].
+	target := self grabTarget.
+	self alignmentTween
+		from: target globalRotation to: target globalRotation * delta;
+		target: (MessageSend receiver: target selector: #globalRotation:);
+		start
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel >> alignedRotationFor: aPoint [
+
+	^ (self isNearCameraHeight: aPoint)
+		ifTrue: [self rotationFacingAxisThrough: aPoint]
+		ifFalse: [self rotationFacing: aPoint]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:33'
+}
+SRMorphPanel >> alignmentTween [
+
+	^ alignmentTween ifNil: [
+		alignmentTween := SRTween new
+			duration: self class alignmentDuration;
+			transitionCubic;
+			easeOut;
+			yourself.
+		self addChild: alignmentTween.
+		alignmentTween]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+}
+SRMorphPanel >> deliverKeyboardEvent: anEvent [
+	"A pop-up menu takes the hand's keyboard focus to be steered with the arrow
+	keys, but XR keys arrive at the panel that was clicked."
+	| hand |
+	hand := self morph world ifNotNil: [:w | w primaryHand].
+	(hand notNil and: [hand keyboardFocus isKindOf: MenuMorph])
+		ifTrue: [^ hand sendKeyboardEvent: anEvent].
+	self morph processEvent: anEvent
 ]
 
 {
@@ -231,14 +337,21 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:19'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
 }
 SRMorphPanel >> getClickPoint: anEvent [
 
-	| normalizedPoint point |
-	point := plane globalTransform globalPointToLocal: anEvent point.
-	normalizedPoint := point xz asPoint + 0.5 asPoint.
-	^ (normalizedPoint * (self morph extent)) + self morph topLeft. 
+	^ self morphPointForGlobalPoint: anEvent point
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+}
+SRMorphPanel >> globalPointForMorphPoint: aPoint [
+	| normalized |
+	normalized := (aPoint - self morph topLeft) / self morph extent - 0.5 asPoint.
+	^ plane globalTransform localPointToGlobal: normalized x @ 0 @ normalized y
 ]
 
 {
@@ -307,6 +420,34 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+}
+SRMorphPanel >> hoverAt: aPointOrNil [
+	"Squeak's MouseOverHandler hit-tests the whole 2D world, where the morphs of
+	different panels overlap at random. Here the pointer is tracked within this
+	panel's morph only."
+	| hand over event previous |
+	previous := hoveredMorphs ifNil: [#()].
+	hand := self morph ifNotNil: [:m | m world ifNotNil: [:w | w primaryHand]].
+	hand ifNil: [^ hoveredMorphs := nil].
+	over := aPointOrNil
+		ifNil: [#()]
+		ifNotNil: [:point | self morph morphsAt: point].
+	event := MouseEvent new
+		setType: #mouseOver
+		position: (aPointOrNil ifNil: [lastClickPosition ifNil: [self morph center]])
+		buttons: 0
+		hand: hand.
+	event becomeActiveDuring: [
+		previous do: [:each |
+			(over includes: each) ifFalse: [each handleEvent: event asMouseLeave]].
+		over reverseDo: [:each |
+			(previous includes: each) ifFalse: [each handleEvent: event asMouseEnter]]].
+	hoveredMorphs := over.
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
 }
@@ -345,8 +486,17 @@ SRMorphPanel >> isMorphPanel [
 ]
 
 {
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SRMorphPanel >> isNearCameraHeight: aPoint [
+
+	^ ((self globalTranslation - aPoint) dot: Vector3 up) abs <= self class cylinderHeight
+]
+
+{
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 10/13/2026 14:59'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
 }
 SRMorphPanel >> keyboardEvent: aCharacter [
 
@@ -366,7 +516,7 @@ SRMorphPanel >> keyboardEvent: aCharacter [
 	
 	Project current addDeferredUIMessage: [[
 		event becomeActiveDuring:[
-			self morph processEvent: event]]
+			self deliverKeyboardEvent: event]]
 		on: Error
 		do: [:error |
 			Transcript showln: 'Error occurred during keystroke: '; show: error. error pass]
@@ -405,12 +555,103 @@ SRMorphPanel >> morph: aMorph [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
+}
+SRMorphPanel >> morphPointForGlobalPoint: aVector [
+
+	| normalizedPoint point |
+	point := plane globalTransform globalPointToLocal: aVector.
+	normalizedPoint := point xz asPoint + 0.5 asPoint.
+	^ (normalizedPoint * (self morph extent)) + self morph topLeft
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
+}
+SRMorphPanel >> morphicButtonFor: anInputEvent controlDown: aBoolean [
+	"Ctrl+click is Squeak's right click for a one-button mouse. The simulator's
+	own right button is already the grab."
+	anInputEvent button == #trigger ifFalse: [^ nil].
+	^ aBoolean
+		ifTrue: [MouseButtonEvent yellowButton]
+		ifFalse: [MouseButtonEvent redButton]
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:12'
+}
+SRMorphPanel >> morphicHand [
+	^ self morph world
+		ifNil: [self currentHand]
+		ifNotNil: [:world | world primaryHand]
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
 }
 SRMorphPanel >> morphicPanelShader [
 
 	^ SRShader morphicPanel
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> mouseDownAt: aPoint button: aButton [
+	"Morphic's click-or-drag detection runs on the real hand, far from the ray, and would start a 2D drag-and-drop the panel can never drop."
+	| event |
+	self morph ifNil: [^ self].
+	pressedButton := aButton.
+	event := MouseButtonEvent new
+		setType: #mouseDown
+		position: aPoint
+		which: aButton
+		buttons: aButton
+		nClicks: 1
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow.
+	event becomeActiveDuring: [self morph processEvent: event].
+	event hand resetClickState.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+}
+SRMorphPanel >> mouseDragTo: aPoint [
+	pressedButton ifNil: [^ self].
+	self sendToMouseFocus: (MouseMoveEvent new
+		setType: #mouseMove
+		startPoint: aPoint
+		endPoint: aPoint
+		trail: {aPoint}
+		buttons: pressedButton
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow).
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+}
+SRMorphPanel >> mouseUpAt: aPoint [
+	| button |
+	(pressedButton isNil or: [self morph isNil]) ifTrue: [^ self].
+	button := pressedButton.
+	pressedButton := nil.
+	self sendToMouseFocus: (MouseButtonEvent new
+		setType: #mouseUp
+		position: aPoint
+		which: button
+		buttons: 0
+		nClicks: 1
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow).
 ]
 
 {
@@ -457,6 +698,21 @@ SRMorphPanel >> onButtonPress: anEvent [
 
 {
 	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
+}
+SRMorphPanel >> onButtonRelease: anEvent [
+	| point |
+	self morph ifNil: [^ self].
+	anEvent button == #trigger ifFalse: [^ self].
+	point := self getClickPoint: anEvent.
+	Project current addDeferredUIMessage: [
+		SRClickingHandVariable value: anEvent hand during: [
+			self mouseUpAt: point]].
+	anEvent handled: true.
+]
+
+{
+	#category : #events,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
 }
 SRMorphPanel >> onCacheInvalidated [
@@ -464,6 +720,53 @@ SRMorphPanel >> onCacheInvalidated [
 	super onCacheInvalidated.
 
 	self fullTextureUpdate.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
+}
+SRMorphPanel >> onCursorLeave: anEvent [
+	"The release would go to whatever the ray points at next, so a drag ends at the edge."
+	| point |
+	point := lastHoverPoint.
+	lastHoverPoint := nil.
+	Project current addDeferredUIMessage: [
+		point ifNotNil: [self mouseUpAt: point].
+		self hoverAt: nil].
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> onCursorMove: anEvent [
+	| point |
+	self morph ifNil: [^ self].
+	point := (self getClickPoint: anEvent) rounded.
+	point = lastHoverPoint ifTrue: [^ self].
+	lastHoverPoint := point.
+	Project current addDeferredUIMessage: [self pointerMovedTo: point].
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> onGrabStarted: aHand [
+
+	super onGrabStarted: aHand.
+	self stopAligning
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> onGrabStopped: aHand [
+
+	super onGrabStopped: aHand.
+	self alignToCamera
 ]
 
 {
@@ -490,46 +793,19 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'phkeese 10/9/2026 14:45'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
 }
 SRMorphPanel >> performClick: anInputEvent at: aPoint [
-
-	| button buttonMap buttonName |
-
-	anInputEvent pressed ifFalse: [ ^self ].
-	buttonMap := Dictionary new 
-		add: #trigger->#redButton; 
-		"TODO: allow right-clicking"
-		"add: #bottomButton->#yellowButton;"
-		yourself.
-	buttonName := buttonMap at: anInputEvent button ifAbsent: [ ^ self ].
-	button := MouseButtonEvent perform: buttonName.
-
+	| button |
+	anInputEvent pressed ifFalse: [^ self].
+	button := (self
+		morphicButtonFor: anInputEvent
+		controlDown: SRDesktopInputState current isControlDown) ifNil: [^ self].
 	self world keyboardFocus: self.
-	self morph isSystemWindow ifTrue: [ self morph beKeyWindow ].
-	
+	self morph isSystemWindow ifTrue: [self morph beKeyWindow].
 	Project current addDeferredUIMessage: [
-		| downEvent upEvent | 
-		downEvent := MouseButtonEvent new
-			setType: #mouseDown
-			position: aPoint
-			which: button
-			buttons: button
-			nClicks: 1
-			hand: self currentHand
-			stamp: Sensor eventTimeNow.
-		downEvent becomeActiveDuring: [ self morph processEvent: downEvent ].
-		upEvent := MouseButtonEvent new
-			setType: #mouseUp
-			position: aPoint
-			which: button
-			buttons: button
-			nClicks: 1
-			hand: self currentHand
-			stamp: Sensor eventTimeNow.
-		upEvent becomeActiveDuring: [ self morph processEvent: upEvent ].
-	].
-
+		SRClickingHandVariable value: anInputEvent hand during: [
+			self mouseDownAt: aPoint button: button]].
 	lastClickPosition := aPoint.
 	anInputEvent handled: true.
 ]
@@ -575,6 +851,16 @@ SRMorphPanel >> performWheel: anAnalogEvent at: aPoint [
 SRMorphPanel >> pixelsPerMeter [
 
 	^ self class defaultPixelsPerMeter
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> pointerMovedTo: aPoint [
+	pressedButton
+		ifNil: [self hoverAt: aPoint]
+		ifNotNil: [self mouseDragTo: aPoint].
 ]
 
 {
@@ -630,11 +916,48 @@ SRMorphPanel >> resizers [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanel >> rightClickAt: aVector by: aHand [
+	| point |
+	point := self morphPointForGlobalPoint: aVector.
+	Project current addDeferredUIMessage: [
+		SRClickingHandVariable value: aHand during: [
+			self
+				mouseDownAt: point button: MouseButtonEvent yellowButton;
+				mouseUpAt: point]].
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> sendToMouseFocus: aMouseEvent [
+	"The morph that took the press keeps the drag even when the point leaves it, as with Morphic's own hand."
+	| hand focus |
+	hand := aMouseEvent hand.
+	focus := hand mouseFocus.
+	(focus notNil and: [focus == self morph or: [focus hasOwner: self morph]])
+		ifFalse: [^ aMouseEvent becomeActiveDuring: [self morph processEvent: aMouseEvent]].
+	hand sendFocusEvent: aMouseEvent to: focus clear: [hand releaseMouseFocus: focus].
+]
+
+{
 	#category : #resizing,
 	#'squeak_changestamp' : 'MCPServer 8/12/2026 14:10'
 }
 SRMorphPanel >> snapResizers [
 	self resizers do: [:each | each snapToCorner]
+]
+
+{
+	#category : #aligning,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRMorphPanel >> stopAligning [
+
+	alignmentTween ifNotNil: [:tween | tween stop]
 ]
 
 {

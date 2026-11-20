@@ -488,13 +488,11 @@ SRHand >> inputState [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
 }
 SRHand >> isAimingAtMorphPanel [
 
-	^ self cursorTarget
-		ifNil: [false]
-		ifNotNil: [:target | target ancestorChain anySatisfy: [:each | each isMorphPanel]]
+	^ self morphPanelUnderRay notNil
 ]
 
 { #category : #testing }
@@ -525,6 +523,16 @@ SRHand >> joystick [
 SRHand >> menuButton [
 
 	^ self inputState menuButton
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRHand >> morphPanelUnderRay [
+
+	^ self cursorTarget ifNotNil: [:target |
+		target ancestorChain detect: [:each | each isMorphPanel] ifNone: [nil]]
 ]
 
 {
@@ -559,17 +567,16 @@ SRHand >> opposite [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese 10/30/2026 17:11'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRHand >> performActions [
 
-	[actions do: [:action |
-		(action run: self inputState) ifFalse: [^self]
-	]]
-	on: Error
-	do: [:error |
-		error printVerboseOn: Transcript.
-	]
+	SRActingAvatarVariable value: avatar during: [
+		[actions do: [:action |
+			(action run: self inputState) ifFalse: [^ self]]]
+			on: Error
+			do: [:error |
+				error printVerboseOn: Transcript]].
 ]
 
 {
@@ -647,7 +654,7 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:43'
 }
 SRHand >> teleport [
 
@@ -655,7 +662,7 @@ SRHand >> teleport [
 	self world ifNil: [^ self].
 	hit := self rayForward castNearestSolid: self world.
 	hit ifNil: [^ self].
-	self world avatar teleportTo: hit point.
+	(avatar ifNil: [self world avatar]) teleportTo: hit point.
 ]
 
 {
@@ -695,10 +702,14 @@ SRHand >> trigger [
 	^ self inputState trigger
 ]
 
-{ #category : #updating }
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+}
 SRHand >> update: aSymbol with: anObject [
-
-	aSymbol = #actionsUpdated ifTrue: [self actionsUpdated: anObject]
+	"Controller input belongs to the world avatar; any other avatar is driven by SRXRInputEmulator."
+	(aSymbol = #actionsUpdated and: [avatar == self world avatar])
+		ifTrue: [self actionsUpdated: anObject]
 ]
 
 {

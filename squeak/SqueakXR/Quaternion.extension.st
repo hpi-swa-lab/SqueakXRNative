@@ -20,6 +20,19 @@ Quaternion >> deltaTo: aQuaternion [
 
 {
 	#category : #'*SqueakXR-helpers',
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:23'
+}
+Quaternion class >> forward: aForward up: anUp [
+
+	^ Matrix4x4 identity
+		column1: (aForward cross: anUp);
+		column2: anUp;
+		column3: aForward negated;
+		rotationQuaternion
+]
+
+{
+	#category : #'*SqueakXR-helpers',
 	#'squeak_changestamp' : 'MCPServer (leo) 10/22/2026 18:15'
 }
 Quaternion class >> fromXrQuaternionf: anXrQuaternionf [

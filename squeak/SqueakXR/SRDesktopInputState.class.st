@@ -204,16 +204,28 @@ SRDesktopInputState >> keyStateFor: aKeyCode [
 
 {
 	#category : #'querying-modifiers',
-	#'squeak_changestamp' : 'leo 11/18/2026 14:20'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:34'
 }
 SRDesktopInputState >> morphicModifierBits [
+	^ self
+		morphicModifierBitsControlToCommand: EventSensor mapControlKeysToCommandKeys
+		altToOption: EventSensor mapAltKeysToOptionKeys
+]
 
+{
+	#category : #'querying-modifiers',
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:34'
+}
+SRDesktopInputState >> morphicModifierBitsControlToCommand: controlToCommand altToOption: altToOption [
+	"The mapping of EventSensor class>>installVirtualKeyTable, so a key in a panel means what it means on the desktop. Ctrl keeps its control bit: SWATermMorph sends it to the shell."
 	| bits |
 	bits := 0.
 	self isShiftDown ifTrue: [bits := bits bitOr: 2r0001].
-	self isAltDown ifTrue: [bits := bits bitOr: 2r0010].
+	self isControlDown ifTrue: [
+		bits := bits bitOr: (controlToCommand ifTrue: [2r1010] ifFalse: [2r0010])].
+	self isAltDown ifTrue: [
+		bits := bits bitOr: (altToOption ifTrue: [2r1100] ifFalse: [2r1000])].
 	self isSuperDown ifTrue: [bits := bits bitOr: 2r0100].
-	self isControlDown ifTrue: [bits := bits bitOr: 2r1000].
 	^ bits bitShift: MouseEvent numButtons
 ]
 

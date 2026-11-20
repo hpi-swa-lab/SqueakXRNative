@@ -174,7 +174,7 @@ SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:14'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 10:44'
 }
 SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	"Entries at aPrefix become rows, deeper paths one submenu row per group."
@@ -184,7 +184,7 @@ SRMenu >> addItemsUnder: aPrefix target: anObjectOrNil [
 	(registry directItemsUnder: aPrefix) do: [:entry |
 		self
 			addItem: [entry labelIn: self target: anObjectOrNil]
-			action: [entry activateIn: self target: anObjectOrNil.
+			action: [:item | entry activateIn: self target: anObjectOrNil item: item.
 				entry keepOpen ifTrue: [self labelsChanged]]
 			keepOpen: entry keepOpen].
 	(registry groupsUnder: aPrefix) do: [:segment |
@@ -578,6 +578,15 @@ SRMenu >> submenuWasRemoved: aMenu [
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRMenu >> travelsWithAvatar [
+
+	^ true
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 17:15'
+}
+SRMenu >> wantsGrab [
 
 	^ true
 ]

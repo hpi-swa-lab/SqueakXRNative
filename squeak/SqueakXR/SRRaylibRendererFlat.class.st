@@ -92,24 +92,6 @@ SRRaylibRendererFlat >> completeFrame [
 ]
 
 {
-	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:19'
-}
-SRRaylibRendererFlat >> drawReticle [
-	"Centred on the screen as it is now, which a fullscreen toggle changes."
-
-	| centre half color |
-	centre := (Raylib getScreenWidth // 2) @ (Raylib getScreenHeight // 2).
-	half := self reticleSize // 2.
-	color := self class rlColorFor_1: Color red.
-	Raylib
-		drawLineStartPosX: centre x - half startPosY: centre y
-			endPosX: centre x + half endPosY: centre y color: color;
-		drawLineStartPosX: centre x startPosY: centre y - half
-			endPosX: centre x endPosY: centre y + half color: color.
-]
-
-{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 16:02'
 }
@@ -150,15 +132,6 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 		clearBackgroundColor: clearColor;
 		beginMode3DCamera: camera.
 	^ true
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'lege 3/25/2026 15:48'
-}
-SRRaylibRendererFlat >> reticleSize [
-
-	^ 50
 ]
 
 {

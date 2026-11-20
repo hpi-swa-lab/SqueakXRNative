@@ -29,6 +29,24 @@ Class {
 	#category : #'SqueakXR-Objects'
 }
 
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRObject class >> coincidenceDistance [
+
+	^ 1cm
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRObject class >> poleTolerance [
+
+	^ 0.01
+]
+
 { #category : #'as yet unclassified' }
 SRObject class >> selectorDefinedByBase: aSymbol [
 
@@ -955,6 +973,15 @@ SRObject >> isApp [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRObject >> isAvatar [
+
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
 }
 SRObject >> isAxes [
@@ -1493,6 +1520,18 @@ SRObject >> privateRemoveChild: aSRObject [
 ]
 
 {
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRObject >> radialFrom: aPoint [
+
+	| offset |
+	offset := self globalTranslation - aPoint.
+	offset length < self class coincidenceDistance ifTrue: [^ self backward].
+	^ offset normalized
+]
+
+{
 	#category : #raycast,
 	#'squeak_changestamp' : 'MCPServer 7/3/2026 17:46'
 }
@@ -1569,13 +1608,12 @@ SRObject >> recursiveAllDo: aBlock [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:19'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRObject >> remove [
 
-	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
-	parent ifNotNil: [parent removeChild: self]
-
+	self world ifNotNil: [:w | w avatars do: [:each | each forget: self]].
+	parent ifNotNil: [parent removeChild: self].
 ]
 
 {
@@ -1644,6 +1682,30 @@ SRObject >> rotation [
 SRObject >> rotation: aQuaternion [
 
 	self localRotation: aQuaternion
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:23'
+}
+SRObject >> rotationFacing: aPoint [
+
+	| forward |
+	forward := (self radialFrom: aPoint) negated.
+	^ Quaternion forward: forward up: (self tangentUpFor: forward)
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:23'
+}
+SRObject >> rotationFacingAxisThrough: aPoint [
+
+	| offset toAxis |
+	offset := aPoint - self globalTranslation.
+	toAxis := offset - (Vector3 up * (offset dot: Vector3 up)).
+	toAxis length < self class coincidenceDistance ifTrue: [^ self uprightRotation].
+	^ Quaternion forward: toAxis normalized up: Vector3 up
 ]
 
 {
@@ -1778,6 +1840,18 @@ SRObject >> stopGrabbing: aHand [
 	grabber := nil.
 ]
 
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SRObject >> tangentUpFor: aRadial [
+
+	| projections |
+	projections := {Vector3 up. self up. self backward}
+		collect: [:each | each - (aRadial * (each dot: aRadial))].
+	^ (projections detect: [:each | each length > self class poleTolerance]) normalized
+]
+
 { #category : #transforms }
 SRObject >> transform [
 
@@ -1890,6 +1964,28 @@ SRObject >> updateTransformsFromLocalTransform [
 SRObject >> updateTransformsFromParentTransform [
 
 	self updateGlobalTransform
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:39'
+}
+SRObject >> uprightCorrection [
+
+	| up |
+	up := self up.
+	^ ((up dot: Vector3 up) < 0 and: [(up cross: Vector3 up) length < self class poleTolerance])
+		ifTrue: [Quaternion angle: 180 axis: self forward]
+		ifFalse: [Quaternion new from: up to: Vector3 up]
+]
+
+{
+	#category : #transforms,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:39'
+}
+SRObject >> uprightRotation [
+
+	^ self globalRotation * self uprightCorrection
 ]
 
 {

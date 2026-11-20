@@ -635,6 +635,16 @@ SRWorld class >> stopWorld: aMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> actingAvatar [
+	"The world avatar when nobody in particular acts, e.g. while objects step."
+	^ SRActingAvatarVariable value ifNil: [
+		(SRClickingHandVariable value ifNotNil: [:hand | hand avatar]) ifNil: [avatar]]
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
@@ -676,6 +686,24 @@ SRWorld >> avatar: aSRAvatar [
 	avatar := aSRAvatar
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> avatars [
+
+	^ self children select: [:each | each isAvatar]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 14:09'
+}
+SRWorld >> avatarsDo: aBlock [
+	"Without the collection #avatars allocates, for code that runs every frame."
+	self children do: [:each | each isAvatar ifTrue: [aBlock value: each]].
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
@@ -684,11 +712,20 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:48'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> camera [
+	"The headset view is rendered from #avatar, this is the camera of whoever acts."
+	^ self actingAvatar camera
+]
 
-	^ self avatar camera
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/18/2026 17:01'
+}
+SRWorld >> cancelInterruptedFrame [
+
+	worldProcess isTerminated ifFalse: [worldProcess signalException: CancelFrame new]
 ]
 
 {
@@ -879,6 +916,15 @@ SRWorld >> hasHolodeckFloor [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:22'
+}
+SRWorld >> hasRunStartScript [
+
+	^ ranStartScript == true
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
 }
@@ -1018,6 +1064,17 @@ SRWorld >> isXR [
 SRWorld >> isXR: aBoolean [
 
 	isXR := aBoolean
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> keyboardAvatar [
+	"The keyboard belongs to whoever SRXRInputEmulator drives."
+	^ (self children detect: [:each | each isXRInputEmulator] ifNone: [nil])
+		ifNil: [avatar]
+		ifNotNil: [:emulator | emulator avatar]
 ]
 
 { #category : #accessing }
@@ -1171,12 +1228,13 @@ SRWorld >> onCacheInvalidated [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> openHandMenu [
+
 	| av |
-	av := self avatar ifNil: [^ self].
-	av openMenuForHand: av rightHand
+	av := self actingAvatar ifNil: [^ self].
+	av openMenuForHand: av rightHand.
 ]
 
 {
@@ -1219,13 +1277,13 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> processKeyInput [
 	"The queue was drained in #completeFrame, before the raylib poll could discard it."
-	SRDesktopInputState current pressedKeyCodes do: [:each |
-		self handleKeyPress: each]
-
+	SRActingAvatarVariable value: self keyboardAvatar during: [
+		SRDesktopInputState current pressedKeyCodes do: [:each |
+			self handleKeyPress: each]].
 ]
 
 {
@@ -1270,7 +1328,7 @@ SRWorld >> renderer: aSRRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/21/2026 18:34'
+	#'squeak_changestamp' : 'leo 11/18/2026 17:01'
 }
 SRWorld >> resume [
 	
@@ -1278,7 +1336,11 @@ SRWorld >> resume [
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
-			self initializeWorldProcess].
+			self initializeWorldProcess.
+			shutDownWithoutQuitting ifTrue: [
+				"Process>>signalException: also resumes the process,
+				so XR must already be set up."
+				^ self cancelInterruptedFrame]].
 		worldProcess resume].
 ]
 
@@ -1499,17 +1561,14 @@ SRWorld >> startFullscreen [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/7/2026 00:09'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:45'
 }
 SRWorld >> startUp: resuming [
 
 	self log.
 	resuming ifTrue: [
-		shutDownWithoutQuitting ifTrue: [
-			self worldProcess ifNotNil: [:p |
-				p isTerminated ifFalse: [p signalException: CancelFrame new]]].
 		self invalidateCache.
-		needsSetup := resuming].
+		needsSetup := self isRunning].
 	self resume
 ]
 
@@ -1525,6 +1584,25 @@ SRWorld >> startXR [
 		renderer: SRRaylibRendererXR new;
 		start.
 
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+}
+SRWorld >> startXRWithDesktopUser [
+	"The world avatar is created here rather than in #start, so the desktop user can see its head."
+	| xrWithDesktop |
+	self class current ifNotNil: [^ self error: 'A world is already running!'].
+	avatar ifNil: [
+		avatar := SRAvatar new.
+		self addChild: avatar].
+	xrWithDesktop := SRRaylibRendererXRWithDesktopUser new.
+	xrWithDesktop addDesktopUserTo: self.
+	self
+		isXR: true;
+		renderer: xrWithDesktop;
+		start.
 ]
 
 {
@@ -1568,6 +1646,15 @@ SRWorld >> stopWorldAndLeaveProject [
 	self stopAndWait.
 	[project close]
 		valueSupplyingAnswers: #(#('Do you really want to delete*' true)).
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo 11/18/2026 15:04'
+}
+SRWorld >> supportsHandTracking [
+
+	^ supportsHandTracking ifNil: [false]
 ]
 
 {

@@ -211,6 +211,24 @@ SRRaylibRenderer >> disableDepthTest [
 ]
 
 {
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:57'
+}
+SRRaylibRenderer >> drawReticle [
+	"Centred on the screen as it is now, which a fullscreen toggle changes."
+
+	| centre half color |
+	centre := (Raylib getScreenWidth // 2) @ (Raylib getScreenHeight // 2).
+	half := self reticleSize // 2.
+	color := self class rlColorFor_1: Color red.
+	Raylib
+		drawLineStartPosX: centre x - half startPosY: centre y
+			endPosX: centre x + half endPosY: centre y color: color;
+		drawLineStartPosX: centre x startPosY: centre y - half
+			endPosX: centre x endPosY: centre y + half color: color.
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
@@ -622,6 +640,24 @@ SRRaylibRenderer >> renderWireSphereTransformed: aMatrix4x4 withColor: aColor [
 				slices: 16
 				color: aColor asRlColor
 	].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:57'
+}
+SRRaylibRenderer >> reticleSize [
+
+	^ 50
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+}
+SRRaylibRenderer >> screenCamera [
+	"The camera of the window the mouse is in."
+	^ camera
 ]
 
 { #category : #'render-loop' }

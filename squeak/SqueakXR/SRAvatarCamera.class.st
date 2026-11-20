@@ -40,10 +40,11 @@ SRAvatarCamera >> onWorldChanged: oldWorld [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'lege 7/23/2026 10:30'
+	#category : #updating,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRAvatarCamera >> update: aSymbol with: anObject [
-
-	aSymbol = #cameraTransformUpdated ifTrue: [self cameraTransformUpdated: anObject].
+	"The head pose belongs to the world avatar only."
+	(aSymbol = #cameraTransformUpdated and: [self parent == self world avatar])
+		ifTrue: [self cameraTransformUpdated: anObject]
 ]

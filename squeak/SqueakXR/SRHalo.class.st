@@ -204,13 +204,13 @@ SRHalo >> moveToLineOfSight: deltaTime [
 
 {
 	#category : #'pop up',
-	#'squeak_changestamp' : 'phkeese 10/29/2026 16:01'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
-SRHalo >> popUpFor: anSRObject [ 
-	
+SRHalo >> popUpFor: anSRObject [
+
 	| hand point |
-	hand := anSRObject world avatar rightHand.
-	point := anSRObject  globalTranslation.
+	hand := anSRObject world actingAvatar rightHand.
+	point := anSRObject globalTranslation.
 	^ self popUpFor: anSRObject hand: hand point: point
 ]
 

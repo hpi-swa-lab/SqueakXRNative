@@ -96,6 +96,20 @@ SqueakXRExtensionsTest >> testQuaternionDeltaTo [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:24'
+}
+SqueakXRExtensionsTest >> testQuaternionForwardUpOrientsBothAxes [
+
+	| forward up rotation |
+	forward := (1 @ 0 @ -1) normalized.
+	up := Vector3 up.
+	rotation := (Quaternion forward: forward up: up) asMatrix4x4.
+	self assert: ((rotation localDirToGlobal: Vector3 forward) - forward) length < 0.0001.
+	self assert: ((rotation localDirToGlobal: Vector3 up) - up) length < 0.0001
+]
+
+{
 	#category : #'testing-quaternion',
 	#'squeak_changestamp' : 'lege 1/22/2026 16:38'
 }
