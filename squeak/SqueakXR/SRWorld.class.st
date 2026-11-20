@@ -400,7 +400,7 @@ SRWorld class >> holodeckFloor: aBoolean [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorld class >> holodeckGrid [
 	<shaderSource: #holodeckGrid>
@@ -449,7 +449,9 @@ void main()
     float edge = 1.0 - min(min(toEdge.x, toEdge.y) / 1.5, 1.0);
 
     float amount = max(line * density * (1.0 - far), edge);
-    finalColor = vec4(mix(floorColor.rgb, gridColor.rgb, amount), 1.0);
+    float alpha = mix(floorColor.a, 1.0, amount);
+    if (alpha <= 0.0) discard;
+    finalColor = vec4(mix(floorColor.rgb * floorColor.a, gridColor.rgb, amount) / alpha, alpha);
 }
 '
 	} as: Dictionary
@@ -1321,15 +1323,15 @@ SRWorld >> render: aSRObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:11'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorld >> renderOn: aRenderer [
 	"The slab sits just below the grid quad, or the two z-fight."
 
 	self hasHolodeckFloor ifFalse: [^ aRenderer renderGridSlices: 10 spacing: 1].
-	aRenderer
-		renderSlabAt: 0 @ -1cm @ 0 size: self holodeckSize thickness: 50cm;
-		renderHolodeckGridSize: self holodeckSize.
+	SRRenderer floorBackground ifTrue: [
+		aRenderer renderSlabAt: 0 @ -1cm @ 0 size: self holodeckSize thickness: 50cm].
+	aRenderer renderHolodeckGridSize: self holodeckSize
 ]
 
 { #category : #accessing }

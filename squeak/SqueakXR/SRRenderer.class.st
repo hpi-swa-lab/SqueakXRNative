@@ -5,6 +5,7 @@ Class {
 		'cache'
 	],
 	#classVars : [
+		'FloorBackground',
 		'FloorColor',
 		'GridColor',
 		'GridSlices',
@@ -31,6 +32,27 @@ SRRenderer class >> assertContext [
 SRRenderer class >> default [
 
 	^ SRRaylibRenderer
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRRenderer class >> floorBackground [
+	<preference: 'Floor background'
+		category: 'SqueakXR'
+		description: 'Draw the solid holodeck floor under the grid. When disabled, only the grid lines are drawn.'
+		type: #Boolean>
+	^ FloorBackground ifNil: [true]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRRenderer class >> floorBackground: aBoolean [
+
+	FloorBackground := aBoolean
 ]
 
 {
@@ -201,6 +223,17 @@ SRRenderer class >> startMonitor [
 SRRenderer class >> startMonitor: anInteger [
 	
 	StartMonitor := anInteger
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRRenderer class >> visibleFloorColor [
+
+	^ self floorBackground
+		ifTrue: [self floorColor]
+		ifFalse: [self floorColor alpha: 0]
 ]
 
 { #category : #accessing }

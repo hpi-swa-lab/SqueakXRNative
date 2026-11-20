@@ -7,33 +7,48 @@ Class {
 	#instVars : [
 		'world',
 		'previousWorld',
-		'savedHolodeckFloor'
+		'savedHolodeckFloor',
+		'savedFloorBackground'
 	],
 	#category : #'SqueakXR-Tests-Objects',
 	#'squeak_changestamp' : '<historical>'
 }
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRWorldTest >> floorPartsRendered [
+
+	| renderer |
+	renderer := SRWorldTestRenderer new.
+	world renderOn: renderer.
+	^ renderer rendered asArray
+]
+
+{
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorldTest >> setUp [
 
 	super setUp.
 	previousWorld := SRWorld current.
 	savedHolodeckFloor := SRWorld classPool at: #HolodeckFloor.
+	savedFloorBackground := SRRenderer classPool at: #FloorBackground.
 	world := SRWorld new.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorldTest >> tearDown [
 	"A world left running breaks SRWorld allInstances select: [:w | w isRunning]."
 	world isRunning: false.
 	SRWorld current: previousWorld.
 	SRWorld classPool at: #HolodeckFloor put: savedHolodeckFloor.
+	SRRenderer classPool at: #FloorBackground put: savedFloorBackground.
 	super tearDown.
 ]
 
@@ -113,6 +128,18 @@ SRWorldTest >> testStopDropsDeferredActions [
 	self deny: world pendingFrameActions isEmpty.
 	world stop.
 	self assert: world pendingFrameActions isEmpty.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRWorldTest >> testTheFloorBackgroundIsShownByDefault [
+
+	SRRenderer classPool at: #FloorBackground put: nil.
+	SRWorld holodeckFloor: true.
+	self assert: #(#slab #grid) equals: self floorPartsRendered.
+	self assert: SRRenderer floorColor equals: SRRenderer visibleFloorColor.
 ]
 
 {
@@ -215,6 +242,18 @@ SRWorldTest >> testWalkingStopsAtThePlatformEdge [
 
 	kept := avatar keepOnHolodeck: 0 @ -1 @ 0 feet: (edge + 1) @ 0 @ 0.
 	self assert: (kept y closeTo: -1).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+}
+SRWorldTest >> testWithoutTheFloorBackgroundOnlyTheGridIsShown [
+
+	SRRenderer floorBackground: false.
+	SRWorld holodeckFloor: true.
+	self assert: #(#grid) equals: self floorPartsRendered.
+	self assert: 0 equals: SRRenderer visibleFloorColor alpha.
 ]
 
 {

@@ -465,7 +465,7 @@ SRRaylibRenderer >> renderGridSlices: anInt spacing: aNumber [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:10'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRRaylibRenderer >> renderHolodeckGridSize: aNumber [
 	"Falls back to the line grid where the shader was never transpiled."
@@ -475,7 +475,7 @@ SRRaylibRenderer >> renderHolodeckGridSize: aNumber [
 	shader := SRShader named: #holodeckGrid.
 	shader
 		setColor: SRRenderer gridColor at: (shader uniformLocAt: #gridColor);
-		setColor: SRRenderer floorColor at: (shader uniformLocAt: #floorColor);
+		setColor: SRRenderer visibleFloorColor at: (shader uniformLocAt: #floorColor);
 		setX: SRRenderer gridSpacing y: aNumber / 2 z: 15m w: 45m at: (shader uniformLocAt: #grid).
 	Raylib beginShaderModeShader: shader internalShader.
 	[Raylib
