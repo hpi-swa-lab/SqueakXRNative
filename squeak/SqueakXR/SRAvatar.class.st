@@ -247,21 +247,21 @@ SRAvatar class >> walkSpeed: metresPerSecond [
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRAvatar class >> xrMenuOutOfBodyLabel: aMenu [
-	^ aMenu world avatar isOutOfBody
+	^ aMenu world actingAvatar isOutOfBody
 		ifTrue: ['Return to Body']
 		ifFalse: ['Out-of-Body Mode']
 ]
 
 {
 	#category : #'xr menu',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
 	<xrMenu: #(world debug) label: #xrMenuOutOfBodyLabel: priority: 410>
-	^ aMenu world avatar toggleOutOfBody
+	^ aMenu world actingAvatar toggleOutOfBody
 ]
 
 {
@@ -430,6 +430,24 @@ SRAvatar >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRAvatar >> isAvatar [
+
+	^ true
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:48'
+}
+SRAvatar >> isControllerDriven [
+	"False for a desktop user's avatar, which SRXRInputEmulator drives even in an XR world."
+	^ self world notNil and: [self world isXR and: [self world avatar == self]]
+]
+
+{
 	#category : #'out-of-body',
 	#'squeak_changestamp' : 'lege 7/20/2026 17:50'
 }
@@ -493,12 +511,11 @@ SRAvatar >> locomotionEnabled: aBoolean [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:25'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:48'
 }
 SRAvatar >> menuPlacementPositionForHand: aHand [
 	"Orientation comes from the camera, see SRMenu>>setTransformAt:facingCamera:."
-
-	self world isXR ifFalse: [^ camera globalTranslation + (camera forward * 1m)].
+	self isControllerDriven ifFalse: [^ camera globalTranslation + (camera forward * 1m)].
 	^ aHand globalTranslation
 		+ (camera forward * self class menuSpawnDistance)
 		+ (Vector3 up * self class menuSpawnLift)

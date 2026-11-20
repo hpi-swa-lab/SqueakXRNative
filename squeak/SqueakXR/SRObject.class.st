@@ -973,6 +973,15 @@ SRObject >> isApp [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRObject >> isAvatar [
+
+	^ false
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:03'
 }
 SRObject >> isAxes [
@@ -1599,13 +1608,12 @@ SRObject >> recursiveAllDo: aBlock [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:19'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRObject >> remove [
 
-	self world ifNotNil: [:w | w avatar ifNotNil: [:a | a forget: self]].
-	parent ifNotNil: [parent removeChild: self]
-
+	self world ifNotNil: [:w | w avatars do: [:each | each forget: self]].
+	parent ifNotNil: [parent removeChild: self].
 ]
 
 {

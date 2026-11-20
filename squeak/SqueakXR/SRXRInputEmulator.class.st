@@ -11,7 +11,8 @@ Class {
 		'grabBearing',
 		'grabHeight',
 		'grabTransform',
-		'grabEye'
+		'grabEye',
+		'avatar'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -84,7 +85,7 @@ SRXRInputEmulator class >> xrMenuToggleFullscreen: aMenu [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:52'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	| direction |
@@ -94,19 +95,19 @@ SRXRInputEmulator >> aimHand: aHand from: aPosition at: aTarget [
 	aHand globalTransform: (Matrix4x4
 		objectLookAt: aPosition + direction
 		from: aPosition
-		up: self world camera up).
+		up: self avatar camera up).
 	^ aHand
 ]
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:41'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> aimHeld: anObject with: aHand along: anOrigin direction: aDirection [
 	"The barrel meets the eye ray where it hits, so it shoots at what the mouse points at."
 
 	| camera offset hit distance |
-	camera := self world avatar camera.
+	camera := self avatar camera.
 	offset := self class heldAimOffset.
 	hit := ((SRRay origin: anOrigin forward: aDirection) castAll: self world)
 		detect: [:result | result object ~~ anObject and: [(result object hasAncestor: anObject) not]]
@@ -123,6 +124,25 @@ SRXRInputEmulator >> aimHeld: anObject with: aHand along: anOrigin direction: aD
 			+ (camera up * offset y)
 			+ (camera forward * offset z)
 		at: anOrigin + (aDirection * distance)
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:43'
+}
+SRXRInputEmulator >> avatar [
+	"Set only when a second avatar shares the world with the headset user."
+	^ avatar ifNil: [self world ifNotNil: [:aWorld | aWorld avatar]]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+}
+SRXRInputEmulator >> avatar: anAvatar [
+
+	avatar := anAvatar.
+	emulatedCamera avatar: anAvatar.
 ]
 
 {
@@ -178,12 +198,12 @@ SRXRInputEmulator >> debugHUD [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> dragHand: aHand along: anOrigin direction: aDirection [
 
 	| eye t |
-	eye := self world avatar camera globalTranslation.
+	eye := self avatar camera globalTranslation.
 	grabRadius ifNil: [
 		self beginDrag: aHand globalTransform holding: aHand grabbedObject globalTranslation from: eye].
 	t := self
@@ -220,13 +240,13 @@ SRXRInputEmulator >> emulatedCamera [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> handPositionFor: anOffset [
 	"Yaw-only head frame, so the hands stay put when the head pitches."
 
 	| camera ahead right |
-	camera := self world avatar camera.
+	camera := self avatar camera.
 	ahead := camera forward.
 	ahead := Vector3 x: ahead x y: 0 z: ahead z.
 	ahead := ahead isZero ifTrue: [Vector3 forward] ifFalse: [ahead normalized].
@@ -260,18 +280,17 @@ SRXRInputEmulator >> isXRInputEmulator [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:43'
 }
 SRXRInputEmulator >> onWorldChanged: oldWorld [
 
 	super onWorldChanged: oldWorld.
-	self world ifNotNil: [:aWorld |
-		emulatedCamera avatar: aWorld avatar]
+	self world ifNotNil: [emulatedCamera avatar: self avatar].
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:55'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> step: delta [
 
@@ -287,7 +306,7 @@ SRXRInputEmulator >> step: delta [
 		debugHUD toggleVisibility].
 
 	(input isKeyPressed: RlKeyboardKey keyF3) ifTrue: [
-		self world avatar toggleOutOfBody].
+		self avatar toggleOutOfBody].
 
 	(input isKeyPressed: RlKeyboardKey keyF11) ifTrue: [
 		self world renderer toggleFullscreen].
@@ -303,7 +322,7 @@ SRXRInputEmulator >> step: delta [
 		ifFalse: [self updateRightHandFromMouseRay].
 
 	self updateHandInput: input.
-	self world avatar hands do: [:hand |
+	self avatar hands do: [:hand |
 		hand cursor updateActions: nil.
 		hand
 			updateFirstIntersection;
@@ -312,23 +331,21 @@ SRXRInputEmulator >> step: delta [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:43'
 }
 SRXRInputEmulator >> updateHandInput: anInput [
 
-	| avatar squeezing |
-	avatar := self world ifNil: [^ self] ifNotNil: [:w | w avatar].
-	avatar ifNil: [^ self].
-
+	| squeezing |
+	self avatar ifNil: [^ self].
 	squeezing := (anInput isMouseButtonDown: RlMouseButton mouseButtonRight)
 		or: [anInput isAltDown and: [anInput isKeyDown: RlKeyboardKey keyZ]].
-	avatar rightHand inputState
+	self avatar rightHand inputState
 		updateDesktopTrigger: ((anInput isMouseButtonDown: RlMouseButton mouseButtonLeft)
 			ifTrue: [1.0] ifFalse: [0.0])
 		squeeze: (squeezing ifTrue: [1.0] ifFalse: [0.0])
 		topButton: (self world isTyping not and: [anInput isKeyDown: RlKeyboardKey keyB]).
-	avatar rightHand inputState wheel: (anInput mouseWheel ifNil: [0]).
-	avatar leftHand inputState
+	self avatar rightHand inputState wheel: (anInput mouseWheel ifNil: [0]).
+	self avatar leftHand inputState
 		updateDesktopTrigger: 0.0
 		squeeze: 0.0
 		topButton: false.
@@ -336,31 +353,31 @@ SRXRInputEmulator >> updateHandInput: anInput [
 
 {
 	#category : #'hand updating',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:38'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> updateLeftHandFromCamera [
 	"Aimed where the head looks."
 
 	| camera target |
-	camera := self world avatar camera.
+	camera := self avatar camera.
 	target := camera globalTranslation
 		+ (camera forward * self class aimConvergenceDistance).
 	^ self
-		aimHand: self world avatar leftHand
+		aimHand: self avatar leftHand
 		from: (self handPositionFor: self class leftHandOffset)
 		at: target
 ]
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 18:34'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
 }
 SRXRInputEmulator >> updateRightHandAimingAt: aScreenPosition [
 	| hand handPos rlRay origin direction hit target |
-	hand := self world avatar rightHand.
+	hand := self avatar rightHand.
 	rlRay := Raylib
 		getScreenToWorldRayPosition: aScreenPosition
-		camera: self world renderer camera.
+		camera: self world renderer screenCamera.
 	origin := rlRay position asVector3.
 	direction := rlRay direction asVector3 normalized.
 	hand grabbedObject

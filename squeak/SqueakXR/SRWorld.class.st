@@ -553,14 +553,22 @@ SRWorld class >> runStartScriptInXR: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'lege 8/5/2026 11:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
+}
+SRWorld class >> saveAndQuit: aMenu [
+	<xrMenu: #(world) label: 'Save and Quit' priority: 10001>
+
+	self snapshotAndQuit: true
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
 }
 SRWorld class >> saveImage: aMenu [
 	<xrMenu: #(world) label: 'Save Image' priority: 10000>
-	
-	"Since the world process is suspended during the startUp/shutDown procedure,
-	we cannot perform said procedure in the world process. Instead, create a new process for it."
-	[Smalltalk snapshot: true andQuit: false] fork
+
+	self snapshotAndQuit: false
 ]
 
 { #category : #'as yet unclassified' }
@@ -577,6 +585,16 @@ SRWorld class >> shutDown: quitting [
 
 	self allInstances do: [:world |
 		world shutDown: quitting]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
+}
+SRWorld class >> snapshotAndQuit: aBoolean [
+	"The world process is suspended during the startUp/shutDown procedure, so it must run in a separate process."
+
+	[Smalltalk snapshot: true andQuit: aBoolean] fork
 ]
 
 {
@@ -635,6 +653,16 @@ SRWorld class >> stopWorld: aMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> actingAvatar [
+	"The world avatar when nobody in particular acts, e.g. while objects step."
+	^ SRActingAvatarVariable value ifNil: [
+		(SRClickingHandVariable value ifNotNil: [:hand | hand avatar]) ifNil: [avatar]]
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
@@ -676,6 +704,24 @@ SRWorld >> avatar: aSRAvatar [
 	avatar := aSRAvatar
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> avatars [
+
+	^ self children select: [:each | each isAvatar]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 14:09'
+}
+SRWorld >> avatarsDo: aBlock [
+	"Without the collection #avatars allocates, for code that runs every frame."
+	self children do: [:each | each isAvatar ifTrue: [aBlock value: each]].
+]
+
 { #category : #'as yet unclassified' }
 SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
@@ -684,11 +730,11 @@ SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'lege 10/8/2025 17:48'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> camera [
-
-	^ self avatar camera
+	"The headset view is rendered from #avatar, this is the camera of whoever acts."
+	^ self actingAvatar camera
 ]
 
 {
@@ -1038,6 +1084,17 @@ SRWorld >> isXR: aBoolean [
 	isXR := aBoolean
 ]
 
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+}
+SRWorld >> keyboardAvatar [
+	"The keyboard belongs to whoever SRXRInputEmulator drives."
+	^ (self children detect: [:each | each isXRInputEmulator] ifNone: [nil])
+		ifNil: [avatar]
+		ifNotNil: [:emulator | emulator avatar]
+]
+
 { #category : #accessing }
 SRWorld >> keyboardFocus [
 
@@ -1189,12 +1246,13 @@ SRWorld >> onCacheInvalidated [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'MCPServer 8/18/2026 12:14'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> openHandMenu [
+
 	| av |
-	av := self avatar ifNil: [^ self].
-	av openMenuForHand: av rightHand
+	av := self actingAvatar ifNil: [^ self].
+	av openMenuForHand: av rightHand.
 ]
 
 {
@@ -1237,13 +1295,13 @@ SRWorld >> prepareFrame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRWorld >> processKeyInput [
 	"The queue was drained in #completeFrame, before the raylib poll could discard it."
-	SRDesktopInputState current pressedKeyCodes do: [:each |
-		self handleKeyPress: each]
-
+	SRActingAvatarVariable value: self keyboardAvatar during: [
+		SRDesktopInputState current pressedKeyCodes do: [:each |
+			self handleKeyPress: each]].
 ]
 
 {
@@ -1544,6 +1602,25 @@ SRWorld >> startXR [
 		renderer: SRRaylibRendererXR new;
 		start.
 
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+}
+SRWorld >> startXRWithDesktopUser [
+	"The world avatar is created here rather than in #start, so the desktop user can see its head."
+	| xrWithDesktop |
+	self class current ifNotNil: [^ self error: 'A world is already running!'].
+	avatar ifNil: [
+		avatar := SRAvatar new.
+		self addChild: avatar].
+	xrWithDesktop := SRRaylibRendererXRWithDesktopUser new.
+	xrWithDesktop addDesktopUserTo: self.
+	self
+		isXR: true;
+		renderer: xrWithDesktop;
+		start.
 ]
 
 {
