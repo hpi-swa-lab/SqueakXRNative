@@ -20,16 +20,14 @@ SRMiniHalo >> addHandles [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/20/2026 16:54'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:11'
 }
 SRMiniHalo >> initialize [
 
 	super initialize.
-	proxy := SRMiniHaloProxy new.
-	self addChild: proxy.
-	view := SRMiniView new
-		scale: 0.1 asVector3.
-	self addChild: view.
+	proxy := self addChild: SRMiniHaloProxy new.
+	view := self addChild: (SRMiniView new
+		scale: 0.1 asVector3)
 ]
 
 {

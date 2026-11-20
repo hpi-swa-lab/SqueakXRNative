@@ -66,22 +66,19 @@ SRRingHalo >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 13:33'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:12'
 }
 SRRingHalo >> initialize [ 
 
 	super initialize.
 	
-	label := SRTextField new
+	label := self addChild: (SRTextField new
 		scale: 0.1 asVector3;
 		position: (0@ -0.2@0);
 		rotation: SRTextField uprightRotation;
-		yourself.
-	self addChild: label.
-	mini := SRMiniView new
-		scale: 0.1 asVector3.
-	self addChild: mini.
-	
+		yourself).
+	mini := self addChild: (SRMiniView new
+		scale: 0.1 asVector3).
 	self frozen: true.
 ]
 

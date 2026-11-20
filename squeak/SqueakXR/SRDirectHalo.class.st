@@ -9,7 +9,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/18/2026 14:39'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:11'
 }
 SRDirectHalo >> addHandles [ 
 
@@ -22,8 +22,7 @@ SRDirectHalo >> addHandles [
 		];
 		dragAction: [:btn :xform | self target globalTranslation: xform translation]
 	).
-	rotationGizmo := SRRotationGizmo new scale: 0.5 asVector3.
-	self addChild: rotationGizmo.
+	rotationGizmo := self addChild: (SRRotationGizmo new scale: 0.5 asVector3)
 ]
 
 {
