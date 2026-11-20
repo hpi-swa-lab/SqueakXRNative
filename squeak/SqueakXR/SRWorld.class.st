@@ -750,10 +750,10 @@ SRWorld >> cancelInterruptedFrame [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:03'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:27'
 }
 SRWorld >> collisionGeometry [
-	"The floor makes the world itself hit by every hand ray, hence the preference."
+	"The floor turns the world itself into a collision target, hence the preference."
 
 	| size |
 	self hasHolodeckFloor ifFalse: [^ nil].
@@ -1025,6 +1025,16 @@ SRWorld >> invalidateCache [
 
 	self renderer clearCache.
 	self cacheInvalidated.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:26'
+}
+SRWorld >> isCursorTarget [
+	"The holodeck floor stays solid but lets the pointing ray through."
+
+	^ false
 ]
 
 {

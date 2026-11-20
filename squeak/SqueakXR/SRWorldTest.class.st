@@ -132,6 +132,21 @@ SRWorldTest >> testStopDropsDeferredActions [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:26'
+}
+SRWorldTest >> testTheCursorRayPassesThroughTheHolodeckFloor [
+
+	| target cursor hits |
+	SRWorld holodeckFloor: true.
+	target := SRCube new translation: 0 @ -2 @ 0; yourself.
+	world addChild: target.
+	cursor := SRCursor new.
+	hits := cursor castRayOn: (cursor targetsIn: world) from: 0 @ 2 @ 0 toward: Vector3 down.
+	self assert: {target} equals: (hits collect: [:each | each object]) asArray.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorldTest >> testTheFloorBackgroundIsShownByDefault [

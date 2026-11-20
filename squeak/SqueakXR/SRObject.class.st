@@ -1019,6 +1019,15 @@ SRObject >> isCubeField [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:26'
+}
+SRObject >> isCursorTarget [
+
+	^ self ignoreCollision not
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
 }
 SRObject >> isDebugHUD [
