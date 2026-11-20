@@ -23,13 +23,15 @@ SRSnapTurnAction >> initialize [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:33'
 }
 SRSnapTurnAction >> run: inputState [
 
 	SRAvatar turnStyle == #smooth ifTrue: [^ true].
 	self hand avatar ifNotNil: [:avatar |
-		self snapTurn: avatar by: inputState joystick horizontal].
+		self hand isAimingAtMorphPanel
+			ifTrue: [armed := false]
+			ifFalse: [self snapTurn: avatar by: inputState joystick horizontal]].
 	^ true
 ]
 

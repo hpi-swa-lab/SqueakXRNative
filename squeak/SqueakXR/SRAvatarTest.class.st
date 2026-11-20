@@ -43,6 +43,15 @@ SRAvatarTest >> avatarOnFloorAtY: aHeight [
 ]
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:34'
+}
+SRAvatarTest >> morphPanelPlane [
+
+	^ SRMorphPanel new children detect: [:each | each isKindOf: SRPlane]
+]
+
+{
 	#category : #running,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
@@ -155,7 +164,7 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:34'
 }
 SRAvatarTest >> testLeftStickScrollsInsteadOfWalkingWhileAimingAtAMorphPanel [
 
@@ -164,7 +173,7 @@ SRAvatarTest >> testLeftStickScrollsInsteadOfWalkingWhileAimingAtAMorphPanel [
 	SRAvatar locomotionStyle: #continuous.
 	avatar leftHand inputState joystick vertical: 1.
 	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
-	self aim: avatar leftHand at: (SRMorphPanel new children detect: [:each | each isKindOf: SRPlane]).
+	self aim: avatar leftHand at: self morphPanelPlane.
 	self assert: nil equals: (avatar stickMotionFor: avatar leftHand dt: 0.1).
 	self aim: avatar leftHand at: SRObject new.
 	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
@@ -183,6 +192,54 @@ SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 	before := avatar translation.
 	20 timesRepeat: [avatar updateLocomotion: 0.016].
 	self assert: avatar translation equals: before.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:34'
+}
+SRAvatarTest >> testRightStickScrollsInsteadOfSmoothTurningWhileAimingAtAMorphPanel [
+
+	| saved avatar facing |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #smooth.
+	avatar := SRAvatar new.
+	facing := avatar rotation.
+	avatar rightHand joystick horizontal: 1.
+	self aim: avatar rightHand at: self morphPanelPlane.
+	avatar updateSmoothTurn: 0.5.
+	self assert: facing equals: avatar rotation.
+	self aim: avatar rightHand at: SRObject new.
+	avatar updateSmoothTurn: 0.5.
+	self deny: facing = avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:34'
+}
+SRAvatarTest >> testRightStickScrollsInsteadOfSnapTurningWhileAimingAtAMorphPanel [
+
+	| saved avatar action facing |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #snap.
+	avatar := SRAvatar new.
+	action := SRSnapTurnAction new hand: avatar rightHand; yourself.
+	facing := avatar rotation.
+	avatar rightHand joystick horizontal: 1.
+	self aim: avatar rightHand at: self morphPanelPlane.
+	action run: avatar rightHand inputState.
+	self assert: facing equals: avatar rotation.
+	self aim: avatar rightHand at: SRObject new.
+	action run: avatar rightHand inputState.
+	self assert: facing equals: avatar rotation.
+	avatar rightHand joystick horizontal: 0.
+	action run: avatar rightHand inputState.
+	avatar rightHand joystick horizontal: 1.
+	action run: avatar rightHand inputState.
+	self deny: facing = avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
 ]
 
 {
