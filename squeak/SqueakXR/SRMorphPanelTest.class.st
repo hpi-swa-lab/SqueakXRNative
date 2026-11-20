@@ -22,6 +22,21 @@ SRMorphPanelTest >> enterNewMorphicProject [
 
 {
 	#category : #helpers,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:13'
+}
+SRMorphPanelTest >> openTextInMorphic [
+	"SystemWindow>>beKeyWindow needs a viewBox, which the test world only has once it is set."
+	| window text |
+	morphicWorld viewBox: (0 @ 0 extent: 800 @ 600).
+	window := self openWindowInMorphic.
+	text := TextMorph new contents: 'hello world'; yourself.
+	window addMorph: text frame: (0 @ 0 corner: 1 @ 1).
+	window fullBounds.
+	^ text
+]
+
+{
+	#category : #helpers,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
 }
 SRMorphPanelTest >> openWindowInMorphic [
@@ -124,6 +139,19 @@ SRMorphPanelTest >> testAClickInACascadeKeepsTheWholeCascade [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
+}
+SRMorphPanelTest >> testAGrabbedPanelFollowsTheHand [
+	| panel target |
+	panel := SRMorphPanel new.
+	target := SRObject new.
+	target position: 1m @ 2m @ -3m.
+	panel dragTo: target globalTransform.
+	self assert: target globalTransform equals: panel globalTransform.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
 }
 SRMorphPanelTest >> testAPopUpMenuOpensAtTheClickingHand [
@@ -134,6 +162,39 @@ SRMorphPanelTest >> testAPopUpMenuOpensAtTheClickingHand [
 	SRClickingHandVariable value: hand during: [morphicWorld addMorphFront: menu].
 	self assert: ((self panelOf: menu) globalTranslation
 		- (xrWorld avatar menuPlacementPositionForHand: hand)) length < 1mm.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
+}
+SRMorphPanelTest >> testAPressHoldsTheMouseFocusUntilTheRelease [
+	| text panel point hand |
+	text := self openTextInMorphic.
+	panel := self panelOf: text owner.
+	hand := morphicWorld primaryHand.
+	point := (text paragraph characterBlockForIndex: 1) center.
+	panel mouseDownAt: point button: MouseButtonEvent redButton.
+	self assert: text equals: hand mouseFocus.
+	panel mouseUpAt: point.
+	self assert: hand mouseFocus isNil.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanelTest >> testAPressInsideASelectionStartsNoDragAndDrop [
+	| text panel hand |
+	text := self openTextInMorphic.
+	text dragEnabled: true.
+	text editor selectFrom: 1 to: 5.
+	panel := self panelOf: text owner.
+	hand := morphicWorld primaryHand.
+	panel mouseDownAt: (text paragraph characterBlockForIndex: 2) center button: MouseButtonEvent redButton.
+	self assert: (hand instVarNamed: 'mouseClickState') isNil.
+	panel mouseUpAt: (text paragraph characterBlockForIndex: 2) center.
+	self assert: hand submorphs isEmpty.
 ]
 
 {
@@ -211,6 +272,22 @@ SRMorphPanelTest >> testControlClickIsTheRightClick [
 		assert: MouseButtonEvent yellowButton
 			equals: (panel morphicButtonFor: trigger controlDown: true);
 		assert: (panel morphicButtonFor: other controlDown: true) isNil.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
+}
+SRMorphPanelTest >> testDraggingAcrossTextSelectsIt [
+	| text panel start stop |
+	text := self openTextInMorphic.
+	panel := self panelOf: text owner.
+	start := (text paragraph characterBlockForIndex: 1) center.
+	stop := (text paragraph characterBlockForIndex: 6) leftCenter.
+	panel mouseDownAt: start button: MouseButtonEvent redButton.
+	panel pointerMovedTo: stop.
+	panel mouseUpAt: stop.
+	self assert: 'hello' equals: text editor selection asString.
 ]
 
 {

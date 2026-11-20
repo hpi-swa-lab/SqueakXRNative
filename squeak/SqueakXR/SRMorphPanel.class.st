@@ -10,7 +10,8 @@ Class {
 		'resizers',
 		'alignmentTween',
 		'hoveredMorphs',
-		'lastHoverPoint'
+		'lastHoverPoint',
+		'pressedButton'
 	],
 	#classVars : [
 		'Mesh',
@@ -561,12 +562,78 @@ SRMorphPanel >> morphicButtonFor: anInputEvent controlDown: aBoolean [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:12'
+}
+SRMorphPanel >> morphicHand [
+	^ self morph world
+		ifNil: [self currentHand]
+		ifNotNil: [:world | world primaryHand]
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 15:14'
 }
 SRMorphPanel >> morphicPanelShader [
 
 	^ SRShader morphicPanel
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> mouseDownAt: aPoint button: aButton [
+	"Morphic's click-or-drag detection runs on the real hand, far from the ray, and would start a 2D drag-and-drop the panel can never drop."
+	| event |
+	self morph ifNil: [^ self].
+	pressedButton := aButton.
+	event := MouseButtonEvent new
+		setType: #mouseDown
+		position: aPoint
+		which: aButton
+		buttons: aButton
+		nClicks: 1
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow.
+	event becomeActiveDuring: [self morph processEvent: event].
+	event hand resetClickState.
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+}
+SRMorphPanel >> mouseDragTo: aPoint [
+	pressedButton ifNil: [^ self].
+	self sendToMouseFocus: (MouseMoveEvent new
+		setType: #mouseMove
+		startPoint: aPoint
+		endPoint: aPoint
+		trail: {aPoint}
+		buttons: pressedButton
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow).
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+}
+SRMorphPanel >> mouseUpAt: aPoint [
+	| button |
+	(pressedButton isNil or: [self morph isNil]) ifTrue: [^ self].
+	button := pressedButton.
+	pressedButton := nil.
+	self sendToMouseFocus: (MouseButtonEvent new
+		setType: #mouseUp
+		position: aPoint
+		which: button
+		buttons: 0
+		nClicks: 1
+		hand: self morphicHand
+		stamp: Sensor eventTimeNow).
 ]
 
 {
@@ -613,6 +680,21 @@ SRMorphPanel >> onButtonPress: anEvent [
 
 {
 	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+}
+SRMorphPanel >> onButtonRelease: anEvent [
+	| point |
+	self morph ifNil: [^ self].
+	anEvent button == #trigger ifFalse: [^ self].
+	point := self getClickPoint: anEvent.
+	Project current addDeferredUIMessage: [
+		SRClickingHandVariable value: anEvent hand during: [
+			self mouseUpAt: point]].
+	anEvent handled: true.
+]
+
+{
+	#category : #events,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/15/2026 11:09'
 }
 SRMorphPanel >> onCacheInvalidated [
@@ -624,16 +706,21 @@ SRMorphPanel >> onCacheInvalidated [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
 }
 SRMorphPanel >> onCursorLeave: anEvent [
+	"The release would go to whatever the ray points at next, so a drag ends at the edge."
+	| point |
+	point := lastHoverPoint.
 	lastHoverPoint := nil.
-	Project current addDeferredUIMessage: [self hoverAt: nil].
+	Project current addDeferredUIMessage: [
+		point ifNotNil: [self mouseUpAt: point].
+		self hoverAt: nil].
 ]
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
 }
 SRMorphPanel >> onCursorMove: anEvent [
 	| point |
@@ -641,7 +728,7 @@ SRMorphPanel >> onCursorMove: anEvent [
 	point := (self getClickPoint: anEvent) rounded.
 	point = lastHoverPoint ifTrue: [^ self].
 	lastHoverPoint := point.
-	Project current addDeferredUIMessage: [self hoverAt: point].
+	Project current addDeferredUIMessage: [self pointerMovedTo: point].
 ]
 
 {
@@ -688,40 +775,19 @@ SRMorphPanel >> onWorldChanged: oldWorld [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:55'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:17'
 }
 SRMorphPanel >> performClick: anInputEvent at: aPoint [
 	| button |
-	anInputEvent pressed ifFalse: [ ^self ].
+	anInputEvent pressed ifFalse: [^ self].
 	button := (self
 		morphicButtonFor: anInputEvent
-		controlDown: SRDesktopInputState current isControlDown) ifNil: [ ^ self ].
+		controlDown: SRDesktopInputState current isControlDown) ifNil: [^ self].
 	self world keyboardFocus: self.
-	self morph isSystemWindow ifTrue: [ self morph beKeyWindow ].
-	
+	self morph isSystemWindow ifTrue: [self morph beKeyWindow].
 	Project current addDeferredUIMessage: [
-		| downEvent upEvent | 
-		downEvent := MouseButtonEvent new
-			setType: #mouseDown
-			position: aPoint
-			which: button
-			buttons: button
-			nClicks: 1
-			hand: self currentHand
-			stamp: Sensor eventTimeNow.
 		SRClickingHandVariable value: anInputEvent hand during: [
-			downEvent becomeActiveDuring: [ self morph processEvent: downEvent ]].
-		upEvent := MouseButtonEvent new
-			setType: #mouseUp
-			position: aPoint
-			which: button
-			buttons: button
-			nClicks: 1
-			hand: self currentHand
-			stamp: Sensor eventTimeNow.
-		SRClickingHandVariable value: anInputEvent hand during: [
-			upEvent becomeActiveDuring: [ self morph processEvent: upEvent ]].
-	].
+			self mouseDownAt: aPoint button: button]].
 	lastClickPosition := aPoint.
 	anInputEvent handled: true.
 ]
@@ -767,6 +833,16 @@ SRMorphPanel >> performWheel: anAnalogEvent at: aPoint [
 SRMorphPanel >> pixelsPerMeter [
 
 	^ self class defaultPixelsPerMeter
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> pointerMovedTo: aPoint [
+	pressedButton
+		ifNil: [self hoverAt: aPoint]
+		ifNotNil: [self mouseDragTo: aPoint].
 ]
 
 {
@@ -819,6 +895,20 @@ SRMorphPanel >> resizerAt: aCornerSymbol [
 SRMorphPanel >> resizers [
 
 	^ resizers
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
+}
+SRMorphPanel >> sendToMouseFocus: aMouseEvent [
+	"The morph that took the press keeps the drag even when the point leaves it, as with Morphic's own hand."
+	| hand focus |
+	hand := aMouseEvent hand.
+	focus := hand mouseFocus.
+	(focus notNil and: [focus == self morph or: [focus hasOwner: self morph]])
+		ifFalse: [^ aMouseEvent becomeActiveDuring: [self morph processEvent: aMouseEvent]].
+	hand sendFocusEvent: aMouseEvent to: focus clear: [hand releaseMouseFocus: focus].
 ]
 
 {
