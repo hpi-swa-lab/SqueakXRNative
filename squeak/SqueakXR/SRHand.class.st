@@ -488,13 +488,11 @@ SRHand >> inputState [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
 }
 SRHand >> isAimingAtMorphPanel [
 
-	^ self cursorTarget
-		ifNil: [false]
-		ifNotNil: [:target | target ancestorChain anySatisfy: [:each | each isMorphPanel]]
+	^ self morphPanelUnderRay notNil
 ]
 
 { #category : #testing }
@@ -525,6 +523,16 @@ SRHand >> joystick [
 SRHand >> menuButton [
 
 	^ self inputState menuButton
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRHand >> morphPanelUnderRay [
+
+	^ self cursorTarget ifNotNil: [:target |
+		target ancestorChain detect: [:each | each isMorphPanel] ifNone: [nil]]
 ]
 
 {

@@ -10,6 +10,14 @@ Class {
 }
 
 {
+	#category : #support,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:50'
+}
+SRMorphPanelTest >> aim: aHand at: anObject [
+	aHand selectTargetsFrom: {SRIntersectionResult new object: anObject; point: 0 @ 0 @ 0; distance: 1m; yourself}.
+]
+
+{
 	#category : #running,
 	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
@@ -195,6 +203,30 @@ SRMorphPanelTest >> testAPressInsideASelectionStartsNoDragAndDrop [
 	self assert: (hand instVarNamed: 'mouseClickState') isNil.
 	panel mouseUpAt: (text paragraph characterBlockForIndex: 2) center.
 	self assert: hand submorphs isEmpty.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:35'
+}
+SRMorphPanelTest >> testARightPressOpensTheMorphicMenu [
+	| window pane panel menus |
+	morphicWorld viewBox: (0 @ 0 extent: 800 @ 600).
+	window := self openWindowInMorphic.
+	pane := PluggableTextMorph
+		on: Workspace new
+		text: #contents
+		accept: #acceptContents:
+		readSelection: nil
+		menu: #codePaneMenu:shifted:.
+	window addMorph: pane frame: (0 @ 0 corner: 1 @ 1).
+	window fullBounds.
+	panel := self panelOf: window.
+	morphicWorld becomeActiveDuring: [
+		panel mouseDownAt: pane center button: MouseButtonEvent yellowButton.
+		panel mouseUpAt: pane center].
+	menus := morphicWorld submorphs select: [:each | each isKindOf: MenuMorph].
+	self assert: 1 equals: menus size.
 ]
 
 {
@@ -389,6 +421,19 @@ SRMorphPanelTest >> testMorphInPanel [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanelTest >> testOnlyPointsOnTheMorphTakeARightClick [
+	| window panel |
+	window := self openWindowInMorphic.
+	panel := self panelOf: window.
+	self
+		assert: (panel acceptsRightClickAt: (panel globalPointForMorphPoint: window center));
+		deny: (panel acceptsRightClickAt: (panel globalPointForMorphPoint: window bottomRight + (20 @ 20))).
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 8/10/2026 15:15'
 }
 SRMorphPanelTest >> testOpeningMorphInMorphicCreatesPanelInXR [
@@ -540,6 +585,37 @@ SRMorphPanelTest >> testResizingTheMorphInMorphicResizesThePanel [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanelTest >> testTheBButtonBesideTheMorphKeepsTheXRMenu [
+	"Off the morph, e.g. on a resizer, so the right click queues nothing in the live UI process."
+	| window panel hand |
+	window := self openWindowInMorphic.
+	panel := self panelOf: window.
+	hand := xrWorld avatar rightHand.
+	hand selectTargetsFrom: {SRIntersectionResult new
+		object: (panel children detect: [:each | each isKindOf: SRPlane]);
+		point: (panel globalPointForMorphPoint: window bottomRight + (20 @ 20));
+		distance: 1m;
+		yourself}.
+	xrWorld avatar openMenuForHand: hand.
+	self assert: xrWorld avatar contextMenu notNil.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:50'
+}
+SRMorphPanelTest >> testTheBButtonElsewhereKeepsTheXRMenu [
+	| hand |
+	hand := xrWorld avatar rightHand.
+	self aim: hand at: SRCube new.
+	xrWorld avatar openMenuForHand: hand.
+	self assert: xrWorld avatar contextMenu notNil.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:23'
 }
 SRMorphPanelTest >> testThePanelSizeDoesNotGrowWithTheDesktopScaleFactor [
@@ -548,6 +624,19 @@ SRMorphPanelTest >> testThePanelSizeDoesNotGrowWithTheDesktopScaleFactor [
 	morph := Morph new extent: (1000 * RealEstateAgent scaleFactor) @ 500; yourself.
 	panel := SRMorphPanel new morph: morph.
 	self assert: (morph width / panel pixelsPerMeter closeTo: 1000 / SRMorphPanel pixelsPerMeter).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanelTest >> testTheRayFindsThePanelThroughItsPlane [
+	| panel plane hand |
+	panel := self panelOf: self openWindowInMorphic.
+	plane := panel children detect: [:each | each isKindOf: SRPlane].
+	hand := xrWorld avatar rightHand.
+	self aim: hand at: plane.
+	self assert: hand morphPanelUnderRay == panel.
 ]
 
 {

@@ -532,7 +532,7 @@ SRAvatar >> openContextMenuFor: anObject at: aPosition [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (jl) 10/29/2026 12:57'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
 }
 SRAvatar >> openMenuForHand: aHand [
 
@@ -541,6 +541,10 @@ SRAvatar >> openMenuForHand: aHand [
 		contextMenu remove.
 		contextMenu := nil.
 		^ self].
+	aHand grabbedObject ifNil: [
+		aHand morphPanelUnderRay ifNotNil: [:panel |
+			(panel acceptsRightClickAt: aHand cursorPoint)
+				ifTrue: [^ panel rightClickAt: aHand cursorPoint by: aHand]]].
 	position := self menuPlacementPositionForHand: aHand.
 	aHand grabbedObject ifNotNil: [:object | ^ self openContextMenuFor: object at: position].
 	aHand appUnderRay

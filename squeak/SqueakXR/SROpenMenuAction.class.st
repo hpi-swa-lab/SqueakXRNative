@@ -10,7 +10,7 @@ Class {
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:26'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
 }
 SROpenMenuAction >> run: inputState [
 

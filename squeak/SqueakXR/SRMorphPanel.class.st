@@ -174,6 +174,15 @@ SRMorphPanel class >> xrMenuRefreshAll: aMenu [
 ]
 
 {
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanel >> acceptsRightClickAt: aVector [
+
+	^ self morph notNil and: [self morph bounds containsPoint: (self morphPointForGlobalPoint: aVector)]
+]
+
+{
 	#category : #menu,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:41'
 }
@@ -328,14 +337,11 @@ SRMorphPanel >> fullTextureUpdate [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 10/20/2026 14:19'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
 }
 SRMorphPanel >> getClickPoint: anEvent [
 
-	| normalizedPoint point |
-	point := plane globalTransform globalPointToLocal: anEvent point.
-	normalizedPoint := point xz asPoint + 0.5 asPoint.
-	^ (normalizedPoint * (self morph extent)) + self morph topLeft. 
+	^ self morphPointForGlobalPoint: anEvent point
 ]
 
 {
@@ -549,8 +555,20 @@ SRMorphPanel >> morph: aMorph [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
+}
+SRMorphPanel >> morphPointForGlobalPoint: aVector [
+
+	| normalizedPoint point |
+	point := plane globalTransform globalPointToLocal: aVector.
+	normalizedPoint := point xz asPoint + 0.5 asPoint.
+	^ (normalizedPoint * (self morph extent)) + self morph topLeft
+]
+
+{
 	#category : #events,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:46'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
 }
 SRMorphPanel >> morphicButtonFor: anInputEvent controlDown: aBoolean [
 	"Ctrl+click is Squeak's right click for a one-button mouse. The simulator's
@@ -680,7 +698,7 @@ SRMorphPanel >> onButtonPress: anEvent [
 
 {
 	#category : #events,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:16'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:49'
 }
 SRMorphPanel >> onButtonRelease: anEvent [
 	| point |
@@ -895,6 +913,20 @@ SRMorphPanel >> resizerAt: aCornerSymbol [
 SRMorphPanel >> resizers [
 
 	^ resizers
+]
+
+{
+	#category : #events,
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+}
+SRMorphPanel >> rightClickAt: aVector by: aHand [
+	| point |
+	point := self morphPointForGlobalPoint: aVector.
+	Project current addDeferredUIMessage: [
+		SRClickingHandVariable value: aHand during: [
+			self
+				mouseDownAt: point button: MouseButtonEvent yellowButton;
+				mouseUpAt: point]].
 ]
 
 {
