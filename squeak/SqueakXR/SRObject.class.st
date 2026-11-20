@@ -1642,6 +1642,17 @@ SRObject >> renderInSecondPass [
 	^ self parent ifNotNil: [ parent renderInSecondPass ] ifNil: [ false ]
 ]
 
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:46'
+}
+SRObject >> renderMiniOn: aRenderer [
+
+	"Render this inside a smaller version of the world, while already rendering.
+	Some classes do not like to be rendered in a mini version, so they may override this to do nothing or something special instead."
+	self renderOn: aRenderer
+]
+
 { #category : #rendering }
 SRObject >> renderOn: aRenderer [
 

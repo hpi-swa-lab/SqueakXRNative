@@ -128,3 +128,12 @@ SRSkyBox >> reloadTexture [
 
 	material cubemap source path: self class textureFullPath
 ]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:47'
+}
+SRSkyBox >> renderMiniOn: aRenderer [
+
+	"TODO: render something eventually, but for now, nothing. (Broke the rendering of everything *but* the mini version)"
+]

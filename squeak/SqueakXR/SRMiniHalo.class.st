@@ -43,7 +43,7 @@ SRMiniHalo >> miniTransformToGlobal: mini [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:29'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:50'
 }
 SRMiniHalo >> renderOn: aRenderer [
 	"Render the entire world as a small model at my position."
@@ -56,7 +56,7 @@ SRMiniHalo >> renderOn: aRenderer [
 			[ 
 			self world
 				allDescendantsSelect: [ :obj | obj isRendering and: [ obj ~= self ] ]
-				thenDo: [ :obj | obj renderOn: aRenderer ] ]
+				thenDo: [ :obj | obj renderMiniOn: aRenderer ] ]
 				on: Error
 				do: [  ] ]
 ]
