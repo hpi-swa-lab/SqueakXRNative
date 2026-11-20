@@ -205,16 +205,16 @@ SRResizer >> isGrabHandle [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
 SRResizer >> isHovered [
 
 	| world |
 	self isDragging ifTrue: [^ true].
 	world := self world ifNil: [^ false].
-	world avatar ifNil: [^ false].
-	^ world avatar hands anySatisfy: [:hand |
-		hand grabCandidate notNil and: [hand grabCandidate grabTarget == self]]
+	^ world avatars anySatisfy: [:each |
+		each hands anySatisfy: [:hand |
+			hand grabCandidate notNil and: [hand grabCandidate grabTarget == self]]]
 ]
 
 {

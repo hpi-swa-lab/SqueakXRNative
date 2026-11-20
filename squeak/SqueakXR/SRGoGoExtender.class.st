@@ -45,16 +45,17 @@ SRGoGoExtender >> step: deltaTime [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 19:26'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:48'
 }
 SRGoGoExtender >> updatePosition [
 
-	| fromShoulder rr d k rv shoulder |
-	shoulderCube visible: (self world isXR and: [self parent isDirect not]).
+	| fromShoulder rr d k rv shoulder avatar |
+	avatar := self parent hand avatar.
+	shoulderCube visible: ((avatar notNil and: [avatar isControllerDriven]) and: [self parent isDirect not]).
 	shoulderCube visible ifFalse: [
 		"The simulator reaches with the mouse, a held tool reaches only as far as the hand."
 		^ self placeAt: self parent globalTranslation].
-	shoulder := self world avatar shoulderPosition.
+	shoulder := avatar shoulderPosition.
 	fromShoulder := self parent globalTranslation - shoulder.
 	rr := fromShoulder length.
 	d := 0.3m.

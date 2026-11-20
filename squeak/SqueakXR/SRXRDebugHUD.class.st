@@ -55,7 +55,7 @@ SRXRDebugHUD >> isDebugHUD [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'lege 7/21/2026 10:46'
+	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:57'
 }
 SRXRDebugHUD >> step: delta [
 
@@ -71,7 +71,7 @@ SRXRDebugHUD >> step: delta [
 	visible ifFalse: [^ self].
 	
 	raylibFPS := Raylib getFPS.
-	camera := self world camera.
+	camera := self parent avatar camera.
 	pos := camera position.
 	dir := camera forward.
 	painter := self gizmoPainter.
@@ -83,7 +83,7 @@ SRXRDebugHUD >> step: delta [
 		gizmo2DText: 'Position: ', (pos x roundTo: 0.01) printString, ', ', (pos y roundTo: 0.01) printString, ', ', (pos z roundTo: 0.01) printString at: 10 @ 75 fontSize: 16 color: Color white;
 		gizmo2DText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString at: 10 @ 95 fontSize: 16 color: Color white.
 	
-	selected := self world avatar rightHand selectedObject.
+	selected := self parent avatar rightHand selectedObject.
 	selText := selected
 		ifNotNil: [:obj | obj class name, ' (', (obj name ifNil: ['unnamed']), ')']
 		ifNil: ['none'].
