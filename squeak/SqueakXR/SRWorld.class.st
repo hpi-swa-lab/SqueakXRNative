@@ -553,14 +553,22 @@ SRWorld class >> runStartScriptInXR: aBoolean [
 
 {
 	#category : #preferences,
-	#'squeak_changestamp' : 'lege 8/5/2026 11:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
+}
+SRWorld class >> saveAndQuit: aMenu [
+	<xrMenu: #(world) label: 'Save and Quit' priority: 10001>
+
+	self snapshotAndQuit: true
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
 }
 SRWorld class >> saveImage: aMenu [
 	<xrMenu: #(world) label: 'Save Image' priority: 10000>
-	
-	"Since the world process is suspended during the startUp/shutDown procedure,
-	we cannot perform said procedure in the world process. Instead, create a new process for it."
-	[Smalltalk snapshot: true andQuit: false] fork
+
+	self snapshotAndQuit: false
 ]
 
 { #category : #'as yet unclassified' }
@@ -577,6 +585,16 @@ SRWorld class >> shutDown: quitting [
 
 	self allInstances do: [:world |
 		world shutDown: quitting]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:50'
+}
+SRWorld class >> snapshotAndQuit: aBoolean [
+	"The world process is suspended during the startUp/shutDown procedure, so it must run in a separate process."
+
+	[Smalltalk snapshot: true andQuit: aBoolean] fork
 ]
 
 {

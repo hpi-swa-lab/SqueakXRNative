@@ -5,12 +5,21 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/3/2026 14:08'
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 16:13'
 }
 SRAssets class >> assetsDirectory [
 
 	^ (({GSBaseWorkingCopy. GSGitWorkingCopy} collect: [:class |
-		class named: 'SqueakXRNative' ifAbsent: [nil]]) detect: #notNil)
+		class named: self repositoryName ifAbsent: [nil]]) detect: #notNil)
 			repository workingDir / 'assets'
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 16:13'
+}
+SRAssets class >> repositoryName [
+
+	^ 'SqueakXRNative'
 ]
