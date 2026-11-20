@@ -31,7 +31,7 @@ SRMiniView >> miniTransform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 15:46'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:48'
 }
 SRMiniView >> renderObjects: rendering on: aRenderer [
 
@@ -39,7 +39,7 @@ SRMiniView >> renderObjects: rendering on: aRenderer [
 	aRenderer withTransform: self miniTransform do: [
 		[rendering isEmpty] whileFalse: [
 			object := rendering removeFirst.
-			[object renderOn: aRenderer]
+			[object renderMiniOn: aRenderer]
 			on: Error do: ["Don't care about rendering errors here!"]
 		]
 	]
@@ -47,13 +47,13 @@ SRMiniView >> renderObjects: rendering on: aRenderer [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/3/2026 15:49'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:57'
 }
 SRMiniView >> renderOn: aRenderer [
 
 	| renderingObjects |
 	renderingObjects := self subtree ifNil: [^self] ifNotNil: [:tree | 
-		tree allDescendantsSelect: [:obj | obj isRendering]
+		tree allDescendantsSelect: [:obj | obj ~= self and: [obj isRendering]]
 	].
 	self renderObjects: renderingObjects on: aRenderer.
 ]

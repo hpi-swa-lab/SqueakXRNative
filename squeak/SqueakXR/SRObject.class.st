@@ -130,7 +130,7 @@ SRObject >> actOnInput: anInputEvent [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:04'
 }
 SRObject >> addChild: aSRObject [
 	
@@ -154,6 +154,7 @@ SRObject >> addChild: aSRObject [
 	
 	self changed: #childAdded with: self.
 	world ifNotNil: [world notifyObjectAdded: aSRObject].
+	^aSRObject
 ]
 
 { #category : #hierarchy }
@@ -1648,6 +1649,17 @@ SRObject >> removedChild: aSRObject [
 SRObject >> renderInSecondPass [
 
 	^ self parent ifNotNil: [ parent renderInSecondPass ] ifNil: [ false ]
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:46'
+}
+SRObject >> renderMiniOn: aRenderer [
+
+	"Render this inside a smaller version of the world, while already rendering.
+	Some classes do not like to be rendered in a mini version, so they may override this to do nothing or something special instead."
+	self renderOn: aRenderer
 ]
 
 { #category : #rendering }

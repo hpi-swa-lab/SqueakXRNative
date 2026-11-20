@@ -1,36 +1,41 @@
 Class {
 	#name : #SRMiniHalo,
 	#superclass : #SRHalo,
+	#instVars : [
+		'proxy',
+		'view'
+	],
 	#category : #'SqueakXR-Halo'
 }
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:30'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:54'
 }
 SRMiniHalo >> addHandles [ 
 	
-	| mini |
-	mini := SRMiniHaloProxy new.
-	self addChild: mini.
-	mini globalTransform: self miniTransform * self target globalTransform.
+	proxy globalTransform: self miniTransform * self target globalTransform.
+	view subtree: self world.
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 13:13'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:11'
 }
 SRMiniHalo >> initialize [
 
 	super initialize.
+	proxy := self addChild: SRMiniHaloProxy new.
+	view := self addChild: (SRMiniView new
+		scale: 0.1 asVector3)
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:29'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 16:54'
 }
 SRMiniHalo >> miniTransform [
-	^ self globalTransform * (Matrix4x4 withScale: 0.1 asVector3)
+	^ view globalTransform
 ]
 
 {
@@ -39,24 +44,4 @@ SRMiniHalo >> miniTransform [
 }
 SRMiniHalo >> miniTransformToGlobal: mini [
 	^ self miniTransform inverseTransformation * mini
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/2/2026 14:29'
-}
-SRMiniHalo >> renderOn: aRenderer [
-	"Render the entire world as a small model at my position."
-
-	| xform |
-	xform := self miniTransform.
-	aRenderer
-		withTransform: xform
-		do: [ 
-			[ 
-			self world
-				allDescendantsSelect: [ :obj | obj isRendering and: [ obj ~= self ] ]
-				thenDo: [ :obj | obj renderOn: aRenderer ] ]
-				on: Error
-				do: [  ] ]
 ]
