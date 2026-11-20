@@ -130,7 +130,7 @@ SRObject >> actOnInput: anInputEvent [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:09'
+	#'squeak_changestamp' : 'phkeese 11/20/2026 17:04'
 }
 SRObject >> addChild: aSRObject [
 	
@@ -154,6 +154,7 @@ SRObject >> addChild: aSRObject [
 	
 	self changed: #childAdded with: self.
 	world ifNotNil: [world notifyObjectAdded: aSRObject].
+	^aSRObject
 ]
 
 { #category : #hierarchy }
