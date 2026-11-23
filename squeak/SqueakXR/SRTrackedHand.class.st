@@ -222,6 +222,17 @@ SRTrackedHand >> jointForNamedIndex: index [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
+}
+SRTrackedHand >> jointLocationsIn: someHandJoints [
+
+	^ self isLeft
+		ifTrue: [someHandJoints leftJointLocations]
+		ifFalse: [someHandJoints rightJointLocations]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 10/22/2026 17:42'
 }
@@ -241,13 +252,11 @@ SRTrackedHand >> joints: anSequenceableCollection [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:07'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
 }
 SRTrackedHand >> jointsUpdated: someHandJoints [
 
-	self updateJoints: (self isLeft
-		ifTrue: [someHandJoints leftJointLocations]
-		ifFalse: [someHandJoints rightJointLocations])
+	self updateJoints: (self jointLocationsIn: someHandJoints)
 ]
 
 {

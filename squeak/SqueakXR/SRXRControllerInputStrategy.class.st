@@ -10,20 +10,36 @@ Class {
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
 }
 SRXRControllerInputStrategy >> actionsUpdated: someActionStates [
 
-	avatar hands do: [:each | each actionsUpdated: someActionStates].
+	avatar activeHands do: [:each | each actionsUpdated: someActionStates].
+]
+
+{
+	#category : #'initialize-release',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
+}
+SRXRControllerInputStrategy >> detach [
+
+	avatar ifNotNil: [:anAvatar | anAvatar useControllerHands].
+	super detach.
 ]
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
 }
 SRXRControllerInputStrategy >> handJointsUpdated: someHandJoints [
 
-	avatar enableHandTracking do: [:each | each jointsUpdated: someHandJoints].
+	avatar trackedHands ifNil: [^ self].
+	someHandJoints isActive = avatar usesTrackedHands ifFalse: [
+		someHandJoints isActive
+			ifTrue: [avatar useTrackedHands]
+			ifFalse: [avatar useControllerHands]].
+	avatar usesTrackedHands ifTrue: [
+		avatar trackedHands do: [:each | each jointsUpdated: someHandJoints]].
 ]
 
 {

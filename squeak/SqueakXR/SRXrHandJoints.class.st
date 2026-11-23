@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/26/2026 17:05'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:14'
 }
 SRXrHandJoints class >> fields [
 
@@ -14,5 +14,16 @@ SRXrHandJoints class >> fields [
 	^ #(
 		(leftJointLocations 'XrHandJointLocationEXT[26]')
 		(rightJointLocations 'XrHandJointLocationEXT[26]')
+		(leftIsActive 'XrBool32')
+		(rightIsActive 'XrBool32')
 		) 
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRXrHandJoints >> isActive [
+
+	^ self leftIsActive value ~= 0 or: [self rightIsActive value ~= 0]
 ]

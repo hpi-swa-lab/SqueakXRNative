@@ -39,6 +39,41 @@ SRInputStrategyTest >> testAStrategyListensToTheWorldOfItsAvatar [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRInputStrategyTest >> testDetachingControllerInputBringsBackTheControllerHands [
+
+	| avatar |
+	avatar := SRAvatar inputStrategy: SRXRControllerInputStrategy new.
+	avatar enableHandTracking.
+	avatar useTrackedHands.
+	avatar inputStrategy: nil.
+	self assert: (avatar hands allSatisfy: [:each | avatar isUsing: each]).
+	self assert: (avatar trackedHands noneSatisfy: [:each | avatar isUsing: each]).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRInputStrategyTest >> testEitherActiveHandSwitchesBothHandsToTracking [
+
+	| strategy avatar joints |
+	strategy := SRXRControllerInputStrategy new.
+	avatar := SRAvatar inputStrategy: strategy.
+	avatar enableHandTracking.
+	joints := SRXrHandJoints new.
+	joints leftIsActive: (XrBool32 on: 1).
+	strategy handJointsUpdated: joints.
+	self assert: avatar activeHands isEmpty.
+	self assert: (avatar trackedHands allSatisfy: [:each | avatar isUsing: each]).
+	joints leftIsActive: (XrBool32 on: 0).
+	strategy handJointsUpdated: joints.
+	self assert: avatar activeHands asArray equals: avatar hands.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:57'
 }
 SRInputStrategyTest >> testOnlyControllerInputDrivesFromControllers [

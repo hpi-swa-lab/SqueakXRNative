@@ -368,6 +368,17 @@ SRAvatarTest >> testTeleportPutsTheFeetOnTheTargetNotTheRigOrigin [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatarTest >> testTrackedHandsAreOnlyUsedOnceActive [
+
+	| avatar |
+	avatar := SRAvatar new enableHandTracking; yourself.
+	self assert: (avatar trackedHands noneSatisfy: [:each | avatar isUsing: each]).
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer 10/16/2026 15:50'
 }
 SRAvatarTest >> testTurningChangesFacingWithoutMovingTheHead [

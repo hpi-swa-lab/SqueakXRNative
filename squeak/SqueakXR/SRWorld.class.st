@@ -820,6 +820,16 @@ SRWorld >> doOneCycle [
 ]
 
 {
+	#category : #xr,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRWorld >> enableHandTracking [
+
+	self avatarsDo: [:each |
+		each isControllerDriven ifTrue: [each enableHandTracking]].
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
@@ -977,7 +987,7 @@ SRWorld >> initialize [
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
 }
 SRWorld >> initializeWorldProcess [
 	
@@ -988,6 +998,7 @@ SRWorld >> initializeWorldProcess [
 		self initXrInput.
 		self log: 'initXrHandTracking'.
 		supportsHandTracking := SRAvatar handTracking and: [self initXrHandTracking].
+		supportsHandTracking ifTrue: [self enableHandTracking].
 		Transcript showln: 'Handtracking: ', supportsHandTracking asString].
 	Smalltalk at: #XRWorld put: self.
 	self allDo: #onWorldStarted.

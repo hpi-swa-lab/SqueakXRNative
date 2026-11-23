@@ -19,7 +19,8 @@ Class {
 		'lastRigTranslation',
 		'trackedHands',
 		'walkSpeedFactor',
-		'inputStrategy'
+		'inputStrategy',
+		'usesTrackedHands'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
@@ -277,6 +278,15 @@ SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatar >> activeHands [
+
+	^ self hands select: [:each | self isUsing: each]
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (jl) 10/21/2026 09:54'
 }
@@ -363,14 +373,11 @@ SRAvatar >> contextMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/18/2026 16:58'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
 }
 SRAvatar >> enableHandTracking [
 
-	^ trackedHands ifNil: [
-		trackedHands := {SRTrackedHand left. SRTrackedHand right}.
-		self addChildren: trackedHands.
-		trackedHands]
+	trackedHands ifNil: [trackedHands := {SRTrackedHand left. SRTrackedHand right}].
 ]
 
 {
@@ -490,6 +497,15 @@ SRAvatar >> isControllerDriven [
 SRAvatar >> isOutOfBody [
 
 	^ ghostAvatar notNil
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatar >> isUsing: aHand [
+
+	^ aHand parent == self
 ]
 
 {
@@ -839,6 +855,18 @@ SRAvatar >> updateSmoothTurn: deltaTime [
 ]
 
 {
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> useControllerHands [
+
+	trackedHands ifNotNil: [:someTrackedHands |
+		someTrackedHands do: [:each | self removeChild: each]].
+	self addChildren: self hands.
+	usesTrackedHands := false.
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
 }
@@ -846,6 +874,26 @@ SRAvatar >> useDefaultLocomotion [
 
 	locomotionEnabled := nil.
 	lastRigTranslation := nil.
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> useTrackedHands [
+
+	self hands do: [:each | self removeChild: each].
+	self addChildren: trackedHands.
+	usesTrackedHands := true.
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> usesTrackedHands [
+
+	^ usesTrackedHands ifNil: [false]
 ]
 
 {
