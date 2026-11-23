@@ -1103,7 +1103,10 @@ SRWorld >> keyboardFocus [
 	^ keyboardFocus
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
+}
 SRWorld >> keyboardFocus: aSRObject [
 
 	keyboardFocus := aSRObject

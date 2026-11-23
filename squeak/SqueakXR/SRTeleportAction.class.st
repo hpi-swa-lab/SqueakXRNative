@@ -10,12 +10,12 @@ Class {
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:29'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
 }
 SRTeleportAction >> run: inputState [
 
 	self hand avatar ifNotNil: [:avatar |
-		self hand isAimingAtMorphPanel
+		self hand isAimingAtSelectedMorphPanel
 			ifTrue: [avatar cancelTeleportAim]
 			ifFalse: [self updateTeleportOf: avatar with: inputState joystick vector]].
 	^ true

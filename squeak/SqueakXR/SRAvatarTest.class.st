@@ -155,16 +155,19 @@ SRAvatarTest >> testLeaningIntoAWallDoesNotMoveTheWorld [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:30'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
 }
-SRAvatarTest >> testLeftStickScrollsInsteadOfWalkingWhileAimingAtAMorphPanel [
-
-	| avatar |
+SRAvatarTest >> testLeftStickWalksUntilATriggerSelectsTheAimedPanel [
+	| avatar world panel |
 	avatar := SRAvatar new.
 	SRAvatar locomotionStyle: #continuous.
 	avatar leftHand inputState joystick vertical: 1.
+	world := SRWorld new.
+	panel := SRMorphPanel new.
+	world addChild: panel.
+	self aim: avatar leftHand at: (panel children detect: [:each | each isKindOf: SRPlane]).
 	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
-	self aim: avatar leftHand at: (SRMorphPanel new children detect: [:each | each isKindOf: SRPlane]).
+	world keyboardFocus: panel.
 	self assert: nil equals: (avatar stickMotionFor: avatar leftHand dt: 0.1).
 	self aim: avatar leftHand at: SRObject new.
 	self assert: (avatar stickMotionFor: avatar leftHand dt: 0.1) notNil.
