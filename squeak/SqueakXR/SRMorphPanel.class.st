@@ -854,6 +854,15 @@ SRMorphPanel >> pixelsPerMeter [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:00'
+}
+SRMorphPanel >> plane [
+
+	^ plane
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
 }
