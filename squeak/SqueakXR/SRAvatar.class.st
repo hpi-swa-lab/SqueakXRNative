@@ -18,10 +18,12 @@ Class {
 		'locomotionEnabled',
 		'lastRigTranslation',
 		'trackedHands',
-		'walkSpeedFactor'
+		'walkSpeedFactor',
+		'floorMarker'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
+		'FlySpeed',
 		'HandTracking',
 		'SmoothTurn',
 		'SmoothTurnSpeed',
@@ -52,6 +54,26 @@ SRAvatar class >> continuousLocomotion [
 SRAvatar class >> continuousLocomotion: aBoolean [
 
 	ContinuousLocomotion := aBoolean.
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar class >> flySpeed [
+	<preference: 'Fly speed'
+		category: 'SqueakXR'
+		description: 'Metres per second the right thumbstick (Shift / Ctrl on the desktop) raises and lowers the plane the player walks on.'
+		type: #Number>
+	^ FlySpeed ifNil: [2]
+]
+
+{
+	#category : #preferences,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar class >> flySpeed: aNumber [
+	FlySpeed := aNumber.
 ]
 
 {
@@ -386,6 +408,26 @@ SRAvatar >> exitOutOfBody [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar >> flyBy: aDistance [
+	"Moves the plane I walk on, and me with it. Going down stops at anything solid: there I stand on it again."
+	| feet base target |
+	aDistance = 0 ifTrue: [^ self].
+	feet := self translation y.
+	base := self body floorY ifNil: [feet].
+	feet > (base + 5cm) ifTrue: [base := feet].
+	target := base + aDistance max: SRAvatarBody bedrock.
+	(aDistance < 0 and: [self solidBelowFeetAt: target]) ifTrue: [
+		self body floorY: nil.
+		^ self updateFloorMarker].
+	self body floorY: (target > SRAvatarBody bedrock ifTrue: [target] ifFalse: [nil]).
+	self translation: self translation x @ target @ self translation z.
+	self updateFloorMarker
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer 9/18/2026 15:50'
 }
@@ -628,6 +670,19 @@ SRAvatar >> snapBodyUnderHead: head floorY: feetY [
 ]
 
 {
+	#category : #locomotion,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar >> solidBelowFeetAt: aY [
+	| head |
+	camera ifNil: [^ false].
+	head := camera globalTranslation.
+	^ (SRSceneSolids forObject: self)
+		solidInBoxCenter: (self body centreForFeet: head x @ aY @ head z)
+		halfExtents: self body halfExtents
+]
+
+{
 	#category : #stepping,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
 }
@@ -743,7 +798,45 @@ SRAvatar >> turnBy: degrees [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:05'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar >> updateFloorMarker [
+	"A faint square under the player while walking on a raised plane."
+	| head |
+	self body floorY ifNil: [
+		floorMarker ifNotNil: [floorMarker remove. floorMarker := nil].
+		^ self].
+	(floorMarker isNil or: [floorMarker world isNil]) ifTrue: [
+		self world ifNil: [^ self].
+		floorMarker := SRCube new
+			drawWires: true;
+			color: (Color cyan alpha: 0.12);
+			ignoreCollision: true;
+			scale: 2m @ 2mm @ 2m;
+			yourself.
+		self world addChild: floorMarker].
+	camera ifNil: [^ self].
+	head := camera globalTranslation.
+	floorMarker translation: head x @ (self body floorY - 1mm) @ head z
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatar >> updateFlying: deltaTime [
+	"Right stick forward and back; sideways it turns, so only a mostly vertical push counts."
+	| stick |
+	rightHand ifNil: [^ self].
+	rightHand isAimingAtSelectedMorphPanel ifTrue: [^ self].
+	stick := rightHand inputState joystick vector.
+	(stick y abs > 0.3 and: [stick y abs > stick x abs]) ifFalse: [^ self].
+	self flyBy: stick y * self class flySpeed * (deltaTime asFloat min: 0.1)
+]
+
+{
+	#category : #locomotion,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
 }
 SRAvatar >> updateLocomotion: deltaTime [
 
@@ -753,6 +846,9 @@ SRAvatar >> updateLocomotion: deltaTime [
 
 	dt := deltaTime asFloat min: 0.1.
 	dt <= 0.0 ifTrue: [^ self].
+
+	self updateFlying: dt.
+	self body floorY ifNotNil: [self updateFloorMarker].
 
 	head := camera globalTranslation.
 
