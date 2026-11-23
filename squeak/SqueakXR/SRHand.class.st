@@ -545,16 +545,6 @@ SRHand >> noteInputEvent: aString [
 ]
 
 {
-	#category : #events,
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
-}
-SRHand >> onWorldChanged: oldWorld [
-
-	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world ifNotNil: [:each | each addDependent: self].
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/30/2026 17:16'
 }
@@ -654,7 +644,7 @@ SRHand >> squeeze [
 
 {
 	#category : #actions,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:43'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:46'
 }
 SRHand >> teleport [
 
@@ -662,7 +652,7 @@ SRHand >> teleport [
 	self world ifNil: [^ self].
 	hit := self rayForward castNearestSolid: self world.
 	hit ifNil: [^ self].
-	(avatar ifNil: [self world avatar]) teleportTo: hit point.
+	avatar teleportTo: hit point.
 ]
 
 {
@@ -700,16 +690,6 @@ SRHand >> topButton [
 SRHand >> trigger [
 
 	^ self inputState trigger
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
-}
-SRHand >> update: aSymbol with: anObject [
-	"Controller input belongs to the world avatar; any other avatar is driven by SRXRInputEmulator."
-	(aSymbol = #actionsUpdated and: [avatar == self world avatar])
-		ifTrue: [self actionsUpdated: anObject]
 ]
 
 {

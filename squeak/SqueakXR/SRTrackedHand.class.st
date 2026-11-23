@@ -240,6 +240,17 @@ SRTrackedHand >> joints: anSequenceableCollection [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:07'
+}
+SRTrackedHand >> jointsUpdated: someHandJoints [
+
+	self updateJoints: (self isLeft
+		ifTrue: [someHandJoints leftJointLocations]
+		ifFalse: [someHandJoints rightJointLocations])
+]
+
+{
 	#category : #'accessing - joints',
 	#'squeak_changestamp' : 'MCPServer (leo) 10/23/2026 14:05'
 }
@@ -451,18 +462,6 @@ SRTrackedHand >> thumbProximal [
 SRTrackedHand >> thumbTip [
 
 	^ self jointForNamedIndex: XrHandJointEXT XR_HAND_JOINT_THUMB_TIP_EXT
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 15:07'
-}
-SRTrackedHand >> update: aSymbol with: anObject [
-
-	aSymbol = #handJointsUpdated ifTrue: [
-		self updateJoints: (self isLeft
-			ifTrue: [anObject leftJointLocations]
-			ifFalse: [anObject rightJointLocations])].
 ]
 
 {

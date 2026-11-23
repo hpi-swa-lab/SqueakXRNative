@@ -18,7 +18,8 @@ Class {
 		'locomotionEnabled',
 		'lastRigTranslation',
 		'trackedHands',
-		'walkSpeedFactor'
+		'walkSpeedFactor',
+		'inputStrategy'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
@@ -73,6 +74,17 @@ SRAvatar class >> handTracking [
 SRAvatar class >> handTracking: aBoolean [
 
 	HandTracking := aBoolean.
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar class >> inputStrategy: anInputStrategy [
+
+	^ self new
+		inputStrategy: anInputStrategy;
+		yourself
 ]
 
 {
@@ -430,6 +442,30 @@ SRAvatar >> initialize [
 ]
 
 {
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar >> inputStrategy [
+
+	^ inputStrategy
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar >> inputStrategy: anInputStrategy [
+
+	inputStrategy ifNotNil: [:old |
+		self world ifNotNil: [:aWorld | aWorld removeDependent: old].
+		old detach].
+	inputStrategy := anInputStrategy.
+	inputStrategy ifNil: [^ self].
+	inputStrategy attachTo: self.
+	self world ifNotNil: [:aWorld | aWorld addDependent: inputStrategy].
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
@@ -440,11 +476,11 @@ SRAvatar >> isAvatar [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:48'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
 }
 SRAvatar >> isControllerDriven [
-	"False for a desktop user's avatar, which SRXRInputEmulator drives even in an XR world."
-	^ self world notNil and: [self world isXR and: [self world avatar == self]]
+
+	^ inputStrategy notNil and: [inputStrategy isControllerInput]
 ]
 
 {
@@ -519,6 +555,18 @@ SRAvatar >> menuPlacementPositionForHand: aHand [
 	^ aHand globalTranslation
 		+ (camera forward * self class menuSpawnDistance)
 		+ (Vector3 up * self class menuSpawnLift)
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar >> onWorldChanged: oldWorld [
+
+	super onWorldChanged: oldWorld.
+	inputStrategy ifNil: [^ self].
+	oldWorld ifNotNil: [oldWorld removeDependent: inputStrategy].
+	self world ifNotNil: [:aWorld | aWorld addDependent: inputStrategy].
 ]
 
 {
@@ -707,6 +755,15 @@ SRAvatar >> toggleOutOfBody [
 	self isOutOfBody
 		ifTrue: [self exitOutOfBody]
 		ifFalse: [self enterOutOfBody]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:07'
+}
+SRAvatar >> trackedHands [
+
+	^ trackedHands
 ]
 
 {

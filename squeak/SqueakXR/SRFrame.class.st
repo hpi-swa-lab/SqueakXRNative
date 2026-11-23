@@ -157,13 +157,12 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:21'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
 }
 SRFrame >> process [
 
 	self updateActions; stepObjects.
 	[self prepareFrame; renderObjects] ensure: [self completeFrame].
-
 ]
 
 {
@@ -213,10 +212,13 @@ SRFrame >> stepObjects [
 			self handleError: error]
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
+}
 SRFrame >> updateActions [
 
-	isOld ifFalse: [self world updateActions]
+	isOld ifFalse: [self world updateActions: deltaTime]
 ]
 
 { #category : #accessing }

@@ -75,13 +75,12 @@ SRAxesTest >> testEachBarSpansItsOwnHalfAxis [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRAxesTest >> testEachFrameGetsItsOwnSize [
 
 	| avatar |
 	avatar := SRAvatar new.
-	world avatar: avatar.
 	world addChild: avatar.
 	SRAxes showAxes: true.
 	self assert: world debugAxesLength equals: world axes length.
@@ -154,13 +153,12 @@ SRAxesTest >> testSixBarsAndAnOrigin [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRAxesTest >> testTheCameraNeverGetsAxes [
 
 	| avatar |
 	avatar := SRAvatar new.
-	world avatar: avatar.
 	world addChild: avatar.
 	SRAxes showAxes: true.
 	self assert: avatar camera axes isNil.
@@ -169,13 +167,12 @@ SRAxesTest >> testTheCameraNeverGetsAxes [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRAxesTest >> testTheGhostCarriesAForwardBarRatherThanABasis [
 
 	| avatar ghost |
 	avatar := SRAvatar new.
-	world avatar: avatar.
 	world addChild: avatar.
 	SRAxes showAxes: true.
 	avatar enterOutOfBody.
@@ -205,13 +202,12 @@ SRAxesTest >> testTicksSitOnTheirOwnAxis [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:06'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRAxesTest >> testTurningThePreferenceOffRemovesEveryAxes [
 
 	| avatar |
 	avatar := SRAvatar new.
-	world avatar: avatar.
 	world addChild: avatar.
 	SRAxes showAxes: true.
 	avatar enterOutOfBody.

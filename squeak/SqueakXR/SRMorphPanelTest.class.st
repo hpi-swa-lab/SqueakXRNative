@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'xrWorld',
 		'previousXRWorld',
-		'morphicWorld'
+		'morphicWorld',
+		'avatar'
 	],
 	#category : #'SqueakXR-Tests-Morphic'
 }
@@ -75,15 +76,15 @@ SRMorphPanelTest >> panels [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer 8/11/2026 15:02'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> setUp [
 
 	super setUp.
 	previousXRWorld := SRWorld current.
 	xrWorld := SRWorld new.
-	xrWorld avatar: SRAvatar new.
-	xrWorld addChild: xrWorld avatar.
+	avatar := SRAvatar new.
+	xrWorld addChild: avatar.
 	xrWorld project: SRDummyMorphicProject new.
 	SRWorld current: xrWorld.
 	morphicWorld := xrWorld morphicWorld
@@ -160,16 +161,16 @@ SRMorphPanelTest >> testAGrabbedPanelFollowsTheHand [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testAPopUpMenuOpensAtTheClickingHand [
 	| hand menu |
-	hand := xrWorld avatar rightHand.
+	hand := avatar rightHand.
 	menu := MenuMorph new.
 	menu add: 'one' action: #yourself.
 	SRClickingHandVariable value: hand during: [morphicWorld addMorphFront: menu].
 	self assert: ((self panelOf: menu) globalTranslation
-		- (xrWorld avatar menuPlacementPositionForHand: hand)) length < 1mm.
+		- (avatar menuPlacementPositionForHand: hand)) length < 1mm.
 ]
 
 {
@@ -231,13 +232,13 @@ SRMorphPanelTest >> testARightPressOpensTheMorphicMenu [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testASubmenuOpensBesideItsParent [
 	| parent sub parentPanel subPanel seam |
 	parent := MenuMorph new.
 	parent add: 'more' action: #yourself.
-	SRClickingHandVariable value: xrWorld avatar rightHand during: [
+	SRClickingHandVariable value: avatar rightHand during: [
 		morphicWorld addMorphFront: parent].
 	sub := MenuMorph new.
 	sub add: 'leaf' action: #yourself; popUpOwner: parent items first.
@@ -254,13 +255,13 @@ SRMorphPanelTest >> testASubmenuOpensBesideItsParent [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 18:56'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testAWindowOpenedByAClickKeepsItsDistance [
 	| camera window |
-	camera := xrWorld camera.
+	camera := avatar camera.
 	window := SystemWindow new.
-	SRClickingHandVariable value: xrWorld avatar rightHand during: [
+	SRClickingHandVariable value: avatar rightHand during: [
 		morphicWorld addMorphFront: window].
 	self assert: (((self panelOf: window) globalTranslation
 		- camera globalTranslation) length - 1.6m) abs < 1mm.
@@ -585,33 +586,33 @@ SRMorphPanelTest >> testResizingTheMorphInMorphicResizesThePanel [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testTheBButtonBesideTheMorphKeepsTheXRMenu [
 	"Off the morph, e.g. on a resizer, so the right click queues nothing in the live UI process."
 	| window panel hand |
 	window := self openWindowInMorphic.
 	panel := self panelOf: window.
-	hand := xrWorld avatar rightHand.
+	hand := avatar rightHand.
 	hand selectTargetsFrom: {SRIntersectionResult new
 		object: (panel children detect: [:each | each isKindOf: SRPlane]);
 		point: (panel globalPointForMorphPoint: window bottomRight + (20 @ 20));
 		distance: 1m;
 		yourself}.
-	xrWorld avatar openMenuForHand: hand.
-	self assert: xrWorld avatar contextMenu notNil.
+	avatar openMenuForHand: hand.
+	self assert: avatar contextMenu notNil.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:50'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testTheBButtonElsewhereKeepsTheXRMenu [
 	| hand |
-	hand := xrWorld avatar rightHand.
+	hand := avatar rightHand.
 	self aim: hand at: SRCube new.
-	xrWorld avatar openMenuForHand: hand.
-	self assert: xrWorld avatar contextMenu notNil.
+	avatar openMenuForHand: hand.
+	self assert: avatar contextMenu notNil.
 ]
 
 {
@@ -628,13 +629,13 @@ SRMorphPanelTest >> testThePanelSizeDoesNotGrowWithTheDesktopScaleFactor [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
 SRMorphPanelTest >> testTheRayFindsThePanelThroughItsPlane [
 	| panel plane hand |
 	panel := self panelOf: self openWindowInMorphic.
 	plane := panel children detect: [:each | each isKindOf: SRPlane].
-	hand := xrWorld avatar rightHand.
+	hand := avatar rightHand.
 	self aim: hand at: plane.
 	self assert: hand morphPanelUnderRay == panel.
 ]

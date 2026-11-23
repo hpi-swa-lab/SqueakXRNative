@@ -6,7 +6,6 @@ Class {
 	#superclass : #SRRaylibRendererXR,
 	#instVars : [
 		'desktopAvatar',
-		'desktopEmulator',
 		'desktopCamera',
 		'headMarkers',
 		'fullscreen'
@@ -17,23 +16,18 @@ Class {
 
 {
 	#category : #'desktop user',
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:56'
 }
-SRRaylibRendererXRWithDesktopUser >> addDesktopUserTo: aWorld [
+SRRaylibRendererXRWithDesktopUser >> addDesktopUserTo: aWorld beside: aHeadsetAvatar [
 	"Before #start: once the world process runs, children may only change between frames."
-	(aWorld allDescendants select: [:each | each isXRInputEmulator])
-		do: [:each | each remove].
-	desktopAvatar := SRAvatar new.
+
+	desktopAvatar := SRAvatar inputStrategy: SRDesktopInputStrategy new.
 	(desktopAvatar camera children select: [:each | each isKindOf: SRSkyBox])
 		do: [:each | each remove].
-	desktopEmulator := SRXRInputEmulator new.
-	desktopEmulator avatar: desktopAvatar.
-	aWorld
-		addChild: desktopAvatar;
-		addChild: desktopEmulator.
+	aWorld addChild: desktopAvatar.
 	headMarkers := {
 		self addHeadMarkerTo: desktopAvatar color: Color orange.
-		self addHeadMarkerTo: aWorld avatar color: Color cyan}.
+		self addHeadMarkerTo: aHeadsetAvatar color: Color cyan}.
 ]
 
 {
@@ -76,15 +70,6 @@ SRRaylibRendererXRWithDesktopUser >> desktopAvatar [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
-}
-SRRaylibRendererXRWithDesktopUser >> desktopEmulator [
-
-	^ desktopEmulator
-]
-
-{
-	#category : #accessing,
 	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 14:05'
 }
 SRRaylibRendererXRWithDesktopUser >> isFullscreen [
@@ -103,15 +88,13 @@ SRRaylibRendererXRWithDesktopUser >> mirrorAspect [
 
 {
 	#category : #'desktop user',
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
 }
 SRRaylibRendererXRWithDesktopUser >> removeDesktopUser [
 
 	headMarkers ifNotNil: [headMarkers do: [:each | each remove]].
-	desktopEmulator ifNotNil: [:each | each remove].
 	desktopAvatar ifNotNil: [:each | each remove].
 	headMarkers := nil.
-	desktopEmulator := nil.
 	desktopAvatar := nil.
 ]
 

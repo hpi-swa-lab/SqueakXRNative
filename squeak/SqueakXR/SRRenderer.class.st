@@ -2,7 +2,8 @@ Class {
 	#name : #SRRenderer,
 	#superclass : #Object,
 	#instVars : [
-		'cache'
+		'cache',
+		'viewAvatar'
 	],
 	#classVars : [
 		'FloorBackground',
@@ -592,6 +593,24 @@ SRRenderer >> test [
 }
 SRRenderer >> toggleFullscreen [
 	"Only a desktop window can change; the headset has no window to resize."
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+}
+SRRenderer >> viewAvatar [
+
+	^ viewAvatar
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+}
+SRRenderer >> viewAvatar: anAvatar [
+
+	viewAvatar := anAvatar
 ]
 
 {
