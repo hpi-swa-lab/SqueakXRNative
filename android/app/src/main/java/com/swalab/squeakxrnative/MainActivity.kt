@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -118,8 +119,8 @@ class MainActivity : AppCompatActivity() {
         val fetchImagesFailedToast = Toast.makeText(this, getString(R.string.fetching_images_failed), Toast.LENGTH_SHORT)
         if (fetchImageOnLaunch) fetchProgress.show(true)
         GlobalScope.launch {
-            var setupSuccessful = true
-            if (fetchImageOnLaunch) {
+            var setupSuccessful = XRAssets.installIfOutdated(this@MainActivity)
+            if (setupSuccessful && fetchImageOnLaunch) {
                 val fetchResult = Utils.fetchImageFromRemote(
                     fetchUrl, selectedImage, true, getExternalFilesDir(null)!!
                 ) { downloaded, total ->
@@ -182,7 +183,23 @@ class MainActivity : AppCompatActivity() {
             "\t$file\n\t\t$presentInAssetManager\n\t\t$presentInExternalStorage"
         }
 
-        binding.textImageStatus.text = "External storage: $externalStorageDesc\nExternal storage dir: $externalFilesDir\nFile status:\n$fileStatus"
+        val storedFiles = externalFilesDir?.let { listStoredFiles(it) } ?: "\t(unavailable)"
+
+        binding.textImageStatus.text = "External storage: $externalStorageDesc\nExternal storage dir: $externalFilesDir\nFile status:\n$fileStatus\nStored files:\n$storedFiles"
+    }
+
+    private fun listStoredFiles(root: File): String {
+        val files = root.walkTopDown().filter { it.isFile }.sortedBy { it.path }.toList()
+        if (files.isEmpty()) return "\t(none)"
+        return files.joinToString("\n") { file ->
+            "\t${file.relativeTo(root).path} (${formatSize(file.length())})"
+        }
+    }
+
+    private fun formatSize(bytes: Long): String = when {
+        bytes >= 1024 * 1024 -> String.format(Locale.US, "%.1f MiB", bytes / (1024.0 * 1024))
+        bytes >= 1024 -> String.format(Locale.US, "%.1f KiB", bytes / 1024.0)
+        else -> "$bytes B"
     }
 
     external fun launch(imagePath: String)

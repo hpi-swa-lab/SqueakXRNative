@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
 //    __android_log_print(ANDROID_LOG_DEBUG, ".squeakxrnative", "Launching squeak with image %s", squeakImagePath);
 
     auto *squeak_func_args = new SqueakFuncArgs {
-        .argv = {"squeak", /*"-vm-display-null",*/ squeakImagePath, "--", "--xr", "-doit", fullStartScript},
+        .argv = {"squeak", /*"-vm-display-null",*/ squeakImagePath, "--", "--xr", "--android", "-doit", fullStartScript},
 //        .argc = argv2.size(),
     };
 
