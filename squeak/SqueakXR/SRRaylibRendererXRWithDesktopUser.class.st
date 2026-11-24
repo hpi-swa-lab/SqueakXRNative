@@ -181,12 +181,11 @@ SRRaylibRendererXRWithDesktopUser >> screenCamera [
 
 {
 	#category : #'initialize-release',
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 14:05'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/24/2026 18:47'
 }
 SRRaylibRendererXRWithDesktopUser >> setup [
 
 	super setup.
-	SRDesktopInputState reset.
 	Raylib setWindowSizeWidth: SRRaylibRendererFlat windowWidth height: SRRaylibRendererFlat windowHeight.
 	desktopCamera := RlCamera3D new
 		position: (self class rlVector3For_1: 10 asVector3);

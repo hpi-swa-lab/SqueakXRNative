@@ -70,7 +70,7 @@ SRRaylibRendererXR >> prepareFrame: cameraTransform [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/24/2026 18:50'
 }
 SRRaylibRendererXR >> setup [
 	"Returning early leaves the XrInstance null, and the frame loop then calls through null 

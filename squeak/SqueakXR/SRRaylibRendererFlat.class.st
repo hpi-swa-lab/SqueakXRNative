@@ -136,12 +136,10 @@ SRRaylibRendererFlat >> prepareFrame: cameraTransform [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/24/2026 18:50'
 }
 SRRaylibRendererFlat >> setup [
 
-	SRDesktopInputState reset.
-	
 	self class highDpiEnabled ifTrue: [
 		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
 	

@@ -1002,11 +1002,12 @@ SRWorld >> initialize [
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:08'
+	#'squeak_changestamp' : 'MCPServer (leo) 11/24/2026 18:50'
 }
 SRWorld >> initializeWorldProcess [
 	
 	self log.
+	SRDesktopInputState reset.
 	self renderer setup.
 	self isXR ifTrue: [
 		self log: 'initXrInput'.
