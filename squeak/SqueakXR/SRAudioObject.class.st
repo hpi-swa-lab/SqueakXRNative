@@ -10,6 +10,15 @@ Class {
 }
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 12:33'
+}
+SRAudioObject class >> alContext [
+	"Buffers and sources belong to this context: a new one has none of them."
+	^ ALContext
+]
+
+{
 	#category : #preferences,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 11/12/2026 14:25'
 }
