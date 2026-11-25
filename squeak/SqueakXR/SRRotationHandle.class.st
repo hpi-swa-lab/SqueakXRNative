@@ -10,9 +10,6 @@ Class {
 		'grabberLocalPoint',
 		'angle'
 	],
-	#classVars : [
-		'Mesh'
-	],
 	#category : #'SqueakXR-Halo'
 }
 
@@ -43,11 +40,11 @@ SRRotationHandle class >> innerR [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'phkeese 11/12/2026 17:36'
+	#'squeak_changestamp' : 'phkeese 11/25/2026 12:53'
 }
 SRRotationHandle class >> mesh [
 	
-	^ Mesh ifNil: [Mesh := SRMesh withSource: self meshSource]
+	^ SRMesh withSource: self meshSource
 ]
 
 {
@@ -171,15 +168,16 @@ SRRotationHandle >> grabAction: aBlock [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 14:11'
+	#'squeak_changestamp' : 'phkeese 11/25/2026 13:04'
 }
 SRRotationHandle >> initialize [ 
 
 	super initialize.
 	angle := 0.
-	meshObject := SRMeshObject withMesh: self class mesh.
-	meshObject scale: 1@1@0.
-	self addChild: meshObject.
+	meshObject := self addChild: (SRMeshObject new
+		mesh: self class mesh;
+		scale: 1@1@0
+	)
 ]
 
 {
