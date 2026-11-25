@@ -1030,13 +1030,13 @@ SRAvatar >> updateLocomotion: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:33'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:38'
 }
 SRAvatar >> updateSmoothTurn: deltaTime [
 
 	self class turnStyle == #smooth ifFalse: [^ self].
 	rightHand ifNil: [^ self].
-	rightHand isAimingAtMorphPanel ifTrue: [^ self].
+	rightHand isAimingAtSelectedMorphPanel ifTrue: [^ self].
 	self turnBy: rightHand joystick horizontal * self class smoothTurnSpeed * deltaTime.
 ]
 
