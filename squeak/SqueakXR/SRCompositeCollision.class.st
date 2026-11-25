@@ -8,6 +8,18 @@ Class {
 }
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCompositeCollision >> closestPointToRay: aRay [
+
+	^ (self components
+		collect: [:geometry | geometry closestPointToRay: aRay]
+		thenSelect: [:point | point notNil])
+		detectMin: [:point | aRay distanceTo: point]
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 10/14/2026 16:08'
 }

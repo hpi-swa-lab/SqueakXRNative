@@ -149,6 +149,22 @@ SRRayCastTest >> testProjectRay [
 	self assert: ((ray project: 10) = (10 @ 0 @ 0))
 ]
 
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:45'
+}
+SRRayCastTest >> testProximitiesToObjects [
+
+	| hit behind proximities |
+	hit := self planeAtZ: 1.
+	behind := self planeAtZ: -2.
+	proximities := self rayAlongZ proximitiesToObjects: {hit. behind. SRObject new}.
+
+	self assert: (proximities collect: [:each | each object]) asArray equals: {hit. behind}.
+	self assert: (proximities collect: [:each | each distance]) asArray equals: #(0 2).
+	self assert: (proximities last point closeTo: 0 @ 0 @ -2)
+]
+
 { #category : #'as yet unclassified' }
 SRRayCastTest >> testUnboundedPlaneIntersection [
 

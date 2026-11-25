@@ -11,6 +11,69 @@ Class {
 }
 
 {
+	#category : #constants,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing class >> refinementSteps [
+
+	^ 40
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing class >> searchSamples [
+
+	^ 32
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> anyRadialDirection [
+
+	| candidate |
+	candidate := self normal cross: Vector3 right.
+	candidate isZero ifTrue: [candidate := self normal cross: Vector3 up].
+	^ candidate normalized
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> closestPointTo: aPoint [
+
+	| offset radius |
+	offset := (aPoint onPlanePoint: self point normal: self normal) - self point.
+	radius := offset length.
+	radius = 0 ifTrue: [^ self point + (self anyRadialDirection * self innerR)].
+	^ self point + (offset * (((radius max: self innerR) min: self outerR) / radius))
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> closestPointToMissedRay: aRay [
+
+	^ self closestPointTo: (aRay project: (self parameterClosestTo: aRay))
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> distanceFrom: aRay at: aParameter [
+
+	| point |
+	point := aRay project: aParameter.
+	^ point distanceTo: (self closestPointTo: point)
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'phkeese 11/6/2026 14:22'
 }
@@ -66,6 +129,42 @@ SRCollisionRing >> outerR [
 }
 SRCollisionRing >> outerR: aPositiveNumber [
 	self width: aPositiveNumber - self innerR
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> parameterClosestTo: aRay [
+
+	| nearest reach low step best |
+	nearest := ((self point - aRay origin) dot: aRay forward) max: 0.
+	reach := 2 * (self outerR * ((aRay distanceTo: self point) + self outerR)) sqrt.
+	low := nearest - reach max: 0.
+	step := nearest + reach - low / self class searchSamples.
+	best := ((0 to: self class searchSamples) collect: [:index | low + (step * index)])
+		detectMin: [:t | self distanceFrom: aRay at: t].
+	^ self
+		parameterMinimizingDistanceTo: aRay
+		from: (best - step max: low)
+		to: best + step
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionRing >> parameterMinimizingDistanceTo: aRay from: aStart to: anEnd [
+
+	| low high |
+	low := aStart.
+	high := anEnd.
+	self class refinementSteps timesRepeat: [ | third |
+		third := high - low / 3.
+		(self distanceFrom: aRay at: low + third) < (self distanceFrom: aRay at: high - third)
+			ifTrue: [high := high - third]
+			ifFalse: [low := low + third]].
+	^ low + high / 2
 ]
 
 {

@@ -46,6 +46,17 @@ SRCollisionPlane class >> point: point normal: normal up: up width: width height
 ]
 
 {
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionPlane >> closestPointToMissedRay: aRay [
+
+	^ self isBounded
+		ifTrue: [self closestPointOfLocalBoxToRay: aRay]
+		ifFalse: [self projected: aRay origin]
+]
+
+{
 	#category : #collisions,
 	#'squeak_changestamp' : 'phkeese 8/11/2026 16:04'
 }
@@ -82,6 +93,24 @@ SRCollisionPlane >> drawGizmoOn: aGizmoPainter colored: aColor [
 SRCollisionPlane >> extent [
 
 	^ width @ height
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionPlane >> fromLocal: aPoint [
+
+	^ self point + (self side * aPoint x) + (self up * aPoint y) + (self normal * aPoint z)
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionPlane >> halfExtents [
+
+	^ Vector3 x: self width / 2 y: self height / 2 z: 0
 ]
 
 { #category : #accessing }
@@ -226,6 +255,29 @@ SRCollisionPlane >> rayIntersection: aRay [
 SRCollisionPlane >> side [
 
 	^ self normal cross: self up
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionPlane >> toLocal: aVector [
+
+	^ Vector3
+		x: (aVector dot: self side)
+		y: (aVector dot: self up)
+		z: (aVector dot: self normal)
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionPlane >> toLocalRay: aRay [
+
+	^ SRRay
+		origin: (self toLocal: aRay origin - self point)
+		forward: (self toLocal: aRay forward)
 ]
 
 { #category : #accessing }
