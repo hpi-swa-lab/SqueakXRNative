@@ -400,13 +400,12 @@ SRWorld class >> holodeckFloor: aBoolean [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 13:53'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 14:07'
 }
 SRWorld class >> holodeckGrid [
 	<shaderSource: #holodeckGrid>
 	"Pristine grid (bgolus) on the platform quad, fading with distance. A rim marks the edge.
-	grid = spacing, half the platform size, fade start, fade end; vertex positions are already in world space.
-	FIXED_SMOOTHSTEP avoids smoothstep with edge0 > edge1, which GLSL leaves undefined."
+	grid = spacing, half the platform size, fade start, fade end; vertex positions are already in world space."
 	^ {
 		#uniforms -> #(gridColor floorColor grid).
 		#vert -> '#version 450
@@ -428,7 +427,6 @@ void main()
 '.
 		#frag -> '#version 450
 
-#define FIXED_SMOOTHSTEP 1
 #define LINE_WIDTH vec2(0.02)
 
 layout(location = 0) in vec3 fragPosition;
@@ -452,11 +450,7 @@ float pristineGrid(vec2 uv, vec2 lineWidth)
     vec2 lineAA = max(uvDeriv, vec2(0.000001)) * 1.5;
     vec2 gridUV = abs(fract(uv) * 2.0 - 1.0);
     gridUV = mix(1.0 - gridUV, gridUV, invertLine);
-#if FIXED_SMOOTHSTEP
-    vec2 grid2 = 1.0 - smoothstep(drawWidth - lineAA, drawWidth + lineAA, gridUV);
-#else
     vec2 grid2 = smoothstep(drawWidth + lineAA, drawWidth - lineAA, gridUV);
-#endif
     grid2 *= clamp(targetWidth / drawWidth, 0.0, 1.0);
     grid2 = mix(grid2, targetWidth, clamp(uvDeriv * 2.0 - 1.0, 0.0, 1.0));
     grid2 = mix(grid2, 1.0 - grid2, invertLine);
