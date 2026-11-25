@@ -692,6 +692,16 @@ SRWorld >> addDeferredFrameMessage: aBlock [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/25/2026 16:07'
+}
+SRWorld >> addHighlight: color [
+	
+	self collisionGeometryDo: [:geom |
+		geom drawGizmoOn: self gizmoPainter colored: color ].
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'MCPServer (jl) 10/20/2026 18:45'
 }
