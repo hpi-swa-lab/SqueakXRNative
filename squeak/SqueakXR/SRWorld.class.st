@@ -617,7 +617,7 @@ SRWorld class >> startMCPServer: aBoolean [
 
 {
 	#category : #'system startup',
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:57'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
 }
 SRWorld class >> startUp: resuming [
 
@@ -629,7 +629,7 @@ SRWorld class >> startUp: resuming [
 		(Smalltalk arguments includes: '--xr') ifTrue: [
 			TranscriptStream redirectToStdOut: true.
 			Transcript showln: 'Starting new XR world'.
-			SRWorld new startXR: (SRAvatar inputStrategy: SRXRControllerInputStrategy new)]].
+			SRWorld new startXR]].
 ]
 
 {
@@ -762,6 +762,21 @@ SRWorld >> completeFrame [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+}
+SRWorld >> configuredAvatar [
+
+	| configured |
+	configured := self avatars select: [:each |
+		each inputStrategy notNil and: [each isControllerDriven = self isXR]].
+	self
+		assert: configured size = 1
+		description: 'Starting needs exactly one avatar with an input strategy for this mode'.
+	^ configured first
+]
+
+{
 	#category : #debugging,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/20/2026 18:10'
 }
@@ -830,6 +845,19 @@ SRWorld >> enableHandTracking [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+}
+SRWorld >> ensureAvatarWith: anInputStrategyClass [
+	"Answers whether starting should go on."
+
+	self avatars ifNotEmpty: [
+		^ self confirm: 'This world is already set up with an avatar. Proceed without setting up a new one?'].
+	self addChild: (SRAvatar inputStrategy: anInputStrategyClass new).
+	^ true
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 15:24'
 }
@@ -851,6 +879,15 @@ SRWorld >> enterMorphicProject [
 		actionSelector: #stopWorldAndLeaveProject.
 	project world addMorph: stopButton.
 	stopButton position: 100 @ 100.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+}
+SRWorld >> errorIfAWorldIsRunning [
+
+	self class current ifNotNil: [self error: 'A world is already running!']
 ]
 
 {
@@ -1483,6 +1520,29 @@ SRWorld >> secondPassRenderBuffer [
 ]
 
 {
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+}
+SRWorld >> setUpAvatarWith: anInputStrategyClass [
+
+	self errorIfAWorldIsRunning.
+	^ self ensureAvatarWith: anInputStrategyClass
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+}
+SRWorld >> setUpFlat [
+
+	(self setUpAvatarWith: SRDesktopInputStrategy) ifFalse: [^ false].
+	self
+		isXR: false;
+		renderer: SRRenderer rendererClass new.
+	^ true
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 11/6/2026 23:42'
 }
@@ -1512,15 +1572,14 @@ SRWorld >> spawnNewWorldProcess [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
 }
-SRWorld >> start: anAvatar [
+SRWorld >> start [
 
-	self class current ifNotNil: [self error: 'A world is already running!'].
+	self errorIfAWorldIsRunning.
 	
 	self log.
-	self renderer viewAvatar: anAvatar.
-	anAvatar world == self ifFalse: [self addChild: anAvatar].
+	self renderer viewAvatar: self configuredAvatar.
 	self worldProcess: (self newWorldProcess: [
 		SRMenuRegistry current updateRegistry.
 		self adjustPreferences;
@@ -1538,12 +1597,22 @@ SRWorld >> start: anAvatar [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
 }
-SRWorld >> startFullscreen: anAvatar [
+SRWorld >> startFlat [
 
+	self setUpFlat ifTrue: [self start].
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+}
+SRWorld >> startFullscreen [
+
+	self setUpFlat ifFalse: [^ self].
 	self renderer fullscreen: true.
-	self start: anAvatar.
+	self start.
 ]
 
 {
@@ -1561,31 +1630,32 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
 }
-SRWorld >> startXR: anAvatar [
-	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer must be in place before #start:."
+SRWorld >> startXR [
+	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer must be in place before #start."
 
+	(self setUpAvatarWith: SRXRControllerInputStrategy) ifFalse: [^ self].
 	self
 		isXR: true;
 		renderer: SRRaylibRendererXR new;
-		start: anAvatar.
+		start.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
 }
-SRWorld >> startXRWithDesktopUser: anAvatar [
+SRWorld >> startXRWithDesktopUser [
 
 	| xrWithDesktop |
-	self class current ifNotNil: [^ self error: 'A world is already running!'].
+	(self setUpAvatarWith: SRXRControllerInputStrategy) ifFalse: [^ self].
 	xrWithDesktop := SRRaylibRendererXRWithDesktopUser new.
-	xrWithDesktop addDesktopUserTo: self beside: anAvatar.
 	self
 		isXR: true;
-		renderer: xrWithDesktop;
-		start: anAvatar.
+		renderer: xrWithDesktop.
+	xrWithDesktop addDesktopUserTo: self beside: self configuredAvatar.
+	self start.
 ]
 
 {
