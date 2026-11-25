@@ -86,7 +86,7 @@ SRRaylibRendererXR >> pollEventsAndWaitForFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:57'
+	#'squeak_changestamp' : 'leo 11/25/2026 19:28'
 }
 SRRaylibRendererXR >> setup [
 	"Returning early leaves the XrInstance null, and the frame loop then calls through null 

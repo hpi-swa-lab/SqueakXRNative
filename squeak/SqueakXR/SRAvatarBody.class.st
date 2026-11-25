@@ -12,7 +12,8 @@ Class {
 		'position',
 		'velocity',
 		'height',
-		'onGround'
+		'onGround',
+		'floorY'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -40,6 +41,14 @@ SRAvatarBody >> applyPhysicsIn: aScene dt: dt [
 	steps := ((speed * dt / (self halfWidth / 2)) ceiling max: 1) min: 16.
 	h := dt / steps.
 	steps timesRepeat: [self integrateIn: aScene dt: h].
+]
+
+{
+	#category : #physics,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatarBody >> bedrockY [
+	^ floorY ifNil: [self class bedrock]
 ]
 
 {
@@ -76,11 +85,11 @@ SRAvatarBody >> climbTo: aBlockedPosition in: aScene [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
 }
 SRAvatarBody >> collidesAtFeet: aPosition in: aScene [
 
-	aPosition y < self class bedrock ifTrue: [^ true].
+	aPosition y < self bedrockY ifTrue: [^ true].
 	^ aScene
 		solidInBoxCenter: (self centreForFeet: aPosition)
 		halfExtents: self halfExtents
@@ -102,6 +111,23 @@ SRAvatarBody >> collidesIn: aScene [
 SRAvatarBody >> feetAtX: aX z: aZ [
 
 	position := Vector3 x: aX y: position y z: aZ.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatarBody >> floorY [
+	"The plane I cannot fall through; nil for the floor of the play space."
+	^ floorY
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRAvatarBody >> floorY: aNumberOrNil [
+	floorY := aNumberOrNil.
 ]
 
 {
@@ -180,13 +206,13 @@ SRAvatarBody >> initialize [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:14'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
 }
 SRAvatarBody >> integrateIn: aScene dt: dt [
 
 	| alongX alongZ alongY |
-	position y < self class bedrock ifTrue: [
-		position := Vector3 x: position x y: self class bedrock z: position z].
+	position y < self bedrockY ifTrue: [
+		position := Vector3 x: position x y: self bedrockY z: position z].
 	onGround := onGround and: [self stillSupportedIn: aScene].
 	velocity := Vector3
 		x: velocity x

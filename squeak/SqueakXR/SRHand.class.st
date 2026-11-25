@@ -488,11 +488,13 @@ SRHand >> inputState [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 12:55'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
 }
-SRHand >> isAimingAtMorphPanel [
-
-	^ self morphPanelUnderRay notNil
+SRHand >> isAimingAtSelectedMorphPanel [
+	"The stick walks while it merely hovers a panel; a trigger press on the panel hands it the stick."
+	^ self morphPanelUnderRay
+		ifNil: [false]
+		ifNotNil: [:panel | panel hasKeyboardFocus]
 ]
 
 { #category : #testing }

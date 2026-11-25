@@ -405,11 +405,11 @@ SRWorld class >> holodeckFloor: aBoolean [
 
 {
 	#category : #'shader sources',
-	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 14:07'
 }
 SRWorld class >> holodeckGrid [
 	<shaderSource: #holodeckGrid>
-	"Grid lines on the platform quad, fading with distance and once cells get smaller than a few pixels. A rim marks the edge.
+	"Pristine grid (bgolus) on the platform quad, fading with distance. A rim marks the edge.
 	grid = spacing, half the platform size, fade start, fade end; vertex positions are already in world space."
 	^ {
 		#uniforms -> #(gridColor floorColor grid).
@@ -432,6 +432,8 @@ void main()
 '.
 		#frag -> '#version 450
 
+#define LINE_WIDTH vec2(0.02)
+
 layout(location = 0) in vec3 fragPosition;
 layout(location = 1) in vec3 eyePosition;
 
@@ -441,19 +443,34 @@ layout(location = 3) uniform vec4 grid;
 
 layout(location = 0) out vec4 finalColor;
 
+float pristineGrid(vec2 uv, vec2 lineWidth)
+{
+    lineWidth = clamp(lineWidth, 0.0, 1.0);
+    vec2 dx = dFdx(uv);
+    vec2 dy = dFdy(uv);
+    vec2 uvDeriv = vec2(length(vec2(dx.x, dy.x)), length(vec2(dx.y, dy.y)));
+    bvec2 invertLine = greaterThan(lineWidth, vec2(0.5));
+    vec2 targetWidth = mix(lineWidth, 1.0 - lineWidth, invertLine);
+    vec2 drawWidth = min(max(targetWidth, uvDeriv), vec2(0.5));
+    vec2 lineAA = max(uvDeriv, vec2(0.000001)) * 1.5;
+    vec2 gridUV = abs(fract(uv) * 2.0 - 1.0);
+    gridUV = mix(1.0 - gridUV, gridUV, invertLine);
+    vec2 grid2 = smoothstep(drawWidth + lineAA, drawWidth - lineAA, gridUV);
+    grid2 *= clamp(targetWidth / drawWidth, 0.0, 1.0);
+    grid2 = mix(grid2, targetWidth, clamp(uvDeriv * 2.0 - 1.0, 0.0, 1.0));
+    grid2 = mix(grid2, 1.0 - grid2, invertLine);
+    return mix(grid2.x, 1.0, grid2.y);
+}
+
 void main()
 {
-    vec2 cell = fragPosition.xz / grid.x;
-    vec2 cellWidth = fwidth(cell);
-    vec2 toLine = abs(fract(cell - 0.5) - 0.5) / cellWidth;
-    float line = 1.0 - min(min(toLine.x, toLine.y), 1.0);
-    float density = 1.0 - smoothstep(0.1, 0.4, max(cellWidth.x, cellWidth.y));
+    float line = pristineGrid(fragPosition.xz / grid.x, LINE_WIDTH);
     float far = smoothstep(grid.z, grid.w, length(fragPosition.xz - eyePosition.xz));
 
     vec2 toEdge = (grid.y - abs(fragPosition.xz)) / fwidth(fragPosition.xz);
     float edge = 1.0 - min(min(toEdge.x, toEdge.y) / 1.5, 1.0);
 
-    float amount = max(line * density * (1.0 - far), edge);
+    float amount = max(line * (1.0 - far), edge);
     float alpha = mix(floorColor.a, 1.0, amount);
     if (alpha <= 0.0) discard;
     finalColor = vec4(mix(floorColor.rgb * floorColor.a, gridColor.rgb, amount) / alpha, alpha);
@@ -719,6 +736,16 @@ SRWorld >> addDesktopUser [
 
 
 	^ self addChild: SRAvatar desktop
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese 11/25/2026 16:07'
+}
+SRWorld >> addHighlight: color [
+	
+	self collisionGeometryDo: [:geom |
+		geom drawGizmoOn: self gizmoPainter colored: color ].
 ]
 
 {
@@ -1178,7 +1205,10 @@ SRWorld >> keyboardFocus [
 	^ keyboardFocus
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
+}
 SRWorld >> keyboardFocus: aSRObject [
 
 	keyboardFocus := aSRObject
@@ -1396,6 +1426,16 @@ SRWorld >> removeAvatar: anAvatar [
 SRWorld >> removeCacheAt: aKey [
 
 	self rendererOrchestrator removeCacheAt: aKey.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/25/2026 16:20'
+}
+SRWorld >> renderMiniOn: aRenderer [
+
+	"Rendering the holodeck here has shading issues and is way too big when holding it in our hand."
+	aRenderer renderGridSlices: 10 spacing: 1
 ]
 
 {

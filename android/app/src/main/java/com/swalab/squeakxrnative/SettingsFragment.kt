@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class SettingsFragment: PreferenceFragmentCompat() {
     lateinit var outerContext: Context
@@ -11,6 +13,11 @@ class SettingsFragment: PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
     }
+
+    override fun onCreateLayoutManager(): RecyclerView.LayoutManager =
+        object : LinearLayoutManager(requireContext()) {
+            override fun canScrollVertically() = false
+        }
 
     override fun onAttach(context: Context) {
         outerContext = context

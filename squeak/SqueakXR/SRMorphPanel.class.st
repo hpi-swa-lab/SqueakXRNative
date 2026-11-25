@@ -420,6 +420,15 @@ SRMorphPanel >> handleRaycast: intersectionResult [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
+}
+SRMorphPanel >> hasKeyboardFocus [
+
+	^ self world notNil and: [self world keyboardFocus == self]
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
 }
@@ -671,12 +680,12 @@ SRMorphPanel >> mouseWheelEventFor: notches at: aPoint [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:45'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
 }
 SRMorphPanel >> onAnalogInput: anEvent [
 
 	self morph ifNil: [^self].
-	anEvent axis = #joystick ifTrue: [ | clickPoint |
+	(anEvent axis == #joystick and: [self hasKeyboardFocus]) ifTrue: [ | clickPoint |
 		clickPoint := self getClickPoint: anEvent.
 		self performScroll: anEvent at: clickPoint.
 	].

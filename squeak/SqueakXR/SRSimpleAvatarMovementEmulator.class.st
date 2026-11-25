@@ -55,6 +55,16 @@ SRSimpleAvatarMovementEmulator >> cameraTransform [
 
 {
 	#category : #movement,
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+}
+SRSimpleAvatarMovementEmulator >> driveStickLift: lift [
+	"Walking, Shift and Ctrl fly: the right stick's forward and back raise and lower the plane walked on."
+	avatar rightHand ifNotNil: [:hand |
+		hand inputState joystick vertical: lift].
+]
+
+{
+	#category : #movement,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
 SRSimpleAvatarMovementEmulator >> driveStickStrafe: strafe advance: advance [
@@ -151,13 +161,14 @@ SRSimpleAvatarMovementEmulator >> lookModeEnabled [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
 }
 SRSimpleAvatarMovementEmulator >> moveStrafe: strafe advance: advance lift: lift deltaSeconds: dt [
 
 	| forward right movement |
 	avatar ifNil: [^ self].
 	avatar locomotionEnabled ifTrue: [
+		self driveStickLift: lift.
 		^ self driveStickStrafe: strafe advance: advance].
 	forward := yaw degreesToRadians cos @ 0 @ yaw degreesToRadians sin.
 	right := (forward cross: Vector3 up) normalize.

@@ -147,7 +147,7 @@ if(ENABLE_RLOPENXR)
 
     FetchContent_Declare(rlOpenXR
             GIT_REPOSITORY https://github.com/leogeier/rlopenxr
-            GIT_TAG squeakxr
+            GIT_TAG squeakxr-win32
     #        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rlOpenXR"
     )
 
