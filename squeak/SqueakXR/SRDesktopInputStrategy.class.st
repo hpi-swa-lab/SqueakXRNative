@@ -64,22 +64,22 @@ SRDesktopInputStrategy class >> rightHandOffset [
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:55'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:46'
 }
 SRDesktopInputStrategy class >> xrMenuFullscreenLabel: aMenu [
 
-	^ aMenu world renderer isFullscreen
+	^ (aMenu world actingAvatar ifNotNil: [:avatar | avatar renderer isFullscreen] ifNil: [false])
 		ifTrue: ['Exit Fullscreen (F11)']
 		ifFalse: ['Fullscreen (F11)']
 ]
 
 {
 	#category : #menu,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:04'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:46'
 }
 SRDesktopInputStrategy class >> xrMenuToggleFullscreen: aMenu [
 	<xrMenu: #(world debug) label: #xrMenuFullscreenLabel: priority: 9000>
-	^ aMenu world renderer toggleFullscreen
+	aMenu world actingAvatar ifNotNil: [:avatar | avatar renderer toggleFullscreen]
 ]
 
 {
@@ -273,7 +273,7 @@ SRDesktopInputStrategy >> initialize [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:16'
 }
 SRDesktopInputStrategy >> processDesktopInput: delta [
 
@@ -292,7 +292,7 @@ SRDesktopInputStrategy >> processDesktopInput: delta [
 		self avatar toggleOutOfBody].
 
 	(input isKeyPressed: RlKeyboardKey keyF11) ifTrue: [
-		self world renderer toggleFullscreen].
+		avatar renderer toggleFullscreen].
 
 	(input isKeyPressed: RlKeyboardKey keyKbMenu) ifTrue: [
 		SRActingAvatarVariable value: avatar during: [
@@ -365,14 +365,15 @@ SRDesktopInputStrategy >> updateLeftHandFromCamera [
 
 {
 	#category : #hands,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:16'
 }
 SRDesktopInputStrategy >> updateRightHandAimingAt: aScreenPosition [
-	| hand handPos rlRay origin direction hit target |
+	| hand screenCamera handPos rlRay origin direction hit target |
 	hand := self avatar rightHand.
+	screenCamera := avatar renderer screenCamera ifNil: [^ hand].
 	rlRay := Raylib
 		getScreenToWorldRayPosition: aScreenPosition
-		camera: self world renderer screenCamera.
+		camera: screenCamera.
 	origin := rlRay position asVector3.
 	direction := rlRay direction asVector3 normalized.
 	hand grabbedObject

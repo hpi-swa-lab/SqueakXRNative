@@ -75,20 +75,27 @@ SRRaylibRendererFlat class >> windowWidth: aNumber [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer 10/23/2026 10:12'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
 }
-SRRaylibRendererFlat >> completeFrame [
-	"The loop only reschedules here, and it has to sit after #endDrawing, which discards unread 
-	input."
-	Raylib endMode3D.
+SRRaylibRendererFlat >> beginViewFrom: aCameraTransform [
+
+	self
+		clearLitShaders;
+		updateCamera: aCameraTransform.
+	Raylib
+		clearBackgroundColor: clearColor;
+		beginMode3DCamera: camera.
+	^ true
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererFlat >> drawWindowOverlay: aGizmoPainter [
+
 	self drawReticle.
-
-	SRWorld current gizmoPainter ifNotNil: [:painter | painter render2DOn: self].
-
-	Raylib endDrawing.
-
-	1 milliSecond wait.
-
+	aGizmoPainter render2DOn: self.
 ]
 
 {
@@ -120,35 +127,12 @@ SRRaylibRendererFlat >> isFullscreen [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:55'
-}
-SRRaylibRendererFlat >> prepareFrame: cameraTransform [
-
-	self
-		clearLitShaders;
-		updateCamera: cameraTransform.
-	Raylib
-		beginDrawing;
-		clearBackgroundColor: clearColor;
-		beginMode3DCamera: camera.
-	^ true
-]
-
-{
-	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 15:00'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:57'
 }
 SRRaylibRendererFlat >> setup [
 
+	SRRenderer assertContext.
 	SRDesktopInputState reset.
-	
-	self class highDpiEnabled ifTrue: [
-		Raylib setConfigFlags: RlConfigFlags flagWindowHighdpi].
-	
-	Raylib initWindowWidth: self windowWidth height: self windowHeight title: 'Squeak 3D World';
-		setWindowMonitor: (Raylib getMonitorCount < self class startMonitor
-			ifTrue: [0]
-			ifFalse: [self class startMonitor]).
 	fullscreen == true ifTrue: [self enterFullscreen].
 	
 	camera := RlCamera3D new
@@ -164,21 +148,6 @@ SRRaylibRendererFlat >> setup [
 ]
 
 {
-	#category : #info,
-	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
-}
-SRRaylibRendererFlat >> shaderVersion [
-
-	^ #'330'
-]
-
-{ #category : #'render-loop' }
-SRRaylibRendererFlat >> shutdown [
-
-	Raylib closeWindow.
-]
-
-{
 	#category : #window,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
 }
@@ -190,12 +159,39 @@ SRRaylibRendererFlat >> toggleFullscreen [
 ]
 
 {
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRaylibRendererFlat >> windowExtent [
+
+	^ self windowWidth @ self windowHeight
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'MCPServer 4/29/2026 18:36'
 }
 SRRaylibRendererFlat >> windowHeight [
 
 	^ self class windowHeight
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererFlat >> windowPriority [
+
+	^ 2
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRaylibRendererFlat >> windowTitle [
+
+	^ 'Squeak 3D World'
 ]
 
 {

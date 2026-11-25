@@ -723,13 +723,13 @@ SRShader >> lightUniforms [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/2/2026 14:26'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:16'
 }
 SRShader >> loadInternalShader [
 
 	| sources |
 	SRRenderer assertContext.
-	sources := self class sourceFor: name version: self currentXRWorld renderer shaderVersion.
+	sources := self class sourceFor: name version: SRRenderer shaderVersion.
 	internalShader := Raylib loadShaderFromMemoryVsCode: (sources at: #vert) fsCode: (sources at: #frag).
 	uniformLocs := (sources at: #uniforms ifAbsent: [#()]) collect: [:uniform |
 		uniform -> (self locationOf: uniform)].

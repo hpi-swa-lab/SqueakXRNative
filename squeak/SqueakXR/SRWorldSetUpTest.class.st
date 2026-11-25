@@ -23,34 +23,34 @@ SRWorldSetUpTest >> setUp [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:16'
 }
-SRWorldSetUpTest >> testAnAvatarWithoutInputIsNotConfigured [
+SRWorldSetUpTest >> testAnAvatarRendersNothingByDefault [
 
-	world addChild: SRAvatar new.
-	self should: [world configuredAvatar] raise: AssertionFailure.
+	self deny: SRAvatar new renderer rendersViews.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
 }
-SRWorldSetUpTest >> testAnEmptyWorldGetsAnAvatarDrivenByTheStrategy [
+SRWorldSetUpTest >> testAnEmptyWorldGetsTheAvatar [
 
-	self assert: (world ensureAvatarWith: SRDesktopInputStrategy).
-	self assert: world avatars size = 1.
-	self assert: (world avatars first inputStrategy isKindOf: SRDesktopInputStrategy).
+	| avatar |
+	avatar := SRAvatar new.
+	self assert: (world ensureAvatar: avatar).
+	self assert: world avatars asArray = {avatar}.
 ]
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
 }
 SRWorldSetUpTest >> testAnExistingAvatarIsKeptWhenProceeding [
 
 	| proceeds |
 	world addChild: SRAvatar new.
-	proceeds := [world ensureAvatarWith: SRDesktopInputStrategy]
+	proceeds := [world ensureAvatar: SRAvatar new]
 		valueSupplyingAnswers: #(#('*already set up*' true)).
 	self assert: proceeds.
 	self assert: world avatars size = 1.
@@ -58,13 +58,13 @@ SRWorldSetUpTest >> testAnExistingAvatarIsKeptWhenProceeding [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
 }
 SRWorldSetUpTest >> testDecliningStopsTheStart [
 
 	| proceeds |
 	world addChild: SRAvatar new.
-	proceeds := [world ensureAvatarWith: SRDesktopInputStrategy]
+	proceeds := [world ensureAvatar: SRAvatar new]
 		valueSupplyingAnswers: #(#('*already set up*' false)).
 	self deny: proceeds.
 	self assert: world avatars size = 1.
@@ -72,16 +72,24 @@ SRWorldSetUpTest >> testDecliningStopsTheStart [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
 }
-SRWorldSetUpTest >> testTheConfiguredAvatarMatchesTheMode [
+SRWorldSetUpTest >> testOnlyAnAvatarThatCanRejoinMayLeave [
 
-	| headset desktop |
-	headset := SRAvatar inputStrategy: SRXRControllerInputStrategy new.
-	desktop := SRAvatar inputStrategy: SRDesktopInputStrategy new.
-	world addChild: headset; addChild: desktop.
-	world isXR: true.
-	self assert: world configuredAvatar == headset.
-	world isXR: false.
-	self assert: world configuredAvatar == desktop.
+	self assert: (SRWorld canLeaveWhileRunning: (SRAvatar inputStrategy: SRDesktopInputStrategy new renderer: SRTestRenderer flat)).
+	self deny: (SRWorld canLeaveWhileRunning: (SRAvatar inputStrategy: SRXRControllerInputStrategy new renderer: SRTestRenderer xr)).
+	self deny: (SRWorld canLeaveWhileRunning: SRAvatar new).
+	self deny: (SRWorld canLeaveWhileRunning: nil).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
+}
+SRWorldSetUpTest >> testTheWorldIsXRWhenAHeadsetRendererIsSetUp [
+
+	world addChild: (SRAvatar inputStrategy: SRXRControllerInputStrategy new renderer: SRTestRenderer xr).
+	self deny: world isXR.
+	world rendererOrchestrator setUp.
+	self assert: world isXR.
 ]

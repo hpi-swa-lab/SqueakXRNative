@@ -6,26 +6,64 @@ Class {
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 11/6/2026 15:57'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
 }
-SRRaylibRendererXR >> completeFrame [
+SRRaylibRendererXR >> beginViewFrom: aCameraTransform [
 
-	[Raylib endMode3D.
+	| beginSuccessful |
+	Raylib clearBackgroundColor: clearColor.
+	self
+		clearLitShaders;
+		updateCamera: aCameraTransform.
+	beginSuccessful := Raylib rlOpenXRBegin.
+	beginSuccessful ifTrue: [
+		Raylib
+			clearBackgroundColor: clearColor;
+			beginMode3DCamera: camera].
+	^ beginSuccessful
+]
 
-	SRWorld current ifNotNil: [:each |
-		each gizmoPainter ifNotNil: [:painter | painter render2DOn: self]].
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
+}
+SRRaylibRendererXR >> canStartWhileRunning [
+	"OpenXR input is only set up when the world starts."
 
+	^ false
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererXR >> drawWindowOverlay: aGizmoPainter [
+	"Without another view in the window, it mirrors the left eye."
+
+	aGizmoPainter render2DOn: self.
+	self placeMirrorWindowOnce.
 	self withMirrorFramebufferExtentDo: [
 		Raylib
 			rlOpenXRBlitToWindowEye: RlRLOpenXREyeEnum rlopenxrEyeLeft
-				keep_aspect_ratio: true]]
-		ensure: [
-			Raylib
-				rlOpenXREnd;
-				endDrawing].
-	
-	1 milliSecond wait.
-	
+				keep_aspect_ratio: true]
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererXR >> endView [
+
+	Raylib rlOpenXREnd.
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererXR >> isXR [
+
+	^ true
 ]
 
 {
@@ -48,37 +86,13 @@ SRRaylibRendererXR >> pollEventsAndWaitForFrame [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo 11/9/2026 15:34'
-}
-SRRaylibRendererXR >> prepareFrame: cameraTransform [
-
-	| beginSuccessful |
-	Raylib clearBackgroundColor: clearColor.
-	self
-		clearLitShaders;
-		updateCamera: cameraTransform.
-	beginSuccessful := Raylib rlOpenXRBegin.
-	
-	beginSuccessful ifTrue: [
-			self placeMirrorWindowOnce.
-			Raylib
-				clearBackgroundColor: clearColor;
-				beginMode3DCamera: camera].
-	
-	^ beginSuccessful
-]
-
-{
-	#category : #'render-loop',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:57'
 }
 SRRaylibRendererXR >> setup [
 	"Returning early leaves the XrInstance null, and the frame loop then calls through null 
 	function pointers and takes the VM down."
-	Raylib
-
-		initWindowWidth: 2468 height: 2130 title: 'SqueakXR';
-		setTargetFPS: -1.
+	SRRenderer assertContext.
+	Raylib setTargetFPS: -1.
 
 	Raylib rlOpenXRSetup
 		ifTrue: [Transcript showln: 'rlOpenXRSetup succeeded']
@@ -97,20 +111,39 @@ SRRaylibRendererXR >> setup [
 ]
 
 {
-	#category : #info,
-	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
 }
-SRRaylibRendererXR >> shaderVersion [
-
-	^ #'300es'
-]
-
-{ #category : #'render-loop' }
 SRRaylibRendererXR >> shutdown [
 
-	Raylib
-		rlOpenXRShutdown;
-		closeWindow.
+	Raylib rlOpenXRShutdown.
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRaylibRendererXR >> windowExtent [
+
+	^ 2468 @ 2130
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRendererXR >> windowPriority [
+
+	^ 1
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRaylibRendererXR >> windowTitle [
+
+	^ 'SqueakXR'
 ]
 
 {

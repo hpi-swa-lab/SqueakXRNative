@@ -8,8 +8,6 @@ Class {
 		'floorGeometry',
 		'gizmoPainter',
 		'haloState',
-		'isFramePrepared',
-		'isXR',
 		'keyboardFocus',
 		'lastFrameTime',
 		'lightsBuffer',
@@ -17,7 +15,6 @@ Class {
 		'pendingFrameActions',
 		'project',
 		'ranStartScript',
-		'renderer',
 		'running',
 		'secondPassRenderBuffer',
 		'secondStart',
@@ -26,7 +23,9 @@ Class {
 		'supportsHandTracking',
 		'traversalStack',
 		'visualEnvironment',
-		'worldProcess'
+		'worldProcess',
+		'rendererOrchestrator',
+		'avatars'
 	],
 	#classVars : [
 		'Current',
@@ -47,6 +46,17 @@ Class {
 	],
 	#category : #'SqueakXR-Objects'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:40'
+}
+SRWorld class >> canLeaveWhileRunning: anAvatarOrNil [
+	"Only an avatar that could join a running world again may leave it."
+
+	^ anAvatarOrNil notNil and: [
+		anAvatarOrNil renderer rendersViews and: [anAvatarOrNil renderer canStartWhileRunning]]
+]
 
 { #category : #'as yet unclassified' }
 SRWorld class >> clearRenderFrame [
@@ -647,6 +657,32 @@ SRWorld class >> stopWorld: aMenu [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:33'
+}
+SRWorld class >> xrMenuAddDesktopUser: aMenu [
+	<xrMenu: #(world debug) label: 'Add Desktop User' priority: 9010>
+
+	| world |
+	world := aMenu world.
+	world addDeferredFrameMessage: [world addDesktopUser].
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:40'
+}
+SRWorld class >> xrMenuRemoveDesktopUser: aMenu [
+	<xrMenu: #(world debug) label: 'Remove Desktop User' priority: 9020>
+
+	| world |
+	world := aMenu world.
+	world addDeferredFrameMessage: [
+		(world avatars select: [:each | self canLeaveWhileRunning: each])
+			do: [:each | each remove]].
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:10'
 }
@@ -657,6 +693,15 @@ SRWorld >> actingAvatar [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
+}
+SRWorld >> addAvatar: anAvatar [
+
+	(self avatarList identityIncludes: anAvatar) ifFalse: [self avatarList add: anAvatar].
+]
+
+{
 	#category : #'between-frame actions',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
 }
@@ -664,6 +709,16 @@ SRWorld >> addDeferredFrameMessage: aBlock [
 
 	self isRunning ifFalse: [^ self].
 	self pendingFrameActions add: aBlock.
+]
+
+{
+	#category : #running,
+	#'squeak_changestamp' : 'leo 11/25/2026 18:02'
+}
+SRWorld >> addDesktopUser [
+
+
+	^ self addChild: SRAvatar desktop
 ]
 
 {
@@ -684,27 +739,51 @@ SRWorld >> adjustPreferences [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+	#category : #running,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:25'
 }
-SRWorld >> avatars [
+SRWorld >> assertWorldIsNotRunning [
 
-	^ self children select: [:each | each isAvatar]
+	self class current ifNotNil: [self error: 'A world is already running!']
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 14:09'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
 }
-SRWorld >> avatarsDo: aBlock [
-	"Without the collection #avatars allocates, for code that runs every frame."
-	self children do: [:each | each isAvatar ifTrue: [aBlock value: each]].
+SRWorld >> avatarList [
+	"Kept up to date by SRAvatar>>onWorldChanged:. A world from before that is scanned once."
+
+	^ avatars ifNil: [avatars := (self allDescendants select: [:each | each isAvatar]) asOrderedCollection]
 ]
 
-{ #category : #'as yet unclassified' }
-SRWorld >> cacheAt: aSymbol ifAbsentPut: aBlock [
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
+}
+SRWorld >> avatars [
 
-	^ self renderer cacheAt: aSymbol ifAbsentPut: aBlock
+	^ self avatarList copy
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
+}
+SRWorld >> avatarsDo: aBlock [
+	"Without the copy #avatars makes, for code that runs every frame."
+
+	self avatarList do: aBlock.
+]
+
+{
+	#category : #cache,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:36'
+}
+SRWorld >> cacheAt: aKey ifAbsentPut: aBlock [
+	"The cache is shared by all renderers, see SRRendererOrchestrator."
+
+	^ self rendererOrchestrator cacheAt: aKey ifAbsentPut: aBlock
 ]
 
 {
@@ -749,31 +828,20 @@ SRWorld >> collisionGeometry [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:01'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 16:59'
 }
 SRWorld >> completeFrame [
-	"Last thing before #endDrawing: raylib PollInputEvents runs there and empties both key 
-	queues."
-	isFramePrepared ifTrue: [
 
-		SRDesktopInputState current sample.
-		self renderer completeFrame]
-
+	self rendererOrchestrator endFrame.
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
 }
-SRWorld >> configuredAvatar [
+SRWorld >> confirmUsingExistingAvatars [
 
-	| configured |
-	configured := self avatars select: [:each |
-		each inputStrategy notNil and: [each isControllerDriven = self isXR]].
-	self
-		assert: configured size = 1
-		description: 'Starting needs exactly one avatar with an input strategy for this mode'.
-	^ configured first
+	^ self confirm: 'This world is already set up with an avatar. Proceed without setting up a new one?'
 ]
 
 {
@@ -846,14 +914,13 @@ SRWorld >> enableHandTracking [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
 }
-SRWorld >> ensureAvatarWith: anInputStrategyClass [
+SRWorld >> ensureAvatar: anAvatar [
 	"Answers whether starting should go on."
 
-	self avatars ifNotEmpty: [
-		^ self confirm: 'This world is already set up with an avatar. Proceed without setting up a new one?'].
-	self addChild: (SRAvatar inputStrategy: anInputStrategyClass new).
+	self avatars ifNotEmpty: [^ self confirmUsingExistingAvatars].
+	self addChild: anAvatar.
 	^ true
 ]
 
@@ -879,15 +946,6 @@ SRWorld >> enterMorphicProject [
 		actionSelector: #stopWorldAndLeaveProject.
 	project world addMorph: stopButton.
 	stopButton position: 100 @ 100.
-]
-
-{
-	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
-}
-SRWorld >> errorIfAWorldIsRunning [
-
-	self class current ifNotNil: [self error: 'A world is already running!']
 ]
 
 {
@@ -994,15 +1052,15 @@ SRWorld >> initXrInput [
 
 {
 	#category : #initializing,
-	#'squeak_changestamp' : 'leo 11/18/2026 17:02'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
 }
 SRWorld >> initialize [
 
 	super initialize.
+	avatars := OrderedCollection new.
 	
 	running := false.
 	needsSetup := false.
-	isFramePrepared := false.
 	ranStartScript := false.
 	
 	gizmoPainter := SRGizmoPainter new.
@@ -1016,20 +1074,17 @@ SRWorld >> initialize [
 	
 	shutDownWithoutQuitting := false.
 	
-	self
-		isXR: false;
-		renderer: SRRenderer rendererClass new. "TODO: decide this based on XRness"
+
 	
 ]
 
 {
 	#category : #startup,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
 }
 SRWorld >> initializeWorldProcess [
 	
 	self log.
-	self renderer setup.
 	self isXR ifTrue: [
 		self log: 'initXrInput'.
 		self initXrInput.
@@ -1041,10 +1096,13 @@ SRWorld >> initializeWorldProcess [
 	self allDo: #onWorldStarted.
 ]
 
-{ #category : #'as yet unclassified' }
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:23'
+}
 SRWorld >> invalidateCache [
 
-	self renderer clearCache.
+	self rendererOrchestrator clearCache.
 	self cacheInvalidated.
 ]
 
@@ -1105,16 +1163,13 @@ SRWorld >> isWorldObject [
 	^ true
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 16:59'
+}
 SRWorld >> isXR [
-	
-	^ isXR
-]
 
-{ #category : #accessing }
-SRWorld >> isXR: aBoolean [
-
-	isXR := aBoolean
+	^ self rendererOrchestrator hasXRRenderer
 ]
 
 { #category : #accessing }
@@ -1294,14 +1349,15 @@ SRWorld >> pollHandJoints [
 
 {
 	#category : #'render-loop',
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:17'
 }
 SRWorld >> prepareFrame [
 
-	self renderer pollEventsAndWaitForFrame.
+	self rendererOrchestrator
+		processPendingChanges;
+		pollEvents.
 	self isXR ifTrue: [self updateCameraTransform].
-	self renderer environment: self visualEnvironment lights: self lightsBuffer.
-	isFramePrepared := self renderer prepareFrame: self renderer viewAvatar camera globalTransform.
+	self rendererOrchestrator beginFrame.
 ]
 
 {
@@ -1324,10 +1380,22 @@ SRWorld >> project: aProject [
 	project := aProject
 ]
 
-{ #category : #'as yet unclassified' }
-SRWorld >> render: aSRObject [
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
+}
+SRWorld >> removeAvatar: anAvatar [
 
-	aSRObject renderOn: self renderer
+	self avatarList remove: anAvatar ifAbsent: [].
+]
+
+{
+	#category : #cache,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:36'
+}
+SRWorld >> removeCacheAt: aKey [
+
+	self rendererOrchestrator removeCacheAt: aKey.
 ]
 
 {
@@ -1343,21 +1411,18 @@ SRWorld >> renderOn: aRenderer [
 	aRenderer renderHolodeckGridSize: self holodeckSize
 ]
 
-{ #category : #accessing }
-SRWorld >> renderer [
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 16:59'
+}
+SRWorld >> rendererOrchestrator [
 
-	^ renderer
-]
-
-{ #category : #accessing }
-SRWorld >> renderer: aSRRenderer [
-
-	renderer := aSRRenderer
+	^ rendererOrchestrator ifNil: [rendererOrchestrator := SRRendererOrchestrator for: self]
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/18/2026 17:01'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
 }
 SRWorld >> resume [
 	
@@ -1365,6 +1430,7 @@ SRWorld >> resume [
 	(worldProcess notNil and: [self isRunning]) ifTrue: [
 		needsSetup ifTrue: [
 			needsSetup := false.
+			self rendererOrchestrator setUp.
 			self initializeWorldProcess.
 			shutDownWithoutQuitting ifTrue: [
 				"Process>>signalException: also resumes the process,
@@ -1375,12 +1441,12 @@ SRWorld >> resume [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 16:59'
 }
 SRWorld >> runLoop [
 
 	self loop.
-	self renderer shutdown
+	self rendererOrchestrator shutDown
 ]
 
 {
@@ -1521,25 +1587,12 @@ SRWorld >> secondPassRenderBuffer [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:15'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:25'
 }
-SRWorld >> setUpAvatarWith: anInputStrategyClass [
+SRWorld >> setUpAvatar: anAvatar [
 
-	self errorIfAWorldIsRunning.
-	^ self ensureAvatarWith: anInputStrategyClass
-]
-
-{
-	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
-}
-SRWorld >> setUpFlat [
-
-	(self setUpAvatarWith: SRDesktopInputStrategy) ifFalse: [^ false].
-	self
-		isXR: false;
-		renderer: SRRenderer rendererClass new.
-	^ true
+	self assertWorldIsNotRunning.
+	^ self ensureAvatar: anAvatar
 ]
 
 {
@@ -1572,15 +1625,16 @@ SRWorld >> spawnNewWorldProcess [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:25'
 }
 SRWorld >> start [
 
-	self errorIfAWorldIsRunning.
+	self assertWorldIsNotRunning.
 	
 	self log.
-	self renderer viewAvatar: self configuredAvatar.
+	self rendererOrchestrator assertRenderable.
 	self worldProcess: (self newWorldProcess: [
+		self rendererOrchestrator setUp.
 		SRMenuRegistry current updateRegistry.
 		self adjustPreferences;
 			initializeWorldProcess;
@@ -1597,22 +1651,23 @@ SRWorld >> start [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:28'
 }
 SRWorld >> startFlat [
 
-	self setUpFlat ifTrue: [self start].
+	(self setUpAvatar: SRAvatar desktop) ifTrue: [self start].
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:28'
 }
 SRWorld >> startFullscreen [
 
-	self setUpFlat ifFalse: [^ self].
-	self renderer fullscreen: true.
-	self start.
+	| avatar |
+	avatar := SRAvatar desktop.
+	avatar renderer fullscreen: true.
+	(self setUpAvatar: avatar) ifTrue: [self start].
 ]
 
 {
@@ -1630,31 +1685,26 @@ SRWorld >> startUp: resuming [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
 }
 SRWorld >> startXR [
 	"rlOpenXRSetup binds the GL context InitWindow creates, so the renderer must be in place before #start."
 
-	(self setUpAvatarWith: SRXRControllerInputStrategy) ifFalse: [^ self].
-	self
-		isXR: true;
-		renderer: SRRaylibRendererXR new;
-		start.
+	(self setUpAvatar: SRAvatar xr) ifTrue: [self start].
 ]
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 14:14'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:25'
 }
 SRWorld >> startXRWithDesktopUser [
 
-	| xrWithDesktop |
-	(self setUpAvatarWith: SRXRControllerInputStrategy) ifFalse: [^ self].
-	xrWithDesktop := SRRaylibRendererXRWithDesktopUser new.
-	self
-		isXR: true;
-		renderer: xrWithDesktop.
-	xrWithDesktop addDesktopUserTo: self beside: self configuredAvatar.
+	self assertWorldIsNotRunning.
+	self avatars ifNotEmpty: [
+		self confirmUsingExistingAvatars ifTrue: [self start].
+		^ self].
+	self addChild: SRAvatar xr.
+	self addDesktopUser.
 	self start.
 ]
 

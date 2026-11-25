@@ -118,6 +118,20 @@ SRAvatarTest >> testDuckingDoesNotMoveTheRig [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatarTest >> testEveryAvatarHasAHeadMarkerColoredByItsInput [
+
+	| avatar |
+	self assert: SRAvatar xr headMarker color = Color cyan.
+	self assert: SRAvatar desktop headMarker color = Color orange.
+	avatar := SRAvatar new.
+	avatar inputStrategy: SRXRControllerInputStrategy new.
+	self assert: avatar headMarker color = Color cyan.
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
 SRAvatarTest >> testGhostEyesAndRaysBothPointForward [
@@ -192,6 +206,20 @@ SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 	before := avatar translation.
 	20 timesRepeat: [avatar updateLocomotion: 0.016].
 	self assert: avatar translation equals: before.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:46'
+}
+SRAvatarTest >> testOnlyItsOwnAvatarSeesTheSkyBox [
+
+	| avatar skyBox |
+	avatar := SRAvatar new.
+	skyBox := avatar camera children detect: [:each | each isKindOf: SRSkyBox].
+	SRRenderingAvatarVariable value: avatar during: [self assert: skyBox isDescendantOfCurrentlyRenderingAvatar].
+	SRRenderingAvatarVariable value: SRAvatar new during: [self deny: skyBox isDescendantOfCurrentlyRenderingAvatar].
+	self deny: skyBox isDescendantOfCurrentlyRenderingAvatar.
 ]
 
 {
@@ -364,6 +392,30 @@ SRAvatarTest >> testTeleportPutsTheFeetOnTheTargetNotTheRigOrigin [
 		@ avatar globalTranslation y
 		@ avatar camera globalTranslation z.
 	self assert: (feet - target) length < 0.0001.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:31'
+}
+SRAvatarTest >> testTheDesktopAvatarIsDrivenByTheDesktopAndRendersTheWindow [
+
+	| avatar |
+	avatar := SRAvatar desktop.
+	self deny: avatar isControllerDriven.
+	self assert: (avatar renderer isKindOf: SRRaylibRendererFlat).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
+}
+SRAvatarTest >> testTheXRAvatarIsDrivenByControllersAndRendersTheHeadset [
+
+	| avatar |
+	avatar := SRAvatar xr.
+	self assert: avatar isControllerDriven.
+	self assert: avatar renderer isXR.
 ]
 
 {

@@ -92,7 +92,10 @@ SRPlane >> material: aSRMaterial [
 	meshObject material: aSRMaterial
 ]
 
-{ #category : #accessing }
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:36'
+}
 SRPlane >> mesh [
 
 	^ self world cacheAt: #planeMesh ifAbsentPut: [self class mesh]

@@ -12,12 +12,12 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/3/2026 14:06'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:11'
 }
 SRTextField class >> fontFor: aSRRenderer [
 
 	SRRenderer assertContext.
-	^ aSRRenderer cacheAt: #TextFieldFont ifAbsentPut: [ | font |
+	^ self currentXRWorld cacheAt: #TextFieldFont ifAbsentPut: [ | font |
 		font := Raylib loadFontFileName: (
 			(SRAssets assetsDirectory / 'fonts' / 'dejavu-fonts-ttf-2.37' / 'ttf' / 'DejaVuSans.ttf') pathString).
 		(Raylib isFontValidFont: font)

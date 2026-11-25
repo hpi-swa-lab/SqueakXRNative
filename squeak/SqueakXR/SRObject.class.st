@@ -1037,6 +1037,17 @@ SRObject >> isDebugHUD [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:46'
+}
+SRObject >> isDescendantOfCurrentlyRenderingAvatar [
+
+	^ SRRenderingAvatarVariable value
+		ifNil: [false]
+		ifNotNil: [:avatar | self hasAncestor: avatar]
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:51'
 }
 SRObject >> isGizmoPainter [

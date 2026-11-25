@@ -10,7 +10,6 @@ Class {
 		'wireColor',
 		'rowSpacing',
 		'slabSize',
-		'needsRebuild',
 		'parentMenu',
 		'submenu',
 		'submenuItem',
@@ -22,7 +21,7 @@ Class {
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 15:00'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
 }
 SRMenu class >> appMenuFor: anApp at: aPosition facingCamera: aCamera in: aWorld [
 
@@ -34,12 +33,13 @@ SRMenu class >> appMenuFor: anApp at: aPosition facingCamera: aCamera in: aWorld
 	menu
 		addItemsUnder: {anApp class name asSymbol} target: anApp;
 		addSubmenuItemFor: #world under: #() target: nil.
+	menu rebuild.
 	^ menu
 ]
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
 }
 SRMenu class >> contextMenuFor: anObject at: aPosition facingCamera: aCamera in: aWorld [
 	| menu |
@@ -62,6 +62,7 @@ SRMenu class >> contextMenuFor: anObject at: aPosition facingCamera: aCamera in:
 		addItemsUnder: #(object) target: anObject;
 		addItemsUnder: {anObject class name asSymbol} target: anObject.
 	
+	menu rebuild.
 	^ menu
 ]
 
@@ -93,7 +94,7 @@ SRMenu class >> submenuSideOffset [
 
 {
 	#category : #'instance creation',
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 14:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
 }
 SRMenu class >> worldMenuAt: aPosition facingCamera: aCamera in: aWorld [
 	"Rows come from the #xrMenu: registry, see SRMenuRegistry."
@@ -102,6 +103,7 @@ SRMenu class >> worldMenuAt: aPosition facingCamera: aCamera in: aWorld [
 	menu setTransformAt: aPosition facingCamera: aCamera.
 	aWorld addChild: menu.
 	menu addItemsUnder: #(world) target: nil.
+	menu rebuild.
 	^ menu
 ]
 
@@ -163,13 +165,12 @@ SRMenu >> addItem: aString action: aBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 8/3/2026 15:55'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:43'
 }
 SRMenu >> addItem: aString action: anAction keepOpen: aBoolean [
 	"anAction takes the activated SRMenuItem as an optional argument."
 
 	items add: (Array with: aString with: anAction with: aBoolean).
-	needsRebuild := true.
 ]
 
 {
@@ -298,7 +299,7 @@ SRMenu >> detachFromCascade [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:36'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:43'
 }
 SRMenu >> initialize [
 	super initialize.
@@ -307,7 +308,6 @@ SRMenu >> initialize [
 	slabColor := Color r: 0.05 g: 0.05 b: 0.1.
 	wireColor := Color r: 0.3 g: 0.3 b: 0.5.
 	rowSpacing := 2.5cm.
-	needsRebuild := false.
 	sticky := false.
 ]
 
@@ -360,10 +360,11 @@ SRMenu >> labelFrom: aStringOrBlock [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:37'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
 }
 SRMenu >> labelsChanged [
-	needsRebuild := true.
+	"Rebuilt right away, while the avatar that caused it acts, for labels that depend on it."
+	self rebuild.
 ]
 
 {
@@ -446,7 +447,7 @@ SRMenu >> placeNextTo: aMenu atItem: anItemOrNil [
 
 {
 	#category : #building,
-	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/27/2026 16:23'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:43'
 }
 SRMenu >> rebuild [
 	| rowY totalHeight oldRows |
@@ -473,7 +474,6 @@ SRMenu >> rebuild [
 	
 	sticky ifTrue: [self addCloseButton].
 	self carryOverRowsFrom: oldRows.
-	needsRebuild := false.
 ]
 
 {
@@ -497,13 +497,12 @@ SRMenu >> remove: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'lege 7/3/2026 17:17'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:43'
 }
 SRMenu >> renderOn: aSRRenderer [
 
 	| transform |
 	items ifEmpty: [^ self].
-	needsRebuild ifTrue: [self rebuild].
 	
 	transform := self globalTransform * (Matrix4x4 withScale: slabSize).
 	
@@ -540,12 +539,12 @@ SRMenu >> slabWidth [
 
 {
 	#category : #sticky,
-	#'squeak_changestamp' : 'MCPServer 9/18/2026 11:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
 }
 SRMenu >> sticky: aBoolean [
 	sticky = aBoolean ifTrue: [^ self].
 	sticky := aBoolean.
-	needsRebuild := true.
+	self rebuild.
 ]
 
 {

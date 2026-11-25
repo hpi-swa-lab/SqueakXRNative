@@ -20,7 +20,8 @@ Class {
 		'trackedHands',
 		'walkSpeedFactor',
 		'inputStrategy',
-		'usesTrackedHands'
+		'usesTrackedHands',
+		'renderer'
 	],
 	#classVars : [
 		'ContinuousLocomotion',
@@ -57,6 +58,15 @@ SRAvatar class >> continuousLocomotion: aBoolean [
 ]
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:31'
+}
+SRAvatar class >> desktop [
+
+	^ self inputStrategy: SRDesktopInputStrategy new renderer: SRRaylibRendererFlat new
+]
+
+{
 	#category : #preferences,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:08'
 }
@@ -85,6 +95,18 @@ SRAvatar class >> inputStrategy: anInputStrategy [
 
 	^ self new
 		inputStrategy: anInputStrategy;
+		yourself
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
+}
+SRAvatar class >> inputStrategy: anInputStrategy renderer: aRenderer [
+
+	^ self new
+		inputStrategy: anInputStrategy;
+		renderer: aRenderer;
 		yourself
 ]
 
@@ -256,6 +278,15 @@ SRAvatar class >> walkSpeed [
 SRAvatar class >> walkSpeed: metresPerSecond [
 
 	WalkSpeed := metresPerSecond
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
+}
+SRAvatar class >> xr [
+
+	^ self inputStrategy: SRXRControllerInputStrategy new renderer: SRRaylibRendererXR new
 ]
 
 {
@@ -432,8 +463,28 @@ SRAvatar >> hands [
 ]
 
 {
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatar >> headMarker [
+
+	^ camera children detect: [:each | each isKindOf: SRHeadMarker] ifNone: [nil]
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:24'
+}
+SRAvatar >> headMarkerColor [
+
+	^ self isControllerDriven
+		ifTrue: [Color cyan]
+		ifFalse: [Color orange]
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
 }
 SRAvatar >> initialize [
 
@@ -442,10 +493,14 @@ SRAvatar >> initialize [
 	leftHand := SRHand left avatar: self.
 	rightHand := SRHand right avatar: self.
 	camera := SRAvatarCamera new.
+	renderer := SRNullRenderer new.
 
 	self haloMode: SRHaloMode forbid.
 	self addChildren: {leftHand. rightHand. camera}.
-	camera addChild: SRSkyBox new.
+	camera
+		addChild: SRSkyBox new;
+		addChild: SRHeadMarker new.
+	self updateHeadMarkerColor.
 ]
 
 {
@@ -459,7 +514,7 @@ SRAvatar >> inputStrategy [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
 }
 SRAvatar >> inputStrategy: anInputStrategy [
 
@@ -467,6 +522,7 @@ SRAvatar >> inputStrategy: anInputStrategy [
 		self world ifNotNil: [:aWorld | aWorld removeDependent: old].
 		old detach].
 	inputStrategy := anInputStrategy.
+	self updateHeadMarkerColor.
 	inputStrategy ifNil: [^ self].
 	inputStrategy attachTo: self.
 	self world ifNotNil: [:aWorld | aWorld addDependent: inputStrategy].
@@ -575,14 +631,19 @@ SRAvatar >> menuPlacementPositionForHand: aHand [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
 }
 SRAvatar >> onWorldChanged: oldWorld [
 
 	super onWorldChanged: oldWorld.
-	inputStrategy ifNil: [^ self].
-	oldWorld ifNotNil: [oldWorld removeDependent: inputStrategy].
-	self world ifNotNil: [:aWorld | aWorld addDependent: inputStrategy].
+	oldWorld ifNotNil: [
+		oldWorld removeAvatar: self.
+		oldWorld rendererOrchestrator rendererLeft: renderer.
+		inputStrategy ifNotNil: [oldWorld removeDependent: inputStrategy]].
+	self world ifNotNil: [:aWorld |
+		aWorld addAvatar: self.
+		aWorld rendererOrchestrator rendererJoined: renderer.
+		inputStrategy ifNotNil: [aWorld addDependent: inputStrategy]].
 ]
 
 {
@@ -643,6 +704,26 @@ SRAvatar >> openWorldMenuAt: aPosition [
 		worldMenuAt: aPosition
 		facingCamera: self camera
 		in: self world
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRAvatar >> renderer [
+
+	^ renderer
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:17'
+}
+SRAvatar >> renderer: aRenderer [
+
+	self world ifNotNil: [:aWorld | aWorld rendererOrchestrator rendererLeft: renderer].
+	renderer := aRenderer.
+	self world ifNotNil: [:aWorld | aWorld rendererOrchestrator rendererJoined: renderer].
 ]
 
 {
@@ -812,6 +893,15 @@ SRAvatar >> turnBy: degrees [
 	self
 		translation: (pivot x @ self translation y @ pivot z) + (spin rotateVector: offset);
 		rotation: spin * self rotation
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatar >> updateHeadMarkerColor [
+
+	self headMarker ifNotNil: [:marker | marker color: self headMarkerColor]
 ]
 
 {
