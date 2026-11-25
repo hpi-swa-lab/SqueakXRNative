@@ -1354,6 +1354,16 @@ SRWorld >> render: aSRObject [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'phkeese 11/25/2026 16:20'
+}
+SRWorld >> renderMiniOn: aRenderer [
+
+	"Rendering the holodeck here has shading issues and is way too big when holding it in our hand."
+	aRenderer renderGridSlices: 10 spacing: 1
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:11'
 }
 SRWorld >> renderOn: aRenderer [
