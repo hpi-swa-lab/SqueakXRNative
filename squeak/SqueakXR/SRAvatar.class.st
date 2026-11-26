@@ -695,14 +695,14 @@ SRAvatar >> step: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
 }
 SRAvatar >> stickMotionFor: aHand dt: dt [
 
 	| stick forward right flat |
 	self stickWalksThePlayer ifFalse: [^ nil].
 	aHand ifNil: [^ nil].
-	aHand isAimingAtSelectedMorphPanel ifTrue: [^ nil].
+	aHand isAimingAtStickHolder ifTrue: [^ nil].
 	camera ifNil: [^ nil].
 	stick := aHand inputState joystick vector.
 	(stick x = 0 and: [stick y = 0]) ifTrue: [^ nil].
@@ -822,13 +822,13 @@ SRAvatar >> updateFloorMarker [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
 }
 SRAvatar >> updateFlying: deltaTime [
 	"Right stick forward and back; sideways it turns, so only a mostly vertical push counts."
 	| stick |
 	rightHand ifNil: [^ self].
-	rightHand isAimingAtSelectedMorphPanel ifTrue: [^ self].
+	rightHand isAimingAtStickHolder ifTrue: [^ self].
 	stick := rightHand inputState joystick vector.
 	(stick y abs > 0.3 and: [stick y abs > stick x abs]) ifFalse: [^ self].
 	self flyBy: stick y * self class flySpeed * (deltaTime asFloat min: 0.1)
@@ -867,12 +867,12 @@ SRAvatar >> updateLocomotion: deltaTime [
 
 {
 	#category : #locomotion,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:31'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
 }
 SRAvatar >> updateSmoothTurn: deltaTime [
-
 	self class turnStyle == #smooth ifFalse: [^ self].
 	rightHand ifNil: [^ self].
+	rightHand isAimingAtStickHolder ifTrue: [^ self].
 	self turnBy: rightHand joystick horizontal * self class smoothTurnSpeed * deltaTime.
 ]
 

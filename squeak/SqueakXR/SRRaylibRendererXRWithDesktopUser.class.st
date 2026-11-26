@@ -155,7 +155,7 @@ SRRaylibRendererXRWithDesktopUser >> renderDesktopView [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
 }
 SRRaylibRendererXRWithDesktopUser >> renderSceneOf: aWorld [
 	"SRFrame empties its render lists while it draws the headset view, so this view collects its own."
@@ -166,8 +166,7 @@ SRRaylibRendererXRWithDesktopUser >> renderSceneOf: aWorld [
 			each renderInSecondPass
 				ifTrue: [secondPass add: each]
 				ifFalse: [self renderDesktopObject: each of: aWorld]]].
-	self clearDepth.
-	secondPass do: [:each | self renderDesktopObject: each of: aWorld].
+	self renderOverlaysDo: [secondPass do: [:each | self renderDesktopObject: each of: aWorld]].
 ]
 
 {

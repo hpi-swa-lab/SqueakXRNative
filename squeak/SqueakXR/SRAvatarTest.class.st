@@ -208,6 +208,30 @@ SRAvatarTest >> testSmoothTurningFollowsTheRightStick [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 16:55'
+}
+SRAvatarTest >> testSmoothTurningLeavesTheStickToAFocusedPanelUnderTheRay [
+	| saved avatar world panel before |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #smooth.
+	avatar := SRAvatar new.
+	world := SRWorld new.
+	panel := SRMorphPanel new.
+	world addChild: panel.
+	world keyboardFocus: panel.
+	self aim: avatar rightHand at: (panel children detect: [:each | each isKindOf: SRPlane]).
+	avatar rightHand joystick horizontal: 0.2.
+	before := avatar rotation.
+	avatar updateSmoothTurn: 0.5.
+	self assert: before equals: avatar rotation.
+	self aim: avatar rightHand at: SRObject new.
+	avatar updateSmoothTurn: 0.5.
+	self deny: before = avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
+]
+
+{
 	#category : #'tests - locomotion',
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }

@@ -23,11 +23,14 @@ SRSnapTurnAction >> initialize [
 
 {
 	#category : #running,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:32'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
 }
 SRSnapTurnAction >> run: inputState [
-
 	SRAvatar turnStyle == #smooth ifTrue: [^ true].
+	self hand isAimingAtStickHolder ifTrue: [
+		"Disarmed, so a sideways push still held when the ray leaves the panel does not turn."
+		armed := false.
+		^ true].
 	self hand avatar ifNotNil: [:avatar |
 		self snapTurn: avatar by: inputState joystick horizontal].
 	^ true

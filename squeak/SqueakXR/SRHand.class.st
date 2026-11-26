@@ -488,13 +488,13 @@ SRHand >> inputState [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 16:25'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
 }
-SRHand >> isAimingAtSelectedMorphPanel [
-	"The stick walks while it merely hovers a panel; a trigger press on the panel hands it the stick."
-	^ self morphPanelUnderRay
+SRHand >> isAimingAtStickHolder [
+	"The stick walks while it merely hovers a panel or map; a trigger press on it hands it the stick."
+	^ self cursorTarget
 		ifNil: [false]
-		ifNotNil: [:panel | panel hasKeyboardFocus]
+		ifNotNil: [:target | target ancestorChain anySatisfy: [:each | each holdsStick]]
 ]
 
 { #category : #testing }
@@ -583,12 +583,12 @@ SRHand >> performActions [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
 }
 SRHand >> preferredIntersectionOf: intersections [
-	"Prefer second-pass objects over the others."
-
+	"Second-pass objects are preferred while they are drawn on top."
 	| secondPass |
+	SRFrame overlaysOnTop ifFalse: [^ self selectIntersection: intersections].
 	secondPass := intersections select: [:inter | inter object renderInSecondPass].
 	^ self selectIntersection: (secondPass ifEmpty: [intersections])
 ]
@@ -716,21 +716,18 @@ SRHand >> update: aSymbol with: anObject [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'phkeese 11/16/2026 15:35'
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
 }
 SRHand >> updateFirstIntersection [
-	"Update the intersection used for cursorPoint and cursorTarget.
-	Grabbed objects override all other collisions and second-pass objects are preferred over all others."
-
+	"Grabbed objects override all other collisions; second-pass objects are preferred while they are drawn on top."
 	| all secondPass grabbed |
 	self grabbedObject ifNotNil: [
 		grabbed := self cursor intersectionsSelect: [:inter | inter object = self grabbedObject].
-		firstIntersection := self selectIntersection: grabbed
-	] ifNil: [
-		all := self cursor intersections.
-		secondPass := all select: [:inter | inter object renderInSecondPass].
-		firstIntersection := (self selectIntersection: secondPass) ifNil: [self selectIntersection: all].
-	]
+		^ firstIntersection := self selectIntersection: grabbed].
+	all := self cursor intersections.
+	SRFrame overlaysOnTop ifFalse: [^ firstIntersection := self selectIntersection: all].
+	secondPass := all select: [:inter | inter object renderInSecondPass].
+	firstIntersection := (self selectIntersection: secondPass) ifNil: [self selectIntersection: all].
 ]
 
 {

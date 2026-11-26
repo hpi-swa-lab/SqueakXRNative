@@ -521,6 +521,18 @@ SRRaylibRenderer >> renderMesh: aSRMesh transform: aMatrix4x4 material: aSRMater
 
 {
 	#category : #rendering,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
+}
+SRRaylibRenderer >> renderOverlaysDo: aBlock [
+	"Overlays are the objects answering true to #renderInSecondPass. The depth buffer goes to the compositor with the frame (XR_KHR_composition_layer_depth), so unless they are wanted on top they must leave it alone."
+	SRFrame overlaysOnTop ifTrue: [
+		self clearDepth.
+		^ aBlock value].
+	self withoutDepthWritesDo: aBlock.
+]
+
+{
+	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:09'
 }
 SRRaylibRenderer >> renderPlainCubeTransformed: aMatrix4x4 withColor: aColor [
@@ -695,4 +707,14 @@ SRRaylibRenderer >> updateCamera: cameraTransform [
 		position: (self class rlVector3For_1: viewPosition);
 		target: (self class rlVector3For_2: viewPosition + forward);
 		up: (self class rlVector3For_3: up).
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
+}
+SRRaylibRenderer >> withoutDepthWritesDo: aBlock [
+	"The depth mask is part of the batch state: flush before switching it, or queued geometry loses its depth."
+	Raylib rlDrawRenderBatchActive; rlDisableDepthMask.
+	aBlock ensure: [Raylib rlDrawRenderBatchActive; rlEnableDepthMask].
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #SRMorphPanel,
-	#superclass : #SRObject,
+	#superclass : #SRPanel,
 	#instVars : [
 		'morph',
 		'plane',
@@ -8,7 +8,6 @@ Class {
 		'lastClickPosition',
 		'detachedMorph',
 		'resizers',
-		'alignmentTween',
 		'hoveredMorphs',
 		'lastHoverPoint',
 		'pressedButton'
@@ -19,33 +18,6 @@ Class {
 	],
 	#category : #'SqueakXR-Morphic'
 }
-
-{
-	#category : #constants,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel class >> alignedCosine [
-
-	^ 0.05 degreesToRadians cos
-]
-
-{
-	#category : #constants,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel class >> alignmentDuration [
-
-	^ 400 milliSeconds
-]
-
-{
-	#category : #constants,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
-}
-SRMorphPanel class >> cylinderHeight [
-
-	^ 75cm
-]
 
 {
 	#category : #'as yet unclassified',
@@ -219,58 +191,6 @@ SRMorphPanel >> addResizers [
 ]
 
 {
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel >> alignToCamera [
-
-	self world ifNotNil: [:aWorld | self alignTowards: aWorld camera globalTranslation]
-]
-
-{
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:39'
-}
-SRMorphPanel >> alignTowards: aPoint [
-
-	| delta target |
-	delta := self globalRotation inverse * (self alignedRotationFor: aPoint).
-	delta a abs >= self class alignedCosine ifTrue: [^ self].
-	target := self grabTarget.
-	self alignmentTween
-		from: target globalRotation to: target globalRotation * delta;
-		target: (MessageSend receiver: target selector: #globalRotation:);
-		start
-]
-
-{
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
-}
-SRMorphPanel >> alignedRotationFor: aPoint [
-
-	^ (self isNearCameraHeight: aPoint)
-		ifTrue: [self rotationFacingAxisThrough: aPoint]
-		ifFalse: [self rotationFacing: aPoint]
-]
-
-{
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 18:33'
-}
-SRMorphPanel >> alignmentTween [
-
-	^ alignmentTween ifNil: [
-		alignmentTween := SRTween new
-			duration: self class alignmentDuration;
-			transitionCubic;
-			easeOut;
-			yourself.
-		self addChild: alignmentTween.
-		alignmentTween]
-]
-
-{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
 }
@@ -429,6 +349,14 @@ SRMorphPanel >> hasKeyboardFocus [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
+}
+SRMorphPanel >> holdsStick [
+	^ self hasKeyboardFocus
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/18/2026 19:12'
 }
@@ -492,15 +420,6 @@ SRMorphPanel >> initialize [
 SRMorphPanel >> isMorphPanel [
 
 	^ true
-]
-
-{
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
-}
-SRMorphPanel >> isNearCameraHeight: aPoint [
-
-	^ ((self globalTranslation - aPoint) dot: Vector3 up) abs <= self class cylinderHeight
 ]
 
 {
@@ -759,26 +678,6 @@ SRMorphPanel >> onCursorMove: anEvent [
 ]
 
 {
-	#category : #grabbing,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel >> onGrabStarted: aHand [
-
-	super onGrabStarted: aHand.
-	self stopAligning
-]
-
-{
-	#category : #grabbing,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel >> onGrabStopped: aHand [
-
-	super onGrabStopped: aHand.
-	self alignToCamera
-]
-
-{
 	#category : #hierarchy,
 	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:16'
 }
@@ -961,15 +860,6 @@ SRMorphPanel >> snapResizers [
 ]
 
 {
-	#category : #aligning,
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
-}
-SRMorphPanel >> stopAligning [
-
-	alignmentTween ifNotNil: [:tween | tween stop]
-]
-
-{
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:51'
 }
@@ -988,13 +878,4 @@ SRMorphPanel >> updatePlaneSize [
 	| ppm |
 	ppm := self pixelsPerMeter.
 	plane scale: (self morph width / ppm) @ 1 @ (self morph height / ppm).
-]
-
-{
-	#category : #grabbing,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 15:21'
-}
-SRMorphPanel >> wantsGrab [
-
-	^ true
 ]

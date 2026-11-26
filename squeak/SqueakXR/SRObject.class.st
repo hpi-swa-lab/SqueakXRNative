@@ -919,6 +919,15 @@ SRObject >> hasParent [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 19:06'
+}
+SRObject >> holdsStick [
+	"A focused object under the ray that answers true gets the right stick: turning, walking, flying and teleport leave it alone."
+	^ false
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'phkeese 11/4/2026 13:57'
 }
