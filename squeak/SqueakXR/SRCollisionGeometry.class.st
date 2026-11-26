@@ -14,6 +14,26 @@ SRCollisionGeometry class >> toolIcon [
 ]
 
 {
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:29'
+}
+SRCollisionGeometry >> closestPointToMissedRay: aRay [
+
+	^ self subclassResponsibility
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:29'
+}
+SRCollisionGeometry >> closestPointToRay: aRay [
+
+	^ (self rayIntersection: aRay)
+		ifNil: [self closestPointToMissedRay: aRay]
+		ifNotNil: [:hit | hit point]
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'phkeese 8/11/2026 10:57'
 }
@@ -22,7 +42,7 @@ SRCollisionGeometry >> distanceTo: aPoint [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #debugging,
 	#'squeak_changestamp' : 'phkeese 9/24/2026 13:01'
 }
 SRCollisionGeometry >> drawGizmoOn: aGizmoPainter colored: aColor [

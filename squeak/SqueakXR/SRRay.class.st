@@ -88,6 +88,24 @@ SRRay >> castNearestSolid: anSRObject [
 		ifNotEmpty: [:results | results first]
 ]
 
+{
+	#category : #geometry,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:29'
+}
+SRRay >> closestPointTo: aPoint [
+
+	^ self project: (((aPoint - self origin) dot: self forward) max: 0)
+]
+
+{
+	#category : #geometry,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:29'
+}
+SRRay >> distanceTo: aPoint [
+
+	^ (self closestPointTo: aPoint) distanceTo: aPoint
+]
+
 { #category : #accessing }
 SRRay >> forward [
 
@@ -126,6 +144,31 @@ SRRay >> origin: aVector3 [
 SRRay >> project: aNumber [
 
 	^ self origin + (self forward * aNumber)
+]
+
+{
+	#category : #proximity,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:45'
+}
+SRRay >> proximitiesToObjects: aCollectionOfSRObjects [
+
+	^ aCollectionOfSRObjects
+		collect: [:object | self proximityTo: object]
+		thenSelect: [:proximity | proximity notNil]
+]
+
+{
+	#category : #proximity,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:45'
+}
+SRRay >> proximityTo: anSRObject [
+
+	^ anSRObject safeCollisionGeometry ifNotNil: [:geometry |
+		(geometry closestPointToRay: self) ifNotNil: [:point |
+			SRRayProximity
+				object: anSRObject
+				point: point
+				distance: (self distanceTo: point)]]
 ]
 
 {

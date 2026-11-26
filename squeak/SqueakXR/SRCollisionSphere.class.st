@@ -21,6 +21,15 @@ SRCollisionSphere >> center: aVector3 [
 ]
 
 {
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionSphere >> closestPointToMissedRay: aRay [
+
+	^ self center + (((aRay closestPointTo: self center) - self center) normalized * self radius)
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'phkeese 8/11/2026 15:29'
 }

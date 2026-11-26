@@ -58,6 +58,17 @@ SRCollisionBox >> closestPointTo: aPoint [
 ]
 
 {
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/26/2026 15:36'
+}
+SRCollisionBox >> closestPointToMissedRay: aRay [
+
+	^ self fromLocal: (SRRayBoxProximity
+		ray: (self toLocalRay: aRay)
+		halfExtents: self halfExtents) closestPoint
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'phkeese 8/10/2026 17:19'
 }
@@ -96,6 +107,15 @@ SRCollisionBox >> distanceTo: aPoint [
 SRCollisionBox >> drawGizmoOn: aGizmoPainter colored: aColor [
 
 	aGizmoPainter gizmoWireBox: self color: aColor
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionBox >> fromLocal: aPoint [
+
+	^ (self rotation rotateVector: aPoint) + self center
 ]
 
 {
@@ -170,24 +190,18 @@ SRCollisionBox >> pointIntersection: aCollisionPoint [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'phkeese 10/19/2026 12:51'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
 }
 SRCollisionBox >> rayIntersection: aRay [
 	"OBB ray intersection via transformation to local AABB space."
 
-	| inverseRotation localOrigin localDirection localRay hitT localHitPoint |
-	inverseRotation := self rotation inverse.
-	localOrigin := inverseRotation rotateVector: (aRay origin - self center).
-	localDirection := inverseRotation rotateVector: aRay forward.
-	localRay := SRRay new
-		origin: localOrigin;
-		forward: localDirection.
+	| localRay hitT |
+	localRay := self toLocalRay: aRay.
 	hitT := self rayIntersectionAABB: localRay.
 	hitT ifNil: [^ nil].
-	localHitPoint := localRay project: hitT.
 	^ SRIntersectionResult new
 		object: self object;
-		point: (self rotation rotateVector: localHitPoint) + self center;
+		point: (self fromLocal: (localRay project: hitT));
 		distance: hitT
 ]
 
@@ -259,4 +273,17 @@ SRCollisionBox >> size: aVector3 [
 	"Set the full size of the box (halfExtents = size / 2)"
 
 	self halfExtents: aVector3 / 2
+]
+
+{
+	#category : #'collisions - private',
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionBox >> toLocalRay: aRay [
+
+	| inverseRotation |
+	inverseRotation := self rotation inverse.
+	^ SRRay
+		origin: (inverseRotation rotateVector: aRay origin - self center)
+		forward: (inverseRotation rotateVector: aRay forward)
 ]

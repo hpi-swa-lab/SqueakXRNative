@@ -5,6 +5,15 @@ Class {
 }
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/25/2026 16:30'
+}
+SRCollisionNull >> closestPointToRay: aRay [
+
+	^ nil
+]
+
+{
 	#category : #testing,
 	#'squeak_changestamp' : 'SqueakXR 6/26/2026 16:17'
 }
