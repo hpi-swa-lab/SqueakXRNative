@@ -116,7 +116,7 @@ SRPasteUpMorph >> panelOfParentMenuOf: aMorph in: anXRWorld [
 
 {
 	#category : #'pop-up menus',
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:46'
 }
 SRPasteUpMorph >> panelTransformFor: aMorph in: anXRWorld [
 	"A pop-up menu opens where the clicking hand is, as the XR menus do; anything
@@ -126,8 +126,8 @@ SRPasteUpMorph >> panelTransformFor: aMorph in: anXRWorld [
 		^ self transformFor: aMorph besideMenuIn: parentPanel].
 	camera := anXRWorld camera.
 	hand := SRClickingHandVariable value.
-	position := ((aMorph isKindOf: MenuMorph) and: [hand notNil and: [anXRWorld actingAvatar notNil]])
-		ifTrue: [anXRWorld actingAvatar menuPlacementPositionForHand: hand]
+	position := ((aMorph isKindOf: MenuMorph) and: [hand notNil and: [hand avatar notNil]])
+		ifTrue: [hand avatar menuPlacementPositionForHand: hand]
 		ifFalse: [camera globalTranslation + (camera forward * 1.6m)].
 	^ Matrix4x4
 		objectLookAt: camera globalTranslation

@@ -477,6 +477,20 @@ SRMenuTest >> testRebuildingTheParentKeepsItsSubmenuOpen [
 ]
 
 {
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:41'
+}
+SRMenuTest >> testRelabelingReadsTheLabelsWhileTheAvatarActs [
+
+	| menu avatar seen |
+	avatar := SRAvatar new.
+	menu := SRMenu new.
+	menu addItem: [seen := SRActingAvatarVariable value. 'row'] action: [] keepOpen: true.
+	SRActingAvatarVariable value: avatar during: [menu labelsChanged].
+	self assert: seen == avatar.
+]
+
+{
 	#category : #'tests - sticky',
 	#'squeak_changestamp' : 'MCPServer (leo) 11/9/2026 14:37'
 }

@@ -142,14 +142,14 @@ SRMaterial >> internalMaterial [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/30/2026 15:56'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:11'
 }
 SRMaterial >> internalMaterialFor: aSRRenderer [
 
 	isDirty ifTrue: [
-		aSRRenderer removeAt: self.
+		self currentXRWorld removeCacheAt: self.
 		isDirty := false].
-	internalMaterial := aSRRenderer cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer].
+	internalMaterial := self currentXRWorld cacheAt: self ifAbsentPut: [self buildInternalMaterialFor: aSRRenderer].
 	mapsDirty ifTrue: [self updateMaps].
 	^ internalMaterial
 ]

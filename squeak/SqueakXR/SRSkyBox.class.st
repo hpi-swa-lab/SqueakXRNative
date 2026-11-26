@@ -137,3 +137,12 @@ SRSkyBox >> renderMiniOn: aRenderer [
 
 	"TODO: render something eventually, but for now, nothing. (Broke the rendering of everything *but* the mini version)"
 ]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:46'
+}
+SRSkyBox >> renderOn: aSRRenderer [
+
+	self isDescendantOfCurrentlyRenderingAvatar ifTrue: [super renderOn: aSRRenderer]
+]

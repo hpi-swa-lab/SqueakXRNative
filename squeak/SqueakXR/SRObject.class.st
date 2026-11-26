@@ -1028,11 +1028,31 @@ SRObject >> isCubeField [
 
 {
 	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 18:26'
+}
+SRObject >> isCursorTarget [
+
+	^ self ignoreCollision not
+]
+
+{
+	#category : #testing,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:50'
 }
 SRObject >> isDebugHUD [
 
 	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:46'
+}
+SRObject >> isDescendantOfCurrentlyRenderingAvatar [
+
+	^ SRRenderingAvatarVariable value
+		ifNil: [false]
+		ifNotNil: [:avatar | self hasAncestor: avatar]
 ]
 
 {
@@ -1161,15 +1181,6 @@ SRObject >> isWithin: anSRObject [
 SRObject >> isXR [
 
 	^ self world ifNotNil: [:world | world isXR] ifNil: [false]
-]
-
-{
-	#category : #testing,
-	#'squeak_changestamp' : 'MCPServer 5/11/2026 17:40'
-}
-SRObject >> isXRInputEmulator [
-
-	^ false
 ]
 
 { #category : #events }

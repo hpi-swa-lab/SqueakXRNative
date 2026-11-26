@@ -5,9 +5,9 @@ Class {
 	#name : #SRXRDebugHUD,
 	#superclass : #SRObject,
 	#instVars : [
-		'visible',
 		'lastStepTime',
-		'measuredFPS'
+		'measuredFPS',
+		'avatar'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -33,6 +33,15 @@ SRXRDebugHUD class >> xrMenuToggleLabel: aMenu [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:08'
+}
+SRXRDebugHUD >> avatar: anAvatar [
+
+	avatar := anAvatar
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'lege 7/20/2026 18:38'
 }
@@ -55,7 +64,7 @@ SRXRDebugHUD >> isDebugHUD [
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:57'
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:08'
 }
 SRXRDebugHUD >> step: delta [
 
@@ -71,7 +80,7 @@ SRXRDebugHUD >> step: delta [
 	visible ifFalse: [^ self].
 	
 	raylibFPS := Raylib getFPS.
-	camera := self parent avatar camera.
+	camera := avatar camera.
 	pos := camera position.
 	dir := camera forward.
 	painter := self gizmoPainter.
@@ -83,7 +92,7 @@ SRXRDebugHUD >> step: delta [
 		gizmo2DText: 'Position: ', (pos x roundTo: 0.01) printString, ', ', (pos y roundTo: 0.01) printString, ', ', (pos z roundTo: 0.01) printString at: 10 @ 75 fontSize: 16 color: Color white;
 		gizmo2DText: 'Direction: ', (dir x roundTo: 0.01) printString, ', ', (dir y roundTo: 0.01) printString, ', ', (dir z roundTo: 0.01) printString at: 10 @ 95 fontSize: 16 color: Color white.
 	
-	selected := self parent avatar rightHand selectedObject.
+	selected := avatar rightHand selectedObject.
 	selText := selected
 		ifNotNil: [:obj | obj class name, ' (', (obj name ifNil: ['unnamed']), ')']
 		ifNil: ['none'].
@@ -97,22 +106,4 @@ SRXRDebugHUD >> step: delta [
 SRXRDebugHUD >> toggleVisibility [
 
 	visible := visible not
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
-}
-SRXRDebugHUD >> visible [
-
-	^ visible
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'MCPServer 5/13/2026 13:58'
-}
-SRXRDebugHUD >> visible: aBoolean [
-
-	visible := aBoolean
 ]

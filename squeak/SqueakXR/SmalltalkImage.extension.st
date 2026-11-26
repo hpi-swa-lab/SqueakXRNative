@@ -22,13 +22,13 @@ SmalltalkImage >> logStartUpErrorsOf: aClassName during: aBlock [
 
 {
 	#category : #'*SqueakXR-snapshot and quit',
-	#'squeak_changestamp' : 'MCPServer (jl) 11/13/2026 14:06'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 14:55'
 }
 SmalltalkImage >> processStartUpList: resuming [
-	"Send #startUp to each class that needs to run initialization after a snapshot."
 
-	self logStartUpErrorsOf: #FileStream during: [FileStream startUp: resuming].
-	self sendStartUp: resuming toClassesNamedIn: StartUpList.
+	self withoutPreemptionDuringStartUpDo: [
+		self logStartUpErrorsOf: #FileStream during: [FileStream startUp: resuming].
+		self sendStartUp: resuming toClassesNamedIn: StartUpList]
 ]
 
 {
@@ -46,4 +46,18 @@ SmalltalkImage >> sendStartUp: resuming toClassesNamedIn: aStartUpList [
 			ifFalse: [class isInMemory ifTrue: [
 				self logStartUpErrorsOf: name during: [class startUp: resuming]]]].
 	aStartUpList removeAll: removals.
+]
+
+{
+	#category : #'*SqueakXR-snapshot and quit',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 14:55'
+}
+SmalltalkImage >> withoutPreemptionDuringStartUpDo: aBlock [
+
+	"Above the UI and finalization processes, which would otherwise run with stale FFI handles."
+	| process priority |
+	process := Processor activeProcess.
+	priority := process priority.
+	process priority: (priority max: Processor lowIOPriority).
+	^ aBlock ensure: [process priority: priority]
 ]

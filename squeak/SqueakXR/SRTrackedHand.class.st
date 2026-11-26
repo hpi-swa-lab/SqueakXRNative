@@ -222,6 +222,17 @@ SRTrackedHand >> jointForNamedIndex: index [
 ]
 
 {
+	#category : #updating,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
+}
+SRTrackedHand >> jointLocationsIn: someHandJoints [
+
+	^ self isLeft
+		ifTrue: [someHandJoints leftJointLocations]
+		ifFalse: [someHandJoints rightJointLocations]
+]
+
+{
 	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'leo 10/22/2026 17:42'
 }
@@ -237,6 +248,15 @@ SRTrackedHand >> joints [
 SRTrackedHand >> joints: anSequenceableCollection [
 
 	joints := anSequenceableCollection
+]
+
+{
+	#category : #updating,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:47'
+}
+SRTrackedHand >> jointsUpdated: someHandJoints [
+
+	self updateJoints: (self jointLocationsIn: someHandJoints)
 ]
 
 {
@@ -451,18 +471,6 @@ SRTrackedHand >> thumbProximal [
 SRTrackedHand >> thumbTip [
 
 	^ self jointForNamedIndex: XrHandJointEXT XR_HAND_JOINT_THUMB_TIP_EXT
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 10/23/2026 15:07'
-}
-SRTrackedHand >> update: aSymbol with: anObject [
-
-	aSymbol = #handJointsUpdated ifTrue: [
-		self updateJoints: (self isLeft
-			ifTrue: [anObject leftJointLocations]
-			ifFalse: [anObject rightJointLocations])].
 ]
 
 {

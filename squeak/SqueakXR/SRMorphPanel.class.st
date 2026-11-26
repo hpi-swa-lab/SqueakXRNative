@@ -206,14 +206,14 @@ SRMorphPanel >> deliverKeyboardEvent: anEvent [
 
 {
 	#category : #hierarchy,
-	#'squeak_changestamp' : 'jl 8/10/2026 17:51'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:24'
 }
 SRMorphPanel >> detachMorph [
 
 	morph ifNil: [^ self].
 	detachedMorph := morph.
 	self removeMorph.
-	detachedMorph delete
+	self removeFromMorphicWorld: detachedMorph
 ]
 
 {
@@ -762,6 +762,15 @@ SRMorphPanel >> pixelsPerMeter [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 15:00'
+}
+SRMorphPanel >> plane [
+
+	^ plane
+]
+
+{
 	#category : #events,
 	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 11:24'
 }
@@ -787,6 +796,23 @@ SRMorphPanel >> remountMorph [
 	self morph: detached.
 	morphicWorld addMorph: detached.
 	^ detached
+]
+
+{
+	#category : #hierarchy,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:24'
+}
+SRMorphPanel >> removeFromMorphicWorld: aMorph [
+
+	| hand |
+	aMorph removeHalo.
+	aMorph world ifNotNil: [
+		hand := aMorph activeHand.
+		aMorph disableSubmorphFocusForHand: hand.
+		hand
+			releaseKeyboardFocus: aMorph;
+			releaseMouseFocus: aMorph].
+	aMorph owner ifNotNil: [:owner | owner removeMorph: aMorph]
 ]
 
 {

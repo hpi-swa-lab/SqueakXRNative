@@ -1,9 +1,6 @@
 Class {
 	#name : #SRRenderer,
 	#superclass : #Object,
-	#instVars : [
-		'cache'
-	],
 	#classVars : [
 		'FloorBackground',
 		'FloorColor',
@@ -12,7 +9,6 @@ Class {
 		'GridSpacing',
 		'MirrorMonitor',
 		'MirrorPlaced',
-		'RendererClass',
 		'StartMonitor'
 	],
 	#category : #'SqueakXR-Graphics-Renderer'
@@ -188,25 +184,15 @@ SRRenderer class >> mirrorPlaced: aBoolean [
 	MirrorPlaced := aBoolean.
 ]
 
-{ #category : #preferences }
-SRRenderer class >> rendererClass [
-	<preference: 'Renderer'
-		category: 'SqueakXR'
-		description: 'Select rendering class'
-		type: #Class>
-	^ RendererClass ifNil: [SRRaylibRendererFlat]
-]
+{
+	#category : #info,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRenderer class >> shaderVersion [
 
-{ #category : #preferences }
-SRRenderer class >> rendererClass: aClass [
-	
-	^ RendererClass := aClass
-]
-
-{ #category : #'as yet unclassified' }
-SRRenderer class >> selectRaylibXR [
-
-	RendererClass := SRRaylibRendererXR.
+	^ (Smalltalk arguments includes: '--android')
+		ifTrue: [#'300es']
+		ifFalse: [#'330']
 ]
 
 { #category : #preferences }
@@ -236,18 +222,6 @@ SRRenderer class >> visibleFloorColor [
 		ifFalse: [self floorColor alpha: 0]
 ]
 
-{ #category : #accessing }
-SRRenderer >> cache [
-
-	^ cache
-]
-
-{ #category : #cache }
-SRRenderer >> cacheAt: aSymbol ifAbsentPut: aBlock [
-
-	^ self cache at: aSymbol ifAbsentPut: aBlock
-]
-
 {
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 10/9/2025 17:43'
@@ -275,10 +249,13 @@ SRRenderer >> cameraUp [
 	self subclassResponsibility
 ]
 
-{ #category : #cache }
-SRRenderer >> clearCache [
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
+}
+SRRenderer >> canStartWhileRunning [
 
-	self cache removeAll
+	^ true
 ]
 
 {
@@ -288,10 +265,6 @@ SRRenderer >> clearCache [
 SRRenderer >> clearDepth [
 	
 	^ self subclassResponsibility
-]
-
-{ #category : #'render-loop' }
-SRRenderer >> completeFrame [
 ]
 
 {
@@ -330,10 +303,13 @@ SRRenderer >> enableDepthTest [
 	self subclassResponsibility
 ]
 
-{ #category : #rendering }
-SRRenderer >> initialize [
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:14'
+}
+SRRenderer >> environment: aVisualEnvironment lights: aCollection [
 
-	cache := Dictionary new
+	self subclassResponsibility
 ]
 
 {
@@ -341,6 +317,15 @@ SRRenderer >> initialize [
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 11:18'
 }
 SRRenderer >> isFullscreen [
+
+	^ false
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRenderer >> isXR [
 
 	^ false
 ]
@@ -361,17 +346,13 @@ SRRenderer >> pollEventsAndWaitForFrame [
 	between: it must be located for the display time this call establishes."
 ]
 
-{ #category : #'render-loop' }
-SRRenderer >> prepareFrame: aCameraTransform [
-]
-
 {
-	#category : #cache,
-	#'squeak_changestamp' : 'lege 7/16/2026 15:46'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
 }
-SRRenderer >> removeAt: aSymbol [
+SRRenderer >> render: aFrame from: anAvatar showingWindow: aBoolean painter: aGizmoPainter [
 
-	self cache removeKey: aSymbol ifAbsent: [].
+	self subclassResponsibility
 ]
 
 {
@@ -499,6 +480,24 @@ SRRenderer >> renderWireCubeTransformed: aMatrix4x4 withColor: aColor [
 	self subclassResponsibility
 ]
 
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRenderer >> rendersViews [
+
+	^ true
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRenderer >> screenCamera [
+
+	^ nil
+]
+
 { #category : #'render-loop' }
 SRRenderer >> setup [
 ]
@@ -592,6 +591,35 @@ SRRenderer >> test [
 }
 SRRenderer >> toggleFullscreen [
 	"Only a desktop window can change; the headset has no window to resize."
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRenderer >> windowExtent [
+	"Nil for a renderer without a window."
+
+	^ nil
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRenderer >> windowPriority [
+	"Of all renderers in a world, the highest one draws the window overlay."
+
+	^ 0
+]
+
+{
+	#category : #window,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:01'
+}
+SRRenderer >> windowTitle [
+
+	^ nil
 ]
 
 {

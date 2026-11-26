@@ -28,23 +28,3 @@ SRAvatarCamera >> initialize [
 
 	self addChild: SRAudioEars new.
 ]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'MCPServer 8/10/2026 17:33'
-}
-SRAvatarCamera >> onWorldChanged: oldWorld [
-
-	oldWorld ifNotNil: [oldWorld removeDependent: self].
-	self world ifNotNil: [:each | each addDependent: self].
-]
-
-{
-	#category : #updating,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:42'
-}
-SRAvatarCamera >> update: aSymbol with: anObject [
-	"The head pose belongs to the world avatar only."
-	(aSymbol = #cameraTransformUpdated and: [self parent == self world avatar])
-		ifTrue: [self cameraTransformUpdated: anObject]
-]

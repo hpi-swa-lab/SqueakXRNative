@@ -9,7 +9,12 @@ Class {
 		'firstPassRenderedObjects',
 		'secondPassRenderedObjects',
 		'hasRenderingBegun',
-		'isCompleted'
+		'isCompleted',
+		'viewsDone',
+		'viewsSeen',
+		'isViewOpen',
+		'renderPass',
+		'renderIndex'
 	],
 	#classVars : [
 		'FrameExceptionSet',
@@ -67,6 +72,19 @@ SRFrame class >> world: world deltaTime: deltaTime [
 
 {
 	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> closeViewWith: aBlock [
+	"Also reached from the ensure: of a process held by the debugger, after another process finished the view."
+
+	isViewOpen ifFalse: [^ self].
+	isViewOpen := false.
+	viewsDone := viewsDone + 1.
+	aBlock value.
+]
+
+{
+	#category : #processing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:09'
 }
 SRFrame >> completeFrame [
@@ -119,14 +137,16 @@ SRFrame >> hasRenderingBegun: aBoolean [
 ]
 
 {
-	#category : #initializing,
-	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 17:50'
+	#category : #'initialize-release',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
 }
 SRFrame >> initialize [
 
 	self hasRenderingBegun: false.
 	self isOld: false.
-	isCompleted := false
+	isCompleted := false.
+	viewsDone := 0.
+	isViewOpen := false.
 ]
 
 {
@@ -167,6 +187,26 @@ SRFrame >> isOld: aBoolean [
 
 {
 	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> isViewOpen [
+
+	^ isViewOpen
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> needsView [
+	"Views render in a fixed order, so a frame resumed after an error skips the ones it already drew."
+
+	viewsSeen := viewsSeen + 1.
+	^ viewsSeen > viewsDone
+]
+
+{
+	#category : #processing,
 	#'squeak_changestamp' : 'MCPServer (leo) 10/28/2026 18:03'
 }
 SRFrame >> prepareFrame [
@@ -178,38 +218,52 @@ SRFrame >> prepareFrame [
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:21'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
 }
 SRFrame >> process [
 
 	self updateActions; stepObjects.
 	[self prepareFrame; renderObjects] ensure: [self completeFrame].
-
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 16:59'
 }
 SRFrame >> renderObjects [
-	self renderObjects: firstPassRenderedObjects.
-	self world renderer renderOverlaysDo: [self renderObjects: secondPassRenderedObjects].
+
+	viewsSeen := 0.
+	self world rendererOrchestrator renderFrame: self.
 ]
 
 {
 	#category : #processing,
-	#'squeak_changestamp' : 'leo 10/30/2026 15:39'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
 }
-SRFrame >> renderObjects: anOrderedCollection [
+SRFrame >> renderObjects: aCollection on: aRenderer [
+	"The index lives in the frame: a retry, or a process resuming this frame, goes on after the object that failed."
 
-	| currentObject |
-	[[anOrderedCollection notEmpty] whileTrue: [
-		currentObject := anOrderedCollection removeFirst.
-		self world render: currentObject]]
+	[[renderIndex < aCollection size] whileTrue: [
+		renderIndex := renderIndex + 1.
+		(aCollection at: renderIndex) renderOn: aRenderer]]
 		on: self class exceptionSet
 		do: [:error |
-			currentObject badRender: true.
+			(aCollection at: renderIndex) badRender: true.
 			self handleError: error]
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> renderObjectsOn: aRenderer [
+
+	renderPass = 1 ifTrue: [
+		self renderObjects: firstPassRenderedObjects on: aRenderer.
+		aRenderer clearDepth.
+		renderPass := 2.
+		renderIndex := 0].
+	self renderObjects: secondPassRenderedObjects on: aRenderer.
 ]
 
 {
@@ -232,10 +286,33 @@ SRFrame >> stepObjects [
 			self handleError: error]
 ]
 
-{ #category : #processing }
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
+}
 SRFrame >> updateActions [
 
-	isOld ifFalse: [self world updateActions]
+	isOld ifFalse: [self world updateActions: deltaTime]
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> viewOpened [
+
+	isViewOpen := true.
+	renderPass := 1.
+	renderIndex := 0.
+]
+
+{
+	#category : #processing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRFrame >> viewSkipped [
+
+	viewsDone := viewsDone + 1.
 ]
 
 { #category : #accessing }

@@ -43,6 +43,24 @@ SRAvatarTest >> avatarOnFloorAtY: aHeight [
 ]
 
 {
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:40'
+}
+SRAvatarTest >> morphPanelIn: aWorld [
+
+	^ aWorld addChild: SRMorphPanel new
+]
+
+{
+	#category : #helpers,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:40'
+}
+SRAvatarTest >> planeOf: aMorphPanel [
+
+	^ aMorphPanel children detect: [:each | each isKindOf: SRPlane]
+]
+
+{
 	#category : #running,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:59'
 }
@@ -105,6 +123,20 @@ SRAvatarTest >> testDuckingDoesNotMoveTheRig [
 			stickMotion: nil
 			dt: 0.05.
 		self assert: correction y abs < 0.01].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatarTest >> testEveryAvatarHasAHeadMarkerColoredByItsInput [
+
+	| avatar |
+	self assert: SRAvatar xr headMarker color = Color cyan.
+	self assert: SRAvatar desktop headMarker color = Color orange.
+	avatar := SRAvatar new.
+	avatar inputStrategy: SRXRControllerInputStrategy new.
+	self assert: avatar headMarker color = Color cyan.
 ]
 
 {
@@ -186,6 +218,74 @@ SRAvatarTest >> testLocomotionIsOffUntilAnApplicationAsksForIt [
 	before := avatar translation.
 	20 timesRepeat: [avatar updateLocomotion: 0.016].
 	self assert: avatar translation equals: before.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:46'
+}
+SRAvatarTest >> testOnlyItsOwnAvatarSeesTheSkyBox [
+
+	| avatar skyBox |
+	avatar := SRAvatar new.
+	skyBox := avatar camera children detect: [:each | each isKindOf: SRSkyBox].
+	SRRenderingAvatarVariable value: avatar during: [self assert: skyBox isDescendantOfCurrentlyRenderingAvatar].
+	SRRenderingAvatarVariable value: SRAvatar new during: [self deny: skyBox isDescendantOfCurrentlyRenderingAvatar].
+	self deny: skyBox isDescendantOfCurrentlyRenderingAvatar.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:40'
+}
+SRAvatarTest >> testRightStickSmoothTurnsUnlessTheAimedMorphPanelHasFocus [
+
+	| saved avatar facing world panel |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #smooth.
+	avatar := SRAvatar new.
+	world := SRWorld new.
+	panel := self morphPanelIn: world.
+	world keyboardFocus: panel.
+	facing := avatar rotation.
+	avatar rightHand joystick horizontal: 1.
+	self aim: avatar rightHand at: (self planeOf: panel).
+	avatar updateSmoothTurn: 0.5.
+	self assert: facing equals: avatar rotation.
+	world keyboardFocus: nil.
+	avatar updateSmoothTurn: 0.5.
+	self deny: facing = avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 19:40'
+}
+SRAvatarTest >> testRightStickSnapTurnsUnlessTheAimedMorphPanelHasFocus [
+
+	| saved avatar action facing world panel |
+	saved := SRAvatar turnStyle.
+	[SRAvatar turnStyle: #snap.
+	avatar := SRAvatar new.
+	action := SRSnapTurnAction new hand: avatar rightHand; yourself.
+	world := SRWorld new.
+	panel := self morphPanelIn: world.
+	world keyboardFocus: panel.
+	facing := avatar rotation.
+	avatar rightHand joystick horizontal: 1.
+	self aim: avatar rightHand at: (self planeOf: panel).
+	action run: avatar rightHand inputState.
+	self assert: facing equals: avatar rotation.
+	world keyboardFocus: nil.
+	action run: avatar rightHand inputState.
+	self assert: facing equals: avatar rotation.
+	avatar rightHand joystick horizontal: 0.
+	action run: avatar rightHand inputState.
+	avatar rightHand joystick horizontal: 1.
+	action run: avatar rightHand inputState.
+	self deny: facing = avatar rotation]
+		ensure: [SRAvatar turnStyle: saved].
 ]
 
 {
@@ -334,6 +434,41 @@ SRAvatarTest >> testTeleportPutsTheFeetOnTheTargetNotTheRigOrigin [
 		@ avatar globalTranslation y
 		@ avatar camera globalTranslation z.
 	self assert: (feet - target) length < 0.0001.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:31'
+}
+SRAvatarTest >> testTheDesktopAvatarIsDrivenByTheDesktopAndRendersTheWindow [
+
+	| avatar |
+	avatar := SRAvatar desktop.
+	self deny: avatar isControllerDriven.
+	self assert: (avatar renderer isKindOf: SRRaylibRendererFlat).
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:54'
+}
+SRAvatarTest >> testTheXRAvatarIsDrivenByControllersAndRendersTheHeadset [
+
+	| avatar |
+	avatar := SRAvatar xr.
+	self assert: avatar isControllerDriven.
+	self assert: avatar renderer isXR.
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatarTest >> testTrackedHandsAreOnlyUsedOnceActive [
+
+	| avatar |
+	avatar := SRAvatar new enableHandTracking; yourself.
+	self assert: (avatar trackedHands noneSatisfy: [:each | avatar isUsing: each]).
 ]
 
 {

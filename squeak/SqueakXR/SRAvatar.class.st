@@ -19,6 +19,9 @@ Class {
 		'lastRigTranslation',
 		'trackedHands',
 		'walkSpeedFactor',
+		'inputStrategy',
+		'usesTrackedHands',
+		'renderer',
 		'floorMarker'
 	],
 	#classVars : [
@@ -54,6 +57,15 @@ SRAvatar class >> continuousLocomotion [
 SRAvatar class >> continuousLocomotion: aBoolean [
 
 	ContinuousLocomotion := aBoolean.
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:31'
+}
+SRAvatar class >> desktop [
+
+	^ self inputStrategy: SRDesktopInputStrategy new renderer: SRRaylibRendererFlat new
 ]
 
 {
@@ -95,6 +107,29 @@ SRAvatar class >> handTracking [
 SRAvatar class >> handTracking: aBoolean [
 
 	HandTracking := aBoolean.
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar class >> inputStrategy: anInputStrategy [
+
+	^ self new
+		inputStrategy: anInputStrategy;
+		yourself
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
+}
+SRAvatar class >> inputStrategy: anInputStrategy renderer: aRenderer [
+
+	^ self new
+		inputStrategy: anInputStrategy;
+		renderer: aRenderer;
+		yourself
 ]
 
 {
@@ -268,6 +303,15 @@ SRAvatar class >> walkSpeed: metresPerSecond [
 ]
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:53'
+}
+SRAvatar class >> xr [
+
+	^ self inputStrategy: SRXRControllerInputStrategy new renderer: SRRaylibRendererXR new
+]
+
+{
 	#category : #'xr menu',
 	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:56'
 }
@@ -284,6 +328,15 @@ SRAvatar class >> xrMenuOutOfBodyLabel: aMenu [
 SRAvatar class >> xrMenuToggleOutOfBody: aMenu [
 	<xrMenu: #(world debug) label: #xrMenuOutOfBodyLabel: priority: 410>
 	^ aMenu world actingAvatar toggleOutOfBody
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatar >> activeHands [
+
+	^ self hands select: [:each | self isUsing: each]
 ]
 
 {
@@ -373,14 +426,11 @@ SRAvatar >> contextMenu [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo 11/18/2026 16:58'
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
 }
 SRAvatar >> enableHandTracking [
 
-	^ trackedHands ifNil: [
-		trackedHands := {SRTrackedHand left. SRTrackedHand right}.
-		self addChildren: trackedHands.
-		trackedHands]
+	trackedHands ifNil: [trackedHands := {SRTrackedHand left. SRTrackedHand right}].
 ]
 
 {
@@ -455,8 +505,28 @@ SRAvatar >> hands [
 ]
 
 {
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatar >> headMarker [
+
+	^ camera children detect: [:each | each isKindOf: SRHeadMarker] ifNone: [nil]
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:24'
+}
+SRAvatar >> headMarkerColor [
+
+	^ self isControllerDriven
+		ifTrue: [Color cyan]
+		ifFalse: [Color orange]
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'leo 11/6/2026 15:19'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
 }
 SRAvatar >> initialize [
 
@@ -465,10 +535,39 @@ SRAvatar >> initialize [
 	leftHand := SRHand left avatar: self.
 	rightHand := SRHand right avatar: self.
 	camera := SRAvatarCamera new.
+	renderer := SRNullRenderer new.
 
 	self haloMode: SRHaloMode forbid.
 	self addChildren: {leftHand. rightHand. camera}.
-	camera addChild: SRSkyBox new.
+	camera
+		addChild: SRSkyBox new;
+		addChild: SRHeadMarker new.
+	self updateHeadMarkerColor.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:35'
+}
+SRAvatar >> inputStrategy [
+
+	^ inputStrategy
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatar >> inputStrategy: anInputStrategy [
+
+	inputStrategy ifNotNil: [:old |
+		self world ifNotNil: [:aWorld | aWorld removeDependent: old].
+		old detach].
+	inputStrategy := anInputStrategy.
+	self updateHeadMarkerColor.
+	inputStrategy ifNil: [^ self].
+	inputStrategy attachTo: self.
+	self world ifNotNil: [:aWorld | aWorld addDependent: inputStrategy].
 ]
 
 {
@@ -482,11 +581,11 @@ SRAvatar >> isAvatar [
 
 {
 	#category : #testing,
-	#'squeak_changestamp' : 'jl-MCPServer 11/20/2026 13:48'
+	#'squeak_changestamp' : 'leo-MCPServer 11/22/2026 16:36'
 }
 SRAvatar >> isControllerDriven [
-	"False for a desktop user's avatar, which SRXRInputEmulator drives even in an XR world."
-	^ self world notNil and: [self world isXR and: [self world avatar == self]]
+
+	^ inputStrategy notNil and: [inputStrategy isControllerInput]
 ]
 
 {
@@ -496,6 +595,15 @@ SRAvatar >> isControllerDriven [
 SRAvatar >> isOutOfBody [
 
 	^ ghostAvatar notNil
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 16:15'
+}
+SRAvatar >> isUsing: aHand [
+
+	^ aHand parent == self
 ]
 
 {
@@ -564,6 +672,23 @@ SRAvatar >> menuPlacementPositionForHand: aHand [
 ]
 
 {
+	#category : #input,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:53'
+}
+SRAvatar >> onWorldChanged: oldWorld [
+
+	super onWorldChanged: oldWorld.
+	oldWorld ifNotNil: [
+		oldWorld removeAvatar: self.
+		oldWorld rendererOrchestrator rendererLeft: renderer.
+		inputStrategy ifNotNil: [oldWorld removeDependent: inputStrategy]].
+	self world ifNotNil: [:aWorld |
+		aWorld addAvatar: self.
+		aWorld rendererOrchestrator rendererJoined: renderer.
+		inputStrategy ifNotNil: [aWorld addDependent: inputStrategy]].
+]
+
+{
 	#category : #menus,
 	#'squeak_changestamp' : 'MCPServer (SqueakXR) 10/20/2026 10:44'
 }
@@ -621,6 +746,26 @@ SRAvatar >> openWorldMenuAt: aPosition [
 		worldMenuAt: aPosition
 		facingCamera: self camera
 		in: self world
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRAvatar >> renderer [
+
+	^ renderer
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 18:17'
+}
+SRAvatar >> renderer: aRenderer [
+
+	self world ifNotNil: [:aWorld | aWorld rendererOrchestrator rendererLeft: renderer].
+	renderer := aRenderer.
+	self world ifNotNil: [:aWorld | aWorld rendererOrchestrator rendererJoined: renderer].
 ]
 
 {
@@ -765,6 +910,15 @@ SRAvatar >> toggleOutOfBody [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/20/2026 19:07'
+}
+SRAvatar >> trackedHands [
+
+	^ trackedHands
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (MCPServer) 10/21/2026 14:58'
 }
@@ -835,6 +989,15 @@ SRAvatar >> updateFlying: deltaTime [
 ]
 
 {
+	#category : #rendering,
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:58'
+}
+SRAvatar >> updateHeadMarkerColor [
+
+	self headMarker ifNotNil: [:marker | marker color: self headMarkerColor]
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'jl-MCPServer 11/23/2026 18:03'
 }
@@ -877,6 +1040,18 @@ SRAvatar >> updateSmoothTurn: deltaTime [
 ]
 
 {
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> useControllerHands [
+
+	trackedHands ifNotNil: [:someTrackedHands |
+		someTrackedHands do: [:each | self removeChild: each]].
+	self addChildren: self hands.
+	usesTrackedHands := false.
+]
+
+{
 	#category : #locomotion,
 	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 10:50'
 }
@@ -884,6 +1059,26 @@ SRAvatar >> useDefaultLocomotion [
 
 	locomotionEnabled := nil.
 	lastRigTranslation := nil.
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> useTrackedHands [
+
+	self hands do: [:each | self removeChild: each].
+	self addChildren: trackedHands.
+	usesTrackedHands := true.
+]
+
+{
+	#category : #'hand tracking',
+	#'squeak_changestamp' : 'leo-MCPServer 11/23/2026 18:19'
+}
+SRAvatar >> usesTrackedHands [
+
+	^ usesTrackedHands ifNil: [false]
 ]
 
 {

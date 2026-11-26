@@ -144,6 +144,16 @@ SRRaylibRenderer >> applyLightingTo: aSRShader [
 ]
 
 {
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRenderer >> beginViewFrom: aCameraTransform [
+	"Answers whether the view can be drawn this frame."
+
+	^ self subclassResponsibility
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'lege 7/16/2026 17:13'
 }
@@ -181,12 +191,6 @@ SRRaylibRenderer >> clearDepth [
 SRRaylibRenderer >> clearLitShaders [
 
 	litShaders removeAll.
-]
-
-{ #category : #'render-loop' }
-SRRaylibRenderer >> completeFrame [
-
-	self subclassResponsibility
 ]
 
 {
@@ -229,6 +233,15 @@ SRRaylibRenderer >> drawReticle [
 ]
 
 {
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRenderer >> drawWindowOverlay: aGizmoPainter [
+
+	self subclassResponsibility
+]
+
+{
 	#category : #rendering,
 	#'squeak_changestamp' : 'lege 3/17/2026 16:16'
 }
@@ -247,6 +260,14 @@ SRRaylibRenderer >> enableDepthTest [
 	Raylib
 		rlDrawRenderBatchActive;
 		rlEnableDepthTest.
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:15'
+}
+SRRaylibRenderer >> endView [
+
 ]
 
 {
@@ -319,12 +340,6 @@ SRRaylibRenderer >> placeMirrorWindowOnce [
 			self moveWindowToMonitor: SRRenderer mirrorMonitor]].
 ]
 
-{ #category : #'render-loop' }
-SRRaylibRenderer >> prepareFrame: cameraTransform [
-
-	self subclassResponsibility
-]
-
 {
 	#category : #rendering,
 	#'squeak_changestamp' : 'MCPServer 9/29/2026 15:10'
@@ -337,6 +352,22 @@ SRRaylibRenderer >> render2DString: aString position: aPoint color: aColor fontS
 		posY: aPoint y
 		fontSize: aNumber
 		color: (self class rlColorFor_1: aColor)
+]
+
+{
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 15:34'
+}
+SRRaylibRenderer >> render: aFrame from: anAvatar showingWindow: aBoolean painter: aGizmoPainter [
+
+	aFrame needsView ifFalse: [^ self].
+	aFrame isViewOpen ifFalse: [
+		(self beginViewFrom: anAvatar camera globalTransform) ifFalse: [^ aFrame viewSkipped].
+		aFrame viewOpened].
+	[aFrame renderObjectsOn: self.
+	Raylib endMode3D.
+	aBoolean ifTrue: [self drawWindowOverlay: aGizmoPainter]]
+		ensure: [aFrame closeViewWith: [self endView]]
 ]
 
 {
@@ -679,18 +710,12 @@ SRRaylibRenderer >> setup [
 ]
 
 {
-	#category : #info,
-	#'squeak_changestamp' : 'lege 3/11/2026 15:02'
+	#category : #'render-loop',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 17:05'
 }
-SRRaylibRenderer >> shaderVersion [
-
-	self subclassResponsibility
-]
-
-{ #category : #'render-loop' }
 SRRaylibRenderer >> shutdown [
+	"Releases what #setup created; the window outlives the renderer."
 
-	self subclassResponsibility 
 ]
 
 {

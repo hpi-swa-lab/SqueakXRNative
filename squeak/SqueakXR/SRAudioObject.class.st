@@ -103,7 +103,7 @@ SRAudioObject class >> ensureOpenAL [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 16:42'
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 14:58'
 }
 SRAudioObject class >> initialize [
 
@@ -111,6 +111,7 @@ SRAudioObject class >> initialize [
 
 	super initialize.
 	Smalltalk addToStartUpList: self.
+	Smalltalk addToShutDownList: self.
 ]
 
 {
@@ -159,6 +160,16 @@ SRAudioObject class >> setup [
 	
 	deviceName := OpenAL alcGetStringDevice: ALDevice param: AlDefines alcAllDevicesSpecifier.
 	Transcript showln: self class name, ': Opened "', deviceName, '"'.
+]
+
+{
+	#category : #'system startup',
+	#'squeak_changestamp' : 'leo-MCPServer 11/25/2026 14:58'
+}
+SRAudioObject class >> shutDown: quitting [
+
+	"OpenAL's mixer thread must be stopped before the process exits, or its static destructors abort."
+	quitting ifTrue: [self teardown]
 ]
 
 {
