@@ -17,8 +17,7 @@ Class {
 		'renderIndex'
 	],
 	#classVars : [
-		'FrameExceptionSet',
-		'OverlaysOnTop'
+		'FrameExceptionSet'
 	],
 	#category : #'SqueakXR-Core'
 }
@@ -30,26 +29,6 @@ Class {
 SRFrame class >> exceptionSet [
 
 	^ FrameExceptionSet ifNil: [FrameExceptionSet := Error, Halt]
-]
-
-{
-	#category : #preferences,
-	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
-}
-SRFrame class >> overlaysOnTop [
-	<preference: 'Overlays on top'
-		category: 'SqueakXR'
-		description: 'Halos and gizmos clear the depth buffer and are drawn over everything, and the hand ray prefers them. Off, they are depth-tested like the scene and write no depth, so the depth handed to the compositor with each frame stays the scene''s.'
-		type: #Boolean>
-	^ OverlaysOnTop ifNil: [false]
-]
-
-{
-	#category : #preferences,
-	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
-}
-SRFrame class >> overlaysOnTop: aBoolean [
-	OverlaysOnTop := aBoolean.
 ]
 
 {

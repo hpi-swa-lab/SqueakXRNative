@@ -573,12 +573,12 @@ SRHand >> performActions [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
+	#'squeak_changestamp' : 'MCPServer (jl) 11/16/2026 13:42'
 }
 SRHand >> preferredIntersectionOf: intersections [
-	"Second-pass objects are preferred while they are drawn on top."
+	"Prefer second-pass objects over the others."
+
 	| secondPass |
-	SRFrame overlaysOnTop ifFalse: [^ self selectIntersection: intersections].
 	secondPass := intersections select: [:inter | inter object renderInSecondPass].
 	^ self selectIntersection: (secondPass ifEmpty: [intersections])
 ]
@@ -696,18 +696,21 @@ SRHand >> trigger [
 
 {
 	#category : #updating,
-	#'squeak_changestamp' : 'jl-MCPServer 11/25/2026 18:53'
+	#'squeak_changestamp' : 'phkeese 11/16/2026 15:35'
 }
 SRHand >> updateFirstIntersection [
-	"Grabbed objects override all other collisions; second-pass objects are preferred while they are drawn on top."
+	"Update the intersection used for cursorPoint and cursorTarget.
+	Grabbed objects override all other collisions and second-pass objects are preferred over all others."
+
 	| all secondPass grabbed |
 	self grabbedObject ifNotNil: [
 		grabbed := self cursor intersectionsSelect: [:inter | inter object = self grabbedObject].
-		^ firstIntersection := self selectIntersection: grabbed].
-	all := self cursor intersections.
-	SRFrame overlaysOnTop ifFalse: [^ firstIntersection := self selectIntersection: all].
-	secondPass := all select: [:inter | inter object renderInSecondPass].
-	firstIntersection := (self selectIntersection: secondPass) ifNil: [self selectIntersection: all].
+		firstIntersection := self selectIntersection: grabbed
+	] ifNil: [
+		all := self cursor intersections.
+		secondPass := all select: [:inter | inter object renderInSecondPass].
+		firstIntersection := (self selectIntersection: secondPass) ifNil: [self selectIntersection: all].
+	]
 ]
 
 {
