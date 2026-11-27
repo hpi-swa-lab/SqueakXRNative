@@ -44,6 +44,18 @@ SRIntenSelectTest >> testBehindRayContributesNothing [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
+}
+SRIntenSelectTest >> testConeRadiusBoundsContribution [
+
+	| radius |
+	radius := selector coneRadiusAt: 4 m.
+	self assert: (self contributionAt: 0 @ (radius * 0.99) @ 4 m) > 0.
+	self assert: (self contributionAt: 0 @ (radius * 1.01) @ 4 m) = 0
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
 }
 SRIntenSelectTest >> testFadedTargetIsDropped [

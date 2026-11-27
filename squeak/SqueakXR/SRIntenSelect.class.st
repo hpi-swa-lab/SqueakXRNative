@@ -1,12 +1,13 @@
 "
-Picks halo targets near my forward ray using IntenSelect+ scoring. Attach me to a hand.
+Picks the object near my forward ray using IntenSelect+ scoring.
 "
 Class {
 	#name : #SRIntenSelect,
 	#superclass : #SRObject,
 	#instVars : [
 		'scores',
-		'target'
+		'target',
+		'targetProximity'
 	],
 	#category : #'SqueakXR-Objects',
 	#'squeak_changestamp' : '<historical>'
@@ -14,11 +15,38 @@ Class {
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:42'
 }
 SRIntenSelect class >> coneAngle [
 
-	^ 15 degreesToRadians
+	^ 5 degreesToRadians
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
+}
+SRIntenSelect class >> coneColor [
+
+	^ Color gray
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
+}
+SRIntenSelect class >> coneLength [
+
+	^ 10 m
+]
+
+{
+	#category : #constants,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
+}
+SRIntenSelect class >> coneRings [
+
+	^ 10
 ]
 
 {
@@ -41,11 +69,11 @@ SRIntenSelect class >> highlightColor [
 
 {
 	#category : #constants,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#'squeak_changestamp' : 'phkeese 11/27/2026 16:50'
 }
 SRIntenSelect class >> minimumScore [
 
-	^ 0.01
+	^ 0.05
 ]
 
 {
@@ -59,32 +87,22 @@ SRIntenSelect class >> responsiveness [
 
 {
 	#category : #scoring,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:38'
 }
 SRIntenSelect >> candidates [
 
 	^ self world
 		ifNil: [#()]
-		ifNotNil: [:world | world allDescendantsSelect: [:object |
-			object isCursorTarget and: [object findHaloTarget notNil]]]
+		ifNotNil: [:world | world allDescendantsSelect: [:object | object isCursorTarget]]
 ]
 
 {
-	#category : #scoring,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
 }
-SRIntenSelect >> closestProximitiesAlong: aRay [
+SRIntenSelect >> coneRadiusAt: aDepth [
 
-	| closest |
-	closest := IdentityDictionary new.
-	(aRay proximitiesToObjects: self candidates) do: [:proximity | | owner |
-		owner := proximity object findHaloTarget.
-		(closest at: owner ifAbsent: [nil])
-			ifNil: [closest at: owner put: proximity]
-			ifNotNil: [:other |
-				(self contributionOf: proximity along: aRay) > (self contributionOf: other along: aRay)
-					ifTrue: [closest at: owner put: proximity]]].
-	^ closest
+	^ self class coneAngle tan * (aDepth raisedTo: self class distanceCompensation)
 ]
 
 {
@@ -101,6 +119,17 @@ SRIntenSelect >> contributionOf: aProximity along: aRay [
 ]
 
 {
+	#category : #scoring,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
+}
+SRIntenSelect >> forgetObjectsOutsideWorld [
+
+	scores keys do: [:object |
+		(object world notNil and: [object world == self world]) ifFalse: [scores removeKey: object]].
+	(scores includesKey: target) ifFalse: [target := nil].
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
 }
@@ -109,6 +138,19 @@ SRIntenSelect >> initialize [
 	super initialize.
 	scores := IdentityDictionary new.
 	self ignoreCollision: true.
+]
+
+{
+	#category : #scoring,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:38'
+}
+SRIntenSelect >> proximitiesAlong: aRay [
+
+	| proximities |
+	proximities := IdentityDictionary new.
+	(aRay proximitiesToObjects: self candidates) do: [:proximity |
+		proximities at: proximity object put: proximity].
+	^ proximities
 ]
 
 {
@@ -122,30 +164,54 @@ SRIntenSelect >> scoreOf: anSRObject [
 
 {
 	#category : #rendering,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:35'
 }
-SRIntenSelect >> showTargetAt: aProximity [
+SRIntenSelect >> showCone [
+
+	| painter origin forward |
+	painter := self gizmoPainter ifNil: [^ self].
+	origin := self globalTranslation.
+	forward := self forward.
+	painter gizmoLine: origin to: origin + (forward * self class coneLength) color: self class coneColor.
+	1 to: self class coneRings do: [:index | | depth |
+		depth := self class coneLength * index / self class coneRings.
+		painter
+			gizmoWireCircleAt: origin + (forward * depth)
+			axis: forward
+			radius: (self coneRadiusAt: depth)
+			color: self class coneColor].
+]
+
+{
+	#category : #rendering,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:29'
+}
+SRIntenSelect >> showTarget [
 
 	target ifNil: [^ self].
 	target addHighlight: self class highlightColor.
-	aProximity ifNil: [^ self].
+	targetProximity ifNil: [^ self].
 	self gizmoPainter ifNotNil: [:painter |
-		painter gizmoLine: self globalTranslation to: aProximity point color: self class highlightColor].
+		painter gizmoLine: self globalTranslation to: targetProximity point color: self class highlightColor].
 ]
 
 {
 	#category : #stepping,
-	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 15:55'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:38'
 }
 SRIntenSelect >> step: deltaTime [
 
 	| ray proximities |
 	ray := self rayForward.
-	proximities := self closestProximitiesAlong: ray.
+	proximities := self proximitiesAlong: ray.
 	self
 		updateScores: (proximities collect: [:proximity | self contributionOf: proximity along: ray])
 		over: deltaTime.
-	self showTargetAt: (proximities at: target ifAbsent: [nil]).
+	self forgetObjectsOutsideWorld.
+	targetProximity := proximities at: target ifAbsent: [nil].
+	self
+		showCone;
+		showTarget.
 ]
 
 {
@@ -155,6 +221,15 @@ SRIntenSelect >> step: deltaTime [
 SRIntenSelect >> target [
 
 	^ target
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:29'
+}
+SRIntenSelect >> targetProximity [
+
+	^ targetProximity
 ]
 
 {
