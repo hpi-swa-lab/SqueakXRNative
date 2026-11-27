@@ -439,7 +439,7 @@ SRHand >> highlightSelectedObject [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (jl) 11/10/2026 17:49'
+	#'squeak_changestamp' : 'phkeese-MCPServer 11/27/2026 16:13'
 }
 SRHand >> initialize [
 
@@ -454,6 +454,7 @@ SRHand >> initialize [
 	actions := OrderedCollection new.
 	
 	self cursor: SRPointRayCursor new.
+	self addChild: SRIntenSelect new.
 	
 	self addActions: {
 		SRSetFocusAction new.
